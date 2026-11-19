@@ -3908,6 +3908,38 @@ export class SceneManager {
         }
       }
 
+      // Mobile RPG Touch Buttons & Bottom Prompt Banner Interaction (SEA_SAILING / ISLAND_EPISODE)
+      if (
+        this.activeScene === 'SEA_SAILING' ||
+        this.activeScene === 'ISLAND_EPISODE'
+      ) {
+        const hitBtn = this.input.hitTestTouchButton(pt);
+        if (hitBtn === 'SKILL_0') {
+          this.pendingRpgInteract = true;
+          this.audio.playSfxId('ui_confirm');
+          return;
+        }
+        if (hitBtn === 'DODGE') {
+          if (this.activeScene === 'SEA_SAILING') {
+            this.pendingCoupDeBurst = true;
+          } else {
+            this.pendingRpgInteract = true;
+          }
+          return;
+        }
+
+        // Tapping the bottom-center interaction prompt banner triggers interact directly
+        const vm = this.renderer.getMetrics();
+        if (
+          Math.abs(pt.x - vm.viewWidth * 0.5) <= 220 &&
+          pt.y >= vm.viewHeight - vm.safeInsets.bottom - 68
+        ) {
+          this.pendingRpgInteract = true;
+          this.audio.playSfxId('ui_confirm');
+          return;
+        }
+      }
+
       const handledByTouchUi = this.input.handleCanvasPointerDown(pt);
       if (
         !handledByTouchUi &&
@@ -4412,7 +4444,10 @@ export class SceneManager {
           viewport
         );
       }
-      renderTouchOverlay(ctx, this.input);
+      const hasSeaInteractable = Boolean(
+        this.lastSailingStep.nearbyIsland || this.lastSailingStep.nearbySeaGate
+      );
+      renderTouchOverlay(ctx, this.input, 'SEA', hasSeaInteractable);
     } else if (this.activeScene === 'ISLAND_EPISODE' && this.islandRuntime) {
       const storyNode = this.storyDirector.getCurrentNode(this.campaign);
       const islandMap = this.rpgRegistry.islands[this.islandRuntime.islandId];
@@ -4462,7 +4497,16 @@ export class SceneManager {
           viewport
         );
       }
-      renderTouchOverlay(ctx, this.input);
+      if (!this.islandRuntime.activeDialogueNpc) {
+        const hasIslandInteractable = Boolean(
+          this.lastIslandStep.nearbyNpc ||
+            this.lastIslandStep.nearbySwitch ||
+            this.lastIslandStep.nearbyEncounter ||
+            this.lastIslandStep.atBattleTerminal ||
+            this.lastIslandStep.atPortExit
+        );
+        renderTouchOverlay(ctx, this.input, 'ISLAND', hasIslandInteractable);
+      }
     } else if (this.activeScene === 'ONLINE_BATTLE' && this.activeLockstep) {
       const isSpec = this.onlineAssignedRole === 'SPECTATOR';
       renderBattleArena(

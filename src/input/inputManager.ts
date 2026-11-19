@@ -263,6 +263,19 @@ export class UnifiedInputManager {
     else if (action === 'SWAP') this.touchPendingSwap = true;
   }
 
+  public hitTestTouchButton(
+    logicalPos: Vec2,
+    metrics: ViewportMetrics = this.viewportMetrics
+  ): TouchButtonRect['id'] | null {
+    if (!this.isTouchViewport()) return null;
+    for (const btn of this.getTouchButtons(metrics)) {
+      if (distVec(logicalPos, { x: btn.x, y: btn.y }) <= btn.r + 10) {
+        return btn.id;
+      }
+    }
+    return null;
+  }
+
   public handleCanvasPointerDown(logicalPos: Vec2): boolean {
     if (this.isTouchViewport()) {
       for (const btn of this.getTouchButtons()) {
