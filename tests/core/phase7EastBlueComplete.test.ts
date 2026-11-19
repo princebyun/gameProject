@@ -61,8 +61,8 @@ function makeBuild(
 
 describe('Phase 7 (Stage 2-A): East Blue Complete Edition', () => {
   it('1. BATTLE_CALC_VERSION is 0.5.0, CURRENT_SAVE_VERSION is current, and all 7 new units + 5 East Blue islands exist', () => {
-    expect(BATTLE_CALC_VERSION).toBe('0.5.0');
-    expect(CURRENT_SAVE_VERSION).toBe(4);
+    expect(BATTLE_CALC_VERSION).toBe('0.6.0');
+    expect(CURRENT_SAVE_VERSION).toBe(5);
 
     const newUnits = [
       'buggy',
@@ -388,8 +388,8 @@ describe('Phase 7 (Stage 2-A): East Blue Complete Edition', () => {
     );
     expect(migrated.migrated).toBe(true);
     expect(migrated.migratedFromVersion).toBe(1);
-    expect(migrated.envelope.meta.saveVersion).toBe(4);
-    expect(migrated.envelope.meta.battleCalcVersion).toBe('0.5.0');
+    expect(migrated.envelope.meta.saveVersion).toBe(5);
+    expect(migrated.envelope.meta.battleCalcVersion).toBe('0.6.0');
     expect(migrated.envelope.payload.world.legacyZoneUnlockV1).toBe(true);
 
     const acLegacy = evaluateAndStampAntiCheat(

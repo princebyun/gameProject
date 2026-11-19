@@ -1,0 +1,8148 @@
+{
+  "version": "1.0.0",
+  "standardRowOrder": [
+    "IDLE",
+    "MOVE",
+    "WINDUP",
+    "ATTACK_MELEE",
+    "ATTACK_CAST",
+    "CLASH",
+    "DODGE",
+    "HIT",
+    "DOWNED",
+    "TRANSFORM",
+    "VICTORY"
+  ],
+  "entries": [
+    {
+      "key": "luffy_base",
+      "unitId": "luffy",
+      "formId": "base",
+      "src": "assets/sprites/luffy_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "luffy_form_luffy_gear5",
+      "unitId": "luffy",
+      "formId": "form_luffy_gear5",
+      "src": "assets/sprites/luffy_form_luffy_gear5.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "zoro_base",
+      "unitId": "zoro",
+      "formId": "base",
+      "src": "assets/sprites/zoro_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "zoro_form_zoro_king_of_hell",
+      "unitId": "zoro",
+      "formId": "form_zoro_king_of_hell",
+      "src": "assets/sprites/zoro_form_zoro_king_of_hell.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "lucci_base",
+      "unitId": "lucci",
+      "formId": "base",
+      "src": "assets/sprites/lucci_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "lucci_form_lucci_awakened",
+      "unitId": "lucci",
+      "formId": "form_lucci_awakened",
+      "src": "assets/sprites/lucci_form_lucci_awakened.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "lucci_form_lucci_hybrid",
+      "unitId": "lucci",
+      "formId": "form_lucci_hybrid",
+      "src": "assets/sprites/lucci_form_lucci_hybrid.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "kaido_base",
+      "unitId": "kaido",
+      "formId": "base",
+      "src": "assets/sprites/kaido_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "kaido_form_kaido_flame_dragon",
+      "unitId": "kaido",
+      "formId": "form_kaido_flame_dragon",
+      "src": "assets/sprites/kaido_form_kaido_flame_dragon.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "kaido_form_kaido_hybrid",
+      "unitId": "kaido",
+      "formId": "form_kaido_hybrid",
+      "src": "assets/sprites/kaido_form_kaido_hybrid.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "kaido_form_kaido_beast",
+      "unitId": "kaido",
+      "formId": "form_kaido_beast",
+      "src": "assets/sprites/kaido_form_kaido_beast.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "kizaru_base",
+      "unitId": "kizaru",
+      "formId": "base",
+      "src": "assets/sprites/kizaru_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "kizaru_form_kizaru_light_realm",
+      "unitId": "kizaru",
+      "formId": "form_kizaru_light_realm",
+      "src": "assets/sprites/kizaru_form_kizaru_light_realm.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "law_base",
+      "unitId": "law",
+      "formId": "base",
+      "src": "assets/sprites/law_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "law_form_law_kroom",
+      "unitId": "law",
+      "formId": "form_law_kroom",
+      "src": "assets/sprites/law_form_law_kroom.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "morgan_base",
+      "unitId": "morgan",
+      "formId": "base",
+      "src": "assets/sprites/morgan_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "morgan_form_solar_awakening",
+      "unitId": "morgan",
+      "formId": "form_solar_awakening",
+      "src": "assets/sprites/morgan_form_solar_awakening.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "blueno_base",
+      "unitId": "blueno",
+      "formId": "base",
+      "src": "assets/sprites/blueno_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "blueno_form_tempest_awakening",
+      "unitId": "blueno",
+      "formId": "form_tempest_awakening",
+      "src": "assets/sprites/blueno_form_tempest_awakening.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "kaku_base",
+      "unitId": "kaku",
+      "formId": "base",
+      "src": "assets/sprites/kaku_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "kaku_form_kaku_giraffe",
+      "unitId": "kaku",
+      "formId": "form_kaku_giraffe",
+      "src": "assets/sprites/kaku_form_kaku_giraffe.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "franky_base",
+      "unitId": "franky",
+      "formId": "base",
+      "src": "assets/sprites/franky_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "franky_form_franky_shogun",
+      "unitId": "franky",
+      "formId": "form_franky_shogun",
+      "src": "assets/sprites/franky_form_franky_shogun.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "king_base",
+      "unitId": "king",
+      "formId": "base",
+      "src": "assets/sprites/king_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "king_form_king_pteranodon",
+      "unitId": "king",
+      "formId": "form_king_pteranodon",
+      "src": "assets/sprites/king_form_king_pteranodon.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "s_hawk_base",
+      "unitId": "s_hawk",
+      "formId": "base",
+      "src": "assets/sprites/s_hawk_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "s_hawk_form_tempest_awakening",
+      "unitId": "s_hawk",
+      "formId": "form_tempest_awakening",
+      "src": "assets/sprites/s_hawk_form_tempest_awakening.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "saturn_base",
+      "unitId": "saturn",
+      "formId": "base",
+      "src": "assets/sprites/saturn_base.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "saturn_form_saturn_gyuki",
+      "unitId": "saturn",
+      "formId": "form_saturn_gyuki",
+      "src": "assets/sprites/saturn_form_saturn_gyuki.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "loki_base",
+      "unitId": "loki",
+      "formId": "base",
+      "src": "assets/sprites/loki_base.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "loki_form_loki_ragnir",
+      "unitId": "loki",
+      "formId": "form_loki_ragnir",
+      "src": "assets/sprites/loki_form_loki_ragnir.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "buggy_base",
+      "unitId": "buggy",
+      "formId": "base",
+      "src": "assets/sprites/buggy_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "buggy_form_solar_awakening",
+      "unitId": "buggy",
+      "formId": "form_solar_awakening",
+      "src": "assets/sprites/buggy_form_solar_awakening.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "don_krieg_base",
+      "unitId": "don_krieg",
+      "formId": "base",
+      "src": "assets/sprites/don_krieg_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "don_krieg_form_colossus_overdrive",
+      "unitId": "don_krieg",
+      "formId": "form_colossus_overdrive",
+      "src": "assets/sprites/don_krieg_form_colossus_overdrive.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "arlong_base",
+      "unitId": "arlong",
+      "formId": "base",
+      "src": "assets/sprites/arlong_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "arlong_form_solar_awakening",
+      "unitId": "arlong",
+      "formId": "form_solar_awakening",
+      "src": "assets/sprites/arlong_form_solar_awakening.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "smoker_base",
+      "unitId": "smoker",
+      "formId": "base",
+      "src": "assets/sprites/smoker_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "smoker_form_tempest_awakening",
+      "unitId": "smoker",
+      "formId": "form_tempest_awakening",
+      "src": "assets/sprites/smoker_form_tempest_awakening.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "sanji_base",
+      "unitId": "sanji",
+      "formId": "base",
+      "src": "assets/sprites/sanji_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "sanji_form_sanji_diable_jambe",
+      "unitId": "sanji",
+      "formId": "form_sanji_diable_jambe",
+      "src": "assets/sprites/sanji_form_sanji_diable_jambe.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "usopp_base",
+      "unitId": "usopp",
+      "formId": "base",
+      "src": "assets/sprites/usopp_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "usopp_form_tempest_awakening",
+      "unitId": "usopp",
+      "formId": "form_tempest_awakening",
+      "src": "assets/sprites/usopp_form_tempest_awakening.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "nami_base",
+      "unitId": "nami",
+      "formId": "base",
+      "src": "assets/sprites/nami_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "nami_form_tempest_awakening",
+      "unitId": "nami",
+      "formId": "form_tempest_awakening",
+      "src": "assets/sprites/nami_form_tempest_awakening.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "wapol_base",
+      "unitId": "wapol",
+      "formId": "base",
+      "src": "assets/sprites/wapol_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "wapol_form_colossus_overdrive",
+      "unitId": "wapol",
+      "formId": "form_colossus_overdrive",
+      "src": "assets/sprites/wapol_form_colossus_overdrive.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "crocodile_base",
+      "unitId": "crocodile",
+      "formId": "base",
+      "src": "assets/sprites/crocodile_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "crocodile_form_solar_awakening",
+      "unitId": "crocodile",
+      "formId": "form_solar_awakening",
+      "src": "assets/sprites/crocodile_form_solar_awakening.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "enel_base",
+      "unitId": "enel",
+      "formId": "base",
+      "src": "assets/sprites/enel_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "enel_form_enel_amuru",
+      "unitId": "enel",
+      "formId": "form_enel_amuru",
+      "src": "assets/sprites/enel_form_enel_amuru.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "moria_base",
+      "unitId": "moria",
+      "formId": "base",
+      "src": "assets/sprites/moria_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "moria_form_moria_shadows_asgard",
+      "unitId": "moria",
+      "formId": "form_moria_shadows_asgard",
+      "src": "assets/sprites/moria_form_moria_shadows_asgard.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "doppelman_base",
+      "unitId": "doppelman",
+      "formId": "base",
+      "src": "assets/sprites/doppelman_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "doppelman_form_tempest_awakening",
+      "unitId": "doppelman",
+      "formId": "form_tempest_awakening",
+      "src": "assets/sprites/doppelman_form_tempest_awakening.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "akainu_base",
+      "unitId": "akainu",
+      "formId": "base",
+      "src": "assets/sprites/akainu_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "akainu_form_akainu_magma_zone",
+      "unitId": "akainu",
+      "formId": "form_akainu_magma_zone",
+      "src": "assets/sprites/akainu_form_akainu_magma_zone.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "aokiji_base",
+      "unitId": "aokiji",
+      "formId": "base",
+      "src": "assets/sprites/aokiji_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "aokiji_form_aokiji_ice_age",
+      "unitId": "aokiji",
+      "formId": "form_aokiji_ice_age",
+      "src": "assets/sprites/aokiji_form_aokiji_ice_age.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "blackbeard_base",
+      "unitId": "blackbeard",
+      "formId": "base",
+      "src": "assets/sprites/blackbeard_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "blackbeard_form_colossus_overdrive",
+      "unitId": "blackbeard",
+      "formId": "form_colossus_overdrive",
+      "src": "assets/sprites/blackbeard_form_colossus_overdrive.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "chopper_base",
+      "unitId": "chopper",
+      "formId": "base",
+      "src": "assets/sprites/chopper_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "chopper_form_chopper_monster",
+      "unitId": "chopper",
+      "formId": "form_chopper_monster",
+      "src": "assets/sprites/chopper_form_chopper_monster.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "chopper_form_chopper_guard",
+      "unitId": "chopper",
+      "formId": "form_chopper_guard",
+      "src": "assets/sprites/chopper_form_chopper_guard.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "chopper_form_chopper_kungfu",
+      "unitId": "chopper",
+      "formId": "form_chopper_kungfu",
+      "src": "assets/sprites/chopper_form_chopper_kungfu.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "robin_base",
+      "unitId": "robin",
+      "formId": "base",
+      "src": "assets/sprites/robin_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "robin_form_robin_demonio",
+      "unitId": "robin",
+      "formId": "form_robin_demonio",
+      "src": "assets/sprites/robin_form_robin_demonio.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "brook_base",
+      "unitId": "brook",
+      "formId": "base",
+      "src": "assets/sprites/brook_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "brook_form_tempest_awakening",
+      "unitId": "brook",
+      "formId": "form_tempest_awakening",
+      "src": "assets/sprites/brook_form_tempest_awakening.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "marco_base",
+      "unitId": "marco",
+      "formId": "base",
+      "src": "assets/sprites/marco_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "marco_form_marco_phoenix",
+      "unitId": "marco",
+      "formId": "form_marco_phoenix",
+      "src": "assets/sprites/marco_form_marco_phoenix.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "marco_form_marco_hybrid",
+      "unitId": "marco",
+      "formId": "form_marco_hybrid",
+      "src": "assets/sprites/marco_form_marco_hybrid.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "hody_jones_base",
+      "unitId": "hody_jones",
+      "formId": "base",
+      "src": "assets/sprites/hody_jones_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "hody_jones_form_colossus_overdrive",
+      "unitId": "hody_jones",
+      "formId": "form_colossus_overdrive",
+      "src": "assets/sprites/hody_jones_form_colossus_overdrive.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "doflamingo_base",
+      "unitId": "doflamingo",
+      "formId": "base",
+      "src": "assets/sprites/doflamingo_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "doflamingo_form_doflamingo_awakening",
+      "unitId": "doflamingo",
+      "formId": "form_doflamingo_awakening",
+      "src": "assets/sprites/doflamingo_form_doflamingo_awakening.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "katakuri_base",
+      "unitId": "katakuri",
+      "formId": "base",
+      "src": "assets/sprites/katakuri_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "katakuri_form_katakuri_mochi_world",
+      "unitId": "katakuri",
+      "formId": "form_katakuri_mochi_world",
+      "src": "assets/sprites/katakuri_form_katakuri_mochi_world.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "jinbe_base",
+      "unitId": "jinbe",
+      "formId": "base",
+      "src": "assets/sprites/jinbe_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "jinbe_form_colossus_overdrive",
+      "unitId": "jinbe",
+      "formId": "form_colossus_overdrive",
+      "src": "assets/sprites/jinbe_form_colossus_overdrive.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "magellan_base",
+      "unitId": "magellan",
+      "formId": "base",
+      "src": "assets/sprites/magellan_base.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "magellan_form_magellan_venom_demon",
+      "unitId": "magellan",
+      "formId": "form_magellan_venom_demon",
+      "src": "assets/sprites/magellan_form_magellan_venom_demon.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "unit_ignis_vanguard_base",
+      "unitId": "unit_ignis_vanguard",
+      "formId": "base",
+      "src": "assets/sprites/unit_ignis_vanguard_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "unit_ignis_vanguard_form_solar_awakening",
+      "unitId": "unit_ignis_vanguard",
+      "formId": "form_solar_awakening",
+      "src": "assets/sprites/unit_ignis_vanguard_form_solar_awakening.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "unit_tideweaver_base",
+      "unitId": "unit_tideweaver",
+      "formId": "base",
+      "src": "assets/sprites/unit_tideweaver_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "unit_tideweaver_form_colossus_overdrive",
+      "unitId": "unit_tideweaver",
+      "formId": "form_colossus_overdrive",
+      "src": "assets/sprites/unit_tideweaver_form_colossus_overdrive.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "unit_volt_strider_base",
+      "unitId": "unit_volt_strider",
+      "formId": "base",
+      "src": "assets/sprites/unit_volt_strider_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "unit_volt_strider_form_tempest_awakening",
+      "unitId": "unit_volt_strider",
+      "formId": "form_tempest_awakening",
+      "src": "assets/sprites/unit_volt_strider_form_tempest_awakening.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "unit_terra_bastion_base",
+      "unitId": "unit_terra_bastion",
+      "formId": "base",
+      "src": "assets/sprites/unit_terra_bastion_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "unit_terra_bastion_form_colossus_overdrive",
+      "unitId": "unit_terra_bastion",
+      "formId": "form_colossus_overdrive",
+      "src": "assets/sprites/unit_terra_bastion_form_colossus_overdrive.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "unit_zephyr_blade_base",
+      "unitId": "unit_zephyr_blade",
+      "formId": "base",
+      "src": "assets/sprites/unit_zephyr_blade_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "unit_zephyr_blade_form_tempest_awakening",
+      "unitId": "unit_zephyr_blade",
+      "formId": "form_tempest_awakening",
+      "src": "assets/sprites/unit_zephyr_blade_form_tempest_awakening.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "unit_void_conduit_base",
+      "unitId": "unit_void_conduit",
+      "formId": "base",
+      "src": "assets/sprites/unit_void_conduit_base.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "unit_void_conduit_form_colossus_overdrive",
+      "unitId": "unit_void_conduit",
+      "formId": "form_colossus_overdrive",
+      "src": "assets/sprites/unit_void_conduit_form_colossus_overdrive.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "ship_going_merry",
+      "shipId": "going_merry",
+      "src": "assets/sprites/ship_going_merry.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "ship_thousand_sunny",
+      "shipId": "thousand_sunny",
+      "src": "assets/sprites/ship_thousand_sunny.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "ship_marine_warship",
+      "shipId": "marine_warship",
+      "src": "assets/sprites/ship_marine_warship.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    {
+      "key": "ship_sea_king",
+      "shipId": "sea_king",
+      "src": "assets/sprites/ship_sea_king.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 10,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 3,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 1
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 2,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    }
+  ]
+}

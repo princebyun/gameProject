@@ -1,7 +1,10 @@
-import { LOGICAL_HEIGHT, LOGICAL_WIDTH } from '../core/constants';
 import { clamp } from '../core/math/vector2';
 import type { LockstepSyncController } from '../core/net/lockstepController';
 import type { BattleWorldState } from '../core/types/battleState';
+import {
+  DEFAULT_VIEWPORT_METRICS,
+  type ViewportMetrics
+} from './viewport/responsiveViewportManager';
 
 export type SpectatorCameraTarget = 'ALL' | 0 | 1 | 2 | 3;
 
@@ -13,18 +16,23 @@ export function renderOnlineAndSpectatorHud(
   cameraTarget: SpectatorCameraTarget,
   pingMs: number,
   fps: number,
-  isTerminalMatch: boolean
+  isTerminalMatch: boolean,
+  viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS
 ): void {
+  const viewW = viewport.viewWidth;
+  const viewH = viewport.viewHeight;
+  const { top: safeT, bottom: safeB } = viewport.safeInsets;
+
   ctx.save();
 
-  const cx = LOGICAL_WIDTH * 0.5;
+  const cx = viewW * 0.5;
 
   // 1. Top Online Match Status & Sync Integrity Banner
   ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
-  ctx.fillRect(cx - 190, 54, 380, 22);
+  ctx.fillRect(cx - 190, 54 + safeT, 380, 22);
   ctx.strokeStyle = isSpectator ? '#a855f7' : '#38bdf8';
   ctx.lineWidth = 1.5;
-  ctx.strokeRect(cx - 190, 54, 380, 22);
+  ctx.strokeRect(cx - 190, 54 + safeT, 380, 22);
 
   const latestHashShort = lockstep.getLatestStateHash().slice(0, 8);
   ctx.font = 'bold 10px monospace';
@@ -38,12 +46,12 @@ export function renderOnlineAndSpectatorHud(
   ctx.fillText(
     `${roleTag} | ROOM:${lockstep.config.roomCode} | PING:${pingMs}ms | HASH:${latestHashShort} | ${fps}FPS`,
     cx,
-    68
+    68 + safeT
   );
 
   // 2. Spectator Dedicated Broadcast Footer (Replaces player skill bar & touch controls)
   if (isSpectator) {
-    const fy = LOGICAL_HEIGHT - 54;
+    const fy = viewH - 54 - safeB;
     ctx.fillStyle = 'rgba(15, 23, 42, 0.94)';
     ctx.fillRect(cx - 320, fy, 640, 46);
     ctx.strokeStyle = '#a855f7';
@@ -92,13 +100,13 @@ export function renderOnlineAndSpectatorHud(
   // 3. 15-Second Opponent Disconnect Reconnect Countdown Overlay
   if (lockstep.opponentDisconnected) {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.72)';
-    ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
+    ctx.fillRect(0, 0, viewW, viewH);
 
     ctx.fillStyle = '#0f172a';
-    ctx.fillRect(cx - 210, LOGICAL_HEIGHT * 0.5 - 52, 420, 104);
+    ctx.fillRect(cx - 210, viewH * 0.5 - 52, 420, 104);
     ctx.strokeStyle = '#f59e0b';
     ctx.lineWidth = 2.5;
-    ctx.strokeRect(cx - 210, LOGICAL_HEIGHT * 0.5 - 52, 420, 104);
+    ctx.strokeRect(cx - 210, viewH * 0.5 - 52, 420, 104);
 
     ctx.font = 'bold 15px monospace';
     ctx.textAlign = 'center';
@@ -106,34 +114,34 @@ export function renderOnlineAndSpectatorHud(
     ctx.fillText(
       '📡 상대 플레이어 연결 끊김 — 재접속 대기 중...',
       cx,
-      LOGICAL_HEIGHT * 0.5 - 18
+      viewH * 0.5 - 18
     );
 
     const ratio = clamp(lockstep.reconnectCountdownSec / 15, 0, 1);
     ctx.fillStyle = '#1e293b';
-    ctx.fillRect(cx - 160, LOGICAL_HEIGHT * 0.5, 320, 12);
+    ctx.fillRect(cx - 160, viewH * 0.5, 320, 12);
     ctx.fillStyle = '#f59e0b';
-    ctx.fillRect(cx - 160, LOGICAL_HEIGHT * 0.5, Math.round(320 * ratio), 12);
+    ctx.fillRect(cx - 160, viewH * 0.5, Math.round(320 * ratio), 12);
 
     ctx.font = 'bold 12px monospace';
     ctx.fillStyle = '#f8fafc';
     ctx.fillText(
       `자동 승리 판정까지 ${lockstep.reconnectCountdownSec.toFixed(1)}초`,
       cx,
-      LOGICAL_HEIGHT * 0.5 + 34
+      viewH * 0.5 + 34
     );
   }
 
   // 4. Desync Alert Overlay
   if (lockstep.desyncDetected) {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.78)';
-    ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
+    ctx.fillRect(0, 0, viewW, viewH);
 
     ctx.fillStyle = '#450a0a';
-    ctx.fillRect(cx - 230, LOGICAL_HEIGHT * 0.5 - 55, 460, 110);
+    ctx.fillRect(cx - 230, viewH * 0.5 - 55, 460, 110);
     ctx.strokeStyle = '#ef4444';
     ctx.lineWidth = 3;
-    ctx.strokeRect(cx - 230, LOGICAL_HEIGHT * 0.5 - 55, 460, 110);
+    ctx.strokeRect(cx - 230, viewH * 0.5 - 55, 460, 110);
 
     ctx.font = 'bold 16px monospace';
     ctx.textAlign = 'center';
@@ -141,14 +149,14 @@ export function renderOnlineAndSpectatorHud(
     ctx.fillText(
       '⚠ DESYNC_DETECTED — 클라이언트 상태 해시 불일치 감지',
       cx,
-      LOGICAL_HEIGHT * 0.5 - 20
+      viewH * 0.5 - 20
     );
     ctx.font = '11px monospace';
     ctx.fillStyle = '#fecaca';
     ctx.fillText(
       lockstep.desyncReason ?? '매치를 안전하게 중단하고 로비로 복귀합니다.',
       cx,
-      LOGICAL_HEIGHT * 0.5 + 10
+      viewH * 0.5 + 10
     );
   }
 

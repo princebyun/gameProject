@@ -156,12 +156,17 @@ export function tryExecuteDodge(
 export function stepUnitDodge(
   unit: UnitRuntimeState,
   dt: number,
-  registry: GameDataRegistry
+  registry: GameDataRegistry,
+  worldDodgeRechargeMult: number = 1.0
 ): void {
   const { dodge } = registry.balance;
   const obsLevel = unit.haki?.observation ?? 0;
   const traitMult = registry.traits[unit.traitId]?.dodgeRechargeMultiplier ?? 1.0;
-  const rechargeSpeedMult = (1 + obsLevel * 0.12) * traitMult;
+  const endgameMult = 1 + (unit.endgameDodgeRechargeBonus ?? 0);
+  const rechargeSpeedMult = Math.max(
+    0.2,
+    (1 + obsLevel * 0.12) * traitMult * endgameMult * worldDodgeRechargeMult
+  );
 
   if (unit.dodgeActiveTimer > 0) {
     unit.dodgeActiveTimer = Math.max(0, unit.dodgeActiveTimer - dt);

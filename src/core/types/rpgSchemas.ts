@@ -1,4 +1,5 @@
 import type { Vec2 } from '../math/vector2';
+import type { SaveEndgameBlock } from '../endgame/types';
 import type { ArenaTerrainConfig, BattleWinCondition } from './battleState';
 import type { HakiLevels } from './dataSchemas';
 
@@ -30,6 +31,7 @@ export interface SeaIslandNode {
   playableInVerticalSlice: boolean;
   summary: string;
   color: string;
+  endgameMode?: 'IMPEL_DOWN' | 'COLOSSEUM' | 'RAID';
 }
 
 export interface SeaGateDefinition {
@@ -135,6 +137,7 @@ export interface IslandNpcDefinition {
     setsFlag?: string;
     recruitsUnitId?: string;
     triggersBattleEncounterId?: string;
+    triggersEndgameMode?: 'IMPEL_DOWN' | 'COLOSSEUM' | 'RAID';
     responseLine: string;
   }[];
   setsQuestFlagOnTalk?: string;
@@ -368,6 +371,7 @@ export interface RpgCampaignState {
   unitHakiOverrides: Record<string, HakiLevels>;
   unitUnlockedForms: Record<string, string[]>;
   unitLevelOverrides: Record<string, number>;
+  unitEquippedMovesOverrides?: Record<string, string[]>;
 
   completedEpisodes: string[];
   episodeFlags: Record<string, boolean>;
@@ -375,6 +379,8 @@ export interface RpgCampaignState {
 
   seaObjectsByZone: Record<SeaZoneId, SeaDynamicObject[]>;
   onlineStats: OnlineMatchStats;
+  endgame: SaveEndgameBlock;
+  debugUnlockEndgame?: boolean;
   legacyZoneUnlockV1?: boolean;
   legacyZoneUnlockV2?: boolean;
   legacyElbafUnlockV3?: boolean;

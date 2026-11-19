@@ -633,6 +633,11 @@ export function resolveMeleeVsBeam(
   dt: number,
   registry: GameDataRegistry
 ): void {
+  // Stage 3 Step 2: Raid Boss Clash Exception — disable 1:1 melee-vs-beam freeze guard during co-op raids
+  if (world.raidState?.active) {
+    return;
+  }
+
   const { melee: meleeCfg } = registry.balance;
 
   for (const arc of world.meleeArcs) {

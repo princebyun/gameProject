@@ -1,4 +1,4 @@
-import { LOGICAL_HEIGHT, LOGICAL_WIDTH } from '../core/constants';
+import type { AssetLoader } from '../assets/assetLoader';
 import { clamp } from '../core/math/vector2';
 import {
   computeBountyTier,
@@ -13,6 +13,15 @@ import type {
   RpgCampaignState,
   RpgDataRegistry
 } from '../core/types/rpgSchemas';
+import { resolveBiomeForSeaZone } from '../data/assets/assetManifestRegistry';
+import {
+  renderWorldMarkerBeacons,
+  type WorldMarker
+} from '../story/worldMarkerSystem';
+import {
+  DEFAULT_VIEWPORT_METRICS,
+  type ViewportMetrics
+} from './viewport/responsiveViewportManager';
 
 export function renderSeaSailingCanvas(
   ctx: CanvasRenderingContext2D,
@@ -20,8 +29,15 @@ export function renderSeaSailingCanvas(
   rpgRegistry: RpgDataRegistry,
   stepInfo: SailingStepOutput,
   tick: number,
-  fps: number
+  fps: number,
+  assets?: AssetLoader,
+  viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS,
+  worldMarkers?: WorldMarker[],
+  highlightGoldMarker: boolean = false
 ): void {
+  const viewW = viewport.viewWidth;
+  const viewH = viewport.viewHeight;
+  const { left: safeL, right: safeR, top: safeT, bottom: safeB } = viewport.safeInsets;
   const zone = rpgRegistry.seaZones[state.currentZoneId];
   const shipDef =
     rpgRegistry.ships[state.ship.shipId] ?? rpgRegistry.ships['going_merry'];
@@ -41,48 +57,60 @@ export function renderSeaSailingCanvas(
   }
 
   ctx.fillStyle = seaColor;
-  ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
+  ctx.fillRect(0, 0, viewW, viewH);
 
   // Camera centered on ship, clamped to sea zone bounds
   const camX = clamp(
-    Math.round(LOGICAL_WIDTH * 0.5 - state.ship.pos.x),
-    LOGICAL_WIDTH - zone.width,
+    Math.round(viewW * 0.5 - state.ship.pos.x),
+    Math.min(0, viewW - zone.width),
     0
   );
   const camY = clamp(
-    Math.round(LOGICAL_HEIGHT * 0.5 - state.ship.pos.y),
-    LOGICAL_HEIGHT - zone.height,
+    Math.round(viewH * 0.5 - state.ship.pos.y),
+    Math.min(0, viewH - zone.height),
     0
   );
 
   ctx.save();
   ctx.translate(camX, camY);
 
-  // 2. Ocean grid & animated wave crests
-  ctx.strokeStyle = 'rgba(125, 211, 252, 0.10)';
-  ctx.lineWidth = 1;
-  for (let x = 0; x <= zone.width; x += 120) {
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, zone.height);
-    ctx.stroke();
-  }
-  for (let y = 0; y <= zone.height; y += 120) {
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(zone.width, y);
-    ctx.stroke();
-  }
-
-  // Animated waves
-  ctx.strokeStyle = 'rgba(186, 230, 253, 0.22)';
-  ctx.lineWidth = 2;
-  const waveShift = (tick * 0.8) % 80;
-  for (let y = 60; y < zone.height; y += 110) {
-    for (let x = 60; x < zone.width; x += 140) {
-      const wx = x + waveShift;
+  // 2. Biome Animated Sea Tileset (16x16 scaled 2x -> 32x32, 4-frame wave animation)
+  if (assets) {
+    const seaBiome = resolveBiomeForSeaZone(zone.id, assets.manifestRegistry);
+    assets.tilemapRenderer.renderBiomeBackdrop(
+      ctx,
+      `sea_${zone.id}`,
+      zone.width,
+      zone.height,
+      Math.max(0, -camX - 32),
+      Math.max(0, -camY - 32),
+      viewW + 64,
+      viewH + 64,
+      seaBiome,
+      assets,
+      tick
+    );
+    if (state.timeOfDay === 'NIGHT') {
+      ctx.fillStyle = 'rgba(7, 11, 24, 0.42)';
+      ctx.fillRect(-camX, -camY, viewW, viewH);
+    } else if (state.timeOfDay === 'EVENING') {
+      ctx.fillStyle = 'rgba(88, 28, 135, 0.22)';
+      ctx.fillRect(-camX, -camY, viewW, viewH);
+    }
+  } else {
+    // Fallback subtle grid if AssetLoader omitted
+    ctx.strokeStyle = 'rgba(125, 211, 252, 0.10)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x <= zone.width; x += 120) {
       ctx.beginPath();
-      ctx.arc(wx, y, 12, Math.PI * 1.15, Math.PI * 1.85);
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, zone.height);
+      ctx.stroke();
+    }
+    for (let y = 0; y <= zone.height; y += 120) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(zone.width, y);
       ctx.stroke();
     }
   }
@@ -210,31 +238,68 @@ export function renderSeaSailingCanvas(
       ctx.fillStyle = '#bae6fd';
       ctx.fillText('보급선', obj.pos.x, obj.pos.y - 18);
     } else if (obj.kind === 'MARINE_PATROL') {
-      ctx.fillStyle = '#f43f5e';
-      ctx.beginPath();
-      ctx.arc(obj.pos.x, obj.pos.y, 16, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(obj.pos.x - 8, obj.pos.y - 10, 16, 10);
+      const shipSheet = assets?.getOrCreateShipSpriteSheet('marine_warship');
+      if (shipSheet?.entry && shipSheet.sheet) {
+        const clip = shipSheet.entry.animations.MOVE;
+        const fr = Math.floor((tick / 60) * clip.fps) % Math.max(1, clip.frames);
+        ctx.drawImage(
+          shipSheet.sheet,
+          fr * shipSheet.entry.frameWidth,
+          clip.row * shipSheet.entry.frameHeight,
+          shipSheet.entry.frameWidth,
+          shipSheet.entry.frameHeight,
+          Math.round(obj.pos.x - 22),
+          Math.round(obj.pos.y - 22),
+          44,
+          44
+        );
+      } else {
+        ctx.fillStyle = '#f43f5e';
+        ctx.beginPath();
+        ctx.arc(obj.pos.x, obj.pos.y, 16, 0, Math.PI * 2);
+        ctx.fill();
+      }
       ctx.font = 'bold 9px monospace';
       ctx.textAlign = 'center';
       ctx.fillStyle = '#fda4af';
-      ctx.fillText('해군함대', obj.pos.x, obj.pos.y - 20);
+      ctx.fillText('해군함대', obj.pos.x, obj.pos.y - 22);
     } else if (obj.kind === 'SEA_KING') {
-      ctx.fillStyle = '#a855f7';
-      ctx.beginPath();
-      ctx.arc(obj.pos.x, obj.pos.y, 20, 0, Math.PI * 2);
-      ctx.fill();
+      const skSheet = assets?.getOrCreateShipSpriteSheet('sea_king');
+      if (skSheet?.entry && skSheet.sheet) {
+        const clip = skSheet.entry.animations.IDLE;
+        const fr = Math.floor((tick / 60) * clip.fps) % Math.max(1, clip.frames);
+        ctx.drawImage(
+          skSheet.sheet,
+          fr * skSheet.entry.frameWidth,
+          clip.row * skSheet.entry.frameHeight,
+          skSheet.entry.frameWidth,
+          skSheet.entry.frameHeight,
+          Math.round(obj.pos.x - 28),
+          Math.round(obj.pos.y - 28),
+          56,
+          56
+        );
+      } else {
+        ctx.fillStyle = '#a855f7';
+        ctx.beginPath();
+        ctx.arc(obj.pos.x, obj.pos.y, 20, 0, Math.PI * 2);
+        ctx.fill();
+      }
       ctx.font = 'bold 9px monospace';
       ctx.textAlign = 'center';
       ctx.fillStyle = '#e9d5ff';
-      ctx.fillText('해왕류', obj.pos.x, obj.pos.y - 24);
+      ctx.fillText('해왕류', obj.pos.x, obj.pos.y - 26);
     }
     ctx.restore();
   }
 
-  // 6. Render Player Ship (Going Merry vs Thousand Sunny)
-  renderPlayerShip(ctx, state, tick);
+  // 5.5 Render GTA-style World Marker Beacons (MAIN Gold / SIDE Blue / ACTIVITY Silver-Red)
+  if (worldMarkers && worldMarkers.length > 0) {
+    renderWorldMarkerBeacons(ctx, worldMarkers, tick, highlightGoldMarker);
+  }
+
+  // 6. Render Player Ship (Going Merry vs Thousand Sunny animated pixel sprite sheet)
+  renderPlayerShip(ctx, state, tick, assets);
 
   ctx.restore();
 
@@ -244,8 +309,8 @@ export function renderSeaSailingCanvas(
     ctx.strokeStyle = 'rgba(186, 230, 253, 0.25)';
     ctx.lineWidth = 1.5;
     for (let i = 0; i < 28; i++) {
-      const rx = ((i * 73 + tick * 9) % LOGICAL_WIDTH);
-      const ry = ((i * 59 + tick * 14) % LOGICAL_HEIGHT);
+      const rx = (i * 73 + tick * 9) % viewW;
+      const ry = (i * 59 + tick * 14) % viewH;
       ctx.beginPath();
       ctx.moveTo(rx, ry);
       ctx.lineTo(rx - 8, ry + 18);
@@ -254,58 +319,95 @@ export function renderSeaSailingCanvas(
     ctx.restore();
   } else if (state.seaWeather === 'FOG') {
     ctx.fillStyle = 'rgba(226, 232, 240, 0.10)';
-    ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
+    ctx.fillRect(0, 0, viewW, viewH);
   }
 
-  // 8. Top-Left Sea Zone & Ship Status HUD
+  // 8. Top-Left Sea Zone & Ship Status HUD (respecting Safe Area)
+  const hudX = 10 + safeL;
+  const hudY = 10 + safeT;
   const bountyTier = computeBountyTier(state.totalCrewBounty);
   ctx.fillStyle = 'rgba(15, 23, 42, 0.90)';
-  ctx.fillRect(10, 10, 325, 76);
+  ctx.fillRect(hudX, hudY, 325, 76);
   ctx.strokeStyle = '#38bdf8';
   ctx.lineWidth = 1.5;
-  ctx.strokeRect(10, 10, 325, 76);
+  ctx.strokeRect(hudX, hudY, 325, 76);
 
   ctx.font = 'bold 12px monospace';
   ctx.textAlign = 'left';
   ctx.fillStyle = '#fde047';
-  ctx.fillText(`⚓ ${zone.name}`, 18, 27);
+  ctx.fillText(`⚓ ${zone.name}`, hudX + 8, hudY + 17);
 
   ctx.font = '10px monospace';
   ctx.fillStyle = '#e2e8f0';
   ctx.fillText(
     `선박: ${shipDef.name} | 내구도: ${Math.round(state.ship.hullHp)}/${state.ship.maxHullHp}`,
-    18,
-    43
+    hudX + 8,
+    hudY + 33
   );
   ctx.fillStyle = '#38bdf8';
   ctx.fillText(
     `시간: ${state.timeOfDay} | 날씨: ${state.seaWeather} | ${fps} FPS`,
-    18,
-    58
+    hudX + 8,
+    hudY + 48
   );
   ctx.fillStyle = '#f97316';
   ctx.fillText(
     `현상금: ${state.totalCrewBounty.toLocaleString()} B (${bountyTier.rankLabel}) | 포네그리프: ${state.roadPoneglyphCount}/4`,
-    18,
-    74
+    hudX + 8,
+    hudY + 64
   );
 
   // 9. Top-Right Log Pose Compass HUD (Single-Needle vs New World Triple-Needle)
-  renderLogPoseHud(ctx, state, rpgRegistry, tick);
+  renderLogPoseHud(ctx, state, rpgRegistry, tick, viewW, safeR, safeT);
 
   // 10. Bottom-Left Sea Zone Minimap HUD
-  renderSeaMinimapHud(ctx, state, rpgRegistry, roleBonuses.revealsHiddenChests);
+  renderSeaMinimapHud(ctx, state, rpgRegistry, roleBonuses.revealsHiddenChests, viewH, safeL, safeB);
 
   // 11. Interactive Docking / SeaGate / Coup de Burst Prompt Banner
-  renderSailingInteractionPrompt(ctx, state, rpgRegistry, stepInfo);
+  renderSailingInteractionPrompt(ctx, state, rpgRegistry, stepInfo, viewW, viewH, safeB);
 }
 
 function renderPlayerShip(
   ctx: CanvasRenderingContext2D,
   state: RpgCampaignState,
-  tick: number
+  tick: number,
+  assets?: AssetLoader
 ): void {
   const { pos, headingRad, shipId, coupDeBurstActiveTimer } = state.ship;
+  if (assets) {
+    const { entry, sheet } = assets.getOrCreateShipSpriteSheet(shipId);
+    if (entry && sheet) {
+      const animState =
+        coupDeBurstActiveTimer > 0
+          ? 'DODGE'
+          : Math.hypot(state.ship.vel.x, state.ship.vel.y) > 12
+            ? 'MOVE'
+            : 'IDLE';
+      const clip = entry.animations[animState];
+      const frame = Math.floor((tick / 60) * clip.fps) % Math.max(1, clip.frames);
+      const facingX = Math.cos(headingRad) < -0.05 ? -1 : 1;
+      const drawW = entry.frameWidth;
+      const drawH = entry.frameHeight;
+
+      ctx.save();
+      ctx.imageSmoothingEnabled = false;
+      ctx.translate(Math.round(pos.x), Math.round(pos.y));
+      ctx.scale(facingX, 1);
+      ctx.drawImage(
+        sheet,
+        frame * entry.frameWidth,
+        clip.row * entry.frameHeight,
+        entry.frameWidth,
+        entry.frameHeight,
+        Math.round(-drawW * entry.anchor.x),
+        Math.round(-drawH * entry.anchor.y),
+        drawW,
+        drawH
+      );
+      ctx.restore();
+      return;
+    }
+  }
   ctx.save();
   ctx.translate(Math.round(pos.x), Math.round(pos.y));
   ctx.rotate(headingRad);
@@ -367,14 +469,17 @@ function renderLogPoseHud(
   ctx: CanvasRenderingContext2D,
   state: RpgCampaignState,
   rpgRegistry: RpgDataRegistry,
-  tick: number
+  tick: number,
+  viewW: number,
+  safeR: number,
+  safeT: number
 ): void {
   const zone = rpgRegistry.seaZones[state.currentZoneId];
   const needles = computeLogPoseNeedles(state, rpgRegistry);
   const w = 230;
   const h = zone.logPoseStyle === 'TRIPLE_NEEDLE_NEW_WORLD' ? 92 : 64;
-  const x = LOGICAL_WIDTH - w - 10;
-  const y = 10;
+  const x = viewW - w - 10 - safeR;
+  const y = 10 + safeT;
 
   ctx.fillStyle = 'rgba(15, 23, 42, 0.90)';
   ctx.fillRect(x, y, w, h);
@@ -434,13 +539,16 @@ function renderSeaMinimapHud(
   ctx: CanvasRenderingContext2D,
   state: RpgCampaignState,
   rpgRegistry: RpgDataRegistry,
-  showHiddenChests: boolean
+  showHiddenChests: boolean,
+  viewH: number,
+  safeL: number,
+  safeB: number
 ): void {
   const zone = rpgRegistry.seaZones[state.currentZoneId];
   const mw = 176;
   const mh = 104;
-  const mx = 10;
-  const my = LOGICAL_HEIGHT - mh - 10;
+  const mx = 10 + safeL;
+  const my = viewH - mh - 10 - safeB;
 
   ctx.fillStyle = 'rgba(9, 13, 22, 0.88)';
   ctx.fillRect(mx, my, mw, mh);
@@ -503,10 +611,13 @@ function renderSailingInteractionPrompt(
   ctx: CanvasRenderingContext2D,
   state: RpgCampaignState,
   rpgRegistry: RpgDataRegistry,
-  stepInfo: SailingStepOutput
+  stepInfo: SailingStepOutput,
+  viewW: number,
+  viewH: number,
+  safeB: number
 ): void {
-  const cx = LOGICAL_WIDTH * 0.5;
-  const y = LOGICAL_HEIGHT - 54;
+  const cx = viewW * 0.5;
+  const y = viewH - 54 - safeB;
 
   if (stepInfo.nearbyIsland) {
     const isl = stepInfo.nearbyIsland;
@@ -558,14 +669,14 @@ function renderSailingInteractionPrompt(
         : ' | [Shift] 쿠 드 버스트 READY!'
       : '';
     ctx.fillStyle = 'rgba(15, 23, 42, 0.80)';
-    ctx.fillRect(cx - 200, LOGICAL_HEIGHT - 28, 400, 20);
+    ctx.fillRect(cx - 200, viewH - 28 - safeB, 400, 20);
     ctx.font = '10px monospace';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#cbd5e1';
     ctx.fillText(
       `[WASD/방향키] 자유 항해 | [E/Space] 섬 입항·관문 진입${coupHint}`,
       cx,
-      LOGICAL_HEIGHT - 14
+      viewH - 14 - safeB
     );
   }
 }

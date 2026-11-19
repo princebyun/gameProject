@@ -1,5 +1,9 @@
 import { LOGICAL_HEIGHT, LOGICAL_WIDTH } from '../core/constants';
 import type { Vec2 } from '../core/math/vector2';
+import {
+  ResponsiveViewportManager,
+  type ViewportMetrics
+} from './viewport/responsiveViewportManager';
 
 export interface RenderAccessibilitySettings {
   flashEffectEnabled: boolean;
@@ -10,6 +14,7 @@ export interface RenderAccessibilitySettings {
 export class CanvasRenderer {
   public readonly canvas: HTMLCanvasElement;
   public readonly ctx: CanvasRenderingContext2D;
+  public readonly viewport: ResponsiveViewportManager;
   public settings: RenderAccessibilitySettings = {
     flashEffectEnabled: true,
     shakeIntensity: 0.8,
@@ -22,6 +27,8 @@ export class CanvasRenderer {
     this.canvas.height = LOGICAL_HEIGHT;
     this.canvas.style.imageRendering = 'pixelated';
     this.canvas.style.display = 'block';
+    this.canvas.style.width = '100%';
+    this.canvas.style.height = '100%';
     this.canvas.style.background = '#090d16';
     this.canvas.style.touchAction = 'none';
     this.canvas.style.userSelect = 'none';
@@ -34,16 +41,26 @@ export class CanvasRenderer {
     this.ctx = ctx;
 
     container.appendChild(this.canvas);
+    this.viewport = new ResponsiveViewportManager(this.canvas, this.ctx, container);
+  }
+
+  public getMetrics(): ViewportMetrics {
+    return this.viewport.getMetrics();
+  }
+
+  public beginFrame(): ViewportMetrics {
+    return this.viewport.beginFrame();
+  }
+
+  public syncViewport(): ViewportMetrics {
+    return this.viewport.sync();
   }
 
   public clientToLogical(clientX: number, clientY: number): Vec2 {
-    const rect = this.canvas.getBoundingClientRect();
-    if (rect.width <= 0 || rect.height <= 0) {
-      return { x: 0, y: 0 };
-    }
-    return {
-      x: ((clientX - rect.left) / rect.width) * LOGICAL_WIDTH,
-      y: ((clientY - rect.top) / rect.height) * LOGICAL_HEIGHT
-    };
+    return this.viewport.clientToLogical(clientX, clientY);
+  }
+
+  public clientToArenaLogical(clientX: number, clientY: number): Vec2 {
+    return this.viewport.clientToArenaLogical(clientX, clientY);
   }
 }

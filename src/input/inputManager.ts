@@ -1,4 +1,4 @@
-import { distVec, lenVec, normalizeVec, subVec, type Vec2 } from '../core/math/vector2';
+import { clamp, distVec, lenVec, normalizeVec, subVec, type Vec2 } from '../core/math/vector2';
 import type { GameDataRegistry } from '../core/types/dataSchemas';
 import type {
   BattleWorldState,
@@ -7,11 +7,30 @@ import type {
 } from '../core/types/battleState';
 import type { PlatformAdapter } from '../platform/platformAdapter';
 import {
+  DEFAULT_VIEWPORT_METRICS,
+  type ViewportMetrics
+} from '../render/viewport/responsiveViewportManager';
+import {
   DEFAULT_KEY_BINDINGS,
   loadKeyBindings,
   saveKeyBindings,
   type KeyBindingConfig
 } from './keyBindings';
+
+export type TouchButtonSizePreset = 'SMALL' | 'MEDIUM' | 'LARGE';
+
+export interface TouchControllerPreferences {
+  sizePreset: TouchButtonSizePreset;
+  opacity: number; // 0.35 ~ 1.0
+}
+
+export const TOUCH_SIZE_SCALE_MAP: Record<TouchButtonSizePreset, number> = {
+  SMALL: 0.85,
+  MEDIUM: 1.0,
+  LARGE: 1.2
+};
+
+const TOUCH_PREFS_STORAGE_KEY = 'opgv_touch_prefs_v1';
 
 export interface TouchButtonRect {
   id: 'SKILL_0' | 'SKILL_1' | 'SKILL_2' | 'SKILL_3' | 'DODGE' | 'FORM_SHIFT' | 'SWAP';
@@ -30,9 +49,15 @@ export class UnifiedInputManager {
   private mouseLogicalPos: Vec2 | null = null;
   private mouseDown = false;
 
-  // Virtual touch controller state (independent of key remapping)
-  public virtualJoystickOrigin: Vec2 = { x: 118, y: 432 };
-  public virtualJoystickKnob: Vec2 = { x: 118, y: 432 };
+  // Dynamic viewport & 6.9-inch thumb ergonomic floating joystick state
+  private viewportMetrics: ViewportMetrics = { ...DEFAULT_VIEWPORT_METRICS };
+  private touchPrefs: TouchControllerPreferences = {
+    sizePreset: 'MEDIUM',
+    opacity: 0.78
+  };
+  public virtualJoystickHomeOrigin: Vec2 = { x: 108, y: 432 };
+  public virtualJoystickOrigin: Vec2 = { x: 108, y: 432 };
+  public virtualJoystickKnob: Vec2 = { x: 108, y: 432 };
   public virtualJoystickActive: boolean = false;
   public virtualMoveVec: Vec2 = { x: 0, y: 0 };
   private touchPendingSkill: number | null = null;
@@ -44,7 +69,74 @@ export class UnifiedInputManager {
 
   constructor(private platform: PlatformAdapter) {
     this.bindings = loadKeyBindings(platform);
+    this.touchPrefs = this.loadTouchPrefs();
+    this.updateViewportMetrics(DEFAULT_VIEWPORT_METRICS);
     this.attachWindowListeners();
+  }
+
+  private loadTouchPrefs(): TouchControllerPreferences {
+    try {
+      const raw = this.platform.getStorageItem(TOUCH_PREFS_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as Partial<TouchControllerPreferences>;
+        const preset: TouchButtonSizePreset =
+          parsed.sizePreset === 'SMALL' ||
+          parsed.sizePreset === 'MEDIUM' ||
+          parsed.sizePreset === 'LARGE'
+            ? parsed.sizePreset
+            : 'MEDIUM';
+        const opacity =
+          typeof parsed.opacity === 'number'
+            ? clamp(parsed.opacity, 0.35, 1.0)
+            : 0.78;
+        return { sizePreset: preset, opacity };
+      }
+    } catch {
+      // ignore storage errors
+    }
+    return { sizePreset: 'MEDIUM', opacity: 0.78 };
+  }
+
+  public getTouchPrefs(): TouchControllerPreferences {
+    return { ...this.touchPrefs };
+  }
+
+  public getTouchScale(): number {
+    return TOUCH_SIZE_SCALE_MAP[this.touchPrefs.sizePreset];
+  }
+
+  public setTouchButtonSize(preset: TouchButtonSizePreset): void {
+    this.touchPrefs.sizePreset = preset;
+    this.platform.setStorageItem(
+      TOUCH_PREFS_STORAGE_KEY,
+      JSON.stringify(this.touchPrefs)
+    );
+    this.updateViewportMetrics(this.viewportMetrics);
+  }
+
+  public setTouchOpacity(opacity: number): void {
+    this.touchPrefs.opacity = clamp(opacity, 0.35, 1.0);
+    this.platform.setStorageItem(
+      TOUCH_PREFS_STORAGE_KEY,
+      JSON.stringify(this.touchPrefs)
+    );
+  }
+
+  public updateViewportMetrics(metrics: ViewportMetrics): void {
+    this.viewportMetrics = metrics;
+    const s = this.getTouchScale();
+    const { left: safeL, bottom: safeB } = metrics.safeInsets;
+    const homeX = Math.round(safeL + Math.max(82, 96 * s));
+    const homeY = Math.round(metrics.viewHeight - safeB - Math.max(82, 92 * s));
+    this.virtualJoystickHomeOrigin = { x: homeX, y: homeY };
+    if (!this.virtualJoystickActive) {
+      this.virtualJoystickOrigin = { x: homeX, y: homeY };
+      this.virtualJoystickKnob = { x: homeX, y: homeY };
+    }
+  }
+
+  public getViewportMetrics(): ViewportMetrics {
+    return this.viewportMetrics;
   }
 
   public getBindings(): KeyBindingConfig {
@@ -71,17 +163,91 @@ export class UnifiedInputManager {
     );
   }
 
-  public getTouchButtons(): TouchButtonRect[] {
-    // Fixed mobile touch button layout on 960x540 logical canvas (independent of key bindings)
-    return [
-      { id: 'SKILL_0', label: 'S1', subLabel: '스킬1', x: 748, y: 458, r: 28, color: '#38bdf8' },
-      { id: 'SKILL_1', label: 'S2', subLabel: '스킬2', x: 786, y: 396, r: 28, color: '#38bdf8' },
-      { id: 'SKILL_2', label: 'S3', subLabel: '스킬3', x: 852, y: 378, r: 28, color: '#38bdf8' },
-      { id: 'SKILL_3', label: 'S4', subLabel: '스킬4', x: 908, y: 418, r: 28, color: '#38bdf8' },
-      { id: 'DODGE', label: '회피', subLabel: 'DODGE', x: 836, y: 468, r: 32, color: '#2dd4bf' },
-      { id: 'FORM_SHIFT', label: '각성', subLabel: 'FORM', x: 688, y: 410, r: 25, color: '#f59e0b' },
-      { id: 'SWAP', label: '교체', subLabel: 'TAG', x: 908, y: 332, r: 23, color: '#c084fc' }
+  public getTouchButtons(
+    metrics: ViewportMetrics = this.viewportMetrics
+  ): TouchButtonRect[] {
+    // 6.9-inch thumb-ergonomic fan-shaped action layout anchored inside Safe Area
+    const s = this.getTouchScale();
+    const { right: safeR, bottom: safeB, top: safeT, left: safeL } = metrics.safeInsets;
+    const anchorX = metrics.viewWidth - safeR - Math.round(74 * s);
+    const anchorY = metrics.viewHeight - safeB - Math.round(68 * s);
+
+    const raw: TouchButtonRect[] = [
+      {
+        id: 'SKILL_0',
+        label: '공격',
+        subLabel: 'S1',
+        x: anchorX,
+        y: anchorY,
+        r: Math.round(31 * s),
+        color: '#38bdf8'
+      },
+      {
+        id: 'DODGE',
+        label: '회피',
+        subLabel: 'DODGE',
+        x: Math.round(anchorX - 78 * s),
+        y: Math.round(anchorY + 10 * s),
+        r: Math.round(27 * s),
+        color: '#2dd4bf'
+      },
+      {
+        id: 'SKILL_1',
+        label: 'S2',
+        subLabel: '스킬2',
+        x: Math.round(anchorX - 72 * s),
+        y: Math.round(anchorY - 46 * s),
+        r: Math.round(25 * s),
+        color: '#38bdf8'
+      },
+      {
+        id: 'SKILL_2',
+        label: 'S3',
+        subLabel: '스킬3',
+        x: Math.round(anchorX - 24 * s),
+        y: Math.round(anchorY - 78 * s),
+        r: Math.round(25 * s),
+        color: '#38bdf8'
+      },
+      {
+        id: 'SKILL_3',
+        label: 'S4',
+        subLabel: '스킬4',
+        x: Math.round(anchorX + 34 * s),
+        y: Math.round(anchorY - 68 * s),
+        r: Math.round(25 * s),
+        color: '#38bdf8'
+      },
+      {
+        id: 'FORM_SHIFT',
+        label: '각성',
+        subLabel: 'FORM',
+        x: Math.round(anchorX - 122 * s),
+        y: Math.round(anchorY - 82 * s),
+        r: Math.round(23 * s),
+        color: '#f59e0b'
+      },
+      {
+        id: 'SWAP',
+        label: '교체',
+        subLabel: 'TAG',
+        x: Math.round(anchorX + 36 * s),
+        y: Math.round(anchorY - 126 * s),
+        r: Math.round(22 * s),
+        color: '#c084fc'
+      }
     ];
+
+    // Clamp every button strictly inside Safe Area bounds so punch-holes & corners never clip buttons
+    return raw.map((btn) => ({
+      ...btn,
+      x: Math.round(
+        clamp(btn.x, safeL + btn.r + 6, metrics.viewWidth - safeR - btn.r - 6)
+      ),
+      y: Math.round(
+        clamp(btn.y, safeT + btn.r + 6, metrics.viewHeight - safeB - btn.r - 6)
+      )
+    }));
   }
 
   public triggerVirtualAction(
@@ -100,12 +266,24 @@ export class UnifiedInputManager {
   public handleCanvasPointerDown(logicalPos: Vec2): boolean {
     if (this.isTouchViewport()) {
       for (const btn of this.getTouchButtons()) {
-        if (distVec(logicalPos, { x: btn.x, y: btn.y }) <= btn.r + 6) {
+        if (distVec(logicalPos, { x: btn.x, y: btn.y }) <= btn.r + 8) {
           this.triggerVirtualAction(btn.id);
           return true;
         }
       }
-      if (logicalPos.x < 340 && logicalPos.y > 260) {
+      // Left-bottom floating joystick zone
+      const m = this.viewportMetrics;
+      if (logicalPos.x <= m.viewWidth * 0.42 && logicalPos.y >= m.viewHeight * 0.36) {
+        const s = this.getTouchScale();
+        const pad = Math.round(52 * s);
+        this.virtualJoystickOrigin = {
+          x: Math.round(
+            clamp(logicalPos.x, m.safeInsets.left + pad, m.viewWidth * 0.42)
+          ),
+          y: Math.round(
+            clamp(logicalPos.y, m.viewHeight * 0.42, m.viewHeight - m.safeInsets.bottom - pad)
+          )
+        };
         this.virtualJoystickActive = true;
         this.updateVirtualJoystick(logicalPos);
         return true;
@@ -126,12 +304,13 @@ export class UnifiedInputManager {
   public handleCanvasPointerUp(): void {
     this.mouseDown = false;
     this.virtualJoystickActive = false;
-    this.virtualJoystickKnob = { ...this.virtualJoystickOrigin };
+    this.virtualJoystickOrigin = { ...this.virtualJoystickHomeOrigin };
+    this.virtualJoystickKnob = { ...this.virtualJoystickHomeOrigin };
     this.virtualMoveVec = { x: 0, y: 0 };
   }
 
   private updateVirtualJoystick(pos: Vec2): void {
-    const maxRadius = 46;
+    const maxRadius = Math.round(46 * this.getTouchScale());
     const delta = subVec(pos, this.virtualJoystickOrigin);
     const d = lenVec(delta);
     const clamped = d > maxRadius ? normalizeVec(delta) : { x: delta.x / maxRadius, y: delta.y / maxRadius };

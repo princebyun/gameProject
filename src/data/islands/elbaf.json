@@ -52,6 +52,25 @@
           "responseLine": "[엘바프 환영] 거인족의 축복으로 로드 포네그리프 최종 단서와 패기 수련장이 개방되었습니다!"
         }
       ]
+    },
+    {
+      "npcId": "npc_elbaf_raid_terminal",
+      "name": "엘바프 거대 보스 레이드 제단",
+      "roleLabel": "엔드게임 협동 레이드 · 종말의 철뇌 로키",
+      "pos": { "x": 210, "y": 390 },
+      "interactRadiusPx": 58,
+      "visualScale": 1.15,
+      "color": "#facc15",
+      "dialogueLines": [
+        "엘바프 레이드 제단: 종말의 철뇌 로키와 사황·오로성 거대 보스에 맞서는 협동 레이드를 개시할 수 있습니다!"
+      ],
+      "choices": [
+        {
+          "label": "거대 보스 협동 레이드 로비를 연다!",
+          "triggersEndgameMode": "RAID",
+          "responseLine": "[엘바프 레이드 제단] 오로성·사황 거대 보스 협동 레이드 로비를 엽니다!"
+        }
+      ]
     }
   ],
   "encounters": [

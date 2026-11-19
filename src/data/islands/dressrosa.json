@@ -35,6 +35,26 @@
           "responseLine": "[동맹 돌격] 드레스로자 왕궁 정상에서 칠무해 도플라밍고와 결전합니다!"
         }
       ]
+    },
+    {
+      "npcId": "npc_corrida_colosseum",
+      "name": "코리다 콜로세움 안내원 · 기술 전수 교관",
+      "roleLabel": "엔드게임 토너먼트 & CP 기술 전수",
+      "pos": { "x": 365, "y": 195 },
+      "interactRadiusPx": 58,
+      "visualScale": 1.05,
+      "color": "#facc15",
+      "dialogueLines": [
+        "안내원: 신세계 최강의 검투사들이 격돌하는 [코리다 콜로세움]에 오신 것을 환영합니다!",
+        "8강 토너먼트 우승으로 콜로세움 포인트(CP)를 모으면 특수 전수 기술을 익히고 수배서 프레임 등급을 올릴 수 있습니다!"
+      ],
+      "choices": [
+        {
+          "label": "코리다 콜로세움 토너먼트 & 기술 전수 교관으로 입장한다!",
+          "triggersEndgameMode": "COLOSSEUM",
+          "responseLine": "[코리다 콜로세움] 8강 토너먼트 대진표와 기술 전수 교관 메뉴를 엽니다!"
+        }
+      ]
     }
   ],
   "encounters": [

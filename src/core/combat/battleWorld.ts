@@ -1,4 +1,10 @@
 import { BATTLE_CALC_VERSION, FIXED_DT } from '../constants';
+import {
+  createInitialRaidRuntimeState,
+  interceptRaidBossIncomingDamage,
+  RAID_DOWNED_DURATION_SEC,
+  stepRaidBattleRules
+} from '../endgame/raid';
 import { SeededPRNG } from '../math/prng';
 import {
   addVec,
@@ -76,9 +82,14 @@ function createUnitRuntime(
     build.moveIds.length > 0 ? build.moveIds : unitDef.defaultMoves;
   const moveSlots: MoveSlotRuntime[] = moveIds.slice(0, 4).map((mId) => {
     const mDef = registry.moves[mId] ?? Object.values(registry.moves)[0];
+    const overrideCharge = build.initialMoveCharges?.[mDef.id];
+    const initialCharges =
+      overrideCharge !== undefined
+        ? clamp(Math.floor(overrideCharge), 0, mDef.maxCharges)
+        : mDef.maxCharges;
     return {
       moveId: mDef.id,
-      charges: mDef.maxCharges,
+      charges: initialCharges,
       maxCharges: mDef.maxCharges,
       chargeRechargeTimer: 0,
       cooldownTimer: 0
@@ -86,12 +97,17 @@ function createUnitRuntime(
   });
 
   const baseRadius = registry.balance.unitPhysics.defaultRadiusPx;
-  const entityScale = unitDef.entityScale ?? 1.0;
+  const entityScale = build.entityScaleOverride ?? unitDef.entityScale ?? 1.0;
   const scaledRadius = Math.round(baseRadius * entityScale);
   const knockbackResist = clamp(unitDef.knockbackResist ?? 0, 0, 1);
   const resolvedTraitId = build.traitId || unitDef.traitId;
   const traitDef = registry.traits[resolvedTraitId];
   const hasLunarianFlame = Boolean(traitDef?.lunarianFlame?.enabled);
+  const initialHpRatio =
+    build.initialHpRatio !== undefined ? clamp(build.initialHpRatio, 0, 1) : 1.0;
+  const startingHp =
+    initialHpRatio <= 0 ? 0 : Math.max(1, Math.round(effStats.hp * initialHpRatio));
+  const eb = build.endgameBonuses;
 
   return {
     instanceId: build.instanceId,
@@ -100,7 +116,7 @@ function createUnitRuntime(
     team,
     slotIndex,
     isOnField,
-    isAlive: true,
+    isAlive: startingHp > 0,
     isPlayerControlled: build.isPlayerControlled,
     aiLevel: build.aiLevel,
 
@@ -126,7 +142,7 @@ function createUnitRuntime(
     stanceCooldownTimer: 0,
 
     maxHp: effStats.hp,
-    hp: effStats.hp,
+    hp: startingHp,
     baseComputedStats: { ...effStats },
     effectiveStats: { ...effStats },
     statBuffs: [],
@@ -202,7 +218,22 @@ function createUnitRuntime(
     mochiMorphTimer: 0,
     lastIncomingMoveIdByAttacker: {},
     steroidOverdriveActive: false,
-    parasiteConfuseTimer: 0
+    parasiteConfuseTimer: 0,
+    venomStacks: 0,
+    venomDecayTimer: 0,
+    venomTickTimer: 0,
+    venomDemonActive: false,
+    venomAuraTickTimer: 0,
+    ringOutTimer: 0,
+    endgameArmorPenRatio: eb?.armorPenRatio ?? 0,
+    endgameHazardResistRatio: eb?.hazardAndPoisonResistRatio ?? 0,
+    endgameCooldownReductionRatio: eb?.cooldownReductionRatio ?? 0,
+    endgameDodgeRechargeBonus: eb?.dodgeRechargeBonus ?? 0,
+    endgameFireDamageBonusRatio: eb?.fireDamageBonusRatio ?? 0,
+    endgameBreakGaugeBonusRatio: eb?.breakGaugeDamageRatio ?? 0,
+    isDowned: false,
+    downedTimer: 0,
+    reviveProgressSec: 0
   };
 }
 
@@ -213,23 +244,37 @@ export function createBattleWorld(
   const arenaSpec =
     registry.balance.arenaDefaults[config.arenaSizeKey] ??
     registry.balance.arenaDefaults.medium;
-  const activePerTeam = config.mode === '2V2' ? 2 : 1;
+  const activeAlphaCount =
+    config.mode === 'COOP_RAID' ? 3 : config.mode === '2V2' ? 2 : 1;
+  const activeOmegaCount =
+    config.mode === 'COOP_RAID' ? 1 : config.mode === '2V2' ? 2 : 1;
 
   const units: UnitRuntimeState[] = [];
   const cy = arenaSpec.height * 0.5;
 
   config.teamAlpha.slice(0, registry.balance.roster.maxPartySize).forEach((b, idx) => {
-    const isOnField = idx < activePerTeam;
-    const yOffset = activePerTeam === 2 ? (idx === 0 ? -75 : 75) : 0;
-    const pos = { x: arenaSpec.width * 0.22, y: cy + yOffset };
+    const isOnField = idx < activeAlphaCount;
+    const yOffset =
+      activeAlphaCount === 3
+        ? idx === 0
+          ? -110
+          : idx === 1
+            ? 0
+            : 110
+        : activeAlphaCount === 2
+          ? idx === 0
+            ? -75
+            : 75
+          : 0;
+    const pos = { x: arenaSpec.width * 0.2, y: cy + yOffset };
     units.push(
       createUnitRuntime(b, 'ALPHA', idx, isOnField, pos, { x: 1, y: 0 }, registry)
     );
   });
 
   config.teamOmega.slice(0, registry.balance.roster.maxPartySize).forEach((b, idx) => {
-    const isOnField = idx < activePerTeam;
-    const yOffset = activePerTeam === 2 ? (idx === 0 ? -75 : 75) : 0;
+    const isOnField = idx < activeOmegaCount;
+    const yOffset = activeOmegaCount === 2 ? (idx === 0 ? -75 : 75) : 0;
     const pos = { x: arenaSpec.width * 0.78, y: cy + yOffset };
     units.push(
       createUnitRuntime(b, 'OMEGA', idx, isOnField, pos, { x: -1, y: 0 }, registry)
@@ -346,6 +391,34 @@ export function createBattleWorld(
       tickTimer: 0
     },
 
+    impelDownHazard: {
+      active: Boolean(config.impelDownHazard),
+      floor: config.impelDownHazard?.floor ?? 0,
+      kind: config.impelDownHazard?.kind ?? null,
+      trapTimer: 2.0,
+      pendingTrapPos: null,
+      pendingTrapTelegraphTimer: 0,
+      dodgeRechargeMult: config.impelDownHazard?.dodgeRechargeMult ?? 1.0
+    },
+
+    colosseumRingOut: {
+      active: Boolean(config.colosseumRingOut?.enabled),
+      center: { x: arenaSpec.width * 0.5, y: arenaSpec.height * 0.5 },
+      safeRadiusPx: Math.round(
+        Math.min(arenaSpec.width, arenaSpec.height) *
+          (config.colosseumRingOut?.safeRadiusRatio ?? 0.38)
+      ),
+      outOfBoundsLimitSec: config.colosseumRingOut?.outOfBoundsLimitSec ?? 2.0,
+      outOfBoundsDpsRatio: config.colosseumRingOut?.outOfBoundsDpsRatio ?? 0.08,
+      instantRingOutKo: config.colosseumRingOut?.instantRingOutKo ?? true,
+      resolvedByRingOut: false
+    },
+
+    raidState: createInitialRaidRuntimeState(
+      config.raidConfig,
+      units.find((u) => u.team === 'OMEGA')?.instanceId ?? null
+    ),
+
     floatingTexts: [],
     vfxEvents: [],
     combatLog: [`[전투 개시] 모드: ${config.mode} / 버전: v${BATTLE_CALC_VERSION}`],
@@ -353,13 +426,103 @@ export function createBattleWorld(
     winnerTeam: null
   };
 
+  // Stage 3: Activate persistent floor hazards for Impel Down Level 4 (Magma) & Level 5 (Ice)
+  if (world.impelDownHazard.active) {
+    if (world.impelDownHazard.kind === 'BLAZING_MAGMA') {
+      world.persistentZones.magmaActive = true;
+      world.persistentZones.magmaTeam = 'OMEGA';
+    } else if (world.impelDownHazard.kind === 'FREEZING_ICE') {
+      world.persistentZones.iceActive = true;
+      world.persistentZones.iceTeam = 'OMEGA';
+    }
+  }
+  if (config.raidConfig?.weatherOnStart && config.raidConfig.weatherOnStart !== 'NONE') {
+    world.weather = { id: config.raidConfig.weatherOnStart, remainingSec: 999 };
+  }
+
   for (const u of world.units) {
     if (u.isOnField && u.isAlive) {
       triggerTraitHook('onEnterField', u, {}, world, registry);
+      // Reserve Awakening buff (>= 100% triggers immediate awakening on floor start)
+      const matchingBuild =
+        u.team === 'ALPHA'
+          ? config.teamAlpha.find((b) => b.instanceId === u.instanceId)
+          : undefined;
+      if ((matchingBuild?.endgameBonuses?.startAwakeningGaugeRatio ?? 0) >= 0.5) {
+        u.statBuffs.push({
+          id: 'impel_reserve_awakening_surge',
+          stat: 'atk',
+          multiplier: 1.15,
+          remainingSec: 12
+        });
+        if ((matchingBuild?.endgameBonuses?.startAwakeningGaugeRatio ?? 0) >= 1.0) {
+          activateFormShift(u, world, registry);
+        }
+      }
     }
   }
 
   return world;
+}
+
+export function applyVenomStacksToUnit(
+  target: UnitRuntimeState,
+  stacksToAdd: number,
+  world: BattleWorldState,
+  registry: GameDataRegistry,
+  maxStacks: number = 10
+): void {
+  if (!target.isAlive || stacksToAdd <= 0) return;
+  const prev = target.venomStacks;
+  target.venomStacks = Math.min(maxStacks, target.venomStacks + stacksToAdd);
+  target.venomDecayTimer = 6.0;
+  if (target.venomStacks > prev) {
+    world.floatingTexts.push({
+      id: `ft_venom_st_${world.tick}_${target.instanceId}`,
+      pos: { x: target.pos.x, y: target.pos.y - 34 },
+      text: `☠ 맹독 x${target.venomStacks}`,
+      color: '#c084fc',
+      elapsedSec: 0,
+      durationSec: 0.75,
+      scale: 0.95
+    });
+  }
+  void registry;
+}
+
+export function activateMagellanVenomDemon(
+  magellan: UnitRuntimeState,
+  world: BattleWorldState,
+  registry: GameDataRegistry
+): void {
+  if (magellan.venomDemonActive) return;
+  magellan.venomDemonActive = true;
+  magellan.bossPhase2Triggered = true;
+  magellan.auraColor = '#dc2626';
+  if (!magellan.activeFormId && magellan.awakenedFormId) {
+    activateFormShift(magellan, world, registry);
+  }
+  world.floatingTexts.push({
+    id: `ft_venom_demon_${world.tick}_${magellan.instanceId}`,
+    pos: { x: magellan.pos.x, y: magellan.pos.y - 46 },
+    text: '☠ 베놈 데몬: 지옥의 심판!',
+    color: '#ef4444',
+    elapsedSec: 0,
+    durationSec: 1.5,
+    scale: 1.35
+  });
+  world.vfxEvents.push({
+    id: `vfx_venom_demon_${world.tick}_${magellan.instanceId}`,
+    kind: 'FORM_BURST',
+    pos: { x: magellan.pos.x, y: magellan.pos.y },
+    color: '#dc2626',
+    radiusPx: 145,
+    elapsedSec: 0,
+    durationSec: 0.55
+  });
+  world.combatLog.push(
+    `[베놈 데몬 발동] ${magellan.name}이(가) 금지된 진홍빛 맹독 오라를 해방했습니다!`
+  );
 }
 
 export function spawnProjectileInstance(
@@ -407,6 +570,8 @@ export function spawnProjectileInstance(
     pattern: spec.pattern,
     bypassGroundCollision: Boolean(spec.bypassGroundCollision),
     isInsideBeam: false,
+    homingTurnRateRadPerSec: spec.homingTurnRateRadPerSec,
+    appliesVenomStacks: moveDef.appliesVenomStacks,
     destroyed: false
   };
   world.projectiles.push(proj);
@@ -1406,6 +1571,9 @@ function executeMoveCast(
   } else if (moveDef.archetype === 'BEAM') {
     spawnBeamInstance(caster, moveDef, aimDir, world, registry);
   } else if (moveDef.archetype === 'MELEE') {
+    if (moveDef.triggersVenomDemon && !caster.venomDemonActive) {
+      activateMagellanVenomDemon(caster, world, registry);
+    }
     spawnMeleeArcInstance(caster, moveDef, aimDir, world, registry);
   } else if (moveDef.archetype === 'AOE_FIELD') {
     const targetPos = addVec(
@@ -1465,6 +1633,10 @@ function tryStartMoveWindup(
   if (
     !unit.isAlive ||
     !unit.isOnField ||
+    unit.isDowned ||
+    (world.raidState.active &&
+      world.raidState.bossUnitId === unit.instanceId &&
+      world.raidState.groggyTimer > 0) ||
     unit.windupMoveId !== null ||
     unit.dodgeActiveTimer > 0 ||
     unit.clashLockId !== null ||
@@ -1641,6 +1813,7 @@ function applyDirectAttackHits(
       if (
         !target.isAlive ||
         !target.isOnField ||
+        target.isDowned ||
         target.team === proj.team ||
         target.iframeTimer > 0
       ) {
@@ -1682,7 +1855,20 @@ function applyDirectAttackHits(
           }
 
           target.lastIncomingMoveIdByAttacker[attacker.instanceId] = moveDef.id;
-          target.hp = Math.max(0, target.hp - res.damage);
+          const appliedProjDmg = interceptRaidBossIncomingDamage(
+            world,
+            target,
+            attacker,
+            res.damage,
+            proj.currentPower,
+            proj.hasArmamentHaki,
+            proj.hasConquerorCoating,
+            proj.isInternalDestruction
+          );
+          target.hp = Math.max(0, target.hp - appliedProjDmg);
+          if (proj.appliesVenomStacks && proj.appliesVenomStacks > 0) {
+            applyVenomStacksToUnit(target, proj.appliesVenomStacks, world, registry);
+          }
           notifyUnitHitByAttack(
             attacker,
             target,
@@ -1826,6 +2012,7 @@ function applyDirectAttackHits(
       if (
         !target.isAlive ||
         !target.isOnField ||
+        target.isDowned ||
         target.team === beam.team ||
         target.iframeTimer > 0
       ) {
@@ -1854,7 +2041,17 @@ function applyDirectAttackHits(
           continue;
         }
 
-        target.hp = Math.max(0, target.hp - res.damage);
+        const appliedBeamDmg = interceptRaidBossIncomingDamage(
+          world,
+          target,
+          attacker,
+          res.damage,
+          beam.currentPower * 0.35,
+          beam.hasArmamentHaki,
+          beam.hasConquerorCoating,
+          beam.isInternalDestruction
+        );
+        target.hp = Math.max(0, target.hp - appliedBeamDmg);
         notifyUnitHitByAttack(
           attacker,
           target,
@@ -1914,6 +2111,7 @@ function applyDirectAttackHits(
       if (
         !target.isAlive ||
         !target.isOnField ||
+        target.isDowned ||
         target.team === arc.team ||
         target.iframeTimer > 0 ||
         arc.hitUnitIds.includes(target.instanceId)
@@ -1962,7 +2160,17 @@ function applyDirectAttackHits(
         }
 
         target.lastIncomingMoveIdByAttacker[attacker.instanceId] = moveDef.id;
-        target.hp = Math.max(0, target.hp - res.damage);
+        const appliedMeleeDmg = interceptRaidBossIncomingDamage(
+          world,
+          target,
+          attacker,
+          res.damage,
+          arc.currentPower,
+          arc.hasArmamentHaki,
+          arc.hasConquerorCoating,
+          arc.isInternalDestruction
+        );
+        target.hp = Math.max(0, target.hp - appliedMeleeDmg);
         notifyUnitHitByAttack(
           attacker,
           target,
@@ -2048,6 +2256,9 @@ function applyDirectAttackHits(
             world,
             registry
           );
+        }
+        if (moveDef.appliesVenomStacks && moveDef.appliesVenomStacks > 0) {
+          applyVenomStacksToUnit(target, moveDef.appliesVenomStacks, world, registry);
         }
         triggerTraitHook('onHit', attacker, { moveArchetype: 'MELEE' }, world, registry);
         triggerTraitHook('onBeingHit', target, { moveArchetype: 'MELEE' }, world, registry);
@@ -2199,7 +2410,8 @@ export function stepBattleWorld(
         : 0;
     const cdAccelMult =
       (unit.cooldownAccelTimer > 0 ? 1 + unit.cooldownAccelRatio : 1.0) +
-      steroidCdBonus;
+      steroidCdBonus +
+      unit.endgameCooldownReductionRatio;
     if (unit.cooldownAccelTimer > 0) {
       unit.cooldownAccelTimer = Math.max(0, unit.cooldownAccelTimer - simDt);
       if (unit.cooldownAccelTimer <= 0) {
@@ -2247,7 +2459,11 @@ export function stepBattleWorld(
     if (!unit.isOnField) continue;
 
     stepUnitStatuses(unit, simDt, registry);
-    stepUnitDodge(unit, simDt, registry);
+    const dodgeEnvMult =
+      world.impelDownHazard.active && unit.team === 'ALPHA'
+        ? world.impelDownHazard.dodgeRechargeMult
+        : 1.0;
+    stepUnitDodge(unit, simDt, registry, dodgeEnvMult);
     stepUnitFormShift(unit, simDt, world, registry);
 
     // Stage 2-A timers & arena water terrain detection
@@ -2364,7 +2580,15 @@ export function stepBattleWorld(
       registry.balance.unitPhysics.baseMoveSpeedPx +
       spdStat * registry.balance.unitPhysics.speedStatScale;
 
-    if (unit.clashLockId !== null || isUnitStaggered(unit) || isUnitRooted(unit)) {
+    if (
+      unit.isDowned ||
+      (world.raidState.active &&
+        world.raidState.bossUnitId === unit.instanceId &&
+        world.raidState.groggyTimer > 0) ||
+      unit.clashLockId !== null ||
+      isUnitStaggered(unit) ||
+      isUnitRooted(unit)
+    ) {
       unit.vel = { x: 0, y: 0 };
     } else if (unit.dodgeActiveTimer > 0) {
       unit.vel = scaleVec(
@@ -2410,6 +2634,40 @@ export function stepBattleWorld(
     }
     proj.prevPos = { x: proj.pos.x, y: proj.pos.y };
     proj.elapsedSec += simDt;
+
+    // Stage 3: Homing projectile steering (e.g. Magellan's Hydra)
+    if (proj.homingTurnRateRadPerSec && proj.homingTurnRateRadPerSec > 0) {
+      let nearestEnemy: UnitRuntimeState | null = null;
+      let nearestDist = Infinity;
+      for (const cand of world.units) {
+        if (!cand.isAlive || !cand.isOnField || cand.team === proj.team) continue;
+        const d = distVec(proj.pos, cand.pos);
+        if (d < nearestDist) {
+          nearestDist = d;
+          nearestEnemy = cand;
+        }
+      }
+      if (nearestEnemy) {
+        const speed = lenVec(proj.vel);
+        if (speed > 1) {
+          const curAngle = Math.atan2(proj.vel.y, proj.vel.x);
+          const targetAngle = Math.atan2(
+            nearestEnemy.pos.y - proj.pos.y,
+            nearestEnemy.pos.x - proj.pos.x
+          );
+          let diff = targetAngle - curAngle;
+          while (diff > Math.PI) diff -= Math.PI * 2;
+          while (diff < -Math.PI) diff += Math.PI * 2;
+          const maxTurn = proj.homingTurnRateRadPerSec * simDt;
+          const nextAngle = curAngle + clamp(diff, -maxTurn, maxTurn);
+          proj.vel = {
+            x: Math.cos(nextAngle) * speed,
+            y: Math.sin(nextAngle) * speed
+          };
+        }
+      }
+    }
+
     const speedScale = proj.isInsideBeam
       ? registry.balance.beam.projectileSlowMultiplier
       : 1.0;
@@ -2492,6 +2750,145 @@ export function stepBattleWorld(
 
   stepFieldAndGlobalEffects(world, simDt, registry);
 
+  // Stage 3 Hook A: Magellan Venom Demon Phase 2 Auto-Trigger, Aura & Stacking Venom DoT
+  for (const unit of world.units) {
+    if (!unit.isAlive || !unit.isOnField) continue;
+    const venomSpec = registry.traits[unit.traitId]?.venomDemonPassive;
+    if (venomSpec?.enabled) {
+      if (!unit.venomDemonActive && unit.hp <= unit.maxHp * venomSpec.triggerHpRatio) {
+        activateMagellanVenomDemon(unit, world, registry);
+      }
+      if (unit.venomDemonActive) {
+        unit.venomAuraTickTimer += simDt;
+        if (unit.venomAuraTickTimer >= venomSpec.tickIntervalSec) {
+          unit.venomAuraTickTimer -= venomSpec.tickIntervalSec;
+          for (const enemy of world.units) {
+            if (!enemy.isAlive || !enemy.isOnField || enemy.team === unit.team) continue;
+            if (distVec(unit.pos, enemy.pos) <= venomSpec.auraRadiusPx + enemy.radiusPx) {
+              applyVenomStacksToUnit(enemy, 1, world, registry, venomSpec.maxStacks);
+            }
+          }
+        }
+      }
+    }
+
+    if (unit.venomStacks > 0) {
+      unit.venomDecayTimer = Math.max(0, unit.venomDecayTimer - simDt);
+      unit.venomTickTimer += simDt;
+      if (unit.venomTickTimer >= 0.5) {
+        unit.venomTickTimer -= 0.5;
+        const resist = Math.min(0.85, unit.endgameHazardResistRatio);
+        // Stacking damage strictly grows per stack: (14 + 7 * stacks) * 0.5s
+        const rawHalfSecDmg = (14 + 7 * unit.venomStacks) * 0.5;
+        const dmg = Math.max(1, Math.round(rawHalfSecDmg * (1 - resist)));
+        unit.hp = Math.max(0, unit.hp - dmg);
+        world.floatingTexts.push({
+          id: `ft_vdot_${world.tick}_${unit.instanceId}`,
+          pos: { x: unit.pos.x, y: unit.pos.y - 24 },
+          text: `☠ -${dmg} (x${unit.venomStacks})`,
+          color: '#a855f7',
+          elapsedSec: 0,
+          durationSec: 0.65,
+          scale: 0.9
+        });
+      }
+      if (unit.venomDecayTimer <= 0) {
+        unit.venomStacks = Math.max(0, unit.venomStacks - 1);
+        if (unit.venomStacks > 0) {
+          unit.venomDecayTimer = 3.0;
+        }
+      }
+    }
+  }
+
+  // Stage 3 Hook B: Impel Down Floor 1 Crimson Slash Trap (telegraphed periodic floor SLASH)
+  if (world.impelDownHazard.active && world.impelDownHazard.kind === 'CRIMSON_SLASH_TRAP') {
+    if (world.impelDownHazard.pendingTrapPos) {
+      world.impelDownHazard.pendingTrapTelegraphTimer -= simDt;
+      if (world.impelDownHazard.pendingTrapTelegraphTimer <= 0) {
+        const trapPos = world.impelDownHazard.pendingTrapPos;
+        world.impelDownHazard.pendingTrapPos = null;
+        world.impelDownHazard.trapTimer = 4.2;
+        world.vfxEvents.push({
+          id: `vfx_crimson_trap_${world.tick}`,
+          kind: 'CROSS_SLASH',
+          pos: { ...trapPos },
+          color: '#f43f5e',
+          radiusPx: 68,
+          elapsedSec: 0,
+          durationSec: 0.35
+        });
+        for (const u of world.units) {
+          if (!u.isAlive || !u.isOnField || u.team !== 'ALPHA' || u.iframeTimer > 0) continue;
+          if (distVec(u.pos, trapPos) <= 68 + u.radiusPx) {
+            const resist = Math.min(0.85, u.endgameHazardResistRatio);
+            const dmg = Math.max(4, Math.round(32 * (1 - resist)));
+            u.hp = Math.max(0, u.hp - dmg);
+            world.floatingTexts.push({
+              id: `ft_ctrap_${world.tick}_${u.instanceId}`,
+              pos: { x: u.pos.x, y: u.pos.y - 26 },
+              text: `⚔ 홍련 함정 -${dmg}`,
+              color: '#f43f5e',
+              elapsedSec: 0,
+              durationSec: 0.75,
+              scale: 1.0
+            });
+          }
+        }
+      }
+    } else {
+      world.impelDownHazard.trapTimer -= simDt;
+      if (world.impelDownHazard.trapTimer <= 0) {
+        const targetAlpha = world.units.find((u) => u.isAlive && u.isOnField && u.team === 'ALPHA');
+        if (targetAlpha) {
+          world.impelDownHazard.pendingTrapPos = {
+            x: clamp(targetAlpha.pos.x + prng.nextRange(-28, 28), 60, world.arenaWidth - 60),
+            y: clamp(targetAlpha.pos.y + prng.nextRange(-28, 28), 60, world.arenaHeight - 60)
+          };
+          world.impelDownHazard.pendingTrapTelegraphTimer = 1.1;
+        }
+      }
+    }
+  }
+
+  // Stage 3 Hook C: Corrida Colosseum Circular Water Moat Ring-Out Rule
+  if (world.colosseumRingOut.active) {
+    const ro = world.colosseumRingOut;
+    for (const u of world.units) {
+      if (!u.isAlive || !u.isOnField) continue;
+      const dFromCenter = distVec(u.pos, ro.center);
+      if (dFromCenter > ro.safeRadiusPx) {
+        u.inWaterTerrain = true;
+        u.ringOutTimer += simDt;
+        const dpsTick = u.maxHp * ro.outOfBoundsDpsRatio * simDt;
+        u.hp = Math.max(0, u.hp - dpsTick);
+        if (u.ringOutTimer >= ro.outOfBoundsLimitSec) {
+          if (ro.instantRingOutKo) {
+            u.hp = 0;
+            ro.resolvedByRingOut = true;
+            world.winReasonText = `🌊 링아웃 판정! ${u.name}이(가) 해자 외곽에서 2초 이상 체류하여 탈락!`;
+            world.floatingTexts.push({
+              id: `ft_ringout_${world.tick}_${u.instanceId}`,
+              pos: { x: u.pos.x, y: u.pos.y - 36 },
+              text: '🌊 RING OUT!!',
+              color: '#38bdf8',
+              elapsedSec: 0,
+              durationSec: 1.4,
+              scale: 1.35
+            });
+            world.combatLog.push(world.winReasonText);
+          } else {
+            const penalty = Math.max(10, Math.round(u.maxHp * 0.14));
+            u.hp = Math.max(0, u.hp - penalty);
+            u.ringOutTimer = 0;
+          }
+        }
+      } else {
+        u.ringOutTimer = Math.max(0, u.ringOutTimer - simDt * 1.5);
+      }
+    }
+  }
+
   // Stage 2-C Hook 1: Step Shrinking Arena (Doflamingo Birdcage)
   if (world.birdcage.active) {
     const owner = world.units.find((u) => u.instanceId === world.birdcage.ownerUnitId);
@@ -2573,9 +2970,34 @@ export function stepBattleWorld(
   }
 
   for (const unit of world.units) {
-    if (unit.isAlive && unit.hp <= 0) {
+    if (unit.isAlive && !unit.isDowned && unit.hp <= 0) {
       // Stage 2-B Hook 5: Marco Phoenix Revive Passive (1x per battle)
       if (tryTriggerRevivePassive(unit, world, registry)) {
+        continue;
+      }
+
+      // Stage 3 Step 2: Raid Downed State (15s rescue timer instead of instant death)
+      if (world.raidState.active && unit.team === 'ALPHA' && unit.isOnField) {
+        unit.hp = 0;
+        unit.isDowned = true;
+        unit.downedTimer = RAID_DOWNED_DURATION_SEC;
+        unit.reviveProgressSec = 0;
+        unit.windupMoveId = null;
+        unit.activeBeamId = null;
+        unit.clashLockId = null;
+        unit.vel = { x: 0, y: 0 };
+        world.floatingTexts.push({
+          id: `ft_downed_${world.tick}_${unit.instanceId}`,
+          pos: { x: unit.pos.x, y: unit.pos.y - 30 },
+          text: `🆘 DOWNED! (15초 내 동료 구조 필요)`,
+          color: '#f43f5e',
+          elapsedSec: 0,
+          durationSec: 1.5,
+          scale: 1.15
+        });
+        world.combatLog.push(
+          `[레이드 다운] ${unit.name}이(가) 다운되었습니다! 동료가 2초간 구조하면 HP 40%로 부활합니다.`
+        );
         continue;
       }
 
@@ -2603,6 +3025,11 @@ export function stepBattleWorld(
         }
       }
     }
+  }
+
+  // Stage 3 Step 2: Step Giant Boss Co-op Raid Rules (Groggy, DPS Check, Telegraphs, Down/Rescue)
+  if (world.raidState.active) {
+    stepRaidBattleRules(world, simDt, registry, prng);
   }
 
   const alphaAlive = world.units.some(

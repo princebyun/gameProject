@@ -1,0 +1,35 @@
+[
+  {
+    "relicId": "relic_flame_dragon_scale",
+    "name": "화룡의 비늘",
+    "requiredRaidId": "raid_kaido_flame",
+    "icon": "🐉",
+    "description": "화룡대거 카이도 토벌 전리품. 장착 시 화염/마그마 속성 피해 +12% 및 공격력 +6% 증가.",
+    "modifiers": {
+      "fireDamageBonusRatio": 0.12,
+      "atkBonusRatio": 0.06
+    }
+  },
+  {
+    "relicId": "relic_abyss_talisman",
+    "name": "심연의 부적",
+    "requiredRaidId": "raid_saturn_abyss",
+    "icon": "🧿",
+    "description": "심연 강림 새턴 성 토벌 전리품. 장착 시 레이드 브레이크 게이지 누적량 +20% 및 회피 충전 +10%.",
+    "modifiers": {
+      "breakGaugeDamageRatio": 0.2,
+      "dodgeCooldownBonusRatio": 0.1
+    }
+  },
+  {
+    "relicId": "relic_elbaf_rune",
+    "name": "엘바프의 룬",
+    "requiredRaidId": "raid_loki_ragnir",
+    "icon": "⚡",
+    "description": "종말의 철뇌 로키 토벌 전리품. 장착 시 최대 HP +10% 및 공격력 +8% 증가.",
+    "modifiers": {
+      "maxHpBonusRatio": 0.1,
+      "atkBonusRatio": 0.08
+    }
+  }
+]

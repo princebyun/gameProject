@@ -80,7 +80,7 @@ describe('Phase 3 Save Serialization, v0->v1 Migration & 2-Stage Anti-Cheat Engi
       gameReg
     );
 
-    expect(envelope.meta.saveVersion).toBe(4);
+    expect(envelope.meta.saveVersion).toBe(5);
     expect(envelope.meta.antiCheat.isTampered).toBe(false);
     expect(envelope.meta.antiCheat.onlineEligible).toBe(true);
     expect(canEnterOnlineBattle(envelope, rpgReg, gameReg).allowed).toBe(true);
@@ -151,7 +151,7 @@ describe('Phase 3 Save Serialization, v0->v1 Migration & 2-Stage Anti-Cheat Engi
     const migRes = migrateRawSaveToCurrent(legacyV0, rpgReg, gameReg);
     expect(migRes.migrated).toBe(true);
     expect(migRes.migratedFromVersion).toBe(0);
-    expect(migRes.envelope.meta.saveVersion).toBe(4);
+    expect(migRes.envelope.meta.saveVersion).toBe(5);
     expect(migRes.envelope.meta.slotId).toBe('slot_2');
     expect(migRes.envelope.payload.world.currentZoneId).toBe('grand_line');
     expect(migRes.envelope.payload.economy.berry).toBe(42000);

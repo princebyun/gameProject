@@ -1,16 +1,24 @@
 import type { AssetLoader } from '../assets/assetLoader';
-import { LOGICAL_HEIGHT, LOGICAL_WIDTH } from '../core/constants';
+import { FIXED_DT } from '../core/constants';
 import { clamp, lerpVec, type Vec2 } from '../core/math/vector2';
 import type { GameDataRegistry } from '../core/types/dataSchemas';
 import type { BattleWorldState, UnitRuntimeState } from '../core/types/battleState';
+import { resolveBiomeForArena } from '../data/assets/assetManifestRegistry';
 import type { RenderAccessibilitySettings } from './canvasRenderer';
+import {
+  DEFAULT_VIEWPORT_METRICS,
+  type ViewportMetrics
+} from './viewport/responsiveViewportManager';
 
 export function computeArenaCameraOffset(
   world: BattleWorldState,
   alpha: number,
   settings: RenderAccessibilitySettings,
-  cameraTargetIndex: 'ALL' | 0 | 1 | 2 | 3 = 'ALL'
+  cameraTargetIndex: 'ALL' | 0 | 1 | 2 | 3 = 'ALL',
+  viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS
 ): Vec2 {
+  const viewW = viewport.viewWidth;
+  const viewH = viewport.viewHeight;
   const onField = world.units.filter((u) => u.isOnField && u.isAlive);
   let focusX = world.arenaWidth * 0.5;
   let focusY = world.arenaHeight * 0.5;
@@ -36,19 +44,19 @@ export function computeArenaCameraOffset(
     focusY = sy / onField.length;
   }
 
-  let camX = LOGICAL_WIDTH * 0.5 - focusX;
-  let camY = LOGICAL_HEIGHT * 0.5 - focusY;
+  let camX = viewW * 0.5 - focusX;
+  let camY = viewH * 0.5 - focusY;
 
-  if (world.arenaWidth <= LOGICAL_WIDTH) {
-    camX = (LOGICAL_WIDTH - world.arenaWidth) * 0.5;
+  if (world.arenaWidth <= viewW) {
+    camX = (viewW - world.arenaWidth) * 0.5;
   } else {
-    camX = clamp(camX, LOGICAL_WIDTH - world.arenaWidth - 24, 24);
+    camX = clamp(camX, viewW - world.arenaWidth - 24, 24);
   }
 
-  if (world.arenaHeight <= LOGICAL_HEIGHT - 120) {
-    camY = (LOGICAL_HEIGHT - world.arenaHeight) * 0.5 - 8;
+  if (world.arenaHeight <= viewH - 120) {
+    camY = (viewH - world.arenaHeight) * 0.5 - 8;
   } else {
-    camY = clamp(camY, LOGICAL_HEIGHT - world.arenaHeight - 76, 56);
+    camY = clamp(camY, viewH - world.arenaHeight - 76, 56);
   }
 
   if (world.screenShakeTimer > 0 && settings.shakeIntensity > 0) {
@@ -159,13 +167,57 @@ export function renderBattleArena(
   assets: AssetLoader,
   alpha: number,
   settings: RenderAccessibilitySettings,
-  cameraTargetIndex: 'ALL' | 0 | 1 | 2 | 3 = 'ALL'
+  cameraTargetIndex: 'ALL' | 0 | 1 | 2 | 3 = 'ALL',
+  viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS
 ): void {
+  const viewW = viewport.viewWidth;
+  const viewH = viewport.viewHeight;
   ctx.imageSmoothingEnabled = false;
-  ctx.fillStyle = '#090d16';
-  ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
 
-  const cam = computeArenaCameraOffset(world, alpha, settings, cameraTargetIndex);
+  const arenaBiomeKey = world.impelDownHazard.active
+    ? 'IMPEL_DOWN'
+    : world.colosseumRingOut.active
+      ? 'COLOSSEUM'
+      : world.raidState.active
+        ? world.raidState.raidId === 'raid_loki_ragnir'
+          ? 'ELBAF'
+          : world.raidState.raidId === 'raid_saturn_abyss'
+            ? 'LAB'
+            : 'COOP_RAID'
+        : world.persistentZones.iceActive
+          ? 'ICE'
+          : world.persistentZones.magmaActive
+            ? 'MAGMA'
+            : 'DEFAULT';
+  const arenaBiome = resolveBiomeForArena(arenaBiomeKey, assets.manifestRegistry);
+
+  // Extended full-bleed outer backdrop for 19.5:9 / ultra-wide displays (no black bars!)
+  ctx.fillStyle = arenaBiome.palette.wall;
+  ctx.fillRect(0, 0, viewW, viewH);
+  assets.tilemapRenderer.renderBiomeBackdrop(
+    ctx,
+    `arena_outer_${arenaBiomeKey}_${viewW}x${viewH}`,
+    viewW,
+    viewH,
+    0,
+    0,
+    viewW,
+    viewH,
+    arenaBiome,
+    assets,
+    world.tick
+  );
+  // Subtle ambient vignette over outer side extensions so the deterministic combat arena pops cleanly
+  ctx.fillStyle = 'rgba(7, 11, 18, 0.42)';
+  ctx.fillRect(0, 0, viewW, viewH);
+
+  const cam = computeArenaCameraOffset(
+    world,
+    alpha,
+    settings,
+    cameraTargetIndex,
+    viewport
+  );
   const hasGiantBossOnField = world.units.some(
     (u) => u.isOnField && u.isAlive && u.entityScale >= 1.6
   );
@@ -173,26 +225,31 @@ export function renderBattleArena(
 
   ctx.save();
   if (zoomScale !== 1.0) {
-    ctx.translate(LOGICAL_WIDTH * 0.5, LOGICAL_HEIGHT * 0.5);
+    ctx.translate(viewW * 0.5, viewH * 0.5);
     ctx.scale(zoomScale, zoomScale);
-    ctx.translate(-LOGICAL_WIDTH * 0.5, -LOGICAL_HEIGHT * 0.5);
+    ctx.translate(-viewW * 0.5, -viewH * 0.5);
   }
   ctx.translate(cam.x, cam.y);
 
-  // 1. Tilemap arena floor
-  const tile = assets.getOrCreateArenaTile('default');
-  if (tile) {
-    for (let y = 0; y < world.arenaHeight; y += 32) {
-      for (let x = 0; x < world.arenaWidth; x += 32) {
-        const w = Math.min(32, world.arenaWidth - x);
-        const h = Math.min(32, world.arenaHeight - y);
-        ctx.drawImage(tile, 0, 0, w, h, x, y, w, h);
-      }
-    }
-  } else {
-    ctx.fillStyle = '#111827';
-    ctx.fillRect(0, 0, world.arenaWidth, world.arenaHeight);
-  }
+  // 1. Chunk-cached Biome Tilemap Arena Floor (deterministic core arena bounds)
+  assets.tilemapRenderer.renderBiomeBackdrop(
+    ctx,
+    `arena_${arenaBiomeKey}_${world.arenaWidth}x${world.arenaHeight}`,
+    world.arenaWidth,
+    world.arenaHeight,
+    Math.max(0, -cam.x - 64),
+    Math.max(0, -cam.y - 64),
+    viewW + 128,
+    viewH + 128,
+    arenaBiome,
+    assets,
+    world.tick
+  );
+
+  // Crisp subtle boundary line marking the deterministic 960x540 combat arena edges on wide screens
+  ctx.strokeStyle = 'rgba(250, 204, 21, 0.35)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(1, 1, world.arenaWidth - 2, world.arenaHeight - 2);
 
   // Type C Environment Awakening Arena Overlay
   if (world.environmentField.kind !== 'NONE' && world.environmentField.remainingSec > 0) {
@@ -330,6 +387,211 @@ export function renderBattleArena(
       ctx.fillStyle = 'rgba(192, 132, 252, 0.09)';
     }
     ctx.fillRect(0, 0, world.arenaWidth, world.arenaHeight);
+  }
+
+  // Stage 3: Corrida Colosseum Circular Water Moat Ring-Out Boundary
+  if (world.colosseumRingOut.active) {
+    const ro = world.colosseumRingOut;
+    ctx.save();
+    ctx.fillStyle = 'rgba(14, 165, 233, 0.24)';
+    ctx.beginPath();
+    ctx.rect(0, 0, world.arenaWidth, world.arenaHeight);
+    ctx.arc(ro.center.x, ro.center.y, ro.safeRadiusPx, 0, Math.PI * 2, true);
+    ctx.fill();
+
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 3.5;
+    ctx.setLineDash([10, 6]);
+    ctx.beginPath();
+    ctx.arc(ro.center.x, ro.center.y, ro.safeRadiusPx, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
+
+  // Stage 3: Impel Down Floor 1 Crimson Slash Trap Telegraph
+  if (world.impelDownHazard.active && world.impelDownHazard.pendingTrapPos) {
+    const tp = world.impelDownHazard.pendingTrapPos;
+    const prog = Math.max(0, Math.min(1, 1 - world.impelDownHazard.pendingTrapTelegraphTimer / 1.1));
+    ctx.save();
+    ctx.fillStyle = 'rgba(244, 63, 94, 0.22)';
+    ctx.beginPath();
+    ctx.arc(tp.x, tp.y, 68, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(244, 63, 94, 0.38)';
+    ctx.beginPath();
+    ctx.arc(tp.x, tp.y, 68 * prog, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#f43f5e';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.arc(tp.x, tp.y, 68, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // Stage 3: Magellan Venom Demon Aura Ring
+  for (const u of world.units) {
+    if (!u.isAlive || !u.isOnField || !u.venomDemonActive) continue;
+    const venomSpec = registry.traits[u.traitId]?.venomDemonPassive;
+    const auraR = venomSpec?.auraRadiusPx ?? 155;
+    const pulse = 0.85 + Math.sin(world.tick * 0.2) * 0.15;
+    ctx.save();
+    ctx.fillStyle = 'rgba(185, 28, 28, 0.18)';
+    ctx.beginPath();
+    ctx.arc(u.pos.x, u.pos.y, auraR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = `rgba(239, 68, 68, ${pulse.toFixed(2)})`;
+    ctx.lineWidth = 3;
+    ctx.setLineDash([8, 5]);
+    ctx.beginPath();
+    ctx.arc(u.pos.x, u.pos.y, auraR, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
+
+  // Stage 3 Step 2: Giant Boss Raid Floor Telegraphs (1.2~1.8s crimson warning + charge gauge)
+  if (world.raidState.active) {
+    for (const tele of world.raidState.telegraphs) {
+      const prog = Math.max(0, Math.min(1, tele.elapsedSec / Math.max(0.1, tele.durationSec)));
+      ctx.save();
+      if (tele.shape === 'CIRCLE') {
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.22)';
+        ctx.beginPath();
+        ctx.arc(tele.origin.x, tele.origin.y, tele.radiusPx, 0, Math.PI * 2);
+        ctx.fill();
+        // Expanding inner charge fill
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.42)';
+        ctx.beginPath();
+        ctx.arc(tele.origin.x, tele.origin.y, tele.radiusPx * prog, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.arc(tele.origin.x, tele.origin.y, tele.radiusPx, 0, Math.PI * 2);
+        ctx.stroke();
+      } else if (tele.shape === 'SAFE_ZONE') {
+        // Red danger across entire arena EXCEPT green safe zone circle
+        ctx.fillStyle = `rgba(220, 38, 38, ${(0.18 + prog * 0.24).toFixed(2)})`;
+        ctx.beginPath();
+        ctx.rect(0, 0, world.arenaWidth, world.arenaHeight);
+        ctx.arc(tele.origin.x, tele.origin.y, tele.radiusPx, 0, Math.PI * 2, true);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(34, 197, 94, 0.2)';
+        ctx.beginPath();
+        ctx.arc(tele.origin.x, tele.origin.y, tele.radiusPx, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#4ade80';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(tele.origin.x, tele.origin.y, tele.radiusPx, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.font = 'bold 11px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#86efac';
+        ctx.fillText(
+          `🛡 SAFE ZONE (${Math.max(0, tele.durationSec - tele.elapsedSec).toFixed(1)}s)`,
+          tele.origin.x,
+          tele.origin.y + 4
+        );
+      } else if (tele.shape === 'CONE') {
+        const baseAngle = Math.atan2(tele.dir.y, tele.dir.x);
+        const halfRad = ((tele.arcDeg * Math.PI) / 180) * 0.5;
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.22)';
+        ctx.beginPath();
+        ctx.moveTo(tele.origin.x, tele.origin.y);
+        ctx.arc(tele.origin.x, tele.origin.y, tele.radiusPx, baseAngle - halfRad, baseAngle + halfRad);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.42)';
+        ctx.beginPath();
+        ctx.moveTo(tele.origin.x, tele.origin.y);
+        ctx.arc(tele.origin.x, tele.origin.y, tele.radiusPx * prog, baseAngle - halfRad, baseAngle + halfRad);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+      } else if (tele.shape === 'CROSS_BEAM') {
+        const halfW = tele.widthPx * 0.5;
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.22)';
+        ctx.fillRect(0, tele.origin.y - halfW, world.arenaWidth, tele.widthPx);
+        ctx.fillRect(tele.origin.x - halfW, 0, tele.widthPx, world.arenaHeight);
+        // Inner charge fill along cross
+        const innerW = tele.widthPx * prog;
+        ctx.fillStyle = 'rgba(248, 113, 113, 0.42)';
+        ctx.fillRect(0, tele.origin.y - innerW * 0.5, world.arenaWidth, innerW);
+        ctx.fillRect(tele.origin.x - innerW * 0.5, 0, innerW, world.arenaHeight);
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(0, tele.origin.y - halfW, world.arenaWidth, tele.widthPx);
+        ctx.strokeRect(tele.origin.x - halfW, 0, tele.widthPx, world.arenaHeight);
+      }
+
+      if (tele.shape !== 'SAFE_ZONE') {
+        ctx.font = 'bold 10px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#fecaca';
+        ctx.fillText(
+          `⚠ ${tele.name} (${Math.max(0, tele.durationSec - tele.elapsedSec).toFixed(1)}s)`,
+          tele.origin.x,
+          Math.max(22, tele.origin.y - 12)
+        );
+      }
+      ctx.restore();
+    }
+
+    // Render Downed Rescue Ring & Boss DPS Shield Aura
+    for (const u of world.units) {
+      if (!u.isAlive || !u.isOnField) continue;
+      if (u.isDowned) {
+        ctx.save();
+        ctx.strokeStyle = '#f43f5e';
+        ctx.lineWidth = 2.5;
+        ctx.setLineDash([6, 4]);
+        ctx.beginPath();
+        ctx.arc(u.pos.x, u.pos.y, 78, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        const revPct = Math.min(1, u.reviveProgressSec / 2.0);
+        if (revPct > 0) {
+          ctx.strokeStyle = '#4ade80';
+          ctx.lineWidth = 5;
+          ctx.beginPath();
+          ctx.arc(u.pos.x, u.pos.y, u.radiusPx + 14, -Math.PI * 0.5, -Math.PI * 0.5 + Math.PI * 2 * revPct);
+          ctx.stroke();
+        }
+        ctx.font = 'bold 10px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#fda4af';
+        ctx.fillText(
+          `🆘 DOWN (${u.downedTimer.toFixed(1)}s)`,
+          u.pos.x,
+          u.pos.y - u.radiusPx - 14
+        );
+        ctx.restore();
+      } else if (
+        world.raidState.bossUnitId === u.instanceId &&
+        world.raidState.dpsCheck.active
+      ) {
+        ctx.save();
+        ctx.fillStyle = 'rgba(249, 115, 22, 0.16)';
+        ctx.beginPath();
+        ctx.arc(u.pos.x, u.pos.y, u.radiusPx + 24, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#fb923c';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(u.pos.x, u.pos.y, u.radiusPx + 24, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
   }
 
   // 2. Field zones (Water Terrain Pools, Poison Clouds, Hazard Zones & Law's ROOM Dome shields)
@@ -573,10 +835,10 @@ export function renderBattleArena(
     ctx.restore();
   }
 
-  // 6. On-field Units
+  // 6. On-field Units (including Raid Downed units so rescue ring & DOWNED sprite frame render)
   for (const unit of world.units) {
     if (!unit.isOnField || !unit.isAlive) continue;
-    renderUnitOnArena(ctx, unit, world, registry, assets, alpha);
+    renderUnitOnArena(ctx, unit, world, registry, assets, alpha, settings);
   }
 
   // 7. Active Clash Sparks (Beam vs Beam, Melee vs Beam Guard, Melee vs Melee + Conqueror Sky Split)
@@ -666,7 +928,7 @@ export function renderBattleArena(
     ctx.save();
     ctx.globalAlpha = Math.min(0.32, world.screenFlashTimer * 2);
     ctx.fillStyle = world.screenFlashColor;
-    ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
+    ctx.fillRect(0, 0, viewW, viewH);
     ctx.restore();
   }
 }
@@ -677,7 +939,8 @@ function renderUnitOnArena(
   world: BattleWorldState,
   registry: GameDataRegistry,
   assets: AssetLoader,
-  alpha: number
+  alpha: number,
+  settings: RenderAccessibilitySettings
 ): void {
   const pos = lerpVec(unit.prevPos, unit.pos, alpha);
   const unitDef = registry.units[unit.speciesId];
@@ -794,29 +1057,66 @@ function renderUnitOnArena(
     ctx.globalAlpha = 0.55;
   }
 
-  // Draw procedural pixel sprite for character & current stance/form
+  // Draw animated multi-frame pixel sprite sheet with Armament blackening, 80ms white flash, afterimages & Logia dispersion
   if (unitDef) {
-    const sprite = assets.getOrCreateUnitSprite(
+    const formDef = unit.activeFormId ? registry.forms[unit.activeFormId] ?? null : null;
+    const { entry: sheetEntry, sheet } = assets.getOrCreateUnitSpriteSheet(
       unitDef,
-      unit.currentStanceRole,
-      unit.activeFormId
+      unit.activeFormId,
+      formDef
     );
-    if (sprite) {
-      const size = Math.round(32 * unit.visualScale);
-      ctx.save();
-      ctx.translate(Math.round(pos.x), Math.round(pos.y));
-      if (unit.aimDir.x < 0) {
-        ctx.scale(-1, 1);
-      }
-      if (unit.baraSplitTimer > 0) {
-        // Buggy Bara-Bara upper/lower body split animation!
+    const animRes = assets.spriteController.syncAndStepUnit(
+      unit,
+      world,
+      registry,
+      assets.manifestRegistry,
+      FIXED_DT
+    );
+
+    if (unit.baraSplitTimer > 0) {
+      const sprite = assets.getOrCreateUnitSprite(
+        unitDef,
+        unit.currentStanceRole,
+        unit.activeFormId
+      );
+      if (sprite) {
+        const size = Math.round(32 * unit.visualScale);
+        ctx.save();
+        ctx.translate(Math.round(pos.x), Math.round(pos.y));
+        if (animRes.visual.facingX < 0) ctx.scale(-1, 1);
         const splitGap = Math.round(Math.sin((unit.baraSplitTimer / 0.48) * Math.PI) * 14);
         ctx.drawImage(sprite, 0, 0, 32, 16, -size * 0.5, -size * 0.5 - splitGap, size, size * 0.5);
         ctx.drawImage(sprite, 0, 16, 32, 16, -size * 0.5, splitGap * 0.5, size, size * 0.5);
-      } else {
-        ctx.drawImage(sprite, -size * 0.5, -size * 0.5, size, size);
+        ctx.restore();
       }
-      ctx.restore();
+    } else if (sheet) {
+      // Normalize draw scale so 32px/48px/96px sheets map cleanly onto entityScale * visualScale
+      const targetPixelHeight = 42 * unit.entityScale * unit.visualScale;
+      const drawScale = Math.max(0.75, targetPixelHeight / sheetEntry.frameHeight);
+      const footPos = {
+        x: pos.x,
+        y: pos.y + Math.round(unit.radiusPx * 0.65)
+      };
+
+      assets.spriteController.drawAnimatedUnitFrame(
+        ctx,
+        sheet,
+        sheetEntry,
+        animRes.step.row,
+        animRes.step.frameIndex,
+        footPos,
+        animRes.visual.facingX,
+        drawScale,
+        {
+          hitFlashActive: animRes.step.hitFlashActive,
+          flashEffectEnabled: settings.flashEffectEnabled,
+          hasArmamentActive: animRes.hasArmamentActive,
+          logiaDispersionTimer: unit.logiaDispersionTimer,
+          elementColor: elemColor,
+          afterimages: animRes.visual.afterimages,
+          tick: world.tick
+        }
+      );
     }
   }
 

@@ -19,7 +19,7 @@ function collectTsFiles(dir: string): string[] {
 
 describe('Pure Simulation Core Architecture Audit', () => {
   it('exposes deterministic BATTLE_CALC_VERSION and FIXED_DT = 1/60', () => {
-    expect(BATTLE_CALC_VERSION).toBe('0.5.0');
+    expect(BATTLE_CALC_VERSION).toBe('0.6.0');
     expect(FIXED_DT).toBeCloseTo(1 / 60, 8);
   });
 

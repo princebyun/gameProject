@@ -1,5 +1,10 @@
 import { BATTLE_CALC_VERSION } from '../src/core/constants';
+import {
+  buildRaidBossUnitBuild,
+  buildRaidConfigFromDef
+} from '../src/core/endgame/raid';
 import { SeededPRNG } from '../src/core/math/prng';
+import { defaultEndgameRegistry } from '../src/data/endgame/endgameRegistry';
 import {
   generateRoomCode,
   MAX_SPECTATORS_PER_ROOM,
@@ -30,7 +35,8 @@ interface RoomInternalState {
   roomCode: string;
   hostClientId: string;
   battleCalcVersion: string;
-  mode: '1V1' | '2V2';
+  mode: '1V1' | '2V2' | 'COOP_RAID';
+  raidId?: string;
   partyRule: PartyRuleMode;
   arenaSizeKey: 'small' | 'medium' | 'large';
   awakeningAllowed: boolean;
@@ -77,6 +83,7 @@ export class AuthoritativeRoomCoordinator {
       hostClientId: room.hostClientId,
       battleCalcVersion: room.battleCalcVersion,
       mode: room.mode,
+      raidId: room.raidId,
       partyRule: room.partyRule,
       arenaSizeKey: room.arenaSizeKey,
       awakeningAllowed: room.awakeningAllowed,
@@ -205,11 +212,18 @@ export class AuthoritativeRoomCoordinator {
         roomCode = generateRoomCode((max) => this.prng.nextInt(0, max - 1));
       }
 
-      const totalSlots = msg.mode === '2V2' ? 4 : 2;
+      const isCoopRaid = msg.mode === 'COOP_RAID';
+      const resolvedRaidId = isCoopRaid
+        ? msg.raidId && defaultEndgameRegistry.raids[msg.raidId]
+          ? msg.raidId
+          : 'raid_kaido_flame'
+        : undefined;
+      const totalSlots = isCoopRaid ? 3 : msg.mode === '2V2' ? 4 : 2;
       const slots: RoomCombatSlotInfo[] = [];
       for (let i = 0; i < totalSlots; i++) {
-        const team =
-          msg.mode === '2V2'
+        const team: 'ALPHA' | 'OMEGA' = isCoopRaid
+          ? 'ALPHA'
+          : msg.mode === '2V2'
             ? i < 2
               ? 'ALPHA'
               : 'OMEGA'
@@ -237,7 +251,15 @@ export class AuthoritativeRoomCoordinator {
             playerName: '빈 슬롯 (Open)',
             ready: false,
             aiLevel: 4,
-            speciesId: i === 1 ? 'zoro' : i === 2 ? 'kaido' : 'kizaru',
+            speciesId: isCoopRaid
+              ? i === 1
+                ? 'zoro'
+                : 'sanji'
+              : i === 1
+                ? 'zoro'
+                : i === 2
+                  ? 'kaido'
+                  : 'kizaru',
             pingMs: 0
           });
         }
@@ -248,8 +270,9 @@ export class AuthoritativeRoomCoordinator {
         hostClientId: clientId,
         battleCalcVersion: this.serverVersion,
         mode: msg.mode,
+        raidId: resolvedRaidId,
         partyRule: msg.partyRule,
-        arenaSizeKey: msg.arenaSizeKey,
+        arenaSizeKey: isCoopRaid ? 'large' : msg.arenaSizeKey,
         awakeningAllowed: msg.awakeningAllowed,
         status: 'LOBBY',
         slots,
@@ -347,9 +370,13 @@ export class AuthoritativeRoomCoordinator {
         return;
       }
 
-      // Prefer assigning opposing OMEGA lead slot first so 2 humans face each other
+      // Prefer assigning opposing OMEGA lead slot in PvP; sequential ALPHA slots in COOP_RAID
       const preferredOrder =
-        room.mode === '2V2' ? [2, 1, 3, 0] : [1, 0];
+        room.mode === 'COOP_RAID'
+          ? [1, 2, 0]
+          : room.mode === '2V2'
+            ? [2, 1, 3, 0]
+            : [1, 0];
       let targetSlot: RoomCombatSlotInfo | undefined;
       for (const idx of preferredOrder) {
         if (room.slots[idx] && room.slots[idx].occupantType === 'EMPTY') {
@@ -492,6 +519,16 @@ export class AuthoritativeRoomCoordinator {
         }
       }
 
+      let raidConfig: BattleWorldConfig['raidConfig'] = undefined;
+      if (room.mode === 'COOP_RAID') {
+        const raidDef =
+          defaultEndgameRegistry.raids[room.raidId ?? 'raid_kaido_flame'] ??
+          Object.values(defaultEndgameRegistry.raids)[0];
+        teamOmega.length = 0;
+        teamOmega.push(buildRaidBossUnitBuild(raidDef, this.gameRegistry));
+        raidConfig = buildRaidConfigFromDef(raidDef);
+      }
+
       room.status = 'IN_MATCH';
       room.humanSlotIndices = humanSlotIndices;
       room.tickInputs.clear();
@@ -499,10 +536,11 @@ export class AuthoritativeRoomCoordinator {
 
       const battleConfig: BattleWorldConfig = {
         seed: room.matchSeed,
-        arenaSizeKey: room.arenaSizeKey,
+        arenaSizeKey: room.mode === 'COOP_RAID' ? 'large' : room.arenaSizeKey,
         mode: room.mode,
         teamAlpha,
-        teamOmega
+        teamOmega,
+        raidConfig
       };
 
       this.broadcastToRoom(room, {

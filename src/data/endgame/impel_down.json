@@ -1,0 +1,256 @@
+{
+  "unlockEpisodeId": "ep_marineford",
+  "maxPartySize": 3,
+  "allowBagRecoveryItems": false,
+  "eliteBossPool": [
+    "crocodile",
+    "doflamingo",
+    "blackbeard",
+    "katakuri",
+    "enel",
+    "moria",
+    "aokiji",
+    "akainu",
+    "king"
+  ],
+  "floors": [
+    {
+      "floor": 1,
+      "name": "Level 1 홍련지옥",
+      "subtitle": "바늘산과 칼날 풀의 피빛 감옥",
+      "hazardKind": "CRIMSON_SLASH_TRAP",
+      "hazardDescription": "주기적으로 바닥에 SLASH 칼날 함정이 예고 후 폭발합니다.",
+      "arenaSizeKey": "medium",
+      "aiLevel": 2,
+      "waves": [
+        {
+          "waveName": "홍련지옥 탈옥수 & 해군 경비대",
+          "enemyUnitIds": ["buggy", "morgan"],
+          "introText": "LEVEL 1 홍련지옥 — 광대 버기와 해군 정예 경비대가 길을 막아선다!"
+        }
+      ],
+      "berryReward": 18000,
+      "trainingPointReward": 20
+    },
+    {
+      "floor": 2,
+      "name": "Level 2 맹수지옥",
+      "subtitle": "만티코라와 스핑크스의 포효",
+      "hazardKind": "BEAST_SWARM",
+      "hazardDescription": "고속 돌진형 야수·소환수 웨이브가 연달아 덮쳐옵니다.",
+      "arenaSizeKey": "medium",
+      "aiLevel": 3,
+      "waves": [
+        {
+          "waveName": "맹수지옥 선봉 야수대",
+          "enemyUnitIds": ["arlong", "doppelman"],
+          "introText": "LEVEL 2 맹수지옥 — 고속 야수와 그림자 분신이 사방에서 몰려온다!"
+        },
+        {
+          "waveName": "옥졸수 기습 웨이브",
+          "enemyUnitIds": ["lucci", "wapol"],
+          "introText": "WAVE 2/2 — 흉포한 옥졸수 맹수 군단이 돌진해 온다!"
+        }
+      ],
+      "berryReward": 26000,
+      "trainingPointReward": 28
+    },
+    {
+      "floor": 3,
+      "name": "Level 3 기아지옥",
+      "subtitle": "타는 듯한 모래와 굶주림의 사막층",
+      "hazardKind": "STARVATION_DRAIN",
+      "hazardDescription": "극심한 갈증으로 아군 회피 충전 속도가 25% 저하됩니다.",
+      "arenaSizeKey": "medium",
+      "aiLevel": 3,
+      "waves": [
+        {
+          "waveName": "기아지옥 간수장 중보스전",
+          "enemyUnitIds": ["blueno", "kaku"],
+          "introText": "LEVEL 3 기아지옥 — 회피 충전이 둔화된 사막 감옥에서 중보스와 격돌!"
+        }
+      ],
+      "berryReward": 36000,
+      "trainingPointReward": 36
+    },
+    {
+      "floor": 4,
+      "name": "Level 4 초열지옥",
+      "subtitle": "끓어오르는 피의 연못 · 서장 마젤란 강림",
+      "hazardKind": "BLAZING_MAGMA",
+      "hazardDescription": "지속 화염 장판(경량 MAGMA)이 전개되며 서장 마젤란이 직접 출격합니다.",
+      "arenaSizeKey": "large",
+      "aiLevel": 4,
+      "waves": [
+        {
+          "waveName": "임펠 다운 서장 마젤란 (베놈 데몬)",
+          "enemyUnitIds": ["magellan"],
+          "introText": "LEVEL 4 초열지옥 — 서장 마젤란: 지옥의 심판 [베놈 데몬]을 맛보아라!!"
+        }
+      ],
+      "berryReward": 55000,
+      "trainingPointReward": 50
+    },
+    {
+      "floor": 5,
+      "name": "Level 5 극한지옥",
+      "subtitle": "영하의 설원과 동상의 숲",
+      "hazardKind": "FREEZING_ICE",
+      "hazardDescription": "빙결 미끄러짐 지대(ICE)가 전개되며 고난도 간부진이 협공합니다.",
+      "arenaSizeKey": "large",
+      "aiLevel": 4,
+      "waves": [
+        {
+          "waveName": "극한지옥 정예 간부전",
+          "enemyUnitIds": ["smoker", "hody_jones"],
+          "introText": "LEVEL 5 극한지옥 — 얼어붙은 설원 위에서 고난도 간부진이 포위해 온다!"
+        }
+      ],
+      "berryReward": 72000,
+      "trainingPointReward": 65
+    },
+    {
+      "floor": 6,
+      "name": "Level 6 무한지옥",
+      "subtitle": "역사에서 지워진 전설의 흉악범들",
+      "hazardKind": "ETERNAL_ELITE_GAUNTLET",
+      "hazardDescription": "시드 기반으로 추첨된 최상위 엘리트 보스 2연전이 펼쳐집니다.",
+      "arenaSizeKey": "large",
+      "aiLevel": 5,
+      "useSeededEliteGauntlet": true,
+      "waves": [],
+      "berryReward": 120000,
+      "trainingPointReward": 110
+    }
+  ],
+  "buffs": [
+    {
+      "id": "buff_ivankov_healing_hormone",
+      "name": "이반코프의 치유 호르몬",
+      "rarity": "RARE",
+      "icon": "💉",
+      "description": "즉시 생존 파티 전원의 HP를 40% 회복하고 스킬 충전량(PP)을 35% 복구합니다.",
+      "effect": { "healPartyHpRatio": 0.4, "restorePpRatio": 0.35 }
+    },
+    {
+      "id": "buff_seastone_shatter",
+      "name": "해루석 파쇄",
+      "rarity": "RARE",
+      "icon": "⛓️",
+      "description": "모든 공격이 적의 방어력/특수방어를 20% 관통합니다.",
+      "effect": { "armorPenRatio": 0.2 }
+    },
+    {
+      "id": "buff_antibody_formation",
+      "name": "항체 형성",
+      "rarity": "RARE",
+      "icon": "🛡️",
+      "description": "층 환경 지형 피해 및 마젤란 맹독 중첩 피해를 60% 경감합니다.",
+      "effect": { "hazardAndPoisonResistRatio": 0.6 }
+    },
+    {
+      "id": "buff_haki_amplification",
+      "name": "패기 증폭",
+      "rarity": "RARE",
+      "icon": "⚡",
+      "description": "모든 스킬 쿨타임과 충전 회복 시간이 15% 단축됩니다.",
+      "effect": { "cooldownReductionRatio": 0.15 }
+    },
+    {
+      "id": "buff_reserve_awakening",
+      "name": "예비 각성",
+      "rarity": "LEGENDARY",
+      "icon": "🔥",
+      "description": "다음 층 전투 시작 시 각성 게이지 50%(100% 도달 시 자동 각성)를 충전합니다.",
+      "effect": { "startAwakeningGaugeRatio": 0.5 }
+    },
+    {
+      "id": "buff_okama_vigor_hormone",
+      "name": "뉴하프 텐션 호르몬",
+      "rarity": "COMMON",
+      "icon": "💪",
+      "description": "파티 전원의 공격력·특수공격력이 14% 상승하고 이동 속도가 10% 빨라집니다.",
+      "effect": { "atkMult": 1.14, "spdMult": 1.1 }
+    },
+    {
+      "id": "buff_bon_clay_friendship",
+      "name": "봉쿠레의 우정 맹세",
+      "rarity": "RARE",
+      "icon": "🦢",
+      "description": "즉시 생존 파티 HP 25% 회복 및 최대 HP +15% 영구 증가.",
+      "effect": { "healPartyHpRatio": 0.25, "maxHpMult": 1.15 }
+    },
+    {
+      "id": "buff_jinbe_water_focus",
+      "name": "어인 공수도 호흡법",
+      "rarity": "COMMON",
+      "icon": "🌊",
+      "description": "회피 충전 속도가 25% 증가하고 스킬 충전량을 50% 복구합니다.",
+      "effect": { "dodgeRechargeBonus": 0.25, "restorePpRatio": 0.5 }
+    },
+    {
+      "id": "buff_crocodile_desert_fang",
+      "name": "사막의 송곳니",
+      "rarity": "COMMON",
+      "icon": "🏜️",
+      "description": "공격력 +12% 및 방어 관통 +10%를 부여합니다.",
+      "effect": { "atkMult": 1.12, "armorPenRatio": 0.1 }
+    },
+    {
+      "id": "buff_mr3_wax_armor",
+      "name": "미스터 3 캔들 아머",
+      "rarity": "COMMON",
+      "icon": "🕯️",
+      "description": "지형·독 피해 35% 경감 및 최대 HP +12% 증가.",
+      "effect": { "hazardAndPoisonResistRatio": 0.35, "maxHpMult": 1.12 }
+    },
+    {
+      "id": "buff_newkama_banquet",
+      "name": "뉴카마 랜드 연회",
+      "rarity": "LEGENDARY",
+      "icon": "🍖",
+      "description": "생존 파티 HP 60% 대폭 회복 및 모든 스킬 충전량(PP) 100% 완전 복구!",
+      "effect": { "healPartyHpRatio": 0.6, "restorePpRatio": 1.0 }
+    },
+    {
+      "id": "buff_prison_break_momentum",
+      "name": "대탈옥의 기세",
+      "rarity": "COMMON",
+      "icon": "💨",
+      "description": "이동 속도 +16% 및 회피 충전 속도 +20% 증가.",
+      "effect": { "spdMult": 1.16, "dodgeRechargeBonus": 0.2 }
+    },
+    {
+      "id": "buff_warden_key_mastery",
+      "name": "마스터 열쇠 탈취",
+      "rarity": "RARE",
+      "icon": "🗝️",
+      "description": "스킬 쿨타임 -12%, 방어 관통 +15%, 각성 게이지 +25%.",
+      "effect": { "cooldownReductionRatio": 0.12, "armorPenRatio": 0.15, "startAwakeningGaugeRatio": 0.25 }
+    },
+    {
+      "id": "buff_conqueror_will",
+      "name": "패왕의 의지",
+      "rarity": "LEGENDARY",
+      "icon": "👑",
+      "description": "파티 전원 공격력 +22%, 방어 관통 +15% 강화.",
+      "effect": { "atkMult": 1.22, "armorPenRatio": 0.15 }
+    },
+    {
+      "id": "buff_antidote_serum",
+      "name": "임펠 다운 특제 해독제",
+      "rarity": "COMMON",
+      "icon": "🧪",
+      "description": "즉시 HP 30% 회복 및 독·지형 피해 45% 경감.",
+      "effect": { "healPartyHpRatio": 0.3, "hazardAndPoisonResistRatio": 0.45 }
+    },
+    {
+      "id": "buff_hell_survivor",
+      "name": "지옥의 생존자",
+      "rarity": "RARE",
+      "icon": "🔱",
+      "description": "최대 HP +18%, 쿨타임 -10%, 회피 충전 +15%.",
+      "effect": { "maxHpMult": 1.18, "cooldownReductionRatio": 0.1, "dodgeRechargeBonus": 0.15 }
+    }
+  ]
+}

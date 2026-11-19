@@ -1,4 +1,6 @@
 import { BATTLE_CALC_VERSION } from '../constants';
+import { suspendCloneRun } from '../endgame/impelDown';
+import { createDefaultEndgameState } from '../endgame/types';
 import { createInitialCampaignState } from '../rpg/campaignState';
 import { syncShipHullStatsWithRoles } from '../rpg/crewAndBountyEngine';
 import type { IslandExplorationRuntime } from '../rpg/episodeEngine';
@@ -105,8 +107,11 @@ export function serializeCampaignToSaveEnvelope(
     const unitDef = gameRegistry.units[uid];
     if (!unitDef) continue;
 
+    const equippedMoves = [
+      ...(state.unitEquippedMovesOverrides?.[uid] ?? unitDef.defaultMoves).slice(0, 4)
+    ];
     const movePpMap: Record<string, number> = {};
-    for (const mId of unitDef.defaultMoves) {
+    for (const mId of equippedMoves) {
       const mDef = gameRegistry.moves[mId];
       if (mDef) {
         movePpMap[mId] = mDef.maxCharges;
@@ -130,7 +135,7 @@ export function serializeCampaignToSaveEnvelope(
       exp: (state.unitLevelOverrides[uid] ?? 50) * 1000,
       currentHp: unitDef.baseStats.hp,
       movePpMap,
-      equippedMoveIds: [...unitDef.defaultMoves],
+      equippedMoveIds: equippedMoves,
       unlockedFormIds: safeUnlocked,
       haki: state.unitHakiOverrides[uid]
         ? { ...state.unitHakiOverrides[uid] }
@@ -236,6 +241,31 @@ export function serializeCampaignToSaveEnvelope(
       bgmVolume: settings.bgmVolume,
       sfxVolume: settings.sfxVolume,
       keyBindings: { ...settings.keyBindings }
+    },
+    endgame: {
+      impelDown: {
+        highestFloor: state.endgame?.impelDown?.highestFloor ?? 0,
+        activeRun: state.endgame?.impelDown?.activeRun
+          ? suspendCloneRun(state.endgame.impelDown.activeRun)
+          : null
+      },
+      colosseum: {
+        cp: state.endgame?.colosseum?.cp ?? 0,
+        clearedTiers: [...(state.endgame?.colosseum?.clearedTiers ?? [])],
+        tierWinCounts: { ...(state.endgame?.colosseum?.tierWinCounts ?? {}) },
+        posterFrameTier: state.endgame?.colosseum?.posterFrameTier ?? 'default',
+        tutoredMovesMap: Object.fromEntries(
+          Object.entries(state.endgame?.colosseum?.tutoredMovesMap ?? {}).map(
+            ([k, v]) => [k, [...v]]
+          )
+        )
+      },
+      raids: {
+        clearedRaidIds: [...(state.endgame?.raids?.clearedRaidIds ?? [])],
+        bestClearTimeSecMap: { ...(state.endgame?.raids?.bestClearTimeSecMap ?? {}) },
+        unlockedRelicIds: [...(state.endgame?.raids?.unlockedRelicIds ?? [])],
+        equippedRelicMap: { ...(state.endgame?.raids?.equippedRelicMap ?? {}) }
+      }
     }
   };
 
@@ -357,7 +387,38 @@ export function deserializeSaveEnvelopeToCampaign(
     campaign.unitLevelOverrides[uid] = prog.level;
     campaign.unitHakiOverrides[uid] = { ...prog.haki };
     campaign.unitUnlockedForms[uid] = [...prog.unlockedFormIds];
+    if (prog.equippedMoveIds && prog.equippedMoveIds.length > 0) {
+      if (!campaign.unitEquippedMovesOverrides) {
+        campaign.unitEquippedMovesOverrides = {};
+      }
+      campaign.unitEquippedMovesOverrides[uid] = [...prog.equippedMoveIds.slice(0, 4)];
+    }
   }
+
+  const eg = envelope.payload.endgame ?? createDefaultEndgameState();
+  campaign.endgame = {
+    impelDown: {
+      highestFloor: eg.impelDown?.highestFloor ?? 0,
+      activeRun: eg.impelDown?.activeRun
+        ? suspendCloneRun(eg.impelDown.activeRun)
+        : null
+    },
+    colosseum: {
+      cp: eg.colosseum?.cp ?? 0,
+      clearedTiers: [...(eg.colosseum?.clearedTiers ?? [])],
+      tierWinCounts: { ...(eg.colosseum?.tierWinCounts ?? {}) },
+      posterFrameTier: eg.colosseum?.posterFrameTier ?? 'default',
+      tutoredMovesMap: Object.fromEntries(
+        Object.entries(eg.colosseum?.tutoredMovesMap ?? {}).map(([k, v]) => [k, [...v]])
+      )
+    },
+    raids: {
+      clearedRaidIds: [...(eg.raids?.clearedRaidIds ?? [])],
+      bestClearTimeSecMap: { ...(eg.raids?.bestClearTimeSecMap ?? {}) },
+      unlockedRelicIds: [...(eg.raids?.unlockedRelicIds ?? [])],
+      equippedRelicMap: { ...(eg.raids?.equippedRelicMap ?? {}) }
+    }
+  };
 
   campaign.berries = economy.berry;
   campaign.totalCrewBounty = economy.bounty;

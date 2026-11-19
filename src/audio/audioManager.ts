@@ -1,3 +1,14 @@
+import { ExternalAssetResolver } from '../assets/externalAssetResolver';
+import {
+  defaultAssetManifestRegistry,
+  type AssetManifestRegistry
+} from '../data/assets/assetManifestRegistry';
+import {
+  RetroAudioEngine,
+  type BattleBgmMood
+} from './retroAudioEngine';
+import type { SfxPlayResult, StandardSfxId } from './sfxManager';
+
 export type SfxKind =
   | 'CAST'
   | 'HIT'
@@ -6,110 +17,89 @@ export type SfxKind =
   | 'FORM_SHIFT'
   | 'UI_CLICK';
 
-export class AudioManager {
-  private ctx: AudioContext | null = null;
-  private muted: boolean = false;
-  private lastPlayMs = new Map<SfxKind, number>();
+const LEGACY_SFX_MAP: Record<SfxKind, StandardSfxId> = {
+  CAST: 'beam_fire',
+  HIT: 'blunt_hit',
+  CLASH: 'melee_clash_clang',
+  JUST_DODGE: 'just_dodge_chime',
+  FORM_SHIFT: 'transform_burst',
+  UI_CLICK: 'ui_confirm'
+};
 
-  private ensureContext(): AudioContext | null {
-    if (this.muted || typeof window === 'undefined') {
-      return null;
-    }
-    if (!this.ctx) {
-      const AudioCtx =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext?: typeof AudioContext })
-          .webkitAudioContext;
-      if (AudioCtx) {
-        try {
-          this.ctx = new AudioCtx();
-        } catch {
-          this.ctx = null;
-        }
-      }
-    }
-    if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume().catch(() => {});
-    }
-    return this.ctx;
+export class AudioManager {
+  public readonly engine: RetroAudioEngine;
+
+  constructor(
+    resolver: ExternalAssetResolver = new ExternalAssetResolver(),
+    manifestRegistry: AssetManifestRegistry = defaultAssetManifestRegistry
+  ) {
+    this.engine = new RetroAudioEngine(resolver, manifestRegistry);
+  }
+
+  public attachGestureUnlock(): void {
+    this.engine.attachGestureUnlock();
+  }
+
+  public unlock(): boolean {
+    return this.engine.unlock();
   }
 
   public setMuted(muted: boolean): void {
-    this.muted = muted;
+    this.engine.setMuted(muted);
   }
 
   public isMuted(): boolean {
-    return this.muted;
+    return this.engine.isMuted();
   }
 
-  public playSfx(kind: SfxKind): void {
-    const now = typeof performance !== 'undefined' ? performance.now() : Date.now();
-    const prev = this.lastPlayMs.get(kind) ?? 0;
-    if (now - prev < 55) {
-      return;
-    }
-    this.lastPlayMs.set(kind, now);
+  public setMasterVolume(vol: number): void {
+    this.engine.setMasterVolume(vol);
+  }
 
-    const ctx = this.ensureContext();
-    if (!ctx) return;
+  public setBgmVolume(vol: number): void {
+    this.engine.setBgmVolume(vol);
+  }
 
-    try {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
+  public setSfxVolume(vol: number): void {
+    this.engine.setSfxVolume(vol);
+  }
 
-      const t0 = ctx.currentTime;
-      if (kind === 'CAST') {
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(320, t0);
-        osc.frequency.exponentialRampToValueAtTime(580, t0 + 0.08);
-        gain.gain.setValueAtTime(0.06, t0);
-        gain.gain.exponentialRampToValueAtTime(0.001, t0 + 0.09);
-        osc.start(t0);
-        osc.stop(t0 + 0.09);
-      } else if (kind === 'HIT') {
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(190, t0);
-        osc.frequency.exponentialRampToValueAtTime(75, t0 + 0.07);
-        gain.gain.setValueAtTime(0.08, t0);
-        gain.gain.exponentialRampToValueAtTime(0.001, t0 + 0.08);
-        osc.start(t0);
-        osc.stop(t0 + 0.08);
-      } else if (kind === 'CLASH') {
-        osc.type = 'square';
-        osc.frequency.setValueAtTime(520, t0);
-        osc.frequency.exponentialRampToValueAtTime(880, t0 + 0.11);
-        gain.gain.setValueAtTime(0.08, t0);
-        gain.gain.exponentialRampToValueAtTime(0.001, t0 + 0.12);
-        osc.start(t0);
-        osc.stop(t0 + 0.12);
-      } else if (kind === 'JUST_DODGE') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(440, t0);
-        osc.frequency.exponentialRampToValueAtTime(960, t0 + 0.15);
-        gain.gain.setValueAtTime(0.09, t0);
-        gain.gain.exponentialRampToValueAtTime(0.001, t0 + 0.16);
-        osc.start(t0);
-        osc.stop(t0 + 0.16);
-      } else if (kind === 'FORM_SHIFT') {
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(220, t0);
-        osc.frequency.exponentialRampToValueAtTime(880, t0 + 0.25);
-        gain.gain.setValueAtTime(0.1, t0);
-        gain.gain.exponentialRampToValueAtTime(0.001, t0 + 0.26);
-        osc.start(t0);
-        osc.stop(t0 + 0.26);
-      } else {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(600, t0);
-        gain.gain.setValueAtTime(0.04, t0);
-        gain.gain.exponentialRampToValueAtTime(0.001, t0 + 0.04);
-        osc.start(t0);
-        osc.stop(t0 + 0.04);
-      }
-    } catch {
-      // Ignore audio synthesis restrictions prior to user gesture
-    }
+  public getVolumes(): { master: number; bgm: number; sfx: number; muted: boolean } {
+    return this.engine.getVolumes();
+  }
+
+  public async playBgm(
+    trackId: string,
+    options?: { forceRestart?: boolean; crossfadeSec?: number }
+  ): Promise<void> {
+    await this.engine.playBgm(trackId, options);
+  }
+
+  public async setBattleMood(mood: BattleBgmMood): Promise<void> {
+    await this.engine.setBattleMood(mood);
+  }
+
+  public setBreakFilterActive(active: boolean): void {
+    this.engine.setBreakFilterActive(active);
+  }
+
+  public stopBgm(fadeOutSec = 0.35): void {
+    this.engine.stopBgm(fadeOutSec);
+  }
+
+  public getCurrentBgmId(): string | null {
+    return this.engine.getCurrentBgmId();
+  }
+
+  public getCurrentBgmSource(): 'EXTERNAL_OGG' | 'CHIPTUNE_FALLBACK' {
+    return this.engine.getCurrentBgmSource();
+  }
+
+  public playSfx(kind: SfxKind): SfxPlayResult {
+    return this.engine.playSfxById(LEGACY_SFX_MAP[kind]);
+  }
+
+  public playSfxId(sfxId: StandardSfxId | string): SfxPlayResult {
+    return this.engine.playSfxById(sfxId);
   }
 }

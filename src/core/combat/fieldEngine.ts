@@ -137,7 +137,9 @@ export function stepFieldAndGlobalEffects(
         u.magmaBurnTickTimer += dt;
         if (u.magmaBurnTickTimer >= 1.0) {
           u.magmaBurnTickTimer -= 1.0;
-          const burnDmg = Math.max(5, Math.round(u.maxHp * 0.02));
+          const resist = Math.min(0.85, u.endgameHazardResistRatio ?? 0);
+          const rawBurn = u.maxHp * (world.impelDownHazard.active ? 0.015 : 0.02);
+          const burnDmg = Math.max(2, Math.round(rawBurn * (1 - resist)));
           u.hp = Math.max(0, u.hp - burnDmg);
           world.floatingTexts.push({
             id: `ft_magmaburn_${world.tick}_${u.instanceId}`,
@@ -204,7 +206,7 @@ export function stepFieldAndGlobalEffects(
             continue;
           }
           if (distVec(target.pos, zone.pos) <= zone.radiusPx + target.radiusPx) {
-            const { damage } = computeDamage(
+            const { damage: rawDamage } = computeDamage(
               zone.basePower,
               owner,
               target,
@@ -214,7 +216,15 @@ export function stepFieldAndGlobalEffects(
               registry,
               { moveId: zone.moveId, isBurstOrAoe: true }
             );
+            const resist = Math.min(0.85, target.endgameHazardResistRatio ?? 0);
+            const damage =
+              rawDamage > 0 ? Math.max(1, Math.round(rawDamage * (1 - resist))) : 0;
             target.hp = Math.max(0, target.hp - damage);
+            const zoneMove = registry.moves[zone.moveId];
+            if (zoneMove?.appliesVenomStacks && zoneMove.appliesVenomStacks > 0 && damage > 0) {
+              target.venomStacks = Math.min(10, target.venomStacks + zoneMove.appliesVenomStacks);
+              target.venomDecayTimer = 6.0;
+            }
             // Stage 2-C: AoE field hit breaks Katakuri's futureSightCounter focus!
             const tTrait = registry.traits[target.traitId];
             if (

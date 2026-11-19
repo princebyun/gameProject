@@ -1,3 +1,4 @@
+import { createDefaultEndgameState } from '../endgame/types';
 import type { GameDataRegistry, HakiLevels } from '../types/dataSchemas';
 import type {
   RpgCampaignState,
@@ -227,6 +228,7 @@ export function createInitialCampaignState(
     unitHakiOverrides,
     unitUnlockedForms,
     unitLevelOverrides,
+    unitEquippedMovesOverrides: {},
 
     completedEpisodes: [],
     episodeFlags: {},
@@ -243,6 +245,8 @@ export function createInitialCampaignState(
       losses: 0,
       draws: 0
     },
+    endgame: createDefaultEndgameState(),
+    debugUnlockEndgame: false,
 
     legacyZoneUnlockV1: false,
     nextBattleMealAtkBuffRatio: 0,

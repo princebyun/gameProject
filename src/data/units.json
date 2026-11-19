@@ -1198,6 +1198,33 @@
     "palette": { "primary": "#0284c7", "secondary": "#f97316", "accent": "#38bdf8", "shape": "GOLEM_TITAN", "avatarId": "JINBE" }
   },
   {
+    "id": "magellan",
+    "name": "서장 마젤란",
+    "title": "임펠 다운 대감옥 서장 (독독 열매 초인계)",
+    "element": "SPECIAL",
+    "fruitType": "PARAMECIA",
+    "race": "HUMAN",
+    "haki": { "armament": 2, "observation": 2, "conqueror": 0 },
+    "traitId": "ability_doku_venom_warden",
+    "defaultFormId": "form_magellan_venom_demon",
+    "awakenedFormId": "form_magellan_venom_demon",
+    "forms": [],
+    "defaultEquipmentId": "eq_resonator_core",
+    "entityScale": 1.35,
+    "knockbackResist": 0.55,
+    "aiBehaviorId": "venom_warden",
+    "isBossUnit": true,
+    "bountyLabel": "임펠 다운 최고 서장 (지옥의 심판자 · 독독 열매)",
+    "baseStats": { "hp": 545, "atk": 152, "def": 146, "spAtk": 176, "spDef": 148, "spd": 106 },
+    "defaultMoves": [
+      "move_magellan_hydra",
+      "move_magellan_venom_road",
+      "move_magellan_chloro_ball",
+      "move_magellan_venom_demon"
+    ],
+    "palette": { "primary": "#7e22ce", "secondary": "#1e1b4b", "accent": "#c084fc", "shape": "GOLEM_TITAN", "avatarId": "MAGELLAN" }
+  },
+  {
     "id": "unit_ignis_vanguard",
     "name": "이그니스 뱅가드",
     "title": "열핵의 선봉장",

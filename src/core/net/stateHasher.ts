@@ -17,12 +17,21 @@ export function computeBattleStateHash(
     const st = u.statuses.map((s) => `${s.kind}:${Math.round(s.remainingSec * 10)}`).join(',');
     return `${u.instanceId}|${u.hp}/${u.maxHp}|${px},${py}|${u.currentStanceRole}|${
       u.activeFormId ?? '-'
-    }|${u.dodgeStacks}|${ex}|${st}`;
+    }|${u.dodgeStacks}|${ex}|${st}|V:${u.venomStacks}|D:${u.isDowned ? 1 : 0}:${Math.round(
+      u.downedTimer * 10
+    )}:${Math.round(u.reviveProgressSec * 10)}`;
   });
 
   const clashPart = `BC:${world.beamClashes.length}|MC:${world.meleeClashes.length}|MG:${world.meleeBeamGuards.length}`;
   const entitiesPart = `P:${world.projectiles.length}|B:${world.beams.length}|M:${world.meleeArcs.length}|F:${world.fieldZones.length}`;
   const envPart = `W:${world.weather.id}|E:${world.environmentField.kind}|R:${world.ruleReversal.kind}`;
+  const raidPart = world.raidState.active
+    ? `RAID:${world.raidState.raidId}|BG:${Math.round(world.raidState.breakGauge)}|GR:${Math.round(
+        world.raidState.groggyTimer * 10
+      )}|DPS:${world.raidState.dpsCheck.active ? Math.round(world.raidState.dpsCheck.shieldHp) : 0}|REV:${
+        world.raidState.teamRevivesRemaining
+      }|TEL:${world.raidState.telegraphs.length}`
+    : 'RAID:0';
 
   const canonicalState = [
     `T:${world.tick}`,
@@ -30,7 +39,8 @@ export function computeBattleStateHash(
     ...unitParts,
     clashPart,
     entitiesPart,
-    envPart
+    envPart,
+    raidPart
   ].join('||');
 
   return sha256Hex(canonicalState);

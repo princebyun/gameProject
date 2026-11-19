@@ -36,8 +36,37 @@ export function computeAiCommand(
     swapToBenchUnitId: null
   };
 
-  if (!unit.isAlive || !unit.isOnField || isUnitStaggered(unit)) {
+  if (!unit.isAlive || !unit.isOnField || unit.isDowned || isUnitStaggered(unit)) {
     return emptyCmd;
+  }
+
+  // Stage 3 Step 2: Raid boss stunned while Groggy; AI allies prioritize rescuing downed teammates!
+  if (world.raidState?.active) {
+    if (
+      world.raidState.bossUnitId === unit.instanceId &&
+      world.raidState.groggyTimer > 0
+    ) {
+      return emptyCmd;
+    }
+    if (unit.team === 'ALPHA' && world.raidState.teamRevivesRemaining > 0) {
+      const downedAlly = world.units.find(
+        (u) =>
+          u.team === 'ALPHA' &&
+          u.isOnField &&
+          u.isAlive &&
+          u.isDowned &&
+          u.instanceId !== unit.instanceId
+      );
+      if (downedAlly) {
+        const toDowned = subVec(downedAlly.pos, unit.pos);
+        const distDowned = distVec(unit.pos, downedAlly.pos);
+        return {
+          ...emptyCmd,
+          moveVec: distDowned > 28 ? normalizeVec(toDowned) : { x: 0, y: 0 },
+          aimVec: normalizeVec(toDowned)
+        };
+      }
+    }
   }
 
   const profile =
@@ -56,9 +85,9 @@ export function computeAiCommand(
       formShiftAggression: 0.7
     };
 
-  // Find primary target (respecting Taunt if active)
+  // Find primary target (respecting Taunt if active, skipping downed raid allies)
   const enemies = world.units.filter(
-    (u) => u.isAlive && u.isOnField && u.team !== unit.team
+    (u) => u.isAlive && u.isOnField && !u.isDowned && u.team !== unit.team
   );
   if (enemies.length === 0) {
     return emptyCmd;
@@ -362,6 +391,19 @@ export function computeAiCommand(
       }
       if (m.archetype === 'STATUS' || m.meleeSpec?.subtype === 'DASH') {
         score += 35;
+      }
+    } else if (unit.aiBehaviorId === 'venom_warden') {
+      if (m.triggersVenomDemon && !unit.venomDemonActive && unit.hp <= unit.maxHp * 0.7) {
+        score += 72;
+      }
+      if (m.aoeFieldSpec?.expandingPoisonCloud) {
+        score += 48;
+      }
+      if (m.projectileSpec?.homingTurnRateRadPerSec && distToTarget >= 110) {
+        score += 45;
+      }
+      if (m.meleeSpec?.subtype === 'DASH' && distToTarget >= 95 && distToTarget <= 240) {
+        score += 38;
       }
     }
 

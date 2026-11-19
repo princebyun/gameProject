@@ -1,0 +1,307 @@
+{
+  "version": "1.0.0",
+  "tileSize": 16,
+  "seaZoneBiomeMap": {
+    "east_blue": "sea_east_blue",
+    "grand_line": "sea_grand_line",
+    "new_world": "sea_new_world"
+  },
+  "islandBiomeMap": {
+    "foosha_shells": "port_town",
+    "orange_town": "port_town",
+    "baratie": "port_town",
+    "arlong_park": "fishman_coral",
+    "loguetown": "port_town",
+    "drum_kingdom": "snow_drum",
+    "alabasta": "desert_alabasta",
+    "skypiea": "sky_cloud",
+    "water_seven": "port_town",
+    "thriller_bark": "spooky_fog",
+    "marineford": "marine_ice",
+    "impel_down": "impel_hell",
+    "fishman_island": "fishman_coral",
+    "dressrosa": "port_town",
+    "totto_land": "sky_cloud",
+    "wano_onigashima": "wano_castle",
+    "egghead": "egghead_cyber",
+    "elbaf": "elbaf_giant"
+  },
+  "arenaBiomeMap": {
+    "DEFAULT": "port_town",
+    "IMPEL_DOWN": "impel_hell",
+    "COLOSSEUM": "desert_alabasta",
+    "COOP_RAID": "wano_castle",
+    "MAGMA": "impel_hell",
+    "ICE": "marine_ice",
+    "LAB": "egghead_cyber",
+    "ELBAF": "elbaf_giant"
+  },
+  "biomes": [
+    {
+      "biomeId": "sea_east_blue",
+      "category": "SEA",
+      "name": "이스트 블루 (청록 잔물결)",
+      "src": "assets/tilesets/sea_east_blue.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 4,
+      "palette": {
+        "base": "#0c4a6e",
+        "detail": "#0284c7",
+        "edge": "#7dd3fc",
+        "wall": "#334155",
+        "accent": "#bae6fd",
+        "waterOrHazard": "#38bdf8"
+      }
+    },
+    {
+      "biomeId": "sea_grand_line",
+      "category": "SEA",
+      "name": "위대한 항로 (거친 남색 파도 · 레드라인 절벽)",
+      "src": "assets/tilesets/sea_grand_line.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 5,
+      "palette": {
+        "base": "#1e3a8a",
+        "detail": "#1d4ed8",
+        "edge": "#93c5fd",
+        "wall": "#7f1d1d",
+        "accent": "#f87171",
+        "waterOrHazard": "#60a5fa"
+      }
+    },
+    {
+      "biomeId": "sea_new_world",
+      "category": "SEA",
+      "name": "신세계 (짙은 감청 폭풍 해류 · 번개 반사)",
+      "src": "assets/tilesets/sea_new_world.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 6,
+      "palette": {
+        "base": "#1e1b4b",
+        "detail": "#312e81",
+        "edge": "#c084fc",
+        "wall": "#4c1d95",
+        "accent": "#facc15",
+        "waterOrHazard": "#818cf8"
+      }
+    },
+    {
+      "biomeId": "port_town",
+      "category": "ISLAND_DUNGEON",
+      "name": "항구 · 마을 (돌바닥 & 목조 부두)",
+      "src": "assets/tilesets/port_town.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 4,
+      "palette": {
+        "base": "#166534",
+        "detail": "#15803d",
+        "edge": "#ca8a04",
+        "wall": "#78350f",
+        "accent": "#fde047",
+        "waterOrHazard": "#0ea5e9"
+      }
+    },
+    {
+      "biomeId": "snow_drum",
+      "category": "ISLAND_DUNGEON",
+      "name": "드럼 왕국 설산 (만년설 & 벚꽃 눈결)",
+      "src": "assets/tilesets/snow_drum.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 4,
+      "palette": {
+        "base": "#cbd5e1",
+        "detail": "#94a3b8",
+        "edge": "#f8fafc",
+        "wall": "#475569",
+        "accent": "#f472b6",
+        "waterOrHazard": "#38bdf8"
+      }
+    },
+    {
+      "biomeId": "desert_alabasta",
+      "category": "ISLAND_DUNGEON",
+      "name": "알라바스타 사막 · 사원 (모래결 & 사암)",
+      "src": "assets/tilesets/desert_alabasta.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 4,
+      "palette": {
+        "base": "#b45309",
+        "detail": "#d97706",
+        "edge": "#fde68a",
+        "wall": "#78350f",
+        "accent": "#fbbf24",
+        "waterOrHazard": "#0284c7"
+      }
+    },
+    {
+      "biomeId": "sky_cloud",
+      "category": "ISLAND_DUNGEON",
+      "name": "하늘섬 구름 바다 · 황금 유적",
+      "src": "assets/tilesets/sky_cloud.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 4,
+      "palette": {
+        "base": "#e0f2fe",
+        "detail": "#bae6fd",
+        "edge": "#ffffff",
+        "wall": "#ca8a04",
+        "accent": "#facc15",
+        "waterOrHazard": "#7dd3fc"
+      }
+    },
+    {
+      "biomeId": "spooky_fog",
+      "category": "ISLAND_DUNGEON",
+      "name": "스릴러 바크 안개 묘지",
+      "src": "assets/tilesets/spooky_fog.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 3,
+      "palette": {
+        "base": "#1e1b2e",
+        "detail": "#2e1065",
+        "edge": "#7e22ce",
+        "wall": "#334155",
+        "accent": "#a855f7",
+        "waterOrHazard": "#6b21a8"
+      }
+    },
+    {
+      "biomeId": "marine_ice",
+      "category": "ISLAND_DUNGEON",
+      "name": "마린포드 얼음만 · 해군 요새",
+      "src": "assets/tilesets/marine_ice.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 5,
+      "palette": {
+        "base": "#1e293b",
+        "detail": "#334155",
+        "edge": "#7dd3fc",
+        "wall": "#475569",
+        "accent": "#ef4444",
+        "waterOrHazard": "#38bdf8"
+      }
+    },
+    {
+      "biomeId": "fishman_coral",
+      "category": "ISLAND_DUNGEON",
+      "name": "어인섬 해저 산호 · 거품 궁전",
+      "src": "assets/tilesets/fishman_coral.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 5,
+      "palette": {
+        "base": "#0f3d5e",
+        "detail": "#0369a1",
+        "edge": "#2dd4bf",
+        "wall": "#be185d",
+        "accent": "#f472b6",
+        "waterOrHazard": "#38bdf8"
+      }
+    },
+    {
+      "biomeId": "wano_castle",
+      "category": "ISLAND_DUNGEON",
+      "name": "와노쿠니 기와 · 벚꽃 성곽",
+      "src": "assets/tilesets/wano_castle.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 4,
+      "palette": {
+        "base": "#27172b",
+        "detail": "#3f1d38",
+        "edge": "#f43f5e",
+        "wall": "#581c87",
+        "accent": "#fda4af",
+        "waterOrHazard": "#ef4444"
+      }
+    },
+    {
+      "biomeId": "egghead_cyber",
+      "category": "ISLAND_DUNGEON",
+      "name": "미래섬 에그헤드 사이버 연구소 · 네온 바닥",
+      "src": "assets/tilesets/egghead_cyber.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 6,
+      "palette": {
+        "base": "#0f172a",
+        "detail": "#1e293b",
+        "edge": "#38bdf8",
+        "wall": "#312e81",
+        "accent": "#c084fc",
+        "waterOrHazard": "#22d3ee"
+      }
+    },
+    {
+      "biomeId": "elbaf_giant",
+      "category": "ISLAND_DUNGEON",
+      "name": "거인족의 나라 엘바프 거대 수목 · 북유럽 룬",
+      "src": "assets/tilesets/elbaf_giant.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 4,
+      "palette": {
+        "base": "#1b3b1e",
+        "detail": "#14532d",
+        "edge": "#a3e635",
+        "wall": "#713f12",
+        "accent": "#facc15",
+        "waterOrHazard": "#eab308"
+      }
+    },
+    {
+      "biomeId": "impel_hell",
+      "category": "ISLAND_DUNGEON",
+      "name": "대감옥 임펠 다운 철창 · 초열/극한 지옥",
+      "src": "assets/tilesets/impel_hell.png",
+      "tileSize": 16,
+      "renderScale": 2,
+      "animatedRow": 1,
+      "animatedFrames": 4,
+      "animatedFps": 5,
+      "palette": {
+        "base": "#1c1917",
+        "detail": "#292524",
+        "edge": "#dc2626",
+        "wall": "#44403c",
+        "accent": "#a855f7",
+        "waterOrHazard": "#f97316"
+      }
+    }
+  ]
+}

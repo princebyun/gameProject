@@ -8,29 +8,39 @@ export function renderTouchOverlay(
     return;
   }
 
-  ctx.save();
+  const prefs = input.getTouchPrefs();
+  const scale = input.getTouchScale();
 
-  // 1. Bottom-Left Virtual Joystick
+  ctx.save();
+  ctx.globalAlpha = prefs.opacity;
+
+  // 1. Bottom-Left Floating Virtual Joystick (6.9-inch thumb ergonomic)
   const origin = input.virtualJoystickOrigin;
   const knob = input.virtualJoystickKnob;
+  const outerR = Math.round(48 * scale);
+  const knobR = Math.round(20 * scale);
 
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.55)';
+  ctx.fillStyle = input.virtualJoystickActive
+    ? 'rgba(14, 165, 233, 0.25)'
+    : 'rgba(15, 23, 42, 0.55)';
   ctx.beginPath();
-  ctx.arc(origin.x, origin.y, 48, 0, Math.PI * 2);
+  ctx.arc(origin.x, origin.y, outerR, 0, Math.PI * 2);
   ctx.fill();
-  ctx.strokeStyle = 'rgba(56, 189, 248, 0.75)';
+  ctx.strokeStyle = input.virtualJoystickActive
+    ? 'rgba(125, 211, 252, 0.95)'
+    : 'rgba(56, 189, 248, 0.72)';
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  ctx.fillStyle = 'rgba(56, 189, 248, 0.85)';
+  ctx.fillStyle = 'rgba(56, 189, 248, 0.88)';
   ctx.beginPath();
-  ctx.arc(knob.x, knob.y, 20, 0, Math.PI * 2);
+  ctx.arc(knob.x, knob.y, knobR, 0, Math.PI * 2);
   ctx.fill();
 
-  // 2. Bottom-Right Fixed Action Buttons
+  // 2. Bottom-Right Ergonomic Fan-Shaped Action Buttons (respecting Safe Area & Scale)
   const buttons = input.getTouchButtons();
   for (const btn of buttons) {
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.72)';
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.76)';
     ctx.beginPath();
     ctx.arc(btn.x, btn.y, btn.r, 0, Math.PI * 2);
     ctx.fill();
@@ -39,14 +49,14 @@ export function renderTouchOverlay(
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    ctx.font = 'bold 11px monospace';
+    ctx.font = `bold ${Math.max(10, Math.round(11 * scale))}px monospace`;
     ctx.textAlign = 'center';
     ctx.fillStyle = '#f8fafc';
     ctx.fillText(btn.label, btn.x, btn.y - 1);
 
-    ctx.font = '8px monospace';
+    ctx.font = `${Math.max(7, Math.round(8 * scale))}px monospace`;
     ctx.fillStyle = btn.color;
-    ctx.fillText(btn.subLabel, btn.x, btn.y + 10);
+    ctx.fillText(btn.subLabel, btn.x, btn.y + Math.round(10 * scale));
   }
 
   ctx.restore();

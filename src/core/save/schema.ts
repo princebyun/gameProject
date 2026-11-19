@@ -1,3 +1,4 @@
+import type { SaveEndgameBlock } from '../endgame/types';
 import type { Vec2 } from '../math/vector2';
 import type { HakiLevels } from '../types/dataSchemas';
 import type {
@@ -7,7 +8,7 @@ import type {
   TimeOfDayId
 } from '../types/rpgSchemas';
 
-export const CURRENT_SAVE_VERSION = 4 as const;
+export const CURRENT_SAVE_VERSION = 5 as const;
 
 export type SaveSlotId = 'auto' | 'slot_1' | 'slot_2' | 'slot_3';
 
@@ -15,7 +16,8 @@ export type AntiCheatViolationCode =
   | 'INTEGRITY_MISMATCH'
   | 'ILLEGAL_ZONE_ACCESS'
   | 'ILLEGAL_CREW_OR_SHIP'
-  | 'ILLEGAL_UNIT_STATE';
+  | 'ILLEGAL_UNIT_STATE'
+  | 'ILLEGAL_ENDGAME_STATE';
 
 export interface SaveSlotSummary {
   captainLevel: number;
@@ -130,6 +132,7 @@ export interface SavePayloadV1 {
     };
   };
   settings: GlobalSettingsPayload;
+  endgame?: SaveEndgameBlock;
 }
 
 export interface SaveEnvelope {

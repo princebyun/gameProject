@@ -543,5 +543,29 @@
         "effect": { "type": "CLASH_POWER_MULT", "value": 1.26 }
       }
     ]
+  },
+  {
+    "id": "ability_doku_venom_warden",
+    "name": "독독 열매 서장 (베놈 데몬: 지옥의 심판)",
+    "description": "임펠 다운 최강의 서장. HP 50% 이하 또는 베놈 데몬 발동 시 전신에 붉은 맹독 오라가 전개되어 반경 내 적에게 맹독 중첩을 누적하고 중첩당 초당 피해를 증폭시킵니다.",
+    "venomDemonPassive": {
+      "enabled": true,
+      "triggerHpRatio": 0.5,
+      "auraRadiusPx": 155,
+      "tickIntervalSec": 0.5,
+      "maxStacks": 10,
+      "baseDps": 14,
+      "dpsPerStack": 7
+    },
+    "hooks": [
+      {
+        "event": "onCast",
+        "effect": { "type": "STAT_MOD", "stat": "spAtk", "value": 1.15, "durationSec": 4 }
+      },
+      {
+        "event": "onClash",
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.22 }
+      }
+    ]
   }
 ]

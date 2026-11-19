@@ -1,0 +1,65 @@
+[
+  {
+    "moveId": "move_tutor_soru_flash",
+    "name": "육식 · 체(剃) 섬광 돌파",
+    "tier": "UTILITY",
+    "costCp": 4,
+    "description": "고속 돌진과 함께 4초간 이동 속도를 +28% 증폭시키는 유틸 전수기입니다."
+  },
+  {
+    "moveId": "move_tutor_geppo_step",
+    "name": "육식 · 월보(月步) 공중 기동",
+    "tier": "UTILITY",
+    "costCp": 4,
+    "description": "상대에게 짧은 경직을 주며 5초간 이동 속도를 +35% 끌어올리는 기동 전수기입니다."
+  },
+  {
+    "moveId": "move_tutor_observation_pulse",
+    "name": "견문색 집중 파동",
+    "tier": "UTILITY",
+    "costCp": 4,
+    "description": "적을 1.4초 속박(ROOT)시키고 방어력을 +30% 강화하는 견제·수비 유틸기입니다."
+  },
+  {
+    "moveId": "move_tutor_rankyaku_fan",
+    "name": "육식 · 람각(嵐脚) 부채 참격",
+    "tier": "MID",
+    "costCp": 6,
+    "description": "무장색이 실린 진공 참격파 3연사로 중·장거리 적을 제압하는 광역 견제기입니다."
+  },
+  {
+    "moveId": "move_tutor_shigan_barrage",
+    "name": "육식 · 지건(指銃) 연타",
+    "tier": "MID",
+    "costCp": 6,
+    "description": "투사체를 쳐내며 파고드는 무장색 고속 관통 연타 기술입니다."
+  },
+  {
+    "moveId": "move_tutor_tekkai_counter",
+    "name": "육식 · 철괴(鐵塊) 충격 반격",
+    "tier": "MID",
+    "costCp": 6,
+    "description": "1.8초 근접 반사 태세와 함께 주변 360도 충격파를 방출하는 반격기입니다."
+  },
+  {
+    "moveId": "move_tutor_ryuo_breaker",
+    "name": "유앵(流櫻) 무장색 내부파괴격",
+    "tier": "HIGH",
+    "costCp": 8,
+    "description": "방어력 35% 관통 및 거대 레이드 보스 브레이크 게이지 특화 고위력 방어 파괴기입니다."
+  },
+  {
+    "moveId": "move_tutor_conqueror_wave",
+    "name": "패기 해방 · 천지 충격파",
+    "tier": "HIGH",
+    "costCp": 8,
+    "description": "무장·패왕색과 내부파괴를 동시에 실어 발사하는 초고위력 직선 충격 광선입니다."
+  },
+  {
+    "moveId": "move_tutor_armament_surge",
+    "name": "흑무장(黑武裝) 파쇄 일섬",
+    "tier": "HIGH",
+    "costCp": 8,
+    "description": "넓은 부채꼴 범위와 35% 방어 관통을 겸비한 최상급 무장색 일섬입니다."
+  }
+]

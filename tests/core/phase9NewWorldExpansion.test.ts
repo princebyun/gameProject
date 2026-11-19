@@ -70,8 +70,8 @@ const ALL_PRE_NW_EPS = [
 
 describe('Phase 9 (Stage 2-C): New World Mid-Sea Expansion — 3 Hooks, 4 Units, 6 New World Islands (17 Total), Helmsman & Save v4', () => {
   it('1. BATTLE_CALC_VERSION is 0.5.0, CURRENT_SAVE_VERSION is 4, 4 new units & 17 total episode islands exist', () => {
-    expect(BATTLE_CALC_VERSION).toBe('0.5.0');
-    expect(CURRENT_SAVE_VERSION).toBe(4);
+    expect(BATTLE_CALC_VERSION).toBe('0.6.0');
+    expect(CURRENT_SAVE_VERSION).toBe(5);
 
     for (const id of ['hody_jones', 'doflamingo', 'katakuri', 'jinbe']) {
       const def = defaultDataRegistry.units[id];
@@ -83,9 +83,9 @@ describe('Phase 9 (Stage 2-C): New World Mid-Sea Expansion — 3 Hooks, 4 Units,
     }
 
     const totalIslands =
-      defaultRpgDataRegistry.seaZones.east_blue.islands.length +
-      defaultRpgDataRegistry.seaZones.grand_line.islands.length +
-      defaultRpgDataRegistry.seaZones.new_world.islands.length;
+      defaultRpgDataRegistry.seaZones.east_blue.islands.filter((i) => !i.endgameMode).length +
+      defaultRpgDataRegistry.seaZones.grand_line.islands.filter((i) => !i.endgameMode).length +
+      defaultRpgDataRegistry.seaZones.new_world.islands.filter((i) => !i.endgameMode).length;
     expect(totalIslands).toBe(17);
     expect(defaultRpgDataRegistry.seaZones.new_world.islands.map((i) => i.islandId)).toEqual([
       'fishman_island',
@@ -392,8 +392,8 @@ describe('Phase 9 (Stage 2-C): New World Mid-Sea Expansion — 3 Hooks, 4 Units,
     );
     expect(migrated.migrated).toBe(true);
     expect(migrated.migratedFromVersion).toBe(3);
-    expect(migrated.envelope.meta.saveVersion).toBe(4);
-    expect(migrated.envelope.meta.battleCalcVersion).toBe('0.5.0');
+    expect(migrated.envelope.meta.saveVersion).toBe(5);
+    expect(migrated.envelope.meta.battleCalcVersion).toBe('0.6.0');
     expect(migrated.envelope.payload.world.legacyElbafUnlockV3).toBe(true);
     expect('HELMSMAN' in migrated.envelope.payload.crew.crewRoles).toBe(true);
 

@@ -1,0 +1,162 @@
+[
+  {
+    "raidId": "raid_kaido_flame",
+    "name": "화룡대거 카이도",
+    "subtitle": "오니가시마 상공을 불태우는 사황 거대 레이드 (Scale 2.3)",
+    "speciesId": "kaido",
+    "entityScale": 2.3,
+    "bossLevel": 60,
+    "hpMultiplier": 4.2,
+    "breakGaugeMax": 100,
+    "groggyDurationSec": 6.0,
+    "groggyDamageMult": 1.5,
+    "dpsCheckTriggerHpRatios": [0.65, 0.28],
+    "dpsCheckShieldHp": 420,
+    "dpsCheckDurationSec": 10.0,
+    "teamRevivesMax": 3,
+    "requiredEpisodeId": "ep_egghead",
+    "rewardRelicId": "relic_flame_dragon_scale",
+    "berryReward": 180000,
+    "trainingPointReward": 140,
+    "weatherOnStart": "SOLAR_FLARE",
+    "telegraphPatterns": [
+      {
+        "id": "kaido_flame_breath_sweep",
+        "name": "승룡 화염 팔괘 브레스",
+        "shape": "CONE",
+        "telegraphSec": 1.5,
+        "radiusPx": 460,
+        "arcDeg": 64,
+        "damageMultiplier": 1.35,
+        "applyStatus": "STAGGER",
+        "cooldownSec": 6.5
+      },
+      {
+        "id": "kaido_thunder_storm",
+        "name": "뇌명 낙뢰 폭풍",
+        "shape": "CIRCLE",
+        "telegraphSec": 1.3,
+        "radiusPx": 135,
+        "damageMultiplier": 1.25,
+        "applyStatus": "STAGGER",
+        "cooldownSec": 5.2
+      },
+      {
+        "id": "kaido_flame_bagua_ring",
+        "name": "화룡대거 안전지대 붕괴",
+        "shape": "SAFE_ZONE",
+        "telegraphSec": 1.8,
+        "radiusPx": 125,
+        "damageMultiplier": 1.55,
+        "cooldownSec": 9.5
+      }
+    ]
+  },
+  {
+    "raidId": "raid_saturn_abyss",
+    "name": "심연 강림 새턴 성",
+    "subtitle": "오로성 우귀(牛鬼) 불사 초재생 거대 레이드 (Scale 2.2)",
+    "speciesId": "saturn",
+    "entityScale": 2.2,
+    "bossLevel": 62,
+    "hpMultiplier": 4.0,
+    "breakGaugeMax": 110,
+    "groggyDurationSec": 6.0,
+    "groggyDamageMult": 1.5,
+    "dpsCheckTriggerHpRatios": [0.6, 0.25],
+    "dpsCheckShieldHp": 460,
+    "dpsCheckDurationSec": 10.5,
+    "teamRevivesMax": 3,
+    "requiredEpisodeId": "ep_egghead",
+    "rewardRelicId": "relic_abyss_talisman",
+    "berryReward": 210000,
+    "trainingPointReward": 165,
+    "weatherOnStart": "NONE",
+    "telegraphPatterns": [
+      {
+        "id": "saturn_venom_meteor_safe",
+        "name": "다중 독 운석 & 안전지대",
+        "shape": "SAFE_ZONE",
+        "telegraphSec": 1.7,
+        "radiusPx": 120,
+        "damageMultiplier": 1.5,
+        "cooldownSec": 7.5
+      },
+      {
+        "id": "saturn_gaze_root",
+        "name": "오로성의 시선 속박",
+        "shape": "CIRCLE",
+        "telegraphSec": 1.25,
+        "radiusPx": 150,
+        "damageMultiplier": 1.2,
+        "applyStatus": "ROOT",
+        "cooldownSec": 5.5
+      },
+      {
+        "id": "saturn_abyss_cross",
+        "name": "심연 마법진 십자 광선",
+        "shape": "CROSS_BEAM",
+        "telegraphSec": 1.6,
+        "radiusPx": 680,
+        "widthPx": 76,
+        "damageMultiplier": 1.45,
+        "applyStatus": "STAGGER",
+        "cooldownSec": 8.0
+      }
+    ]
+  },
+  {
+    "raidId": "raid_loki_ragnir",
+    "name": "종말의 철뇌 로키",
+    "subtitle": "엘바프 세계수를 뒤흔드는 신화 거인 레이드 (Scale 2.4)",
+    "speciesId": "loki",
+    "entityScale": 2.4,
+    "bossLevel": 65,
+    "hpMultiplier": 4.6,
+    "breakGaugeMax": 120,
+    "groggyDurationSec": 6.0,
+    "groggyDamageMult": 1.5,
+    "dpsCheckTriggerHpRatios": [0.7, 0.32],
+    "dpsCheckShieldHp": 520,
+    "dpsCheckDurationSec": 11.0,
+    "teamRevivesMax": 3,
+    "requiredEpisodeId": "ep_elbaf",
+    "rewardRelicId": "relic_elbaf_rune",
+    "berryReward": 260000,
+    "trainingPointReward": 200,
+    "weatherOnStart": "ION_STORM",
+    "telegraphPatterns": [
+      {
+        "id": "loki_cross_lightning",
+        "name": "철뇌 라그니르 십자 낙뢰",
+        "shape": "CROSS_BEAM",
+        "telegraphSec": 1.5,
+        "radiusPx": 720,
+        "widthPx": 84,
+        "damageMultiplier": 1.45,
+        "applyStatus": "STAGGER",
+        "cooldownSec": 6.0
+      },
+      {
+        "id": "loki_ragnarok_ring",
+        "name": "종말 아레나 충격파 링 (회피 무적 필요)",
+        "shape": "CIRCLE",
+        "telegraphSec": 1.4,
+        "radiusPx": 380,
+        "damageMultiplier": 1.5,
+        "applyStatus": "STAGGER",
+        "cooldownSec": 7.2
+      },
+      {
+        "id": "loki_yggdrasil_cone",
+        "name": "세계수 붕괴 패왕 충격",
+        "shape": "CONE",
+        "telegraphSec": 1.65,
+        "radiusPx": 480,
+        "arcDeg": 72,
+        "damageMultiplier": 1.4,
+        "cooldownSec": 8.5
+      }
+    ]
+  }
+]

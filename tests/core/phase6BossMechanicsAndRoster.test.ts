@@ -55,7 +55,7 @@ function makeBuild(
 
 describe('Phase 6: 7 Core Episode Bosses + Franky, 4 Boss Combat Hooks & 5-Island Integration', () => {
   it('1. BATTLE_CALC_VERSION is 0.5.0 and all 8 new units + 5 island boss sequences are registered', () => {
-    expect(BATTLE_CALC_VERSION).toBe('0.5.0');
+    expect(BATTLE_CALC_VERSION).toBe('0.6.0');
 
     const newUnitIds = [
       'morgan',
@@ -364,7 +364,7 @@ describe('Phase 6: 7 Core Episode Bosses + Franky, 4 Boss Combat Hooks & 5-Islan
       defaultRpgDataRegistry,
       defaultDataRegistry
     );
-    expect(env.meta.battleCalcVersion).toBe('0.5.0');
+    expect(env.meta.battleCalcVersion).toBe('0.6.0');
     expect(
       validateSaveLegality(
         env.payload,
@@ -391,7 +391,7 @@ describe('Phase 6: 7 Core Episode Bosses + Franky, 4 Boss Combat Hooks & 5-Islan
       defaultRpgDataRegistry,
       defaultDataRegistry
     );
-    expect(migrated.envelope.meta.battleCalcVersion).toBe('0.5.0');
+    expect(migrated.envelope.meta.battleCalcVersion).toBe('0.6.0');
     const acClean = evaluateAndStampAntiCheat(
       migrated.envelope,
       defaultRpgDataRegistry,

@@ -1,4 +1,5 @@
 import { BATTLE_CALC_VERSION } from '../constants';
+import { createDefaultEndgameState } from '../endgame/types';
 import { createInitialCampaignState } from '../rpg/campaignState';
 import type { GameDataRegistry } from '../types/dataSchemas';
 import type { RpgDataRegistry, SeaZoneId } from '../types/rpgSchemas';
@@ -177,8 +178,8 @@ export function migrateRawSaveToCurrent(
     };
   }
 
-  // Sequential migration: v1/v2/v3 -> v4 (Stage 2-A, 2-B & 2-C compatibility)
-  if (version === 1 || version === 2 || version === 3) {
+  // Sequential migration: v1/v2/v3/v4 -> v5 (Stage 2-A, 2-B, 2-C & Stage 3 Endgame compatibility)
+  if (version === 1 || version === 2 || version === 3 || version === 4) {
     const oldEnv = JSON.parse(JSON.stringify(candidate)) as SaveEnvelope;
     const wasIntegrityValid = verifySaveIntegrity(oldEnv).valid;
 
@@ -202,16 +203,28 @@ export function migrateRawSaveToCurrent(
     if ((version === 1 || version === 2) && hadNewWorld) {
       oldEnv.payload.world.legacyZoneUnlockV2 = true;
     }
-    if (hadElbaf) {
+    if (version <= 3 && hadElbaf) {
       oldEnv.payload.world.legacyElbafUnlockV3 = true;
     }
 
-    // Safely initialize new Stage 2-C crewRoles.HELMSMAN field if absent
+    // Safely initialize Stage 2-C crewRoles.HELMSMAN field if absent
     if (oldEnv.payload.crew && !oldEnv.payload.crew.crewRoles) {
       oldEnv.payload.crew.crewRoles = {};
     }
     if (oldEnv.payload.crew && !('HELMSMAN' in oldEnv.payload.crew.crewRoles)) {
       oldEnv.payload.crew.crewRoles.HELMSMAN = undefined;
+    }
+
+    // Stage 3 (v4 -> v5): Initialize empty default payload.endgame block preserving onlineEligible === true
+    if (!oldEnv.payload.endgame) {
+      oldEnv.payload.endgame = createDefaultEndgameState();
+    } else {
+      const def = createDefaultEndgameState();
+      oldEnv.payload.endgame = {
+        impelDown: { ...def.impelDown, ...(oldEnv.payload.endgame.impelDown ?? {}) },
+        colosseum: { ...def.colosseum, ...(oldEnv.payload.endgame.colosseum ?? {}) },
+        raids: { ...def.raids, ...(oldEnv.payload.endgame.raids ?? {}) }
+      };
     }
 
     oldEnv.meta.saveVersion = CURRENT_SAVE_VERSION;
@@ -232,7 +245,7 @@ export function migrateRawSaveToCurrent(
     };
   }
 
-  // Already v4
+  // Already v5
   const envelope = candidate as SaveEnvelope;
   if (!envelope.meta.battleCalcVersion) {
     envelope.meta.battleCalcVersion = BATTLE_CALC_VERSION;
@@ -240,7 +253,8 @@ export function migrateRawSaveToCurrent(
     (envelope.meta.battleCalcVersion === '0.1.0' ||
       envelope.meta.battleCalcVersion === '0.2.0' ||
       envelope.meta.battleCalcVersion === '0.3.0' ||
-      envelope.meta.battleCalcVersion === '0.4.0') &&
+      envelope.meta.battleCalcVersion === '0.4.0' ||
+      envelope.meta.battleCalcVersion === '0.5.0') &&
     verifySaveIntegrity(envelope).valid
   ) {
     envelope.meta.battleCalcVersion = BATTLE_CALC_VERSION;

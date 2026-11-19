@@ -51,7 +51,9 @@ export function createBattleWorldFromContext(
       level: state.unitLevelOverrides[uid] ?? 50,
       ivs: { hp: 31, atk: 31, def: 31, spAtk: 31, spDef: 31, spd: 31 },
       evs: { ...DEFAULT_EVS },
-      moveIds: [...unitDef.defaultMoves],
+      moveIds: [
+        ...(state.unitEquippedMovesOverrides?.[uid] ?? unitDef.defaultMoves).slice(0, 4)
+      ],
       equipmentId: unitDef.defaultEquipmentId,
       traitId: unitDef.traitId,
       formId: activeFormId,

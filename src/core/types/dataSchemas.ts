@@ -60,7 +60,8 @@ export type AiBehaviorId =
   | 'anti_fruit_bruiser'
   | 'berserk_rusher'
   | 'string_controller'
-  | 'foresight_duelist';
+  | 'foresight_duelist'
+  | 'venom_warden';
 
 export type UnitRace =
   | 'HUMAN'
@@ -296,6 +297,16 @@ export interface TraitDefinition {
     slowMult: number;
     durationSec: number;
   };
+  // Stage 3 Endgame Boss Hook: Magellan Venom Demon Aura & Stacking Poison
+  venomDemonPassive?: {
+    enabled: boolean;
+    triggerHpRatio: number;
+    auraRadiusPx: number;
+    tickIntervalSec: number;
+    maxStacks: number;
+    baseDps: number;
+    dpsPerStack: number;
+  };
   hooks: TraitHookRule[];
 }
 
@@ -341,6 +352,9 @@ export interface MoveDefinition {
   // Stage 2-C New World Move Hook extensions
   activatesBirdcage?: boolean;
   confuseSec?: number;
+  // Stage 3 Endgame Move Hook extensions
+  triggersVenomDemon?: boolean;
+  appliesVenomStacks?: number;
   selfBuff?: {
     stat: keyof StatBlock;
     multiplier: number;
@@ -353,6 +367,7 @@ export interface MoveDefinition {
     burstIntervalSec: number;
     speedPxPerSec: number;
     bypassGroundCollision?: boolean;
+    homingTurnRateRadPerSec?: number;
   };
   beamSpec?: {
     dynamicRangeByStat: boolean;
@@ -457,7 +472,8 @@ export type AvatarId =
   | 'HODY_JONES'
   | 'DOFLAMINGO'
   | 'KATAKURI'
-  | 'JINBE';
+  | 'JINBE'
+  | 'MAGELLAN';
 
 export interface UnitDefinition {
   id: string;

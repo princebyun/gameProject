@@ -20,7 +20,8 @@
     "package:android:apk": "npm run package:android:sync && cd android && ./gradlew assembleDebug",
     "preview": "vite preview --outDir dist-web",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate:assets": "node --import tsx scripts/validate-assets.ts"
   },
   "dependencies": {
     "@capacitor/app": "^8.1.2",

@@ -184,6 +184,21 @@
         "playableInVerticalSlice": true,
         "summary": "[필수 6/6] 마르코 2:2 동맹 3연전(아오키지→아카이누→검은 수염) & 신세계 출항",
         "color": "#ef4444"
+      },
+      {
+        "islandId": "impel_down",
+        "name": "대감옥 임펠 다운 (6층 서바이벌)",
+        "sagaName": "엔드게임 — 로그라이트 서바이벌",
+        "episodeId": "ep_marineford",
+        "pos": { "x": 1470, "y": 760 },
+        "dockingRadiusPx": 90,
+        "requiredForNextZone": false,
+        "requiredEpisodes": ["ep_marineford"],
+        "dangerLevel": 5,
+        "playableInVerticalSlice": true,
+        "summary": "[엔드게임] 임펠 다운 1~6층 로그라이트 서바이벌 & 서장 마젤란 (ep_marineford 완료 해금)",
+        "color": "#a855f7",
+        "endgameMode": "IMPEL_DOWN"
       }
     ],
     "seaGate": {

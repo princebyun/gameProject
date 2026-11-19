@@ -1,8 +1,116 @@
-import type { UnitDefinition, ZoanStanceRole } from '../core/types/dataSchemas';
+import type {
+  FormDefinition,
+  UnitDefinition,
+  ZoanStanceRole
+} from '../core/types/dataSchemas';
+import {
+  defaultAssetManifestRegistry,
+  resolveShipSpriteEntry,
+  resolveSpriteSheetEntry,
+  type AssetManifestRegistry
+} from '../data/assets/assetManifestRegistry';
+import type {
+  SpriteSheetManifestEntry,
+  TilesetManifestEntry
+} from '../data/assets/types';
+import { SpriteAnimationController } from '../render/sprite/spriteAnimationController';
+import { TilemapLayerRenderer } from '../render/tileset/tilemapLayerRenderer';
+import { ExternalAssetResolver } from './externalAssetResolver';
+import {
+  bakeProceduralShipSpriteSheet,
+  bakeProceduralUnitSpriteSheet
+} from './proceduralPixelSheetBaker';
+import { bakeProceduralBiomeTileset } from './proceduralTilesetBaker';
 
 export class AssetLoader {
   private spriteCache = new Map<string, HTMLCanvasElement>();
   private tileCache = new Map<string, HTMLCanvasElement>();
+  public readonly resolver = new ExternalAssetResolver();
+  public readonly manifestRegistry: AssetManifestRegistry =
+    defaultAssetManifestRegistry;
+  public readonly spriteController = new SpriteAnimationController();
+  public readonly tilemapRenderer = new TilemapLayerRenderer();
+
+  public getOrCreateUnitSpriteSheet(
+    unit: UnitDefinition,
+    activeFormId: string | null = null,
+    formDef: FormDefinition | null = null
+  ): {
+    entry: SpriteSheetManifestEntry;
+    sheet: HTMLImageElement | HTMLCanvasElement | null;
+    source: 'EXTERNAL_PNG' | 'BAKED_FALLBACK';
+  } {
+    const entry: SpriteSheetManifestEntry =
+      resolveSpriteSheetEntry(unit.id, activeFormId, this.manifestRegistry) ?? {
+        key: `${unit.id}_base`,
+        unitId: unit.id,
+        formId: 'base',
+        src: `assets/sprites/${unit.id}_base.png`,
+        frameWidth: 32,
+        frameHeight: 32,
+        anchor: { x: 0.5, y: 0.85 },
+        animations: {
+          IDLE: { row: 0, frames: 4, fps: 5, loop: true },
+          MOVE: { row: 1, frames: 6, fps: 10, loop: true },
+          WINDUP: { row: 2, frames: 3, fps: 10, loop: false },
+          ATTACK_MELEE: { row: 3, frames: 4, fps: 14, loop: false, hitFrame: 2 },
+          ATTACK_CAST: { row: 4, frames: 3, fps: 12, loop: false, hitFrame: 1 },
+          CLASH: { row: 5, frames: 2, fps: 12, loop: true },
+          DODGE: { row: 6, frames: 2, fps: 12, loop: false },
+          HIT: { row: 7, frames: 2, fps: 10, loop: false },
+          DOWNED: { row: 8, frames: 2, fps: 4, loop: true },
+          TRANSFORM: { row: 9, frames: 4, fps: 10, loop: false, hitFrame: 2 },
+          VICTORY: { row: 10, frames: 4, fps: 6, loop: true }
+        }
+      };
+
+    const resolved = this.resolver.resolveImageSyncOrBake(
+      entry.key,
+      entry.src,
+      () => {
+        const baseAvatar = this.getOrCreateUnitSprite(
+          unit,
+          formDef?.stanceRole ?? 'BASE',
+          activeFormId
+        );
+        return bakeProceduralUnitSpriteSheet(entry, unit, formDef, baseAvatar);
+      }
+    );
+
+    return {
+      entry,
+      sheet: resolved.image,
+      source: resolved.source
+    };
+  }
+
+  public getOrCreateShipSpriteSheet(shipId: string): {
+    entry: SpriteSheetManifestEntry | null;
+    sheet: HTMLImageElement | HTMLCanvasElement | null;
+    source: 'EXTERNAL_PNG' | 'BAKED_FALLBACK';
+  } {
+    const entry = resolveShipSpriteEntry(shipId, this.manifestRegistry);
+    if (!entry) {
+      return { entry: null, sheet: null, source: 'BAKED_FALLBACK' };
+    }
+    const resolved = this.resolver.resolveImageSyncOrBake(
+      entry.key,
+      entry.src,
+      () => bakeProceduralShipSpriteSheet(entry)
+    );
+    return { entry, sheet: resolved.image, source: resolved.source };
+  }
+
+  public getOrCreateBiomeTileset(
+    biome: TilesetManifestEntry
+  ): HTMLImageElement | HTMLCanvasElement | null {
+    const resolved = this.resolver.resolveImageSyncOrBake(
+      `tileset_${biome.biomeId}`,
+      biome.src,
+      () => bakeProceduralBiomeTileset(biome)
+    );
+    return resolved.image;
+  }
 
   public async preloadCoreAssets(units: Record<string, UnitDefinition>): Promise<void> {
     if (typeof document === 'undefined') {
@@ -708,6 +816,29 @@ export class AssetLoader {
       ctx.fillRect(14, 15, 4, 4);
       ctx.fillStyle = '#38bdf8';
       ctx.fillRect(23, 13, 6, 6);
+    } else if (avatarId === 'MAGELLAN') {
+      // Impel Down Warden Magellan: horned dark coat, bat wings, purple Hydra venom & crimson Venom Demon glow
+      ctx.fillStyle = '#1e1b4b';
+      ctx.fillRect(4, 10, 24, 18);
+      // Bat-like warden wings
+      ctx.fillStyle = '#312e81';
+      ctx.fillRect(1, 11, 4, 11);
+      ctx.fillRect(27, 11, 4, 11);
+      // Warden coat collar & gold epaulettes
+      ctx.fillStyle = '#facc15';
+      ctx.fillRect(6, 11, 4, 3);
+      ctx.fillRect(22, 11, 4, 3);
+      // Face & demon horns
+      ctx.fillStyle = '#fde68a';
+      ctx.fillRect(11, 6, 10, 7);
+      ctx.fillStyle = '#7e22ce';
+      ctx.fillRect(8, 2, 3, 5);
+      ctx.fillRect(21, 2, 3, 5);
+      // Venom Hydra / Venom Demon droplets
+      ctx.fillStyle = activeFormId === 'form_magellan_venom_demon' ? '#dc2626' : '#a855f7';
+      ctx.fillRect(2, 6, 4, 4);
+      ctx.fillRect(26, 6, 4, 4);
+      ctx.fillRect(13, 15, 6, 5);
     } else {
       // Fallback generic Phase 1 shapes
       const { primary, secondary, accent, shape } = unit.palette;

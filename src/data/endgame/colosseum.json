@@ -1,0 +1,100 @@
+{
+  "unlockEpisodeId": "ep_dressrosa",
+  "maxLegalCp": 50000,
+  "ringOutDefaults": {
+    "enabled": true,
+    "safeRadiusRatio": 0.38,
+    "outOfBoundsLimitSec": 2.0,
+    "outOfBoundsDpsRatio": 0.08,
+    "instantRingOutKo": true
+  },
+  "leagues": [
+    {
+      "tierId": "C",
+      "name": "C급 (신인 리그)",
+      "subtitle": "콜로세움 입문자 8강 토너먼트",
+      "aiLevel": 2,
+      "rewardMultiplier": 0.7,
+      "baseCpReward": 10,
+      "baseBerryReward": 30000,
+      "baseTrainingPointReward": 30,
+      "competitorPool": [
+        "morgan",
+        "buggy",
+        "don_krieg",
+        "arlong",
+        "wapol",
+        "usopp",
+        "nami",
+        "chopper",
+        "blueno"
+      ]
+    },
+    {
+      "tierId": "B",
+      "name": "B급 (초신성 리그)",
+      "subtitle": "위대한 항로 강자들의 8강 격돌",
+      "aiLevel": 3,
+      "rewardMultiplier": 1.0,
+      "baseCpReward": 14,
+      "baseBerryReward": 55000,
+      "baseTrainingPointReward": 50,
+      "competitorPool": [
+        "smoker",
+        "crocodile",
+        "enel",
+        "kaku",
+        "lucci",
+        "moria",
+        "franky",
+        "robin",
+        "brook",
+        "sanji"
+      ]
+    },
+    {
+      "tierId": "A",
+      "name": "A급 (신세계 리그)",
+      "subtitle": "칠무해·대간부급 최정예 토너먼트 (수배서 골드 승급 조건)",
+      "aiLevel": 4,
+      "rewardMultiplier": 1.4,
+      "baseCpReward": 18,
+      "baseBerryReward": 95000,
+      "baseTrainingPointReward": 80,
+      "competitorPool": [
+        "hody_jones",
+        "doflamingo",
+        "katakuri",
+        "jinbe",
+        "law",
+        "marco",
+        "magellan",
+        "king",
+        "s_hawk",
+        "zoro"
+      ]
+    },
+    {
+      "tierId": "S",
+      "name": "S급 (사황 챔피언십)",
+      "subtitle": "해군 대장·사황·오로성이 참전하는 정점 토너먼트 (플래티넘/다이아 승급)",
+      "aiLevel": 5,
+      "rewardMultiplier": 2.0,
+      "baseCpReward": 22,
+      "baseBerryReward": 150000,
+      "baseTrainingPointReward": 120,
+      "competitorPool": [
+        "kaido",
+        "kizaru",
+        "aokiji",
+        "akainu",
+        "blackbeard",
+        "saturn",
+        "loki",
+        "katakuri",
+        "doflamingo",
+        "magellan"
+      ]
+    }
+  ]
+}

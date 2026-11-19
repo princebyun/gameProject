@@ -44,7 +44,22 @@ export function computeEffectiveStats(
     }
     const eqMult = eq?.statModifiers?.[key] ?? 1.0;
     const formMult = activeForm?.statMultipliers?.[key] ?? 1.0;
-    return Math.max(10, Math.round(raw * eqMult * formMult * aiMult));
+    let endgameMult = 1.0;
+    if (build.endgameBonuses) {
+      if (isHp && build.endgameBonuses.maxHpMult) {
+        endgameMult *= build.endgameBonuses.maxHpMult;
+      }
+      if ((key === 'atk' || key === 'spAtk') && build.endgameBonuses.atkMult) {
+        endgameMult *= build.endgameBonuses.atkMult;
+      }
+      if (key === 'spd' && build.endgameBonuses.spdMult) {
+        endgameMult *= build.endgameBonuses.spdMult;
+      }
+    }
+    if (isHp && build.hpMultiplier && build.hpMultiplier > 0) {
+      endgameMult *= build.hpMultiplier;
+    }
+    return Math.max(10, Math.round(raw * eqMult * formMult * aiMult * endgameMult));
   };
 
   return {
@@ -455,6 +470,10 @@ export function computeDamage(
   if (hasInternalDestruction) {
     defStat *= 0.65;
   }
+  // Stage 3 Endgame: Armor penetration buff (e.g. Seastone Shatter +20%)
+  if (attacker.endgameArmorPenRatio > 0) {
+    defStat *= Math.max(0.25, 1 - attacker.endgameArmorPenRatio);
+  }
 
   // Haki offensive multipliers
   let hakiMult = 1.0;
@@ -510,6 +529,23 @@ export function computeDamage(
   ) {
     attackerTraitMult *= attackerTrait.lightningDamageMultiplier;
   }
+  // Stage 3 Endgame: Raid Relic Fire/Magma Damage Bonus (e.g. Flame Dragon Scale +12%)
+  if (
+    attacker.endgameFireDamageBonusRatio > 0 &&
+    (moveElement === 'FIRE' || moveElement === 'MAGMA' || moveElement === 'PYRO')
+  ) {
+    attackerTraitMult *= 1 + attacker.endgameFireDamageBonusRatio;
+  }
+
+  // Stage 3 Step 2: Giant Boss Raid Groggy (Break) amplifies incoming damage by 1.5x
+  let raidGroggyMult = 1.0;
+  if (
+    world.raidState?.active &&
+    world.raidState.bossUnitId === defender.instanceId &&
+    world.raidState.groggyTimer > 0
+  ) {
+    raidGroggyMult = world.raidState.groggyDamageMult;
+  }
 
   const raw =
     movePower *
@@ -521,7 +557,8 @@ export function computeDamage(
     hakiMult *
     envMult *
     attackerTraitMult *
-    interaction.damageMultiplier;
+    interaction.damageMultiplier *
+    raidGroggyMult;
 
   const damage = Math.max(registry.balance.unitPhysics.minDamage, Math.round(raw));
   return {

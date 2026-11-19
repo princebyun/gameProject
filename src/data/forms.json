@@ -737,5 +737,30 @@
     ],
     "visualScale": 1.2,
     "auraColor": "#e879f9"
+  },
+  {
+    "id": "form_magellan_venom_demon",
+    "name": "베놈 데몬 — 지옥의 심판 (금지된 맹독 거인)",
+    "kind": "AWAKENING",
+    "formCategory": "AWAKENED_ZOAN",
+    "stanceRole": "BASE",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.2,
+    "durationSec": 28.0,
+    "statMultipliers": {
+      "atk": 1.32,
+      "def": 1.22,
+      "spAtk": 1.45,
+      "spDef": 1.25,
+      "spd": 1.18
+    },
+    "overrideMoveIds": [
+      "move_magellan_hydra",
+      "move_magellan_venom_road",
+      "move_magellan_chloro_ball",
+      "move_magellan_venom_demon"
+    ],
+    "visualScale": 1.26,
+    "auraColor": "#dc2626"
   }
 ]

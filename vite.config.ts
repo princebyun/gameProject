@@ -67,7 +67,44 @@ export default defineConfig(() => {
                 ]
               },
               workbox: {
+                // Keep app shell, JSON manifests, UI icons, and core SFX precached
                 globPatterns: ['**/*.{js,css,html,svg,png,json,webmanifest}'],
+                // Offload large external sprite sheets, biome tilesets, and BGM streams to Runtime CacheFirst
+                globIgnores: [
+                  'assets/sprites/**',
+                  'assets/tilesets/**',
+                  'assets/audio/bgm/**'
+                ],
+                runtimeCaching: [
+                  {
+                    urlPattern: /\/assets\/(sprites|tilesets)\/.*\.png$/i,
+                    handler: 'CacheFirst',
+                    options: {
+                      cacheName: 'opgv-pixel-art-cache',
+                      expiration: {
+                        maxEntries: 250,
+                        maxAgeSeconds: 60 * 60 * 24 * 30
+                      },
+                      cacheableResponse: {
+                        statuses: [0, 200]
+                      }
+                    }
+                  },
+                  {
+                    urlPattern: /\/assets\/audio\/bgm\/.*\.(ogg|mp3|wav)$/i,
+                    handler: 'CacheFirst',
+                    options: {
+                      cacheName: 'opgv-bgm-audio-cache',
+                      expiration: {
+                        maxEntries: 30,
+                        maxAgeSeconds: 60 * 60 * 24 * 30
+                      },
+                      cacheableResponse: {
+                        statuses: [0, 200]
+                      }
+                    }
+                  }
+                ],
                 cleanupOutdatedCaches: true
               }
             })

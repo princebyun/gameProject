@@ -69,6 +69,26 @@
           "responseLine": "스위치 A(상단)와 스위치 B(하단)에 다가가 [E / 상호작용]을 누르면 레이저 방어막이 내려간다!"
         }
       ]
+    },
+    {
+      "npcId": "npc_egghead_raid_terminal",
+      "name": "에그헤드 거대 보스 레이드 단말기",
+      "roleLabel": "엔드게임 협동 레이드 · 오로성·사황 토벌",
+      "pos": { "x": 195, "y": 385 },
+      "interactRadiusPx": 54,
+      "visualScale": 1.0,
+      "color": "#ef4444",
+      "dialogueLines": [
+        "레이드 단말기: 오로성 새턴 성·화룡대거 카이도·종말의 철뇌 로키 거대 보스 협동 레이드 신호가 포착되었습니다!",
+        "오프라인 3인 스쿼드 또는 온라인 2~3인 협동 레이드로 출격하여 레이드 유물을 획득할 수 있습니다."
+      ],
+      "choices": [
+        {
+          "label": "거대 보스 협동 레이드 단말기에 접속한다!",
+          "triggersEndgameMode": "RAID",
+          "responseLine": "[레이드 단말기 접속] 오로성·사황 거대 보스 협동 레이드 로비를 엽니다!"
+        }
+      ]
     }
   ],
   "encounters": [

@@ -45,6 +45,7 @@ export interface IslandStepOutput {
   triggeredBattle: BattleContext | null;
   requestedExitToSea: boolean;
   requestedOpenOnlineTerminal: boolean;
+  requestedEndgameMode?: 'IMPEL_DOWN' | 'COLOSSEUM' | 'RAID';
 }
 
 export function enterIslandEpisode(
@@ -238,6 +239,7 @@ export function stepIslandExploration(
   let triggeredBattle: BattleContext | null = null;
   let requestedExitToSea = false;
   let requestedOpenOnlineTerminal = false;
+  let requestedEndgameMode: 'IMPEL_DOWN' | 'COLOSSEUM' | 'RAID' | undefined;
 
   if (interactPressed) {
     if (runtime.activeDialogueNpc) {
@@ -253,6 +255,9 @@ export function stepIslandExploration(
           }
           if (ch.recruitsUnitId) {
             recruitCrewMember(state, ch.recruitsUnitId, rpgRegistry, gameRegistry);
+          }
+          if (ch.triggersEndgameMode) {
+            requestedEndgameMode = ch.triggersEndgameMode;
           }
           state.voyageLog.push(`[대화: ${npc.name}] ${ch.responseLine}`);
         }
@@ -305,7 +310,8 @@ export function stepIslandExploration(
     atBattleTerminal,
     triggeredBattle,
     requestedExitToSea,
-    requestedOpenOnlineTerminal
+    requestedOpenOnlineTerminal,
+    requestedEndgameMode
   };
 }
 

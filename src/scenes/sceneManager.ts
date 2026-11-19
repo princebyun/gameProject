@@ -1,5 +1,41 @@
 import { AssetLoader } from '../assets/assetLoader';
 import { AudioManager } from '../audio/audioManager';
+import { resolveBgmForSeaZone } from '../data/assets/assetManifestRegistry';
+import { AssetPreviewScene } from './dev/assetPreviewScene';
+import {
+  buildColosseumMatchBattleConfig,
+  createColosseumTournament,
+  isColosseumUnlocked,
+  purchaseTutorMove,
+  recordColosseumPlayerMatchResult
+} from '../core/endgame/colosseum';
+import {
+  buildImpelDownFloorBattleConfig,
+  completeAndExitImpelDownRun,
+  continueImpelDownEndless,
+  isImpelDownUnlocked,
+  recordImpelDownFloorOutcome,
+  resumeImpelDownRun,
+  selectImpelDownDraftBuff,
+  startImpelDownRun,
+  suspendImpelDownRun
+} from '../core/endgame/impelDown';
+import {
+  buildOfflineRaidBattleConfig,
+  equipRaidRelic,
+  recordRaidOutcome
+} from '../core/endgame/raid';
+import type {
+  ColosseumTierId,
+  ColosseumTournamentState,
+  EndgameDataRegistry,
+  ImpelDownRunState
+} from '../core/endgame/types';
+import { defaultEndgameRegistry } from '../data/endgame/endgameRegistry';
+import { renderColosseumModal } from './endgame/colosseumScene';
+import { renderEndgameHubModal } from './endgame/endgameHubScene';
+import { renderImpelDownModal } from './endgame/impelDownScene';
+import { renderRaidLobbyModal } from './endgame/raidLobbyScene';
 import {
   createBattleWorld,
   spawnBeamInstance,
@@ -74,7 +110,10 @@ import type {
   RpgCampaignState,
   RpgDataRegistry
 } from '../core/types/rpgSchemas';
-import { UnifiedInputManager } from '../input/inputManager';
+import {
+  UnifiedInputManager,
+  type TouchButtonSizePreset
+} from '../input/inputManager';
 import type { KeyBindingConfig } from '../input/keyBindings';
 import type { WindowDisplayMode } from '../platform/deviceAdapter';
 import { LoopbackNetworkHub } from '../platform/net/loopbackTransport';
@@ -95,11 +134,45 @@ import {
 import { renderBattleArena } from '../render/battleRenderer';
 import { CanvasRenderer } from '../render/canvasRenderer';
 import {
+  createDialogueOverlayUiState,
+  handleDialogueOverlayTap,
   renderDialogueCutsceneOverlay,
   renderSaveAndTamperOverlay,
   renderSeaGateBlockedPopup,
-  renderWantedPosterOverlay
+  renderWantedPosterOverlay,
+  stepDialogueOverlayUi,
+  type DialogueOverlayUiState
 } from '../render/dialogueAndPosterRenderer';
+import {
+  createInitialMissionTrackerState,
+  handleMissionTrackerTap,
+  renderMissionTrackerHud,
+  type MissionTrackerState
+} from '../render/missionTrackerHud';
+import {
+  createBootSceneState,
+  renderBootScene,
+  stepBootScene,
+  type BootSceneState
+} from './bootScene';
+import {
+  advanceOpeningNarrationOnTap,
+  createOpeningNarrationState,
+  renderOpeningNarrationScene,
+  stepOpeningNarration,
+  type OpeningNarrationState
+} from './openingNarrationScene';
+import {
+  formatPlayTime,
+  renderTitleSceneCanvas,
+  TitleSceneController,
+  type TitleSavePreview
+} from './titleScene';
+import { StoryDirector } from '../story/storyDirector';
+import {
+  collectIslandWorldMarkers,
+  collectSeaWorldMarkers
+} from '../story/worldMarkerSystem';
 import { renderBattleHud } from '../render/hudRenderer';
 import { renderIslandEpisodeCanvas } from '../render/islandRenderer';
 import { renderSeaSailingCanvas } from '../render/sailingRenderer';
@@ -110,6 +183,9 @@ import {
 import { renderTouchOverlay } from '../render/touchOverlayRenderer';
 
 export type ActiveAppScene =
+  | 'BOOT'
+  | 'TITLE'
+  | 'OPENING_NARRATION'
   | 'SEA_SAILING'
   | 'ISLAND_EPISODE'
   | 'STORY_BATTLE'
@@ -136,7 +212,19 @@ const EV_PRESETS: Record<string, { label: string; evs: StatBlock }> = {
 };
 
 export class SceneManager {
-  public activeScene: ActiveAppScene = 'SEA_SAILING';
+  public activeScene: ActiveAppScene = 'BOOT';
+  public readonly storyDirector = new StoryDirector();
+  private bootState: BootSceneState = createBootSceneState();
+  private bootAssetsReady = false;
+  private latestBootSaveEnvelope: SaveEnvelope | null = null;
+  private titleScene!: TitleSceneController;
+  private openingState: OpeningNarrationState = createOpeningNarrationState();
+  private missionTrackerState: MissionTrackerState =
+    createInitialMissionTrackerState();
+  private dialogueUiState: DialogueOverlayUiState =
+    createDialogueOverlayUiState();
+  private hudToggleBtnEl: HTMLButtonElement | null = null;
+  private typewriterSfxCounter = 0;
   public campaign: RpgCampaignState;
   public islandRuntime: IslandExplorationRuntime | null = null;
   public activeBattleContext: BattleContext | null = null;
@@ -203,6 +291,20 @@ export class SceneManager {
   private saveModalEl!: HTMLElement;
   private onlineModalEl!: HTMLElement;
   private settingsModalEl!: HTMLElement;
+  private endgameModalEl!: HTMLElement;
+  private assetPreviewScene!: AssetPreviewScene;
+  private endgameRegistry: EndgameDataRegistry = defaultEndgameRegistry;
+  private activeImpelDownRun: ImpelDownRunState | null = null;
+  private activeColosseumTournament: ColosseumTournamentState | null = null;
+  private activeEndgameBattleKind: 'IMPEL_DOWN' | 'COLOSSEUM' | 'RAID' | null = null;
+  private colosseumTab: 'TOURNAMENT' | 'TUTOR' = 'TOURNAMENT';
+  private colosseumNotice: string | null = null;
+  private colosseumTutorUnitId = 'luffy';
+  private selectedRaidId = 'raid_kaido_flame';
+  private selectedRaidRelicUnitId = 'luffy';
+  private raidLobbyNotice: string | null = null;
+  private activeOfflineRaidId: string | null = null;
+  private onlineLobbyDefaultMode: '2V2' | '1V1' | 'COOP_RAID' = '2V2';
   private showcaseBarEl!: HTMLElement;
   private mobileDockEl!: HTMLElement;
   private networkBadgeEl!: HTMLElement;
@@ -248,18 +350,152 @@ export class SceneManager {
         this.saveIndicatorTimer = 2.0;
       }
     );
-    await this.assets.preloadCoreAssets(this.gameRegistry.units);
+    this.audio.attachGestureUnlock();
     this.buildDomLayout();
-    await this.restoreLatestSaveOnBoot();
+    this.titleScene = new TitleSceneController(this.rootEl, {
+      onFirstInteraction: () => {
+        this.audio.unlock();
+        void this.audio.playBgm('title_adventure');
+        this.audio.playSfxId('ui_confirm');
+      },
+      onContinue: () => {
+        this.audio.unlock();
+        this.audio.playSfxId('ui_confirm');
+        if (this.latestBootSaveEnvelope) {
+          this.titleScene.hide();
+          this.applyLoadedEnvelope(this.latestBootSaveEnvelope);
+        }
+      },
+      onNewAdventure: () => {
+        this.audio.unlock();
+        this.audio.playSfxId('awakening_drums');
+        this.startNewAdventureFlow();
+      },
+      onSandbox: () => {
+        this.audio.unlock();
+        this.audio.playSfxId('ui_confirm');
+        this.titleScene.hide();
+        this.switchToScene('SANDBOX');
+      },
+      onOnlineOrRaid: () => {
+        this.audio.unlock();
+        this.audio.playSfxId('ui_confirm');
+        this.titleScene.hide();
+        this.switchToScene('SEA_SAILING');
+        this.openOnlineLobbyModal(false);
+      },
+      onSettings: () => {
+        this.audio.unlock();
+        this.audio.playSfxId('ui_move');
+        this.settingsModalEl?.classList.add('open');
+      }
+    });
+    this.assetPreviewScene = new AssetPreviewScene(
+      this.rootEl,
+      this.gameRegistry,
+      this.assets,
+      this.audio,
+      {
+        onClose: () => this.syncSceneBgm()
+      }
+    );
+
+    this.activeScene = 'BOOT';
+    this.bootState = createBootSceneState();
+    this.bootAssetsReady = false;
+    this.updateFloatingHudToggleVisibility();
+
     this.attachInputListeners();
     this.setupPwaAndNetworkListeners();
     this.refreshSideDrawer();
     this.lastTimeMs = this.platform.nowMs();
     this.fpsTimerMs = this.lastTimeMs;
     requestAnimationFrame((t) => this.loop(t));
+
+    // Preload core assets & scan saves asynchronously while BootScene animates
+    await this.assets.preloadCoreAssets(this.gameRegistry.units);
+    await this.scanLatestSaveOnBoot();
+    this.bootAssetsReady = true;
+  }
+
+  private updateFloatingHudToggleVisibility(): void {
+    if (!this.hudToggleBtnEl) return;
+    const hideMenuBtn =
+      this.activeScene === 'BOOT' ||
+      this.activeScene === 'TITLE' ||
+      this.activeScene === 'OPENING_NARRATION';
+    this.hudToggleBtnEl.style.display = hideMenuBtn ? 'none' : '';
+  }
+
+  private buildTitleSavePreview(envelope: SaveEnvelope): TitleSavePreview {
+    const temp = deserializeSaveEnvelopeToCampaign(
+      envelope,
+      this.rpgRegistry,
+      this.gameRegistry
+    );
+    const tempDirector = new StoryDirector();
+    const node = tempDirector.syncFromLoadedCampaign(temp.campaign);
+    const island = temp.campaign.activeIslandId
+      ? this.rpgRegistry.islands[temp.campaign.activeIslandId]
+      : null;
+    const zone = this.rpgRegistry.seaZones[temp.campaign.currentZoneId];
+    return {
+      envelope,
+      chapterLabel: node.chapterLabel,
+      locationName: island
+        ? `🏝 ${island.name}`
+        : `⚓ ${zone?.name ?? envelope.meta.summary.currentZoneName}`,
+      bounty: temp.campaign.totalCrewBounty,
+      playTimeLabel: formatPlayTime(envelope.meta.playTimeSec ?? 0)
+    };
+  }
+
+  public enterTitleScene(): void {
+    this.activeScene = 'TITLE';
+    this.updateFloatingHudToggleVisibility();
+    const preview = this.latestBootSaveEnvelope
+      ? this.buildTitleSavePreview(this.latestBootSaveEnvelope)
+      : null;
+    this.titleScene?.show(preview);
+    void this.audio.playBgm('title_adventure');
+  }
+
+  public startNewAdventureFlow(): void {
+    this.titleScene?.hide();
+    this.campaign = createInitialCampaignState(this.rpgRegistry, this.gameRegistry);
+    this.islandRuntime = null;
+    this.playTimeSec = 0;
+    this.isCurrentSaveTampered = false;
+    this.currentViolationCodes = [];
+    this.openingState = createOpeningNarrationState();
+    this.activeScene = 'OPENING_NARRATION';
+    this.updateFloatingHudToggleVisibility();
+    void this.audio.playBgm('title_adventure', { forceRestart: true, crossfadeSec: 0.35 });
+  }
+
+  public beginFooshaVillagePrologue(): void {
+    this.storyDirector.startNewAdventurePrologue(this.campaign);
+    this.campaign.currentZoneId = 'east_blue';
+    this.campaign.ship.pos = { x: 360, y: 300 };
+    const res = enterIslandEpisode(this.campaign, 'foosha_shells', this.rpgRegistry);
+    if (res.allowed && res.runtime) {
+      this.islandRuntime = res.runtime;
+      this.switchToScene('ISLAND_EPISODE');
+    } else {
+      this.switchToScene('SEA_SAILING');
+    }
+    this.campaign.voyageLog.push(
+      '[제1장: 모험의 여명] 후샤 마을에서 도보로 이동해 골드 마커 [마키노]와 대화하세요!'
+    );
+    void this.triggerAutoSave('제1장 시작');
+    this.refreshSideDrawer();
   }
 
   private handleHardwareBackButton(): { handledByScene: boolean } {
+    if (this.assetPreviewScene?.getIsOpen()) {
+      this.assetPreviewScene.close();
+      return { handledByScene: true };
+    }
     if (this.saveModalEl?.classList.contains('open')) {
       this.saveModalEl.classList.remove('open');
       return { handledByScene: true };
@@ -296,13 +532,41 @@ export class SceneManager {
   }
 
   private getCurrentGlobalSettings(): GlobalSettingsPayload {
+    const vols = this.audio.getVolumes();
     return {
       flashEffect: this.renderer?.settings.flashEffectEnabled ?? true,
       shakeIntensity: this.renderer?.settings.shakeIntensity ?? 0.8,
-      bgmVolume: 0.7,
-      sfxVolume: this.audio.isMuted() ? 0 : 0.8,
+      bgmVolume: vols.bgm,
+      sfxVolume: vols.muted ? 0 : vols.sfx,
       keyBindings: { ...this.input.getBindings() }
     };
+  }
+
+  private applyAudioAndVisualSettings(settings: GlobalSettingsPayload): void {
+    if (this.renderer) {
+      this.renderer.settings.flashEffectEnabled = settings.flashEffect;
+      this.renderer.settings.shakeIntensity = settings.shakeIntensity;
+    }
+    if (typeof settings.bgmVolume === 'number') {
+      this.audio.setBgmVolume(settings.bgmVolume);
+    }
+    if (typeof settings.sfxVolume === 'number') {
+      this.audio.setSfxVolume(settings.sfxVolume);
+    }
+    if (this.settingsModalEl) {
+      const chkFlash = this.settingsModalEl.querySelector('#chk-flash') as HTMLInputElement | null;
+      const rngShake = this.settingsModalEl.querySelector('#rng-shake') as HTMLInputElement | null;
+      const rngBgm = this.settingsModalEl.querySelector('#rng-bgm-vol') as HTMLInputElement | null;
+      const rngSfx = this.settingsModalEl.querySelector('#rng-sfx-vol') as HTMLInputElement | null;
+      if (chkFlash) chkFlash.checked = settings.flashEffect;
+      if (rngShake) rngShake.value = String(Math.round(settings.shakeIntensity * 100));
+      if (rngBgm && typeof settings.bgmVolume === 'number') {
+        rngBgm.value = String(Math.round(settings.bgmVolume * 100));
+      }
+      if (rngSfx && typeof settings.sfxVolume === 'number') {
+        rngSfx.value = String(Math.round(settings.sfxVolume * 100));
+      }
+    }
   }
 
   public buildCurrentSaveEnvelope(slotId: SaveSlotId): SaveEnvelope {
@@ -350,10 +614,9 @@ export class SceneManager {
     this.isCurrentSaveTampered = envelope.meta.antiCheat.isTampered;
     this.currentViolationCodes = [...envelope.meta.antiCheat.violationCodes];
 
-    if (this.renderer) {
-      this.renderer.settings.flashEffectEnabled = restored.settings.flashEffect;
-      this.renderer.settings.shakeIntensity = restored.settings.shakeIntensity;
-    }
+    this.applyAudioAndVisualSettings(restored.settings);
+    this.storyDirector.syncFromLoadedCampaign(this.campaign);
+    this.titleScene?.hide();
 
     if (this.campaign.activeIslandId && this.islandRuntime) {
       this.activeScene = 'ISLAND_EPISODE';
@@ -361,15 +624,16 @@ export class SceneManager {
       this.activeScene = 'SEA_SAILING';
     }
 
+    this.updateFloatingHudToggleVisibility();
+    this.syncSceneBgm();
     this.updateShowcaseToolbar();
     this.refreshSideDrawer();
   }
 
-  private async restoreLatestSaveOnBoot(): Promise<void> {
+  private async scanLatestSaveOnBoot(): Promise<void> {
     const savedSettings = await this.storage.loadGlobalSettings();
-    if (savedSettings && this.renderer) {
-      this.renderer.settings.flashEffectEnabled = savedSettings.flashEffect;
-      this.renderer.settings.shakeIntensity = savedSettings.shakeIntensity;
+    if (savedSettings) {
+      this.applyAudioAndVisualSettings(savedSettings);
     }
 
     const slots = await this.storage.listAllSlots();
@@ -381,9 +645,7 @@ export class SceneManager {
       }
     }
 
-    if (latest) {
-      this.applyLoadedEnvelope(latest);
-    }
+    this.latestBootSaveEnvelope = latest;
   }
 
   private createUnitBuildFromSpecies(
@@ -430,10 +692,117 @@ export class SceneManager {
     };
   }
 
+  private syncSceneBgm(activeWorld?: BattleWorldState): void {
+    if (this.assetPreviewScene?.getIsOpen()) return;
+    if (
+      this.activeScene === 'BOOT' ||
+      this.activeScene === 'TITLE' ||
+      this.activeScene === 'OPENING_NARRATION'
+    ) {
+      this.audio.setBreakFilterActive(false);
+      if (this.activeScene === 'TITLE') {
+        void this.audio.playBgm('title_adventure');
+      }
+      return;
+    }
+
+    if (this.activeScene === 'SEA_SAILING') {
+      this.audio.setBreakFilterActive(false);
+      void this.audio.playBgm(resolveBgmForSeaZone(this.campaign.currentZoneId));
+      return;
+    }
+
+    if (this.activeScene === 'ISLAND_EPISODE') {
+      this.audio.setBreakFilterActive(false);
+      void this.audio.playBgm('island_peaceful');
+      return;
+    }
+
+    const world =
+      activeWorld ??
+      (this.activeScene === 'ONLINE_BATTLE' && this.activeLockstep
+        ? this.activeLockstep.world
+        : this.battleWorld);
+
+    if (!world) {
+      void this.audio.playBgm('battle_normal');
+      return;
+    }
+
+    const isGroggy = Boolean(world.raidState && world.raidState.groggyTimer > 0);
+    this.audio.setBreakFilterActive(isGroggy);
+
+    const isGiantRaid =
+      world.mode === 'COOP_RAID' ||
+      this.activeEndgameBattleKind === 'RAID' ||
+      world.units.some((u) => u.speciesId.startsWith('raid_'));
+
+    if (isGiantRaid) {
+      void this.audio.setBattleMood('RAID_GIANT');
+      return;
+    }
+
+    const hasAwakeningOrPhase2 = world.units.some((u) => {
+      if (!u.isAlive) return false;
+      if (u.bossPhase2Triggered) return true;
+      if (!u.activeFormId) return false;
+      const fDef = this.gameRegistry.forms[u.activeFormId];
+      return (
+        u.activeFormId === 'form_luffy_gear5' ||
+        u.activeFormId === 'form_kaido_beast' ||
+        u.activeFormId === 'form_lucci_awakened' ||
+        u.activeFormId === 'form_magellan_venom_demon' ||
+        fDef?.formCategory === 'AWAKENED_ZOAN' ||
+        fDef?.formCategory === 'ENVIRONMENT_AWAKENING'
+      );
+    });
+
+    if (hasAwakeningOrPhase2) {
+      void this.audio.setBattleMood('YONKO_AWAKENING');
+      return;
+    }
+
+    const isBossFight =
+      Boolean(this.activeEndgameBattleKind) ||
+      world.units.some(
+        (u) =>
+          u.team === 'OMEGA' &&
+          [
+            'kaido',
+            'kizaru',
+            'saturn',
+            'loki',
+            'magellan',
+            'katakuri',
+            'doflamingo',
+            'lucci',
+            'enel',
+            'crocodile',
+            'arlong',
+            'akainu',
+            'aokiji',
+            'blackbeard',
+            'morgan',
+            'buggy',
+            'don_krieg',
+            'smoker',
+            'wapol',
+            'moria',
+            'hody'
+          ].includes(u.speciesId)
+      );
+
+    void this.audio.setBattleMood(isBossFight ? 'BOSS' : 'NORMAL');
+  }
+
   public switchToScene(scene: ActiveAppScene): void {
     this.activeScene = scene;
     this.gateBlockedPopup = null;
     this.forfeitConfirmArmed = false;
+    if (scene !== 'TITLE') {
+      this.titleScene?.hide();
+    }
+    this.updateFloatingHudToggleVisibility();
 
     if (scene === 'SANDBOX') {
       this.prng = new SeededPRNG(this.sandboxConfig.seed);
@@ -449,6 +818,7 @@ export class SceneManager {
       }
     }
 
+    this.syncSceneBgm();
     this.updateShowcaseToolbar();
     this.refreshSideDrawer();
   }
@@ -456,6 +826,9 @@ export class SceneManager {
   public startStoryBattle(ctx: BattleContext): void {
     this.activeBattleContext = ctx;
     this.activeScene = 'STORY_BATTLE';
+    this.titleScene?.hide();
+    this.updateFloatingHudToggleVisibility();
+    this.storyDirector.enterStoryMission(ctx.encounterId, ctx.encounterName);
     this.prng = new SeededPRNG(20261119 + this.tickCount);
     this.battleWorld = createBattleWorldFromContext(
       this.campaign,
@@ -465,11 +838,16 @@ export class SceneManager {
       20261119 + this.tickCount
     );
     this.audio.playSfx('CLASH');
+    this.syncSceneBgm(this.battleWorld);
     this.updateShowcaseToolbar();
     this.refreshSideDrawer();
   }
 
   public finishStoryBattle(victory: boolean): void {
+    if (this.activeEndgameBattleKind) {
+      this.finishEndgameBattle(victory);
+      return;
+    }
     if (!this.activeBattleContext) return;
     const ctx = this.activeBattleContext;
     const prevPoster = this.campaign.latestWantedPoster;
@@ -487,6 +865,7 @@ export class SceneManager {
 
     if (this.campaign.latestWantedPoster !== prevPoster && this.campaign.latestWantedPoster) {
       this.showWantedPosterOverlay = true;
+      this.audio.playSfxId('wanted_poster_slam');
     }
 
     this.activeBattleContext = null;
@@ -497,7 +876,20 @@ export class SceneManager {
     }
 
     if (victory) {
+      const outcome = this.storyDirector.completeStoryMission(
+        this.campaign,
+        ctx.setsFlagOnVictory ?? undefined
+      );
+      if (outcome.notice) {
+        this.campaign.voyageLog.push(outcome.notice);
+        this.saveIndicatorText = outcome.notice.slice(0, 26);
+        this.saveIndicatorTimer = 3.2;
+      }
       void this.triggerAutoSave('전투 승리');
+      void this.audio.playBgm('victory_fanfare', { forceRestart: true, crossfadeSec: 0.2 });
+    } else {
+      this.storyDirector.abortStoryMissionToFreeRoam();
+      this.syncSceneBgm();
     }
 
     this.audio.playSfx('FORM_SHIFT');
@@ -505,11 +897,317 @@ export class SceneManager {
     this.refreshSideDrawer();
   }
 
+  public openEndgameHub(): void {
+    renderEndgameHubModal(
+      this.endgameModalEl,
+      this.campaign,
+      this.endgameRegistry,
+      {
+        onOpenImpelDown: () => this.openImpelDownModal(),
+        onOpenColosseum: () => this.openColosseumModal('TOURNAMENT'),
+        onOpenRaidLobby: () => this.openRaidLobbyModal(),
+        onToggleDebugUnlock: (enabled) => {
+          this.campaign.debugUnlockEndgame = enabled;
+          this.openEndgameHub();
+        },
+        onClose: () => {
+          this.endgameModalEl.classList.remove('open');
+        }
+      }
+    );
+  }
+
+  public openImpelDownModal(): void {
+    if (!isImpelDownUnlocked(this.campaign, this.endgameRegistry)) {
+      this.openEndgameHub();
+      return;
+    }
+    if (!this.activeImpelDownRun) {
+      this.activeImpelDownRun = resumeImpelDownRun(this.campaign);
+    }
+    renderImpelDownModal(
+      this.endgameModalEl,
+      this.activeImpelDownRun,
+      this.campaign,
+      this.gameRegistry,
+      this.endgameRegistry,
+      {
+        onStartNewRun: (partyUnitIds) => {
+          this.activeImpelDownRun = startImpelDownRun(
+            partyUnitIds,
+            20261119 + this.tickCount,
+            this.campaign,
+            this.gameRegistry,
+            this.endgameRegistry
+          );
+          void this.triggerAutoSave('임펠 다운 도전 시작');
+          this.openImpelDownModal();
+        },
+        onStartFloorBattle: (run) => {
+          const { config } = buildImpelDownFloorBattleConfig(
+            run,
+            this.campaign,
+            this.gameRegistry,
+            this.endgameRegistry
+          );
+          this.activeImpelDownRun = run;
+          this.activeEndgameBattleKind = 'IMPEL_DOWN';
+          this.activeBattleContext = null;
+          this.endgameModalEl.classList.remove('open');
+          this.prng = new SeededPRNG(config.seed);
+          this.battleWorld = createBattleWorld(config, this.gameRegistry);
+          this.activeScene = 'STORY_BATTLE';
+          this.audio.playSfx('CLASH');
+          this.updateShowcaseToolbar();
+          this.refreshSideDrawer();
+        },
+        onPickBuff: (run, buffId) => {
+          selectImpelDownDraftBuff(
+            run,
+            buffId,
+            this.campaign,
+            this.gameRegistry,
+            this.endgameRegistry
+          );
+          void this.triggerAutoSave('임펠 다운 버프 선택');
+          this.openImpelDownModal();
+        },
+        onContinueEndless: (run) => {
+          continueImpelDownEndless(run, this.campaign);
+          void this.triggerAutoSave('임펠 다운 무한 심층 돌입');
+          this.openImpelDownModal();
+        },
+        onFinishRun: () => {
+          completeAndExitImpelDownRun(this.campaign);
+          this.activeImpelDownRun = null;
+          void this.triggerAutoSave('임펠 다운 6층 완주');
+          this.endgameModalEl.classList.remove('open');
+          this.refreshSideDrawer();
+        },
+        onSuspendAndClose: (run) => {
+          suspendImpelDownRun(this.campaign, run);
+          void this.triggerAutoSave('임펠 다운 중단 저장');
+          this.endgameModalEl.classList.remove('open');
+          this.refreshSideDrawer();
+        },
+        onClose: () => {
+          this.endgameModalEl.classList.remove('open');
+        }
+      }
+    );
+  }
+
+  public openColosseumModal(tab?: 'TOURNAMENT' | 'TUTOR'): void {
+    if (!isColosseumUnlocked(this.campaign, this.endgameRegistry)) {
+      this.openEndgameHub();
+      return;
+    }
+    if (tab) this.colosseumTab = tab;
+    renderColosseumModal(
+      this.endgameModalEl,
+      this.activeColosseumTournament,
+      this.colosseumTab,
+      this.colosseumTutorUnitId,
+      this.colosseumNotice,
+      this.campaign,
+      this.gameRegistry,
+      this.endgameRegistry,
+      {
+        onCreateTournament: (tierId: ColosseumTierId, playerUnitId: string, ringOutEnabled: boolean) => {
+          this.colosseumNotice = null;
+          this.activeColosseumTournament = createColosseumTournament(
+            tierId,
+            playerUnitId,
+            20261119 + this.tickCount,
+            ringOutEnabled,
+            this.campaign,
+            this.gameRegistry,
+            this.endgameRegistry
+          );
+          this.openColosseumModal('TOURNAMENT');
+        },
+        onStartNextMatch: (tournament) => {
+          const config = buildColosseumMatchBattleConfig(
+            tournament,
+            this.campaign,
+            this.gameRegistry,
+            this.endgameRegistry
+          );
+          if (!config) return;
+          this.activeColosseumTournament = tournament;
+          this.activeEndgameBattleKind = 'COLOSSEUM';
+          this.activeBattleContext = null;
+          this.endgameModalEl.classList.remove('open');
+          this.prng = new SeededPRNG(config.seed);
+          this.battleWorld = createBattleWorld(config, this.gameRegistry);
+          this.activeScene = 'STORY_BATTLE';
+          this.audio.playSfx('CLASH');
+          this.updateShowcaseToolbar();
+          this.refreshSideDrawer();
+        },
+        onResetTournament: () => {
+          this.activeColosseumTournament = null;
+          this.colosseumNotice = null;
+          this.openColosseumModal('TOURNAMENT');
+        },
+        onPurchaseTutorMove: (unitId, moveId, slotIndex) => {
+          const res = purchaseTutorMove(
+            unitId,
+            moveId,
+            slotIndex,
+            this.campaign,
+            this.gameRegistry,
+            this.endgameRegistry
+          );
+          this.colosseumNotice = res.message;
+          if (res.success) {
+            void this.triggerAutoSave('콜로세움 기술 전수');
+          }
+          this.openColosseumModal('TUTOR');
+        },
+        onClose: () => {
+          this.endgameModalEl.classList.remove('open');
+        }
+      },
+      (nextTab, nextUnitId) => {
+        this.colosseumTab = nextTab;
+        if (nextUnitId) this.colosseumTutorUnitId = nextUnitId;
+        this.openColosseumModal();
+      }
+    );
+  }
+
+  public openRaidLobbyModal(): void {
+    renderRaidLobbyModal(
+      this.endgameModalEl,
+      this.selectedRaidId,
+      this.selectedRaidRelicUnitId,
+      this.raidLobbyNotice,
+      this.campaign,
+      this.gameRegistry,
+      this.endgameRegistry,
+      {
+        onStartOfflineRaid: (raidId, squadUnitIds) => {
+          const cfg = buildOfflineRaidBattleConfig(
+            raidId,
+            squadUnitIds,
+            20261119 + this.tickCount,
+            this.campaign,
+            this.gameRegistry,
+            this.endgameRegistry
+          );
+          if (!cfg) return;
+          this.selectedRaidId = raidId;
+          this.activeOfflineRaidId = raidId;
+          this.activeEndgameBattleKind = 'RAID';
+          this.activeBattleContext = null;
+          this.endgameModalEl.classList.remove('open');
+          this.prng = new SeededPRNG(cfg.seed);
+          this.battleWorld = createBattleWorld(cfg, this.gameRegistry);
+          this.activeScene = 'STORY_BATTLE';
+          this.audio.playSfx('CLASH');
+          this.updateShowcaseToolbar();
+          this.refreshSideDrawer();
+        },
+        onOpenOnlineCoopRaid: (raidId) => {
+          this.selectedRaidId = raidId;
+          this.onlineLobbyDefaultMode = 'COOP_RAID';
+          this.endgameModalEl.classList.remove('open');
+          this.openOnlineLobbyModal(false);
+        },
+        onEquipRelic: (unitId, relicId) => {
+          const res = equipRaidRelic(
+            unitId,
+            relicId,
+            this.campaign,
+            this.gameRegistry,
+            this.endgameRegistry
+          );
+          this.raidLobbyNotice = res.message;
+          if (res.success) {
+            void this.triggerAutoSave('레이드 유물 장착');
+          }
+          this.openRaidLobbyModal();
+        },
+        onClose: () => {
+          this.endgameModalEl.classList.remove('open');
+        }
+      },
+      (raidId, relicUnitId) => {
+        this.selectedRaidId = raidId;
+        this.selectedRaidRelicUnitId = relicUnitId;
+        this.openRaidLobbyModal();
+      }
+    );
+  }
+
+  public finishEndgameBattle(victory: boolean): void {
+    const kind = this.activeEndgameBattleKind;
+    this.activeEndgameBattleKind = null;
+    this.activeScene = this.islandRuntime ? 'ISLAND_EPISODE' : 'SEA_SAILING';
+    this.audio.playSfx('FORM_SHIFT');
+    this.updateShowcaseToolbar();
+    this.refreshSideDrawer();
+
+    if (kind === 'IMPEL_DOWN' && this.activeImpelDownRun) {
+      recordImpelDownFloorOutcome(
+        this.activeImpelDownRun,
+        this.battleWorld,
+        victory,
+        this.campaign,
+        this.endgameRegistry
+      );
+      void this.triggerAutoSave(victory ? '임펠 다운 층 돌파' : '임펠 다운 종료');
+      this.openImpelDownModal();
+    } else if (kind === 'COLOSSEUM' && this.activeColosseumTournament) {
+      const res = recordColosseumPlayerMatchResult(
+        this.activeColosseumTournament,
+        victory,
+        this.battleWorld.colosseumRingOut.resolvedByRingOut,
+        this.campaign,
+        this.endgameRegistry
+      );
+      if (res.playerChampion) {
+        this.colosseumNotice = `🏆 ${this.activeColosseumTournament.tierId}급 토너먼트 우승! +${res.cpAwarded} CP / 수배서 프레임: ${res.newFrameTier.toUpperCase()}`;
+        void this.triggerAutoSave('코리다 콜로세움 우승');
+      }
+      this.openColosseumModal('TOURNAMENT');
+    } else if (kind === 'RAID' && this.activeOfflineRaidId) {
+      const raidId = this.activeOfflineRaidId;
+      this.activeOfflineRaidId = null;
+      const res = recordRaidOutcome(
+        raidId,
+        victory,
+        this.battleWorld.elapsedSec,
+        this.campaign,
+        this.endgameRegistry
+      );
+      this.raidLobbyNotice = victory
+        ? `🏆 레이드 토벌 성공 (${this.battleWorld.elapsedSec.toFixed(1)}s)!${res.unlockedRelic ? ` 유물 해금: ${res.unlockedRelic.icon} ${res.unlockedRelic.name}` : ''}`
+        : '💀 거대 보스 레이드 실패 — 스쿼드 편성과 유물을 정비하고 재도전하세요!';
+      if (victory) {
+        void this.triggerAutoSave('거대 보스 레이드 토벌');
+      }
+      this.openRaidLobbyModal();
+    }
+  }
+
   public finishOnlineMatch(winnerTeam: 'ALPHA' | 'OMEGA' | 'DRAW', reason: string): void {
-    const myTeam =
-      this.onlineAssignedSlotIndex === 0 || this.onlineAssignedSlotIndex === 1
+    const isCoopRaid = this.currentRoomState?.mode === 'COOP_RAID';
+    const myTeam = isCoopRaid
+      ? 'ALPHA'
+      : this.onlineAssignedSlotIndex === 0 || this.onlineAssignedSlotIndex === 1
         ? 'ALPHA'
         : 'OMEGA';
+    if (isCoopRaid && winnerTeam === 'ALPHA' && this.currentRoomState?.raidId) {
+      recordRaidOutcome(
+        this.currentRoomState.raidId,
+        true,
+        this.activeLockstep?.world.elapsedSec ?? 30,
+        this.campaign,
+        this.endgameRegistry
+      );
+    }
     const outcome: 'WIN' | 'LOSS' | 'DRAW' =
       winnerTeam === 'DRAW'
         ? 'DRAW'
@@ -548,6 +1246,11 @@ export class SceneManager {
   public executeDebugStoryJump(actionKey: string): void {
     this.gateBlockedPopup = null;
     this.showWantedPosterOverlay = false;
+
+    if (actionKey === 'open_asset_preview') {
+      this.assetPreviewScene?.open();
+      return;
+    }
 
     if (actionKey === 'sea_east_blue') {
       exitIslandToSea(this.campaign);
@@ -790,33 +1493,60 @@ export class SceneManager {
     style.textContent = `
       * { box-sizing: border-box; margin: 0; padding: 0; }
       html, body {
-        width: 100%;
-        height: 100%;
+        width: 100dvw;
+        height: 100dvh;
         background: #070b12;
         color: #e2e8f0;
         font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        overflow-x: hidden;
-        padding-top: env(safe-area-inset-top);
-        padding-bottom: env(safe-area-inset-bottom);
-        padding-left: env(safe-area-inset-left);
-        padding-right: env(safe-area-inset-right);
+        overflow: hidden;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        overscroll-behavior: none;
       }
       #app {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        width: 100%;
+        position: relative;
+        width: 100dvw;
+        height: 100dvh;
+        overflow: hidden;
+      }
+      .hud-drawer-toggle-btn {
+        position: fixed;
+        top: calc(env(safe-area-inset-top, 0px) + 6px);
+        right: calc(env(safe-area-inset-right, 0px) + 6px);
+        z-index: 65;
+        background: rgba(15, 23, 42, 0.86);
+        color: #fde047;
+        border: 1.5px solid #38bdf8;
+        border-radius: 6px;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: 700;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
       }
       .top-bar {
-        display: flex;
+        position: fixed;
+        top: calc(env(safe-area-inset-top, 0px) + 40px);
+        left: calc(env(safe-area-inset-left, 0px) + 8px);
+        right: calc(env(safe-area-inset-right, 0px) + 8px);
+        z-index: 60;
+        display: none;
         flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
         gap: 6px;
-        padding: 6px 10px;
-        background: #0f172a;
-        border-bottom: 1px solid #1e293b;
+        padding: 8px 10px;
+        background: rgba(15, 23, 42, 0.94);
+        border: 1.5px solid #38bdf8;
+        border-radius: 8px;
         font-size: 12px;
+        max-height: 44dvh;
+        overflow-y: auto;
+        touch-action: pan-y;
+      }
+      .top-bar.open {
+        display: flex;
       }
       .top-bar-group {
         display: flex;
@@ -877,105 +1607,78 @@ export class SceneManager {
         color: #fecaca;
       }
       .workspace-main {
-        display: flex;
-        flex: 1;
-        align-items: flex-start;
-        justify-content: center;
-        gap: 10px;
-        padding: 8px;
-        flex-wrap: wrap;
+        position: fixed;
+        inset: 0;
+        width: 100dvw;
+        height: 100dvh;
+        overflow: hidden;
       }
       .canvas-stage-col {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        flex: 1 1 640px;
-        max-width: 960px;
-        width: 100%;
+        position: fixed;
+        inset: 0;
+        width: 100dvw;
+        height: 100dvh;
+        overflow: hidden;
       }
       .canvas-wrapper {
-        width: 100%;
-        max-width: 960px;
-        aspect-ratio: 16 / 9;
-        border: 2px solid #1e293b;
-        border-radius: 6px;
+        position: fixed;
+        inset: 0;
+        width: 100dvw;
+        height: 100dvh;
+        border: none;
+        border-radius: 0;
         overflow: hidden;
-        background: #090d16;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        background: #070b12;
       }
       .canvas-wrapper canvas {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        display: block;
         image-rendering: pixelated;
+        touch-action: none;
+        user-select: none;
       }
       .showcase-bar {
-        display: flex;
+        position: fixed;
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 6px);
+        left: calc(env(safe-area-inset-left, 0px) + 8px);
+        right: calc(env(safe-area-inset-right, 0px) + 8px);
+        z-index: 58;
+        display: none;
         flex-wrap: wrap;
         gap: 5px;
-        margin-top: 6px;
-        width: 100%;
+        padding: 6px;
+        border-radius: 8px;
+        background: rgba(15, 23, 42, 0.92);
+        border: 1px solid #334155;
         justify-content: center;
+      }
+      .showcase-bar.open {
+        display: flex;
       }
       .mobile-gamepad-dock {
-        display: none;
-        width: 100%;
-        max-width: 500px;
-        margin-top: 8px;
-        padding: 10px;
-        background: rgba(15, 23, 42, 0.95);
-        border: 1px solid #334155;
-        border-radius: 10px;
-        justify-content: space-between;
-        align-items: center;
-        user-select: none;
-        touch-action: manipulation;
-      }
-      .dpad-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 42px);
-        grid-template-rows: repeat(3, 42px);
-        gap: 4px;
-      }
-      .dpad-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #1e293b;
-        border: 1px solid #38bdf8;
-        border-radius: 8px;
-        font-weight: bold;
-        font-size: 15px;
-      }
-      .action-pad-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 54px);
-        gap: 6px;
-      }
-      .act-btn {
-        height: 44px;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 11px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        display: none !important;
       }
       .side-drawer {
-        flex: 0 1 335px;
-        width: 100%;
-        max-width: 350px;
-        background: #0f172a;
-        border: 1px solid #1e293b;
-        border-radius: 6px;
+        position: fixed;
+        top: calc(env(safe-area-inset-top, 0px) + 40px);
+        right: calc(env(safe-area-inset-right, 0px) + 8px);
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 46px);
+        width: min(350px, 86dvw);
+        z-index: 59;
+        display: none;
+        background: rgba(15, 23, 42, 0.96);
+        border: 1.5px solid #38bdf8;
+        border-radius: 8px;
         padding: 10px;
         font-size: 12px;
-        display: flex;
+        overflow-y: auto;
+        touch-action: pan-y;
         flex-direction: column;
         gap: 8px;
+      }
+      .side-drawer.open {
+        display: flex;
       }
       .config-card {
         background: #162032;
@@ -1066,12 +1769,52 @@ export class SceneManager {
         align-items: center;
         justify-content: space-between;
       }
+      .endgame-modal-box {
+        max-width: 740px;
+        width: 94vw;
+        max-height: 88vh;
+        overflow-y: auto;
+      }
+      .endgame-card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 10px;
+      }
+      .endgame-mode-card {
+        background: #0f172a;
+        border: 1.5px solid #334155;
+        border-radius: 8px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .impel-draft-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .impel-draft-card {
+        background: #0f172a;
+        border: 1.5px solid #64748b;
+        border-radius: 8px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+      }
       @media (max-width: 600px) {
         .mobile-gamepad-dock {
           display: flex;
         }
         .side-drawer {
           max-width: 100%;
+        }
+        .endgame-modal-box {
+          width: 96vw;
+          padding: 10px;
+        }
+        .impel-draft-grid {
+          grid-template-columns: 1fr;
         }
       }
     `;
@@ -1083,6 +1826,7 @@ export class SceneManager {
       <div class="top-bar-group">
         <span class="brand-title">🏴‍☠️ ONE PIECE GRAND VOYAGE</span>
         <button id="tab-rpg" class="btn-tab-active">⚓ 해역 항해 & 에피소드 RPG</button>
+        <button id="tab-endgame" style="background:#713f12;border-color:#facc15;color:#fef08a;">🏆 엔드게임 허브</button>
         <button id="tab-online" style="background:#581c87;border-color:#c084fc;">🌐 실시간 통신 대전 (Phase 4)</button>
         <button id="tab-sandbox">⚔ 배틀 샌드박스</button>
         <span id="net-status-badge" class="net-badge">🟢 온라인 (오프라인 캐시 준비됨)</span>
@@ -1114,13 +1858,23 @@ export class SceneManager {
             <option value="dock_egghead">9. [신세계 5/6] 미래섬 에그헤드 (S-호크·키자루·새턴 성)</option>
             <option value="dock_elbaf">10. [신세계 6/6] 거인족의 나라 엘바프 (거대 보스: 로키)</option>
             <option value="clear_current_island">★ 현재 입항한 섬 에피소드 즉시 클리어</option>
+            <option value="open_asset_preview">🎨 [Dev] AssetPreviewScene (스프라이트·타일셋·오디오)</option>
           </select>
         </label>
+        <button id="btn-asset-preview" style="background:#0f766e;border-color:#2dd4bf;color:#ccfbf1;">🎨 에셋 프리뷰</button>
+        <button id="btn-return-title" style="background:#334155;border-color:#94a3b8;color:#f8fafc;">🏠 타이틀</button>
         <button id="btn-save-menu" class="btn-tab-active">💾 세이브 / 백업 관리</button>
         <button id="btn-camp-menu">🏕 선원·직책·수련</button>
         <button id="btn-settings">⚙ 설정/접근성</button>
       </div>
     `;
+    const hudToggleBtn = document.createElement('button');
+    hudToggleBtn.id = 'btn-toggle-hud-drawer';
+    hudToggleBtn.className = 'hud-drawer-toggle-btn';
+    hudToggleBtn.textContent = '☰ 메뉴';
+    this.hudToggleBtnEl = hudToggleBtn;
+    this.rootEl.appendChild(hudToggleBtn);
+
     this.rootEl.appendChild(topBar);
     this.networkBadgeEl = topBar.querySelector('#net-status-badge') as HTMLElement;
 
@@ -1142,6 +1896,14 @@ export class SceneManager {
     const canvasWrapper = document.createElement('div');
     canvasWrapper.className = 'canvas-wrapper';
     this.renderer = new CanvasRenderer(canvasWrapper);
+    this.input.updateViewportMetrics(this.renderer.getMetrics());
+    this.renderer.viewport.onChange((m) => {
+      this.input.updateViewportMetrics(m);
+    });
+    if (typeof window !== 'undefined') {
+      (window as unknown as { __OPGV_VIEWPORT__?: unknown }).__OPGV_VIEWPORT__ =
+        this.renderer.viewport;
+    }
     stageCol.appendChild(canvasWrapper);
 
     this.showcaseBarEl = document.createElement('div');
@@ -1184,6 +1946,11 @@ export class SceneManager {
 
     this.settingsModalEl = this.createSettingsModal();
     this.rootEl.appendChild(this.settingsModalEl);
+
+    this.endgameModalEl = document.createElement('div');
+    this.endgameModalEl.className = 'modal-backdrop';
+    this.endgameModalEl.id = 'endgame-modal';
+    this.rootEl.appendChild(this.endgameModalEl);
 
     this.bindTopBarEvents(topBar);
     this.updateShowcaseToolbar();
@@ -1484,13 +2251,25 @@ export class SceneManager {
         ${waitingRoomHtml}
 
         <div class="slot-card">
-          <h4 style="color:#38bdf8;font-size:12px;">1. 새로운 통신 대전 방 만들기 (Create Room)</h4>
+          <h4 style="color:#38bdf8;font-size:12px;">1. 새로운 통신 대전 / 협동 레이드 방 만들기 (Create Room)</h4>
           <div class="field-row">
             <label>대전 모드:</label>
             <select id="sel-online-mode">
-              <option value="2V2" selected>2:2 합동 대전 (빈자리 CPU 채우기 지원)</option>
-              <option value="1V1">1:1 정면 결투</option>
+              <option value="2V2" ${this.onlineLobbyDefaultMode === '2V2' ? 'selected' : ''}>2:2 합동 대전 (빈자리 CPU 채우기 지원)</option>
+              <option value="1V1" ${this.onlineLobbyDefaultMode === '1V1' ? 'selected' : ''}>1:1 정면 결투</option>
+              <option value="COOP_RAID" ${this.onlineLobbyDefaultMode === 'COOP_RAID' ? 'selected' : ''}>🤝 협동 레이드 (Co-op Raid: 2~3인 + 빈자리 AI)</option>
             </select>
+            <label>레이드 보스:</label>
+            <select id="sel-online-raid-id">
+              ${Object.values(this.endgameRegistry.raids)
+                .map(
+                  (r) =>
+                    `<option value="${r.raidId}" ${r.raidId === this.selectedRaidId ? 'selected' : ''}>${r.name} (Scale ${r.entityScale}x)</option>`
+                )
+                .join('')}
+            </select>
+          </div>
+          <div class="field-row">
             <label>파티 규칙:</label>
             <select id="sel-online-rule">
               <option value="standard_preset">표준 프리셋 평등전 (standard_preset)</option>
@@ -1498,8 +2277,6 @@ export class SceneManager {
                 내 RPG 세이브 파티전 (rpg_save)${!onlineEligibility.allowed ? ' [차단됨]' : ''}
               </option>
             </select>
-          </div>
-          <div class="field-row">
             <label>아레나 크기:</label>
             <select id="sel-online-arena">
               <option value="medium">Medium (840x460)</option>
@@ -1542,7 +2319,13 @@ export class SceneManager {
       ?.addEventListener('click', async () => {
         const mode = (
           this.onlineModalEl.querySelector('#sel-online-mode') as HTMLSelectElement
-        ).value as '1V1' | '2V2';
+        ).value as '1V1' | '2V2' | 'COOP_RAID';
+        const raidId =
+          (
+            this.onlineModalEl.querySelector(
+              '#sel-online-raid-id'
+            ) as HTMLSelectElement | null
+          )?.value ?? this.selectedRaidId;
         const partyRule = (
           this.onlineModalEl.querySelector('#sel-online-rule') as HTMLSelectElement
         ).value as PartyRuleMode;
@@ -1564,6 +2347,7 @@ export class SceneManager {
           playerName: '몽키 D. 루피(P1)',
           battleCalcVersion: BATTLE_CALC_VERSION,
           mode,
+          raidId: mode === 'COOP_RAID' ? raidId : undefined,
           partyRule,
           arenaSizeKey,
           awakeningAllowed: true,
@@ -2620,7 +3404,21 @@ export class SceneManager {
       <div class="modal-box" role="dialog" aria-label="선원 직책 및 패기 수련 캠프">
         <h3 style="color:#fde047;font-size:15px;">🏕 밀짚모자 일당 10인 집결 & 항해 일지 · 패기 수련</h3>
         <div style="font-size:12px;color:#38bdf8;">
-          보유 베리: ฿ ${this.campaign.berries.toLocaleString()} | 수련 포인트: ${this.campaign.trainingPoints} TP | 로드 포네그리프: ${this.campaign.roadPoneglyphCount}/4
+          보유 베리: ฿ ${this.campaign.berries.toLocaleString()} | 수련 포인트: ${this.campaign.trainingPoints} TP | 로드 포네그리프: ${this.campaign.roadPoneglyphCount}/4 | 콜로세움 CP: <strong style="color:#facc15;">${this.campaign.endgame.colosseum.cp} CP</strong>
+        </div>
+        <div class="slot-card" id="camp-wanted-poster-frame-card" style="background:#1c1917;border-width:2px;border-color:${
+          this.campaign.endgame.colosseum.posterFrameTier === 'diamond'
+            ? '#38bdf8'
+            : this.campaign.endgame.colosseum.posterFrameTier === 'platinum'
+              ? '#cbd5e1'
+              : this.campaign.endgame.colosseum.posterFrameTier === 'gold'
+                ? '#eab308'
+                : '#78350f'
+        };">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+            <strong style="color:#fde047;font-size:12px;">📜 수배서 테두리 등급: [${this.campaign.endgame.colosseum.posterFrameTier.toUpperCase()}]</strong>
+            <span style="font-size:10px;color:#cbd5e1;">총 현상금: ฿ ${this.campaign.totalCrewBounty.toLocaleString()} | 임펠 다운 최고: Level ${this.campaign.endgame.impelDown.highestFloor}</span>
+          </div>
         </div>
         <div class="slot-card" style="background:#0f172a;border-color:#4ade80;">
           <strong style="color:#4ade80;font-size:12px;">🏴‍☠️ 밀짚모자 일당 집결 진행도 (${joinedStrawHats.length} / 10명)</strong>
@@ -2809,12 +3607,32 @@ export class SceneManager {
           <input type="range" id="rng-shake" min="0" max="100" value="80" />
         </div>
         <div class="field-row">
+          <label for="rng-bgm-vol">BGM 음량 (0~100%):</label>
+          <input type="range" id="rng-bgm-vol" min="0" max="100" value="70" />
+        </div>
+        <div class="field-row">
+          <label for="rng-sfx-vol">효과음(SFX) 음량 (0~100%):</label>
+          <input type="range" id="rng-sfx-vol" min="0" max="100" value="80" />
+        </div>
+        <div class="field-row">
           <label for="chk-mute">오디오 음소거 (Mute Audio):</label>
           <input type="checkbox" id="chk-mute" />
         </div>
         <div class="field-row">
           <label for="chk-touch-ui">캔버스 가상 터치 UI 상시 표시:</label>
           <input type="checkbox" id="chk-touch-ui" />
+        </div>
+        <div class="field-row">
+          <label for="sel-touch-size">터치 버튼 크기 (6.9인치 엄지 최적화):</label>
+          <select id="sel-touch-size">
+            <option value="SMALL" ${this.input.getTouchPrefs().sizePreset === 'SMALL' ? 'selected' : ''}>소 (85%)</option>
+            <option value="MEDIUM" ${this.input.getTouchPrefs().sizePreset === 'MEDIUM' ? 'selected' : ''}>중 (100% 권장)</option>
+            <option value="LARGE" ${this.input.getTouchPrefs().sizePreset === 'LARGE' ? 'selected' : ''}>대 (120%)</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label for="rng-touch-opacity">터치 버튼 투명도 (35~100%):</label>
+          <input type="range" id="rng-touch-opacity" min="35" max="100" value="${Math.round(this.input.getTouchPrefs().opacity * 100)}" />
         </div>
         <hr style="border-color:#1e293b;" />
         <div class="field-row">
@@ -2838,7 +3656,17 @@ export class SceneManager {
   }
 
   private bindTopBarEvents(topBar: HTMLElement): void {
+    const toggleBtn = this.rootEl.querySelector('#btn-toggle-hud-drawer') as HTMLButtonElement | null;
+    toggleBtn?.addEventListener('click', () => {
+      const opening = !topBar.classList.contains('open');
+      topBar.classList.toggle('open', opening);
+      this.sideDrawerEl?.classList.toggle('open', opening);
+      this.showcaseBarEl?.classList.toggle('open', opening);
+      toggleBtn.textContent = opening ? '✕ 닫기' : '☰ 메뉴';
+    });
+
     const tabRpg = topBar.querySelector('#tab-rpg') as HTMLButtonElement;
+    const tabEndgame = topBar.querySelector('#tab-endgame') as HTMLButtonElement | null;
     const tabOnline = topBar.querySelector('#tab-online') as HTMLButtonElement;
     const tabSandbox = topBar.querySelector('#tab-sandbox') as HTMLButtonElement;
 
@@ -2848,6 +3676,10 @@ export class SceneManager {
       this.switchToScene(
         this.campaign.activeIslandId ? 'ISLAND_EPISODE' : 'SEA_SAILING'
       );
+    });
+
+    tabEndgame?.addEventListener('click', () => {
+      this.openEndgameHub();
     });
 
     tabOnline.addEventListener('click', () => {
@@ -2867,6 +3699,20 @@ export class SceneManager {
       tabSandbox.classList.remove('btn-tab-active');
       this.executeDebugStoryJump(selJump.value);
       selJump.value = '';
+    });
+
+    topBar.querySelector('#btn-asset-preview')?.addEventListener('click', () => {
+      this.audio.unlock();
+      this.assetPreviewScene?.open();
+    });
+
+    topBar.querySelector('#btn-return-title')?.addEventListener('click', async () => {
+      await this.scanLatestSaveOnBoot();
+      topBar.classList.remove('open');
+      this.sideDrawerEl?.classList.remove('open');
+      this.showcaseBarEl?.classList.remove('open');
+      if (this.hudToggleBtnEl) this.hudToggleBtnEl.textContent = '☰ 메뉴';
+      this.enterTitleScene();
     });
 
     topBar.querySelector('#btn-save-menu')?.addEventListener('click', () => {
@@ -2922,14 +3768,41 @@ export class SceneManager {
       void this.storage.saveGlobalSettings(this.getCurrentGlobalSettings());
     });
 
+    const rngBgmVol = this.settingsModalEl.querySelector('#rng-bgm-vol') as HTMLInputElement | null;
+    rngBgmVol?.addEventListener('input', () => {
+      this.audio.setBgmVolume(Number(rngBgmVol.value) / 100);
+      void this.storage.saveGlobalSettings(this.getCurrentGlobalSettings());
+    });
+
+    const rngSfxVol = this.settingsModalEl.querySelector('#rng-sfx-vol') as HTMLInputElement | null;
+    rngSfxVol?.addEventListener('input', () => {
+      this.audio.setSfxVolume(Number(rngSfxVol.value) / 100);
+      void this.storage.saveGlobalSettings(this.getCurrentGlobalSettings());
+    });
+
     const chkMute = this.settingsModalEl.querySelector('#chk-mute') as HTMLInputElement;
     chkMute.addEventListener('change', () => {
       this.audio.setMuted(chkMute.checked);
+      void this.storage.saveGlobalSettings(this.getCurrentGlobalSettings());
     });
 
     const chkTouch = this.settingsModalEl.querySelector('#chk-touch-ui') as HTMLInputElement;
     chkTouch.addEventListener('change', () => {
       this.input.forceShowTouchUi = chkTouch.checked;
+    });
+
+    const selTouchSize = this.settingsModalEl.querySelector(
+      '#sel-touch-size'
+    ) as HTMLSelectElement | null;
+    selTouchSize?.addEventListener('change', () => {
+      this.input.setTouchButtonSize(selTouchSize.value as TouchButtonSizePreset);
+    });
+
+    const rngTouchOpacity = this.settingsModalEl.querySelector(
+      '#rng-touch-opacity'
+    ) as HTMLInputElement | null;
+    rngTouchOpacity?.addEventListener('input', () => {
+      this.input.setTouchOpacity(Number(rngTouchOpacity.value) / 100);
     });
 
     const bindDodge = this.settingsModalEl.querySelector('#bind-dodge') as HTMLInputElement;
@@ -2956,6 +3829,22 @@ export class SceneManager {
     const c = this.renderer.canvas;
     c.addEventListener('pointerdown', (e) => {
       const pt = this.renderer.clientToLogical(e.clientX, e.clientY);
+      if (this.activeScene === 'BOOT') return;
+      if (this.activeScene === 'TITLE') {
+        this.titleScene?.expandMenu();
+        return;
+      }
+      if (this.activeScene === 'OPENING_NARRATION') {
+        this.audio.unlock();
+        const act = advanceOpeningNarrationOnTap(this.openingState, pt);
+        if (act === 'SKIPPED' || act === 'FINISHED') {
+          this.audio.playSfxId('ui_confirm');
+          this.beginFooshaVillagePrologue();
+        } else {
+          this.audio.playSfxId('ui_move');
+        }
+        return;
+      }
       if (this.showWantedPosterOverlay) {
         this.showWantedPosterOverlay = false;
         return;
@@ -2970,6 +3859,55 @@ export class SceneManager {
       ) {
         return;
       }
+
+      // Bandai RPG Dialogue tap-to-complete / tap-to-advance + [Auto / Log / Skip]
+      if (
+        this.activeScene === 'ISLAND_EPISODE' &&
+        this.islandRuntime?.activeDialogueNpc
+      ) {
+        const res = handleDialogueOverlayTap(
+          pt,
+          this.islandRuntime.activeDialogueNpc,
+          this.islandRuntime.dialogueLineIndex,
+          this.dialogueUiState
+        );
+        if (res === 'ADVANCE') {
+          this.audio.playSfxId('ui_move');
+          this.pendingRpgInteract = true;
+        } else if (res === 'SKIP_ALL') {
+          this.audio.playSfxId('ui_cancel');
+          // Advance straight to final line and finish dialogue cleanly
+          this.islandRuntime.dialogueLineIndex = Math.max(
+            0,
+            this.islandRuntime.activeDialogueNpc.dialogueLines.length - 1
+          );
+          this.pendingRpgInteract = true;
+        } else {
+          this.audio.playSfxId('ui_move');
+        }
+        return;
+      }
+
+      // MissionTrackerHUD tap (collapse/expand or Gold Marker highlight)
+      if (
+        this.activeScene === 'SEA_SAILING' ||
+        this.activeScene === 'ISLAND_EPISODE'
+      ) {
+        const trackerAct = handleMissionTrackerTap(pt, this.missionTrackerState);
+        if (trackerAct === 'HIGHLIGHT_GOLD') {
+          this.storyDirector.triggerHighlightGoldMarker(4.5);
+          this.audio.playSfxId('ui_confirm');
+          const node = this.storyDirector.getCurrentNode(this.campaign);
+          this.saveIndicatorText = `★ 목표 강조: ${node.title}`;
+          this.saveIndicatorTimer = 2.6;
+          return;
+        }
+        if (trackerAct === 'TOGGLED') {
+          this.audio.playSfxId('ui_move');
+          return;
+        }
+      }
+
       const handledByTouchUi = this.input.handleCanvasPointerDown(pt);
       if (
         !handledByTouchUi &&
@@ -2991,6 +3929,29 @@ export class SceneManager {
     window.addEventListener('keydown', (e) => {
       const tag = (e.target as HTMLElement | null)?.tagName;
       if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+
+      if (this.activeScene === 'TITLE') {
+        this.titleScene?.expandMenu();
+        return;
+      }
+
+      if (this.activeScene === 'OPENING_NARRATION') {
+        if (e.code === 'Escape') {
+          this.audio.playSfxId('ui_confirm');
+          this.beginFooshaVillagePrologue();
+          return;
+        }
+        if (e.code === 'Space' || e.code === 'Enter' || e.code === 'KeyE') {
+          const act = advanceOpeningNarrationOnTap(this.openingState);
+          if (act === 'SKIPPED' || act === 'FINISHED') {
+            this.audio.playSfxId('ui_confirm');
+            this.beginFooshaVillagePrologue();
+          } else {
+            this.audio.playSfxId('ui_move');
+          }
+          return;
+        }
+      }
 
       if (e.code === 'KeyE' || e.code === 'Space' || e.code === 'Enter') {
         if (this.showWantedPosterOverlay) {
@@ -3042,8 +4003,28 @@ export class SceneManager {
 
   private stepRpgFrame(dt: number): void {
     this.playTimeSec += dt;
+    this.storyDirector.stepTimers(dt);
     if (this.saveIndicatorTimer > 0) {
       this.saveIndicatorTimer = Math.max(0, this.saveIndicatorTimer - dt);
+    }
+    if (this.islandRuntime?.activeDialogueNpc) {
+      const dlgStep = stepDialogueOverlayUi(
+        this.dialogueUiState,
+        this.islandRuntime.activeDialogueNpc,
+        this.islandRuntime.dialogueLineIndex,
+        dt
+      );
+      if (dlgStep.charRevealed) {
+        this.typewriterSfxCounter += 1;
+        if (this.typewriterSfxCounter % 3 === 0) {
+          this.audio.playSfxId('ui_move');
+        }
+      }
+      if (dlgStep.shouldAutoAdvance) {
+        this.pendingRpgInteract = true;
+      }
+    } else {
+      stepDialogueOverlayUi(this.dialogueUiState, null, -1, dt);
     }
     if (this.campaign.shipboardCookingCooldownSec > 0) {
       this.campaign.shipboardCookingCooldownSec = Math.max(
@@ -3069,6 +4050,9 @@ export class SceneManager {
     }
 
     if (this.activeScene === 'SEA_SAILING') {
+      if (coupPressed) {
+        this.audio.playSfxId('coup_de_burst');
+      }
       this.lastSailingStep = stepSeaSailing(
         this.campaign,
         {
@@ -3092,6 +4076,19 @@ export class SceneManager {
 
       if (interactPressed) {
         if (
+          this.lastSailingStep.nearbyIsland &&
+          this.lastSailingStep.nearbyIsland.endgameMode === 'IMPEL_DOWN'
+        ) {
+          if (isImpelDownUnlocked(this.campaign, this.endgameRegistry)) {
+            this.openImpelDownModal();
+            this.audio.playSfx('UI_CLICK');
+          } else {
+            this.campaign.voyageLog.push(
+              '[임펠 다운 잠김] 마린포드 에피소드(ep_marineford) 완료 후 입항할 수 있습니다. (엔드게임 허브 Debug 토글 가능)'
+            );
+            this.openEndgameHub();
+          }
+        } else if (
           this.lastSailingStep.nearbyIsland &&
           this.lastSailingStep.nearbyIsland.playableInVerticalSlice
         ) {
@@ -3117,6 +4114,7 @@ export class SceneManager {
           } else {
             void this.triggerAutoSave('해역 관문 통과');
             this.audio.playSfx('FORM_SHIFT');
+            this.syncSceneBgm();
             this.refreshSideDrawer();
           }
         }
@@ -3143,6 +4141,19 @@ export class SceneManager {
         return;
       }
 
+      if (this.lastIslandStep.requestedEndgameMode) {
+        if (this.lastIslandStep.requestedEndgameMode === 'COLOSSEUM') {
+          this.openColosseumModal('TOURNAMENT');
+        } else if (this.lastIslandStep.requestedEndgameMode === 'IMPEL_DOWN') {
+          this.openImpelDownModal();
+        } else if (this.lastIslandStep.requestedEndgameMode === 'RAID') {
+          this.openRaidLobbyModal();
+        } else {
+          this.openEndgameHub();
+        }
+        return;
+      }
+
       if (this.lastIslandStep.triggeredBattle) {
         this.startStoryBattle(this.lastIslandStep.triggeredBattle);
         return;
@@ -3150,6 +4161,16 @@ export class SceneManager {
 
       if (this.lastIslandStep.requestedExitToSea) {
         this.islandRuntime = null;
+        if (this.storyDirector.shouldTriggerFirstSailTutorial(this.campaign)) {
+          this.campaign.voyageLog.push(
+            '[제1장 첫 출항] 알비다 해적단이 근해를 가로막았다! 첫 해상전 튜토리얼 돌입!'
+          );
+          void this.triggerAutoSave('첫 출항');
+          this.startStoryBattle(
+            this.storyDirector.createAlvidaTutorialBattleContext()
+          );
+          return;
+        }
         void this.triggerAutoSave('항구 출항');
         this.switchToScene('SEA_SAILING');
       }
@@ -3175,7 +4196,29 @@ export class SceneManager {
     while (this.accumulator >= FIXED_DT && steps < 6) {
       this.tickCount += 1;
 
-      if (this.activeScene === 'SEA_SAILING' || this.activeScene === 'ISLAND_EPISODE') {
+      if (this.activeScene === 'BOOT') {
+        const bootDone = stepBootScene(
+          this.bootState,
+          this.bootAssetsReady,
+          FIXED_DT
+        );
+        if (bootDone) {
+          this.enterTitleScene();
+        }
+      } else if (this.activeScene === 'TITLE') {
+        // Title canvas animates smoothly via tickCount
+      } else if (this.activeScene === 'OPENING_NARRATION') {
+        const opStep = stepOpeningNarration(this.openingState, FIXED_DT);
+        if (opStep.charRevealed) {
+          this.typewriterSfxCounter += 1;
+          if (this.typewriterSfxCounter % 3 === 0) {
+            this.audio.playSfxId('ui_move');
+          }
+        }
+        if (opStep.bgmSwellTriggered) {
+          void this.audio.playBgm('sea_new_world', { crossfadeSec: 0.6 });
+        }
+      } else if (this.activeScene === 'SEA_SAILING' || this.activeScene === 'ISLAND_EPISODE') {
         this.stepRpgFrame(FIXED_DT);
       } else if (this.activeScene === 'ONLINE_BATTLE' && this.activeLockstep) {
         const lockstep = this.activeLockstep;
@@ -3215,14 +4258,49 @@ export class SceneManager {
           break;
         }
       } else {
-        const playerUnit = this.battleWorld.units.find(
-          (u) => u.team === 'ALPHA' && u.isOnField && u.isAlive && u.isPlayerControlled
+        let playerUnit = this.battleWorld.units.find(
+          (u) =>
+            u.team === 'ALPHA' &&
+            u.isOnField &&
+            u.isAlive &&
+            !u.isDowned &&
+            u.isPlayerControlled
         );
+        // Offline Co-op Raid: auto-transfer player control if current squadmate is downed
+        if (!playerUnit && this.battleWorld.raidState.active) {
+          const nextStanding = this.battleWorld.units.find(
+            (u) => u.team === 'ALPHA' && u.isOnField && u.isAlive && !u.isDowned
+          );
+          if (nextStanding) {
+            for (const u of this.battleWorld.units) {
+              if (u.team === 'ALPHA') u.isPlayerControlled = u.instanceId === nextStanding.instanceId;
+            }
+            playerUnit = nextStanding;
+          }
+        }
         const playerCmd = this.input.buildPlayerCommand(
           playerUnit,
           this.battleWorld,
           this.gameRegistry
         );
+        // Offline Co-op Raid: Q-key tag switch between standing squad members
+        if (
+          this.battleWorld.raidState.active &&
+          playerUnit &&
+          playerCmd?.swapToBenchUnitId
+        ) {
+          const standing = this.battleWorld.units.filter(
+            (u) => u.team === 'ALPHA' && u.isOnField && u.isAlive && !u.isDowned
+          );
+          if (standing.length > 1) {
+            const curIdx = standing.findIndex((u) => u.instanceId === playerUnit!.instanceId);
+            const nextAlly = standing[(curIdx + 1) % standing.length];
+            for (const u of this.battleWorld.units) {
+              if (u.team === 'ALPHA') u.isPlayerControlled = u.instanceId === nextAlly.instanceId;
+            }
+            playerCmd.swapToBenchUnitId = null;
+          }
+        }
         const cmds = playerCmd ? [playerCmd] : [];
         const prevClashes =
           this.battleWorld.beamClashes.length +
@@ -3245,10 +4323,30 @@ export class SceneManager {
           this.battleWorld.meleeBeamGuards.length;
         if (nextClashes > prevClashes) {
           void this.platformBridge.device.triggerHaptic('clash');
+          this.audio.playSfxId(
+            this.battleWorld.beamClashes.length > 0
+              ? 'beam_clash_loop'
+              : 'melee_clash_clang'
+          );
         } else if (this.battleWorld.slowMoTimer > prevSlowMo) {
           void this.platformBridge.device.triggerHaptic('just_dodge');
+          this.audio.playSfxId('just_dodge_chime');
         } else if (playerUnit && playerUnit.activeFormId !== prevFormId && playerUnit.activeFormId) {
           void this.platformBridge.device.triggerHaptic('awakening');
+          this.audio.playSfxId(
+            playerUnit.activeFormId === 'form_luffy_gear5'
+              ? 'awakening_drums'
+              : 'transform_burst'
+          );
+          this.syncSceneBgm(this.battleWorld);
+        }
+
+        // Dynamic raid break low-pass filter & boss phase-2 / awakening BGM sync
+        this.audio.setBreakFilterActive(
+          Boolean(this.battleWorld.raidState && this.battleWorld.raidState.groggyTimer > 0)
+        );
+        if (this.tickCount % 30 === 0) {
+          this.syncSceneBgm(this.battleWorld);
         }
 
         if (
@@ -3264,19 +4362,44 @@ export class SceneManager {
     }
 
     const alpha = this.accumulator / FIXED_DT;
+    const viewport = this.renderer.beginFrame();
     const ctx = this.renderer.ctx;
 
-    if (this.activeScene === 'SEA_SAILING') {
+    if (this.activeScene === 'BOOT') {
+      renderBootScene(ctx, this.bootState, this.tickCount, viewport);
+    } else if (this.activeScene === 'TITLE') {
+      renderTitleSceneCanvas(ctx, this.assets, this.tickCount, viewport);
+    } else if (this.activeScene === 'OPENING_NARRATION') {
+      renderOpeningNarrationScene(ctx, this.openingState, this.tickCount, viewport);
+    } else if (this.activeScene === 'SEA_SAILING') {
+      const storyNode = this.storyDirector.getCurrentNode(this.campaign);
+      const seaMarkers = collectSeaWorldMarkers(
+        this.campaign,
+        this.rpgRegistry,
+        storyNode
+      );
       renderSeaSailingCanvas(
         ctx,
         this.campaign,
         this.rpgRegistry,
         this.lastSailingStep,
         this.tickCount,
-        this.fps
+        this.fps,
+        this.assets,
+        viewport,
+        seaMarkers,
+        this.storyDirector.isGoldMarkerHighlighted()
+      );
+      renderMissionTrackerHud(
+        ctx,
+        storyNode,
+        this.storyDirector.getLoopMode(),
+        this.missionTrackerState,
+        viewport,
+        92
       );
       if (this.gateBlockedPopup) {
-        renderSeaGateBlockedPopup(ctx, this.gateBlockedPopup);
+        renderSeaGateBlockedPopup(ctx, this.gateBlockedPopup, viewport);
       }
       if (this.showWantedPosterOverlay && this.campaign.latestWantedPoster) {
         renderWantedPosterOverlay(
@@ -3284,10 +4407,18 @@ export class SceneManager {
           this.campaign.latestWantedPoster,
           this.gameRegistry,
           this.assets,
-          this.isCurrentSaveTampered
+          this.isCurrentSaveTampered,
+          this.campaign.endgame.colosseum.posterFrameTier,
+          viewport
         );
       }
+      renderTouchOverlay(ctx, this.input);
     } else if (this.activeScene === 'ISLAND_EPISODE' && this.islandRuntime) {
+      const storyNode = this.storyDirector.getCurrentNode(this.campaign);
+      const islandMap = this.rpgRegistry.islands[this.islandRuntime.islandId];
+      const islandMarkers = islandMap
+        ? collectIslandWorldMarkers(this.campaign, islandMap, storyNode)
+        : [];
       renderIslandEpisodeCanvas(
         ctx,
         this.campaign,
@@ -3296,13 +4427,28 @@ export class SceneManager {
         this.rpgRegistry,
         this.gameRegistry,
         this.assets,
-        this.tickCount
+        this.tickCount,
+        viewport,
+        islandMarkers,
+        this.storyDirector.isGoldMarkerHighlighted()
+      );
+      renderMissionTrackerHud(
+        ctx,
+        storyNode,
+        this.storyDirector.getLoopMode(),
+        this.missionTrackerState,
+        viewport,
+        102
       );
       if (this.islandRuntime.activeDialogueNpc) {
         renderDialogueCutsceneOverlay(
           ctx,
           this.islandRuntime.activeDialogueNpc,
-          this.islandRuntime.dialogueLineIndex
+          this.islandRuntime.dialogueLineIndex,
+          viewport,
+          this.dialogueUiState,
+          this.gameRegistry,
+          this.assets
         );
       }
       if (this.showWantedPosterOverlay && this.campaign.latestWantedPoster) {
@@ -3311,9 +4457,12 @@ export class SceneManager {
           this.campaign.latestWantedPoster,
           this.gameRegistry,
           this.assets,
-          this.isCurrentSaveTampered
+          this.isCurrentSaveTampered,
+          this.campaign.endgame.colosseum.posterFrameTier,
+          viewport
         );
       }
+      renderTouchOverlay(ctx, this.input);
     } else if (this.activeScene === 'ONLINE_BATTLE' && this.activeLockstep) {
       const isSpec = this.onlineAssignedRole === 'SPECTATOR';
       renderBattleArena(
@@ -3323,7 +4472,8 @@ export class SceneManager {
         this.assets,
         alpha,
         this.renderer.settings,
-        isSpec ? this.spectatorCameraTarget : 'ALL'
+        isSpec ? this.spectatorCameraTarget : 'ALL',
+        viewport
       );
       renderBattleHud(
         ctx,
@@ -3331,7 +4481,8 @@ export class SceneManager {
         this.gameRegistry,
         this.input.getBindings(),
         this.fps,
-        this.input.isTouchViewport()
+        this.input.isTouchViewport(),
+        viewport
       );
       if (!isSpec) {
         renderTouchOverlay(ctx, this.input);
@@ -3344,7 +4495,8 @@ export class SceneManager {
         this.spectatorCameraTarget,
         this.activeTransport?.getRttMs() ?? 12,
         this.fps,
-        this.isTerminalOnlineMatch
+        this.isTerminalOnlineMatch,
+        viewport
       );
     } else {
       renderBattleArena(
@@ -3353,7 +4505,9 @@ export class SceneManager {
         this.gameRegistry,
         this.assets,
         alpha,
-        this.renderer.settings
+        this.renderer.settings,
+        'ALL',
+        viewport
       );
       renderBattleHud(
         ctx,
@@ -3361,7 +4515,8 @@ export class SceneManager {
         this.gameRegistry,
         this.input.getBindings(),
         this.fps,
-        this.input.isTouchViewport()
+        this.input.isTouchViewport(),
+        viewport
       );
       renderTouchOverlay(ctx, this.input);
     }
@@ -3370,7 +4525,8 @@ export class SceneManager {
       ctx,
       this.saveIndicatorTimer,
       this.saveIndicatorText,
-      this.isCurrentSaveTampered
+      this.isCurrentSaveTampered,
+      viewport
     );
 
     this.syncLogsDom();

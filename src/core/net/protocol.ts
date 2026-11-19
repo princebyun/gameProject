@@ -169,7 +169,8 @@ export interface RoomStateSnapshot {
   roomCode: string;
   hostClientId: string;
   battleCalcVersion: string;
-  mode: '1V1' | '2V2';
+  mode: '1V1' | '2V2' | 'COOP_RAID';
+  raidId?: string;
   partyRule: PartyRuleMode;
   arenaSizeKey: 'small' | 'medium' | 'large';
   awakeningAllowed: boolean;
@@ -184,7 +185,8 @@ export type ClientToServerMessage =
       clientId: string;
       playerName: string;
       battleCalcVersion: string;
-      mode: '1V1' | '2V2';
+      mode: '1V1' | '2V2' | 'COOP_RAID';
+      raidId?: string;
       partyRule: PartyRuleMode;
       arenaSizeKey: 'small' | 'medium' | 'large';
       awakeningAllowed: boolean;

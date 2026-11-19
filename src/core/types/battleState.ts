@@ -1,5 +1,10 @@
 import type { Vec2 } from '../math/vector2';
 import type {
+  ImpelDownHazardKind,
+  RaidTelegraphPatternDef,
+  RaidTelegraphShape
+} from '../endgame/types';
+import type {
   AiBehaviorId,
   ElementId,
   EnvironmentFieldKind,
@@ -62,6 +67,19 @@ export interface GauntletWaveConfig {
 
 export type TeamId = 'ALPHA' | 'OMEGA';
 
+export interface UnitEndgameBonuses {
+  armorPenRatio?: number;
+  hazardAndPoisonResistRatio?: number;
+  cooldownReductionRatio?: number;
+  dodgeRechargeBonus?: number;
+  atkMult?: number;
+  spdMult?: number;
+  maxHpMult?: number;
+  fireDamageBonusRatio?: number;
+  breakGaugeDamageRatio?: number;
+  startAwakeningGaugeRatio?: number;
+}
+
 export interface UnitBuildConfig {
   instanceId: string;
   speciesId: string;
@@ -75,6 +93,12 @@ export interface UnitBuildConfig {
   formId: string;
   isPlayerControlled: boolean;
   aiLevel: number;
+  // Stage 3 Endgame optional build overrides
+  initialHpRatio?: number;
+  initialMoveCharges?: Record<string, number>;
+  hpMultiplier?: number;
+  entityScaleOverride?: number;
+  endgameBonuses?: UnitEndgameBonuses;
 }
 
 export interface MoveSlotRuntime {
@@ -226,6 +250,25 @@ export interface UnitRuntimeState {
   lastIncomingMoveIdByAttacker: Record<string, string>;
   steroidOverdriveActive: boolean;
   parasiteConfuseTimer: number;
+
+  // Stage 3 Endgame Combat Hook fields (Magellan Venom Demon, Ring-Out, Buffs/Relics)
+  venomStacks: number;
+  venomDecayTimer: number;
+  venomTickTimer: number;
+  venomDemonActive: boolean;
+  venomAuraTickTimer: number;
+  ringOutTimer: number;
+  endgameArmorPenRatio: number;
+  endgameHazardResistRatio: number;
+  endgameCooldownReductionRatio: number;
+  endgameDodgeRechargeBonus: number;
+  endgameFireDamageBonusRatio: number;
+  endgameBreakGaugeBonusRatio: number;
+
+  // Stage 3 Step 2 Raid Downed & Rescue Revive fields
+  isDowned: boolean;
+  downedTimer: number;
+  reviveProgressSec: number;
 }
 
 export interface ActiveProjectile {
@@ -251,6 +294,8 @@ export interface ActiveProjectile {
   bypassGroundCollision: boolean;
   isInsideBeam: boolean;
   bouncedByRubberFloor?: boolean;
+  homingTurnRateRadPerSec?: number;
+  appliesVenomStacks?: number;
   destroyed: boolean;
 }
 
@@ -419,15 +464,94 @@ export interface UnitInputCommand {
   swapToBenchUnitId: string | null;
 }
 
+export interface ImpelDownFloorHazardConfig {
+  floor: number;
+  kind: ImpelDownHazardKind;
+  dodgeRechargeMult?: number;
+}
+
+export interface ColosseumRingOutBattleConfig {
+  enabled: boolean;
+  safeRadiusRatio: number;
+  outOfBoundsLimitSec: number;
+  outOfBoundsDpsRatio: number;
+  instantRingOutKo: boolean;
+}
+
+export interface ActiveTelegraphZone {
+  id: string;
+  patternId: string;
+  name: string;
+  shape: RaidTelegraphShape;
+  origin: Vec2;
+  dir: Vec2;
+  radiusPx: number;
+  arcDeg: number;
+  widthPx: number;
+  elapsedSec: number;
+  durationSec: number;
+  damageMultiplier: number;
+  applyStatus?: 'STAGGER' | 'ROOT' | 'FREEZE';
+  ownerUnitId: string;
+}
+
+export interface RaidDpsCheckRuntime {
+  active: boolean;
+  shieldHp: number;
+  maxShieldHp: number;
+  remainingSec: number;
+  totalSec: number;
+}
+
+export interface RaidBattleConfig {
+  raidId: string;
+  bossName: string;
+  breakGaugeMax: number;
+  groggyDurationSec: number;
+  groggyDamageMult: number;
+  dpsCheckTriggerHpRatios: number[];
+  dpsCheckShieldHp: number;
+  dpsCheckDurationSec: number;
+  teamRevivesMax: number;
+  weatherOnStart?: WeatherId;
+  telegraphPatterns: RaidTelegraphPatternDef[];
+}
+
+export interface RaidRuntimeState {
+  active: boolean;
+  raidId: string;
+  bossName: string;
+  bossUnitId: string | null;
+  breakGauge: number;
+  breakGaugeMax: number;
+  groggyTimer: number;
+  groggyDurationSec: number;
+  groggyDamageMult: number;
+  dpsCheck: RaidDpsCheckRuntime;
+  dpsCheckTriggerHpRatios: number[];
+  triggeredDpsIndices: number[];
+  dpsCheckShieldHpConfig: number;
+  dpsCheckDurationConfig: number;
+  teamRevivesRemaining: number;
+  teamRevivesMax: number;
+  telegraphPatterns: RaidTelegraphPatternDef[];
+  patternCooldowns: Record<string, number>;
+  patternGlobalCooldown: number;
+  telegraphs: ActiveTelegraphZone[];
+}
+
 export interface BattleWorldConfig {
   seed: number;
   arenaSizeKey: 'small' | 'medium' | 'large';
-  mode: '1V1' | '2V2' | 'AI_VS_AI';
+  mode: '1V1' | '2V2' | 'AI_VS_AI' | 'COOP_RAID';
   teamAlpha: UnitBuildConfig[];
   teamOmega: UnitBuildConfig[];
   winCondition?: BattleWinCondition;
   arenaTerrain?: ArenaTerrainConfig;
   gauntletWaves?: GauntletWaveConfig[];
+  impelDownHazard?: ImpelDownFloorHazardConfig;
+  colosseumRingOut?: ColosseumRingOutBattleConfig;
+  raidConfig?: RaidBattleConfig;
 }
 
 export interface BattleWorldState {
@@ -436,7 +560,7 @@ export interface BattleWorldState {
   elapsedSec: number;
   arenaWidth: number;
   arenaHeight: number;
-  mode: '1V1' | '2V2' | 'AI_VS_AI';
+  mode: '1V1' | '2V2' | 'AI_VS_AI' | 'COOP_RAID';
 
   units: UnitRuntimeState[];
   rosters: Record<TeamId, TeamRosterRuntime>;
@@ -516,6 +640,29 @@ export interface BattleWorldState {
     boundaryKnockbackSpeed: number;
     tickTimer: number;
   };
+
+  // Stage 3 Endgame Arena Rules (Impel Down Floor Hazards & Colosseum Ring-Out)
+  impelDownHazard: {
+    active: boolean;
+    floor: number;
+    kind: ImpelDownHazardKind | null;
+    trapTimer: number;
+    pendingTrapPos: Vec2 | null;
+    pendingTrapTelegraphTimer: number;
+    dodgeRechargeMult: number;
+  };
+  colosseumRingOut: {
+    active: boolean;
+    center: Vec2;
+    safeRadiusPx: number;
+    outOfBoundsLimitSec: number;
+    outOfBoundsDpsRatio: number;
+    instantRingOutKo: boolean;
+    resolvedByRingOut: boolean;
+  };
+
+  // Stage 3 Step 2: Giant Boss Co-op Raid State
+  raidState: RaidRuntimeState;
 
   floatingTexts: FloatingTextEvent[];
   vfxEvents: CombatVfxEvent[];
