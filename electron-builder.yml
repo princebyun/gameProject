@@ -1,0 +1,39 @@
+appId: com.grandvoyage.onepiece.resonance
+productName: OnePieceGrandVoyage
+copyright: Copyright © 2026 One Piece Grand Voyage Team
+
+directories:
+  output: release/windows
+  buildResources: public
+
+files:
+  - dist-electron/**/*
+  - dist-electron-main/**/*
+  - package.json
+
+extraMetadata:
+  main: dist-electron-main/electron/main.js
+
+asar: true
+
+win:
+  signAndEditExecutable: false
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: portable
+      arch:
+        - x64
+  artifactName: "${productName}-${version}-win-${arch}.${ext}"
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: "One Piece Grand Voyage"
+
+portable:
+  artifactName: "${productName}-${version}-win-${arch}-portable.${ext}"

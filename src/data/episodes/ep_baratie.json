@@ -1,0 +1,38 @@
+{
+  "episodeId": "ep_baratie",
+  "islandId": "baratie",
+  "zoneId": "east_blue",
+  "title": "Ep.1-3 해상 레스토랑 발라티에 — 돈 클리크 & 상디·우솝 합류",
+  "sagaName": "이스트 블루 사가",
+  "requiredForNextZone": true,
+  "introDialogue": [
+    "바다 한가운데 떠 있는 해상 레스토랑 발라티에! 클리크 대함대가 레스토랑을 습격해 왔다!"
+  ],
+  "outroDialogue": [
+    "돈 클리크의 우츠 강철 갑옷과 맹독 가스탄 MH5를 뚫고 승리했다!",
+    "[동료 영입] 검은 다리 상디(요리사 직책 해금 · 선상 요리 사용 가능)와 저격수 우솝이 정식 합류했다!"
+  ],
+  "steps": [
+    {
+      "stepId": "step_baratie_sanji",
+      "title": "발라티에 부주방장 상디 & 우솝 접선",
+      "description": "갑판 중앙의 상디·우솝과 대화해 방어전을 준비하세요.",
+      "requiredFlag": "flag_baratie_sanji_met",
+      "targetPos": { "x": 360, "y": 255 }
+    },
+    {
+      "stepId": "step_baratie_krieg",
+      "title": "클리크 함대 제독 돈 클리크 격파",
+      "description": "확장되는 맹독 가스탄 MH5를 회피하며 돈 클리크를 격파하세요.",
+      "requiredFlag": "flag_baratie_cleared",
+      "targetPos": { "x": 800, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 28000,
+    "trainingPoints": 35,
+    "bountyIncrease": 0,
+    "recruitsUnitIds": ["usopp", "sanji"],
+    "unlocksCrewRoles": ["COOK"]
+  }
+}

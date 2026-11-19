@@ -1,0 +1,38 @@
+{
+  "episodeId": "ep_thriller_bark",
+  "islandId": "thriller_bark",
+  "zoneId": "grand_line",
+  "title": "Ep.2-5 스릴러 바크 — 겟코 모리아 결전 & 브룩(음악가) 영입",
+  "sagaName": "위대한 항로 사가",
+  "requiredForNextZone": true,
+  "introDialogue": [
+    "안개 낀 유령선 섬 스릴러 바크! 겟코 모리아의 도펠맨 분신과 섀도즈 아스가르드를 격파하고 브룩을 음악가로 영입하라!"
+  ],
+  "outroDialogue": [
+    "모리아가 쓰러지자 빼앗겼던 모든 그림자가 주인에게 돌아왔다! 피아노 선율 [빙크스의 술]과 함께 새벽이 밝았다!",
+    "[음악가 지원 해금] 소울 킹 브룩이 정식 합류! (파티 전체 스킬 쿨타임 회복 속도 +15% 가속)"
+  ],
+  "steps": [
+    {
+      "stepId": "step_thriller_brook",
+      "title": "브룩과 대화",
+      "description": "안개 묘지 앞의 브룩과 대화하세요.",
+      "requiredFlag": "flag_thriller_met_brook",
+      "targetPos": { "x": 355, "y": 260 }
+    },
+    {
+      "stepId": "step_thriller_boss",
+      "title": "칠무해 겟코 모리아 격파",
+      "description": "도펠맨 분신 스왑과 섀도즈 아스가르드를 돌파하고 모리아를 쓰러뜨리세요.",
+      "requiredFlag": "flag_thriller_bark_cleared",
+      "targetPos": { "x": 800, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 80000,
+    "trainingPoints": 75,
+    "bountyIncrease": 100000000,
+    "recruitsUnitIds": ["brook"],
+    "unlocksCrewRoles": ["MUSICIAN"]
+  }
+}

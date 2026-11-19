@@ -1,0 +1,94 @@
+{
+  "fixedDt": 0.0166666667,
+  "arenaDefaults": {
+    "small": { "width": 640, "height": 380 },
+    "medium": { "width": 840, "height": 460 },
+    "large": { "width": 1120, "height": 640 }
+  },
+  "unitPhysics": {
+    "defaultRadiusPx": 18,
+    "baseMoveSpeedPx": 120,
+    "speedStatScale": 0.55,
+    "knockbackFriction": 6.5,
+    "levelBaseStatScale": 0.02,
+    "ivStatScale": 1.0,
+    "evStatScale": 0.25,
+    "damageBaseConstant": 0.42,
+    "minDamage": 1
+  },
+  "dodge": {
+    "maxStacks": 2,
+    "rechargeSec": 3.2,
+    "durationSec": 0.24,
+    "iframeSec": 0.20,
+    "speedMultiplier": 2.45,
+    "justDodgeWindowSec": 0.15,
+    "justDodgeProximityPx": 48,
+    "justDodgeSlowMoSec": 0.35,
+    "justDodgeSlowMoScale": 0.35,
+    "justDodgeAttackBuffRatio": 0.25,
+    "justDodgeBuffDurationSec": 4.0
+  },
+  "roster": {
+    "maxPartySize": 6,
+    "voluntarySwapCooldownSec": 20.0,
+    "pivotSelectWindowSec": 3.0
+  },
+  "projectile": {
+    "mutualCancelRatioThreshold": 0.12,
+    "parabolicApexPassRatioStart": 0.2,
+    "parabolicApexPassRatioEnd": 0.8
+  },
+  "beam": {
+    "minRangePx": 360,
+    "maxRangePx": 690,
+    "statRangeMin": 50,
+    "statRangeMax": 220,
+    "clashAngleBreakDeg": 30,
+    "clashTieTimeoutSec": 2.5,
+    "clashPushRatePerRatio": 0.48,
+    "projectileSlowMultiplier": 0.35,
+    "projectileDecayPerSec": 48,
+    "projectilePierceRatioThreshold": 1.35
+  },
+  "melee": {
+    "deflectLingerSec": 0.6,
+    "deflectDurabilityLossRatio": 0.35,
+    "overpowerKnockbackSpeed": 280,
+    "overpowerResidualDamageRatio": 0.45,
+    "beamGuardMinSec": 0.4,
+    "beamGuardMaxSec": 0.8,
+    "beamGuardDurationDefaultSec": 0.6,
+    "beamGuardGrazeDamageRatio": 0.30,
+    "beamLossWeakenMultiplier": 0.55,
+    "beamWinDashSpeed": 340,
+    "meleeClashMaxSec": 2.5,
+    "meleeClashPushRate": 0.52,
+    "crossSlashDashDistancePx": 88
+  },
+  "field": {
+    "weatherBoostMultiplier": 1.25,
+    "weatherWeakenMultiplier": 0.80,
+    "weatherCastSpeedMultiplier": 1.25,
+    "hazardTickIntervalSec": 0.5,
+    "speedReversalReferenceSpd": 220
+  },
+  "status": {
+    "staggerDurationSec": 3.0,
+    "staggerImmunitySec": 5.0,
+    "minControlDurationSec": 6.0,
+    "maxControlDurationSec": 20.0
+  },
+  "formShift": {
+    "awakeningHealRatio": 0.25,
+    "overdriveDefaultDurationSec": 20.0,
+    "overdriveDefaultMaxUses": 3
+  },
+  "presentation": {
+    "defaultHitstopSec": 0.05,
+    "clashHitstopSec": 0.08,
+    "floatingTextDurationSec": 0.9,
+    "defaultShakeIntensity": 0.8,
+    "defaultFlashEnabled": true
+  }
+}

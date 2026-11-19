@@ -1,0 +1,61 @@
+{
+  "islandId": "baratie",
+  "name": "해상 레스토랑 발라티에 (갑판 결전)",
+  "episodeId": "ep_baratie",
+  "width": 960,
+  "height": 540,
+  "theme": "CANAL_DOCKYARD",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 280, "y": 75, "width": 170, "height": 90, "label": "발라티에 메인 다이닝 홀" },
+    { "x": 280, "y": 375, "width": 170, "height": 90, "label": "전투 갑판 물고기 머리" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [],
+  "npcs": [
+    {
+      "npcId": "npc_sanji_baratie",
+      "name": "상디 & 우솝",
+      "roleLabel": "발라티에 부주방장 · 저격수",
+      "pos": { "x": 360, "y": 255 },
+      "interactRadiusPx": 54,
+      "visualScale": 1.05,
+      "color": "#facc15",
+      "setsQuestFlagOnTalk": "flag_baratie_sanji_met",
+      "dialogueLines": [
+        "상디: 배고픈 놈에게 밥을 먹이는 게 요리사의 도리지. 하지만 이 레스토랑을 뺏으려는 돈 클리크는 용서 못 해!",
+        "우솝: 돈 클리크의 황금 갑옷은 일반 탄환을 40%나 막아내고 맹독 가스탄 MH5가 계속 퍼지니까 조심해!"
+      ],
+      "choices": [
+        {
+          "label": "상디·우솝과 함께 돈 클리크 함대를 격퇴하자!",
+          "setsFlag": "flag_baratie_sanji_met",
+          "responseLine": "[전투 준비 완료] 돈 클리크를 격파하면 상디(요리사 직책 해금)와 우솝이 정식 동료로 합류합니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_baratie_krieg_boss",
+      "name": "이스트 블루 패자 돈 클리크 (우츠 갑옷 & MH5 독가스)",
+      "isBoss": true,
+      "pos": { "x": 800, "y": 270 },
+      "triggerRadiusPx": 60,
+      "enemyUnitIds": ["don_krieg"],
+      "aiLevel": 2,
+      "arenaSizeKey": "medium",
+      "setsFlagOnVictory": "flag_baratie_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 17000000,
+      "berryReward": 26000,
+      "trainingPointReward": 30,
+      "dialogueBeforeBattle": [
+        "돈 클리크: 우츠 강철 황금 갑옷과 대폭발 창, 그리고 치명적 맹독 가스탄 [MH5]를 버텨보아라!",
+        "이 해상 레스토랑 발라티에는 내 클리크 함대의 새로운 기함이 될 것이다!!"
+      ]
+    }
+  ]
+}

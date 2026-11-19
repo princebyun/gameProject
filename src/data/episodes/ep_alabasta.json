@@ -1,0 +1,38 @@
+{
+  "episodeId": "ep_alabasta",
+  "islandId": "alabasta",
+  "zoneId": "grand_line",
+  "title": "Ep.2-2 알라바스타 — 칠무해 크로커다일 결전 & 로빈(고고학자) 영입",
+  "sagaName": "위대한 항로 사가",
+  "requiredForNextZone": true,
+  "introDialogue": [
+    "사막의 나라 알라바스타! 물통과 레인 템포로 칠무해 크로커다일의 모래 자연계 무적을 깨뜨리고 왕국에 비를 되찾아라!"
+  ],
+  "outroDialogue": [
+    "크로커다일이 쓰러지자 알루바르나에 기적의 비가 쏟아지고 내전이 종결되었다! 비비와 X표시 동료의 증표를 나눈다!",
+    "[고고학자 직책 해금] 니코 로빈이 합류! (포네그리프 해독 활성화 · 전투/보물 보상 +30%)"
+  ],
+  "steps": [
+    {
+      "stepId": "step_alabasta_vivi",
+      "title": "비비와 대화 & 물통 공략 힌트 확인",
+      "description": "알루바르나 궁전 광장의 비비와 대화하세요.",
+      "requiredFlag": "flag_alabasta_water_hint",
+      "targetPos": { "x": 360, "y": 255 }
+    },
+    {
+      "stepId": "step_alabasta_boss",
+      "title": "칠무해 크로커다일 격파",
+      "description": "물통을 파괴해 젖음(WET)을 부여하고 크로커다일을 격파하세요.",
+      "requiredFlag": "flag_alabasta_cleared",
+      "targetPos": { "x": 800, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 60000,
+    "trainingPoints": 60,
+    "bountyIncrease": 70000000,
+    "recruitsUnitIds": ["robin"],
+    "unlocksCrewRoles": ["ARCHAEOLOGIST"]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "episodeId": "ep_east_blue_start",
+  "islandId": "foosha_shells",
+  "zoneId": "east_blue",
+  "title": "Ep.1 모험의 새벽 — 해적사냥꾼 조로 영입",
+  "sagaName": "이스트 블루 사가",
+  "requiredForNextZone": true,
+  "introDialogue": [
+    "이스트 블루 후샤 마을에서 출항한 루피! 첫 동료를 찾아 쉘즈타운 해군기지에 상륙했다."
+  ],
+  "outroDialogue": [
+    "롤로노아 조로가 첫 동료로 합류하고, 루피의 첫 현상금 수배서가 발부되었다!",
+    "이제 동쪽 끝의 [리버스 마운틴] 관문을 통과해 위대한 항로(Grand Line)로 나아갈 수 있다!"
+  ],
+  "steps": [
+    {
+      "stepId": "step_foosha_talk",
+      "title": "마키노에게 출항 정보 듣기",
+      "description": "후샤 마을 주점 앞의 마키노와 대화하세요.",
+      "requiredFlag": "flag_foosha_briefed",
+      "targetPos": { "x": 310, "y": 210 }
+    },
+    {
+      "stepId": "step_zoro_recruit",
+      "title": "롤로노아 조로 구출 및 영입",
+      "description": "쉘즈타운 처형장의 조로와 대화해 동료로 영입하세요.",
+      "requiredFlag": "flag_zoro_freed",
+      "targetPos": { "x": 620, "y": 230 }
+    },
+    {
+      "stepId": "step_shells_boss",
+      "title": "도끼손 모건 대령 격파",
+      "description": "쉘즈타운 해군기지 동쪽의 도끼손 모건 대령을 격파하고 조로와 함께 바다로 출항하세요.",
+      "requiredFlag": "flag_east_blue_boss_cleared",
+      "targetPos": { "x": 810, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 25000,
+    "trainingPoints": 30,
+    "bountyIncrease": 30000000,
+    "recruitsUnitIds": ["zoro"],
+    "unlocksCrewRoles": ["CAPTAIN", "SWORDSMAN", "NAVIGATOR"]
+  }
+}

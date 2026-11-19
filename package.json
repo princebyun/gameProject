@@ -1,0 +1,50 @@
+{
+  "name": "aether-clash-engine",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist-electron-main/electron/main.js",
+  "author": "One Piece Grand Voyage Team",
+  "description": "One Piece 2D Pixel Real-Time Action & Sea-Zone Free Sailing RPG",
+  "scripts": {
+    "dev": "vite",
+    "dev:server": "node --import tsx server/index.ts",
+    "dev:all": "npx concurrently \"npm run dev:server\" \"npm run dev\"",
+    "build": "npm run build:web",
+    "build:web": "tsc --noEmit && cross-env VITE_PLATFORM=web vite build",
+    "build:electron": "tsc --noEmit && cross-env VITE_PLATFORM=electron vite build && tsc -p tsconfig.electron.json && node --input-type=module -e \"import fs from 'node:fs'; fs.writeFileSync('dist-electron-main/package.json', JSON.stringify({ type: 'commonjs' }));\"",
+    "build:android": "tsc --noEmit && cross-env VITE_PLATFORM=android vite build",
+    "package:win:dir": "npm run build:electron && electron-builder --win --x64 --dir",
+    "package:win": "npm run build:electron && electron-builder --win --x64",
+    "package:android:sync": "npm run build:android && npx cap sync android",
+    "package:android:apk": "npm run package:android:sync && cd android && ./gradlew assembleDebug",
+    "preview": "vite preview --outDir dist-web",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.6.2",
+    "@capacitor/filesystem": "^8.1.5",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/preferences": "^8.0.1",
+    "@capacitor/screen-orientation": "^8.0.2",
+    "@capacitor/share": "^8.0.3",
+    "@capacitor/status-bar": "^8.0.4",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/cli": "^8.6.2",
+    "@types/node": "^22.0.0",
+    "@types/ws": "^8.5.13",
+    "cross-env": "^10.1.0",
+    "electron": "^45.4.1",
+    "electron-builder": "^26.18.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.0",
+    "vite": "^5.4.0",
+    "vite-plugin-pwa": "^0.20.5",
+    "vitest": "^2.1.0"
+  }
+}

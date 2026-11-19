@@ -1,0 +1,38 @@
+{
+  "episodeId": "ep_fishman_island",
+  "islandId": "fishman_island",
+  "zoneId": "new_world",
+  "title": "Ep.3-1 어인섬 — 호디 존스 폭주 결전 & 징베(조타수) 영입",
+  "sagaName": "신세계 사가 (어인섬 편)",
+  "requiredForNextZone": false,
+  "introDialogue": [
+    "해저 1만 미터 용궁 왕국 어인섬! 신 어인 해적단 호디 존스의 쿠데타를 저지하고 해협의 징베를 마지막 10번째 동료(조타수)로 맞이하라!"
+  ],
+  "outroDialogue": [
+    "어인섬이 태양 아래 평화를 되찾았다! 밀짚모자 일당 10인이 마침내 전원 집결했다!",
+    "[조타수 직책 해금] 해협의 징베 합류! (선박 선회 속도 +35%, 조류·폭풍 저항 +60%, 쿠 드 버스트 쿨타임 -30%)"
+  ],
+  "steps": [
+    {
+      "stepId": "step_fishman_jinbe",
+      "title": "징베와 작전 회의",
+      "description": "바다의 숲 광장의 징베와 대화하세요.",
+      "requiredFlag": "flag_fishman_met_jinbe",
+      "targetPos": { "x": 360, "y": 260 }
+    },
+    {
+      "stepId": "step_fishman_boss",
+      "title": "호디 존스 격파 (E.S 백발 폭주전)",
+      "description": "수변 지형과 50% 백발 폭주 탄막을 돌파하고 호디 존스를 쓰러뜨리세요.",
+      "requiredFlag": "flag_fishman_island_cleared",
+      "targetPos": { "x": 800, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 110000,
+    "trainingPoints": 90,
+    "bountyIncrease": 100000000,
+    "recruitsUnitIds": ["jinbe"],
+    "unlocksCrewRoles": ["HELMSMAN"]
+  }
+}

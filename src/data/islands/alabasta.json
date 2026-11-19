@@ -1,0 +1,96 @@
+{
+  "islandId": "alabasta",
+  "name": "알라바스타 왕국 (알루바르나 궁전 & 지하 신전)",
+  "episodeId": "ep_alabasta",
+  "width": 960,
+  "height": 540,
+  "theme": "HARBOR_TOWN",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 290, "y": 75, "width": 170, "height": 80, "label": "알루바르나 시계탑" },
+    { "x": 540, "y": 395, "width": 180, "height": 80, "label": "왕가의 무덤 석주" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [],
+  "npcs": [
+    {
+      "npcId": "npc_vivi_alabasta",
+      "name": "네펠타리 비비 & 포네그리프 석비",
+      "roleLabel": "알라바스타 왕녀 · 젖음 공략 힌트",
+      "pos": { "x": 360, "y": 255 },
+      "interactRadiusPx": 58,
+      "visualScale": 1.0,
+      "color": "#38bdf8",
+      "setsQuestFlagOnTalk": "flag_alabasta_water_hint",
+      "dialogueLines": [
+        "비비: 크로커다일의 모래 자연계 몸은 건조할 때 일반 물리 공격이 통하지 않아!",
+        "비비: 하지만 아레나에 놓인 [💧 물통]을 파괴하거나 나미의 레인 템포로 [젖음(WET)] 상태를 걸면 무장색 패기 없이도 타격할 수 있어!",
+        "고대 석비(포네그리프): 알라바스타 왕가의 무덤에 고대 병기 플루톤의 역사가 새겨져 있다. 고고학자(로빈) 합류 후 해독 가능!"
+      ],
+      "choices": [
+        {
+          "label": "물통 기믹을 숙지하고 크로커다일과 결전한다!",
+          "setsFlag": "flag_alabasta_water_hint",
+          "responseLine": "[전술 확보] 아레나 물통 3개를 활용해 모래 자연계 크로커다일을 공략합니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_alabasta_crocodile_boss",
+      "name": "왕하 칠무해 크로커다일 (모래 자연계 · 물통 젖음 기믹전)",
+      "isBoss": true,
+      "pos": { "x": 800, "y": 270 },
+      "triggerRadiusPx": 62,
+      "enemyUnitIds": ["crocodile"],
+      "aiLevel": 3,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_alabasta_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 70000000,
+      "berryReward": 55000,
+      "trainingPointReward": 55,
+      "arenaTerrain": {
+        "destructibleProps": [
+          {
+            "id": "alabasta_water_barrel_1",
+            "kind": "WATER_BARREL",
+            "pos": { "x": 420, "y": 190 },
+            "radiusPx": 22,
+            "hp": 35,
+            "maxHp": 35,
+            "wetRadiusPx": 165,
+            "wetDurationSec": 8.0
+          },
+          {
+            "id": "alabasta_water_barrel_2",
+            "kind": "WATER_BARREL",
+            "pos": { "x": 580, "y": 350 },
+            "radiusPx": 22,
+            "hp": 35,
+            "maxHp": 35,
+            "wetRadiusPx": 165,
+            "wetDurationSec": 8.0
+          },
+          {
+            "id": "alabasta_water_barrel_3",
+            "kind": "WATER_BARREL",
+            "pos": { "x": 740, "y": 210 },
+            "radiusPx": 22,
+            "hp": 35,
+            "maxHp": 35,
+            "wetRadiusPx": 165,
+            "wetDurationSec": 8.0
+          }
+        ]
+      },
+      "dialogueBeforeBattle": [
+        "크로커다일: 쿠하하하! 사막에서 모래 인간에게 덤비다니 어리석군. 건조한 모래에 네 주먹은 닿지 않는다!",
+        "힌트: 아레나 내 [💧 물통] 3개를 파괴해 크로커다일을 젖음(WET) 상태로 만든 뒤 타격하세요!"
+      ]
+    }
+  ]
+}

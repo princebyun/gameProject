@@ -1,0 +1,37 @@
+{
+  "episodeId": "ep_marineford",
+  "islandId": "marineford",
+  "zoneId": "grand_line",
+  "title": "Ep.2-6 마린포드 정상전쟁 — 3연전 돌파 & 신세계 출항 (2년 수련)",
+  "sagaName": "위대한 항로 사가 (전반부 최종장)",
+  "requiredForNextZone": true,
+  "introDialogue": [
+    "시대를 뒤흔든 정상전쟁 마린포드! 불사조 마르코와 함께 아오키지·아카이누·검은 수염의 3연전을 돌파하고 신세계 레드라인 관문을 열어라!"
+  ],
+  "outroDialogue": [
+    "정상전쟁의 거대한 파도를 넘어 2년 수련을 마친 밀짚모자 일당이 다시 집결했다! [2년 수련 보너스: 수련 포인트 +150 & 현상금 4억 돌파]",
+    "[동맹 합류] 불사조 마르코가 영구 동맹으로 합류! 위대한 항로 6개 에피소드를 모두 완료하면 레드라인 신세계 관문이 열립니다!"
+  ],
+  "steps": [
+    {
+      "stepId": "step_marineford_marco",
+      "title": "불사조 마르코와 공동전선 결성",
+      "description": "얼음만 광장의 마르코와 대화해 2:2 동맹을 결성하세요.",
+      "requiredFlag": "flag_marineford_marco_alliance",
+      "targetPos": { "x": 360, "y": 260 }
+    },
+    {
+      "stepId": "step_marineford_gauntlet",
+      "title": "마린포드 3연전 돌파 (아오키지 → 아카이누 → 검은 수염)",
+      "description": "마르코와 협력해 정상전쟁 3연전을 돌파하고 레드라인 신세계 관문을 해금하세요.",
+      "requiredFlag": "flag_marineford_cleared",
+      "targetPos": { "x": 805, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 140000,
+    "trainingPoints": 150,
+    "bountyIncrease": 100000000,
+    "recruitsUnitIds": ["marco"]
+  }
+}

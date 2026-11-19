@@ -1,0 +1,36 @@
+{
+  "episodeId": "ep_orange_town",
+  "islandId": "orange_town",
+  "zoneId": "east_blue",
+  "title": "Ep.1-2 오렌지 마을 — 광대 버기(참격 면역) 격파",
+  "sagaName": "이스트 블루 사가",
+  "requiredForNextZone": true,
+  "introDialogue": [
+    "버기 해적단이 점령한 오렌지 마을에 상륙했다! 위대한 항로 해도를 되찾고 광대 버기를 날려버리자!"
+  ],
+  "outroDialogue": [
+    "동강동강 열매 능력자 버기를 타격으로 날려버리고 나미가 임시 항해사로 동행하게 되었다!"
+  ],
+  "steps": [
+    {
+      "stepId": "step_orange_nami",
+      "title": "나미와 접선해 버기의 약점 파악",
+      "description": "오렌지 마을 광장의 나미와 대화하세요.",
+      "requiredFlag": "flag_orange_nami_met",
+      "targetPos": { "x": 330, "y": 240 }
+    },
+    {
+      "stepId": "step_orange_buggy",
+      "title": "광대 버기 격파 (참격 면역 공략)",
+      "description": "참격(SLASH)에 면역인 버기를 타격(BLUNT) 기술로 격파하세요.",
+      "requiredFlag": "flag_orange_town_cleared",
+      "targetPos": { "x": 790, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 22000,
+    "trainingPoints": 25,
+    "bountyIncrease": 0,
+    "recruitsUnitIds": []
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "islandId": "totto_land",
+  "name": "토트랜드 (만국 홀케이크 아일랜드 · 미러 월드)",
+  "episodeId": "ep_totto_land",
+  "width": 960,
+  "height": 540,
+  "theme": "FUTURE_LAB",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 280, "y": 75, "width": 170, "height": 85, "label": "거울 회랑 기둥" },
+    { "x": 540, "y": 395, "width": 190, "height": 85, "label": "미러 월드 차원문" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [],
+  "npcs": [
+    {
+      "npcId": "npc_pedro_totto_land",
+      "name": "페드로 & 브룩 (로드 포네그리프 탁본 팀)",
+      "roleLabel": "거울 세계 공략 · 미래 예지 파훼 힌트",
+      "pos": { "x": 360, "y": 260 },
+      "interactRadiusPx": 56,
+      "visualScale": 1.0,
+      "color": "#e879f9",
+      "setsQuestFlagOnTalk": "flag_totto_foresight_hint",
+      "dialogueLines": [
+        "브룩: 루피 씨! 카타쿠리는 집중도가 50 이상일 때 단발 직선 공격이나 같은 스킬 연타를 [미래 예지]로 흘려보내고 반격합니다!",
+        "페드로: [완벽 회피(Just Dodge) 직후 반격], [기술 맞대결(Clash) 승리], [연타/광역기(AoE)], 또는 [견문색 Lv.3]로 타격하면 5초간 집중이 붕괴되어 피해가 20% 증폭된다!"
+      ],
+      "choices": [
+        {
+          "label": "미래 예지 파훼법을 익히고 미러 월드의 카타쿠리와 1:1 결투한다!",
+          "setsFlag": "flag_totto_foresight_hint",
+          "responseLine": "[1:1 결투 개시] 현상금 10억 5,700만 베리, 스위트 3장성 샬롯 카타쿠리와 정면 승부합니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_totto_katakuri_boss",
+      "name": "샬롯 카타쿠리 (미러 월드 1:1 · 미래 예지 & 무쌍 도넛)",
+      "isBoss": true,
+      "pos": { "x": 800, "y": 270 },
+      "triggerRadiusPx": 62,
+      "enemyUnitIds": ["katakuri"],
+      "aiLevel": 5,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_totto_land_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 1000000000,
+      "berryReward": 180000,
+      "trainingPointReward": 150,
+      "dialogueBeforeBattle": [
+        "카타쿠리: 네가 내 공격을 피하고, 내 미래를 넘어설 수 있을까... 밀짚모자 루피.",
+        "힌트: 완벽 회피 반격 · 맞대결 승리 · 연타/광역기 · 견문색 Lv.3 공격으로 카타쿠리의 집중도를 붕괴시키세요!"
+      ]
+    }
+  ]
+}

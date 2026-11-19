@@ -1,0 +1,215 @@
+{
+  "crewRoles": [
+    {
+      "roleId": "CAPTAIN",
+      "name": "선장 (Captain)",
+      "defaultHolderName": "몽키 D. 루피",
+      "description": "패기 및 각성 출력이 강화되어 맞대결 위력과 각성 회복량이 15% 상승합니다.",
+      "awakeningChargeBonusRatio": 0.15
+    },
+    {
+      "roleId": "SWORDSMAN",
+      "name": "전투원/검사 (Swordsman)",
+      "defaultHolderName": "롤로노아 조로",
+      "description": "전투 개시 시 아군 전원의 공격력(ATK)이 12% 상승합니다.",
+      "openingAtkBonusRatio": 0.12
+    },
+    {
+      "roleId": "NAVIGATOR",
+      "name": "항해사 (Navigator)",
+      "defaultHolderName": "나미",
+      "description": "항해 속도가 20% 증가하고 폭풍 감속이 50% 완화되며, 미니맵에 숨겨진 표류 보물상자를 탐지합니다.",
+      "sailingSpeedBonusRatio": 0.2,
+      "stormResistanceRatio": 0.5,
+      "revealsHiddenChests": true
+    },
+    {
+      "roleId": "COOK",
+      "name": "요리사 (Cook)",
+      "defaultHolderName": "상디",
+      "description": "선상 특식 버프로 파티 전원의 최대 HP가 12% 증가합니다.",
+      "maxHpMealBonusRatio": 0.12
+    },
+    {
+      "roleId": "DOCTOR",
+      "name": "선의 (Doctor)",
+      "defaultHolderName": "토니토니 쵸파 / 트라팔가 로",
+      "description": "전투 종료 후 생존 파티원의 체력을 최대 HP의 35%만큼 즉시 자동 치료합니다.",
+      "postBattleHealRatio": 0.35
+    },
+    {
+      "roleId": "SHIPWRIGHT",
+      "name": "조선공 (Shipwright)",
+      "defaultHolderName": "프랑키",
+      "description": "선박 최대 내구도가 40% 증가하고 항해 중 초당 선체 자동 수리량이 +5 증가합니다.",
+      "hullMaxHpBonusRatio": 0.4,
+      "hullAutoRepairPerSec": 5.0
+    },
+    {
+      "roleId": "ARCHAEOLOGIST",
+      "name": "고고학자 (Archaeologist)",
+      "defaultHolderName": "니코 로빈",
+      "description": "섬 내 포네그리프 해독 인터랙션을 활성화하며 보물상자·에피소드·전투 경험치 및 보상이 30% 증가합니다.",
+      "rewardBonusRatio": 0.3,
+      "canDecipherPoneglyphs": true
+    },
+    {
+      "roleId": "MUSICIAN",
+      "name": "음악가 (Musician)",
+      "defaultHolderName": "소울 킹 브룩",
+      "description": "항해와 전투 중 사기를 북돋워 파티 전원의 스킬 쿨타임 회복 속도가 15% 가속됩니다.",
+      "skillCooldownReductionRatio": 0.15
+    },
+    {
+      "roleId": "HELMSMAN",
+      "name": "조타수 (Helmsman)",
+      "defaultHolderName": "해협의 징베",
+      "description": "선박 선회 속도 +35%, 해상 조류·폭풍 밀림 저항 +60%, 사우전드 써니호 쿠 드 버스트 쿨타임 30% 단축!",
+      "shipTurnSpeedBonusRatio": 0.35,
+      "currentAndStormDriftResistRatio": 0.6,
+      "coupDeBurstCooldownReductionRatio": 0.3
+    }
+  ],
+  "recruitmentRules": [
+    {
+      "id": "rec_zoro_shells",
+      "unitId": "zoro",
+      "characterName": "롤로노아 조로",
+      "track": "MAIN_EPISODE",
+      "triggerEpisodeId": "ep_east_blue_start",
+      "defaultRole": "SWORDSMAN",
+      "initialBounty": 60000000,
+      "joinDialogue": "세계 최강의 검사가 될 사내다! 루피, 네 동료가 되어주지!"
+    },
+    {
+      "id": "rec_usopp_baratie",
+      "unitId": "usopp",
+      "characterName": "저격수 우솝",
+      "track": "MAIN_EPISODE",
+      "triggerEpisodeId": "ep_baratie",
+      "defaultRole": "CAPTAIN",
+      "initialBounty": 30000000,
+      "joinDialogue": "바다의 용감한 전사 우솝 님 등장! 내 새총 저격을 믿어라!"
+    },
+    {
+      "id": "rec_sanji_baratie",
+      "unitId": "sanji",
+      "characterName": "검은 다리 상디",
+      "track": "MAIN_EPISODE",
+      "triggerEpisodeId": "ep_baratie",
+      "defaultRole": "COOK",
+      "initialBounty": 77000000,
+      "joinDialogue": "올 블루를 찾아 떠난다! 동료들의 선상 요리는 나에게 맡겨둬라!"
+    },
+    {
+      "id": "rec_nami_arlong",
+      "unitId": "nami",
+      "characterName": "도둑고양이 나미",
+      "track": "MAIN_EPISODE",
+      "triggerEpisodeId": "ep_arlong_park",
+      "defaultRole": "NAVIGATOR",
+      "initialBounty": 16000000,
+      "joinDialogue": "고마워 루피! 이제 전 세계의 해도를 완성할 때까지 내가 완벽하게 항해해 줄게!"
+    },
+    {
+      "id": "rec_chopper_drum",
+      "unitId": "chopper",
+      "characterName": "토니토니 쵸파",
+      "track": "MAIN_EPISODE",
+      "triggerEpisodeId": "ep_drum_kingdom",
+      "defaultRole": "DOCTOR",
+      "initialBounty": 50,
+      "joinDialogue": "칭찬해도 안 기쁘거든, 바보야~! 만병통치약이 될 때까지 동료들의 상처는 내가 다 고칠게!"
+    },
+    {
+      "id": "rec_robin_alabasta",
+      "unitId": "robin",
+      "characterName": "니코 로빈",
+      "track": "MAIN_EPISODE",
+      "triggerEpisodeId": "ep_alabasta",
+      "defaultRole": "ARCHAEOLOGIST",
+      "initialBounty": 79000000,
+      "joinDialogue": "날 살려두었으니 책임을 져야 해, 선장님. 진정한 역사를 밝히는 포네그리프를 함께 해독할게."
+    },
+    {
+      "id": "rec_brook_thriller_bark",
+      "unitId": "brook",
+      "characterName": "소울 킹 브룩",
+      "track": "MAIN_EPISODE",
+      "triggerEpisodeId": "ep_thriller_bark",
+      "defaultRole": "MUSICIAN",
+      "initialBounty": 33000000,
+      "joinDialogue": "요호호호! 목숨을 걸고 연주하겠습니다! 동료들의 사기를 음악으로 끌어올려 드리죠!"
+    },
+    {
+      "id": "rec_marco_marineford",
+      "unitId": "marco",
+      "characterName": "불사조 마르코",
+      "track": "ALLIANCE_SUBQUEST",
+      "triggerEpisodeId": "ep_marineford",
+      "defaultRole": "DOCTOR",
+      "initialBounty": 1374000000,
+      "joinDialogue": "에이스의 동생이라면 우리가 지켜줘야지, 요이! 신세계로 나아가는 길에 푸른 불꽃을 보태주마!"
+    },
+    {
+      "id": "rec_jinbe_fishman_island",
+      "unitId": "jinbe",
+      "characterName": "해협의 징베",
+      "track": "MAIN_EPISODE",
+      "triggerEpisodeId": "ep_fishman_island",
+      "defaultRole": "HELMSMAN",
+      "initialBounty": 438000000,
+      "joinDialogue": "미래의 해적왕의 동료가 될 사내가 사황 따위에 주눅 들 수 없지! 밀짚모자 일당의 조타수 징베, 합류하네!"
+    },
+    {
+      "id": "rec_franky_water_seven",
+      "unitId": "franky",
+      "characterName": "사이보그 프랑키",
+      "track": "MAIN_EPISODE",
+      "triggerEpisodeId": "ep_water_seven",
+      "defaultRole": "SHIPWRIGHT",
+      "initialBounty": 94000000,
+      "joinDialogue": "SUUUUPER!! 내가 만든 꿈의 배 사우전드 써니호의 조선공은 이 몸, 사이보그 프랑키다!"
+    },
+    {
+      "id": "rec_law_alliance",
+      "unitId": "law",
+      "characterName": "트라팔가 로",
+      "track": "ALLIANCE_SUBQUEST",
+      "triggerEpisodeId": "ep_water_seven",
+      "defaultRole": "DOCTOR",
+      "initialBounty": 200000000,
+      "joinDialogue": "밀짚모자 당번, 사황을 끌어내릴 해적 동맹이다. 내 ROOM으로 지원하지."
+    },
+    {
+      "id": "rec_lucci_sparring",
+      "unitId": "lucci",
+      "characterName": "로브 루치 (CP0 공동전선)",
+      "track": "ALLIANCE_SUBQUEST",
+      "triggerEpisodeId": "ep_egghead",
+      "defaultRole": "SWORDSMAN",
+      "initialBounty": 400000000,
+      "joinDialogue": "임무 완수를 위해 일시적으로 손을 잡겠다, 밀짚모자."
+    },
+    {
+      "id": "rec_kaido_memory",
+      "unitId": "kaido",
+      "characterName": "백수 카이도 (패왕의 환영)",
+      "track": "ALLIANCE_SUBQUEST",
+      "triggerEpisodeId": "ep_wano",
+      "defaultRole": "CAPTAIN",
+      "initialBounty": 4611100000,
+      "joinDialogue": "보로로로! 패기만이 모든 것을 능가한다! 네 패기를 시험해보라!"
+    },
+    {
+      "id": "rec_kizaru_sparring",
+      "unitId": "kizaru",
+      "characterName": "보르살리노 (키자루)",
+      "track": "ALLIANCE_SUBQUEST",
+      "triggerEpisodeId": "ep_egghead",
+      "defaultRole": "NAVIGATOR",
+      "initialBounty": 3000000000,
+      "joinDialogue": "속도는 곧 무게... 빛의 속도로 차인 적이 있나?"
+    }
+  ]
+}

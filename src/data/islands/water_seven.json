@@ -1,0 +1,140 @@
+{
+  "islandId": "water_seven",
+  "name": "물의 도시 워터 세븐 & 갈레라 1번 도크",
+  "episodeId": "ep_water_seven",
+  "width": 960,
+  "height": 540,
+  "theme": "CANAL_DOCKYARD",
+  "spawnPoint": {
+    "x": 110,
+    "y": 270
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 58,
+      "y": 270
+    },
+    "radiusPx": 42
+  },
+  "obstacles": [
+    {
+      "x": 260,
+      "y": 75,
+      "width": 180,
+      "height": 95,
+      "label": "갈레라 컴퍼니 1번 도크"
+    },
+    {
+      "x": 560,
+      "y": 370,
+      "width": 190,
+      "height": 90,
+      "label": "워터 세븐 수로 조선소"
+    }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [],
+  "npcs": [
+    {
+      "npcId": "npc_franky_shipwright",
+      "name": "프랑키 & 아이스버그",
+      "roleLabel": "워터 세븐 최강 조선공",
+      "pos": {
+        "x": 350,
+        "y": 220
+      },
+      "interactRadiusPx": 50,
+      "visualScale": 1.15,
+      "color": "#38bdf8",
+      "setsQuestFlagOnTalk": "flag_sunny_blueprint_ready",
+      "dialogueLines": [
+        "SUUUUPER!! 고잉 메리호는 여기까지 정말 잘 버텨줬다...!",
+        "보배로운 나무 아담으로 어떤 파도와 신세계의 해류도 돌파할 꿈의 배 [사우전드 써니호]를 건조해주마!"
+      ],
+      "choices": [
+        {
+          "label": "사우전드 써니호 건조 및 조선공·요리사·항해사 직책을 정비한다",
+          "setsFlag": "flag_sunny_blueprint_ready",
+          "responseLine": "[선박 건조 준비 완료] 루치를 물리치면 사우전드 써니호(쿠 드 버스트 탑재)가 인도됩니다!"
+        }
+      ]
+    },
+    {
+      "npcId": "npc_law_alliance",
+      "name": "트라팔가 로",
+      "roleLabel": "하트 해적단 선장 (선의/동맹)",
+      "pos": {
+        "x": 510,
+        "y": 320
+      },
+      "interactRadiusPx": 50,
+      "visualScale": 1.05,
+      "color": "#0284c7",
+      "setsQuestFlagOnTalk": "flag_law_talked",
+      "dialogueLines": [
+        "밀짚모자 당번, 신세계의 사황 카이도를 끌어내릴 계획이 있다.",
+        "나와 해적 동맹을 맺지 않겠나? 내 수술수술 열매의 ROOM과 의술로 너희를 지원하지."
+      ],
+      "choices": [
+        {
+          "label": "좋아! 트라팔가 로와 해적 동맹을 맺고 파티에 영입한다!",
+          "setsFlag": "flag_law_allied",
+          "recruitsUnitId": "law",
+          "responseLine": "[동맹 체결] 트라팔가 로(초인계 ROOM / 선의 직책)가 파티에 합류했습니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_water_seven_blueno",
+      "name": "CP9 첩보원 블루노 (문문 열매 기습전)",
+      "isBoss": true,
+      "pos": {
+        "x": 580,
+        "y": 240
+      },
+      "triggerRadiusPx": 52,
+      "enemyUnitIds": [
+        "blueno"
+      ],
+      "aiLevel": 3,
+      "arenaSizeKey": "medium",
+      "setsFlagOnVictory": "flag_water_seven_blueno_cleared",
+      "completesEpisodeOnVictory": false,
+      "bountyReward": 80000000,
+      "berryReward": 22000,
+      "trainingPointReward": 25,
+      "dialogueBeforeBattle": [
+        "블루노: 세계정부의 최고 기밀 기관 CP9이다... 에어 도어로 네 등 뒤에서 숨통을 끊어주지!",
+        "철괴·윤과 회전 도어의 육식 체술을 피할 수 있겠나?!"
+      ]
+    },
+    {
+      "encounterId": "enc_water_seven_lucci",
+      "name": "CP9 사법의 탑 결전: 카쿠 & 로브 루치",
+      "isBoss": true,
+      "pos": {
+        "x": 810,
+        "y": 265
+      },
+      "triggerRadiusPx": 58,
+      "enemyUnitIds": [
+        "kaku",
+        "lucci"
+      ],
+      "aiLevel": 3,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_water_seven_boss_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 270000000,
+      "berryReward": 45000,
+      "trainingPointReward": 45,
+      "dialogueBeforeBattle": [
+        "카쿠: 소소 열매 모델 기린! 사도류 [람각·주단]의 참격 폭풍을 받아라!",
+        "로브 루치: 어둠의 정의 이름으로... 고양고양 열매 모델 레오파드의 [육왕건]으로 끝내주마!"
+      ]
+    }
+  ]
+}

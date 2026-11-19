@@ -1,0 +1,61 @@
+{
+  "islandId": "thriller_bark",
+  "name": "스릴러 바크 (마의 삼각지대 안개 유령선)",
+  "episodeId": "ep_thriller_bark",
+  "width": 960,
+  "height": 540,
+  "theme": "ONIGASHIMA_DOME",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 280, "y": 75, "width": 160, "height": 85, "label": "안개 묘지 석관" },
+    { "x": 540, "y": 395, "width": 190, "height": 85, "label": "호그백 저택 첨탑" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [],
+  "npcs": [
+    {
+      "npcId": "npc_brook_thriller",
+      "name": "콧노래의 브룩",
+      "roleLabel": "유령선 음악가 · 그림자 탈환",
+      "pos": { "x": 355, "y": 260 },
+      "interactRadiusPx": 56,
+      "visualScale": 1.0,
+      "color": "#f8fafc",
+      "setsQuestFlagOnTalk": "flag_thriller_met_brook",
+      "dialogueLines": [
+        "브룩: 요호호호! 겟코 모리아는 분신 [도펠맨]을 소환해 위치를 맞바꾸고, 2페이즈엔 1,000개의 그림자를 삼킨 [섀도즈 아스가르드]로 거대화합니다!",
+        "브룩: 제 그림자와 동료들의 그림자를 되찾아 주신다면, 기꺼이 밀짚모자 일당의 음악가로 합류하겠습니다!"
+      ],
+      "choices": [
+        {
+          "label": "브룩의 그림자를 되찾고 동료로 삼기 위해 모리아와 결전한다!",
+          "setsFlag": "flag_thriller_met_brook",
+          "responseLine": "[결의] 새벽이 오기 전에 칠무해 겟코 모리아를 쓰러뜨립니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_thriller_moria_boss",
+      "name": "왕하 칠무해 겟코 모리아 (도펠맨 분신 & 섀도즈 아스가르드)",
+      "isBoss": true,
+      "pos": { "x": 800, "y": 270 },
+      "triggerRadiusPx": 60,
+      "enemyUnitIds": ["moria"],
+      "aiLevel": 4,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_thriller_bark_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 100000000,
+      "berryReward": 75000,
+      "trainingPointReward": 70,
+      "dialogueBeforeBattle": [
+        "모리아: 키시시시시!! 도펠맨과 1,000개의 그림자 [섀도즈 아스가르드] 앞에 신세계는 꿈도 꾸지 마라!",
+        "힌트: 섀도즈 아스가르드 변신 중 집중 피해를 입히면 그림자를 토출하며 변신이 강제 해제됩니다!"
+      ]
+    }
+  ]
+}

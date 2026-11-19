@@ -1,0 +1,66 @@
+{
+  "islandId": "loguetown",
+  "name": "로그타운 (시작과 끝의 마을 · 처형대 광장)",
+  "episodeId": "ep_loguetown",
+  "width": 960,
+  "height": 540,
+  "theme": "HARBOR_TOWN",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 310, "y": 80, "width": 160, "height": 95, "label": "골 D. 로저 처형대 광장" },
+    { "x": 520, "y": 380, "width": 170, "height": 85, "label": "로그타운 해군 지부 검문소" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [],
+  "npcs": [
+    {
+      "npcId": "npc_dragon_shadow",
+      "name": "정체불명의 녹색 망토 사나이",
+      "roleLabel": "바람을 부르는 자 (로그타운)",
+      "pos": { "x": 360, "y": 255 },
+      "interactRadiusPx": 52,
+      "visualScale": 1.08,
+      "color": "#16a34a",
+      "setsQuestFlagOnTalk": "flag_loguetown_plaza_visited",
+      "dialogueLines": [
+        "정체불명의 사나이: 해적왕이 태어나고 생을 마감한 시작과 끝의 마을 로그타운...",
+        "하얀 사냥꾼 스모커는 자연계 능력자다. 아직 패기가 없으니 정면 대결 대신 45초간 버티며 폭풍을 기다려 항구로 탈출하라!"
+      ],
+      "choices": [
+        {
+          "label": "폭풍의 예고를 가슴에 품고 스모커의 포위망을 뚫는다!",
+          "setsFlag": "flag_loguetown_plaza_visited",
+          "responseLine": "[특수 미션 예고] 스모커전은 [45초 생존 탈출(SURVIVE_TIME)] 미션으로 진행됩니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_loguetown_smoker_escape",
+      "name": "하얀 사냥꾼 스모커 (45초 생존 탈출전 · 자연계)",
+      "isBoss": true,
+      "pos": { "x": 790, "y": 270 },
+      "triggerRadiusPx": 60,
+      "enemyUnitIds": ["smoker"],
+      "aiLevel": 3,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_loguetown_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 20000000,
+      "berryReward": 38000,
+      "trainingPointReward": 45,
+      "winCondition": {
+        "kind": "SURVIVE_TIME",
+        "targetSec": 45,
+        "escapeCutsceneText": "🌪 갑작스러운 거대한 녹색 돌풍(드래곤의 폭풍)이 스모커를 밀어내며 고잉 메리호가 로그타운 항구에서 위대한 항로로 출항 성공!"
+      },
+      "dialogueBeforeBattle": [
+        "스모커: 단 한 명의 해적도 내 앞에서 위대한 항로로 보낸 적이 없다! 뭉게뭉게 자연계와 해루석 짙테 맛을 봐라!",
+        "[특수 승리 조건] 무장색 없이 45초간 생존하면 거대한 돌풍(드래곤 컷신)과 함께 항구 탈출에 성공합니다!"
+      ]
+    }
+  ]
+}

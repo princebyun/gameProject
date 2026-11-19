@@ -1,0 +1,67 @@
+{
+  "islandId": "fishman_island",
+  "name": "어인섬 (해저 1만 미터 용궁 왕국 · 기용코드 광장)",
+  "episodeId": "ep_fishman_island",
+  "width": 960,
+  "height": 540,
+  "theme": "CANAL_DOCKYARD",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 280, "y": 75, "width": 170, "height": 80, "label": "용궁성 산호 아치" },
+    { "x": 540, "y": 395, "width": 190, "height": 80, "label": "바다의 숲 포네그리프 석비" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [],
+  "npcs": [
+    {
+      "npcId": "npc_jinbe_fishman_island",
+      "name": "해협의 징베 (어인섬 수호자)",
+      "roleLabel": "조타수 영입 · 호디 폭주 경고",
+      "pos": { "x": 360, "y": 260 },
+      "interactRadiusPx": 58,
+      "visualScale": 1.15,
+      "color": "#0284c7",
+      "setsQuestFlagOnTalk": "flag_fishman_met_jinbe",
+      "dialogueLines": [
+        "징베: 루피 군, 호디 존스는 금지 약물 에너지 스테로이드를 과다 복용해 체력 50% 이하에서 백발 폭주 상태가 되네!",
+        "징베: 폭주하면 공격·속도·연사가 35% 빨라지지만 받는 피해도 15% 늘어나니, 수변 지형을 경계하며 단기 결전으로 제압하게!"
+      ],
+      "choices": [
+        {
+          "label": "호디 존스를 격파하고 징베를 조타수 동료로 맞이한다!",
+          "setsFlag": "flag_fishman_met_jinbe",
+          "responseLine": "[결의] 어인섬 기용코드 광장에서 신 어인 해적단 선장 호디 존스와 결전합니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_fishman_hody_boss",
+      "name": "호디 존스 (E.S 백발 폭주 & 수변 어인 공수도전)",
+      "isBoss": true,
+      "pos": { "x": 800, "y": 270 },
+      "triggerRadiusPx": 60,
+      "enemyUnitIds": ["hody_jones"],
+      "aiLevel": 4,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_fishman_island_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 100000000,
+      "berryReward": 95000,
+      "trainingPointReward": 80,
+      "arenaTerrain": {
+        "waterZones": [
+          { "x": 450, "y": 240, "radiusPx": 115 },
+          { "x": 720, "y": 390, "radiusPx": 115 }
+        ]
+      },
+      "dialogueBeforeBattle": [
+        "호디 존스: 자하하하!! 어인족의 우월함과 에너지 스테로이드의 폭주를 인간 놈들에게 각인시켜 주마!!",
+        "힌트: HP 50% 이하에서 호디가 백발 폭주(공/속 +35%, 피격 +15%) 상태에 진입합니다!"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,741 @@
+[
+  {
+    "id": "form_luffy_gear5",
+    "name": "기어 5 (태양의 신 니카 각성)",
+    "kind": "OVERDRIVE",
+    "formCategory": "AWAKENED_ZOAN",
+    "stanceRole": "HYBRID",
+    "hagoromoColor": "white",
+    "healRatioOnActivate": 0.25,
+    "regenHpRatioPerSec": 0.015,
+    "durationSec": 18.0,
+    "maxSkillUses": 6,
+    "exhaustionDebuffSec": 6.0,
+    "environmentFieldKind": "RUBBER_BOUNCE_ZONE",
+    "moveSpeedScale": 1.25,
+    "statMultipliers": {
+      "atk": 1.45,
+      "def": 1.35,
+      "spAtk": 1.4,
+      "spDef": 1.35,
+      "spd": 1.35
+    },
+    "overrideMoveIds": [
+      "move_luffy_lightning_throw",
+      "move_luffy_bajrang_gun",
+      "move_luffy_roc_gun",
+      "move_luffy_red_hawk"
+    ],
+    "visualScale": 1.24,
+    "auraColor": "#f8fafc"
+  },
+  {
+    "id": "form_zoro_king_of_hell",
+    "name": "염왕삼도류 (패왕색 휘감기 각성)",
+    "kind": "AWAKENING",
+    "formCategory": "AWAKENED_ZOAN",
+    "stanceRole": "BASE",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.25,
+    "regenHpRatioPerSec": 0.01,
+    "statMultipliers": {
+      "atk": 1.42,
+      "def": 1.18,
+      "spAtk": 1.3,
+      "spDef": 1.18,
+      "spd": 1.22
+    },
+    "overrideMoveIds": [
+      "move_zoro_rengoku_onigiri",
+      "move_zoro_hiryu_kaen",
+      "move_zoro_kitsunebi",
+      "move_zoro_kokujo_tatsumaki"
+    ],
+    "visualScale": 1.14,
+    "auraColor": "#22c55e"
+  },
+  {
+    "id": "form_lucci_hybrid",
+    "name": "레오파드 인수형 (Hybrid Form)",
+    "kind": "AWAKENING",
+    "formCategory": "ZOAN_STANCE",
+    "stanceRole": "HYBRID",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0,
+    "hitboxRadiusScale": 1.15,
+    "statMultipliers": {
+      "atk": 1.22,
+      "def": 1.15,
+      "spAtk": 1.18,
+      "spDef": 1.12,
+      "spd": 1.24
+    },
+    "overrideMoveIds": [
+      "move_lucci_shigan",
+      "move_lucci_rankyaku",
+      "move_lucci_tekkai",
+      "move_lucci_saidairin_rokuogan"
+    ],
+    "visualScale": 1.2,
+    "auraColor": "#f59e0b"
+  },
+  {
+    "id": "form_lucci_awakened",
+    "name": "각성 레오파드 (검은 구름 띠)",
+    "kind": "AWAKENING",
+    "formCategory": "AWAKENED_ZOAN",
+    "stanceRole": "HYBRID",
+    "hagoromoColor": "black",
+    "healRatioOnActivate": 0.25,
+    "regenHpRatioPerSec": 0.02,
+    "hitboxRadiusScale": 1.12,
+    "statMultipliers": {
+      "atk": 1.4,
+      "def": 1.22,
+      "spAtk": 1.32,
+      "spDef": 1.2,
+      "spd": 1.45
+    },
+    "overrideMoveIds": [
+      "move_lucci_shugan_madara",
+      "move_lucci_saidairin_rokuogan",
+      "move_lucci_rankyaku",
+      "move_lucci_tekkai"
+    ],
+    "visualScale": 1.24,
+    "auraColor": "#a855f7"
+  },
+  {
+    "id": "form_kaido_hybrid",
+    "name": "청룡 인수형 (Dragon-Oni Hybrid)",
+    "kind": "AWAKENING",
+    "formCategory": "ZOAN_STANCE",
+    "stanceRole": "HYBRID",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0,
+    "hitboxRadiusScale": 1.2,
+    "statMultipliers": {
+      "atk": 1.28,
+      "def": 1.25,
+      "spAtk": 1.22,
+      "spDef": 1.22,
+      "spd": 1.18
+    },
+    "overrideMoveIds": [
+      "move_kaido_raimei_hakke",
+      "move_kaido_ragnaraku",
+      "move_kaido_kongokabura",
+      "move_kaido_conqueror_roar"
+    ],
+    "visualScale": 1.26,
+    "auraColor": "#818cf8"
+  },
+  {
+    "id": "form_kaido_beast",
+    "name": "청룡 동물형 (Giant Azure Dragon)",
+    "kind": "AWAKENING",
+    "formCategory": "ZOAN_STANCE",
+    "stanceRole": "BEAST",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0,
+    "ignoreTerrainCollision": true,
+    "hitboxRadiusScale": 1.45,
+    "statMultipliers": {
+      "atk": 1.24,
+      "def": 1.45,
+      "spAtk": 1.5,
+      "spDef": 1.42,
+      "spd": 0.95
+    },
+    "overrideMoveIds": [
+      "move_kaido_boro_breath",
+      "move_kaido_kaifu",
+      "move_kaido_ragnaraku",
+      "move_kaido_conqueror_roar"
+    ],
+    "visualScale": 1.56,
+    "auraColor": "#38bdf8"
+  },
+  {
+    "id": "form_kaido_flame_dragon",
+    "name": "화룡대횃불 (Kaido Awakened Beast)",
+    "kind": "AWAKENING",
+    "formCategory": "AWAKENED_ZOAN",
+    "stanceRole": "BEAST",
+    "hagoromoColor": "black",
+    "healRatioOnActivate": 0.25,
+    "regenHpRatioPerSec": 0.015,
+    "ignoreTerrainCollision": true,
+    "hitboxRadiusScale": 1.5,
+    "statMultipliers": {
+      "atk": 1.45,
+      "def": 1.5,
+      "spAtk": 1.6,
+      "spDef": 1.48,
+      "spd": 1.15
+    },
+    "overrideMoveIds": [
+      "move_kaido_boro_breath",
+      "move_kaido_kaifu",
+      "move_kaido_raimei_hakke",
+      "move_kaido_ragnaraku"
+    ],
+    "visualScale": 1.62,
+    "auraColor": "#f97316"
+  },
+  {
+    "id": "form_kizaru_light_realm",
+    "name": "광속 영역 (Pika Logia Awakening)",
+    "kind": "AWAKENING",
+    "formCategory": "ENVIRONMENT_AWAKENING",
+    "stanceRole": "BASE",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.25,
+    "environmentFieldKind": "LIGHT_SPEED_REALM",
+    "statMultipliers": {
+      "atk": 1.24,
+      "def": 1.15,
+      "spAtk": 1.38,
+      "spDef": 1.2,
+      "spd": 1.45
+    },
+    "overrideMoveIds": [
+      "move_kizaru_laser_beam",
+      "move_kizaru_light_clones",
+      "move_kizaru_amanomurakumo",
+      "move_kizaru_yata_mirror"
+    ],
+    "visualScale": 1.14,
+    "auraColor": "#fde047"
+  },
+  {
+    "id": "form_law_kroom",
+    "name": "K·ROOM (수술수술 초인계 각성)",
+    "kind": "AWAKENING",
+    "formCategory": "ENVIRONMENT_AWAKENING",
+    "stanceRole": "BASE",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.25,
+    "environmentFieldKind": "K_ROOM_FIELD",
+    "statMultipliers": {
+      "atk": 1.32,
+      "def": 1.18,
+      "spAtk": 1.44,
+      "spDef": 1.22,
+      "spd": 1.18
+    },
+    "overrideMoveIds": [
+      "move_law_shock_wille",
+      "move_law_puncture_wille",
+      "move_law_shambles",
+      "move_law_tact"
+    ],
+    "visualScale": 1.14,
+    "auraColor": "#38bdf8"
+  },
+  {
+    "id": "form_solar_awakening",
+    "name": "진홍 각성 (Crimson Awakening)",
+    "kind": "AWAKENING",
+    "requiredEquipmentId": "eq_resonator_core",
+    "healRatioOnActivate": 0.25,
+    "newElement": "PYRO",
+    "newTraitId": "trait_solar_core",
+    "statMultipliers": {
+      "atk": 1.22,
+      "def": 1.12,
+      "spAtk": 1.28,
+      "spDef": 1.15,
+      "spd": 1.15
+    },
+    "visualScale": 1.12,
+    "auraColor": "#fb923c"
+  },
+  {
+    "id": "form_tempest_awakening",
+    "name": "창공 각성 (Celestial Awakening)",
+    "kind": "AWAKENING",
+    "requiredEquipmentId": "eq_resonator_core",
+    "healRatioOnActivate": 0.25,
+    "newElement": "AERO",
+    "newTraitId": "trait_reflex_surge",
+    "statMultipliers": {
+      "atk": 1.26,
+      "def": 1.1,
+      "spAtk": 1.18,
+      "spDef": 1.1,
+      "spd": 1.28
+    },
+    "visualScale": 1.12,
+    "auraColor": "#2dd4bf"
+  },
+  {
+    "id": "form_colossus_overdrive",
+    "name": "타이탄 오버드라이브 (Titan Overdrive)",
+    "kind": "OVERDRIVE",
+    "durationSec": 20.0,
+    "maxSkillUses": 3,
+    "moveSpeedScale": 0.72,
+    "statMultipliers": {
+      "atk": 1.35,
+      "def": 1.4,
+      "spAtk": 1.35,
+      "spDef": 1.4,
+      "spd": 0.75
+    },
+    "overrideMoveIds": [
+      "move_overdrive_nova",
+      "move_overdrive_cleave",
+      "move_overdrive_meteor",
+      "move_aegis_dome"
+    ],
+    "visualScale": 1.48,
+    "auraColor": "#e879f9"
+  },
+  {
+    "id": "form_kaku_giraffe",
+    "name": "기린 인수형 (사도류 람각 극의)",
+    "kind": "AWAKENING",
+    "formCategory": "ZOAN_STANCE",
+    "stanceRole": "HYBRID",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0,
+    "hitboxRadiusScale": 1.18,
+    "statMultipliers": {
+      "atk": 1.24,
+      "def": 1.15,
+      "spAtk": 1.28,
+      "spDef": 1.15,
+      "spd": 1.26
+    },
+    "overrideMoveIds": [
+      "move_kaku_rankyaku_amanedachi",
+      "move_kaku_bigan",
+      "move_kaku_kirin_cannon",
+      "move_kaku_four_sword_storm"
+    ],
+    "visualScale": 1.25,
+    "auraColor": "#facc15"
+  },
+  {
+    "id": "form_franky_shogun",
+    "name": "아이언 파이럿 프랑키 장군 (General Franky)",
+    "kind": "AWAKENING",
+    "formCategory": "AWAKENED_ZOAN",
+    "stanceRole": "BEAST",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.25,
+    "regenHpRatioPerSec": 0.01,
+    "hitboxRadiusScale": 1.32,
+    "statMultipliers": {
+      "atk": 1.36,
+      "def": 1.55,
+      "spAtk": 1.38,
+      "spDef": 1.48,
+      "spd": 0.92
+    },
+    "overrideMoveIds": [
+      "move_franky_strong_right",
+      "move_franky_weapons_left",
+      "move_franky_coup_de_vent",
+      "move_franky_radical_beam"
+    ],
+    "visualScale": 1.42,
+    "auraColor": "#38bdf8"
+  },
+  {
+    "id": "form_king_pteranodon",
+    "name": "프테라노돈 인수형 (화룡 황제)",
+    "kind": "AWAKENING",
+    "formCategory": "ZOAN_STANCE",
+    "stanceRole": "HYBRID",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0,
+    "ignoreTerrainCollision": true,
+    "hitboxRadiusScale": 1.2,
+    "statMultipliers": {
+      "atk": 1.26,
+      "def": 1.2,
+      "spAtk": 1.3,
+      "spDef": 1.2,
+      "spd": 1.25
+    },
+    "overrideMoveIds": [
+      "move_king_imperial_pride_stake",
+      "move_king_karyudon",
+      "move_king_flame_slash",
+      "move_king_self_destruct_blast"
+    ],
+    "visualScale": 1.28,
+    "auraColor": "#f97316"
+  },
+  {
+    "id": "form_saturn_gyuki",
+    "name": "우규(규키) 완전 각성태 (검은 구름 띠)",
+    "kind": "AWAKENING",
+    "formCategory": "AWAKENED_ZOAN",
+    "stanceRole": "BEAST",
+    "hagoromoColor": "black",
+    "healRatioOnActivate": 0.25,
+    "regenHpRatioPerSec": 0.02,
+    "hitboxRadiusScale": 1.15,
+    "statMultipliers": {
+      "atk": 1.32,
+      "def": 1.35,
+      "spAtk": 1.4,
+      "spDef": 1.38,
+      "spd": 1.12
+    },
+    "overrideMoveIds": [
+      "move_saturn_eye_glare",
+      "move_saturn_venom_pierce",
+      "move_saturn_poison_orb",
+      "move_saturn_conqueror_roar"
+    ],
+    "visualScale": 1.9,
+    "auraColor": "#a855f7"
+  },
+  {
+    "id": "form_loki_ragnir",
+    "name": "엘바프 태양신 파괴자 (라그니르 각성)",
+    "kind": "AWAKENING",
+    "formCategory": "AWAKENED_ZOAN",
+    "stanceRole": "HYBRID",
+    "hagoromoColor": "black",
+    "healRatioOnActivate": 0.25,
+    "regenHpRatioPerSec": 0.015,
+    "hitboxRadiusScale": 1.1,
+    "statMultipliers": {
+      "atk": 1.45,
+      "def": 1.4,
+      "spAtk": 1.42,
+      "spDef": 1.38,
+      "spd": 1.2
+    },
+    "overrideMoveIds": [
+      "move_loki_ragnir_smash",
+      "move_loki_thunder_breaker",
+      "move_loki_conqueror_charge",
+      "move_loki_elbaf_roar"
+    ],
+    "visualScale": 2.2,
+    "auraColor": "#facc15"
+  },
+  {
+    "id": "form_sanji_diable_jambe",
+    "name": "디아블 잠브 (악마풍각 오버드라이브)",
+    "kind": "OVERDRIVE",
+    "formCategory": "AWAKENED_ZOAN",
+    "stanceRole": "BASE",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.25,
+    "durationSec": 18.0,
+    "maxSkillUses": 6,
+    "moveSpeedScale": 1.32,
+    "statMultipliers": {
+      "atk": 1.4,
+      "def": 1.15,
+      "spAtk": 1.35,
+      "spDef": 1.18,
+      "spd": 1.38
+    },
+    "overrideMoveIds": [
+      "move_sanji_flambe_shot",
+      "move_sanji_spectre",
+      "move_sanji_mouton_shot",
+      "move_sanji_collier_strike"
+    ],
+    "visualScale": 1.14,
+    "auraColor": "#f97316"
+  },
+  {
+    "id": "form_enel_amuru",
+    "name": "2억 볼트 아말 (뇌신 오버드라이브)",
+    "kind": "OVERDRIVE",
+    "formCategory": "AWAKENED_ZOAN",
+    "stanceRole": "BEAST",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.25,
+    "durationSec": 20.0,
+    "maxSkillUses": 6,
+    "hitboxRadiusScale": 1.45,
+    "statMultipliers": {
+      "atk": 1.25,
+      "def": 1.2,
+      "spAtk": 1.5,
+      "spDef": 1.25,
+      "spd": 1.25
+    },
+    "overrideMoveIds": [
+      "move_enel_el_thor",
+      "move_enel_raigo",
+      "move_enel_hino",
+      "move_enel_vari"
+    ],
+    "visualScale": 1.65,
+    "auraColor": "#38bdf8"
+  },
+  {
+    "id": "form_moria_shadows_asgard",
+    "name": "섀도즈 아스가르드 (1,000개의 그림자)",
+    "kind": "OVERDRIVE",
+    "formCategory": "AWAKENED_ZOAN",
+    "stanceRole": "BEAST",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.2,
+    "durationSec": 22.0,
+    "maxSkillUses": 6,
+    "hitboxRadiusScale": 1.5,
+    "damageThresholdRevertRatio": 0.3,
+    "statMultipliers": {
+      "atk": 1.62,
+      "def": 1.3,
+      "spAtk": 1.45,
+      "spDef": 1.2,
+      "spd": 0.85
+    },
+    "overrideMoveIds": [
+      "move_moria_shadow_revolution",
+      "move_moria_tsunotokage",
+      "move_moria_brick_bat",
+      "move_moria_doppelman_swap"
+    ],
+    "visualScale": 1.9,
+    "auraColor": "#7e22ce"
+  },
+  {
+    "id": "form_akainu_magma_zone",
+    "name": "대분화 지대 (마그마 영구 환경 각성)",
+    "kind": "AWAKENING",
+    "formCategory": "ENVIRONMENT_AWAKENING",
+    "stanceRole": "BASE",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.25,
+    "durationSec": 999.0,
+    "environmentFieldKind": "MAGMA_HAZARD_ZONE",
+    "statMultipliers": {
+      "atk": 1.38,
+      "def": 1.25,
+      "spAtk": 1.42,
+      "spDef": 1.22,
+      "spd": 1.12
+    },
+    "overrideMoveIds": [
+      "move_akainu_meigo",
+      "move_akainu_dai_funka",
+      "move_akainu_ryusei_kazan",
+      "move_akainu_inugami_guren"
+    ],
+    "visualScale": 1.18,
+    "auraColor": "#dc2626"
+  },
+  {
+    "id": "form_aokiji_ice_age",
+    "name": "아이스 에이지 (영구 빙결 환경 각성)",
+    "kind": "AWAKENING",
+    "formCategory": "ENVIRONMENT_AWAKENING",
+    "stanceRole": "BASE",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.25,
+    "durationSec": 999.0,
+    "environmentFieldKind": "ICE_AGE_ZONE",
+    "statMultipliers": {
+      "atk": 1.25,
+      "def": 1.3,
+      "spAtk": 1.4,
+      "spDef": 1.3,
+      "spd": 1.18
+    },
+    "overrideMoveIds": [
+      "move_aokiji_ice_time",
+      "move_aokiji_partisan",
+      "move_aokiji_pheasant_beak",
+      "move_aokiji_ice_ball"
+    ],
+    "visualScale": 1.18,
+    "auraColor": "#38bdf8"
+  },
+  {
+    "id": "form_chopper_guard",
+    "name": "가드 포인트 (모피 철벽 방어)",
+    "kind": "AWAKENING",
+    "formCategory": "ZOAN_STANCE",
+    "stanceRole": "HYBRID",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0,
+    "incomingDamageMultiplier": 0.4,
+    "hitboxRadiusScale": 1.25,
+    "statMultipliers": {
+      "atk": 0.9,
+      "def": 1.65,
+      "spAtk": 1.0,
+      "spDef": 1.55,
+      "spd": 0.88
+    },
+    "visualScale": 1.28,
+    "auraColor": "#f59e0b"
+  },
+  {
+    "id": "form_chopper_kungfu",
+    "name": "쿵푸 포인트 (고속 근접 연타)",
+    "kind": "AWAKENING",
+    "formCategory": "ZOAN_STANCE",
+    "stanceRole": "BEAST",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0,
+    "statMultipliers": {
+      "atk": 1.36,
+      "def": 1.12,
+      "spAtk": 1.05,
+      "spDef": 1.08,
+      "spd": 1.32
+    },
+    "visualScale": 1.12,
+    "auraColor": "#fb7185"
+  },
+  {
+    "id": "form_chopper_monster",
+    "name": "몬스터 포인트 (폭주 거대 변신)",
+    "kind": "OVERDRIVE",
+    "formCategory": "AWAKENED_ZOAN",
+    "stanceRole": "BEAST",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.25,
+    "durationSec": 20.0,
+    "maxSkillUses": 6,
+    "exhaustionDebuffSec": 6.0,
+    "hitboxRadiusScale": 1.6,
+    "statMultipliers": {
+      "atk": 1.75,
+      "def": 1.45,
+      "spAtk": 1.25,
+      "spDef": 1.3,
+      "spd": 0.95
+    },
+    "overrideMoveIds": [
+      "move_chopper_monster_palm",
+      "move_chopper_kokutei_cross",
+      "move_chopper_horn_point",
+      "move_chopper_rumble_cure"
+    ],
+    "visualScale": 1.9,
+    "auraColor": "#ef4444"
+  },
+  {
+    "id": "form_robin_demonio",
+    "name": "데모니오 플뢰르 (악마의 개화)",
+    "kind": "AWAKENING",
+    "formCategory": "AWAKENED_ZOAN",
+    "stanceRole": "BEAST",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.25,
+    "hitboxRadiusScale": 1.35,
+    "statMultipliers": {
+      "atk": 1.38,
+      "def": 1.25,
+      "spAtk": 1.48,
+      "spDef": 1.3,
+      "spd": 1.12
+    },
+    "overrideMoveIds": [
+      "move_robin_clutch",
+      "move_robin_gigantesco_mano",
+      "move_robin_spider_net",
+      "move_robin_cien_wings"
+    ],
+    "visualScale": 1.55,
+    "auraColor": "#be123c"
+  },
+  {
+    "id": "form_marco_hybrid",
+    "name": "불사조 인수형 (푸른 불꽃 비행)",
+    "kind": "AWAKENING",
+    "formCategory": "ZOAN_STANCE",
+    "stanceRole": "HYBRID",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0,
+    "regenHpRatioPerSec": 0.015,
+    "statMultipliers": {
+      "atk": 1.25,
+      "def": 1.2,
+      "spAtk": 1.28,
+      "spDef": 1.22,
+      "spd": 1.35
+    },
+    "visualScale": 1.15,
+    "auraColor": "#0ea5e9"
+  },
+  {
+    "id": "form_marco_phoenix",
+    "name": "환수종 불사조 완전체 (재생의 창염)",
+    "kind": "AWAKENING",
+    "formCategory": "ZOAN_STANCE",
+    "stanceRole": "BEAST",
+    "hagoromoColor": "white",
+    "healRatioOnActivate": 0.12,
+    "regenHpRatioPerSec": 0.03,
+    "ignoreTerrainCollision": true,
+    "hitboxRadiusScale": 1.3,
+    "statMultipliers": {
+      "atk": 1.32,
+      "def": 1.32,
+      "spAtk": 1.4,
+      "spDef": 1.38,
+      "spd": 1.42
+    },
+    "visualScale": 1.42,
+    "auraColor": "#38bdf8"
+  },
+  {
+    "id": "form_doflamingo_awakening",
+    "name": "실실 열매 각성 & 새장 (에버 화이트 · 갓 스레드)",
+    "kind": "AWAKENING",
+    "formCategory": "ENVIRONMENT_AWAKENING",
+    "stanceRole": "BASE",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.25,
+    "durationSec": 999.0,
+    "environmentFieldKind": "STRING_AWAKENING_FIELD",
+    "statMultipliers": {
+      "atk": 1.32,
+      "def": 1.2,
+      "spAtk": 1.42,
+      "spDef": 1.24,
+      "spd": 1.28
+    },
+    "overrideMoveIds": [
+      "move_doffy_god_thread",
+      "move_doffy_ever_white",
+      "move_doffy_overheat",
+      "move_doffy_parasite"
+    ],
+    "visualScale": 1.18,
+    "auraColor": "#f43f5e"
+  },
+  {
+    "id": "form_katakuri_mochi_world",
+    "name": "흐르는 떡 & 무쌍 도넛 (특수 초인계 각성)",
+    "kind": "AWAKENING",
+    "formCategory": "ENVIRONMENT_AWAKENING",
+    "stanceRole": "BASE",
+    "hagoromoColor": null,
+    "healRatioOnActivate": 0.25,
+    "durationSec": 25.0,
+    "environmentFieldKind": "MOCHI_DONUT_WORLD",
+    "statMultipliers": {
+      "atk": 1.4,
+      "def": 1.24,
+      "spAtk": 1.38,
+      "spDef": 1.26,
+      "spd": 1.32
+    },
+    "overrideMoveIds": [
+      "move_katakuri_chikara_mochi_donuts",
+      "move_katakuri_kaku_mochi",
+      "move_katakuri_buzz_cut_mochi",
+      "move_katakuri_mogura"
+    ],
+    "visualScale": 1.2,
+    "auraColor": "#e879f9"
+  }
+]

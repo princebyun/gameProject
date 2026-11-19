@@ -1,0 +1,37 @@
+{
+  "episodeId": "ep_loguetown",
+  "islandId": "loguetown",
+  "zoneId": "east_blue",
+  "title": "Ep.1-5 시작과 끝의 마을 로그타운 — 스모커 45초 생존 탈출",
+  "sagaName": "이스트 블루 사가 (최종 관문)",
+  "requiredForNextZone": true,
+  "introDialogue": [
+    "위대한 항로로 가기 전 마지막 거점 로그타운! 하얀 사냥꾼 스모커 대령이 항구를 봉쇄했다!"
+  ],
+  "outroDialogue": [
+    "🌪 거대한 녹색 돌풍(드래곤의 폭풍)이 로그타운을 뒤덮으며 스모커를 밀어냈다!",
+    "이제 이스트 블루 5개 필수 에피소드를 모두 완수해 [리버스 마운틴] 관문을 넘어 위대한 항로로 나아갈 수 있다!"
+  ],
+  "steps": [
+    {
+      "stepId": "step_loguetown_plaza",
+      "title": "처형대 광장의 녹색 망토 사나이 조우",
+      "description": "광장의 정체불명 사나이와 대화해 탈출 작전을 확인하세요.",
+      "requiredFlag": "flag_loguetown_plaza_visited",
+      "targetPos": { "x": 360, "y": 255 }
+    },
+    {
+      "stepId": "step_loguetown_smoker",
+      "title": "스모커 포위망 45초 생존 & 폭풍 탈출",
+      "description": "자연계 보스 스모커의 추격을 피해 45초간 생존하면 드래곤의 폭풍과 함께 항구 탈출에 성공합니다!",
+      "requiredFlag": "flag_loguetown_cleared",
+      "targetPos": { "x": 790, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 42000,
+    "trainingPoints": 50,
+    "bountyIncrease": 15000000,
+    "recruitsUnitIds": []
+  }
+}

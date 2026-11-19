@@ -1,0 +1,89 @@
+{
+  "islandId": "wano_onigashima",
+  "name": "와노쿠니 — 오니가시마 해골 돔 옥상",
+  "episodeId": "ep_wano",
+  "width": 960,
+  "height": 540,
+  "theme": "ONIGASHIMA_DOME",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 380, "y": 70, "width": 160, "height": 90, "label": "오니가시마 해골 뿔 제단" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [
+    {
+      "propId": "prop_road_poneglyph_wano",
+      "label": "붉은 로드 포네그리프 (와노쿠니)",
+      "pos": { "x": 420, "y": 240 },
+      "width": 64,
+      "height": 64,
+      "visualScale": 1.6,
+      "color": "#dc2626"
+    }
+  ],
+  "npcs": [
+    {
+      "npcId": "npc_robin_poneglyph",
+      "name": "니코 로빈 & 효고로",
+      "roleLabel": "고고학자 & 류오 스승",
+      "pos": { "x": 360, "y": 250 },
+      "interactRadiusPx": 54,
+      "visualScale": 1.05,
+      "color": "#c084fc",
+      "setsQuestFlagOnTalk": "flag_wano_poneglyph_read",
+      "dialogueLines": [
+        "이 붉은 돌이 라프텔의 좌표를 가리키는 네 개의 [로드 포네그리프] 중 하나야. 탁본을 완료했어!",
+        "효고로 영감님의 류오(내부 파괴)와 패왕색 휘감기를 깨우치면 카이도의 청룡 비늘도 뚫을 수 있어!"
+      ],
+      "choices": [
+        {
+          "label": "로드 포네그리프 탁본을 챙기고 옥상 카이도 결전으로 향한다!",
+          "setsFlag": "flag_wano_poneglyph_read",
+          "responseLine": "[포네그리프 해독] 로드 포네그리프 1/4 확보 및 고고학자 직책 보너스가 활성화되었습니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_wano_king_gate",
+      "name": "백수 해적단 대간판 화재의 킹 (루나리아 불꽃 결전)",
+      "isBoss": true,
+      "pos": { "x": 600, "y": 265 },
+      "triggerRadiusPx": 56,
+      "enemyUnitIds": ["king"],
+      "aiLevel": 4,
+      "arenaSizeKey": "medium",
+      "setsFlagOnVictory": "flag_wano_king_cleared",
+      "completesEpisodeOnVictory": false,
+      "bountyReward": 500000000,
+      "berryReward": 45000,
+      "trainingPointReward": 40,
+      "dialogueBeforeBattle": [
+        "화재의 킹: 내 등 뒤의 루나리아 불꽃이 타오르는 한 어떤 검격도 나를 베지 못한다!",
+        "조로: 불꽃이 꺼지고 속도가 빨라지는 그 5초의 순간... 거기가 네 약점이다!"
+      ]
+    },
+    {
+      "encounterId": "enc_wano_kaido_boss",
+      "name": "사황 백수 카이도 (최강의 생물)",
+      "isBoss": true,
+      "pos": { "x": 810, "y": 270 },
+      "triggerRadiusPx": 64,
+      "enemyUnitIds": ["kaido"],
+      "aiLevel": 4,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_wano_kaido_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 2700000000,
+      "berryReward": 90000,
+      "trainingPointReward": 80,
+      "dialogueBeforeBattle": [
+        "보로로로!! 밀짚모자, 네놈이 어떤 세상의 왕이 되겠다는 거냐?!",
+        "내 [보로 브레스]와 패왕색 [뇌명팔괘]를 정면으로 받아쳐보아라!!"
+      ]
+    }
+  ]
+}

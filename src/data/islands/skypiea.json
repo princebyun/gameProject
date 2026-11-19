@@ -1,0 +1,71 @@
+{
+  "islandId": "skypiea",
+  "name": "하늘섬 스카이피아 (구름 바다 & 샨도라 황금종)",
+  "episodeId": "ep_skypiea",
+  "width": 960,
+  "height": 540,
+  "theme": "GIANT_ELBAF",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 280, "y": 80, "width": 160, "height": 80, "label": "어퍼 야드 백해 구름 절벽" },
+    { "x": 550, "y": 395, "width": 190, "height": 80, "label": "방주 맥심 잔해" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [
+    {
+      "propId": "prop_golden_bell",
+      "label": "샨도라 황금종 (Golden Belfry)",
+      "pos": { "x": 790, "y": 115 },
+      "width": 96,
+      "height": 84,
+      "visualScale": 2.0,
+      "color": "#facc15"
+    }
+  ],
+  "npcs": [
+    {
+      "npcId": "npc_wyper_skypiea",
+      "name": "와이퍼 & 샨도라 전사",
+      "roleLabel": "황금종의 수호자 · 고무 천적 힌트",
+      "pos": { "x": 360, "y": 260 },
+      "interactRadiusPx": 56,
+      "visualScale": 1.0,
+      "color": "#facc15",
+      "setsQuestFlagOnTalk": "flag_skypiea_bell_oath",
+      "dialogueLines": [
+        "와이퍼: 갓 에넬은 번개번개 자연계에 만트라(견문색 Lv.3)까지 다루는 괴물이다!",
+        "와이퍼: 하지만 네 녀석의 [고무 신체(RUBBER_BODY)]는 번개의 유일한 천적이다! 무장색 패기 없이도 에넬을 직접 때릴 수 있고 번개 피해도 0이다! 황금종을 울려다오!"
+      ],
+      "choices": [
+        {
+          "label": "구름 너머에 황금종을 울리러 에넬에게 돌격한다!",
+          "setsFlag": "flag_skypiea_bell_oath",
+          "responseLine": "[서약] 400년 전 노랜드의 약속을 위해 샨도라 황금종으로 진격합니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_skypiea_enel_boss",
+      "name": "갓 에넬 (번개번개 자연계 · 2억 볼트 아말 뇌신 결전)",
+      "isBoss": true,
+      "pos": { "x": 795, "y": 270 },
+      "triggerRadiusPx": 60,
+      "enemyUnitIds": ["enel"],
+      "aiLevel": 4,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_skypiea_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 50000000,
+      "berryReward": 65000,
+      "trainingPointReward": 60,
+      "dialogueBeforeBattle": [
+        "에넬: 야하하하! 신에게 대드는 청해의 벌레들이여, 엘 토르의 심판을 받아라!",
+        "루피: 난 고무 인간이니까 번개 따위 안 통해!! 황금종은 내가 울린다!!"
+      ]
+    }
+  ]
+}

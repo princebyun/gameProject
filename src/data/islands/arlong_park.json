@@ -1,0 +1,67 @@
+{
+  "islandId": "arlong_park",
+  "name": "아론 파크 (코코야시 마을 수변 정원)",
+  "episodeId": "ep_arlong_park",
+  "width": 960,
+  "height": 540,
+  "theme": "CANAL_DOCKYARD",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 300, "y": 70, "width": 160, "height": 85, "label": "아론 파크 톱상어 성문" },
+    { "x": 560, "y": 395, "width": 180, "height": 80, "label": "측량실 탑" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [],
+  "npcs": [
+    {
+      "npcId": "npc_nami_arlong",
+      "name": "나미 (코코야시 마을)",
+      "roleLabel": "눈물의 부탁 · 항해사",
+      "pos": { "x": 350, "y": 260 },
+      "interactRadiusPx": 56,
+      "visualScale": 1.0,
+      "color": "#f97316",
+      "setsQuestFlagOnTalk": "flag_arlong_nami_helped",
+      "dialogueLines": [
+        "나미: 루피... 도와줘...",
+        "루피: 당연하지!! (밀짚모자를 나미의 머리에 씌워준다) 아론 파크의 수변 지형에서는 어인족이 강해지고 열매 능력자는 느려지니 물웅덩이를 피해 싸우자!"
+      ],
+      "choices": [
+        {
+          "label": "밀짚모자를 맡기고 아론을 날려버리러 간다!",
+          "setsFlag": "flag_arlong_nami_helped",
+          "responseLine": "[결의] 동료의 눈물을 닦기 위해 아론 파크 수변 아레나로 돌격합니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_arlong_park_boss",
+      "name": "톱상어 아론 (수변 지형 어인 버프 & SEA 격수)",
+      "isBoss": true,
+      "pos": { "x": 800, "y": 270 },
+      "triggerRadiusPx": 60,
+      "enemyUnitIds": ["arlong"],
+      "aiLevel": 3,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_arlong_park_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 30000000,
+      "berryReward": 35000,
+      "trainingPointReward": 40,
+      "arenaTerrain": {
+        "waterZones": [
+          { "x": 420, "y": 210, "radiusPx": 110 },
+          { "x": 700, "y": 430, "radiusPx": 115 }
+        ]
+      },
+      "dialogueBeforeBattle": [
+        "아론: 샤하하하!! 어인족이 수변 지형에서 발휘하는 10배의 완력과 해수 탄환 [격수]를 맛보아라!",
+        "열매 능력자 주제에 물가에 발을 들인 순간 네놈의 발은 묶인다!!"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,637 @@
+import { LOGICAL_HEIGHT, LOGICAL_WIDTH } from '../core/constants';
+import { clamp } from '../core/math/vector2';
+import type { GameDataRegistry } from '../core/types/dataSchemas';
+import type { BattleWorldState, UnitRuntimeState } from '../core/types/battleState';
+import type { KeyBindingConfig } from '../input/keyBindings';
+
+export function renderBattleHud(
+  ctx: CanvasRenderingContext2D,
+  world: BattleWorldState,
+  registry: GameDataRegistry,
+  bindings: KeyBindingConfig,
+  fps: number,
+  isTouchMode: boolean
+): void {
+  ctx.save();
+
+  // 1. Top-Left: Team ALPHA HUD Cards
+  const alphaOnField = world.units.filter((u) => u.team === 'ALPHA' && u.isOnField);
+  alphaOnField.forEach((unit, idx) => {
+    renderUnitHudCard(ctx, unit, 12, 10 + idx * 66, false, world, registry);
+  });
+
+  // 2. Top-Right: Team OMEGA HUD Cards
+  const omegaOnField = world.units.filter((u) => u.team === 'OMEGA' && u.isOnField);
+  omegaOnField.forEach((unit, idx) => {
+    renderUnitHudCard(ctx, unit, LOGICAL_WIDTH - 252, 10 + idx * 66, true, world, registry);
+  });
+
+  // 3. Top-Center: Global Weather, Environment Awakening Field, Rule Reversal, Timer & FPS
+  renderTopCenterGlobalHud(ctx, world, fps);
+
+  // 3.5 Phase 6: Dedicated Top Boss HP Bar (with 50% Phase 2 Notch, Lunarian Flame & Super Regen Lockout Timers)
+  renderTopBossHpBar(ctx, world, registry);
+
+  // 4. Active Clash Gauge Overlay (Beam vs Beam, Melee vs Beam Guard, Melee vs Melee + Conqueror Sky Split)
+  renderActiveClashHud(ctx, world);
+
+  // 4.5 Phase 6: 1.5s Boss Intro Banner (Name, Title/Epithet, Bounty/Rank)
+  if (world.bossIntroTimer > 0 && world.bossIntroName) {
+    renderBossIntroBanner(ctx, world);
+  }
+  renderWaveGauntletBanner(ctx, world);
+
+  // 5. Bottom Action & Skill Bar for Primary Alpha Unit
+  const primaryUnit = alphaOnField[0] ?? world.units.find((u) => u.team === 'ALPHA');
+  if (primaryUnit) {
+    renderBottomSkillHud(ctx, primaryUnit, world, registry, bindings, isTouchMode);
+  }
+
+  // 6. Winner Banner
+  if (world.winnerTeam !== null) {
+    ctx.fillStyle = 'rgba(9, 13, 22, 0.78)';
+    ctx.fillRect(LOGICAL_WIDTH * 0.5 - 180, LOGICAL_HEIGHT * 0.5 - 42, 360, 84);
+    ctx.strokeStyle = '#facc15';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(LOGICAL_WIDTH * 0.5 - 180, LOGICAL_HEIGHT * 0.5 - 42, 360, 84);
+
+    ctx.font = 'bold 22px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#fde047';
+    const title =
+      world.winnerTeam === 'DRAW'
+        ? 'BATTLE DRAW!'
+        : `${world.winnerTeam} TEAM VICTORY!`;
+    ctx.fillText(title, LOGICAL_WIDTH * 0.5, LOGICAL_HEIGHT * 0.5 - 4);
+    ctx.font = '11px monospace';
+    ctx.fillStyle = '#cbd5e1';
+    ctx.fillText(
+      world.winReasonText ?? '상단 [전투 재시작] 버튼으로 새 매치를 시작하세요',
+      LOGICAL_WIDTH * 0.5,
+      LOGICAL_HEIGHT * 0.5 + 22
+    );
+  }
+
+  // 7. Stage 2-A Tactical Hint Banner (e.g. Buggy Slash Immunity Swap Hint)
+  if (world.tacticalHintText && world.tacticalHintTimer > 0) {
+    ctx.fillStyle = 'rgba(127, 29, 29, 0.92)';
+    ctx.fillRect(LOGICAL_WIDTH * 0.5 - 230, LOGICAL_HEIGHT - 96, 460, 26);
+    ctx.strokeStyle = '#facc15';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(LOGICAL_WIDTH * 0.5 - 230, LOGICAL_HEIGHT - 96, 460, 26);
+    ctx.font = 'bold 11px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#fde047';
+    ctx.fillText(world.tacticalHintText, LOGICAL_WIDTH * 0.5, LOGICAL_HEIGHT - 79);
+  }
+
+  ctx.restore();
+}
+
+function renderUnitHudCard(
+  ctx: CanvasRenderingContext2D,
+  unit: UnitRuntimeState,
+  x: number,
+  y: number,
+  rightAligned: boolean,
+  world: BattleWorldState,
+  registry: GameDataRegistry
+): void {
+  const w = 240;
+  const h = 62;
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+  ctx.fillRect(x, y, w, h);
+  ctx.strokeStyle = unit.team === 'ALPHA' ? '#38bdf8' : '#f43f5e';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(x, y, w, h);
+
+  // Unit Name, Stance & Haki Badge
+  const elemMeta = registry.elements.elements.find((e) => e.id === unit.element);
+  ctx.font = 'bold 10px monospace';
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#f8fafc';
+  const stanceTag =
+    unit.currentStanceRole !== 'BASE' ? ` (${unit.currentStanceRole})` : '';
+  ctx.fillText(`${unit.name}${stanceTag}`, x + 7, y + 13);
+
+  ctx.fillStyle = elemMeta?.color ?? '#38bdf8';
+  ctx.textAlign = 'right';
+  const hakiText = `무${unit.haki.armament}/견${unit.haki.observation}/패${unit.haki.conqueror}`;
+  ctx.fillText(hakiText, x + w - 7, y + 13);
+
+  // HP Bar
+  const hpRatio = clamp(unit.hp / Math.max(1, unit.maxHp), 0, 1);
+  ctx.fillStyle = '#1e293b';
+  ctx.fillRect(x + 8, y + 18, w - 16, 11);
+  ctx.fillStyle =
+    hpRatio > 0.5 ? '#22c55e' : hpRatio > 0.25 ? '#f59e0b' : '#ef4444';
+  ctx.fillRect(x + 8, y + 18, Math.round((w - 16) * hpRatio), 11);
+
+  ctx.font = 'bold 9px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#ffffff';
+  ctx.fillText(`${unit.hp} / ${unit.maxHp}`, x + w * 0.5, y + 27);
+
+  // Row 3: Dodge stacks, Hagoromo Cloud Sash / Awakening / Exhaustion status
+  ctx.textAlign = 'left';
+  ctx.font = '9px monospace';
+  ctx.fillStyle = '#2dd4bf';
+  ctx.fillText(`회피:${unit.dodgeStacks}/${unit.maxDodgeStacks}`, x + 8, y + 41);
+
+  if (unit.exhaustionTimer > 0) {
+    ctx.fillStyle = '#f87171';
+    ctx.fillText(`탈진:${unit.exhaustionTimer.toFixed(1)}s`, x + 64, y + 41);
+  } else if (unit.activeFormKind === 'OVERDRIVE') {
+    ctx.fillStyle = '#e879f9';
+    const hag = unit.hagoromoColor ? `☁${unit.hagoromoColor.toUpperCase()}` : '★OD';
+    ctx.fillText(
+      `${hag} ${unit.overdriveTimeRemainingSec.toFixed(1)}s(${unit.overdriveUsesRemaining}회)`,
+      x + 64,
+      y + 41
+    );
+  } else if (unit.activeFormId) {
+    ctx.fillStyle = '#fb923c';
+    const hag = unit.hagoromoColor ? `☁구름띠:${unit.hagoromoColor}` : `★${unit.currentStanceRole}`;
+    ctx.fillText(hag, x + 64, y + 41);
+  } else {
+    ctx.fillStyle = '#94a3b8';
+    ctx.fillText(`[${unit.fruitType}]`, x + 64, y + 41);
+  }
+
+  // Row 4: Real-time Status Effect Timer pills
+  let sx = rightAligned ? x + w - 8 : x + 8;
+  ctx.font = 'bold 9px monospace';
+  for (const st of unit.statuses) {
+    const label = `${st.kind}:${st.remainingSec.toFixed(1)}s`;
+    ctx.fillStyle = st.kind === 'STAGGER' ? '#facc15' : '#c084fc';
+    ctx.textAlign = rightAligned ? 'right' : 'left';
+    ctx.fillText(label, sx, y + 55);
+    sx += rightAligned ? -78 : 78;
+  }
+  if (unit.staggerImmunityTimer > 0 && unit.statuses.length === 0) {
+    ctx.fillStyle = '#94a3b8';
+    ctx.textAlign = rightAligned ? 'right' : 'left';
+    ctx.fillText(`면역:${unit.staggerImmunityTimer.toFixed(1)}s`, sx, y + 55);
+  }
+
+  // Stage 2-B: Fruit Nullification countdown badge on unit HUD
+  if (unit.fruitNullifyTimer > 0 && unit.fruitType !== 'NONE') {
+    ctx.fillStyle = '#a855f7';
+    ctx.font = 'bold 9px monospace';
+    ctx.textAlign = rightAligned ? 'right' : 'left';
+    ctx.fillText(
+      `🌑능력봉인:${unit.fruitNullifyTimer.toFixed(1)}s`,
+      rightAligned ? x + w - 8 : x + 8,
+      y + 66
+    );
+  }
+
+  // Roster party dots & swap cooldown
+  const teamUnits = world.units.filter((u) => u.team === unit.team);
+  const roster = world.rosters[unit.team];
+  let dotX = x + w - 12;
+  for (let i = teamUnits.length - 1; i >= 0; i--) {
+    const tu = teamUnits[i];
+    ctx.fillStyle = !tu.isAlive
+      ? '#475569'
+      : tu.isOnField
+        ? '#38bdf8'
+        : '#22c55e';
+    ctx.beginPath();
+    ctx.arc(dotX, y + 40, 3.5, 0, Math.PI * 2);
+    ctx.fill();
+    dotX -= 10;
+  }
+
+  if (roster.pivotWindowTimer > 0) {
+    ctx.fillStyle = '#38bdf8';
+    ctx.textAlign = 'right';
+    ctx.fillText(`교체찬스 ${roster.pivotWindowTimer.toFixed(1)}s!`, x + w - 8, y + 55);
+  } else if (roster.voluntarySwapCooldownTimer > 0) {
+    ctx.fillStyle = '#94a3b8';
+    ctx.textAlign = 'right';
+    ctx.fillText(`교체CD ${roster.voluntarySwapCooldownTimer.toFixed(0)}s`, x + w - 8, y + 55);
+  }
+}
+
+function renderTopCenterGlobalHud(
+  ctx: CanvasRenderingContext2D,
+  world: BattleWorldState,
+  fps: number
+): void {
+  const cx = LOGICAL_WIDTH * 0.5;
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+  ctx.fillRect(cx - 115, 8, 230, 44);
+  ctx.strokeStyle = '#334155';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(cx - 115, 8, 230, 44);
+
+  ctx.font = 'bold 12px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillStyle =
+    world.winCondition.kind === 'SURVIVE_TIME' ? '#fde047' : '#f8fafc';
+  if (world.winCondition.kind === 'SURVIVE_TIME') {
+    const rem = Math.max(0, world.winCondition.targetSec - world.elapsedSec);
+    ctx.fillText(`⏱ 생존 탈출: ${rem.toFixed(1)}s | ${fps} FPS`, cx, 23);
+  } else if (world.winCondition.kind === 'REACH_EXTRACTION') {
+    const rem = Math.max(0, world.winCondition.unlockAfterSec - world.elapsedSec);
+    ctx.fillText(
+      rem > 0 ? `⚓ 탈출구 개방: ${rem.toFixed(1)}s` : `⚓ 탈출 구역 이동!`,
+      cx,
+      23
+    );
+  } else {
+    ctx.fillText(`TIME ${world.elapsedSec.toFixed(1)}s | ${fps} FPS`, cx, 23);
+  }
+
+  ctx.font = 'bold 9px monospace';
+  const badges: string[] = [];
+  if (world.environmentField.kind !== 'NONE' && world.environmentField.remainingSec > 0) {
+    badges.push(
+      `각성필드:${world.environmentField.kind} (${world.environmentField.remainingSec.toFixed(1)}s)`
+    );
+  }
+  if (world.weather.id !== 'NONE' && world.weather.remainingSec > 0) {
+    badges.push(`날씨:${world.weather.id} (${world.weather.remainingSec.toFixed(1)}s)`);
+  }
+  if (world.ruleReversal.kind !== 'NONE' && world.ruleReversal.remainingSec > 0) {
+    badges.push(`반전:SPEED_INV (${world.ruleReversal.remainingSec.toFixed(1)}s)`);
+  }
+
+  if (world.persistentZones.splitActive) {
+    badges.push('🔥❄ 마그마/빙결 반반 분할');
+  } else if (world.persistentZones.magmaActive) {
+    badges.push('🔥 대분화 지대(화상/+25%)');
+  } else if (world.persistentZones.iceActive) {
+    badges.push('❄ 아이스 에이지(둔화/+25%)');
+  }
+  if (world.gauntletWaves.length > 1) {
+    badges.push(`WAVE ${world.currentWaveIndex + 1}/${world.gauntletWaves.length}`);
+  }
+  if (world.birdcage.active) {
+    const shrinkPct = Math.round((1 - world.birdcage.shrinkScale) * 100);
+    badges.push(`🕸 새장 축소 ${shrinkPct}%`);
+  }
+
+  if (badges.length === 0) {
+    ctx.fillStyle = '#64748b';
+    ctx.fillText(`ONE PIECE CLASH ENGINE | ${world.mode}`, cx, 42);
+  } else {
+    ctx.fillStyle = '#facc15';
+    ctx.fillText(badges.join(' | '), cx, 42);
+  }
+}
+
+function renderTopBossHpBar(
+  ctx: CanvasRenderingContext2D,
+  world: BattleWorldState,
+  registry: GameDataRegistry
+): void {
+  const boss = world.units.find(
+    (u) => u.team === 'OMEGA' && u.isOnField && u.isAlive && u.isBossUnit
+  );
+  if (!boss) return;
+
+  const x = 262;
+  const y = 55;
+  const w = 436;
+  const h = 34;
+
+  ctx.save();
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
+  ctx.fillRect(x, y, w, h);
+  ctx.strokeStyle = boss.bossPhase2Triggered ? '#ef4444' : '#f59e0b';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(x, y, w, h);
+
+  // Boss Name & Mechanic Tag (Lunarian Flame / Super Regen Lockout)
+  ctx.font = 'bold 10px monospace';
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#fde047';
+  const phaseTag = boss.bossPhase2Triggered ? ' [2페이즈]' : '';
+  ctx.fillText(`☠ BOSS: ${boss.name}${phaseTag}`, x + 8, y + 12);
+
+  const trait = registry.traits[boss.traitId];
+  let mechText = `Scale ${boss.entityScale.toFixed(1)}x`;
+  let mechColor = '#cbd5e1';
+
+  if (trait?.lunarianFlame?.enabled) {
+    if (boss.lunarianFlameOn) {
+      mechText = '🔥 불꽃 ON (피해-75%/경직면역)';
+      mechColor = '#fb923c';
+    } else {
+      mechText = `💨 불꽃 OFF (속도+45%/재점화 ${boss.lunarianReigniteTimer.toFixed(1)}s)`;
+      mechColor = '#38bdf8';
+    }
+  } else if (trait?.superRegeneration?.enabled) {
+    if (boss.superRegenLockoutTimer > 0) {
+      mechText = `⚡ 재생 억제: ${boss.superRegenLockoutTimer.toFixed(1)}s`;
+      mechColor = '#ef4444';
+    } else {
+      mechText = '🩸 초재생 활성 (+3% HP/s)';
+      mechColor = '#4ade80';
+    }
+  } else if (trait?.futureSightCounter?.enabled) {
+    if (boss.foresightBreakTimer > 0) {
+      mechText = `💥 집중 붕괴: ${boss.foresightBreakTimer.toFixed(1)}s (피해+20%)`;
+      mechColor = '#facc15';
+    } else {
+      mechText = `👁 미래 예지 집중도: ${Math.round(boss.foresightFocus)}/100`;
+      mechColor = '#e879f9';
+    }
+  } else if (trait?.shrinkingArena?.enabled && world.birdcage.active) {
+    const shrinkPct = Math.round((1 - world.birdcage.shrinkScale) * 100);
+    mechText = `🕸 새장 축소율: ${shrinkPct}%`;
+    mechColor = '#f43f5e';
+  } else if (trait?.energySteroidOverdrive?.enabled && boss.steroidOverdriveActive) {
+    mechText = '💊 E.S 백발 폭주 (+35% 공/속 · 피격+15%)';
+    mechColor = '#ef4444';
+  }
+
+  ctx.textAlign = 'right';
+  ctx.fillStyle = mechColor;
+  ctx.fillText(mechText, x + w - 8, y + 12);
+
+  // Large Boss HP Bar with 50% Phase 2 Divider Notch
+  const barX = x + 8;
+  const barY = y + 16;
+  const barW = w - 16;
+  const barH = 12;
+  const hpRatio = clamp(boss.hp / Math.max(1, boss.maxHp), 0, 1);
+
+  ctx.fillStyle = '#1e293b';
+  ctx.fillRect(barX, barY, barW, barH);
+  ctx.fillStyle = boss.bossPhase2Triggered ? '#dc2626' : '#f97316';
+  ctx.fillRect(barX, barY, Math.round(barW * hpRatio), barH);
+
+  // 50% Phase 2 Divider Notch
+  const midX = Math.round(barX + barW * 0.5);
+  ctx.fillStyle = '#fde047';
+  ctx.fillRect(midX - 1, barY - 1, 2, barH + 2);
+
+  ctx.font = 'bold 9px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#ffffff';
+  ctx.fillText(
+    `${boss.hp} / ${boss.maxHp} (50% 2페이즈 경계)`,
+    barX + barW * 0.5,
+    barY + 9
+  );
+  ctx.restore();
+}
+
+function renderBossIntroBanner(
+  ctx: CanvasRenderingContext2D,
+  world: BattleWorldState
+): void {
+  const cx = LOGICAL_WIDTH * 0.5;
+  const y = 116;
+  const w = 440;
+  const h = 64;
+
+  ctx.save();
+  ctx.fillStyle = 'rgba(9, 13, 22, 0.92)';
+  ctx.fillRect(cx - w * 0.5, y, w, h);
+  ctx.strokeStyle = '#ef4444';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(cx - w * 0.5, y, w, h);
+
+  ctx.font = 'bold 10px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#f87171';
+  ctx.fillText('━━━ ☠ BOSS ENCOUNTER ☠ ━━━', cx, y + 15);
+
+  ctx.font = 'bold 16px monospace';
+  ctx.fillStyle = '#fde047';
+  ctx.fillText(world.bossIntroName ?? 'BOSS', cx, y + 34);
+
+  ctx.font = 'bold 11px monospace';
+  ctx.fillStyle = '#e2e8f0';
+  const sub = [world.bossIntroTitle, world.bossIntroBountyLabel]
+    .filter(Boolean)
+    .join(' | ');
+  ctx.fillText(sub.slice(0, 52), cx, y + 52);
+  ctx.restore();
+}
+
+function renderWaveGauntletBanner(
+  ctx: CanvasRenderingContext2D,
+  world: BattleWorldState
+): void {
+  if (world.waveBannerTimer <= 0 || !world.waveBannerText) return;
+  const cx = LOGICAL_WIDTH * 0.5;
+  const y = 96;
+  ctx.save();
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
+  ctx.fillRect(cx - 190, y, 380, 26);
+  ctx.strokeStyle = '#38bdf8';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(cx - 190, y, 380, 26);
+  ctx.font = 'bold 12px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#38bdf8';
+  ctx.fillText(`⚔ ${world.waveBannerText}`, cx, y + 17);
+  ctx.restore();
+}
+
+function renderActiveClashHud(
+  ctx: CanvasRenderingContext2D,
+  world: BattleWorldState
+): void {
+  const cx = LOGICAL_WIDTH * 0.5;
+  let y = 58;
+
+  if (world.beamClashes.length > 0) {
+    const bc = world.beamClashes[0];
+    const rem = Math.max(0, bc.maxTieSec - bc.elapsedSec);
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.fillRect(cx - 130, y, 260, 26);
+    ctx.strokeStyle = '#facc15';
+    ctx.strokeRect(cx - 130, y, 260, 26);
+
+    const ratio = clamp(bc.clashRatio, 0, 1);
+    ctx.fillStyle = '#38bdf8';
+    ctx.fillRect(cx - 126, y + 14, Math.round(252 * ratio), 8);
+    ctx.fillStyle = '#f43f5e';
+    ctx.fillRect(
+      cx - 126 + Math.round(252 * ratio),
+      y + 14,
+      252 - Math.round(252 * ratio),
+      8
+    );
+
+    ctx.font = 'bold 10px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#fde047';
+    ctx.fillText(`⚡ BEAM CLASH! 무승부까지 ${rem.toFixed(1)}s`, cx, y + 11);
+    y += 30;
+  }
+
+  if (world.meleeBeamGuards.length > 0) {
+    const mg = world.meleeBeamGuards[0];
+    const rem = Math.max(0, mg.durationSec - mg.elapsedSec);
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+    ctx.fillRect(cx - 120, y, 240, 20);
+    ctx.strokeStyle = '#2dd4bf';
+    ctx.strokeRect(cx - 120, y, 240, 20);
+    ctx.font = 'bold 10px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#2dd4bf';
+    ctx.fillText(`🛡 MELEE vs BEAM GUARD (${rem.toFixed(2)}s | 30% 피해)`, cx, y + 14);
+    y += 24;
+  }
+
+  if (world.meleeClashes.length > 0) {
+    const mc = world.meleeClashes[0];
+    const rem = Math.max(0, mc.maxDurationSec - mc.elapsedSec);
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
+    ctx.fillRect(cx - 135, y, 270, 22);
+    ctx.strokeStyle = mc.isConquerorSkySplit ? '#ef4444' : '#facc15';
+    ctx.strokeRect(cx - 135, y, 270, 22);
+    ctx.font = 'bold 10px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = mc.isConquerorSkySplit ? '#f87171' : '#fde047';
+    ctx.fillText(
+      mc.isConquerorSkySplit
+        ? `⚡ 패왕색 하늘 가르기 힘겨루기! (${rem.toFixed(1)}s)`
+        : `⚔ MELEE CLASH! (${rem.toFixed(1)}s)`,
+      cx,
+      y + 15
+    );
+  }
+}
+
+function renderBottomSkillHud(
+  ctx: CanvasRenderingContext2D,
+  unit: UnitRuntimeState,
+  world: BattleWorldState,
+  registry: GameDataRegistry,
+  bindings: KeyBindingConfig,
+  isTouchMode: boolean
+): void {
+  const slotWidth = isTouchMode ? 88 : 118;
+  const slotHeight = 44;
+  const gap = 6;
+  const totalSlots = unit.moveSlots.length;
+  const totalW = totalSlots * slotWidth + (totalSlots - 1) * gap;
+  const startX = Math.round((LOGICAL_WIDTH - totalW) * 0.5);
+  const y = LOGICAL_HEIGHT - slotHeight - 8;
+
+  const keyLabels = [
+    bindings.skill1.replace('Digit', '').replace('Key', ''),
+    bindings.skill2.replace('Digit', '').replace('Key', ''),
+    bindings.skill3.replace('Digit', '').replace('Key', ''),
+    bindings.skill4.replace('Digit', '').replace('Key', '')
+  ];
+
+  unit.moveSlots.forEach((slot, idx) => {
+    const mDef = registry.moves[slot.moveId];
+    if (!mDef) return;
+    const x = startX + idx * (slotWidth + gap);
+    const ready = slot.charges > 0 && slot.cooldownTimer <= 0;
+    const elemMeta = registry.elements.elements.find((e) => e.id === mDef.element);
+
+    ctx.fillStyle = ready
+      ? 'rgba(15, 23, 42, 0.90)'
+      : 'rgba(15, 23, 42, 0.60)';
+    ctx.fillRect(x, y, slotWidth, slotHeight);
+    ctx.strokeStyle = mDef.hasConquerorCoating
+      ? '#ef4444'
+      : ready
+        ? (elemMeta?.color ?? '#38bdf8')
+        : '#475569';
+    ctx.lineWidth = ready ? 1.5 : 1;
+    ctx.strokeRect(x, y, slotWidth, slotHeight);
+
+    ctx.font = 'bold 10px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = ready ? '#f8fafc' : '#94a3b8';
+    const shortName =
+      mDef.name.length > (isTouchMode ? 7 : 10)
+        ? mDef.name.slice(0, isTouchMode ? 7 : 10)
+        : mDef.name;
+    ctx.fillText(`[${keyLabels[idx]}] ${shortName}`, x + 5, y + 14);
+
+    ctx.font = '9px monospace';
+    const hakiTag = mDef.hasConquerorCoating
+      ? '⚡패왕'
+      : mDef.hasArmamentHaki
+        ? '●무장'
+        : mDef.archetype.slice(0, 4);
+    ctx.fillStyle = mDef.hasConquerorCoating
+      ? '#f87171'
+      : (elemMeta?.color ?? '#38bdf8');
+    ctx.fillText(hakiTag, x + 5, y + 27);
+
+    ctx.textAlign = 'right';
+    ctx.fillStyle = slot.charges > 0 ? '#4ade80' : '#f87171';
+    ctx.fillText(`${slot.charges}/${slot.maxCharges}`, x + slotWidth - 5, y + 27);
+
+    if (slot.cooldownTimer > 0) {
+      ctx.fillStyle = '#facc15';
+      ctx.fillText(`CD ${slot.cooldownTimer.toFixed(1)}s`, x + slotWidth - 5, y + 40);
+    } else {
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText(`PWR ${mDef.basePower}`, x + slotWidth - 5, y + 40);
+    }
+  });
+
+  if (!isTouchMode) {
+    const dx = startX - 96;
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+    ctx.fillRect(dx, y, 90, slotHeight);
+    ctx.strokeStyle = '#2dd4bf';
+    ctx.strokeRect(dx, y, 90, slotHeight);
+    ctx.font = 'bold 10px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#2dd4bf';
+    ctx.fillText(`[${bindings.dodge.replace('Key', '')}] 회피`, dx + 6, y + 15);
+    ctx.fillStyle = '#f8fafc';
+    ctx.fillText(`스택: ${unit.dodgeStacks}/${unit.maxDodgeStacks}`, dx + 6, y + 29);
+    const rechRatio =
+      unit.dodgeStacks < unit.maxDodgeStacks
+        ? unit.dodgeRechargeTimer / registry.balance.dodge.rechargeSec
+        : 1;
+    ctx.fillStyle = '#1e293b';
+    ctx.fillRect(dx + 6, y + 34, 78, 5);
+    ctx.fillStyle = '#2dd4bf';
+    ctx.fillRect(dx + 6, y + 34, Math.round(78 * rechRatio), 5);
+
+    const fx = startX + totalW + 6;
+    const canShift = !unit.hasUsedFormShift && unit.isAlive && unit.exhaustionTimer <= 0;
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+    ctx.fillRect(fx, y, 122, slotHeight);
+    ctx.strokeStyle = canShift ? '#f59e0b' : '#475569';
+    ctx.strokeRect(fx, y, 122, slotHeight);
+    ctx.font = 'bold 9px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = canShift ? '#fbbf24' : '#64748b';
+    ctx.fillText(`[F]변신 / [Shift+F]각성`, fx + 5, y + 15);
+    ctx.fillStyle = '#e2e8f0';
+    ctx.fillText(
+      unit.fruitNullifyTimer > 0 && unit.fruitType !== 'NONE'
+        ? `봉인 (${unit.fruitNullifyTimer.toFixed(1)}s)`
+        : unit.exhaustionTimer > 0
+          ? `탈진 (${unit.exhaustionTimer.toFixed(1)}s)`
+          : unit.activeFormId
+            ? `폼: ${unit.currentStanceRole}`
+            : `대기 (${unit.currentStanceRole})`,
+      fx + 5,
+      y + 32
+    );
+  }
+
+  const roster = world.rosters[unit.team];
+  if (roster.pivotWindowTimer > 0) {
+    ctx.fillStyle = 'rgba(14, 165, 233, 0.92)';
+    ctx.fillRect(LOGICAL_WIDTH * 0.5 - 135, y - 28, 270, 22);
+    ctx.font = 'bold 11px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(
+      `⚡ [${bindings.quickSwap.replace('Key', '')}] 즉시 파티 교체 가능 (${roster.pivotWindowTimer.toFixed(1)}s)`,
+      LOGICAL_WIDTH * 0.5,
+      y - 13
+    );
+  }
+}

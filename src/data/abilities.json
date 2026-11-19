@@ -1,0 +1,547 @@
+[
+  {
+    "id": "ability_rubber_body",
+    "name": "고무 신체 (태양의 신 니카)",
+    "description": "번개(LIGHTNING) 속성 공격을 완벽히 무효화(0 데미지)하며, 번개 자연계(에넬)의 천적으로 무장색 패기 없이도 타격할 수 있습니다. 무장색 없는 타격(BLUNT) 피해를 50% 경감합니다.",
+    "traitTags": ["RUBBER_BODY"],
+    "elementImmunities": ["LIGHTNING"],
+    "nonHakiDamageMultipliers": {
+      "BLUNT": 0.5
+    },
+    "hooks": [
+      {
+        "event": "onClash",
+        "condition": { "moveArchetype": "MELEE" },
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.2 }
+      },
+      {
+        "event": "onJustDodge",
+        "effect": { "type": "RESTORE_DODGE", "value": 1 }
+      }
+    ]
+  },
+  {
+    "id": "ability_santoryu_master",
+    "name": "삼도류 대검호 (비능력자)",
+    "description": "베기 기술로 투사체/광선 상쇄 및 근접 맞대결 위력이 28% 증가하며, 비능력자이므로 해루석/바다(SEA) 약점 패널티를 받지 않습니다.",
+    "immuneToSeaPenalty": true,
+    "hooks": [
+      {
+        "event": "onClash",
+        "condition": { "moveArchetype": "MELEE" },
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.28 }
+      },
+      {
+        "event": "onHit",
+        "condition": { "moveArchetype": "MELEE" },
+        "effect": { "type": "STAT_MOD", "stat": "atk", "value": 1.15, "durationSec": 4 }
+      }
+    ]
+  },
+  {
+    "id": "ability_rokushiki_leopard",
+    "name": "육식 달인 & 육식동물계 야성",
+    "description": "기술 시전 시 이동속도가 상승하며, 완벽 회피 성공 시 회피 스택을 회복하고 공격 속도가 증가합니다.",
+    "hooks": [
+      {
+        "event": "onCast",
+        "effect": { "type": "STAT_MOD", "stat": "spd", "value": 1.18, "durationSec": 3.5 }
+      },
+      {
+        "event": "onJustDodge",
+        "effect": { "type": "RESTORE_DODGE", "value": 1 }
+      }
+    ]
+  },
+  {
+    "id": "ability_azure_dragon_scales",
+    "name": "청룡의 역린 (최강의 생물)",
+    "description": "피격 시 방어력이 증가하고, 광선 및 근접 맞대결 위력이 25% 강화됩니다.",
+    "hooks": [
+      {
+        "event": "onBeingHit",
+        "effect": { "type": "STAT_MOD", "stat": "def", "value": 1.18, "durationSec": 5 }
+      },
+      {
+        "event": "onClash",
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.25 }
+      }
+    ]
+  },
+  {
+    "id": "ability_pika_logia",
+    "name": "번쩍번쩍 자연계 무형화 (Logia Body)",
+    "description": "무장색 패기가 실리지 않은 일반 물리/원소 공격을 빛 입자로 흘려보내 무효화(0 데미지)합니다. 광선 맞대결 위력이 20% 상승합니다.",
+    "logiaIntangibility": {
+      "enabled": true,
+      "naturalWeaknessElements": ["SEA"]
+    },
+    "hooks": [
+      {
+        "event": "onClash",
+        "condition": { "moveArchetype": "BEAM" },
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.2 }
+      },
+      {
+        "event": "onJustDodge",
+        "effect": { "type": "STAT_MOD", "stat": "spd", "value": 1.3, "durationSec": 4 }
+      }
+    ]
+  },
+  {
+    "id": "ability_ope_spatial",
+    "name": "수술수술 공간 지배자 (ROOM Master)",
+    "description": "ROOM 영역이 전개된 동안 특수공격과 시전 속도가 강화되며, 적중 시 체력을 소량 회복합니다.",
+    "hooks": [
+      {
+        "event": "onCast",
+        "effect": { "type": "STAT_MOD", "stat": "spAtk", "value": 1.16, "durationSec": 4 }
+      },
+      {
+        "event": "onHit",
+        "effect": { "type": "HEAL_RATIO", "value": 0.03 }
+      }
+    ]
+  },
+  {
+    "id": "ability_marine_tyrant",
+    "name": "해군 기지 독재관 (도끼손)",
+    "description": "비능력자이므로 해루석/바다(SEA) 패널티를 받지 않으며, 근접 강타 적중 시 공격력이 상승합니다.",
+    "immuneToSeaPenalty": true,
+    "hooks": [
+      {
+        "event": "onHit",
+        "condition": { "moveArchetype": "MELEE" },
+        "effect": { "type": "STAT_MOD", "stat": "atk", "value": 1.15, "durationSec": 4 }
+      }
+    ]
+  },
+  {
+    "id": "ability_doa_doa",
+    "name": "문문 열매 이공간 기습 (Air Door)",
+    "description": "에어 도어 및 회피 기동 후 공격력과 이동속도가 일시 상승합니다.",
+    "hooks": [
+      {
+        "event": "onCast",
+        "effect": { "type": "STAT_MOD", "stat": "spd", "value": 1.2, "durationSec": 3 }
+      }
+    ]
+  },
+  {
+    "id": "ability_giraffe_zoan",
+    "name": "소소 열매 모델 기린 (사도류 람각)",
+    "description": "기린 인수형 변신 및 참격 투사체(람각) 맞대결 위력이 24% 강화됩니다.",
+    "hooks": [
+      {
+        "event": "onClash",
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.24 }
+      }
+    ]
+  },
+  {
+    "id": "ability_cyborg_cola",
+    "name": "사이보그 콜라 리액터 (강철 장갑)",
+    "description": "비능력자이므로 바다(SEA) 패널티에 면역이며, 광선(래디컬 빔) 맞대결 위력이 25% 증가하고 피격 시 방어력이 상승합니다.",
+    "immuneToSeaPenalty": true,
+    "hooks": [
+      {
+        "event": "onClash",
+        "condition": { "moveArchetype": "BEAM" },
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.25 }
+      },
+      {
+        "event": "onBeingHit",
+        "effect": { "type": "STAT_MOD", "stat": "def", "value": 1.2, "durationSec": 5 }
+      }
+    ]
+  },
+  {
+    "id": "ability_lunarian_flame",
+    "name": "루나리아족의 불꽃 (신들의 일족)",
+    "description": "등에 불꽃이 켜진(Flame ON) 동안 모든 피해 75% 경감 및 경직 면역. 초고속 돌진/방출 기술 시전 시 5초간 불꽃이 꺼지며(Flame OFF) 이동속도 +45% 및 선딜레이 35% 단축.",
+    "lunarianFlame": {
+      "enabled": true,
+      "flameOnDamageMultiplier": 0.25,
+      "flameOnStaggerImmune": true,
+      "flameOffMoveSpeedMultiplier": 1.45,
+      "flameOffWindupMultiplier": 0.65,
+      "reigniteDelaySec": 5.0
+    },
+    "hooks": [
+      {
+        "event": "onClash",
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.22 }
+      }
+    ]
+  },
+  {
+    "id": "ability_elder_super_regen",
+    "name": "오로성 불사 초재생 (우규 요괴)",
+    "description": "피격 후 1.5초 뒤부터 초당 최대 HP의 3%를 지속 자동 재생합니다. 단, 패왕색 휘감기(Conqueror Lv.3) 공격에 피격되면 6초간 초재생이 억제됩니다.",
+    "superRegeneration": {
+      "enabled": true,
+      "delayAfterHitSec": 1.5,
+      "regenMaxHpRatioPerSec": 0.03,
+      "conquerorLockoutDurationSec": 6.0
+    },
+    "hooks": [
+      {
+        "event": "onCast",
+        "effect": { "type": "STAT_MOD", "stat": "spAtk", "value": 1.15, "durationSec": 4 }
+      }
+    ]
+  },
+  {
+    "id": "ability_elbaf_titan",
+    "name": "엘바프의 철뇌와 거인왕의 패기 (Ragnir)",
+    "description": "거대 스케일(2.1x)과 85% 넉백 저항을 지니며, 근접 및 번개 맞대결 위력이 32% 증가합니다.",
+    "hooks": [
+      {
+        "event": "onClash",
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.32 }
+      },
+      {
+        "event": "onBeingHit",
+        "effect": { "type": "STAT_MOD", "stat": "atk", "value": 1.16, "durationSec": 5 }
+      }
+    ]
+  },
+  {
+    "id": "ability_bara_bara",
+    "name": "동강동강 참격 분할 면역 (Bara Bara)",
+    "description": "패기 유무와 관계없이 모든 참격(SLASH) 속성 공격을 몸을 분할하여 무효화(0 데미지)합니다. 타격(BLUNT)에는 정상 피격됩니다.",
+    "slashImmunity": true,
+    "hooks": []
+  },
+  {
+    "id": "ability_wootz_armor",
+    "name": "우츠 강철 황금 갑옷 (Wootz Steel)",
+    "description": "비능력자이며, 무장색 패기가 없는 원거리 투사체 피해를 40% 경감합니다.",
+    "immuneToSeaPenalty": true,
+    "nonHakiProjectileMultiplier": 0.6,
+    "hooks": [
+      {
+        "event": "onBeingHit",
+        "effect": { "type": "STAT_MOD", "stat": "def", "value": 1.15, "durationSec": 4 }
+      }
+    ]
+  },
+  {
+    "id": "ability_fishman_body",
+    "name": "어인족 신체 (수변 지배자)",
+    "description": "비능력자 어인족으로 바다(SEA) 패널티에 면역이며, 수변 영역(Water Zone)에서 공격력/이동속도 +20% 및 SEA 기술 위력 +25% 보너스를 얻습니다.",
+    "immuneToSeaPenalty": true,
+    "fishmanWaterBuff": {
+      "enabled": true,
+      "atkMult": 1.2,
+      "spdMult": 1.2,
+      "seaDamageMult": 1.25
+    },
+    "hooks": [
+      {
+        "event": "onClash",
+        "condition": { "moveArchetype": "MELEE" },
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.18 }
+      }
+    ]
+  },
+  {
+    "id": "ability_moku_logia",
+    "name": "뭉게뭉게 자연계 무형화 (Moku Logia)",
+    "description": "무장색 패기가 없는 일반 물리/원소 공격을 흰 연기로 흘려보내 무효화(0 데미지)합니다.",
+    "logiaIntangibility": {
+      "enabled": true,
+      "naturalWeaknessElements": ["SEA"]
+    },
+    "hooks": [
+      {
+        "event": "onCast",
+        "effect": { "type": "STAT_MOD", "stat": "spd", "value": 1.15, "durationSec": 3 }
+      }
+    ]
+  },
+  {
+    "id": "ability_sky_walk",
+    "name": "스카이 워크 (검은 다리 공중 보행)",
+    "description": "비능력자로 바다 패널티에 면역이며 회피 스택 충전 속도가 +20% 상승합니다.",
+    "immuneToSeaPenalty": true,
+    "dodgeRechargeMultiplier": 1.2,
+    "hooks": [
+      {
+        "event": "onJustDodge",
+        "effect": { "type": "RESTORE_DODGE", "value": 1 }
+      }
+    ]
+  },
+  {
+    "id": "ability_sniper_eye",
+    "name": "저격수의 눈 (Sniper King)",
+    "description": "비능력자이며 모든 투사체의 사거리 및 비행 지속 시간이 +25% 증가합니다.",
+    "immuneToSeaPenalty": true,
+    "projectileRangeMultiplier": 1.25,
+    "hooks": [
+      {
+        "event": "onHit",
+        "condition": { "moveArchetype": "PROJECTILE" },
+        "effect": { "type": "STAT_MOD", "stat": "spAtk", "value": 1.16, "durationSec": 4 }
+      }
+    ]
+  },
+  {
+    "id": "ability_weather_navigator",
+    "name": "기상 관측 항해사 (크리마 택트)",
+    "description": "비능력자이며 아레나 날씨 지속 시간과 번개(LIGHTNING) 속성 공격 위력이 +30% 증가합니다.",
+    "immuneToSeaPenalty": true,
+    "weatherDurationMultiplier": 1.3,
+    "lightningDamageMultiplier": 1.3,
+    "hooks": [
+      {
+        "event": "onWeatherChange",
+        "effect": { "type": "STAT_MOD", "stat": "spAtk", "value": 1.2, "durationSec": 8 }
+      }
+    ]
+  },
+  {
+    "id": "ability_baku_baku",
+    "name": "우걱우걱 강철 포식 (Baku Baku)",
+    "description": "무기와 철갑을 삼켜 방어력을 강화하며, 피격 시 방어력이 상승합니다.",
+    "hooks": [
+      {
+        "event": "onBeingHit",
+        "effect": { "type": "STAT_MOD", "stat": "def", "value": 1.18, "durationSec": 4 }
+      }
+    ]
+  },
+  {
+    "id": "ability_suna_logia",
+    "name": "모래모래 자연계 무형화 (건조 / 젖음 약점)",
+    "description": "건조 상태에서는 무장색 패기 없는 물리 공격을 모래로 흘려보내 무효화합니다. 단, 물(SEA), 레인 템포, 물통 파괴로 젖음(WET) 상태가 되면 패기 없이도 타격·참격에 정상 피격됩니다.",
+    "logiaIntangibility": {
+      "enabled": true,
+      "naturalWeaknessElements": ["SEA"]
+    },
+    "weakToWetStatus": true,
+    "hooks": [
+      {
+        "event": "onCast",
+        "effect": { "type": "STAT_MOD", "stat": "spAtk", "value": 1.15, "durationSec": 4 }
+      }
+    ]
+  },
+  {
+    "id": "ability_goro_logia",
+    "name": "번개번개 자연계 & 만트라 (천적: 고무)",
+    "description": "무장색 없는 공격을 번개로 무효화하지만 천적 태그(RUBBER_BODY)를 지닌 루피에게는 패기 없이도 피격됩니다. 견문색 Lv.3 만트라로 완벽 회피 시 기동력이 급상승합니다.",
+    "logiaIntangibility": {
+      "enabled": true,
+      "naturalWeaknessElements": ["SEA"]
+    },
+    "naturalCounterTags": ["RUBBER_BODY"],
+    "hooks": [
+      {
+        "event": "onJustDodge",
+        "effect": { "type": "STAT_MOD", "stat": "spd", "value": 1.32, "durationSec": 4 }
+      },
+      {
+        "event": "onClash",
+        "condition": { "moveArchetype": "PROJECTILE" },
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.22 }
+      }
+    ]
+  },
+  {
+    "id": "ability_kage_master",
+    "name": "그림자그림자 지배자 (도펠맨 소환)",
+    "description": "독립 전투 그림자 분신 도펠맨을 소환·위치 교체하며 원거리 교란에 특화됩니다.",
+    "hooks": [
+      {
+        "event": "onCast",
+        "effect": { "type": "STAT_MOD", "stat": "spAtk", "value": 1.14, "durationSec": 4 }
+      }
+    ]
+  },
+  {
+    "id": "ability_doppelman_shadow",
+    "name": "그림자 분신체 (Doppelman)",
+    "description": "겟코 모리아의 명령에 따라 독립적으로 적을 추격·교란하는 그림자 분신입니다.",
+    "hooks": []
+  },
+  {
+    "id": "ability_magu_logia",
+    "name": "마그마그 자연계 (철저한 정의)",
+    "description": "화염보다 상위의 마그마 자연계 무형화를 지니며, 광선·투사체 맞대결 위력이 28% 상승합니다.",
+    "logiaIntangibility": {
+      "enabled": true,
+      "naturalWeaknessElements": ["SEA"]
+    },
+    "hooks": [
+      {
+        "event": "onClash",
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.28 }
+      }
+    ]
+  },
+  {
+    "id": "ability_hie_logia",
+    "name": "얼음얼음 자연계 (빙결 반격)",
+    "description": "얼음 자연계 무형화를 지니며 근접 피격 시 공격자에게 빙결 둔화를 부여합니다.",
+    "logiaIntangibility": {
+      "enabled": true,
+      "naturalWeaknessElements": ["SEA", "MAGMA", "FIRE"]
+    },
+    "frostCounterOnHit": true,
+    "hooks": [
+      {
+        "event": "onCast",
+        "effect": { "type": "STAT_MOD", "stat": "spAtk", "value": 1.16, "durationSec": 4 }
+      }
+    ]
+  },
+  {
+    "id": "ability_yami_gura",
+    "name": "어둠어둠 & 흔들흔들 이중 열매 (능력 봉인)",
+    "description": "어둠 열매의 특성으로 받는 피해가 20% 증가하지만 압도적 체력과 넉백 저항을 지니며, 쿠로우즈 적중 시 5초간 적의 열매 능력을 완전 봉인합니다.",
+    "incomingDamageMultiplier": 1.2,
+    "hooks": [
+      {
+        "event": "onClash",
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.32 }
+      }
+    ]
+  },
+  {
+    "id": "ability_hito_chopper",
+    "name": "럼블 볼 7단 변형 (선의의 지혜)",
+    "description": "브레인·가드·쿵푸·몬스터 포인트를 자유롭게 오가며 아군을 치유하고 약점을 분석합니다.",
+    "hooks": [
+      {
+        "event": "onHit",
+        "condition": { "moveArchetype": "MELEE" },
+        "effect": { "type": "HEAL_RATIO", "value": 0.03 }
+      }
+    ]
+  },
+  {
+    "id": "ability_hana_robin",
+    "name": "꽃꽃 열매 개화 (고고학자의 통찰)",
+    "description": "거리와 무관하게 적의 위치에서 팔을 피워 속박하며 기술 시전 시 특수공격이 상승합니다.",
+    "hooks": [
+      {
+        "event": "onCast",
+        "effect": { "type": "STAT_MOD", "stat": "spAtk", "value": 1.18, "durationSec": 4 }
+      }
+    ]
+  },
+  {
+    "id": "ability_yomi_brook",
+    "name": "황천의 경량 해골 (수면 주행)",
+    "description": "몸이 극도로 가벼워 수변 지형(Water Zone) 위를 달려 물 둔화를 완전히 무시하며 최상위 기동력을 발휘합니다.",
+    "ignoreWaterTerrainPenalty": true,
+    "hooks": [
+      {
+        "event": "onJustDodge",
+        "effect": { "type": "STAT_MOD", "stat": "spd", "value": 1.25, "durationSec": 3.5 }
+      }
+    ]
+  },
+  {
+    "id": "ability_phoenix_marco",
+    "name": "환수종 불사조의 푸른 불꽃 (1회 부활)",
+    "description": "전투당 1회 치명상 피격 시 푸른 불꽃 폭발과 함께 최대 HP 40%로 즉시 부활하며 주변 아군 HP를 15% 치유합니다.",
+    "revivePassive": {
+      "enabled": true,
+      "reviveHpRatio": 0.4,
+      "allyHealRatio": 0.15,
+      "allyHealRadiusPx": 240
+    },
+    "hooks": [
+      {
+        "event": "onCast",
+        "effect": { "type": "HEAL_RATIO", "value": 0.03 }
+      }
+    ]
+  },
+  {
+    "id": "ability_hody_steroid",
+    "name": "신 어인 해적단 E.S 폭주 (수변 지배 + 50% 폭주)",
+    "description": "어인족으로 수변 버프를 받으며, HP 50% 이하 도달 시 백발 폭주(공격력·이동속도·연사속도 +35%, 받는 피해 +15%) 상태에 돌입합니다.",
+    "immuneToSeaPenalty": true,
+    "fishmanWaterBuff": {
+      "enabled": true,
+      "atkMult": 1.2,
+      "spdMult": 1.2,
+      "seaDamageMult": 1.25
+    },
+    "energySteroidOverdrive": {
+      "enabled": true,
+      "triggerHpRatio": 0.5,
+      "atkMult": 1.35,
+      "spdMult": 1.35,
+      "cooldownAccelRatio": 0.35,
+      "incomingDamageMult": 1.15
+    },
+    "hooks": []
+  },
+  {
+    "id": "ability_ito_birdcage",
+    "name": "실실 열매 각성 & 새장 (Shrinking Birdcage)",
+    "description": "HP 65% 이하 또는 실 각성 발동 시 아레나를 45%까지 점진 축소시키는 붉은 실 새장을 전개합니다. 경계 접촉 시 SLASH 피해 및 중앙 넉백.",
+    "shrinkingArena": {
+      "enabled": true,
+      "triggerHpRatio": 0.65,
+      "shrinkRatePerSec": 0.025,
+      "minScaleRatio": 0.45,
+      "boundarySlashDamage": 18,
+      "boundaryKnockbackSpeed": 220
+    },
+    "hooks": [
+      {
+        "event": "onClash",
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.24 }
+      }
+    ]
+  },
+  {
+    "id": "ability_mochi_future_sight",
+    "name": "미래 예지 변형 회피 & 떡 점착 (Future Sight)",
+    "description": "집중도(0~100)가 50 이상이면 단발·연속 공격을 떡 변형으로 회피 후 반격합니다. 완벽 회피 반격·맞대결 승리·연타/광역기·견문색 Lv3 적중 시 5초간 집중 붕괴(피해 +20%).",
+    "futureSightCounter": {
+      "enabled": true,
+      "maxFocus": 100,
+      "evadeMinFocus": 50,
+      "focusBreakDurationSec": 5.0,
+      "focusBreakDamageMult": 1.2,
+      "focusRegenPerSec": 10
+    },
+    "mochiSlowOnHit": {
+      "slowMult": 0.78,
+      "durationSec": 2.0
+    },
+    "hooks": [
+      {
+        "event": "onClash",
+        "condition": { "moveArchetype": "MELEE" },
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.3 }
+      }
+    ]
+  },
+  {
+    "id": "ability_fishman_karate_master",
+    "name": "어인 공수도 달인 (해협의 징베)",
+    "description": "비능력자 어인족으로 물 둔화 면역 및 수변 지형 강화(+20% 공/속, SEA +25%)를 받으며, 광선·근접 맞대결 위력이 26% 상승합니다.",
+    "immuneToSeaPenalty": true,
+    "ignoreWaterTerrainPenalty": true,
+    "fishmanWaterBuff": {
+      "enabled": true,
+      "atkMult": 1.2,
+      "spdMult": 1.2,
+      "seaDamageMult": 1.25
+    },
+    "hooks": [
+      {
+        "event": "onClash",
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.26 }
+      }
+    ]
+  }
+]

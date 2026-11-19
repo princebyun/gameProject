@@ -1,0 +1,50 @@
+{
+  "episodeId": "ep_wano",
+  "islandId": "wano_onigashima",
+  "zoneId": "new_world",
+  "title": "Ep.3 와노쿠니 오니가시마 — 사황 카이도 & 기어 5 각성",
+  "sagaName": "사황 편 (와노쿠니 결전)",
+  "requiredForNextZone": true,
+  "introDialogue": [
+    "신세계 와노쿠니 오니가시마 해골 돔 옥상! 최강의 생물 사황 백수 카이도가 기다린다!"
+  ],
+  "outroDialogue": [
+    "해방의 드럼 소리와 함께 루피의 [기어 5]와 조로의 [염왕삼도류]가 완전 각성하여 카이도를 격파했다!",
+    "붉은 로드 포네그리프를 확보하고 루피의 현상금이 30억 베리(사황 등극)로 상승했다!"
+  ],
+  "steps": [
+    {
+      "stepId": "step_wano_poneglyph",
+      "title": "붉은 로드 포네그리프 탁본",
+      "description": "니코 로빈과 대화해 와노쿠니의 로드 포네그리프를 해독하세요.",
+      "requiredFlag": "flag_wano_poneglyph_read",
+      "targetPos": { "x": 360, "y": 250 }
+    },
+    {
+      "stepId": "step_wano_king",
+      "title": "오니가시마 성곽 돌파: 대간판 킹 격파",
+      "description": "루나리아족의 불꽃 스탠스를 간파하고 화재의 킹을 물리치세요.",
+      "requiredFlag": "flag_wano_king_cleared",
+      "targetPos": { "x": 600, "y": 265 }
+    },
+    {
+      "stepId": "step_wano_kaido",
+      "title": "해골 돔 옥상 결전: 사황 백수 카이도 격파",
+      "description": "해골 돔 정상에서 백수 카이도를 격파하고 기어 5 각성을 달성하세요.",
+      "requiredFlag": "flag_wano_kaido_cleared",
+      "targetPos": { "x": 810, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 100000,
+    "trainingPoints": 90,
+    "bountyIncrease": 2700000000,
+    "recruitsUnitIds": ["kaido"],
+    "unlocksFormIds": [
+      { "unitId": "luffy", "formId": "form_luffy_gear5" },
+      { "unitId": "zoro", "formId": "form_zoro_king_of_hell" }
+    ],
+    "unlocksCrewRoles": ["ARCHAEOLOGIST"],
+    "awardsRoadPoneglyph": true
+  }
+}

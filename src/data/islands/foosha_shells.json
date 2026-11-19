@@ -1,0 +1,83 @@
+{
+  "islandId": "foosha_shells",
+  "name": "후샤 마을 & 쉘즈타운 해군기지",
+  "episodeId": "ep_east_blue_start",
+  "width": 960,
+  "height": 540,
+  "theme": "HARBOR_TOWN",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 240, "y": 80, "width": 140, "height": 90, "label": "마키노의 주점" },
+    { "x": 540, "y": 70, "width": 220, "height": 100, "label": "쉘즈타운 해군 제153지부" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [],
+  "npcs": [
+    {
+      "npcId": "npc_makino",
+      "name": "마키노",
+      "roleLabel": "후샤 마을 주점 주인",
+      "pos": { "x": 310, "y": 210 },
+      "interactRadiusPx": 48,
+      "visualScale": 1.0,
+      "color": "#4ade80",
+      "setsQuestFlagOnTalk": "flag_foosha_briefed",
+      "dialogueLines": [
+        "루피! 드디어 바다로 출항하는구나! 샹크스가 맡긴 밀짚모자, 잘 간직해야 해!",
+        "동쪽 쉘즈타운 해군기지 처형장에 해적사냥꾼 롤로노아 조로가 묶여 있다는 소문이 있어."
+      ],
+      "choices": [
+        {
+          "label": "해적왕이 될 거야! 조로를 동료로 영입하러 가자!",
+          "setsFlag": "flag_foosha_briefed",
+          "responseLine": "몸 조심하고 멋진 동료들을 모으렴! 도시락과 항해사 나미의 해도를 챙겨줬어!"
+        }
+      ]
+    },
+    {
+      "npcId": "npc_zoro_bound",
+      "name": "롤로노아 조로",
+      "roleLabel": "삼도류 검사",
+      "pos": { "x": 620, "y": 230 },
+      "interactRadiusPx": 52,
+      "visualScale": 1.05,
+      "color": "#22c55e",
+      "setsQuestFlagOnTalk": "flag_zoro_freed",
+      "dialogueLines": [
+        "내 검 세 자루를 찾아준 건가? 악마의 아들이든 해적이든 상관없다.",
+        "내 야망은 세계 최강의 대검호다! 지금부터 네 동료가 되어 해군기지를 돌파한다!"
+      ],
+      "choices": [
+        {
+          "label": "밧줄을 풀고 조로를 첫 동료로 영입한다!",
+          "setsFlag": "flag_zoro_freed",
+          "recruitsUnitId": "zoro",
+          "responseLine": "[동료 합류] 롤로노아 조로가 밀짚모자 일당(검사 직책)에 합류했습니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_shells_town_boss",
+      "name": "해군 제153지부 대령 도끼손 모건",
+      "isBoss": true,
+      "pos": { "x": 810, "y": 270 },
+      "triggerRadiusPx": 56,
+      "enemyUnitIds": ["morgan"],
+      "aiLevel": 2,
+      "arenaSizeKey": "medium",
+      "setsFlagOnVictory": "flag_east_blue_boss_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 30000000,
+      "berryReward": 20000,
+      "trainingPointReward": 25,
+      "dialogueBeforeBattle": [
+        "도끼손 모건: 위대한 내가 하는 일은 모두 올바르다! 해군 제153지부에서 내게 거역하는 자는 즉시 처형이다!",
+        "내 강철 도끼손의 일격으로 밀짚모자 루피와 롤로노아 조로를 두 동강 내주마!"
+      ]
+    }
+  ]
+}

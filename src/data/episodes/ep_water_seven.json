@@ -1,0 +1,47 @@
+{
+  "episodeId": "ep_water_seven",
+  "islandId": "water_seven",
+  "zoneId": "grand_line",
+  "title": "Ep.2 물의 도시 결전 — 사우전드 써니호 & CP9 루치",
+  "sagaName": "워터 세븐 & 에니에스 로비 사가",
+  "requiredForNextZone": true,
+  "introDialogue": [
+    "위대한 항로 전반부의 핵심 거점, 물의 도시 워터 세븐에 입항했다!"
+  ],
+  "outroDialogue": [
+    "CP9 블루노, 카쿠, 로브 루치를 모두 격파하고 사이보그 조선공 [프랑키]가 동료로 합류했다!",
+    "꿈의 신형 범선 [사우전드 써니호]와 조선공 직책(선박 내구도 +40% 및 해상 자동 수리)이 해금되었다!",
+    "이제 [레드라인 / 어인섬 해저 항로] 관문이 개방되어 사황의 바다 [신세계(New World)]로 진입할 수 있다!"
+  ],
+  "steps": [
+    {
+      "stepId": "step_water_seven_shipwright",
+      "title": "갈레라 1번 도크 조선공 프랑키 접선",
+      "description": "프랑키와 대화해 사우전드 써니호 건조를 준비하세요.",
+      "requiredFlag": "flag_sunny_blueprint_ready",
+      "targetPos": { "x": 350, "y": 220 }
+    },
+    {
+      "stepId": "step_water_seven_blueno",
+      "title": "조선소 습격: CP9 블루노 격파",
+      "description": "도크 중앙을 습격한 문문 열매 능력자 블루노를 물리치세요.",
+      "requiredFlag": "flag_water_seven_blueno_cleared",
+      "targetPos": { "x": 580, "y": 240 }
+    },
+    {
+      "stepId": "step_water_seven_lucci",
+      "title": "사법의 탑 결전: 카쿠 & 로브 루치 격파",
+      "description": "동쪽 결전지에서 기린 인수형 카쿠와 레오파드 로브 루치를 물리치고 프랑키를 영입하세요.",
+      "requiredFlag": "flag_water_seven_boss_cleared",
+      "targetPos": { "x": 810, "y": 265 }
+    }
+  ],
+  "rewards": {
+    "berries": 55000,
+    "trainingPoints": 50,
+    "bountyIncrease": 270000000,
+    "recruitsUnitIds": ["franky", "law"],
+    "unlocksShipId": "thousand_sunny",
+    "unlocksCrewRoles": ["SHIPWRIGHT", "COOK", "DOCTOR"]
+  }
+}

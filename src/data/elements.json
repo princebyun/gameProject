@@ -1,0 +1,38 @@
+{
+  "elements": [
+    { "id": "BLUNT", "name": "타격 (Blunt)", "color": "#f97316" },
+    { "id": "SLASH", "name": "참격 (Slash)", "color": "#2dd4bf" },
+    { "id": "FIRE", "name": "화염 (Fire)", "color": "#ef4444" },
+    { "id": "MAGMA", "name": "마그마 (Magma)", "color": "#dc2626" },
+    { "id": "ICE", "name": "빙결 (Ice)", "color": "#38bdf8" },
+    { "id": "LIGHTNING", "name": "번개 (Lightning)", "color": "#facc15" },
+    { "id": "LIGHT", "name": "빛/광선 (Light)", "color": "#fde047" },
+    { "id": "FORCE", "name": "충격/진동 (Force)", "color": "#a855f7" },
+    { "id": "SPECIAL", "name": "특수/공간 (Special)", "color": "#60a5fa" },
+    { "id": "SEA", "name": "해루석/바다 (Sea)", "color": "#0284c7" },
+    { "id": "PYRO", "name": "화염 (Pyro)", "color": "#f97316" },
+    { "id": "AQUA", "name": "수류 (Aqua)", "color": "#38bdf8" },
+    { "id": "VOLT", "name": "뇌전 (Volt)", "color": "#facc15" },
+    { "id": "TERRA", "name": "대지 (Terra)", "color": "#a3e635" },
+    { "id": "AERO", "name": "질풍 (Aero)", "color": "#2dd4bf" },
+    { "id": "VOID", "name": "공허 (Void)", "color": "#c084fc" }
+  ],
+  "matrix": {
+    "BLUNT":     { "BLUNT": 1.0,  "SLASH": 0.9,  "FIRE": 1.0,  "MAGMA": 0.85, "ICE": 1.25, "LIGHTNING": 1.0,  "LIGHT": 1.0,  "FORCE": 1.0,  "SPECIAL": 1.0,  "SEA": 1.0 },
+    "SLASH":     { "BLUNT": 1.15, "SLASH": 1.0,  "FIRE": 1.1,  "MAGMA": 0.9,  "ICE": 1.2,  "LIGHTNING": 1.0,  "LIGHT": 1.0,  "FORCE": 1.0,  "SPECIAL": 1.1,  "SEA": 1.0 },
+    "FIRE":      { "BLUNT": 1.0,  "SLASH": 1.0,  "FIRE": 0.75, "MAGMA": 0.65, "ICE": 1.5,  "LIGHTNING": 1.0,  "LIGHT": 1.0,  "FORCE": 1.0,  "SPECIAL": 1.0,  "SEA": 0.67 },
+    "MAGMA":     { "BLUNT": 1.2,  "SLASH": 1.1,  "FIRE": 1.5,  "MAGMA": 0.75, "ICE": 1.5,  "LIGHTNING": 1.1,  "LIGHT": 1.0,  "FORCE": 1.1,  "SPECIAL": 1.1,  "SEA": 0.67 },
+    "ICE":       { "BLUNT": 1.1,  "SLASH": 1.0,  "FIRE": 0.67, "MAGMA": 0.5,  "ICE": 0.75, "LIGHTNING": 1.0,  "LIGHT": 1.0,  "FORCE": 0.8,  "SPECIAL": 1.0,  "SEA": 1.2 },
+    "LIGHTNING": { "BLUNT": 1.1,  "SLASH": 1.15, "FIRE": 1.0,  "MAGMA": 0.9,  "ICE": 1.1,  "LIGHTNING": 0.75, "LIGHT": 1.0,  "FORCE": 1.0,  "SPECIAL": 1.1,  "SEA": 1.35 },
+    "LIGHT":     { "BLUNT": 1.15, "SLASH": 1.05, "FIRE": 1.1,  "MAGMA": 1.0,  "ICE": 1.15, "LIGHTNING": 1.0,  "LIGHT": 1.0,  "FORCE": 1.0,  "SPECIAL": 1.1,  "SEA": 0.9 },
+    "FORCE":     { "BLUNT": 1.2,  "SLASH": 1.15, "FIRE": 1.1,  "MAGMA": 1.1,  "ICE": 1.35, "LIGHTNING": 1.1,  "LIGHT": 1.0,  "FORCE": 1.1,  "SPECIAL": 1.2,  "SEA": 1.0 },
+    "SPECIAL":   { "BLUNT": 1.15, "SLASH": 1.1,  "FIRE": 1.1,  "MAGMA": 1.1,  "ICE": 1.1,  "LIGHTNING": 1.1,  "LIGHT": 1.1,  "FORCE": 1.0,  "SPECIAL": 1.15, "SEA": 0.8 },
+    "SEA":       { "BLUNT": 1.25, "SLASH": 1.0,  "FIRE": 1.5,  "MAGMA": 1.5,  "ICE": 1.2,  "LIGHTNING": 1.35, "LIGHT": 1.35, "FORCE": 1.35, "SPECIAL": 1.5,  "SEA": 1.0 },
+    "PYRO":      { "PYRO": 0.67, "AQUA": 0.67, "VOLT": 1.0,  "TERRA": 1.5,  "AERO": 1.5,  "VOID": 1.0 },
+    "AQUA":      { "PYRO": 1.5,  "AQUA": 0.67, "VOLT": 0.67, "TERRA": 1.5,  "AERO": 1.0,  "VOID": 1.0 },
+    "VOLT":      { "PYRO": 1.0,  "AQUA": 1.5,  "VOLT": 0.67, "TERRA": 0.67, "AERO": 1.5,  "VOID": 1.0 },
+    "TERRA":     { "PYRO": 0.67, "AQUA": 0.67, "VOLT": 1.5,  "TERRA": 1.0,  "AERO": 0.67, "VOID": 1.5 },
+    "AERO":      { "PYRO": 0.67, "AQUA": 1.0,  "VOLT": 0.67, "TERRA": 1.5,  "AERO": 1.0,  "VOID": 1.5 },
+    "VOID":      { "PYRO": 1.25, "AQUA": 1.25, "VOLT": 1.25, "TERRA": 0.67, "AERO": 0.67, "VOID": 1.5 }
+  }
+}

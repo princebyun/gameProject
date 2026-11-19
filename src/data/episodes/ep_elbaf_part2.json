@@ -1,0 +1,21 @@
+{
+  "episodeId": "ep_elbaf_part2",
+  "islandId": "elbaf",
+  "zoneId": "new_world",
+  "title": "Ep.5-2 엘바프 후속 연재 확장 슬롯 (로키 왕자 & 신의 기사단)",
+  "sagaName": "최종장 (엘바프 확장 슬롯)",
+  "requiredForNextZone": false,
+  "introDialogue": [
+    "엘바프 명계(Underworld)와 양계(Sun World)를 잇는 후속 연재 에피소드 데이터 확장 슬롯입니다."
+  ],
+  "outroDialogue": [
+    "후속 연재 에피소드 확장 슬롯 클리어!"
+  ],
+  "steps": [],
+  "rewards": {
+    "berries": 100000,
+    "trainingPoints": 100,
+    "bountyIncrease": 500000000,
+    "recruitsUnitIds": []
+  }
+}

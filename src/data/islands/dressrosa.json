@@ -1,0 +1,61 @@
+{
+  "islandId": "dressrosa",
+  "name": "드레스로자 (코리다 콜로세움 & 왕궁 대지)",
+  "episodeId": "ep_dressrosa",
+  "width": 960,
+  "height": 540,
+  "theme": "HARBOR_TOWN",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 280, "y": 75, "width": 170, "height": 85, "label": "코리다 콜로세움 외벽" },
+    { "x": 540, "y": 395, "width": 190, "height": 85, "label": "해바라기 언덕 왕궁 계단" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [],
+  "npcs": [
+    {
+      "npcId": "npc_law_dressrosa",
+      "name": "트라팔가 로 (해적 동맹)",
+      "roleLabel": "드레스로자 공동전선 · 새장 경고",
+      "pos": { "x": 360, "y": 260 },
+      "interactRadiusPx": 56,
+      "visualScale": 1.0,
+      "color": "#38bdf8",
+      "setsQuestFlagOnTalk": "flag_dressrosa_law_alliance",
+      "dialogueLines": [
+        "로: 밀짚모자 당번, 도플라밍고는 HP가 65% 이하가 되거나 각성하면 섬 전체를 감싸는 [새장(Birdcage)]을 전개한다!",
+        "로: 붉은 실 경계선이 중앙으로 계속 좁혀오며 닿으면 SLASH 피해와 넉백을 당한다. 도플라밍고를 쓰러뜨려야 새장이 붕괴된다!"
+      ],
+      "choices": [
+        {
+          "label": "동맹 로와 함께 왕궁 정상의 도플라밍고에게 돌격한다!",
+          "setsFlag": "flag_dressrosa_law_alliance",
+          "responseLine": "[동맹 돌격] 드레스로자 왕궁 정상에서 칠무해 도플라밍고와 결전합니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_dressrosa_doffy_boss",
+      "name": "돈키호테 도플라밍고 (새장 점진 축소 & 실 각성 갓 스레드)",
+      "isBoss": true,
+      "pos": { "x": 800, "y": 270 },
+      "triggerRadiusPx": 62,
+      "enemyUnitIds": ["doflamingo"],
+      "aiLevel": 4,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_dressrosa_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 200000000,
+      "berryReward": 135000,
+      "trainingPointReward": 110,
+      "dialogueBeforeBattle": [
+        "도플라밍고: 후후후후후!! 실실 열매의 각성 [에버 화이트]와 [새장] 속에서 발버둥 쳐 보아라, 밀짚모자!!",
+        "힌트: 새장 경계에 닿지 않게 중앙에서 싸우며 도플라밍고를 격파하면 새장이 즉시 붕괴됩니다!"
+      ]
+    }
+  ]
+}

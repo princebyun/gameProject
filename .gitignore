@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build & Packaging Outputs
+dist/
+dist-web/
+dist-electron/
+dist-electron-main/
+dist-android/
+release/
+coverage/
+
+# Environment & Local Secrets
+.env
+.env.local
+.env.*.local
+
+# Logs & OS Artifacts
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# IDE Local Settings
+.vscode/
+.idea/

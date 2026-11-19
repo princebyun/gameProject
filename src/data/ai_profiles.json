@@ -1,0 +1,67 @@
+[
+  {
+    "level": 1,
+    "name": "Lv.1 입문 (Rookie)",
+    "statMultiplier": 0.85,
+    "reactionDelaySec": 0.52,
+    "allowRecoveryItems": false,
+    "recoveryItemCount": 0,
+    "cooldownTrackingAccuracy": 0.15,
+    "punishDodgeWhiffWeight": 0.15,
+    "meleeBeamGuardWeight": 0.10,
+    "justDodgeChance": 0.05,
+    "formShiftAggression": 0.25
+  },
+  {
+    "level": 2,
+    "name": "Lv.2 훈련 (Apprentice)",
+    "statMultiplier": 0.95,
+    "reactionDelaySec": 0.36,
+    "allowRecoveryItems": false,
+    "recoveryItemCount": 0,
+    "cooldownTrackingAccuracy": 0.35,
+    "punishDodgeWhiffWeight": 0.35,
+    "meleeBeamGuardWeight": 0.30,
+    "justDodgeChance": 0.18,
+    "formShiftAggression": 0.45
+  },
+  {
+    "level": 3,
+    "name": "Lv.3 숙련 (Veteran)",
+    "statMultiplier": 1.0,
+    "reactionDelaySec": 0.22,
+    "allowRecoveryItems": true,
+    "recoveryItemCount": 1,
+    "cooldownTrackingAccuracy": 0.65,
+    "punishDodgeWhiffWeight": 0.65,
+    "meleeBeamGuardWeight": 0.60,
+    "justDodgeChance": 0.35,
+    "formShiftAggression": 0.70
+  },
+  {
+    "level": 4,
+    "name": "Lv.4 달인 (Master)",
+    "statMultiplier": 1.08,
+    "reactionDelaySec": 0.12,
+    "allowRecoveryItems": true,
+    "recoveryItemCount": 2,
+    "cooldownTrackingAccuracy": 0.85,
+    "punishDodgeWhiffWeight": 0.85,
+    "meleeBeamGuardWeight": 0.82,
+    "justDodgeChance": 0.55,
+    "formShiftAggression": 0.90
+  },
+  {
+    "level": 5,
+    "name": "Lv.5 최상위 (Grandmaster)",
+    "statMultiplier": 1.15,
+    "reactionDelaySec": 0.06,
+    "allowRecoveryItems": true,
+    "recoveryItemCount": 2,
+    "cooldownTrackingAccuracy": 1.0,
+    "punishDodgeWhiffWeight": 0.98,
+    "meleeBeamGuardWeight": 0.95,
+    "justDodgeChance": 0.78,
+    "formShiftAggression": 1.0
+  }
+]

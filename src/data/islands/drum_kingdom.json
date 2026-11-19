@@ -1,0 +1,61 @@
+{
+  "islandId": "drum_kingdom",
+  "name": "드럼 왕국 (설산 드럼 록 성)",
+  "episodeId": "ep_drum_kingdom",
+  "width": 960,
+  "height": 540,
+  "theme": "HARBOR_TOWN",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 270, "y": 80, "width": 170, "height": 85, "label": "설산 빙벽" },
+    { "x": 520, "y": 395, "width": 200, "height": 85, "label": "드럼 록 성벽" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [],
+  "npcs": [
+    {
+      "npcId": "npc_kureha_chopper",
+      "name": "닥터 쿠레하 & 쵸파",
+      "roleLabel": "드럼 성 의술 스승",
+      "pos": { "x": 360, "y": 255 },
+      "interactRadiusPx": 56,
+      "visualScale": 1.0,
+      "color": "#ec4899",
+      "setsQuestFlagOnTalk": "flag_drum_met_chopper",
+      "dialogueLines": [
+        "닥터 쿠레하: 늙지 않는 비결이 궁금하냐? 해적 깃발은 꺾이지 않는 신념의 상징이다!",
+        "쵸파: 와포루가 히루루크의 해적 깃발을 노리고 있어! 나도 같이 싸워서 이 성을 지킬래!"
+      ],
+      "choices": [
+        {
+          "label": "히루루크의 해적 깃발을 지키고 와포루를 날려버린다!",
+          "setsFlag": "flag_drum_met_chopper",
+          "responseLine": "[결의] 벚꽃이 피어날 드럼 성 정상에서 폭군 와포루와 결전을 시작합니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_drum_wapol_boss",
+      "name": "폭군 와포루 (우걱우걱 열매 · 드럼 성 정상 결전)",
+      "isBoss": true,
+      "pos": { "x": 790, "y": 270 },
+      "triggerRadiusPx": 60,
+      "enemyUnitIds": ["wapol"],
+      "aiLevel": 3,
+      "arenaSizeKey": "medium",
+      "setsFlagOnVictory": "flag_drum_kingdom_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 15000000,
+      "berryReward": 32000,
+      "trainingPointReward": 35,
+      "dialogueBeforeBattle": [
+        "와포루: 마하하하! 이 나라의 의사도 보물도 전부 내 것이다! 우걱우걱 팩토리의 위력을 맛보아라!",
+        "루피: 남의 해적 깃발을 함부로 건드리지 마!! 날려버려 주마!!"
+      ]
+    }
+  ]
+}

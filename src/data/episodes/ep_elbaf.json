@@ -1,0 +1,37 @@
+{
+  "episodeId": "ep_elbaf",
+  "islandId": "elbaf",
+  "zoneId": "new_world",
+  "title": "Ep.5 거인족의 나라 엘바프 — 세계수 위그드라실과 태양의 신",
+  "sagaName": "최종장 (엘바프 최신장)",
+  "requiredForNextZone": false,
+  "introDialogue": [
+    "신세계 최종장의 거대한 땅, 전사들의 나라 [엘바프]에 상륙했다! 세계수 위그드라실이 하늘을 찌른다."
+  ],
+  "outroDialogue": [
+    "엘바프의 시련을 완수하고 마지막 로드 포네그리프의 단서를 손에 넣었다! 원피스 최종장을 향한 항해는 계속된다!"
+  ],
+  "steps": [
+    {
+      "stepId": "step_elbaf_giants",
+      "title": "거병 해적단 도리 & 브로기와 해후",
+      "description": "거대 스케일의 거인 전사 도리 & 브로기와 대화하세요.",
+      "requiredFlag": "flag_elbaf_giants_greeted",
+      "targetPos": { "x": 380, "y": 265 }
+    },
+    {
+      "stepId": "step_elbaf_trial",
+      "title": "명계 거목 아레나 결전: 저주받은 왕자 로키 격파",
+      "description": "세계수 하층 아레나에서 거대 보스 로키(Scale 2.1x · 철뇌 라그니르)를 격파하세요.",
+      "requiredFlag": "flag_elbaf_trial_cleared",
+      "targetPos": { "x": 790, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 200000,
+    "trainingPoints": 160,
+    "bountyIncrease": 1500000000,
+    "recruitsUnitIds": [],
+    "awardsRoadPoneglyph": true
+  }
+}

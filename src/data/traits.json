@@ -1,0 +1,97 @@
+[
+  {
+    "id": "trait_solar_core",
+    "name": "열핵 과충전",
+    "description": "맞대결(Clash) 발생 시 맞대결 위력이 20% 증가하며, 열풍 날씨에서 시전 속도가 빨라집니다.",
+    "hooks": [
+      {
+        "event": "onClash",
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.2 }
+      },
+      {
+        "event": "onWeatherChange",
+        "condition": { "weather": "SOLAR_FLARE" },
+        "effect": { "type": "STAT_MOD", "stat": "spAtk", "value": 1.2, "durationSec": 10 }
+      }
+    ]
+  },
+  {
+    "id": "trait_tidal_aegis",
+    "name": "조류의 수호",
+    "description": "전장 진입 시 최대 HP의 10% 보호막을 얻고, 폭우 날씨에서 적중 시 HP를 소량 회복합니다.",
+    "hooks": [
+      {
+        "event": "onEnterField",
+        "effect": { "type": "STAT_MOD", "stat": "spDef", "value": 1.2, "durationSec": 8 }
+      },
+      {
+        "event": "onHit",
+        "condition": { "weather": "TEMPEST_RAIN" },
+        "effect": { "type": "HEAL_RATIO", "value": 0.04 }
+      }
+    ]
+  },
+  {
+    "id": "trait_reflex_surge",
+    "name": "섬광 반사신경",
+    "description": "완벽 회피(Just Dodge) 성공 시 회피 스택 1개를 즉시 회복하고 이동 속도가 상승합니다.",
+    "hooks": [
+      {
+        "event": "onJustDodge",
+        "effect": { "type": "RESTORE_DODGE", "value": 1 }
+      },
+      {
+        "event": "onJustDodge",
+        "effect": { "type": "STAT_MOD", "stat": "spd", "value": 1.3, "durationSec": 4 }
+      }
+    ]
+  },
+  {
+    "id": "trait_monolith_stance",
+    "name": "거암의 결의",
+    "description": "피격 시 방어력이 일시 상승하며, 근접 맞대결 위력이 25% 강화됩니다.",
+    "hooks": [
+      {
+        "event": "onBeingHit",
+        "effect": { "type": "STAT_MOD", "stat": "def", "value": 1.15, "durationSec": 5 }
+      },
+      {
+        "event": "onClash",
+        "condition": { "moveArchetype": "MELEE" },
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.25 }
+      }
+    ]
+  },
+  {
+    "id": "trait_gale_dancer",
+    "name": "질풍의 검무",
+    "description": "기술 시전 시 3초간 속도가 15% 상승하며, 베기 기술 적중 시 공격력이 증가합니다.",
+    "hooks": [
+      {
+        "event": "onCast",
+        "effect": { "type": "STAT_MOD", "stat": "spd", "value": 1.15, "durationSec": 3 }
+      },
+      {
+        "event": "onHit",
+        "condition": { "moveArchetype": "MELEE" },
+        "effect": { "type": "STAT_MOD", "stat": "atk", "value": 1.15, "durationSec": 4 }
+      }
+    ]
+  },
+  {
+    "id": "trait_void_resonance",
+    "name": "차원 공명",
+    "description": "전장 진입 시 이온 폭풍 날씨를 유도하고, 광선 맞대결 시 위력이 25% 상승합니다.",
+    "hooks": [
+      {
+        "event": "onEnterField",
+        "effect": { "type": "SPAWN_WEATHER", "value": 1, "weatherId": "ION_STORM", "durationSec": 12 }
+      },
+      {
+        "event": "onClash",
+        "condition": { "moveArchetype": "BEAM" },
+        "effect": { "type": "CLASH_POWER_MULT", "value": 1.25 }
+      }
+    ]
+  }
+]

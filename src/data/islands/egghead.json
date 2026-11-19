@@ -1,0 +1,114 @@
+{
+  "islandId": "egghead",
+  "name": "미래섬 에그헤드 — 라보페이즈 연구층",
+  "episodeId": "ep_egghead",
+  "width": 960,
+  "height": 540,
+  "theme": "FUTURE_LAB",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 280, "y": 60, "width": 150, "height": 85, "label": "펑크 레코드 중앙 서버" },
+    { "x": 280, "y": 395, "width": 150, "height": 85, "label": "베가포스-01 격납고" }
+  ],
+  "laserBarriers": [
+    {
+      "barrierId": "barrier_frontier_dome_1",
+      "x": 540,
+      "y": 40,
+      "width": 20,
+      "height": 220,
+      "activeByDefault": true
+    },
+    {
+      "barrierId": "barrier_frontier_dome_2",
+      "x": 540,
+      "y": 280,
+      "width": 20,
+      "height": 220,
+      "activeByDefault": true
+    }
+  ],
+  "puzzleSwitches": [
+    {
+      "switchId": "sw_frontier_alpha",
+      "label": "프론티어 돔 제어 스위치 A",
+      "pos": { "x": 450, "y": 135 },
+      "radiusPx": 34,
+      "deactivatesBarrierId": "barrier_frontier_dome_1",
+      "setsFlag": "flag_egghead_sw1"
+    },
+    {
+      "switchId": "sw_frontier_beta",
+      "label": "프론티어 돔 제어 스위치 B",
+      "pos": { "x": 450, "y": 405 },
+      "radiusPx": 34,
+      "deactivatesBarrierId": "barrier_frontier_dome_2",
+      "setsFlag": "flag_egghead_sw2"
+    }
+  ],
+  "giantProps": [],
+  "npcs": [
+    {
+      "npcId": "npc_vegapunk",
+      "name": "Dr. 베가펑크 (스텔라)",
+      "roleLabel": "세계 최고의 천재 과학자",
+      "pos": { "x": 250, "y": 270 },
+      "interactRadiusPx": 50,
+      "visualScale": 1.1,
+      "color": "#38bdf8",
+      "setsQuestFlagOnTalk": "flag_vegapunk_met",
+      "dialogueLines": [
+        "밀짚모자 루피! 그 하얀 구름 띠 모습은 역사 속에서만 전해지던 [태양의 신 니카]로군!",
+        "CP0 각성 루치와 해군대장 키자루가 연구층을 포위했다! 상·하단 2개의 [프론티어 돔 제어 스위치]를 작동시켜 레이저 배리어를 해제하고 탈출구를 뚫어다오!"
+      ],
+      "choices": [
+        {
+          "label": "프론티어 돔 스위치 2개를 눌러 레이저 배리어를 해제하자!",
+          "setsFlag": "flag_vegapunk_met",
+          "responseLine": "스위치 A(상단)와 스위치 B(하단)에 다가가 [E / 상호작용]을 누르면 레이저 방어막이 내려간다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_egghead_shawk_lucci",
+      "name": "래보페이즈 방어막 돌파: 세라핌 S-호크 & 각성 루치",
+      "isBoss": true,
+      "pos": { "x": 640, "y": 265 },
+      "triggerRadiusPx": 56,
+      "enemyUnitIds": ["s_hawk", "lucci"],
+      "aiLevel": 4,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_egghead_labophase_cleared",
+      "completesEpisodeOnVictory": false,
+      "bountyReward": 400000000,
+      "berryReward": 55000,
+      "trainingPointReward": 50,
+      "dialogueBeforeBattle": [
+        "세라핌 S-호크: [루나리아 불꽃 점화] 침입자 제거 명령 수행. 파시피스타 레이저 및 흑도 참격 개시!",
+        "각성 로브 루치: 내 검은 구름 띠의 수건 반점을 피할 수 있을 것 같나, 밀짚모자!"
+      ]
+    },
+    {
+      "encounterId": "enc_egghead_kizaru_saturn",
+      "name": "에그헤드 해안 탈출전: 대장 키자루 & 오로성 제이가르시아 새턴 성",
+      "isBoss": true,
+      "pos": { "x": 825, "y": 270 },
+      "triggerRadiusPx": 62,
+      "enemyUnitIds": ["kizaru", "saturn"],
+      "aiLevel": 5,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_egghead_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 1000000000,
+      "berryReward": 120000,
+      "trainingPointReward": 100,
+      "dialogueBeforeBattle": [
+        "제이가르시아 새턴 성: 건방진 벌레 놈들... 오로성의 불사 초재생 앞에서는 어떤 상처도 무의미하다!",
+        "Dr. 베가펑크(힌트): 루피! 새턴 성의 초재생을 멈추려면 [패왕색 휘감기(Conqueror Lv.3)] 공격을 적중시켜야 한다! 6초간 재생이 억제될 거야!"
+      ]
+    }
+  ]
+}

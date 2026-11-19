@@ -1,0 +1,38 @@
+{
+  "episodeId": "ep_arlong_park",
+  "islandId": "arlong_park",
+  "zoneId": "east_blue",
+  "title": "Ep.1-4 아론 파크 — 톱상어 아론 결전 & 나미 정식 영입",
+  "sagaName": "이스트 블루 사가",
+  "requiredForNextZone": true,
+  "introDialogue": [
+    "코코야시 마을을 지배하는 어인 해적단 아론 파크! 눈물 흘리는 동료 나미를 구하기 위해 진격한다!"
+  ],
+  "outroDialogue": [
+    "아론 파크가 무너지고 코코야시 마을이 해방되었다! 나미가 정식 항해사(항해 속도 +20% · 폭풍 50% 경감)로 합류했다!",
+    "[최초 고액 수배서 발부] 밀짚모자 루피 현상금 30,000,000 베리 갱신!"
+  ],
+  "steps": [
+    {
+      "stepId": "step_arlong_nami",
+      "title": "나미에게 밀짚모자 맡기기",
+      "description": "코코야시 마을 입구의 나미와 대화하세요.",
+      "requiredFlag": "flag_arlong_nami_helped",
+      "targetPos": { "x": 350, "y": 260 }
+    },
+    {
+      "stepId": "step_arlong_boss",
+      "title": "톱상어 아론 격파 (수변 지형전)",
+      "description": "수변 영역을 피해 아론의 SEA 격수와 키리바치를 돌파하고 나미를 해방하세요.",
+      "requiredFlag": "flag_arlong_park_cleared",
+      "targetPos": { "x": 800, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 38000,
+    "trainingPoints": 45,
+    "bountyIncrease": 30000000,
+    "recruitsUnitIds": ["nami"],
+    "unlocksCrewRoles": ["NAVIGATOR"]
+  }
+}

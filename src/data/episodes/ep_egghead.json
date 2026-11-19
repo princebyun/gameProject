@@ -1,0 +1,50 @@
+{
+  "episodeId": "ep_egghead",
+  "islandId": "egghead",
+  "zoneId": "new_world",
+  "title": "Ep.4 미래섬 에그헤드 — 프론티어 돔 퍼즐 & 대장 키자루 돌파",
+  "sagaName": "최종장 (에그헤드 편)",
+  "requiredForNextZone": true,
+  "introDialogue": [
+    "500년 앞선 미래섬 에그헤드! 베가펑크 연구층의 프론티어 돔 레이저 배리어가 가동 중이다."
+  ],
+  "outroDialogue": [
+    "레이저 배리어를 해제하고 각성 루치와 해군대장 키자루의 포위망을 뚫고 엘바프로 출항한다!"
+  ],
+  "steps": [
+    {
+      "stepId": "step_egghead_sw1",
+      "title": "프론티어 돔 제어 스위치 A 해제",
+      "description": "상단 제어 스위치 A에 다가가 상호작용하여 상단 레이저 배리어를 해제하세요.",
+      "requiredFlag": "flag_egghead_sw1",
+      "targetPos": { "x": 450, "y": 135 }
+    },
+    {
+      "stepId": "step_egghead_sw2",
+      "title": "프론티어 돔 제어 스위치 B 해제",
+      "description": "하단 제어 스위치 B에 다가가 상호작용하여 하단 레이저 배리어를 해제하세요.",
+      "requiredFlag": "flag_egghead_sw2",
+      "targetPos": { "x": 450, "y": 405 }
+    },
+    {
+      "stepId": "step_egghead_labophase",
+      "title": "래보페이즈 돌파: 세라핌 S-호크 & 각성 루치 격파",
+      "description": "배리어 너머의 세라핌 S-호크(루나리아 불꽃)와 각성 루치를 돌파하세요.",
+      "requiredFlag": "flag_egghead_labophase_cleared",
+      "targetPos": { "x": 640, "y": 265 }
+    },
+    {
+      "stepId": "step_egghead_boss",
+      "title": "해안 탈출 결전: 대장 키자루 & 오로성 새턴 성 격파",
+      "description": "패왕색 휘감기 공격으로 새턴 성의 초재생을 6초간 억제하며 키자루와 새턴 성을 물리치세요.",
+      "requiredFlag": "flag_egghead_cleared",
+      "targetPos": { "x": 825, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 130000,
+    "trainingPoints": 110,
+    "bountyIncrease": 1000000000,
+    "recruitsUnitIds": ["lucci", "kizaru"]
+  }
+}

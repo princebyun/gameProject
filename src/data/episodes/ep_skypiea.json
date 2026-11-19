@@ -1,0 +1,37 @@
+{
+  "episodeId": "ep_skypiea",
+  "islandId": "skypiea",
+  "zoneId": "grand_line",
+  "title": "Ep.2-3 하늘섬 스카이피아 — 갓 에넬 결전 & 황금종 울림",
+  "sagaName": "위대한 항로 사가",
+  "requiredForNextZone": true,
+  "introDialogue": [
+    "녹업 스트림을 타고 도달한 상공 1만 미터 하늘섬! 천적 고무 신체로 번개의 신 에넬을 격파하고 황금종을 울려라!"
+  ],
+  "outroDialogue": [
+    "댕----!! 400년 만에 샨도라의 황금종 소리가 청해 자야까지 울려 퍼졌다!",
+    "[하늘섬의 영웅] 황금 도시 보물 베리 대량 획득 & 포네그리프에 새겨진 해적왕 로저의 흔적을 확인했다!"
+  ],
+  "steps": [
+    {
+      "stepId": "step_skypiea_wyper",
+      "title": "와이퍼와 대화 & 천적 전술 확인",
+      "description": "어퍼 야드 입구의 와이퍼에게 말을 거세요.",
+      "requiredFlag": "flag_skypiea_bell_oath",
+      "targetPos": { "x": 360, "y": 260 }
+    },
+    {
+      "stepId": "step_skypiea_boss",
+      "title": "갓 에넬 격파 & 황금종 울리기",
+      "description": "루피의 고무 천적으로 에넬의 엘 토르와 2억 볼트 아말을 돌파하세요.",
+      "requiredFlag": "flag_skypiea_cleared",
+      "targetPos": { "x": 795, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 85000,
+    "trainingPoints": 65,
+    "bountyIncrease": 50000000,
+    "recruitsUnitIds": []
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "islandId": "orange_town",
+  "name": "오렌지 마을 (버기 해적단 점령지)",
+  "episodeId": "ep_orange_town",
+  "width": 960,
+  "height": 540,
+  "theme": "HARBOR_TOWN",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 270, "y": 85, "width": 150, "height": 85, "label": "슈슈의 애완동물 가게" },
+    { "x": 520, "y": 380, "width": 170, "height": 85, "label": "버기 탄 포격 잔해" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [],
+  "npcs": [
+    {
+      "npcId": "npc_nami_orange",
+      "name": "나미 (임시 동행 항해사)",
+      "roleLabel": "해적 전문 도둑 · 항해사",
+      "pos": { "x": 330, "y": 240 },
+      "interactRadiusPx": 52,
+      "visualScale": 1.0,
+      "color": "#f97316",
+      "setsQuestFlagOnTalk": "flag_orange_nami_met",
+      "dialogueLines": [
+        "나미: 저 광대 버기는 동강동강 열매 능력자야! 칼이나 참격(SLASH) 공격은 몸을 분할해서 전혀 통하지 않아!",
+        "조로의 검격이 막히면 루피 같은 타격(BLUNT) 동료로 교체해서 정면 승부를 걸어!"
+      ],
+      "choices": [
+        {
+          "label": "위대한 항로 해도를 되찾고 버기를 날려버리자!",
+          "setsFlag": "flag_orange_nami_met",
+          "responseLine": "[임시 동행] 나미가 버기의 참격 면역 약점을 알려주며 일시 동행합니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_orange_buggy_boss",
+      "name": "광대 버기 (동강동강 열매 · 참격 면역)",
+      "isBoss": true,
+      "pos": { "x": 790, "y": 270 },
+      "triggerRadiusPx": 58,
+      "enemyUnitIds": ["buggy"],
+      "aiLevel": 2,
+      "arenaSizeKey": "medium",
+      "setsFlagOnVictory": "flag_orange_town_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 15000000,
+      "berryReward": 22000,
+      "trainingPointReward": 25,
+      "dialogueBeforeBattle": [
+        "광대 버기: 갸하하하!! 누가 빨간 코냐!! 내 동강동강 열매 앞에서 검사의 참격 따윈 전부 무효다!",
+        "특제 [버기 탄]과 동강동강 페스티벌로 마을째 날려주마!!"
+      ]
+    }
+  ]
+}

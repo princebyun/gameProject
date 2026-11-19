@@ -1,0 +1,92 @@
+{
+  "islandId": "marineford",
+  "name": "마린포드 (해군본부 오리스 광장 얼음만)",
+  "episodeId": "ep_marineford",
+  "width": 960,
+  "height": 540,
+  "theme": "CANAL_DOCKYARD",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [
+    { "x": 280, "y": 75, "width": 170, "height": 80, "label": "모비 딕 호 빙결 갑판" },
+    { "x": 540, "y": 395, "width": 200, "height": 80, "label": "해군본부 포위 철벽" }
+  ],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [
+    {
+      "propId": "prop_marineford_hq",
+      "label": "해군본부 마린포드 요새",
+      "pos": { "x": 800, "y": 110 },
+      "width": 110,
+      "height": 85,
+      "visualScale": 2.0,
+      "color": "#e2e8f0"
+    }
+  ],
+  "npcs": [
+    {
+      "npcId": "npc_marco_marineford",
+      "name": "불사조 마르코 (흰 수염 해적단 1번대 대장)",
+      "roleLabel": "정상전쟁 공동전선 동맹",
+      "pos": { "x": 360, "y": 260 },
+      "interactRadiusPx": 58,
+      "visualScale": 1.0,
+      "color": "#0ea5e9",
+      "setsQuestFlagOnTalk": "flag_marineford_marco_alliance",
+      "dialogueLines": [
+        "마르코: 밀짚모자, 앞에는 해군 대장 아오키지·아카이누와 이중 열매의 검은 수염까지 버티고 있다, 요이!",
+        "마르코: 이번 정상전쟁 3연전은 내가 2:2 동맹으로 함께 싸워주마! 내 푸른 불꽃 부활과 치유를 믿고 정면 돌파하자!"
+      ],
+      "choices": [
+        {
+          "label": "마르코와 함께 정상전쟁 3연전(아오키지 → 아카이누 → 검은 수염)에 돌입한다!",
+          "setsFlag": "flag_marineford_marco_alliance",
+          "responseLine": "[정상전쟁 동맹] 불사조 마르코가 2:2 아군 슬롯으로 참전합니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_marineford_gauntlet",
+      "name": "마린포드 정상전쟁 3연전 (아오키지 → 아카이누 → 검은 수염)",
+      "isBoss": true,
+      "pos": { "x": 805, "y": 270 },
+      "triggerRadiusPx": 64,
+      "enemyUnitIds": ["aokiji"],
+      "aiLevel": 4,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_marineford_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 100000000,
+      "berryReward": 120000,
+      "trainingPointReward": 150,
+      "guestAllyUnitIds": ["marco"],
+      "gauntletWaves": [
+        {
+          "waveName": "해군본부 대장 아오키지 (아이스 에이지)",
+          "enemyUnitIds": ["aokiji"],
+          "aiLevel": 4,
+          "introText": "WAVE 1/3 — 쿠잔: 아라라... 얼음만에서 빠져나갈 생각은 마라."
+        },
+        {
+          "waveName": "해군본부 대장 아카이누 (대분화 지대)",
+          "enemyUnitIds": ["akainu"],
+          "aiLevel": 4,
+          "introText": "WAVE 2/3 — 사카즈키: 악의 씨앗은 이 자리에서 마그마로 녹여버리겠다!!"
+        },
+        {
+          "waveName": "검은 수염 티치 (어둠 봉인 & 흔들흔들 진동)",
+          "enemyUnitIds": ["blackbeard"],
+          "aiLevel": 5,
+          "introText": "FINAL WAVE 3/3 — 티치: 제하하하하!! 지금부터는 내 시대다!!"
+        }
+      ],
+      "dialogueBeforeBattle": [
+        "마린포드 정상전쟁 3연전 개시! 불사조 마르코가 2:2 동맹으로 참전합니다!",
+        "Wave 1 아오키지 → Wave 2 아카이누(마그마·빙결 분할 주의) → Wave 3 검은 수염(쿠로우즈 5초 열매 봉인 주의)!"
+      ]
+    }
+  ]
+}

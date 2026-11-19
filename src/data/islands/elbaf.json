@@ -1,0 +1,78 @@
+{
+  "islandId": "elbaf",
+  "name": "거인족의 나라 엘바프 — 세계수 위그드라실 대지",
+  "episodeId": "ep_elbaf",
+  "width": 960,
+  "height": 540,
+  "theme": "GIANT_ELBAF",
+  "spawnPoint": { "x": 110, "y": 270 },
+  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "obstacles": [],
+  "laserBarriers": [],
+  "puzzleSwitches": [],
+  "giantProps": [
+    {
+      "propId": "prop_yggdrasil_trunk",
+      "label": "세계수 위그드라실 거대 뿌리 (Giant Scale)",
+      "pos": { "x": 480, "y": 110 },
+      "width": 260,
+      "height": 110,
+      "visualScale": 2.4,
+      "color": "#15803d"
+    },
+    {
+      "propId": "prop_giant_viking_sword",
+      "label": "고대 거인족의 대검 유적 (Giant Scale)",
+      "pos": { "x": 470, "y": 410 },
+      "width": 200,
+      "height": 85,
+      "visualScale": 2.2,
+      "color": "#64748b"
+    }
+  ],
+  "npcs": [
+    {
+      "npcId": "npc_dorry_brogy",
+      "name": "거병 해적단 도리 & 브로기",
+      "roleLabel": "엘바프의 거인 전사 두목 (Giant NPC)",
+      "pos": { "x": 380, "y": 265 },
+      "interactRadiusPx": 68,
+      "visualScale": 2.35,
+      "color": "#facc15",
+      "setsQuestFlagOnTalk": "flag_elbaf_giants_greeted",
+      "dialogueLines": [
+        "기가가가가!! 가하하하하!! 환영한다 밀짚모자 일당이여! 여기가 전사들의 나라 [엘바프]다!",
+        "에그헤드에서 보여준 네 모습은 우리 엘바프의 전설 속 [태양의 신] 그 자체였다!",
+        "세계수 위그드라실 상층의 패기 수련장에서 마지막 로드 포네그리프의 단서와 네 패기의 극의를 시험해보자!"
+      ],
+      "choices": [
+        {
+          "label": "엘바프 전사의 맹세를 나누고 최종장 패기 극의 수련에 도전한다!",
+          "setsFlag": "flag_elbaf_giants_greeted",
+          "responseLine": "[엘바프 환영] 거인족의 축복으로 로드 포네그리프 최종 단서와 패기 수련장이 개방되었습니다!"
+        }
+      ]
+    }
+  ],
+  "encounters": [
+    {
+      "encounterId": "enc_elbaf_sun_god_trial",
+      "name": "엘바프의 저주받은 왕자 로키 (거대 보스 · 철뇌 라그니르)",
+      "isBoss": true,
+      "pos": { "x": 790, "y": 270 },
+      "triggerRadiusPx": 68,
+      "enemyUnitIds": ["loki"],
+      "aiLevel": 5,
+      "arenaSizeKey": "large",
+      "setsFlagOnVictory": "flag_elbaf_trial_cleared",
+      "completesEpisodeOnVictory": true,
+      "bountyReward": 1500000000,
+      "berryReward": 180000,
+      "trainingPointReward": 150,
+      "dialogueBeforeBattle": [
+        "로키: 내가 바로 이 세상을 끝장낼 엘바프의 태양신 로키다!!",
+        "세계수 위그드라실을 뒤흔드는 신화 무기 [철뇌 라그니르]와 거인왕의 패왕색을 버텨보아라, 밀짚모자!!"
+      ]
+    }
+  ]
+}

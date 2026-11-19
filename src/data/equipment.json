@@ -1,0 +1,40 @@
+[
+  {
+    "id": "eq_resonator_core",
+    "name": "공명 각성 코어",
+    "description": "지속 각성(Awakening) 발동 조건을 충족시키며 모든 공격 스탯을 8% 높입니다.",
+    "enablesAwakening": true,
+    "statModifiers": {
+      "atk": 1.08,
+      "spAtk": 1.08
+    }
+  },
+  {
+    "id": "eq_overdrive_Dynamo",
+    "name": "오버드라이브 다이나모",
+    "description": "시한부 거대화(Overdrive) 출력을 안정화하고 최대 체력과 방어력을 12% 강화합니다.",
+    "enablesOverdrive": true,
+    "statModifiers": {
+      "hp": 1.12,
+      "def": 1.12,
+      "spDef": 1.12
+    }
+  },
+  {
+    "id": "eq_kinetic_boots",
+    "name": "키네틱 부스터",
+    "description": "이동 속도와 시전 속도를 15% 증가시킵니다.",
+    "statModifiers": {
+      "spd": 1.15
+    }
+  },
+  {
+    "id": "eq_aegis_plate",
+    "name": "이지스 배리어 플레이트",
+    "description": "물리 및 특수 방어력을 18% 증가시킵니다.",
+    "statModifiers": {
+      "def": 1.18,
+      "spDef": 1.18
+    }
+  }
+]

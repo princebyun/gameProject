@@ -1,0 +1,37 @@
+{
+  "episodeId": "ep_dressrosa",
+  "islandId": "dressrosa",
+  "zoneId": "new_world",
+  "title": "Ep.3-2 드레스로자 — 도플라밍고 새장 결전 & 5억 베리 돌파",
+  "sagaName": "신세계 사가 (드레스로자 편)",
+  "requiredForNextZone": false,
+  "introDialogue": [
+    "사랑과 정열과 장난감의 나라 드레스로자! 붉은 실 새장이 섬을 삼키기 전에 천야차 도플라밍고를 격파하라!"
+  ],
+  "outroDialogue": [
+    "도플라밍고가 왕궁 아래로 추락하며 붉은 새장이 눈부신 빛과 함께 붕괴되었다! 드레스로자 해방!",
+    "[현상금 대폭 갱신] 밀짚모자 루피 현상금 5억 베리 돌파 & 사황전 대비 대규모 수련 포인트 획득!"
+  ],
+  "steps": [
+    {
+      "stepId": "step_dressrosa_law",
+      "title": "트라팔가 로와 공동전선 확인",
+      "description": "왕궁 입구의 로와 대화해 새장 공략법을 확인하세요.",
+      "requiredFlag": "flag_dressrosa_law_alliance",
+      "targetPos": { "x": 360, "y": 260 }
+    },
+    {
+      "stepId": "step_dressrosa_boss",
+      "title": "칠무해 도플라밍고 격파 (새장 & 실 각성)",
+      "description": "축소되는 새장 경계와 갓 스레드를 돌파하고 도플라밍고를 격파하세요.",
+      "requiredFlag": "flag_dressrosa_cleared",
+      "targetPos": { "x": 800, "y": 270 }
+    }
+  ],
+  "rewards": {
+    "berries": 150000,
+    "trainingPoints": 120,
+    "bountyIncrease": 200000000,
+    "recruitsUnitIds": []
+  }
+}
