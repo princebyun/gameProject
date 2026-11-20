@@ -1,3 +1,4 @@
+import { BOND_SWAP_WINDOW_TICKS } from '../battle/tagCombo';
 import type { GameDataRegistry } from '../types/dataSchemas';
 import type { BattleWorldState, TeamId, UnitRuntimeState } from '../types/battleState';
 import { triggerTraitHook } from './traitHooks';
@@ -13,6 +14,12 @@ export function stepTeamRosters(world: BattleWorldState, dt: number): void {
       if (roster.pivotWindowTimer <= 0) {
         roster.pivotTriggeredByUnitId = null;
       }
+    }
+    if (roster.recentSwapComboWindowTicks > 0) {
+      roster.recentSwapComboWindowTicks = Math.max(
+        0,
+        roster.recentSwapComboWindowTicks - 1
+      );
     }
   }
 }
@@ -99,6 +106,7 @@ export function executeRosterSwap(
   } else if (!isForcedKoReplacement) {
     roster.voluntarySwapCooldownTimer = registry.balance.roster.voluntarySwapCooldownSec;
   }
+  roster.recentSwapComboWindowTicks = BOND_SWAP_WINDOW_TICKS;
 
   triggerTraitHook('onEnterField', incoming, {}, world, registry);
 

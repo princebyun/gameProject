@@ -1,0 +1,201 @@
+{
+  "episodeId": "ep_arlong_park",
+  "islandId": "arlong_park",
+  "seaZoneId": "east_blue",
+  "scripts": [
+    {
+      "scriptId": "eb4_arlong_nami_hat",
+      "episodeId": "ep_arlong_park",
+      "triggerType": "gold_marker",
+      "title": "나미의 눈물과 밀짚모자",
+      "bindingId": "npc_nami_arlong",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "sad",
+          "side": "center_narration",
+          "text": "8년간 홀로 마을을 구하려 1억 베리를 모았던 나미. 그러나 아론의 배신으로 모든 희망이 무너졌다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제2장 · 이스트 블루",
+              "title": "아론 파크 진격",
+              "subtitle": "밀짚모자의 약속과 나미의 해방"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "npc_nojiko",
+          "speakerName": "노지코",
+          "emotion": "sad",
+          "side": "right",
+          "text": "나미는 마을 사람들을 지키려고 혼자서 아론 일당 밑에서 8년을 버텨왔어..."
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "sad",
+          "side": "right",
+          "text": "루피... 더는 혼자서 못 견디겠어. 제발... 루피... 도와줘..."
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "determined",
+          "side": "center_narration",
+          "text": "루피는 아무 말 없이 자신의 보물인 밀짚모자를 나미의 머리에 꾹 눌러 씌워주었다.",
+          "directives": [{ "type": "sfx", "sfxId": "ui_confirm" }]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "당연하지!!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 0.65, "durationSec": 0.35 },
+            { "type": "screenFlash", "color": "#fef08a", "durationSec": 0.2 }
+          ]
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "determined",
+          "side": "left",
+          "text": "기다리고 있었다, 선장. 우솝, 상디, 아론 파크로 행진한다."
+        },
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "angry",
+          "side": "left",
+          "text": "숙녀의 눈물을 흘리게 만든 톱상어 녀석... 내 발차기로 회를 쳐주지."
+        }
+      ]
+    },
+    {
+      "scriptId": "eb4_arlong_pre_boss",
+      "episodeId": "ep_arlong_park",
+      "triggerType": "pre_boss",
+      "title": "톱상어 아론 대치 — 수변 지형 경고",
+      "bindingId": "enc_arlong_park_boss",
+      "lines": [
+        {
+          "speakerId": "arlong",
+          "speakerName": "톱상어 · 아론",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "샤하하하! 하등한 인간 해적 따위가 내 성에 발을 들이다니! 나미는 영원히 내 측량사다!",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "cameraShake", "intensity": 0.7, "durationSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "angry",
+          "side": "left",
+          "text": "난 칼도 못 쓰고 항해도 못 하고 요리도 거짓말도 못 해. 그래서 동료들이 필요해!"
+        },
+        {
+          "speakerId": "arlong",
+          "speakerName": "톱상어 · 아론",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "그렇게 아무것도 못 하는 놈이 대체 뭘 할 수 있다는 거냐, 인간?!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "너한테 이길 수 있어!! 그게 내가 할 수 있는 일이다!",
+          "directives": [{ "type": "sfx", "sfxId": "haki_lightning" }]
+        },
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "determined",
+          "side": "left",
+          "text": "루피, 아론 파크 중앙 수조에 빠지지 마라! 어인은 물속에서 힘이 배로 뛰니까!"
+        }
+      ]
+    },
+    {
+      "scriptId": "eb4_arlong_post_boss_recruit",
+      "episodeId": "ep_arlong_park",
+      "triggerType": "post_boss",
+      "title": "아론 파크 붕괴 · 나미 합류 & 첫 수배서",
+      "bindingId": "enc_arlong_park_boss",
+      "lines": [
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "나미의 피와 눈물이 묻은 이 방 따위... 고무고무 배틀 액스로 통째로 부숴주마!!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 1.0, "durationSec": 0.55 },
+            { "type": "screenFlash", "color": "#ffffff", "durationSec": 0.28 },
+            { "type": "sfx", "sfxId": "blunt_hit" }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "나미!! 넌 내 동료다!!",
+          "directives": [{ "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.5 }]
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "excited",
+          "side": "right",
+          "text": "...응!! 고마워, 루피! 이제 전 세계의 지도를 그릴 때까지 너희와 함께 항해할게!",
+          "directives": [
+            {
+              "type": "recruitmentBanner",
+              "unitId": "nami",
+              "roleName": "항해사 (Navigator)",
+              "passiveSummary": "항해 속도 +20% · 폭풍 저항 +50% · 숨겨진 보물상자 탐지!"
+            }
+          ]
+        },
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "shocked",
+          "side": "left",
+          "text": "어이! 다들 뉴스 쿠 신문 좀 봐! 루피한테 이스트 블루 최고액 첫 현상금이 붙었어!!"
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "excited",
+          "side": "center_narration",
+          "text": "해군 본부 수배서 발부 — 밀짚모자 몽키 D. 루피, 현상금 3,000만 베리!",
+          "directives": [
+            { "type": "sfx", "sfxId": "wanted_poster_slam" },
+            {
+              "type": "wantedPoster",
+              "bounty": 30000000,
+              "title": "이스트 블루의 신성 · 3,000만 베리"
+            }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "3,000만 베리!! 좋아, 이제 시작과 끝의 마을 로그타운을 거쳐 위대한 항로로 가자!"
+        }
+      ]
+    }
+  ]
+}

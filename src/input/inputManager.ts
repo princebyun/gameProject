@@ -33,7 +33,16 @@ export const TOUCH_SIZE_SCALE_MAP: Record<TouchButtonSizePreset, number> = {
 const TOUCH_PREFS_STORAGE_KEY = 'opgv_touch_prefs_v1';
 
 export interface TouchButtonRect {
-  id: 'SKILL_0' | 'SKILL_1' | 'SKILL_2' | 'SKILL_3' | 'DODGE' | 'FORM_SHIFT' | 'SWAP';
+  id:
+    | 'SKILL_0'
+    | 'SKILL_1'
+    | 'SKILL_2'
+    | 'SKILL_3'
+    | 'DODGE'
+    | 'FORM_SHIFT'
+    | 'SWAP'
+    | 'GUARD'
+    | 'BOND_COMBO';
   label: string;
   subLabel: string;
   x: number;
@@ -65,7 +74,13 @@ export class UnifiedInputManager {
   private touchPendingFormShift = false;
   private touchPendingAwakening = false;
   private touchPendingSwap = false;
+  private touchGuardHeld = false;
+  private touchPendingBondCombo = false;
   public forceShowTouchUi = false;
+
+  public isTouchGuardHeld(): boolean {
+    return this.touchGuardHeld;
+  }
 
   constructor(private platform: PlatformAdapter) {
     this.bindings = loadKeyBindings(platform);
@@ -235,6 +250,24 @@ export class UnifiedInputManager {
         y: Math.round(anchorY - 126 * s),
         r: Math.round(22 * s),
         color: '#c084fc'
+      },
+      {
+        id: 'GUARD',
+        label: '가드',
+        subLabel: 'PARRY',
+        x: Math.round(anchorX - 134 * s),
+        y: Math.round(anchorY + 6 * s),
+        r: Math.round(23 * s),
+        color: '#a855f7'
+      },
+      {
+        id: 'BOND_COMBO',
+        label: '합동기',
+        subLabel: 'BOND',
+        x: Math.round(anchorX - 24 * s),
+        y: Math.round(anchorY - 134 * s),
+        r: Math.round(23 * s),
+        color: '#facc15'
       }
     ];
 
@@ -261,6 +294,8 @@ export class UnifiedInputManager {
     else if (action === 'FORM_SHIFT') this.touchPendingFormShift = true;
     else if (action === 'AWAKENING') this.touchPendingAwakening = true;
     else if (action === 'SWAP') this.touchPendingSwap = true;
+    else if (action === 'GUARD') this.touchGuardHeld = true;
+    else if (action === 'BOND_COMBO') this.touchPendingBondCombo = true;
   }
 
   public hitTestTouchButton(
@@ -316,6 +351,7 @@ export class UnifiedInputManager {
 
   public handleCanvasPointerUp(): void {
     this.mouseDown = false;
+    this.touchGuardHeld = false;
     this.virtualJoystickActive = false;
     this.virtualJoystickOrigin = { ...this.virtualJoystickHomeOrigin };
     this.virtualJoystickKnob = { ...this.virtualJoystickHomeOrigin };
@@ -440,6 +476,15 @@ export class UnifiedInputManager {
       this.touchPendingFormShift ||
       gpFormShift;
 
+    const guardHeld =
+      this.keysDown.has(this.bindings.guard) ||
+      (shiftHeld && !this.keysDown.has(this.bindings.formShift)) ||
+      this.touchGuardHeld;
+
+    const bondComboPressed =
+      this.keysJustPressed.has(this.bindings.bondCombo) ||
+      this.touchPendingBondCombo;
+
     let swapToBenchUnitId: string | null = null;
     if (
       this.keysJustPressed.has(this.bindings.quickSwap) ||
@@ -500,6 +545,7 @@ export class UnifiedInputManager {
     this.touchPendingFormShift = false;
     this.touchPendingAwakening = false;
     this.touchPendingSwap = false;
+    this.touchPendingBondCombo = false;
 
     return {
       unitId: playerUnit.instanceId,
@@ -509,7 +555,10 @@ export class UnifiedInputManager {
       dodgePressed,
       formShiftPressed,
       awakeningPressed,
-      swapToBenchUnitId
+      swapToBenchUnitId,
+      guardHeld,
+      guardPressedTick: guardHeld ? world.tick : -1,
+      bondComboPressed
     };
   }
 }

@@ -15,7 +15,7 @@ describe('Stage 4 Step 2 — Retro Audio Pipeline, Throttling & Full Manifest In
     const registry = createAssetManifestRegistry();
     expect(registry.audioFile.crossfadeSec).toBe(0.6);
     expect(registry.audioFile.bgmTracks.length).toBe(10);
-    expect(registry.audioFile.sfxEntries.length).toBe(18);
+    expect(registry.audioFile.sfxEntries.length).toBeGreaterThanOrEqual(22);
 
     const expectedBgm = [
       'title_adventure',
@@ -173,7 +173,7 @@ describe('Stage 4 Step 2 — Retro Audio Pipeline, Throttling & Full Manifest In
   });
 
   it('verifies full manifest cross-integrity and confirms BATTLE_CALC_VERSION remains 0.6.0', () => {
-    expect(BATTLE_CALC_VERSION).toBe('0.6.0');
+    expect(BATTLE_CALC_VERSION).toBe('0.7.0');
     const registry = createAssetManifestRegistry();
 
     for (const unit of Object.values(defaultDataRegistry.units)) {

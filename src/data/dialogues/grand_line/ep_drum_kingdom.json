@@ -1,0 +1,183 @@
+{
+  "episodeId": "ep_drum_kingdom",
+  "islandId": "drum_kingdom",
+  "seaZoneId": "grand_line",
+  "scripts": [
+    {
+      "scriptId": "gl1_drum_arrival",
+      "episodeId": "ep_drum_kingdom",
+      "triggerType": "gold_marker",
+      "title": "겨울섬 드럼 왕국 — 설산 성의 순록 의사",
+      "bindingId": "npc_kureha_chopper",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "눈보라가 휘몰아치는 겨울섬 드럼 왕국. 열병에 쓰러진 나미를 살리기 위해 루피는 설산을 올랐다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제3장 · 위대한 항로",
+              "title": "겨울에 피는 벚꽃",
+              "subtitle": "드럼 왕국과 파란 코 순록 의사"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "npc_kureha",
+          "speakerName": "닥터 쿠레하",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "히히히! 내 젊음의 비결이 궁금하냐? 항해사 아가씨는 이미 고비를 넘겼으니 안심해라."
+        },
+        {
+          "speakerId": "chopper",
+          "speakerName": "토니토니 쵸파",
+          "emotion": "shocked",
+          "side": "right",
+          "text": "으악, 인간이다!! 숨어야 해... (벽 뒤에 거꾸로 숨으며) 난 괴물이야, 다가오지 마!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "우와아!! 말하는 7단 변신 순록이다! 게다가 의사잖아! 쵸파, 내 동료가 돼라!"
+        },
+        {
+          "speakerId": "chopper",
+          "speakerName": "토니토니 쵸파",
+          "emotion": "sad",
+          "side": "right",
+          "text": "난 순록인데다 파란 코에 괴물 취급만 받았어... 정말 내가 해적이 되어도 되는 걸까?"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "시끄러워! 가자!! 먼저 저 못된 국왕 녀석부터 벚꽃 해적기 앞에서 날려버릴 거야!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl1_wapol_pre_boss",
+      "episodeId": "ep_drum_kingdom",
+      "triggerType": "pre_boss",
+      "title": "폭군 와포루 대치 — 히루루크의 해적기",
+      "bindingId": "enc_drum_wapol_boss",
+      "lines": [
+        {
+          "speakerId": "wapol",
+          "speakerName": "양철 국왕 · 와포루",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "카바바바! 이 성도 나라의 의사도 전부 내 것이다! 그 우스꽝스러운 해적기부터 꺾어주마!",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "sfx", "sfxId": "ship_cannon" },
+            { "type": "cameraShake", "intensity": 0.7, "durationSec": 0.35 }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "angry",
+          "side": "left",
+          "text": "이건 어떤 남자가 목숨을 걸고 맹세한 해적기야! 네가 함부로 웃어도 되는 게 아냐!"
+        },
+        {
+          "speakerId": "chopper",
+          "speakerName": "토니토니 쵸파",
+          "emotion": "determined",
+          "side": "left",
+          "text": "닥터의 신념을 짓밟는 건 용서 못 해! 럼블 볼로 나도 함께 싸우겠어, 루피!"
+        },
+        {
+          "speakerId": "wapol",
+          "speakerName": "양철 국왕 · 와포루",
+          "emotion": "angry",
+          "side": "right",
+          "text": "우걱우걱 팩토리! 대포도 집도 다 삼켜서 네놈들을 짓뭉개주마!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "해적기를 꺾을 수 있으면 어디 한 번 해봐라! 이 설산 끝까지 날려 보내주마!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl1_drum_post_boss_recruit",
+      "episodeId": "ep_drum_kingdom",
+      "triggerType": "post_boss",
+      "title": "설산의 벚꽃 눈 & 토니토니 쵸파 합류",
+      "bindingId": "enc_drum_wapol_boss",
+      "lines": [
+        {
+          "speakerId": "wapol",
+          "speakerName": "양철 국왕 · 와포루",
+          "emotion": "shocked",
+          "side": "right",
+          "text": "으아아악!! 내 성에서 또 날아가다니이이!!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 0.85, "durationSec": 0.45 },
+            { "type": "sfx", "sfxId": "blunt_hit" }
+          ]
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "출항의 순간, 닥터 쿠레하가 쏘아 올린 포탄이 겨울 하늘 가득 분홍빛 벚꽃 눈을 피워냈다.",
+          "directives": [
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.5 },
+            { "type": "screenFlash", "color": "#fbcfe8", "durationSec": 0.35 }
+          ]
+        },
+        {
+          "speakerId": "npc_kureha",
+          "speakerName": "닥터 쿠레하",
+          "emotion": "sad",
+          "side": "right",
+          "text": "가거라, 바보 아들아... 넓은 바다에서 네가 꿈꾸는 만병통치약이 되어 돌아오너라."
+        },
+        {
+          "speakerId": "chopper",
+          "speakerName": "토니토니 쵸파",
+          "emotion": "excited",
+          "side": "left",
+          "text": "닥터린!! 고마워요!! 루피, 이제부터 밀짚모자 일당의 선의는 내가 책임질게!!",
+          "directives": [
+            {
+              "type": "recruitmentBanner",
+              "unitId": "chopper",
+              "roleName": "선의 (Doctor)",
+              "passiveSummary": "전투 종료 후 생존 파티원 체력 최대 HP의 35% 즉시 자동 치료!"
+            }
+          ]
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "normal",
+          "side": "left",
+          "text": "정말 든든한 의사가 생겼어! 자, 이제 모래의 왕국 알라바스타로 돛을 올리자!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "좋아! 알라바스타로 간다! 비비의 나라를 반드시 구해주자고!"
+        }
+      ]
+    }
+  ]
+}

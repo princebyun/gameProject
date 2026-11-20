@@ -6,7 +6,47 @@ export type ProjectilePattern = 'SINGLE' | 'BURST' | 'PARABOLIC';
 export type FieldKind = 'HAZARD_ZONE' | 'DOME_SHIELD' | 'GLOBAL_WEATHER' | 'RULE_REVERSAL';
 export type WeatherId = 'NONE' | 'SOLAR_FLARE' | 'TEMPEST_RAIN' | 'ION_STORM';
 export type RuleReversalKind = 'NONE' | 'SPEED_INVERSION';
-export type StatusKind = 'STAGGER' | 'SKILL_SEAL' | 'TAUNT' | 'ROOT' | 'WET' | 'FREEZE';
+export type StatusKind =
+  | 'STAGGER'
+  | 'SKILL_SEAL'
+  | 'TAUNT'
+  | 'ROOT'
+  | 'WET'
+  | 'FREEZE'
+  | 'PARRY_STUNNED'
+  | 'GUARD_BREAK';
+
+export type BondComboPattern =
+  | 'PIERCE_CANNON'
+  | 'CROSS_SLASH_X'
+  | 'SHAMBLES_AMBUSH'
+  | 'THUNDER_AOE'
+  | 'SNIPE_BEAM'
+  | 'GIANT_STAMP_HEAL'
+  | 'FREEZE_OCEAN_WAVE'
+  | 'PHOENIX_SUN_RUSH'
+  | 'GENERIC_ALLOUT';
+
+export interface BondComboDefinition {
+  comboId: string;
+  name: string;
+  subtitle: string;
+  pair: [string, string] | null;
+  isGeneric?: boolean;
+  pattern: BondComboPattern;
+  element: ElementId;
+  basePower: number;
+  radiusPx: number;
+  rangePx: number;
+  armorPiercing?: boolean;
+  antiFruitMultiplier?: number;
+  healAllyHpRatio?: number;
+  applyStatus?: StatusKind;
+  statusDurationSec?: number;
+  themeColors: [string, string];
+  guestAnimState: 'ATTACK_MELEE' | 'ATTACK_CAST';
+  cutinCallout: string;
+}
 export type FormShiftKind = 'AWAKENING' | 'OVERDRIVE';
 
 export type FruitType =
@@ -533,4 +573,5 @@ export interface GameDataRegistry {
   equipment: Record<string, EquipmentDefinition>;
   units: Record<string, UnitDefinition>;
   aiProfiles: Record<number, AiProfileDefinition>;
+  combos?: Record<string, BondComboDefinition>;
 }

@@ -50,7 +50,7 @@ const ALL_GRAND_LINE_EPS = [
 
 describe('Phase 8 Step 2 (Stage 2-B): Grand Line Complete Edition — 6 Islands, Crew Roles, Marineford Gauntlet, Red Line Gate & Save v3', () => {
   it('1. Registers all 6 required Grand Line islands and CURRENT_SAVE_VERSION === 4', () => {
-    expect(BATTLE_CALC_VERSION).toBe('0.6.0');
+    expect(BATTLE_CALC_VERSION).toBe('0.7.0');
     expect(CURRENT_SAVE_VERSION).toBe(5);
 
     const glRequiredIslands = defaultRpgDataRegistry.seaZones.grand_line.islands.filter(
@@ -299,7 +299,7 @@ describe('Phase 8 Step 2 (Stage 2-B): Grand Line Complete Edition — 6 Islands,
     expect(migrated.migrated).toBe(true);
     expect(migrated.migratedFromVersion).toBe(2);
     expect(migrated.envelope.meta.saveVersion).toBe(5);
-    expect(migrated.envelope.meta.battleCalcVersion).toBe('0.6.0');
+    expect(migrated.envelope.meta.battleCalcVersion).toBe('0.7.0');
     expect(migrated.envelope.payload.world.legacyZoneUnlockV2).toBe(true);
 
     const acMigrated = evaluateAndStampAntiCheat(

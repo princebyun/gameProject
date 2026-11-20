@@ -1,0 +1,181 @@
+{
+  "episodeId": "ep_thriller_bark",
+  "islandId": "thriller_bark",
+  "seaZoneId": "grand_line",
+  "scripts": [
+    {
+      "scriptId": "gl5_thriller_bark_arrival",
+      "episodeId": "ep_thriller_bark",
+      "triggerType": "gold_marker",
+      "title": "마의 삼각지대 — 유령선과 콧노래의 브룩",
+      "bindingId": "npc_brook_thriller",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "짙은 안개 속 거대한 유령선 스릴러 바크. 그곳에서 50년을 홀로 표류하던 해골 음악가를 만났다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제3장 · 위대한 항로",
+              "title": "안개 속 유령선",
+              "subtitle": "칠무해 모리아와 소울 킹 브룩"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "brook",
+          "speakerName": "콧노래의 · 브룩",
+          "emotion": "excited",
+          "side": "right",
+          "text": "요호호호! 살아 있는 손님이라니 반갑군요! 놀라서 눈알이 튀어나올 뻔... 눈이 없지만요!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "오오!! 말하는 해골 음악가다!! 드디어 우리 배에 음악가가 생겼어! 내 동료가 돼라!"
+        },
+        {
+          "speakerId": "brook",
+          "speakerName": "콧노래의 · 브룩",
+          "emotion": "sad",
+          "side": "right",
+          "text": "기쁘지만... 제 그림자가 칠무해 겟코 모리아에게 빼앗겨 햇빛 아래로 나갈 수 없답니다."
+        },
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "shocked",
+          "side": "left",
+          "text": "히익! 좀비랑 그림자 괴물들이 몰려온다! 심지어 루피 그림자까지 뺏기면 큰일이야!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "알겠어, 브룩! 네 그림자는 내가 되찾아 줄게! 라분과의 약속을 지키러 같이 가자!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl5_moria_pre_boss",
+      "episodeId": "ep_thriller_bark",
+      "triggerType": "pre_boss",
+      "title": "칠무해 겟코 모리아 대치 — 섀도즈 아스가르드",
+      "bindingId": "enc_thriller_moria_boss",
+      "lines": [
+        {
+          "speakerId": "moria",
+          "speakerName": "왕하 칠무해 · 겟코 모리아",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "키시시시! 신세계의 공포도 모르는 애송이들이군! 네놈들 그림자는 전부 내 좀비 군단에 바쳐라!",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "sfx", "sfxId": "transform_burst" }
+          ]
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "determined",
+          "side": "left",
+          "text": "조심해라, 루피! 저 녀석 자기 그림자 도펠맨을 분신처럼 소환해 자리를 바꾼다."
+        },
+        {
+          "speakerId": "moria",
+          "speakerName": "왕하 칠무해 · 겟코 모리아",
+          "emotion": "angry",
+          "side": "right",
+          "text": "동이 트기 전에 끝내주마! 1,000개의 그림자를 집어삼킨 섀도즈 아스가르드의 힘이다!",
+          "directives": [{ "type": "cameraShake", "intensity": 0.8, "durationSec": 0.45 }]
+        },
+        {
+          "speakerId": "brook",
+          "speakerName": "콧노래의 · 브룩",
+          "emotion": "determined",
+          "side": "left",
+          "text": "동트기 전까지 모리아를 쓰러뜨리면 모든 그림자가 주인에게 돌아옵니다! 힘내세요, 루피 씨!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "동료들을 잃는 게 무서워서 남의 그림자나 훔치다니! 네놈 그림자를 전부 토해내게 해주마!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl5_thriller_bark_post_boss_recruit",
+      "episodeId": "ep_thriller_bark",
+      "triggerType": "post_boss",
+      "title": "빙크스의 술 여운 & 소울 킹 브룩 합류",
+      "bindingId": "enc_thriller_moria_boss",
+      "lines": [
+        {
+          "speakerId": "moria",
+          "speakerName": "왕하 칠무해 · 겟코 모리아",
+          "emotion": "shocked",
+          "side": "right",
+          "text": "크아악... 그림자가... 전부 빠져나간다!! 밀짚모자, 신세계의 악몽을 각오해라...!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 0.9, "durationSec": 0.45 },
+            { "type": "screenFlash", "color": "#fef9c3", "durationSec": 0.3 },
+            { "type": "sfx", "sfxId": "blunt_hit" }
+          ]
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "아침 햇살이 안개를 뚫고 비추자, 빼앗겼던 모든 그림자가 주인에게 돌아왔다.",
+          "directives": [{ "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.5 }]
+        },
+        {
+          "speakerId": "brook",
+          "speakerName": "소울 킹 · 브룩",
+          "emotion": "sad",
+          "side": "right",
+          "text": "요호호호... 50년 만에 다시 부르는 '빙크스의 술'이군요. 살아 있어서 정말 다행입니다..."
+        },
+        {
+          "speakerId": "brook",
+          "speakerName": "소울 킹 · 브룩",
+          "emotion": "excited",
+          "side": "right",
+          "text": "목숨을 걸고 연주하겠습니다! 밀짚모자 일당의 음악가 브룩, 정식으로 합류합니다!",
+          "directives": [
+            {
+              "type": "recruitmentBanner",
+              "unitId": "brook",
+              "roleName": "음악가 (Musician)",
+              "passiveSummary": "파티 전원의 스킬 쿨타임 회복 속도 +15% 가속!"
+            }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "좋아, 브룩! 신나게 연주해 줘! ...잠깐, 형 에이스의 비브르 카드가 불타고 있어?!"
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "shocked",
+          "side": "left",
+          "text": "해군 본부 마린포드에서 거대한 정상전쟁이 시작된대! 서둘러 마린포드로 향하자!"
+        }
+      ]
+    }
+  ]
+}

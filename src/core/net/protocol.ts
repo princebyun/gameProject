@@ -41,8 +41,14 @@ export interface InputFrame {
    * bit 5: formShift (Zoan cycle) pressed
    * bit 6: awakening (Shift+F) pressed
    * bit 7: quickSwap pressed
+   * bit 8: guardHeld (Armament Guard / Just Guard)
+   * bit 9: bondComboPressed (2:2 Bond Tag Combo)
    */
   actionBits: number;
+  /** Phase 16: Explicit Armament Guard hold state for 60Hz parry timing parity */
+  guardHeld?: boolean;
+  /** Phase 16: Exact tick when guard was pressed (-1 when not freshly initiated) */
+  guardPressedTick?: number;
 }
 
 export function createNeutralInputFrame(tick: number, slotIndex: number): InputFrame {
@@ -52,7 +58,9 @@ export function createNeutralInputFrame(tick: number, slotIndex: number): InputF
     moveX: 0,
     moveY: 0,
     aimAngle: slotIndex % 2 === 0 ? 0 : 3142,
-    actionBits: 0
+    actionBits: 0,
+    guardHeld: false,
+    guardPressedTick: -1
   };
 }
 
@@ -78,6 +86,9 @@ export function encodeUnitCommandToInputFrame(
   if (cmd.formShiftPressed) bits |= 1 << 5;
   if (cmd.awakeningPressed) bits |= 1 << 6;
   if (cmd.swapToBenchUnitId) bits |= 1 << 7;
+  const guardHeld = Boolean(cmd.guardHeld);
+  if (guardHeld) bits |= 1 << 8;
+  if (cmd.bondComboPressed) bits |= 1 << 9;
 
   return {
     tick,
@@ -85,7 +96,9 @@ export function encodeUnitCommandToInputFrame(
     moveX,
     moveY,
     aimAngle,
-    actionBits: bits
+    actionBits: bits,
+    guardHeld,
+    guardPressedTick: cmd.guardPressedTick ?? (guardHeld ? tick : -1)
   };
 }
 
@@ -115,6 +128,8 @@ export function decodeInputFrameToUnitCommand(
   const dodgePressed = (frame.actionBits & (1 << 4)) !== 0;
   const formShiftPressed = (frame.actionBits & (1 << 5)) !== 0;
   const awakeningPressed = (frame.actionBits & (1 << 6)) !== 0;
+  const guardHeld = frame.guardHeld ?? (frame.actionBits & (1 << 8)) !== 0;
+  const bondComboPressed = (frame.actionBits & (1 << 9)) !== 0;
 
   let swapToBenchUnitId: string | null = null;
   if ((frame.actionBits & (1 << 7)) !== 0) {
@@ -137,7 +152,10 @@ export function decodeInputFrameToUnitCommand(
     dodgePressed,
     formShiftPressed,
     awakeningPressed,
-    swapToBenchUnitId
+    swapToBenchUnitId,
+    guardHeld,
+    guardPressedTick: frame.guardPressedTick ?? (guardHeld ? frame.tick : -1),
+    bondComboPressed
   };
 }
 

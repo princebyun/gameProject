@@ -363,6 +363,46 @@
       "maxPolyphony": 3,
       "pitchJitterRatio": 0.06,
       "synthPreset": "coup_de_burst"
+    },
+    {
+      "id": "parry_clang",
+      "name": "무장색 저스트 가드 패링 굉음",
+      "src": "assets/audio/sfx/parry_clang.ogg",
+      "volume": 0.92,
+      "throttleMs": 50,
+      "maxPolyphony": 3,
+      "pitchJitterRatio": 0.06,
+      "synthPreset": "parry_clang"
+    },
+    {
+      "id": "projectile_reflect",
+      "name": "투사체 패링 반사음",
+      "src": "assets/audio/sfx/projectile_reflect.ogg",
+      "volume": 0.88,
+      "throttleMs": 50,
+      "maxPolyphony": 3,
+      "pitchJitterRatio": 0.06,
+      "synthPreset": "projectile_reflect"
+    },
+    {
+      "id": "cutin_whoosh",
+      "name": "각성·합동기 픽셀 컷인 돌입",
+      "src": "assets/audio/sfx/cutin_whoosh.ogg",
+      "volume": 0.9,
+      "throttleMs": 50,
+      "maxPolyphony": 3,
+      "pitchJitterRatio": 0.06,
+      "synthPreset": "cutin_whoosh"
+    },
+    {
+      "id": "bond_combo_burst",
+      "name": "2:2 동료 합동기 폭발 작렬",
+      "src": "assets/audio/sfx/bond_combo_burst.ogg",
+      "volume": 0.94,
+      "throttleMs": 50,
+      "maxPolyphony": 3,
+      "pitchJitterRatio": 0.06,
+      "synthPreset": "bond_combo_burst"
     }
   ]
 }

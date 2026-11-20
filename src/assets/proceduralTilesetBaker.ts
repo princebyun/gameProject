@@ -85,7 +85,7 @@ export function bakeProceduralBiomeTileset(
     }
   }
 
-  // Row 1: 4-frame animated water / wave / magma / ice / cyber laser tiles
+  // Row 1: 4-frame animated water / wave / magma / ice / cyber laser tiles (with shimmering sun-glint ripples)
   for (let f = 0; f < 4; f++) {
     const x0 = f * ts;
     const y0 = ts;
@@ -94,14 +94,27 @@ export function bakeProceduralBiomeTileset(
     ctx.fillStyle = biome.category === 'SEA' ? pal.base : pal.waterOrHazard;
     ctx.fillRect(x0, y0, ts, ts);
 
+    // Subtle deep-sea wave trough band
+    if (biome.category === 'SEA') {
+      ctx.fillStyle = 'rgba(4, 15, 34, 0.22)';
+      ctx.fillRect(x0, y0 + ((shift + 6) % ts), ts, 3);
+    }
+
     ctx.fillStyle = biome.category === 'SEA' ? pal.detail : pal.base;
     ctx.fillRect(x0 + ((shift + 2) % ts), y0 + 2, 5, 2);
     ctx.fillRect(x0 + ((shift + 9) % ts), y0 + 9, 6, 2);
 
-    // Animated crest / gleam / lightning reflection / lava bubble
+    // Animated crest / sun-glint sparkle / lightning reflection / lava bubble
     ctx.fillStyle = biome.biomeId === 'sea_new_world' && f === 2 ? pal.accent : pal.edge;
     ctx.fillRect(x0 + (shift % (ts - 4)), y0 + 4, 4, 1);
     ctx.fillRect(x0 + ((shift + 6) % (ts - 3)), y0 + 12, 3, 1);
+    if (biome.category === 'SEA') {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+      ctx.fillRect(x0 + ((shift + 1) % (ts - 2)), y0 + 4, 2, 1);
+      if (f % 2 === 0) {
+        ctx.fillRect(x0 + ((shift + 10) % (ts - 1)), y0 + 11, 1, 1);
+      }
+    }
 
     if (biome.biomeId === 'egghead_cyber') {
       ctx.fillStyle = pal.accent;

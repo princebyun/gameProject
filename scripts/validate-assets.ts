@@ -69,7 +69,11 @@ const REQUIRED_SFX_IDS = [
   'ui_cancel',
   'wanted_poster_slam',
   'ship_cannon',
-  'coup_de_burst'
+  'coup_de_burst',
+  'parry_clang',
+  'projectile_reflect',
+  'cutin_whoosh',
+  'bond_combo_burst'
 ];
 
 const REQUIRED_SHIP_KEYS = [

@@ -1,0 +1,172 @@
+{
+  "episodeId": "ep_elbaf",
+  "islandId": "elbaf",
+  "seaZoneId": "new_world",
+  "scripts": [
+    {
+      "scriptId": "nw6_elbaf_arrival",
+      "episodeId": "ep_elbaf",
+      "triggerType": "gold_marker",
+      "title": "거인족의 나라 엘바프 — 세계수 위그드라실 상륙",
+      "bindingId": "npc_dorry_brogy",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "excited",
+          "side": "center_narration",
+          "text": "하늘을 찌르는 보배수 아담 위그드라실이 솟아오른 전설의 땅. 드디어 거인족의 나라 엘바프에 상륙했다!",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "최종장 · 신세계",
+              "title": "거인족의 나라 엘바프",
+              "subtitle": "세계수 위그드라실과 저주받은 왕자 로키"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.45 }
+          ]
+        },
+        {
+          "speakerId": "npc_dorry",
+          "speakerName": "청귀 도리",
+          "emotion": "excited",
+          "side": "right",
+          "text": "게갸갸갸! 어서 오너라, 밀짚모자 일당! 세계 최강의 전사들이 너희를 환영한다!"
+        },
+        {
+          "speakerId": "npc_brogy",
+          "speakerName": "적귀 브로기",
+          "emotion": "normal",
+          "side": "right",
+          "text": "하지만 세계수 아래 명계에는 6년 전 사슬로 봉인된 '저주받은 왕자 로키'가 잠들어 있지."
+        },
+        {
+          "speakerId": "robin",
+          "speakerName": "니코 로빈",
+          "emotion": "determined",
+          "side": "left",
+          "text": "엘바프의 고대 벽화 '할리'에는 태양의 신 니카와 세계의 종말, 그리고 마지막 단서가 적혀 있어."
+        },
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "excited",
+          "side": "left",
+          "text": "진짜 거인들의 나라에 발을 디뎠어! 사황 샹크스도 머물렀던 이 땅에서 나도 용감한 전사가 될 거야!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "명계에서 엄청난 패기가 느껴져! 스스로 '태양의 신'이라 부르는 로키를 직접 만나러 가자!"
+        }
+      ]
+    },
+    {
+      "scriptId": "nw6_loki_pre_boss",
+      "episodeId": "ep_elbaf",
+      "triggerType": "pre_boss",
+      "title": "명계 아레나 — 저주받은 왕자 로키 대치",
+      "bindingId": "enc_elbaf_sun_god_trial",
+      "lines": [
+        {
+          "speakerId": "loki",
+          "speakerName": "저주받은 왕자 · 로키",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "도하하하!! 네놈이 샹크스가 말하던 밀짚모자냐? 세계를 끝낼 진짜 태양의 신은 바로 나, 로키다!",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_raid_giant", "fadeSec": 0.35 },
+            { "type": "sfx", "sfxId": "haki_lightning" },
+            { "type": "cameraShake", "intensity": 0.95, "durationSec": 0.5 }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "angry",
+          "side": "left",
+          "text": "샹크스를 욕하지 마!! 네가 아무리 커다란 거인 왕자라도 굽히지 않아!"
+        },
+        {
+          "speakerId": "loki",
+          "speakerName": "저주받은 왕자 · 로키",
+          "emotion": "angry",
+          "side": "right",
+          "text": "철뇌 망치 라그니르의 번개로 세계수째 불태워주마!! 그 각성이 진짜인지 시험해보자!",
+          "directives": [{ "type": "screenFlash", "color": "#a855f7", "durationSec": 0.3 }]
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "determined",
+          "side": "left",
+          "text": "어마어마한 체구와 번개 출력이다! 바닥의 붉은 낙뢰 예고 지대를 피하면서 공략해, 루피!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "좋아, 와라 로키!! 해방의 드럼으로 엘바프의 명계를 뒤흔들어주마!!"
+        }
+      ]
+    },
+    {
+      "scriptId": "nw6_elbaf_post_boss",
+      "episodeId": "ep_elbaf",
+      "triggerType": "post_boss",
+      "title": "최종장의 서막 — 계속되는 해적왕의 항로 & 엔드게임 개방",
+      "bindingId": "enc_elbaf_sun_god_trial",
+      "lines": [
+        {
+          "speakerId": "loki",
+          "speakerName": "저주받은 왕자 · 로키",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "도하하... 제법이군, 밀짚모자. 확실히 네 안에서 고대 태양의 북소리가 울리고 있다.",
+          "directives": [
+            { "type": "bgm", "trackId": "victory_fanfare", "fadeSec": 0.4 },
+            { "type": "cameraShake", "intensity": 0.8, "durationSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "loki",
+          "speakerName": "저주받은 왕자 · 로키",
+          "emotion": "normal",
+          "side": "right",
+          "text": "신세계의 마지막 전쟁이 코앞으로 다가왔다. 신의 기사단과 세계의 정점을 상대할 준비를 해둬라."
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "excited",
+          "side": "center_narration",
+          "text": "이스트 블루에서 시작해 위대한 항로와 신세계 엘바프까지 — 밀짚모자 일당의 항해는 최종장으로 계속된다!"
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "excited",
+          "side": "left",
+          "text": "이제 3대 해역 어디든 자유롭게 항해할 수 있어! 항해 일지의 '명장면 다시보기'도 전부 열렸어!"
+        },
+        {
+          "speakerId": "jinbe",
+          "speakerName": "해협의 · 징베",
+          "emotion": "determined",
+          "side": "right",
+          "text": "엔드게임 도전도 기다리고 있네! 임펠 다운 6층, 코리다 콜로세움, 거대 보스 협동 레이드까지!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "좋아 얘들아!! 원피스를 손에 넣는 그날까지, 최고의 모험을 계속하자아아!!"
+        }
+      ]
+    }
+  ]
+}

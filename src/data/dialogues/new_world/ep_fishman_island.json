@@ -1,0 +1,181 @@
+{
+  "episodeId": "ep_fishman_island",
+  "islandId": "fishman_island",
+  "seaZoneId": "new_world",
+  "scripts": [
+    {
+      "scriptId": "nw1_fishman_arrival",
+      "episodeId": "ep_fishman_island",
+      "triggerType": "gold_marker",
+      "title": "해저 1만 미터 — 어인섬 용궁 왕국 도착",
+      "bindingId": "npc_jinbe_fishman_island",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "excited",
+          "side": "center_narration",
+          "text": "빛이 스며드는 해저 1만 미터의 낙원, 용궁 왕국 어인섬. 그러나 신어인 해적단이 반란을 일으켰다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제4장 · 신세계",
+              "title": "태양을 향한 길",
+              "subtitle": "어인섬 결전과 열 번째 동료 징베"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "jinbe",
+          "speakerName": "해협의 · 징베",
+          "emotion": "normal",
+          "side": "right",
+          "text": "오랜만이네, 루피 군! 약속대로 어인섬 바다의 숲에서 기다리고 있었네."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "징베!! 건강했구나! 자, 이제 우리 배의 동료가 되어줘! 같이 신세계를 달리자!"
+        },
+        {
+          "speakerId": "jinbe",
+          "speakerName": "해협의 · 징베",
+          "emotion": "determined",
+          "side": "right",
+          "text": "기쁜 제안이지만 먼저 호디 존스를 막아야 하네. 녀석은 흉약 E.S를 삼켜 이성을 잃었어."
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "normal",
+          "side": "left",
+          "text": "증오의 연쇄를 끊어내야 어인섬에도 진짜 태양이 뜨겠지. 우리 모두가 함께 싸울게!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "좋아! 기온코르드 광장으로 간다! 어인섬은 내가 지켜주겠어!"
+        }
+      ]
+    },
+    {
+      "scriptId": "nw1_hody_pre_boss",
+      "episodeId": "ep_fishman_island",
+      "triggerType": "pre_boss",
+      "title": "호디 존스 대치 — 흉약 E.S 백발 폭주",
+      "bindingId": "enc_fishman_hody_boss",
+      "lines": [
+        {
+          "speakerId": "hody_jones",
+          "speakerName": "신어인 해적단 선장 · 호디 존스",
+          "emotion": "angry",
+          "side": "right",
+          "text": "자하하하!! 인간 따위가 어인섬의 영웅 행세를 하다니! 어인족의 원한을 갚아주마!",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "sfx", "sfxId": "transform_burst" },
+            { "type": "cameraShake", "intensity": 0.75, "durationSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "angry",
+          "side": "left",
+          "text": "영웅은 싫어, 고기를 나눠줘야 하니까! 대신 내 동료들과 섬을 망치는 넌 날려버린다!"
+        },
+        {
+          "speakerId": "hody_jones",
+          "speakerName": "신어인 해적단 선장 · 호디 존스",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "에너지 스테로이드를 한 웅큼 더 삼켜주지!! 백발 폭주 상태의 괴력을 받아라!"
+        },
+        {
+          "speakerId": "jinbe",
+          "speakerName": "해협의 · 징베",
+          "emotion": "determined",
+          "side": "left",
+          "text": "루피 군, 조심하게! 녀석이 체력 50% 이하로 떨어지면 백발 폭주로 공속이 급증한다네!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "약물에 의지한 힘 따위에 2년 수련의 패기가 질 리 없지! 레드 호크로 불태워주마!"
+        }
+      ]
+    },
+    {
+      "scriptId": "nw1_fishman_post_boss_recruit",
+      "episodeId": "ep_fishman_island",
+      "triggerType": "post_boss",
+      "title": "해협의 징베 합류 & 밀짚모자 일당 10인 전원 집결!",
+      "bindingId": "enc_fishman_hody_boss",
+      "lines": [
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "고무고무 엘리펀트 개틀링!! 증오의 어둠 따위 여기서 끝내버려라!!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 0.95, "durationSec": 0.5 },
+            { "type": "screenFlash", "color": "#fed7aa", "durationSec": 0.25 },
+            { "type": "sfx", "sfxId": "blunt_hit" }
+          ]
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "호디 존스가 쓰러지고 어인섬에 평화가 찾아왔다. 그리고 태양의 해적단의 오랜 인연이 결실을 맺었다.",
+          "directives": [{ "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.5 }]
+        },
+        {
+          "speakerId": "jinbe",
+          "speakerName": "해협의 · 징베",
+          "emotion": "determined",
+          "side": "right",
+          "text": "미래의 해적왕의 동료가 될 사내가 사황 따위에 주눅 들 수 없지! 조타수 징베, 합류하네!",
+          "directives": [
+            {
+              "type": "recruitmentBanner",
+              "unitId": "jinbe",
+              "roleName": "조타수 (Helmsman)",
+              "passiveSummary": "선회 속도 +35% · 조류/폭풍 저항 +60% · 쿠 드 버스트 쿨타임 -30%!"
+            }
+          ]
+        },
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "excited",
+          "side": "left",
+          "text": "우와아!! 드디어 밀짚모자 일당 10인 전원 집결이야!! 전 칠무해가 우리 조타수라니!"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "smirk",
+          "side": "left",
+          "text": "이제 사황의 바다에 도전할 진용이 완벽하게 갖춰졌군. 환영한다, 징베."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "시시시!! 열 명이 모두 모였다!! 자, 다음은 정열의 섬 드레스로자로 출항이다!!"
+        }
+      ]
+    }
+  ]
+}

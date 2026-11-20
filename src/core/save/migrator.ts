@@ -254,7 +254,8 @@ export function migrateRawSaveToCurrent(
       envelope.meta.battleCalcVersion === '0.2.0' ||
       envelope.meta.battleCalcVersion === '0.3.0' ||
       envelope.meta.battleCalcVersion === '0.4.0' ||
-      envelope.meta.battleCalcVersion === '0.5.0') &&
+      envelope.meta.battleCalcVersion === '0.5.0' ||
+      envelope.meta.battleCalcVersion === '0.6.0') &&
     verifySaveIntegrity(envelope).valid
   ) {
     envelope.meta.battleCalcVersion = BATTLE_CALC_VERSION;

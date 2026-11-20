@@ -1,0 +1,172 @@
+{
+  "episodeId": "ep_totto_land",
+  "islandId": "totto_land",
+  "seaZoneId": "new_world",
+  "scripts": [
+    {
+      "scriptId": "nw3_totto_arrival",
+      "episodeId": "ep_totto_land",
+      "triggerType": "gold_marker",
+      "title": "사황의 영토 토트랜드 — 거울 세계 진입",
+      "bindingId": "npc_pedro_totto_land",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "과자와 마법의 섬 토트랜드. 사황 빅 맘의 보물고에서 로드 포네그리프 탁본 탈취 작전이 벌어졌다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제4장 · 신세계",
+              "title": "거울 세계의 1:1 결투",
+              "subtitle": "10억의 사나이 카타쿠리와 미래 예지"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "npc_pedro",
+          "speakerName": "나무 위 페드로",
+          "emotion": "determined",
+          "side": "right",
+          "text": "브룩과 함께 로드 포네그리프 탁본을 확보했다! 하지만 10억 베리의 스위트 3장성이 막고 있어."
+        },
+        {
+          "speakerId": "brook",
+          "speakerName": "소울 킹 · 브룩",
+          "emotion": "excited",
+          "side": "left",
+          "text": "요호호호! 해골 속에 탁본을 숨겨왔습니다! 하지만 거울 안쪽의 카타쿠리 씨가 너무 강하군요!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "내가 거울 세계로 들어가서 카타쿠리를 붙잡아 둘게! 동료들은 그사이 써니호로 빠져나가!"
+        },
+        {
+          "speakerId": "npc_pedro",
+          "speakerName": "나무 위 페드로",
+          "emotion": "normal",
+          "side": "right",
+          "text": "카타쿠리는 조금 앞의 미래를 보는 견문색의 달인이다. 냉정함을 깨뜨리지 않으면 맞힐 수 없어!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "그렇다면 나도 싸우면서 그 미래를 볼 수 있게 되어주지! 10억의 사나이를 넘어서겠다!"
+        }
+      ]
+    },
+    {
+      "scriptId": "nw3_katakuri_pre_boss",
+      "episodeId": "ep_totto_land",
+      "triggerType": "pre_boss",
+      "title": "스위트 3장성 샬롯 카타쿠리 대치 — 미래 예지",
+      "bindingId": "enc_totto_katakuri_boss",
+      "lines": [
+        {
+          "speakerId": "katakuri",
+          "speakerName": "10억의 사나이 · 샬롯 카타쿠리",
+          "emotion": "normal",
+          "side": "right",
+          "text": "네가 할 다음 말도, 다음 공격도 이미 내 눈에 보인다. 네 기술은 전부 내 하위 호환일 뿐.",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "sfx", "sfxId": "just_dodge_chime" }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "똑같은 기술을 쓰면 읽히겠지... 그럼 서로 다른 기술로 몰아붙여서 네 집중을 흔들어주마!"
+        },
+        {
+          "speakerId": "katakuri",
+          "speakerName": "10억의 사나이 · 샬롯 카타쿠리",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "오호... 내 견문색 미래 예지의 약점을 단숨에 간파하다니, 더는 열등한 적으로 보지 않겠다.",
+          "directives": [{ "type": "sfx", "sfxId": "haki_lightning" }]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "최고의 적을 만나서 두근거려! 네 전력을 끌어내서 내가 이기겠어, 카타쿠리!"
+        },
+        {
+          "speakerId": "katakuri",
+          "speakerName": "10억의 사나이 · 샬롯 카타쿠리",
+          "emotion": "determined",
+          "side": "right",
+          "text": "좋다, 몽키 D. 루피! 무쌍 도넛과 흐르는 떡 각성으로 정정당당히 승부하자!"
+        }
+      ]
+    },
+    {
+      "scriptId": "nw3_totto_post_boss",
+      "episodeId": "ep_totto_land",
+      "triggerType": "post_boss",
+      "title": "라이벌 인정 · 견문색 Lv.3 개안 & 로드 포네그리프 확보",
+      "bindingId": "enc_totto_katakuri_boss",
+      "lines": [
+        {
+          "speakerId": "katakuri",
+          "speakerName": "10억의 사나이 · 샬롯 카타쿠리",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "하아... 언젠가 빅 맘을 쓰러뜨리러 다시 돌아올 건가, 몽키 D. 루피?",
+          "directives": [{ "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.5 }]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "당연하지! 난 해적왕이 될 사나이니까!"
+        },
+        {
+          "speakerId": "katakuri",
+          "speakerName": "10억의 사나이 · 샬롯 카타쿠리",
+          "emotion": "normal",
+          "side": "right",
+          "text": "...꽤 먼 미래를 보고 있군. (등을 대고 쓰러지며 라이벌의 승리를 인정한다.)"
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "excited",
+          "side": "center_narration",
+          "text": "사투 끝에 루피의 견문색 패기가 Lv.3(미래 예지)로 개안했고, 첫 번째 로드 포네그리프 탁본을 얻었다!",
+          "directives": [
+            { "type": "sfx", "sfxId": "just_dodge_chime" },
+            { "type": "screenFlash", "color": "#e879f9", "durationSec": 0.25 }
+          ]
+        },
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "determined",
+          "side": "left",
+          "text": "잘 버텨냈다, 루피! 이제 다 함께 와노쿠니 오니가시마로 향해 사황 카이도와 결판을 낼 차례야!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "간다 얘들아!! 와노쿠니로 출항!! 사황의 목을 치러 가자!!"
+        }
+      ]
+    }
+  ]
+}

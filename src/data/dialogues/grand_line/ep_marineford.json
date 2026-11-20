@@ -1,0 +1,239 @@
+{
+  "episodeId": "ep_marineford",
+  "islandId": "marineford",
+  "seaZoneId": "grand_line",
+  "scripts": [
+    {
+      "scriptId": "gl6_marineford_arrival",
+      "episodeId": "ep_marineford",
+      "triggerType": "gold_marker",
+      "title": "마린포드 정상전쟁 — 얼음만 돌입과 마르코 합류",
+      "bindingId": "npc_marco_marineford",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "determined",
+          "side": "center_narration",
+          "text": "해군 본부 마린포드 오리스 광장. 시대를 가르는 정상전쟁의 얼어붙은 전장에 루피가 뛰어들었다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제3장 최종 · 위대한 항로",
+              "title": "마린포드 정상전쟁",
+              "subtitle": "해군 대장 · 검은 수염과의 3연전"
+            },
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "marco",
+          "speakerName": "불사조 · 마르코",
+          "emotion": "determined",
+          "side": "right",
+          "text": "에이스의 동생이군, 요이! 여기서부터는 대장들이 버티고 있다. 내 푸른 불꽃으로 엄호하지!",
+          "directives": [{ "type": "sfx", "sfxId": "transform_burst" }]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "고마워, 파인애플 아저씨! 해군 대장이 몇 명이든 돌파해서 앞으로 나아가겠어!"
+        },
+        {
+          "speakerId": "marco",
+          "speakerName": "불사조 · 마르코",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "파인애플이 아니라 불사조 마르코다, 요이! 아오키지의 얼음과 아카이누의 마그마를 조심해라."
+        },
+        {
+          "speakerId": "marco",
+          "speakerName": "불사조 · 마르코",
+          "emotion": "angry",
+          "side": "right",
+          "text": "게다가 뒤에 검은 수염 티치 녀석까지 난입했다! 어둠어둠 열매는 열매 능력을 봉인한다!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "angry",
+          "side": "left",
+          "text": "티치까지...! 좋아 마르코, 2 대 2 합동 전선으로 정상전쟁 3연전을 돌파한다!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl6_marineford_pre_boss",
+      "episodeId": "ep_marineford",
+      "triggerType": "pre_boss",
+      "title": "아오키지 · 아카이누 · 검은 수염 3연전 개시",
+      "bindingId": "enc_marineford_gauntlet",
+      "lines": [
+        {
+          "speakerId": "aokiji",
+          "speakerName": "해군 대장 · 아오키지",
+          "emotion": "normal",
+          "side": "right",
+          "text": "어라라... 가프 중장님 손자라도 봐줄 순 없지. 아이스 에이지로 전장을 얼려주마.",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_yonko_awakening", "fadeSec": 0.35 },
+            { "type": "sfx", "sfxId": "haki_lightning" }
+          ]
+        },
+        {
+          "speakerId": "akainu",
+          "speakerName": "해군 대장 · 아카이누",
+          "emotion": "angry",
+          "side": "right",
+          "text": "드래곤의 아들과 흰 수염 잔당은 한 놈도 살려 보내지 않는다! 마그마로 태워주마!"
+        },
+        {
+          "speakerId": "blackbeard",
+          "speakerName": "검은 수염 · 마샬 D. 티치",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "제하하하! 내 어둠어둠 열매의 인력 앞에서는 어떤 악마의 열매 능력도 무효화된다!",
+          "directives": [{ "type": "cameraShake", "intensity": 0.85, "durationSec": 0.45 }]
+        },
+        {
+          "speakerId": "marco",
+          "speakerName": "불사조 · 마르코",
+          "emotion": "determined",
+          "side": "left",
+          "text": "물러서지 마라, 루피! 대장 둘과 검은 수염까지 연속 돌파해야 살아서 나갈 수 있다, 요이!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "절대 멈추지 않아!! 다 비켜라, 내가 전장을 뚫고 나간다!!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl6_marineford_post_boss_recruit",
+      "episodeId": "ep_marineford",
+      "triggerType": "post_boss",
+      "title": "마르코 동맹 합류 & 2년 수련 패기 개화",
+      "bindingId": "enc_marineford_gauntlet",
+      "lines": [
+        {
+          "speakerId": "marco",
+          "speakerName": "불사조 · 마르코",
+          "emotion": "determined",
+          "side": "right",
+          "text": "해냈군, 루피... 에이스의 의지를 이어받은 너라면 반드시 신세계의 새 시대를 열 거다, 요이!",
+          "directives": [
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.5 },
+            {
+              "type": "recruitmentBanner",
+              "unitId": "marco",
+              "roleName": "동맹 선의 (Phoenix Ally)",
+              "passiveSummary": "환수종 푸른 불꽃 동맹 합류 · 아군 회복 및 공중 화력 지원!"
+            }
+          ]
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "sad",
+          "side": "center_narration",
+          "text": "정상전쟁의 아픔을 딛고 루피는 동료들에게 '3D2Y'의 메시지를 남겼다. 2년 뒤, 샤본디에서 다시 만나자."
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "determined",
+          "side": "center_narration",
+          "text": "2년간의 혹독한 수련 끝에 루피와 동료들은 무장색·견문색·패왕색 패기를 완전히 개화시켰다!",
+          "directives": [
+            { "type": "sfx", "sfxId": "awakening_drums" },
+            { "type": "screenFlash", "color": "#fde047", "durationSec": 0.3 }
+          ]
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "smirk",
+          "side": "left",
+          "text": "오래 기다렸다, 선장. 2년 동안 갈고닦은 패기 검술을 신세계 녀석들에게 시험해볼 때군."
+        },
+        {
+          "speakerId": "franky",
+          "speakerName": "사이보그 · 프랑키",
+          "emotion": "excited",
+          "side": "left",
+          "text": "써니호 코팅 완료! 이제 동쪽 레드라인 해저 관문으로 잠수해 신세계로 진입하자!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "다들 오래 기다렸지!! 자, 레드라인을 넘어 신세계의 어인섬으로 출항이다!!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl6_red_line_new_world_gate",
+      "episodeId": "ep_marineford",
+      "triggerType": "sea_gate",
+      "title": "레드라인 해저 항로 — 신세계 돌입!",
+      "bindingId": "gate_red_line",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "determined",
+          "side": "center_narration",
+          "text": "비눗방울 코팅을 두른 사우전드 써니호가 해저 1만 미터 레드라인 해저 동굴을 통과했다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제4장 개막",
+              "title": "신세계 — 사황의 바다",
+              "subtitle": "레드라인 돌파와 로드 포네그리프 항로"
+            },
+            { "type": "bgm", "trackId": "sea_new_world", "fadeSec": 0.5 }
+          ]
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "excited",
+          "side": "left",
+          "text": "바늘이 세 개 달린 신세계 전용 기록지침이 움직이기 시작했어! 날씨도 파도도 차원이 달라!"
+        },
+        {
+          "speakerId": "robin",
+          "speakerName": "니코 로빈",
+          "emotion": "determined",
+          "side": "left",
+          "text": "이 바다에 흩어진 4개의 붉은 로드 포네그리프를 모두 모으면 최후의 섬 라프텔의 좌표가 열려."
+        },
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "사황이 지배하는 바다라고? 우리도 2년 전의 애송이들이 아니지. 최고의 만찬을 준비해둘게."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "드디어 신세계다!! 어인섬에서 기다리고 있을 징베를 만나러 전속 전진이다!!",
+          "directives": [
+            { "type": "sfx", "sfxId": "coup_de_burst" },
+            { "type": "cameraShake", "intensity": 0.85, "durationSec": 0.45 },
+            { "type": "screenFlash", "color": "#38bdf8", "durationSec": 0.25 }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,657 @@
+{
+  "version": "1.0.0",
+  "entries": [
+    {
+      "banterId": "bb_eb1_morgan_start",
+      "episodeId": "ep_east_blue_start",
+      "trigger": "battle_start",
+      "bossUnitId": "morgan",
+      "speakerId": "morgan",
+      "speakerName": "도끼손 모건",
+      "emotion": "angry",
+      "text": "감히 해군 대령에게 덤비다니! 강철 도끼손으로 반 갈라주마!"
+    },
+    {
+      "banterId": "bb_eb1_morgan_gimmick",
+      "episodeId": "ep_east_blue_start",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "morgan",
+      "speakerId": "zoro",
+      "speakerName": "롤로노아 조로",
+      "emotion": "determined",
+      "text": "저 도끼 내려찍기는 빈틈이 크다! 옆으로 회피하고 반격해, 루피!"
+    },
+    {
+      "banterId": "bb_eb1_morgan_hp50",
+      "episodeId": "ep_east_blue_start",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "morgan",
+      "speakerId": "morgan",
+      "speakerName": "도끼손 모건",
+      "emotion": "angry",
+      "text": "건방진 풋내기들! 위대한 나의 진짜 파괴력을 보여주마!"
+    },
+    {
+      "banterId": "bb_eb2_buggy_start",
+      "episodeId": "ep_orange_town",
+      "trigger": "battle_start",
+      "bossUnitId": "buggy",
+      "speakerId": "buggy",
+      "speakerName": "광대 버기",
+      "emotion": "smirk",
+      "text": "갸하하! 화려하게 날려주마! 내 동강동강 서커스를 맛봐라!"
+    },
+    {
+      "banterId": "bb_eb2_buggy_gimmick",
+      "episodeId": "ep_orange_town",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "buggy",
+      "speakerId": "zoro",
+      "speakerName": "롤로노아 조로",
+      "emotion": "shocked",
+      "text": "쳇, 참격은 동강나서 안 통해! 루피의 타격 기술로 본체를 쳐라!"
+    },
+    {
+      "banterId": "bb_eb2_buggy_hp50",
+      "episodeId": "ep_orange_town",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "buggy",
+      "speakerId": "buggy",
+      "speakerName": "광대 버기",
+      "emotion": "angry",
+      "text": "이 빨간 코... 아니, 밀짚모자!! 특제 버기 탄을 퍼부어주마!!"
+    },
+    {
+      "banterId": "bb_eb3_krieg_start",
+      "episodeId": "ep_baratie",
+      "trigger": "battle_start",
+      "bossUnitId": "don_krieg",
+      "speakerId": "don_krieg",
+      "speakerName": "돈 클리크",
+      "emotion": "smirk",
+      "text": "이스트 블루 최강의 화력을 똑똑히 봐라! 우츠 강철은 뚫리지 않는다!"
+    },
+    {
+      "banterId": "bb_eb3_krieg_gimmick",
+      "episodeId": "ep_baratie",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "don_krieg",
+      "speakerId": "sanji",
+      "speakerName": "검은 다리 상디",
+      "emotion": "angry",
+      "text": "MH5 맹독 가스탄이다! 보라색 독안개 지대 밖으로 빠르게 빠져나와!"
+    },
+    {
+      "banterId": "bb_eb3_krieg_hp50",
+      "episodeId": "ep_baratie",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "don_krieg",
+      "speakerId": "don_krieg",
+      "speakerName": "돈 클리크",
+      "emotion": "angry",
+      "text": "네놈의 고무 주먹 따위가 내 갑옷을 깨다니! 대전창으로 끝내주마!"
+    },
+    {
+      "banterId": "bb_eb4_arlong_start",
+      "episodeId": "ep_arlong_park",
+      "trigger": "battle_start",
+      "bossUnitId": "arlong",
+      "speakerId": "arlong",
+      "speakerName": "톱상어 아론",
+      "emotion": "smirk",
+      "text": "샤하하하! 인간의 완력으로 어인의 10배 괴력을 당해낼 수 있겠냐!"
+    },
+    {
+      "banterId": "bb_eb4_arlong_gimmick",
+      "episodeId": "ep_arlong_park",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "arlong",
+      "speakerId": "sanji",
+      "speakerName": "검은 다리 상디",
+      "emotion": "determined",
+      "text": "수변 지형에선 아론이 강해진다! 육지로 유인해서 몰아붙여, 루피!"
+    },
+    {
+      "banterId": "bb_eb4_arlong_hp50",
+      "episodeId": "ep_arlong_park",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "arlong",
+      "speakerId": "arlong",
+      "speakerName": "톱상어 아론",
+      "emotion": "angry",
+      "text": "인간 따위가 날 피 흘리게 하다니! 대검 키리바치로 썰어주마!"
+    },
+    {
+      "banterId": "bb_eb5_smoker_start",
+      "episodeId": "ep_loguetown",
+      "trigger": "battle_start",
+      "bossUnitId": "smoker",
+      "speakerId": "smoker",
+      "speakerName": "하얀 사냥꾼 스모커",
+      "emotion": "determined",
+      "text": "밀짚모자, 로그타운 항구는 봉쇄됐다! 순순히 체포되어라!"
+    },
+    {
+      "banterId": "bb_eb5_smoker_gimmick",
+      "episodeId": "ep_loguetown",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "smoker",
+      "speakerId": "nami",
+      "speakerName": "도둑고양이 나미",
+      "emotion": "shocked",
+      "text": "자연계 연기엔 주먹이 안 통해! 회피로 45초만 버텨서 폭풍에 올라타자!"
+    },
+    {
+      "banterId": "bb_eb5_smoker_hp50",
+      "episodeId": "ep_loguetown",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "smoker",
+      "speakerId": "smoker",
+      "speakerName": "하얀 사냥꾼 스모커",
+      "emotion": "angry",
+      "text": "해루석 짓테의 맛을 보게 해주마! 화이트 스네이크로 포박한다!"
+    },
+    {
+      "banterId": "bb_gl1_wapol_start",
+      "episodeId": "ep_drum_kingdom",
+      "trigger": "battle_start",
+      "bossUnitId": "wapol",
+      "speakerId": "wapol",
+      "speakerName": "양철 국왕 와포루",
+      "emotion": "smirk",
+      "text": "카바바바! 대포도 성벽도 전부 삼켜서 네놈들을 날려버리겠다!"
+    },
+    {
+      "banterId": "bb_gl1_wapol_gimmick",
+      "episodeId": "ep_drum_kingdom",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "wapol",
+      "speakerId": "chopper",
+      "speakerName": "토니토니 쵸파",
+      "emotion": "determined",
+      "text": "루피, 저 녀석이 입을 벌려 포격을 준비할 때 옆구리를 노려!"
+    },
+    {
+      "banterId": "bb_gl1_wapol_hp50",
+      "episodeId": "ep_drum_kingdom",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "wapol",
+      "speakerId": "wapol",
+      "speakerName": "양철 국왕 와포루",
+      "emotion": "angry",
+      "text": "왕의 위엄을 무시하다니! 우걱우걱 하우스 변신으로 뭉개주마!"
+    },
+    {
+      "banterId": "bb_gl2_croc_start",
+      "episodeId": "ep_alabasta",
+      "trigger": "battle_start",
+      "bossUnitId": "crocodile",
+      "speakerId": "crocodile",
+      "speakerName": "서 크로커다일",
+      "emotion": "smirk",
+      "text": "쿠하하... 사막에서 모래 인간에게 덤비는 어리석음을 깨닫게 해주지."
+    },
+    {
+      "banterId": "bb_gl2_croc_gimmick",
+      "episodeId": "ep_alabasta",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "crocodile",
+      "speakerId": "luffy",
+      "speakerName": "몽키 D. 루피",
+      "emotion": "determined",
+      "text": "아레나의 물통을 깨뜨려 크로커다일을 적시면 모래 자연계가 굳어!"
+    },
+    {
+      "banterId": "bb_gl2_croc_hp50",
+      "episodeId": "ep_alabasta",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "crocodile",
+      "speakerId": "crocodile",
+      "speakerName": "서 크로커다일",
+      "emotion": "angry",
+      "text": "물 따위로 내 실체를 건드리다니... 사블레스 폭풍으로 말려 죽여주마!"
+    },
+    {
+      "banterId": "bb_gl3_enel_start",
+      "episodeId": "ep_skypiea",
+      "trigger": "battle_start",
+      "bossUnitId": "enel",
+      "speakerId": "enel",
+      "speakerName": "갓 에넬",
+      "emotion": "smirk",
+      "text": "야하하! 신의 번개 앞에서 청해인이 할 수 있는 건 기도뿐이다!"
+    },
+    {
+      "banterId": "bb_gl3_enel_gimmick",
+      "episodeId": "ep_skypiea",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "enel",
+      "speakerId": "luffy",
+      "speakerName": "몽키 D. 루피",
+      "emotion": "excited",
+      "text": "시시시! 고무라서 번개는 안 통해! 대신 황금창 물리 공격만 피해!"
+    },
+    {
+      "banterId": "bb_gl3_enel_hp50",
+      "episodeId": "ep_skypiea",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "enel",
+      "speakerId": "enel",
+      "speakerName": "갓 에넬",
+      "emotion": "angry",
+      "text": "감히 신을 몰아세우다니!! 2억 볼트 아말 — 뇌신의 진노를 받아라!"
+    },
+    {
+      "banterId": "bb_gl4_blueno_start",
+      "episodeId": "ep_water_seven",
+      "trigger": "battle_start",
+      "bossUnitId": "blueno",
+      "speakerId": "blueno",
+      "speakerName": "CP9 블루노",
+      "emotion": "normal",
+      "text": "육식의 방패 철괴와 문문 열매 앞에서 너는 단 한 발도 나아갈 수 없다."
+    },
+    {
+      "banterId": "bb_gl4_lucci_start",
+      "episodeId": "ep_water_seven",
+      "trigger": "battle_start",
+      "bossUnitId": "lucci",
+      "speakerId": "lucci",
+      "speakerName": "CP9 로브 루치",
+      "emotion": "smirk",
+      "text": "살육 병기의 육식을 버틸 수 있겠느냐, 밀짚모자. 여기서 끝내주지."
+    },
+    {
+      "banterId": "bb_gl4_lucci_gimmick",
+      "episodeId": "ep_water_seven",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "lucci",
+      "speakerId": "franky",
+      "speakerName": "사이보그 프랑키",
+      "emotion": "determined",
+      "text": "루치의 지건·육왕건은 정면에서 맞으면 치명타야! 저스트 회피로 뚫어!"
+    },
+    {
+      "banterId": "bb_gl4_lucci_hp50",
+      "episodeId": "ep_water_seven",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "lucci",
+      "speakerId": "lucci",
+      "speakerName": "CP9 로브 루치",
+      "emotion": "angry",
+      "text": "레오파드 인수형 풀 파워다! 최대륜 육왕건으로 숨통을 끊어주마!"
+    },
+    {
+      "banterId": "bb_gl5_moria_start",
+      "episodeId": "ep_thriller_bark",
+      "trigger": "battle_start",
+      "bossUnitId": "moria",
+      "speakerId": "moria",
+      "speakerName": "겟코 모리아",
+      "emotion": "smirk",
+      "text": "키시시시! 내 그림자 도펠맨과 놀아봐라! 네 그림자도 곧 내 것이다!"
+    },
+    {
+      "banterId": "bb_gl5_moria_gimmick",
+      "episodeId": "ep_thriller_bark",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "moria",
+      "speakerId": "brook",
+      "speakerName": "소울 킹 브룩",
+      "emotion": "determined",
+      "text": "도펠맨 분신에 속지 마세요! 모리아 본체에 강한 타격을 누적시키면 됩니다!"
+    },
+    {
+      "banterId": "bb_gl5_moria_hp50",
+      "episodeId": "ep_thriller_bark",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "moria",
+      "speakerId": "moria",
+      "speakerName": "겟코 모리아",
+      "emotion": "angry",
+      "text": "1,000개의 그림자여 모여라! 섀도즈 아스가르드로 섬째 부숴주마!"
+    },
+    {
+      "banterId": "bb_gl6_marineford_start",
+      "episodeId": "ep_marineford",
+      "trigger": "battle_start",
+      "bossUnitId": "aokiji",
+      "speakerId": "marco",
+      "speakerName": "불사조 마르코",
+      "emotion": "determined",
+      "text": "대장급 3연전이다, 루피! 내 푸른 불꽃과 함께 돌파하자, 요이!"
+    },
+    {
+      "banterId": "bb_gl6_marineford_gimmick",
+      "episodeId": "ep_marineford",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "blackbeard",
+      "speakerId": "marco",
+      "speakerName": "불사조 마르코",
+      "emotion": "shocked",
+      "text": "검은 수염의 어둠에 잡히면 열매가 봉인된다! 거리를 유지해, 요이!"
+    },
+    {
+      "banterId": "bb_gl6_akainu_hp50",
+      "episodeId": "ep_marineford",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "akainu",
+      "speakerId": "akainu",
+      "speakerName": "해군 대장 아카이누",
+      "emotion": "angry",
+      "text": "철저한 정의 앞에 자비는 없다! 유성 화산으로 전장을 녹여주마!"
+    },
+    {
+      "banterId": "bb_awaken_luffy_gear5",
+      "episodeId": "ep_wano",
+      "trigger": "player_awakening",
+      "allyUnitId": "luffy",
+      "formId": "form_luffy_gear5",
+      "speakerId": "luffy",
+      "speakerName": "기어 5 · 몽키 D. 루피",
+      "emotion": "excited",
+      "text": "아하하하!! 이게 내 최고 지점이야!! 해방의 드럼이 울린다 — 기어 5!!",
+      "priority": 10
+    },
+    {
+      "banterId": "bb_awaken_zoro_koh",
+      "episodeId": "ep_wano",
+      "trigger": "player_awakening",
+      "allyUnitId": "zoro",
+      "formId": "form_zoro_king_of_hell",
+      "speakerId": "zoro",
+      "speakerName": "염왕 · 롤로노아 조로",
+      "emotion": "determined",
+      "text": "염마여, 패기를 전부 가져가라! 지옥의 왕이 되어주지 — 염왕삼도류!!",
+      "priority": 10
+    },
+    {
+      "banterId": "bb_awaken_sanji_diable",
+      "episodeId": "ep_baratie",
+      "trigger": "player_awakening",
+      "allyUnitId": "sanji",
+      "formId": "form_sanji_diable_jambe",
+      "speakerId": "sanji",
+      "speakerName": "검은 다리 상디",
+      "emotion": "determined",
+      "text": "불타오르는 기사도의 각오다! 디아블 잠브 — 뼈까지 구워주지!!",
+      "priority": 10
+    },
+    {
+      "banterId": "bb_awaken_chopper_monster",
+      "episodeId": "ep_drum_kingdom",
+      "trigger": "player_awakening",
+      "allyUnitId": "chopper",
+      "formId": "form_chopper_monster",
+      "speakerId": "chopper",
+      "speakerName": "토니토니 쵸파",
+      "emotion": "angry",
+      "text": "루피를 위해서라면 진짜 괴물이 되어도 좋아!! 몬스터 포인트!!",
+      "priority": 10
+    },
+    {
+      "banterId": "bb_clash_generic_luffy",
+      "episodeId": "ep_east_blue_start",
+      "trigger": "clash_start",
+      "allyUnitId": "luffy",
+      "speakerId": "luffy",
+      "speakerName": "몽키 D. 루피",
+      "emotion": "determined",
+      "text": "밀릴 수 없어!! 온 힘을 실어 뚫어버린다아아!!",
+      "priority": 5
+    },
+    {
+      "banterId": "bb_clash_generic_zoro",
+      "episodeId": "ep_east_blue_start",
+      "trigger": "clash_start",
+      "allyUnitId": "zoro",
+      "speakerId": "zoro",
+      "speakerName": "롤로노아 조로",
+      "emotion": "determined",
+      "text": "검격 힘겨루기인가! 베지 못할 것은 아무것도 없다!!",
+      "priority": 5
+    },
+    {
+      "banterId": "bb_nw1_hody_start",
+      "episodeId": "ep_fishman_island",
+      "trigger": "battle_start",
+      "bossUnitId": "hody_jones",
+      "speakerId": "hody_jones",
+      "speakerName": "호디 존스",
+      "emotion": "angry",
+      "text": "자하하! 어인의 분노를 맛봐라! 인간 해적 따윈 바다 밑에 가라앉혀주마!"
+    },
+    {
+      "banterId": "bb_nw1_hody_gimmick",
+      "episodeId": "ep_fishman_island",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "hody_jones",
+      "speakerId": "jinbe",
+      "speakerName": "해협의 징베",
+      "emotion": "determined",
+      "text": "백발 폭주 상태에선 호디의 피격 피해도 커지네! 회피 뒤 강하게 반격하게!"
+    },
+    {
+      "banterId": "bb_nw1_hody_hp50",
+      "episodeId": "ep_fishman_island",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "hody_jones",
+      "speakerId": "hody_jones",
+      "speakerName": "호디 존스",
+      "emotion": "angry",
+      "text": "E.S 과다 복용!! 머리가 하얗게 세어도 상관없다, 죽여주마!!"
+    },
+    {
+      "banterId": "bb_nw2_doffy_start",
+      "episodeId": "ep_dressrosa",
+      "trigger": "battle_start",
+      "bossUnitId": "doflamingo",
+      "speakerId": "doflamingo",
+      "speakerName": "돈키호테 도플라밍고",
+      "emotion": "smirk",
+      "text": "후후후후! 이 새장 안에서 얼마나 버틸 수 있을지 지켜봐주마!"
+    },
+    {
+      "banterId": "bb_nw2_doffy_gimmick",
+      "episodeId": "ep_dressrosa",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "doflamingo",
+      "speakerId": "law",
+      "speakerName": "트라팔가 로",
+      "emotion": "angry",
+      "text": "새장 외곽 실에 닿으면 치명타다! 중앙 안전 지대로 붙어서 압박해!"
+    },
+    {
+      "banterId": "bb_nw2_doffy_hp50",
+      "episodeId": "ep_dressrosa",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "doflamingo",
+      "speakerId": "doflamingo",
+      "speakerName": "돈키호테 도플라밍고",
+      "emotion": "angry",
+      "text": "실실 열매 각성 — 에버 화이트!! 대지 전체를 실로 꿰뚫어주마!!"
+    },
+    {
+      "banterId": "bb_nw3_katakuri_start",
+      "episodeId": "ep_totto_land",
+      "trigger": "battle_start",
+      "bossUnitId": "katakuri",
+      "speakerId": "katakuri",
+      "speakerName": "샬롯 카타쿠리",
+      "emotion": "normal",
+      "text": "네 다음 움직임은 이미 내 미래 예지 안에 있다. 헛수고다, 밀짚모자."
+    },
+    {
+      "banterId": "bb_nw3_katakuri_gimmick",
+      "episodeId": "ep_totto_land",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "katakuri",
+      "speakerId": "luffy",
+      "speakerName": "몽키 D. 루피",
+      "emotion": "determined",
+      "text": "같은 기술만 쓰면 읽혀! 서로 다른 기술을 섞어 미래 예지 집중을 깨뜨려!"
+    },
+    {
+      "banterId": "bb_nw3_katakuri_hp50",
+      "episodeId": "ep_totto_land",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "katakuri",
+      "speakerId": "katakuri",
+      "speakerName": "샬롯 카타쿠리",
+      "emotion": "determined",
+      "text": "더는 열등한 적으로 보지 않겠다! 흐르는 떡 각성으로 전력을 다해주지!"
+    },
+    {
+      "banterId": "bb_nw4_king_start",
+      "episodeId": "ep_wano",
+      "trigger": "battle_start",
+      "bossUnitId": "king",
+      "speakerId": "king",
+      "speakerName": "화재의 킹",
+      "emotion": "normal",
+      "text": "루나리아족의 불꽃이 타오르는 한 그 어떤 검기도 나를 뚫을 수 없다."
+    },
+    {
+      "banterId": "bb_nw4_king_gimmick",
+      "episodeId": "ep_wano",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "king",
+      "speakerId": "zoro",
+      "speakerName": "롤로노아 조로",
+      "emotion": "determined",
+      "text": "등의 불꽃이 꺼질 때 방어가 약해진다! 그때 화력을 집중해 베어라!"
+    },
+    {
+      "banterId": "bb_nw4_kaido_start",
+      "episodeId": "ep_wano",
+      "trigger": "battle_start",
+      "bossUnitId": "kaido",
+      "speakerId": "kaido",
+      "speakerName": "사황 · 백수의 카이도",
+      "emotion": "smirk",
+      "text": "보로로로!! 오니가시마 옥상에서 네 패기의 그릇을 시험해주마!!"
+    },
+    {
+      "banterId": "bb_nw4_kaido_gimmick",
+      "episodeId": "ep_wano",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "kaido",
+      "speakerId": "luffy",
+      "speakerName": "몽키 D. 루피",
+      "emotion": "excited",
+      "text": "카이도의 보로 브레스는 광선 맞대결이나 [Shift+F] 기어 5로 정면 돌파다!"
+    },
+    {
+      "banterId": "bb_nw4_kaido_hp50",
+      "episodeId": "ep_wano",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "kaido",
+      "speakerId": "kaido",
+      "speakerName": "사황 · 백수의 카이도",
+      "emotion": "angry",
+      "text": "오랜만에 피가 끓는군!! 화룡대횃불로 섬째 녹여주마, 조이보이!!"
+    },
+    {
+      "banterId": "bb_nw4_kaido_clash",
+      "episodeId": "ep_wano",
+      "trigger": "clash_start",
+      "bossUnitId": "kaido",
+      "speakerId": "kaido",
+      "speakerName": "사황 · 백수의 카이도",
+      "emotion": "excited",
+      "text": "하늘이 갈라지는 패왕색의 격돌이다!! 밀리지 마라, 밀짚모자!!",
+      "priority": 9
+    },
+    {
+      "banterId": "bb_nw5_shawk_start",
+      "episodeId": "ep_egghead",
+      "trigger": "battle_start",
+      "bossUnitId": "s_hawk",
+      "speakerId": "zoro",
+      "speakerName": "롤로노아 조로",
+      "emotion": "determined",
+      "text": "세라핌 S-호크와 각성 루치인가! 불꽃이 꺼지는 찰나를 놓치지 마라!"
+    },
+    {
+      "banterId": "bb_nw5_kizaru_start",
+      "episodeId": "ep_egghead",
+      "trigger": "battle_start",
+      "bossUnitId": "kizaru",
+      "speakerId": "kizaru",
+      "speakerName": "해군 대장 키자루",
+      "emotion": "normal",
+      "text": "무섭네요~ 사황 밀짚모자. 빛의 속도 앞에서 따라올 수 있겠나요?"
+    },
+    {
+      "banterId": "bb_nw5_saturn_start",
+      "episodeId": "ep_egghead",
+      "trigger": "battle_start",
+      "bossUnitId": "saturn",
+      "speakerId": "saturn",
+      "speakerName": "오로성 · 새턴 성",
+      "emotion": "angry",
+      "text": "벌레 주제에 오로성 앞에 서다니! 영원한 초재생의 절망을 안겨주마!"
+    },
+    {
+      "banterId": "bb_nw5_saturn_gimmick",
+      "episodeId": "ep_egghead",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "saturn",
+      "speakerId": "luffy",
+      "speakerName": "몽키 D. 루피",
+      "emotion": "determined",
+      "text": "새턴 성이 계속 회복해! 패왕색 스킬을 맞혀서 초재생을 억제해야 해!"
+    },
+    {
+      "banterId": "bb_nw5_saturn_hp50",
+      "episodeId": "ep_egghead",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "saturn",
+      "speakerId": "saturn",
+      "speakerName": "오로성 · 새턴 성",
+      "emotion": "angry",
+      "text": "재생을 억제하다니 건방진 니카!! 우규의 맹독 다리로 찢어발겨주마!!"
+    },
+    {
+      "banterId": "bb_nw6_loki_start",
+      "episodeId": "ep_elbaf",
+      "trigger": "battle_start",
+      "bossUnitId": "loki",
+      "speakerId": "loki",
+      "speakerName": "저주받은 왕자 로키",
+      "emotion": "smirk",
+      "text": "도하하하!! 거인족의 진짜 태양신이 누구인지 명계에서 증명해주마!!"
+    },
+    {
+      "banterId": "bb_nw6_loki_gimmick",
+      "episodeId": "ep_elbaf",
+      "trigger": "gimmick_hint",
+      "bossUnitId": "loki",
+      "speakerId": "zoro",
+      "speakerName": "롤로노아 조로",
+      "emotion": "shocked",
+      "text": "로키의 거대 번개 라그니르가 떨어진다! 광역 낙뢰를 회피하고 파고들어!"
+    },
+    {
+      "banterId": "bb_nw6_loki_hp50",
+      "episodeId": "ep_elbaf",
+      "trigger": "boss_hp_50",
+      "bossUnitId": "loki",
+      "speakerId": "loki",
+      "speakerName": "저주받은 왕자 로키",
+      "emotion": "angry",
+      "text": "재미있군, 밀짚모자!! 라그니르 완전 개방 — 세계의 종말을 맛봐라!!"
+    },
+    {
+      "banterId": "bb_nw6_loki_clash",
+      "episodeId": "ep_elbaf",
+      "trigger": "clash_start",
+      "bossUnitId": "loki",
+      "speakerId": "luffy",
+      "speakerName": "몽키 D. 루피",
+      "emotion": "excited",
+      "text": "거인 왕자의 번개라도 밀리지 않아!! 해방의 주먹으로 뚫어버린다!!",
+      "priority": 9
+    }
+  ]
+}

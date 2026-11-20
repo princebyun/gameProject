@@ -1,0 +1,181 @@
+{
+  "episodeId": "ep_dressrosa",
+  "islandId": "dressrosa",
+  "seaZoneId": "new_world",
+  "scripts": [
+    {
+      "scriptId": "nw2_dressrosa_arrival",
+      "episodeId": "ep_dressrosa",
+      "triggerType": "gold_marker",
+      "title": "사랑과 정열의 나라 — 로 동맹과 코리다 콜로세움",
+      "bindingId": "npc_law_dressrosa",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "화려한 꽃과 장난감의 나라 드레스로자. 그 이면에는 칠무해 도플라밍고의 어두운 지배가 숨어 있었다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제4장 · 신세계",
+              "title": "새장 속의 왕국",
+              "subtitle": "트라팔가 로 동맹과 도플라밍고 결전"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "law",
+          "speakerName": "죽음의 외과의 · 트라팔가 로",
+          "emotion": "determined",
+          "side": "right",
+          "text": "밀짚모자 당번, 드디어 왔다. 스마일 공장을 파괴하고 도플라밍고를 끌어내릴 시간이다."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "알겠어, 토라오! 콜로세움도 재밌어 보이지만 먼저 저 깃털 망토 녀석부터 날려버리자!"
+        },
+        {
+          "speakerId": "law",
+          "speakerName": "죽음의 외과의 · 트라팔가 로",
+          "emotion": "angry",
+          "side": "right",
+          "text": "조심해라! 도플라밍고는 섬 전체를 잘라내는 '새장'과 초인계 실실 열매의 각성을 숨기고 있다."
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "determined",
+          "side": "left",
+          "text": "새장이 조여오기 전에 왕궁 정상에서 결판을 내야겠군. 길은 우리가 열겠다, 선장."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "사람들을 장난감으로 만들고 울린 녀석... 왕궁 대지 위로 올라가서 내가 직접 끝장낸다!"
+        }
+      ]
+    },
+    {
+      "scriptId": "nw2_doffy_pre_boss",
+      "episodeId": "ep_dressrosa",
+      "triggerType": "pre_boss",
+      "title": "천야차 도플라밍고 대치 — 새장 축소 & 실 각성",
+      "bindingId": "enc_dressrosa_doffy_boss",
+      "lines": [
+        {
+          "speakerId": "doflamingo",
+          "speakerName": "천야차 · 돈키호테 도플라밍고",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "후후후후! 이 새장 안에서 누가 살아남을지 게임을 시작해볼까, 밀짚모자!!",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "sfx", "sfxId": "haki_lightning" },
+            { "type": "cameraShake", "intensity": 0.8, "durationSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "angry",
+          "side": "left",
+          "text": "넌 이 나라의 모든 걸 숨 막히게 만들고 있어!! 그 새장, 내가 박살 내주마!!"
+        },
+        {
+          "speakerId": "doflamingo",
+          "speakerName": "천야차 · 돈키호테 도플라밍고",
+          "emotion": "angry",
+          "side": "right",
+          "text": "악마의 열매에는 한 단계 위의 '각성'이 있다! 대지 전체가 실로 변하는 공포를 맛봐라!"
+        },
+        {
+          "speakerId": "law",
+          "speakerName": "죽음의 외과의 · 트라팔가 로",
+          "emotion": "determined",
+          "side": "left",
+          "text": "밀짚모자 당번! 새장이 좁아지며 외곽에 닿으면 치명상이다! 중앙을 점거해 몰아붙여!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "알겠어 토라오!! 무장색과 패왕색을 실어 천야차를 땅바닥에 처박아주마!!"
+        }
+      ]
+    },
+    {
+      "scriptId": "nw2_dressrosa_post_boss",
+      "episodeId": "ep_dressrosa",
+      "triggerType": "post_boss",
+      "title": "새장 붕괴 · 드레스로자 해방 & 5억 베리 수배서",
+      "bindingId": "enc_dressrosa_doffy_boss",
+      "lines": [
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "고무고무 킹 콩 건!! 드레스로자의 하늘을 되찾아라아아!!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 1.0, "durationSec": 0.55 },
+            { "type": "screenFlash", "color": "#fef08a", "durationSec": 0.3 },
+            { "type": "sfx", "sfxId": "blunt_hit" }
+          ]
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "excited",
+          "side": "center_narration",
+          "text": "도플라밍고의 패배와 함께 하늘을 뒤덮던 새장이 산산조각 나며 왕국에 자유가 돌아왔다.",
+          "directives": [{ "type": "bgm", "trackId": "victory_fanfare", "fadeSec": 0.35 }]
+        },
+        {
+          "speakerId": "law",
+          "speakerName": "죽음의 외과의 · 트라팔가 로",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "정말 해냈군, 밀짚모자 당번. 이제 진짜 표적인 사황들의 시대가 흔들리기 시작했다."
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "excited",
+          "side": "center_narration",
+          "text": "세계에 충격을 준 칠무해 격파! 몽키 D. 루피의 현상금이 5억 베리로 폭등했다!",
+          "directives": [
+            { "type": "sfx", "sfxId": "wanted_poster_slam" },
+            {
+              "type": "wantedPoster",
+              "bounty": 500000000,
+              "title": "새장 파괴자 · 5억 베리 돌파"
+            }
+          ]
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "determined",
+          "side": "left",
+          "text": "다음은 사황 빅 맘의 본거지 토트랜드야! 상디와 로드 포네그리프 탁본을 되찾아야 해!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "좋아! 코리다 콜로세움도 언제든 도전할 수 있겠네! 자, 토트랜드로 전속 전진이다!"
+        }
+      ]
+    }
+  ]
+}

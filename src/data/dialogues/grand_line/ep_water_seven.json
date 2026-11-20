@@ -1,0 +1,223 @@
+{
+  "episodeId": "ep_water_seven",
+  "islandId": "water_seven",
+  "seaZoneId": "grand_line",
+  "scripts": [
+    {
+      "scriptId": "gl4_water_seven_arrival",
+      "episodeId": "ep_water_seven",
+      "triggerType": "gold_marker",
+      "title": "물의 도시 워터 세븐 — 메리호와 CP9 습격",
+      "bindingId": "npc_franky_shipwright",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "세계 최고의 조선 기술이 모인 물의 도시 워터 세븐. 그러나 낡은 메리호는 한계에 다다랐다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제3장 · 위대한 항로",
+              "title": "물의 도시와 사법의 탑",
+              "subtitle": "CP9 결전과 꿈의 배 진수"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "npc_iceberg",
+          "speakerName": "아이스버그",
+          "emotion": "sad",
+          "side": "right",
+          "text": "용골이 부러진 고잉 메리호는 더 이상 항해할 수 없네. 게다가 세계정부 첩보부 CP9이 움직였어."
+        },
+        {
+          "speakerId": "robin",
+          "speakerName": "니코 로빈",
+          "emotion": "sad",
+          "side": "right",
+          "text": "모두를 버스터 콜에서 지키려면 내가 잡혀가는 수밖에 없어... 날 구하러 오지 마."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "angry",
+          "side": "left",
+          "text": "로빈!! 살고 싶다고 말해!! 세계정부가 상대든 뭐든 동료는 절대 안 넘겨!!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 0.7, "durationSec": 0.35 },
+            { "type": "sfx", "sfxId": "haki_lightning" }
+          ]
+        },
+        {
+          "speakerId": "robin",
+          "speakerName": "니코 로빈",
+          "emotion": "sad",
+          "side": "right",
+          "text": "...살고 싶어!! 나도 함께 바다로 데려가 줘!!"
+        },
+        {
+          "speakerId": "franky",
+          "speakerName": "사이보그 · 프랑키",
+          "emotion": "excited",
+          "side": "left",
+          "text": "아우!! 그 사나이들의 우정에 울컥하는군! 이 형님도 CP9을 날려버리는 데 힘을 보태마!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl4_blueno_pre_boss",
+      "episodeId": "ep_water_seven",
+      "triggerType": "pre_boss",
+      "title": "CP9 블루노 대치 — 육식의 장벽",
+      "bindingId": "enc_water_seven_blueno",
+      "lines": [
+        {
+          "speakerId": "blueno",
+          "speakerName": "CP9 · 블루노",
+          "emotion": "normal",
+          "side": "right",
+          "text": "문문 열매와 철괴 앞에서 네 주먹은 무력하다, 밀짚모자. 여기서 끝내주지.",
+          "directives": [{ "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 }]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "동료들을 지키기 위해 더 강해지는 법을 떠올렸어. 네 철괴를 부수고 지나간다!"
+        },
+        {
+          "speakerId": "blueno",
+          "speakerName": "CP9 · 블루노",
+          "emotion": "shocked",
+          "side": "right",
+          "text": "몸에서 증기가...?! 그 속도는 체(剃)를 넘어섰단 말인가?!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "간다! 로빈에게 닿기 위한 첫 관문, 뚫어버리겠어!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl4_lucci_pre_boss",
+      "episodeId": "ep_water_seven",
+      "triggerType": "pre_boss",
+      "title": "CP9 최강 로브 루치 & 카쿠 대치",
+      "bindingId": "enc_water_seven_lucci",
+      "lines": [
+        {
+          "speakerId": "lucci",
+          "speakerName": "CP9 최강 · 로브 루치",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "세계정부에 선전포고한 해적에게 자비는 없다. 어둠의 정의로 숨통을 끊어주지.",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "sfx", "sfxId": "transform_burst" },
+            { "type": "cameraShake", "intensity": 0.8, "durationSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "kaku",
+          "speakerName": "CP9 · 사도류 카쿠",
+          "emotion": "determined",
+          "side": "right",
+          "text": "기린의 파괴력을 우습게 보지 말게나! 람각으로 두 동강 내주겠네!"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "determined",
+          "side": "left",
+          "text": "기린 녀석은 내가 상대한다. 선장, 저 표범 녀석을 쓰러뜨리고 로빈을 데려와라!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "네놈을 쓰러뜨리기 전엔 절대 쓰러지지 않아! 동료는 단 한 명도 잃지 않는다!"
+        },
+        {
+          "speakerId": "lucci",
+          "speakerName": "CP9 최강 · 로브 루치",
+          "emotion": "angry",
+          "side": "right",
+          "text": "육왕건과 레오파드 인수형의 극의를 버틸 수 있겠느냐, 밀짚모자!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl4_water_seven_post_boss_recruit",
+      "episodeId": "ep_water_seven",
+      "triggerType": "post_boss",
+      "title": "사우전드 써니호 진수식 & 프랑키 합류",
+      "bindingId": "enc_water_seven_lucci",
+      "lines": [
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "고무고무 제트 개틀링!! 끝이다, 루치!! 다 같이 돌아가자, 로빈!!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 1.0, "durationSec": 0.55 },
+            { "type": "screenFlash", "color": "#ffffff", "durationSec": 0.3 },
+            { "type": "sfx", "sfxId": "blunt_hit" }
+          ]
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "sad",
+          "side": "center_narration",
+          "text": "마지막까지 동료들을 태워준 고잉 메리호와의 눈물 어린 이별 뒤, 새로운 꿈의 배가 완성되었다.",
+          "directives": [{ "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.5 }]
+        },
+        {
+          "speakerId": "npc_iceberg",
+          "speakerName": "아이스버그",
+          "emotion": "normal",
+          "side": "right",
+          "text": "보배수 아담으로 지은 이 배의 이름은 '사우전드 써니호'! 천의 바다를 태양처럼 달려라!"
+        },
+        {
+          "speakerId": "franky",
+          "speakerName": "사이보그 · 프랑키",
+          "emotion": "excited",
+          "side": "left",
+          "text": "SUUUUPER!! 내가 만든 꿈의 배가 바다의 끝까지 닿는 걸 지켜볼 조선공은 바로 나다!",
+          "directives": [
+            {
+              "type": "recruitmentBanner",
+              "unitId": "franky",
+              "roleName": "조선공 (Shipwright)",
+              "passiveSummary": "선박 최대 내구도 +40% · 항해 중 선체 자동 수리 +5/s & 쿠 드 버스트!"
+            }
+          ]
+        },
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "excited",
+          "side": "left",
+          "text": "우와아! 콜라로 하늘을 나는 쿠 드 버스트에 어온 캐논까지?! 진짜 최강의 해적선이야!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "고마워 메리, 잘 부탁해 써니호!! 다음은 안개 낀 마의 삼각지대 스릴러 바크로 출항이다!"
+        }
+      ]
+    }
+  ]
+}

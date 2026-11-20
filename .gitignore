@@ -9,6 +9,7 @@ dist-electron-main/
 dist-android/
 release/
 coverage/
+exported_thumbnails/
 
 # Environment & Local Secrets
 .env

@@ -269,6 +269,19 @@ export interface UnitRuntimeState {
   isDowned: boolean;
   downedTimer: number;
   reviveProgressSec: number;
+
+  // Phase 16: Armament Just Guard (Parry) & Awakening Gauge (60Hz deterministic ticks)
+  guardHeld: boolean;
+  guardStartTick: number;
+  guardStamina: number;
+  guardMaxStamina: number;
+  guardBreakTicks: number;
+  parryWhiffCooldownTicks: number;
+  parryStunTicks: number;
+  parryDamageVulnMult: number;
+  awakeningGauge: number; // 0..100
+  justGuardFlashTicks: number;
+  guardParrySucceededThisHold: boolean;
 }
 
 export interface ActiveProjectile {
@@ -296,6 +309,9 @@ export interface ActiveProjectile {
   bouncedByRubberFloor?: boolean;
   homingTurnRateRadPerSec?: number;
   appliesVenomStacks?: number;
+  reflected?: boolean;
+  reflectedByUnitId?: string;
+  originalOwnerUnitId?: string;
   destroyed: boolean;
 }
 
@@ -451,6 +467,66 @@ export interface TeamRosterRuntime {
   voluntarySwapCooldownTimer: number;
   pivotWindowTimer: number;
   pivotTriggeredByUnitId: string | null;
+  // Phase 16: 2:2 Bond Tag Combo gauge (0..100) & post-swap combo bonus timing
+  bondGauge: number;
+  recentSwapComboWindowTicks: number;
+}
+
+export type BattleCutinKind =
+  | 'AWAKENING'
+  | 'BOND_COMBO'
+  | 'BOSS_PHASE2'
+  | 'RAID_ULTIMATE';
+
+export interface ActiveBattleCutin {
+  id: string;
+  kind: BattleCutinKind;
+  team: TeamId;
+  primaryUnitId: string;
+  primarySpeciesId: string;
+  primaryName: string;
+  primaryFormId: string | null;
+  partnerUnitId?: string;
+  partnerSpeciesId?: string;
+  partnerName?: string;
+  title: string;
+  subtitle: string;
+  primaryColor: string;
+  secondaryColor: string;
+  portraitEmotion: 'angry' | 'determined' | 'excited';
+  elapsedTicks: number;
+  durationTicks: number; // Fixed 39 ticks (0.65s @ 60Hz)
+}
+
+export interface ActiveBondComboSession {
+  id: string;
+  comboId: string;
+  name: string;
+  team: TeamId;
+  leadUnitId: string;
+  partnerUnitId: string;
+  partnerSpeciesId: string;
+  partnerName: string;
+  partnerPos: Vec2;
+  partnerStartPos: Vec2;
+  partnerTargetPos: Vec2;
+  partnerFacingX: 1 | -1;
+  partnerAnimState: 'ATTACK_MELEE' | 'ATTACK_CAST';
+  themeColors: [string, string];
+  elapsedTicks: number;
+  totalTicks: number;
+  impactTick: number;
+  impactExecuted: boolean;
+}
+
+export interface ParryMiniFeedbackEvent {
+  id: string;
+  unitId: string;
+  pos: Vec2;
+  kind: 'MELEE_PARRY' | 'PROJECTILE_REFLECT' | 'BEAM_MITIGATE';
+  armamentEnhanced: boolean;
+  elapsedTicks: number;
+  durationTicks: number;
 }
 
 export interface UnitInputCommand {
@@ -462,6 +538,9 @@ export interface UnitInputCommand {
   formShiftPressed: boolean;        // Short F: Zoan stance cycle (or Awakening if unit has no Zoan stances)
   awakeningPressed?: boolean;       // Shift+F / Long F / Awaken button: Devil Fruit Awakening
   swapToBenchUnitId: string | null;
+  guardHeld?: boolean;              // Phase 16: Guard hold (Shift / K / Touch GUARD)
+  guardPressedTick?: number;        // Phase 16: Exact tick guard press began (-1 if not pressed)
+  bondComboPressed?: boolean;       // Phase 16: 2:2 Bond Tag Combo trigger (R / Golden BOND)
 }
 
 export interface ImpelDownFloorHazardConfig {
@@ -663,6 +742,12 @@ export interface BattleWorldState {
 
   // Stage 3 Step 2: Giant Boss Co-op Raid State
   raidState: RaidRuntimeState;
+
+  // Phase 16: Deterministic Cut-In Freeze (39 ticks), 2:2 Bond Tag Combo & Parry Mini-Feedback
+  cutinFreezeTicks: number;
+  activeCutin: ActiveBattleCutin | null;
+  activeBondCombo: ActiveBondComboSession | null;
+  parryMiniEvents: ParryMiniFeedbackEvent[];
 
   floatingTexts: FloatingTextEvent[];
   vfxEvents: CombatVfxEvent[];

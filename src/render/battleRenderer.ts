@@ -5,6 +5,8 @@ import type { GameDataRegistry } from '../core/types/dataSchemas';
 import type { BattleWorldState, UnitRuntimeState } from '../core/types/battleState';
 import { resolveBiomeForArena } from '../data/assets/assetManifestRegistry';
 import type { RenderAccessibilitySettings } from './canvasRenderer';
+import { sharedBattleParticlePool } from './vfx/particlePool';
+import { sharedBattlePixelVfxEngine } from './vfx/pixelVfxEngine';
 import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
@@ -232,6 +234,8 @@ export function renderBattleArena(
   ctx.translate(cam.x, cam.y);
 
   // 1. Chunk-cached Biome Tilemap Arena Floor (deterministic core arena bounds)
+  sharedBattlePixelVfxEngine.syncWithWorld(world, settings.flashEffectEnabled, FIXED_DT);
+  syncBattleParticlePoolWithWorld(world);
   assets.tilemapRenderer.renderBiomeBackdrop(
     ctx,
     `arena_${arenaBiomeKey}_${world.arenaWidth}x${world.arenaHeight}`,
@@ -721,82 +725,24 @@ export function renderBattleArena(
     }
   }
 
-  // 3. Active Melee Arcs (with Armament Haki blackening & Conqueror's black-red lightning)
+  // 2.8 Persistent Ground Decals (Scorch marks, Impact cracks, Frost rings)
+  sharedBattlePixelVfxEngine.renderGroundDecals(ctx);
+
+  // 3. Active Melee Arcs (2–3 frame multi-tone Crescent Slash Smear + Armament/Conqueror lightning)
   for (const arc of world.meleeArcs) {
-    const baseAngle = Math.atan2(arc.dir.y, arc.dir.x);
-    const halfArc = ((arc.arcDeg * 0.5) * Math.PI) / 180;
-    const isLingeringDeflect = arc.elapsedSec > arc.activeDamageDurationSec;
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(arc.origin.x, arc.origin.y);
-    ctx.arc(
-      arc.origin.x,
-      arc.origin.y,
-      arc.radiusPx,
-      baseAngle - halfArc,
-      baseAngle + halfArc
-    );
-    ctx.closePath();
-
-    if (arc.hasConquerorCoating) {
-      ctx.fillStyle = 'rgba(220, 38, 38, 0.28)';
-      ctx.fill();
-      ctx.strokeStyle = '#090d16';
-      ctx.lineWidth = 4;
-      ctx.stroke();
-      ctx.strokeStyle = '#ef4444';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      drawConquerorLightningBolts(ctx, arc.origin, arc.radiusPx * 0.9, world.tick, 3);
-    } else if (arc.hasArmamentHaki) {
-      ctx.fillStyle = isLingeringDeflect
-        ? 'rgba(15, 23, 42, 0.32)'
-        : 'rgba(15, 23, 42, 0.52)';
-      ctx.fill();
-      ctx.strokeStyle = '#e11d48';
-      ctx.lineWidth = 3;
-      ctx.stroke();
-    } else {
-      ctx.fillStyle = isLingeringDeflect
-        ? 'rgba(45, 212, 191, 0.16)'
-        : 'rgba(250, 204, 21, 0.28)';
-      ctx.fill();
-      ctx.strokeStyle = isLingeringDeflect ? '#2dd4bf' : '#fde047';
-      ctx.lineWidth = isLingeringDeflect ? 2 : 3;
-      ctx.stroke();
-    }
-    ctx.restore();
+    sharedBattlePixelVfxEngine.renderCrescentSlashSmear(ctx, arc, world.tick);
   }
 
-  // 4. Active Beams
+  // 4. Active Beams (3-Layer Pixel Beam: Outer Aura + Element Mid + Pure White Core + Muzzle Ring)
   for (const beam of world.beams) {
-    const endX = beam.origin.x + beam.dir.x * beam.currentLengthPx;
-    const endY = beam.origin.y + beam.dir.y * beam.currentLengthPx;
     const elemMeta = registry.elements.elements.find((e) => e.id === beam.element);
     const beamColor = elemMeta?.color ?? '#38bdf8';
-
-    ctx.save();
-    ctx.globalAlpha = beam.dimmed ? 0.45 : 0.92;
-    if (beam.dimmed) {
-      ctx.setLineDash([10, 6]);
-    }
-
-    ctx.strokeStyle = beamColor;
-    ctx.lineWidth = beam.widthPx;
-    ctx.lineCap = 'round';
-    ctx.beginPath();
-    ctx.moveTo(beam.origin.x, beam.origin.y);
-    ctx.lineTo(endX, endY);
-    ctx.stroke();
-
-    ctx.strokeStyle = '#ffffff';
-    ctx.lineWidth = Math.max(4, beam.widthPx * 0.38);
-    ctx.beginPath();
-    ctx.moveTo(beam.origin.x, beam.origin.y);
-    ctx.lineTo(endX, endY);
-    ctx.stroke();
-    ctx.restore();
+    sharedBattlePixelVfxEngine.renderMultiLayerPixelBeam(
+      ctx,
+      beam,
+      beamColor,
+      world.tick
+    );
   }
 
   // 5. Active Projectiles
@@ -829,6 +775,13 @@ export function renderBattleArena(
     ctx.arc(p.x, p.y - heightOffset, proj.radiusPx * 0.4, 0, Math.PI * 2);
     ctx.fill();
 
+    if (proj.reflected) {
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y - heightOffset, proj.radiusPx + 5 + Math.sin(world.tick * 0.5) * 2, 0, Math.PI * 2);
+      ctx.stroke();
+    }
     if (proj.hasConquerorCoating) {
       drawConquerorLightningBolts(ctx, { x: p.x, y: p.y - heightOffset }, proj.radiusPx * 1.6, world.tick, 2);
     }
@@ -841,19 +794,14 @@ export function renderBattleArena(
     renderUnitOnArena(ctx, unit, world, registry, assets, alpha, settings);
   }
 
-  // 7. Active Clash Sparks (Beam vs Beam, Melee vs Beam Guard, Melee vs Melee + Conqueror Sky Split)
+  // 6.5 Phase 16: Active 2:2 Bond Tag Combo Guest Ally Sprite (uses EXTERNAL_PNG if available, else baked sheet)
+  if (world.activeBondCombo) {
+    renderBondComboGuestAlly(ctx, world, registry, assets);
+  }
+
+  // 7. Active Clash Sparks (Beam Clash Rotating Energy Orb, Melee vs Beam Guard, Conqueror Sky Split)
   for (const bc of world.beamClashes) {
-    const pulse = 18 + Math.sin(world.tick * 0.6) * 5;
-    ctx.save();
-    ctx.fillStyle = '#fde047';
-    ctx.beginPath();
-    ctx.arc(bc.clashPoint.x, bc.clashPoint.y, pulse, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#ffffff';
-    ctx.beginPath();
-    ctx.arc(bc.clashPoint.x, bc.clashPoint.y, pulse * 0.55, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
+    sharedBattlePixelVfxEngine.renderBeamClashOrb(ctx, bc, world.tick);
   }
 
   for (const mg of world.meleeBeamGuards) {
@@ -867,46 +815,15 @@ export function renderBattleArena(
   }
 
   for (const mc of world.meleeClashes) {
-    ctx.save();
-    if (mc.isConquerorSkySplit) {
-      drawConquerorLightningBolts(ctx, mc.clashPoint, 58, world.tick, 6);
-    }
-    ctx.strokeStyle = mc.isConquerorSkySplit ? '#ef4444' : '#facc15';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(mc.clashPoint.x - 16, mc.clashPoint.y - 16);
-    ctx.lineTo(mc.clashPoint.x + 16, mc.clashPoint.y + 16);
-    ctx.moveTo(mc.clashPoint.x + 16, mc.clashPoint.y - 16);
-    ctx.lineTo(mc.clashPoint.x - 16, mc.clashPoint.y + 16);
-    ctx.stroke();
-    ctx.restore();
+    sharedBattlePixelVfxEngine.renderMeleeClashEffect(ctx, mc, world.tick);
   }
 
-  // 8. VFX Events
+  // 8. Multi-Layer VFX Events & Pooled Pixel Sparks (300-slot ParticlePool)
   for (const vfx of world.vfxEvents) {
-    const t = clamp(vfx.elapsedSec / Math.max(0.01, vfx.durationSec), 0, 1);
-    ctx.save();
-    ctx.globalAlpha = 1 - t;
-    ctx.strokeStyle = vfx.color;
-    ctx.lineWidth = 3;
-
-    if (vfx.kind === 'CROSS_SLASH' && vfx.targetPos) {
-      ctx.beginPath();
-      ctx.moveTo(vfx.pos.x, vfx.pos.y);
-      ctx.lineTo(vfx.targetPos.x, vfx.targetPos.y);
-      ctx.stroke();
-    } else if (vfx.kind === 'CONQUEROR_LIGHTNING' || vfx.kind === 'SKY_SPLIT_SHOCKWAVE') {
-      drawConquerorLightningBolts(ctx, vfx.pos, vfx.radiusPx * (0.5 + t * 0.7), world.tick, 5);
-      ctx.beginPath();
-      ctx.arc(vfx.pos.x, vfx.pos.y, vfx.radiusPx * (0.4 + t * 0.8), 0, Math.PI * 2);
-      ctx.stroke();
-    } else {
-      ctx.beginPath();
-      ctx.arc(vfx.pos.x, vfx.pos.y, vfx.radiusPx * (0.4 + t * 0.8), 0, Math.PI * 2);
-      ctx.stroke();
-    }
-    ctx.restore();
+    sharedBattlePixelVfxEngine.renderEnhancedVfxEvent(ctx, vfx, world.tick);
   }
+  sharedBattlePixelVfxEngine.renderSparks(ctx);
+  sharedBattleParticlePool.render(ctx);
 
   // 9. Floating Combat Texts
   ctx.font = 'bold 11px monospace';
@@ -923,6 +840,14 @@ export function renderBattleArena(
   }
 
   ctx.restore();
+
+  // 10. 2–3 Frame High-Contrast B&W Impact Frame (strictly bypassed when flashEffectEnabled === false)
+  sharedBattlePixelVfxEngine.renderImpactFrameOverlay(
+    ctx,
+    viewW,
+    viewH,
+    settings.flashEffectEnabled
+  );
 
   if (settings.flashEffectEnabled && world.screenFlashTimer > 0) {
     ctx.save();
@@ -1046,6 +971,60 @@ function renderUnitOnArena(
   ctx.arc(pos.x, pos.y, unit.radiusPx, 0, Math.PI * 2);
   ctx.stroke();
 
+  // Phase 16: Armament Just Guard Shield Arc & Parry Flash
+  if (unit.guardHeld) {
+    const aimAngle = Math.atan2(unit.aimDir.y, unit.aimDir.x);
+    const inParryWindow =
+      unit.guardStartTick >= 0 && world.tick - unit.guardStartTick <= 10;
+    const armLv = unit.haki?.armament ?? 0;
+    ctx.save();
+    ctx.strokeStyle = inParryWindow
+      ? '#fde047'
+      : armLv >= 1
+        ? '#7c3aed'
+        : '#94a3b8';
+    ctx.lineWidth = inParryWindow ? 5 : 3.5;
+    ctx.beginPath();
+    ctx.arc(
+      pos.x,
+      pos.y,
+      unit.radiusPx + 9,
+      aimAngle - Math.PI * 0.45,
+      aimAngle + Math.PI * 0.45
+    );
+    ctx.stroke();
+    if (armLv >= 1) {
+      ctx.strokeStyle = '#090d16';
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.arc(
+        pos.x,
+        pos.y,
+        unit.radiusPx + 12,
+        aimAngle - Math.PI * 0.38,
+        aimAngle + Math.PI * 0.38
+      );
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // Phase 16: Spinning Stun Stars on PARRY_STUNNED / GUARD_BREAK units
+  if (unit.parryStunTicks > 0 || unit.guardBreakTicks > 0) {
+    ctx.save();
+    const starY = pos.y - unit.radiusPx * unit.visualScale - 24;
+    for (let s = 0; s < 3; s++) {
+      const ang = world.tick * 0.22 + (s * Math.PI * 2) / 3;
+      const sx = Math.round(pos.x + Math.cos(ang) * 16);
+      const sy = Math.round(starY + Math.sin(ang) * 5);
+      ctx.fillStyle = unit.parryStunTicks > 0 ? '#facc15' : '#ef4444';
+      ctx.fillRect(sx - 2, sy - 2, 4, 4);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(sx - 1, sy - 1, 2, 2);
+    }
+    ctx.restore();
+  }
+
   const tipX = pos.x + unit.aimDir.x * (unit.radiusPx + 8);
   const tipY = pos.y + unit.aimDir.y * (unit.radiusPx + 8);
   ctx.fillStyle = elemColor;
@@ -1060,7 +1039,13 @@ function renderUnitOnArena(
   // Draw animated multi-frame pixel sprite sheet with Armament blackening, 80ms white flash, afterimages & Logia dispersion
   if (unitDef) {
     const formDef = unit.activeFormId ? registry.forms[unit.activeFormId] ?? null : null;
-    const { entry: sheetEntry, sheet } = assets.getOrCreateUnitSpriteSheet(
+    const {
+      entry: sheetEntry,
+      sheet,
+      sheetFrameWidth,
+      sheetFrameHeight,
+      meta: atlasMeta
+    } = assets.getOrCreateUnitSpriteSheet(
       unitDef,
       unit.activeFormId,
       formDef
@@ -1080,22 +1065,23 @@ function renderUnitOnArena(
         unit.activeFormId
       );
       if (sprite) {
-        const size = Math.round(32 * unit.visualScale);
+        const size = Math.round(44 * unit.visualScale);
+        const halfSrcH = Math.floor(sprite.height * 0.5);
         ctx.save();
         ctx.translate(Math.round(pos.x), Math.round(pos.y));
         if (animRes.visual.facingX < 0) ctx.scale(-1, 1);
         const splitGap = Math.round(Math.sin((unit.baraSplitTimer / 0.48) * Math.PI) * 14);
-        ctx.drawImage(sprite, 0, 0, 32, 16, -size * 0.5, -size * 0.5 - splitGap, size, size * 0.5);
-        ctx.drawImage(sprite, 0, 16, 32, 16, -size * 0.5, splitGap * 0.5, size, size * 0.5);
+        ctx.drawImage(sprite, 0, 0, sprite.width, halfSrcH, -size * 0.5, -size * 0.5 - splitGap, size, size * 0.5);
+        ctx.drawImage(sprite, 0, halfSrcH, sprite.width, sprite.height - halfSrcH, -size * 0.5, splitGap * 0.5, size, size * 0.5);
         ctx.restore();
       }
     } else if (sheet) {
-      // Normalize draw scale so 32px/48px/96px sheets map cleanly onto entityScale * visualScale
-      const targetPixelHeight = 42 * unit.entityScale * unit.visualScale;
-      const drawScale = Math.max(0.75, targetPixelHeight / sheetEntry.frameHeight);
+      // Normalize draw scale so high-res 48/64/112px baked sheets & external atlases map cleanly onto entityScale * visualScale
+      const targetPixelHeight = 52 * unit.entityScale * unit.visualScale;
+      const drawScale = Math.max(0.85, targetPixelHeight / sheetEntry.frameHeight);
       const footPos = {
         x: pos.x,
-        y: pos.y + Math.round(unit.radiusPx * 0.65)
+        y: pos.y + Math.round(unit.radiusPx * 0.72)
       };
 
       assets.spriteController.drawAnimatedUnitFrame(
@@ -1114,7 +1100,11 @@ function renderUnitOnArena(
           logiaDispersionTimer: unit.logiaDispersionTimer,
           elementColor: elemColor,
           afterimages: animRes.visual.afterimages,
-          tick: world.tick
+          tick: world.tick,
+          sheetFrameWidth,
+          sheetFrameHeight,
+          atlasMeta,
+          animState: animRes.step.state
         }
       );
     }
@@ -1150,6 +1140,19 @@ function renderUnitOnArena(
     ctx.fillText(`EXHAUST ${unit.exhaustionTimer.toFixed(1)}s`, pos.x, badgeY - 1);
     badgeY -= 12;
   }
+  if (unit.parryStunTicks > 0) {
+    ctx.fillStyle = 'rgba(120, 53, 15, 0.92)';
+    ctx.fillRect(pos.x - 42, badgeY - 10, 84, 11);
+    ctx.fillStyle = '#fde047';
+    ctx.fillText(`PARRY STUN ×1.25`, pos.x, badgeY - 1);
+    badgeY -= 12;
+  } else if (unit.guardBreakTicks > 0) {
+    ctx.fillStyle = 'rgba(127, 29, 29, 0.92)';
+    ctx.fillRect(pos.x - 40, badgeY - 10, 80, 11);
+    ctx.fillStyle = '#fca5a5';
+    ctx.fillText(`GUARD BREAK`, pos.x, badgeY - 1);
+    badgeY -= 12;
+  }
   if (unit.staggerImmunityTimer > 0) {
     ctx.fillStyle = 'rgba(15, 23, 42, 0.82)';
     ctx.fillRect(pos.x - 34, badgeY - 10, 68, 11);
@@ -1157,5 +1160,161 @@ function renderUnitOnArena(
     ctx.fillText(`IMMUNE ${unit.staggerImmunityTimer.toFixed(1)}s`, pos.x, badgeY - 1);
   }
 
+  ctx.restore();
+}
+
+let lastParticleSyncTick = -1;
+const seenParryMiniIds = new Set<string>();
+let lastBondImpactId: string | null = null;
+
+function syncBattleParticlePoolWithWorld(world: BattleWorldState): void {
+  if (world.tick < lastParticleSyncTick) {
+    sharedBattleParticlePool.reset();
+    seenParryMiniIds.clear();
+    lastBondImpactId = null;
+  }
+  if (world.tick === lastParticleSyncTick) {
+    return;
+  }
+  lastParticleSyncTick = world.tick;
+  sharedBattleParticlePool.step(FIXED_DT);
+
+  if (seenParryMiniIds.size > 64) {
+    seenParryMiniIds.clear();
+  }
+  for (const ev of world.parryMiniEvents) {
+    if (seenParryMiniIds.has(ev.id)) continue;
+    seenParryMiniIds.add(ev.id);
+    if (ev.kind === 'PROJECTILE_REFLECT') {
+      sharedBattleParticlePool.spawnRadialBurst(
+        ev.pos.x,
+        ev.pos.y,
+        14,
+        175,
+        '#38bdf8',
+        '#ffffff',
+        'REFLECT_RING',
+        world.tick
+      );
+    } else {
+      sharedBattleParticlePool.spawnRadialBurst(
+        ev.pos.x,
+        ev.pos.y,
+        ev.armamentEnhanced ? 20 : 14,
+        190,
+        ev.armamentEnhanced ? '#7c3aed' : '#facc15',
+        '#fde047',
+        ev.armamentEnhanced ? 'HAKI_ARC' : 'SPARK',
+        world.tick
+      );
+    }
+  }
+
+  if (
+    world.activeBondCombo &&
+    world.activeBondCombo.impactExecuted &&
+    lastBondImpactId !== world.activeBondCombo.id
+  ) {
+    lastBondImpactId = world.activeBondCombo.id;
+    const bc = world.activeBondCombo;
+    sharedBattleParticlePool.spawnRadialBurst(
+      bc.partnerTargetPos.x,
+      bc.partnerTargetPos.y,
+      26,
+      240,
+      bc.themeColors[0],
+      bc.themeColors[1],
+      'BOND_STAR',
+      world.tick
+    );
+  }
+}
+
+function renderBondComboGuestAlly(
+  ctx: CanvasRenderingContext2D,
+  world: BattleWorldState,
+  registry: GameDataRegistry,
+  assets: AssetLoader
+): void {
+  const bc = world.activeBondCombo;
+  if (!bc) return;
+  const partnerDef = registry.units[bc.partnerSpeciesId];
+  if (!partnerDef) return;
+
+  const {
+    entry: sheetEntry,
+    sheet,
+    sheetFrameWidth,
+    sheetFrameHeight,
+    meta: atlasMeta
+  } = assets.getOrCreateUnitSpriteSheet(partnerDef, null, null);
+  if (!sheet) return;
+
+  ctx.save();
+  // Golden partner arrival ring
+  ctx.strokeStyle = bc.themeColors[0];
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(bc.partnerPos.x, bc.partnerPos.y, 26, 0, Math.PI * 2);
+  ctx.stroke();
+
+  const targetPixelHeight = 56;
+  const drawScale = Math.max(0.85, targetPixelHeight / sheetEntry.frameHeight);
+  const clip = sheetEntry.animations[bc.partnerAnimState] ?? sheetEntry.animations.ATTACK_MELEE;
+  const frameIdx = Math.floor(bc.elapsedTicks / 4) % Math.max(1, clip.frames);
+
+  const afterimages = [
+    {
+      x: bc.partnerPos.x - bc.partnerFacingX * 16,
+      y: bc.partnerPos.y + 12,
+      facingX: bc.partnerFacingX,
+      row: clip.row,
+      frame: frameIdx,
+      sheetKey: sheetEntry.key,
+      color: bc.themeColors[0],
+      remainingSec: 0.14,
+      totalSec: 0.25
+    },
+    {
+      x: bc.partnerPos.x - bc.partnerFacingX * 32,
+      y: bc.partnerPos.y + 10,
+      facingX: bc.partnerFacingX,
+      row: clip.row,
+      frame: frameIdx,
+      sheetKey: sheetEntry.key,
+      color: bc.themeColors[1],
+      remainingSec: 0.08,
+      totalSec: 0.25
+    }
+  ];
+
+  assets.spriteController.drawAnimatedUnitFrame(
+    ctx,
+    sheet,
+    sheetEntry,
+    clip.row,
+    frameIdx,
+    { x: bc.partnerPos.x, y: bc.partnerPos.y + 16 },
+    bc.partnerFacingX,
+    drawScale,
+    {
+      hitFlashActive: false,
+      flashEffectEnabled: true,
+      hasArmamentActive: true,
+      logiaDispersionTimer: 0,
+      elementColor: bc.themeColors[0],
+      afterimages,
+      tick: world.tick,
+      sheetFrameWidth,
+      sheetFrameHeight,
+      atlasMeta,
+      animState: bc.partnerAnimState
+    }
+  );
+
+  ctx.font = 'bold 10px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = bc.themeColors[0];
+  ctx.fillText(`★ ${bc.partnerName}`, Math.round(bc.partnerPos.x), Math.round(bc.partnerPos.y - 30));
   ctx.restore();
 }

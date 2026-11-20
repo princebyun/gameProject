@@ -54,7 +54,7 @@ function makeBuild(
 
 describe('Phase 10 Step 1: Pure TS Endgame Core — Impel Down 6F, Magellan & Corrida Colosseum', () => {
   it('1. BATTLE_CALC_VERSION is 0.6.0, Magellan unit/moves/form and 16+ Impel Down buffs + 9 tutor moves are registered', () => {
-    expect(BATTLE_CALC_VERSION).toBe('0.6.0');
+    expect(BATTLE_CALC_VERSION).toBe('0.7.0');
     const magellan = defaultDataRegistry.units['magellan'];
     expect(magellan).toBeDefined();
     expect(magellan.fruitType).toBe('PARAMECIA');

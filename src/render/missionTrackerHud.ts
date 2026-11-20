@@ -1,5 +1,6 @@
 import type { Vec2 } from '../core/math/vector2';
 import type { StoryLoopMode, StoryNodeSnapshot } from '../story/storyDirector';
+import { drawPixelNineSlicePanel } from './ui/pixelNineSliceUi';
 import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
@@ -46,11 +47,14 @@ export function renderMissionTrackerHud(
   };
 
   ctx.save();
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.90)';
-  ctx.fillRect(x, y, w, h);
-  ctx.strokeStyle = loopMode === 'STORY_MISSION' ? '#f59e0b' : '#facc15';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(x, y, w, h);
+  drawPixelNineSlicePanel(
+    ctx,
+    x,
+    y,
+    w,
+    h,
+    loopMode === 'STORY_MISSION' ? 'gold_ribbon' : 'pirate_wood'
+  );
 
   // Mode badge + Chapter label
   const modeBadge =

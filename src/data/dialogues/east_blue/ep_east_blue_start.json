@@ -1,0 +1,278 @@
+{
+  "episodeId": "ep_east_blue_start",
+  "islandId": "foosha_shells",
+  "seaZoneId": "east_blue",
+  "scripts": [
+    {
+      "scriptId": "eb1_foosha_departure",
+      "episodeId": "ep_east_blue_start",
+      "triggerType": "gold_marker",
+      "title": "후샤 마을 출항 배웅",
+      "bindingId": "npc_makino",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "평화로운 이스트 블루 후샤 마을. 드디어 17세가 된 루피가 바다로 나설 날이 왔다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제1장 · 이스트 블루",
+              "title": "모험의 여명",
+              "subtitle": "후샤 마을 출항과 첫 동료"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "npc_makino",
+          "speakerName": "마키노",
+          "emotion": "normal",
+          "side": "right",
+          "text": "루피, 정말로 오늘 출항하는구나. 샹크스가 맡긴 밀짚모자가 아주 잘 어울려."
+        },
+        {
+          "speakerId": "npc_mayor",
+          "speakerName": "우프 슬랩 촌장",
+          "emotion": "angry",
+          "side": "right",
+          "text": "이 녀석아! 마을의 수치로 해적이 되겠다니... 그래도 다치면 절대 안 된다!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "시시시! 걱정 마, 촌장님! 난 꼭 멋진 동료를 모아서 해적왕이 될 거니까!",
+          "directives": [{ "type": "sfx", "sfxId": "ui_confirm" }]
+        },
+        {
+          "speakerId": "npc_makino",
+          "speakerName": "마키노",
+          "emotion": "determined",
+          "side": "right",
+          "text": "항구 너머 근해에 알비다 해적단이 출몰한대. 동쪽 쉘즈타운엔 무시무시한 검사도 있대."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "좋아! 우선 첫 출항부터 화끈하게 뚫고, 그 검사 녀석을 내 첫 동료로 만들자!"
+        }
+      ]
+    },
+    {
+      "scriptId": "eb1_alvida_first_sail",
+      "episodeId": "ep_east_blue_start",
+      "triggerType": "arrival",
+      "title": "첫 출항! 알비다 해적단 습격",
+      "bindingId": "enc_ch1_alvida_tutorial",
+      "lines": [
+        {
+          "speakerId": "npc_alvida",
+          "speakerName": "철퇴의 알비다",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "어머, 고작 작은 나룻배로 내 바다에 끼어들다니! 이 바다에서 제일 아름다운 건 누구지?",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_normal", "fadeSec": 0.3 },
+            { "type": "sfx", "sfxId": "ship_cannon" }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "normal",
+          "side": "left",
+          "text": "응? 이 덩치 큰 아줌마는 누군데 내 첫 항해를 가로막는 거야?"
+        },
+        {
+          "speakerId": "npc_alvida",
+          "speakerName": "철퇴의 알비다",
+          "emotion": "angry",
+          "side": "right",
+          "text": "아, 아줌마라고?! 내 쇠몽둥이로 가루를 내주마! 덤벼라, 꼬마 해적!",
+          "directives": [{ "type": "cameraShake", "intensity": 0.6, "durationSec": 0.35 }]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "난 고무 인간이라 철퇴 따윈 안 아파! 고무고무 피스톨 맛 좀 봐라!"
+        }
+      ]
+    },
+    {
+      "scriptId": "eb1_zoro_promise",
+      "episodeId": "ep_east_blue_start",
+      "triggerType": "gold_marker",
+      "title": "쉘즈타운 — 묶인 검사 롤로노아 조로",
+      "bindingId": "npc_zoro_bound",
+      "lines": [
+        {
+          "speakerId": "zoro",
+          "speakerName": "해적사냥꾼 · 롤로노아 조로",
+          "emotion": "normal",
+          "side": "right",
+          "text": "어이, 밀짚모자. 해군 처형장에 제 발로 기어 들어오다니 제정신이냐?"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "네가 소문의 해적사냥꾼 조로구나! 검 세 자루 찾아왔어. 내 동료가 돼라!"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "해적사냥꾼 · 롤로노아 조로",
+          "emotion": "angry",
+          "side": "right",
+          "text": "해적 따위의 부하가 되라고? 난 세계 제일의 대검호가 될 사내다!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "그거 딱 좋네! 해적왕의 동료라면 세계 제일의 검호 정도는 되어야지!",
+          "directives": [
+            { "type": "sfx", "sfxId": "melee_clash_clang" },
+            { "type": "screenFlash", "color": "#fef08a", "durationSec": 0.2 }
+          ]
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "해적사냥꾼 · 롤로노아 조로",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "...훗, 배짱 하나는 마음에 드는군. 내 야망을 방해하면 그땐 네가 배를 갈라라."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "좋아! 약속이다! 그럼 이제 저 거만한 도끼손 해군을 날려버리러 가자!"
+        }
+      ]
+    },
+    {
+      "scriptId": "eb1_morgan_pre_boss",
+      "episodeId": "ep_east_blue_start",
+      "triggerType": "pre_boss",
+      "title": "도끼손 모건 대령 대치",
+      "bindingId": "enc_shells_town_boss",
+      "lines": [
+        {
+          "speakerId": "morgan",
+          "speakerName": "해군 제153지부 대령 · 도끼손 모건",
+          "emotion": "angry",
+          "side": "right",
+          "text": "감히 내 동상을 부수고 죄수 롤로노아 조로를 풀어주다니! 네놈들 목을 치겠다!",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "cameraShake", "intensity": 0.7, "durationSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "angry",
+          "side": "left",
+          "text": "부하도 마을 사람도 괴롭히는 해군이 무슨 정의야! 내가 날려버리겠어!"
+        },
+        {
+          "speakerId": "morgan",
+          "speakerName": "해군 제153지부 대령 · 도끼손 모건",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "위대한 내가 하는 일은 모두 올바르다! 강철 도끼손의 참격을 받아라!"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "determined",
+          "side": "left",
+          "text": "선장, 첫 싸움이다. 내 삼도류가 녹슬지 않았다는 걸 저 녀석에게 보여주지.",
+          "directives": [{ "type": "sfx", "sfxId": "slash_heavy" }]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "간다, 조로! 쉘즈타운의 해군 기지를 돌파한다!"
+        }
+      ]
+    },
+    {
+      "scriptId": "eb1_shells_post_boss_recruit",
+      "episodeId": "ep_east_blue_start",
+      "triggerType": "post_boss",
+      "title": "모건 격파 & 롤로노아 조로 합류",
+      "bindingId": "enc_shells_town_boss",
+      "lines": [
+        {
+          "speakerId": "morgan",
+          "speakerName": "도끼손 모건",
+          "emotion": "shocked",
+          "side": "right",
+          "text": "크아악... 위대한 내가... 고작 풋내기 해적과 검사에게 무너지다니...!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 0.85, "durationSec": 0.45 },
+            { "type": "sfx", "sfxId": "blunt_hit" }
+          ]
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "폭군 모건 대령이 쓰러지자 쉘즈타운 광장에는 해군과 주민들의 환호성이 울려 퍼졌다.",
+          "directives": [{ "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.5 }]
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "determined",
+          "side": "right",
+          "text": "해적왕의 동료라면 세계 제일의 검호 정도는 되어야지! 오늘부터 네가 내 선장이다.",
+          "directives": [
+            {
+              "type": "recruitmentBanner",
+              "unitId": "zoro",
+              "roleName": "전투원/검사 (Swordsman)",
+              "passiveSummary": "전투 개시 시 아군 전원의 공격력(ATK) +12% 상승!"
+            }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "시시시! 든든해, 조로! 이제 우리 해적단은 두 명이 됐다!"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "겨우 두 명으로 위대한 항로를 노린다니 대단하군. 항해사부터 찾아야겠어."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "좋아! 다음 목적지는 오렌지 마을이다! 닻을 올려라, 출항이다!!"
+        }
+      ]
+    }
+  ]
+}

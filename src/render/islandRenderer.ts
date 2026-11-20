@@ -1,4 +1,5 @@
 import type { AssetLoader } from '../assets/assetLoader';
+import { resolveFrameSourceAndDestRect } from '../assets/smartSpriteSheetLoader';
 import { LOGICAL_HEIGHT, LOGICAL_WIDTH } from '../core/constants';
 import {
   ISLAND_BATTLE_TERMINAL_POS,
@@ -15,10 +16,19 @@ import {
   renderWorldMarkerBeacons,
   type WorldMarker
 } from '../story/worldMarkerSystem';
+import { drawPixelNineSlicePanel } from './ui/pixelNineSliceUi';
 import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
 } from './viewport/responsiveViewportManager';
+
+const islandPlayerVisualState = {
+  lastIslandId: '',
+  lastX: 0,
+  lastY: 0,
+  facingX: 1 as 1 | -1,
+  moveFrames: 0
+};
 
 export function renderIslandEpisodeCanvas(
   ctx: CanvasRenderingContext2D,
@@ -144,44 +154,112 @@ export function renderIslandEpisodeCanvas(
   );
   ctx.restore();
 
-  // 3. Obstacles & Buildings
-  for (const obs of islandMap.obstacles) {
+  // 3. 2.5D Elevated Obstacles & Buildings (Drop Shadow + Shaded Front Wall + Roof Cap + Animated Flags/Torches)
+  for (let oIdx = 0; oIdx < islandMap.obstacles.length; oIdx++) {
+    const obs = islandMap.obstacles[oIdx];
+    const wallH = Math.min(18, Math.max(8, Math.round(obs.height * 0.28)));
+    const roofH = Math.max(6, obs.height - wallH);
+
+    // 2.5D ground drop shadow
+    ctx.fillStyle = 'rgba(5, 9, 18, 0.44)';
+    ctx.fillRect(obs.x + 5, obs.y + 6, obs.width, obs.height);
+
+    // Darker shaded front wall thickness (south face)
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(obs.x, obs.y + roofH, obs.width, wallH);
+    ctx.fillStyle = '#334155';
+    ctx.fillRect(obs.x + 2, obs.y + roofH, obs.width - 4, wallH - 2);
+    // Warm lit pixel windows / masonry on front wall
+    ctx.fillStyle = '#f59e0b';
+    for (let wx = obs.x + 10; wx < obs.x + obs.width - 14; wx += 22) {
+      ctx.fillRect(wx, obs.y + roofH + 3, 6, Math.max(4, wallH - 7));
+    }
+
+    // Top roof face with sunlit rim highlight
     ctx.fillStyle = '#1e293b';
-    ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+    ctx.fillRect(obs.x, obs.y, obs.width, roofH);
+    ctx.fillStyle = '#475569';
+    ctx.fillRect(obs.x + 2, obs.y + 2, obs.width - 4, 3);
     ctx.strokeStyle = '#64748b';
     ctx.lineWidth = 2;
     ctx.strokeRect(obs.x, obs.y, obs.width, obs.height);
 
+    // Animated fluttering pirate/town pennant flag on first 2 buildings
+    if (oIdx < 2) {
+      const fx = Math.round(obs.x + obs.width - 12);
+      const fy = Math.round(obs.y - 16);
+      const wave = Math.round(Math.sin(tick * 0.14 + oIdx) * 2);
+      ctx.fillStyle = '#e2e8f0';
+      ctx.fillRect(fx, fy, 2, 18);
+      ctx.fillStyle = oIdx === 0 ? '#ef4444' : '#38bdf8';
+      ctx.fillRect(fx + 2, fy + 1, 7, 7);
+      ctx.fillRect(fx + 9, fy + 1 + wave, 6, 6);
+    }
+
     if (obs.label) {
       ctx.font = 'bold 11px monospace';
       ctx.textAlign = 'center';
-      ctx.fillStyle = '#e2e8f0';
+      ctx.fillStyle = '#090d16';
+      ctx.fillText(
+        obs.label,
+        obs.x + obs.width * 0.5 + 1,
+        obs.y + roofH * 0.5 + 5
+      );
+      ctx.fillStyle = '#f8fafc';
       ctx.fillText(
         obs.label,
         obs.x + obs.width * 0.5,
-        obs.y + obs.height * 0.5 + 4
+        obs.y + roofH * 0.5 + 4
       );
     }
   }
 
-  // 4. Giant-Scale Props (Wano Road Poneglyph & Elbaf Yggdrasil World Tree / Giant Sword)
+  // 3.5 Animated Swaying Pixel Grass Tufts & Flickering Harbor Torches
+  ctx.save();
+  const swayPx = Math.round(Math.sin(tick * 0.1) * 1.5);
+  for (let g = 0; g < 14; g++) {
+    const gx = 92 + ((g * 173 + islandMap.islandId.length * 41) % (LOGICAL_WIDTH - 180));
+    const gy = 84 + ((g * 107 + islandMap.islandId.length * 29) % (LOGICAL_HEIGHT - 160));
+    ctx.fillStyle = 'rgba(22, 163, 74, 0.55)';
+    ctx.fillRect(gx, gy, 2, 4);
+    ctx.fillRect(gx + 3, gy + 1, 2, 3);
+    ctx.fillStyle = 'rgba(74, 222, 128, 0.65)';
+    ctx.fillRect(gx + swayPx, gy - 2, 2, 2);
+    ctx.fillRect(gx + 3 + swayPx, gy - 1, 2, 2);
+  }
+  // Flickering torches flanking the harbor exit
+  const torchFlicker = (tick % 6) < 3 ? 0 : 1;
+  for (const tyOff of [-26, 26]) {
+    const tx = Math.round(port.pos.x + 28);
+    const ty = Math.round(port.pos.y + tyOff);
+    ctx.fillStyle = '#78350f';
+    ctx.fillRect(tx - 1, ty, 3, 10);
+    ctx.fillStyle = '#f97316';
+    ctx.fillRect(tx - 3, ty - 6 - torchFlicker, 7, 7);
+    ctx.fillStyle = '#fef08a';
+    ctx.fillRect(tx - 1, ty - 4 - torchFlicker, 3, 4);
+  }
+  ctx.restore();
+
+  // 4. Giant-Scale 2.5D Props (Wano Road Poneglyph & Elbaf Yggdrasil World Tree / Giant Sword)
   for (const prop of islandMap.giantProps) {
+    const px = prop.pos.x - prop.width * 0.5;
+    const py = prop.pos.y - prop.height * 0.5;
     ctx.save();
+    // Drop shadow
+    ctx.fillStyle = 'rgba(5, 9, 18, 0.48)';
+    ctx.fillRect(px + 6, py + 8, prop.width, prop.height);
+    // Main monument body + 2.5D lower plinth
     ctx.fillStyle = prop.color;
-    ctx.fillRect(
-      prop.pos.x - prop.width * 0.5,
-      prop.pos.y - prop.height * 0.5,
-      prop.width,
-      prop.height
-    );
+    ctx.fillRect(px, py, prop.width, prop.height);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.30)';
+    ctx.fillRect(px, py + prop.height - 12, prop.width, 12);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.16)';
+    ctx.fillRect(px + 3, py + 3, prop.width - 6, 4);
+
     ctx.strokeStyle = '#fde047';
     ctx.lineWidth = 2.5;
-    ctx.strokeRect(
-      prop.pos.x - prop.width * 0.5,
-      prop.pos.y - prop.height * 0.5,
-      prop.width,
-      prop.height
-    );
+    ctx.strokeRect(px, py, prop.width, prop.height);
 
     ctx.font = 'bold 11px monospace';
     ctx.textAlign = 'center';
@@ -293,17 +371,54 @@ export function renderIslandEpisodeCanvas(
     ctx.restore();
   }
 
-  // 8. Player Character Avatar (Luffy / Party Leader)
+  // 8. Player Character Avatar (Luffy / Party Leader with ground shadow, flipX facing & walk bounce)
   const leaderId = state.activePartyUnitIds[0] ?? 'luffy';
   const leaderDef = gameRegistry.units[leaderId] ?? gameRegistry.units['luffy'];
+
+  if (islandPlayerVisualState.lastIslandId !== runtime.islandId) {
+    islandPlayerVisualState.lastIslandId = runtime.islandId;
+    islandPlayerVisualState.lastX = runtime.playerPos.x;
+    islandPlayerVisualState.lastY = runtime.playerPos.y;
+    islandPlayerVisualState.facingX = 1;
+    islandPlayerVisualState.moveFrames = 0;
+  }
+  const dx = runtime.playerPos.x - islandPlayerVisualState.lastX;
+  const dy = runtime.playerPos.y - islandPlayerVisualState.lastY;
+  const isMoving = Math.hypot(dx, dy) > 0.35;
+  if (Math.abs(dx) > 0.25) {
+    islandPlayerVisualState.facingX = dx < 0 ? -1 : 1;
+  }
+  islandPlayerVisualState.lastX = runtime.playerPos.x;
+  islandPlayerVisualState.lastY = runtime.playerPos.y;
+  islandPlayerVisualState.moveFrames = isMoving
+    ? islandPlayerVisualState.moveFrames + 1
+    : 0;
+
   ctx.save();
-  ctx.strokeStyle = '#38bdf8';
-  ctx.lineWidth = 2;
+  // Ground contact shadow ellipse directly under Luffy's feet
+  ctx.fillStyle = 'rgba(5, 9, 18, 0.44)';
   ctx.beginPath();
-  ctx.arc(
-    runtime.playerPos.x,
-    runtime.playerPos.y,
+  ctx.ellipse(
+    Math.round(runtime.playerPos.x),
+    Math.round(runtime.playerPos.y + 8),
+    15,
+    5,
+    0,
+    0,
+    Math.PI * 2
+  );
+  ctx.fill();
+
+  // Subtle player position ring
+  ctx.strokeStyle = 'rgba(56, 189, 248, 0.72)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.ellipse(
+    Math.round(runtime.playerPos.x),
+    Math.round(runtime.playerPos.y + 8),
     runtime.playerRadiusPx,
+    Math.round(runtime.playerRadiusPx * 0.48),
+    0,
     0,
     Math.PI * 2
   );
@@ -312,24 +427,49 @@ export function renderIslandEpisodeCanvas(
   if (leaderDef) {
     const resolved = assets.getOrCreateUnitSpriteSheet(leaderDef, 'base', null);
     if (resolved.sheet) {
-      const idleClip = resolved.entry.animations.IDLE;
-      const frameIdx = Math.floor((tick / 60) * idleClip.fps) % idleClip.frames;
-      const fw = resolved.entry.frameWidth;
-      const fh = resolved.entry.frameHeight;
-      const drawW = 44;
-      const drawH = 44;
+      const animState = isMoving ? 'MOVE' : 'IDLE';
+      const clip = resolved.entry.animations[animState];
+      const frameIdx = Math.floor((tick / 60) * clip.fps) % Math.max(1, clip.frames);
+      const targetHeight = 52;
+      const drawScale = targetHeight / resolved.entry.frameHeight;
+      const rects = resolveFrameSourceAndDestRect(
+        resolved.entry,
+        resolved.meta,
+        animState,
+        clip.row,
+        frameIdx,
+        resolved.sheetFrameWidth,
+        resolved.sheetFrameHeight,
+        drawScale
+      );
+      const walkBounceY = isMoving
+        ? -Math.round(Math.abs(Math.sin(islandPlayerVisualState.moveFrames * 0.34)) * 2.6)
+        : 0;
+      const walkTilt =
+        isMoving && rects.synthesizedFromIdle
+          ? Math.sin(islandPlayerVisualState.moveFrames * 0.34) * 0.06
+          : 0;
+
+      ctx.save();
       ctx.imageSmoothingEnabled = false;
+      ctx.translate(
+        Math.round(runtime.playerPos.x),
+        Math.round(runtime.playerPos.y + 10 + walkBounceY)
+      );
+      ctx.scale(islandPlayerVisualState.facingX, 1);
+      if (walkTilt !== 0) ctx.rotate(walkTilt);
       ctx.drawImage(
         resolved.sheet,
-        frameIdx * fw,
-        idleClip.row * fh,
-        fw,
-        fh,
-        Math.round(runtime.playerPos.x - drawW * resolved.entry.anchor.x),
-        Math.round(runtime.playerPos.y - drawH * resolved.entry.anchor.y + 8),
-        drawW,
-        drawH
+        rects.srcX,
+        rects.srcY,
+        rects.srcW,
+        rects.srcH,
+        rects.destX,
+        rects.destY,
+        rects.destW,
+        rects.destH
       );
+      ctx.restore();
     }
   }
   ctx.restore();
@@ -342,19 +482,15 @@ export function renderIslandEpisodeCanvas(
   // Exit centered island coordinate space before drawing screen-space Safe-Area HUDs
   ctx.restore();
 
-  // 9. Top Episode Header & Quest Objective Checklist HUD (respecting Safe Area)
+  // 9. Top Episode Header & Quest Objective Checklist HUD (9-Slice Pirate-Wood RPG Frame, Safe Area)
   const hudX = 10 + safeL;
   const hudY = 10 + safeT;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.90)';
-  ctx.fillRect(hudX, hudY, 420, 86);
-  ctx.strokeStyle = '#facc15';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(hudX, hudY, 420, 86);
+  drawPixelNineSlicePanel(ctx, hudX, hudY, 424, 88, 'pirate_wood');
 
   ctx.font = 'bold 12px monospace';
   ctx.textAlign = 'left';
   ctx.fillStyle = '#fde047';
-  ctx.fillText(`🏝 ${islandMap.name}`, hudX + 8, hudY + 17);
+  ctx.fillText(`🏝 ${islandMap.name}`, hudX + 10, hudY + 19);
 
   if (episode) {
     const epCompleted = state.completedEpisodes.includes(episode.episodeId);
@@ -362,8 +498,8 @@ export function renderIslandEpisodeCanvas(
     ctx.fillStyle = epCompleted ? '#4ade80' : '#38bdf8';
     ctx.fillText(
       epCompleted ? `★ ${episode.title} [클리어 완료!]` : episode.title,
-      hudX + 8,
-      hudY + 33
+      hudX + 10,
+      hudY + 35
     );
 
     ctx.font = '10px monospace';
@@ -371,18 +507,14 @@ export function renderIslandEpisodeCanvas(
       const done = Boolean(state.episodeFlags[st.requiredFlag]);
       ctx.fillStyle = done ? '#4ade80' : '#e2e8f0';
       const prefix = done ? '✓' : '▶';
-      ctx.fillText(`${prefix} ${st.title}`, hudX + 8, hudY + 49 + idx * 13);
+      ctx.fillText(`${prefix} ${st.title}`, hudX + 10, hudY + 51 + idx * 13);
     });
   }
 
   // 10. Bottom Interaction Prompt Bar (centered in full viewWidth, respecting Safe Area bottom)
   const cx = viewW * 0.5;
   const py = viewH - 44 - safeB;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
-  ctx.fillRect(cx - 210, py, 420, 34);
-  ctx.strokeStyle = '#38bdf8';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(cx - 210, py, 420, 34);
+  drawPixelNineSlicePanel(ctx, cx - 214, py, 428, 36, 'navy_hud');
 
   ctx.font = 'bold 11px monospace';
   ctx.textAlign = 'center';

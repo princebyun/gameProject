@@ -72,8 +72,28 @@ import {
   assignCrewRole,
   computeBountyTier,
   executeShipboardCooking,
-  purchaseTrainingUpgrade
+  purchaseTrainingUpgrade,
+  recruitCrewMember
 } from '../core/rpg/crewAndBountyEngine';
+import { BattleBanterController } from '../core/rpg/battleBanterEngine';
+import type {
+  BattleBanterEntry,
+  DialogueScript,
+  DialogueTriggerType,
+  DirectiveAccessibilityConfig
+} from '../core/rpg/scriptSchema';
+import {
+  findEpisodeScript,
+  findSideCrewBanterById,
+  loadBattleBanterEntries,
+  loadEpisodeDialoguePack,
+  loadScriptById,
+  NPC_SPEAKER_CATALOG
+} from '../data/dialogues/dialogueLoader';
+import {
+  SIDE_BANTER_MARKER_MANIFEST,
+  STORY_THEATER_CATALOG
+} from '../data/dialogues/scriptManifest';
 import {
   completeEpisode,
   enterIslandEpisode,
@@ -135,13 +155,26 @@ import { renderBattleArena } from '../render/battleRenderer';
 import { CanvasRenderer } from '../render/canvasRenderer';
 import {
   createDialogueOverlayUiState,
+  createDialogueScriptPlayer,
+  createRecruitmentBannerState,
   handleDialogueOverlayTap,
+  handleDialogueScriptTap,
+  renderBattleBanterOverlay,
   renderDialogueCutsceneOverlay,
+  renderDialogueScriptOverlay,
+  renderRecruitmentOverlay,
   renderSaveAndTamperOverlay,
   renderSeaGateBlockedPopup,
   renderWantedPosterOverlay,
+  skipDialogueScriptPlayer,
   stepDialogueOverlayUi,
-  type DialogueOverlayUiState
+  stepDialogueScriptPlayer,
+  stepRecruitmentBanner,
+  tryDismissRecruitmentBanner,
+  type CutsceneDirectiveCallbacks,
+  type DialogueOverlayUiState,
+  type DialogueScriptPlayerState,
+  type RecruitmentBannerState
 } from '../render/dialogueAndPosterRenderer';
 import {
   createInitialMissionTrackerState,
@@ -171,7 +204,8 @@ import {
 import { StoryDirector } from '../story/storyDirector';
 import {
   collectIslandWorldMarkers,
-  collectSeaWorldMarkers
+  collectSeaWorldMarkers,
+  findNearbySeaSideBanter
 } from '../story/worldMarkerSystem';
 import { renderBattleHud } from '../render/hudRenderer';
 import { renderIslandEpisodeCanvas } from '../render/islandRenderer';
@@ -181,6 +215,11 @@ import {
   type SpectatorCameraTarget
 } from '../render/spectatorHudRenderer';
 import { renderTouchOverlay } from '../render/touchOverlayRenderer';
+import {
+  sharedPixelCutinOverlay,
+  type CutinDisplayMode
+} from '../render/vfx/PixelCutinOverlay';
+import { sharedBattleParticlePool } from '../render/vfx/particlePool';
 
 export type ActiveAppScene =
   | 'BOOT'
@@ -223,6 +262,13 @@ export class SceneManager {
     createInitialMissionTrackerState();
   private dialogueUiState: DialogueOverlayUiState =
     createDialogueOverlayUiState();
+  public activeCutscenePlayer: DialogueScriptPlayerState | null = null;
+  private pendingCutsceneOnComplete: (() => void) | null = null;
+  public activeRecruitmentBanner: RecruitmentBannerState | null = null;
+  private queuedRecruitmentBanners: RecruitmentBannerState[] = [];
+  public readonly battleBanterController = new BattleBanterController();
+  private battleBanterEntries: BattleBanterEntry[] = [];
+  private isLoadingCutscene = false;
   private hudToggleBtnEl: HTMLButtonElement | null = null;
   private typewriterSfxCounter = 0;
   public campaign: RpgCampaignState;
@@ -305,6 +351,7 @@ export class SceneManager {
   private raidLobbyNotice: string | null = null;
   private activeOfflineRaidId: string | null = null;
   private onlineLobbyDefaultMode: '2V2' | '1V1' | 'COOP_RAID' = '2V2';
+  private campModalTab: 'CREW' | 'THEATER' = 'CREW';
   private showcaseBarEl!: HTMLElement;
   private mobileDockEl!: HTMLElement;
   private networkBadgeEl!: HTMLElement;
@@ -414,8 +461,157 @@ export class SceneManager {
 
     // Preload core assets & scan saves asynchronously while BootScene animates
     await this.assets.preloadCoreAssets(this.gameRegistry.units);
+    this.battleBanterEntries = await loadBattleBanterEntries();
     await this.scanLatestSaveOnBoot();
     this.bootAssetsReady = true;
+  }
+
+  private getDirectiveAccessibility(): DirectiveAccessibilityConfig {
+    return {
+      flashEffect: this.renderer?.settings.flashEffectEnabled ?? true,
+      shakeIntensity: this.renderer?.settings.shakeIntensity ?? 0.8
+    };
+  }
+
+  private buildCutsceneCallbacks(): CutsceneDirectiveCallbacks {
+    return {
+      onBgm: (trackId, fadeSec) => {
+        void this.audio.playBgm(trackId, { crossfadeSec: fadeSec ?? 0.4 });
+      },
+      onSfx: (sfxId) => {
+        this.audio.playSfxId(sfxId);
+      },
+      onRecruitmentBanner: (unitId, roleName, passiveSummary) => {
+        const banner = createRecruitmentBannerState(
+          unitId,
+          roleName,
+          passiveSummary,
+          this.gameRegistry
+        );
+        if (!this.activeRecruitmentBanner) {
+          this.activeRecruitmentBanner = banner;
+          this.audio.playSfxId('ui_confirm');
+          void this.audio.playBgm('victory_fanfare', {
+            forceRestart: true,
+            crossfadeSec: 0.15
+          });
+        } else {
+          this.queuedRecruitmentBanners.push(banner);
+        }
+      },
+      onWantedPoster: (bounty, title) => {
+        this.audio.playSfxId('wanted_poster_slam');
+        const prevBounty = this.campaign.latestWantedPoster?.previousBounty ?? 0;
+        const leaderId = this.campaign.activePartyUnitIds[0] ?? 'luffy';
+        const leaderDef = this.gameRegistry.units[leaderId];
+        if (!this.campaign.latestWantedPoster || this.campaign.latestWantedPoster.newBounty < bounty) {
+          this.campaign.latestWantedPoster = {
+            unitId: leaderId,
+            characterName: leaderDef?.name ?? '몽키 D. 루피',
+            title,
+            previousBounty: prevBounty,
+            newBounty: bounty,
+            reason: title
+          };
+        }
+        this.showWantedPosterOverlay = true;
+      },
+      onComplete: () => {
+        this.activeCutscenePlayer = null;
+        const cb = this.pendingCutsceneOnComplete;
+        this.pendingCutsceneOnComplete = null;
+        if (!this.activeRecruitmentBanner) {
+          this.syncSceneBgm();
+        }
+        cb?.();
+      }
+    };
+  }
+
+  public playDialogueScript(script: DialogueScript, onComplete?: () => void): void {
+    this.pendingCutsceneOnComplete = onComplete ?? null;
+    this.activeCutscenePlayer = createDialogueScriptPlayer(
+      script,
+      this.getDirectiveAccessibility(),
+      this.buildCutsceneCallbacks()
+    );
+  }
+
+  public async playEpisodeScriptIfPresent(
+    episodeId: string,
+    triggerType: DialogueTriggerType,
+    bindingId?: string,
+    onComplete?: () => void
+  ): Promise<boolean> {
+    if (this.isLoadingCutscene) return false;
+    this.isLoadingCutscene = true;
+    try {
+      const script = await findEpisodeScript(episodeId, triggerType, bindingId);
+      if (!script) {
+        onComplete?.();
+        return false;
+      }
+      this.playDialogueScript(script, onComplete);
+      return true;
+    } finally {
+      this.isLoadingCutscene = false;
+    }
+  }
+
+  public async playStoryTheaterScript(
+    episodeId: string,
+    scriptId: string,
+    isSideBanter: boolean = false
+  ): Promise<boolean> {
+    if (isSideBanter) {
+      const banter = await findSideCrewBanterById(scriptId);
+      if (!banter) return false;
+      this.playDialogueScript(banter);
+      return true;
+    }
+    const script = await loadScriptById(episodeId, scriptId);
+    if (!script) return false;
+    this.playDialogueScript(script);
+    return true;
+  }
+
+  public async triggerSeaSideBanter(scriptId: string): Promise<boolean> {
+    const banter = await findSideCrewBanterById(scriptId);
+    if (!banter) return false;
+    const flagKey = `side_banter_${banter.scriptId}`;
+    this.playDialogueScript(banter, () => {
+      if (!this.campaign.episodeFlags[flagKey]) {
+        this.campaign.episodeFlags[flagKey] = true;
+        this.campaign.trainingPoints += banter.rewardTrainingPoints;
+        this.campaign.voyageLog.push(
+          `[선상 대화 완료] ${banter.title} (+${banter.rewardTrainingPoints} 수련 포인트!)`
+        );
+        this.saveIndicatorText = `💬 선상 대화 완료 (+${banter.rewardTrainingPoints} TP)`;
+        this.saveIndicatorTimer = 2.8;
+        void this.triggerAutoSave('선상 대화 완료');
+        this.refreshSideDrawer();
+      }
+    });
+    return true;
+  }
+
+  public dismissActiveRecruitmentBanner(force = false): boolean {
+    if (!this.activeRecruitmentBanner) return false;
+    if (!tryDismissRecruitmentBanner(this.activeRecruitmentBanner, force)) {
+      return false;
+    }
+    this.audio.playSfxId('ui_confirm');
+    const next = this.queuedRecruitmentBanners.shift() ?? null;
+    this.activeRecruitmentBanner = next;
+    if (next) {
+      void this.audio.playBgm('victory_fanfare', {
+        forceRestart: true,
+        crossfadeSec: 0.15
+      });
+    } else if (!this.activeCutscenePlayer) {
+      this.syncSceneBgm();
+    }
+    return true;
   }
 
   private updateFloatingHudToggleVisibility(): void {
@@ -510,6 +706,18 @@ export class SceneManager {
     }
     if (this.settingsModalEl?.classList.contains('open')) {
       this.settingsModalEl.classList.remove('open');
+      return { handledByScene: true };
+    }
+    if (this.activeRecruitmentBanner) {
+      this.dismissActiveRecruitmentBanner(true);
+      return { handledByScene: true };
+    }
+    if (this.activeCutscenePlayer) {
+      skipDialogueScriptPlayer(
+        this.activeCutscenePlayer,
+        this.getDirectiveAccessibility(),
+        this.buildCutsceneCallbacks()
+      );
       return { handledByScene: true };
     }
     if (this.showWantedPosterOverlay) {
@@ -807,6 +1015,15 @@ export class SceneManager {
     if (scene === 'SANDBOX') {
       this.prng = new SeededPRNG(this.sandboxConfig.seed);
       this.battleWorld = createBattleWorld(this.sandboxConfig, this.gameRegistry);
+      sharedPixelCutinOverlay.resetBattleOnceMemory();
+      sharedBattleParticlePool.reset();
+      this.battleBanterController.reset();
+    }
+    if (scene === 'ISLAND_EPISODE' && this.islandRuntime) {
+      const isl = this.rpgRegistry.islands[this.islandRuntime.islandId];
+      if (isl) {
+        void loadEpisodeDialoguePack(isl.episodeId);
+      }
     }
 
     // Hide mobile virtual gamepad when in Spectator mode
@@ -837,6 +1054,7 @@ export class SceneManager {
       this.gameRegistry,
       20261119 + this.tickCount
     );
+    this.battleBanterController.reset();
     this.audio.playSfx('CLASH');
     this.syncSceneBgm(this.battleWorld);
     this.updateShowcaseToolbar();
@@ -887,6 +1105,14 @@ export class SceneManager {
       }
       void this.triggerAutoSave('전투 승리');
       void this.audio.playBgm('victory_fanfare', { forceRestart: true, crossfadeSec: 0.2 });
+
+      // Trigger Post-Boss Bandai RPG DSL cutscene (climax, crew recruitment banner, wanted poster)
+      const postEpId =
+        ctx.completesEpisodeIdOnVictory ??
+        (ctx.islandId ? this.rpgRegistry.islands[ctx.islandId]?.episodeId : null);
+      if (postEpId && ctx.isBoss) {
+        void this.playEpisodeScriptIfPresent(postEpId, 'post_boss', ctx.encounterId);
+      }
     } else {
       this.storyDirector.abortStoryMissionToFreeRoam();
       this.syncSceneBgm();
@@ -956,6 +1182,8 @@ export class SceneManager {
           this.endgameModalEl.classList.remove('open');
           this.prng = new SeededPRNG(config.seed);
           this.battleWorld = createBattleWorld(config, this.gameRegistry);
+          sharedPixelCutinOverlay.resetBattleOnceMemory();
+          sharedBattleParticlePool.reset();
           this.activeScene = 'STORY_BATTLE';
           this.audio.playSfx('CLASH');
           this.updateShowcaseToolbar();
@@ -1040,6 +1268,8 @@ export class SceneManager {
           this.endgameModalEl.classList.remove('open');
           this.prng = new SeededPRNG(config.seed);
           this.battleWorld = createBattleWorld(config, this.gameRegistry);
+          sharedPixelCutinOverlay.resetBattleOnceMemory();
+          sharedBattleParticlePool.reset();
           this.activeScene = 'STORY_BATTLE';
           this.audio.playSfx('CLASH');
           this.updateShowcaseToolbar();
@@ -1901,8 +2131,9 @@ export class SceneManager {
       this.input.updateViewportMetrics(m);
     });
     if (typeof window !== 'undefined') {
-      (window as unknown as { __OPGV_VIEWPORT__?: unknown }).__OPGV_VIEWPORT__ =
+      (window as unknown as { __OPGV_VIEWPORT__?: unknown; __OPGV_SCENE__?: unknown }).__OPGV_VIEWPORT__ =
         this.renderer.viewport;
+      (window as unknown as { __OPGV_SCENE__?: unknown }).__OPGV_SCENE__ = this;
     }
     stageCol.appendChild(canvasWrapper);
 
@@ -3287,6 +3518,8 @@ export class SceneManager {
       ];
       this.prng = new SeededPRNG(this.sandboxConfig.seed);
       this.battleWorld = createBattleWorld(this.sandboxConfig, this.gameRegistry);
+      sharedPixelCutinOverlay.resetBattleOnceMemory();
+      sharedBattleParticlePool.reset();
       void this.storage.saveTeamPreset('sandbox_default', this.sandboxConfig);
     };
 
@@ -3400,12 +3633,62 @@ export class SceneManager {
       )
       .join('');
 
-    this.campModalEl.innerHTML = `
-      <div class="modal-box" role="dialog" aria-label="선원 직책 및 패기 수련 캠프">
-        <h3 style="color:#fde047;font-size:15px;">🏕 밀짚모자 일당 10인 집결 & 항해 일지 · 패기 수련</h3>
-        <div style="font-size:12px;color:#38bdf8;">
-          보유 베리: ฿ ${this.campaign.berries.toLocaleString()} | 수련 포인트: ${this.campaign.trainingPoints} TP | 로드 포네그리프: ${this.campaign.roadPoneglyphCount}/4 | 콜로세움 CP: <strong style="color:#facc15;">${this.campaign.endgame.colosseum.cp} CP</strong>
-        </div>
+    const unlockedTheaterCount = STORY_THEATER_CATALOG.filter((item) =>
+      this.campaign.completedEpisodes.includes(item.episodeId)
+    ).length;
+
+    const seaZoneLabels: Record<'east_blue' | 'grand_line' | 'new_world', string> = {
+      east_blue: '🌊 이스트 블루 (5개 섬 · 관문)',
+      grand_line: '⚡ 위대한 항로 (6개 섬 · 관문)',
+      new_world: '🔥 신세계 (6개 섬 · 최신장 엘바프)'
+    };
+
+    const theaterZonesHtml = (['east_blue', 'grand_line', 'new_world'] as const)
+      .map((zId) => {
+        const items = STORY_THEATER_CATALOG.filter((it) => it.seaZoneId === zId);
+        const rowsHtml = items
+          .map((it) => {
+            const unlocked = this.campaign.completedEpisodes.includes(it.episodeId);
+            return `<div class="field-row" style="border-bottom:1px solid #1e293b;padding:4px 0;">
+              <div>
+                <span style="font-size:10px;color:${unlocked ? '#38bdf8' : '#64748b'};">[${it.islandName}]</span>
+                <strong style="font-size:11px;color:${unlocked ? '#f8fafc' : '#64748b'};">
+                  ${unlocked ? '🎬' : '🔒'} ${it.title}
+                </strong>
+              </div>
+              <button
+                data-replay-ep="${it.episodeId}"
+                data-replay-script="${it.scriptId}"
+                ${unlocked ? 'class="btn-tab-active"' : 'disabled'}
+              >
+                ${unlocked ? '▶ 다시보기' : '🔒 미클리어'}
+              </button>
+            </div>`;
+          })
+          .join('');
+        return `<div class="slot-card" style="background:#0f172a;border-color:#334155;">
+          <strong style="color:#fde047;font-size:12px;">${seaZoneLabels[zId]}</strong>
+          ${rowsHtml}
+        </div>`;
+      })
+      .join('');
+
+    const sideTheaterHtml = SIDE_BANTER_MARKER_MANIFEST.map((b) => {
+      const done = Boolean(this.campaign.episodeFlags[`side_banter_${b.scriptId}`]);
+      return `<div class="field-row" style="border-bottom:1px solid #1e293b;padding:4px 0;">
+        <span style="font-size:11px;color:${done ? '#7dd3fc' : '#64748b'};">
+          ${done ? '💬' : '🔒'} ${b.markerLabel}
+        </span>
+        <button
+          data-replay-side="${b.scriptId}"
+          ${done ? 'class="btn-showcase"' : 'disabled'}
+        >
+          ${done ? '▶ 다시보기' : '🔒 미발견'}
+        </button>
+      </div>`;
+    }).join('');
+
+    const crewTabBodyHtml = `
         <div class="slot-card" id="camp-wanted-poster-frame-card" style="background:#1c1917;border-width:2px;border-color:${
           this.campaign.endgame.colosseum.posterFrameTier === 'diamond'
             ? '#38bdf8'
@@ -3424,10 +3707,6 @@ export class SceneManager {
           <strong style="color:#4ade80;font-size:12px;">🏴‍☠️ 밀짚모자 일당 집결 진행도 (${joinedStrawHats.length} / 10명)</strong>
           <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;">${strawHatBadgesHtml}</div>
         </div>
-        <div class="slot-card" style="background:#1c1917;border-color:#ef4444;">
-          <strong style="color:#f87171;font-size:12px;">🟥 항해 일지 — 로드 포네그리프 수집 현황 (${this.campaign.roadPoneglyphCount} / 4)</strong>
-          ${poneglyphHtml}
-        </div>
         <div class="slot-card" style="background:#1e293b;border-color:#f97316;">
           <div class="field-row">
             <div>
@@ -3443,6 +3722,38 @@ export class SceneManager {
         ${rolesHtml}
         <h4 style="color:#38bdf8;font-size:13px;margin-top:6px;">2. 패기 & 악마의 열매 각성 수련</h4>
         ${trainingHtml}
+    `;
+
+    const theaterTabBodyHtml = `
+        <div class="slot-card" style="background:#1c1917;border-color:#ef4444;">
+          <strong style="color:#f87171;font-size:12px;">🟥 항해 일지 — 로드 포네그리프 수집 현황 (${this.campaign.roadPoneglyphCount} / 4)</strong>
+          ${poneglyphHtml}
+        </div>
+        <div class="slot-card" style="background:#0f172a;border-color:#facc15;">
+          <div class="field-row">
+            <strong style="color:#fde047;font-size:13px;">🎬 명장면 다시보기 (Story Theater)</strong>
+            <span style="font-size:11px;color:#38bdf8;">해금된 컷신: ${unlockedTheaterCount} / ${STORY_THEATER_CATALOG.length}</span>
+          </div>
+          <div style="font-size:10px;color:#94a3b8;">클리어한 에피소드의 오프닝·보스 대치·동료 합류·관문 돌파 컷신을 언제든 다시 감상할 수 있습니다.</div>
+        </div>
+        ${theaterZonesHtml}
+        <div class="slot-card" style="background:#0f172a;border-color:#38bdf8;">
+          <strong style="color:#7dd3fc;font-size:12px;">💬 블루 마커 선상 대화 모음 (자유 항해)</strong>
+          ${sideTheaterHtml}
+        </div>
+    `;
+
+    this.campModalEl.innerHTML = `
+      <div class="modal-box" role="dialog" aria-label="선원 직책 및 패기 수련 캠프">
+        <h3 style="color:#fde047;font-size:15px;">🏕 밀짚모자 일당 10인 집결 & 항해 일지 · 패기 수련</h3>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button id="tab-camp-crew" class="${this.campModalTab === 'CREW' ? 'btn-tab-active' : ''}">🏕 선원 · 직책 · 수련</button>
+          <button id="tab-camp-theater" class="${this.campModalTab === 'THEATER' ? 'btn-tab-active' : ''}">📖 항해 일지 · 명장면 다시보기 (${unlockedTheaterCount}/${STORY_THEATER_CATALOG.length})</button>
+        </div>
+        <div style="font-size:12px;color:#38bdf8;">
+          보유 베리: ฿ ${this.campaign.berries.toLocaleString()} | 수련 포인트: ${this.campaign.trainingPoints} TP | 로드 포네그리프: ${this.campaign.roadPoneglyphCount}/4 | 콜로세움 CP: <strong style="color:#facc15;">${this.campaign.endgame.colosseum.cp} CP</strong>
+        </div>
+        ${this.campModalTab === 'THEATER' ? theaterTabBodyHtml : crewTabBodyHtml}
         <div style="display:flex;justify-content:flex-end;margin-top:8px;">
           <button id="btn-close-camp" class="btn-tab-active">닫기</button>
         </div>
@@ -3450,6 +3761,47 @@ export class SceneManager {
     `;
 
     this.campModalEl.classList.add('open');
+
+    this.campModalEl
+      .querySelector('#tab-camp-crew')
+      ?.addEventListener('click', () => {
+        this.campModalTab = 'CREW';
+        this.openCrewCampModal();
+      });
+
+    this.campModalEl
+      .querySelector('#tab-camp-theater')
+      ?.addEventListener('click', () => {
+        this.campModalTab = 'THEATER';
+        this.openCrewCampModal();
+      });
+
+    this.campModalEl
+      .querySelectorAll<HTMLButtonElement>('[data-replay-script]')
+      .forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const epId = btn.dataset.replayEp;
+          const scId = btn.dataset.replayScript;
+          if (!epId || !scId) return;
+          this.campModalEl.classList.remove('open');
+          this.audio.unlock();
+          this.audio.playSfxId('ui_confirm');
+          void this.playStoryTheaterScript(epId, scId, false);
+        });
+      });
+
+    this.campModalEl
+      .querySelectorAll<HTMLButtonElement>('[data-replay-side]')
+      .forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const scId = btn.dataset.replaySide;
+          if (!scId) return;
+          this.campModalEl.classList.remove('open');
+          this.audio.unlock();
+          this.audio.playSfxId('ui_confirm');
+          void this.playStoryTheaterScript('', scId, true);
+        });
+      });
 
     this.campModalEl
       .querySelector('#btn-close-camp')
@@ -3603,6 +3955,14 @@ export class SceneManager {
           <input type="checkbox" id="chk-flash" checked />
         </div>
         <div class="field-row">
+          <label for="sel-cutin-mode">각성·합동기 픽셀 컷인 연출:</label>
+          <select id="sel-cutin-mode">
+            <option value="ON">항상 표시 (ON)</option>
+            <option value="ONCE">전투당 1회 (ONCE)</option>
+            <option value="OFF">표시 안 함 (OFF)</option>
+          </select>
+        </div>
+        <div class="field-row">
           <label for="rng-shake">카메라 흔들림 강도 (0~100%):</label>
           <input type="range" id="rng-shake" min="0" max="100" value="80" />
         </div>
@@ -3740,6 +4100,22 @@ export class SceneManager {
       void this.storage.saveGlobalSettings(this.getCurrentGlobalSettings());
     });
 
+    const selCutinMode = this.settingsModalEl.querySelector(
+      '#sel-cutin-mode'
+    ) as HTMLSelectElement | null;
+    if (selCutinMode) {
+      const savedCutin = this.platform.getStorageItem('opgv_cutin_mode_v1');
+      if (savedCutin === 'ON' || savedCutin === 'ONCE' || savedCutin === 'OFF') {
+        selCutinMode.value = savedCutin;
+        this.renderer.settings.cutinDisplayMode = savedCutin;
+      }
+      selCutinMode.addEventListener('change', () => {
+        const mode = selCutinMode.value as CutinDisplayMode;
+        this.renderer.settings.cutinDisplayMode = mode;
+        this.platform.setStorageItem('opgv_cutin_mode_v1', mode);
+      });
+    }
+
     const selWinMode = this.settingsModalEl.querySelector(
       '#sel-window-mode'
     ) as HTMLSelectElement | null;
@@ -3843,6 +4219,20 @@ export class SceneManager {
         } else {
           this.audio.playSfxId('ui_move');
         }
+        return;
+      }
+      if (this.activeRecruitmentBanner) {
+        this.dismissActiveRecruitmentBanner();
+        return;
+      }
+      if (this.activeCutscenePlayer) {
+        const res = handleDialogueScriptTap(
+          pt,
+          this.activeCutscenePlayer,
+          this.getDirectiveAccessibility(),
+          this.buildCutsceneCallbacks()
+        );
+        this.audio.playSfxId(res === 'SKIPPED' ? 'ui_cancel' : 'ui_move');
         return;
       }
       if (this.showWantedPosterOverlay) {
@@ -3986,6 +4376,20 @@ export class SceneManager {
       }
 
       if (e.code === 'KeyE' || e.code === 'Space' || e.code === 'Enter') {
+        if (this.activeRecruitmentBanner) {
+          this.dismissActiveRecruitmentBanner();
+          return;
+        }
+        if (this.activeCutscenePlayer) {
+          handleDialogueScriptTap(
+            null,
+            this.activeCutscenePlayer,
+            this.getDirectiveAccessibility(),
+            this.buildCutsceneCallbacks()
+          );
+          this.audio.playSfxId('ui_move');
+          return;
+        }
         if (this.showWantedPosterOverlay) {
           this.showWantedPosterOverlay = false;
           return;
@@ -4038,6 +4442,25 @@ export class SceneManager {
     this.storyDirector.stepTimers(dt);
     if (this.saveIndicatorTimer > 0) {
       this.saveIndicatorTimer = Math.max(0, this.saveIndicatorTimer - dt);
+    }
+    if (this.activeRecruitmentBanner) {
+      stepRecruitmentBanner(this.activeRecruitmentBanner, dt);
+      return;
+    }
+    if (this.activeCutscenePlayer) {
+      const cutStep = stepDialogueScriptPlayer(
+        this.activeCutscenePlayer,
+        dt,
+        this.getDirectiveAccessibility(),
+        this.buildCutsceneCallbacks()
+      );
+      if (cutStep.charRevealed) {
+        this.typewriterSfxCounter += 1;
+        if (this.typewriterSfxCounter % 3 === 0) {
+          this.audio.playSfxId('ui_move');
+        }
+      }
+      return;
     }
     if (this.islandRuntime?.activeDialogueNpc) {
       const dlgStep = stepDialogueOverlayUi(
@@ -4136,6 +4559,7 @@ export class SceneManager {
             this.audio.playSfx('UI_CLICK');
           }
         } else if (this.lastSailingStep.nearbySeaGate) {
+          const gateId = this.lastSailingStep.nearbySeaGate.gateId;
           const gateRes = tryTransitionThroughSeaGate(
             this.campaign,
             this.rpgRegistry
@@ -4148,10 +4572,26 @@ export class SceneManager {
             this.audio.playSfx('FORM_SHIFT');
             this.syncSceneBgm();
             this.refreshSideDrawer();
+            const gateEpId =
+              gateId === 'gate_reverse_mountain'
+                ? 'ep_loguetown'
+                : gateId === 'gate_red_line'
+                  ? 'ep_marineford'
+                  : null;
+            if (gateEpId) {
+              void this.playEpisodeScriptIfPresent(gateEpId, 'sea_gate', gateId);
+            }
+          }
+        } else {
+          const nearbyBanter = findNearbySeaSideBanter(this.campaign);
+          if (nearbyBanter) {
+            this.audio.playSfx('UI_CLICK');
+            void this.triggerSeaSideBanter(nearbyBanter.scriptId);
           }
         }
       }
     } else if (this.activeScene === 'ISLAND_EPISODE' && this.islandRuntime) {
+      const hadDialogueNpc = Boolean(this.islandRuntime.activeDialogueNpc);
       this.lastIslandStep = stepIslandExploration(
         this.campaign,
         this.islandRuntime,
@@ -4166,6 +4606,53 @@ export class SceneManager {
         this.audio.playSfx('UI_CLICK');
         void this.triggerAutoSave('에피소드 진행');
         this.refreshSideDrawer();
+      }
+
+      // Upgrade NPC gold-marker dialogue into Bandai-RPG DSL cutscene when available
+      if (!hadDialogueNpc && this.islandRuntime.activeDialogueNpc) {
+        const openedNpc = this.islandRuntime.activeDialogueNpc;
+        const islandDef = this.rpgRegistry.islands[this.islandRuntime.islandId];
+        if (islandDef) {
+          void findEpisodeScript(
+            islandDef.episodeId,
+            'gold_marker',
+            openedNpc.npcId
+          ).then((script) => {
+            if (!script || !this.islandRuntime) return;
+            // Hand off to DSL Cutscene Player and apply NPC choice effects on completion
+            this.islandRuntime.activeDialogueNpc = null;
+            this.islandRuntime.dialogueLineIndex = 0;
+            this.playDialogueScript(script, () => {
+              if (openedNpc.setsQuestFlagOnTalk) {
+                this.campaign.episodeFlags[openedNpc.setsQuestFlagOnTalk] = true;
+              }
+              if (openedNpc.choices && openedNpc.choices.length > 0) {
+                const ch = openedNpc.choices[0];
+                if (ch.setsFlag) {
+                  this.campaign.episodeFlags[ch.setsFlag] = true;
+                }
+                if (ch.recruitsUnitId) {
+                  recruitCrewMember(
+                    this.campaign,
+                    ch.recruitsUnitId,
+                    this.rpgRegistry,
+                    this.gameRegistry
+                  );
+                }
+                this.campaign.voyageLog.push(`[대화: ${openedNpc.name}] ${ch.responseLine}`);
+                if (ch.triggersEndgameMode === 'COLOSSEUM') {
+                  this.openColosseumModal('TOURNAMENT');
+                } else if (ch.triggersEndgameMode === 'IMPEL_DOWN') {
+                  this.openImpelDownModal();
+                } else if (ch.triggersEndgameMode === 'RAID') {
+                  this.openRaidLobbyModal();
+                }
+              }
+              void this.triggerAutoSave('스토리 대화 완료');
+              this.refreshSideDrawer();
+            });
+          });
+        }
       }
 
       if (this.lastIslandStep.requestedOpenOnlineTerminal) {
@@ -4187,7 +4674,20 @@ export class SceneManager {
       }
 
       if (this.lastIslandStep.triggeredBattle) {
-        this.startStoryBattle(this.lastIslandStep.triggeredBattle);
+        const battleCtx = this.lastIslandStep.triggeredBattle;
+        const islandDef = this.rpgRegistry.islands[this.islandRuntime.islandId];
+        if (islandDef && battleCtx.isBoss) {
+          void this.playEpisodeScriptIfPresent(
+            islandDef.episodeId,
+            'pre_boss',
+            battleCtx.encounterId,
+            () => {
+              this.startStoryBattle(battleCtx);
+            }
+          );
+        } else {
+          this.startStoryBattle(battleCtx);
+        }
         return;
       }
 
@@ -4198,8 +4698,14 @@ export class SceneManager {
             '[제1장 첫 출항] 알비다 해적단이 근해를 가로막았다! 첫 해상전 튜토리얼 돌입!'
           );
           void this.triggerAutoSave('첫 출항');
-          this.startStoryBattle(
-            this.storyDirector.createAlvidaTutorialBattleContext()
+          const alvidaCtx = this.storyDirector.createAlvidaTutorialBattleContext();
+          void this.playEpisodeScriptIfPresent(
+            'ep_east_blue_start',
+            'arrival',
+            alvidaCtx.encounterId,
+            () => {
+              this.startStoryBattle(alvidaCtx);
+            }
           );
           return;
         }
@@ -4340,6 +4846,9 @@ export class SceneManager {
           this.battleWorld.meleeBeamGuards.length;
         const prevSlowMo = this.battleWorld.slowMoTimer;
         const prevFormId = playerUnit?.activeFormId ?? null;
+        const prevParryIds = new Set(this.battleWorld.parryMiniEvents.map((e) => e.id));
+        const prevCutinId = this.battleWorld.activeCutin?.id ?? null;
+        const prevBondImpact = Boolean(this.battleWorld.activeBondCombo?.impactExecuted);
 
         stepBattleWorld(
           this.battleWorld,
@@ -4348,6 +4857,24 @@ export class SceneManager {
           this.prng,
           FIXED_DT
         );
+
+        // Phase 16: Retro SFX + Haptics for Parry, Projectile Reflect, Cut-In & Bond Combo Burst
+        for (const pev of this.battleWorld.parryMiniEvents) {
+          if (!prevParryIds.has(pev.id)) {
+            void this.platformBridge.device.triggerHaptic('clash');
+            this.audio.playSfxId(
+              pev.kind === 'PROJECTILE_REFLECT' ? 'projectile_reflect' : 'parry_clang'
+            );
+          }
+        }
+        if (this.battleWorld.activeCutin && this.battleWorld.activeCutin.id !== prevCutinId) {
+          void this.platformBridge.device.triggerHaptic('awakening');
+          this.audio.playSfxId('cutin_whoosh');
+        }
+        if (this.battleWorld.activeBondCombo?.impactExecuted && !prevBondImpact) {
+          void this.platformBridge.device.triggerHaptic('awakening');
+          this.audio.playSfxId('bond_combo_burst');
+        }
 
         const nextClashes =
           this.battleWorld.beamClashes.length +
@@ -4371,6 +4898,16 @@ export class SceneManager {
               : 'transform_burst'
           );
           this.syncSceneBgm(this.battleWorld);
+        }
+
+        // Non-blocking mid-battle banter read-only observation & timer step
+        if (this.battleBanterEntries.length > 0) {
+          this.battleBanterController.observeWorld(
+            this.battleWorld,
+            this.battleBanterEntries,
+            this.activeBattleContext?.encounterId ?? null
+          );
+          this.battleBanterController.step(FIXED_DT);
         }
 
         // Dynamic raid break low-pass filter & boss phase-2 / awakening BGM sync
@@ -4445,9 +4982,13 @@ export class SceneManager {
         );
       }
       const hasSeaInteractable = Boolean(
-        this.lastSailingStep.nearbyIsland || this.lastSailingStep.nearbySeaGate
+        this.lastSailingStep.nearbyIsland ||
+          this.lastSailingStep.nearbySeaGate ||
+          findNearbySeaSideBanter(this.campaign)
       );
-      renderTouchOverlay(ctx, this.input, 'SEA', hasSeaInteractable);
+      if (!this.activeCutscenePlayer && !this.activeRecruitmentBanner) {
+        renderTouchOverlay(ctx, this.input, 'SEA', hasSeaInteractable);
+      }
     } else if (this.activeScene === 'ISLAND_EPISODE' && this.islandRuntime) {
       const storyNode = this.storyDirector.getCurrentNode(this.campaign);
       const islandMap = this.rpgRegistry.islands[this.islandRuntime.islandId];
@@ -4497,7 +5038,11 @@ export class SceneManager {
           viewport
         );
       }
-      if (!this.islandRuntime.activeDialogueNpc) {
+      if (
+        !this.islandRuntime.activeDialogueNpc &&
+        !this.activeCutscenePlayer &&
+        !this.activeRecruitmentBanner
+      ) {
         const hasIslandInteractable = Boolean(
           this.lastIslandStep.nearbyNpc ||
             this.lastIslandStep.nearbySwitch ||
@@ -4526,11 +5071,29 @@ export class SceneManager {
         this.input.getBindings(),
         this.fps,
         this.input.isTouchViewport(),
-        viewport
+        viewport,
+        this.assets
       );
       if (!isSpec) {
-        renderTouchOverlay(ctx, this.input);
+        renderTouchOverlay(
+          ctx,
+          this.input,
+          'BATTLE',
+          false,
+          this.activeLockstep.world,
+          this.gameRegistry,
+          this.assets
+        );
       }
+      sharedPixelCutinOverlay.render(
+        ctx,
+        this.activeLockstep.world.activeCutin,
+        this.gameRegistry,
+        this.assets,
+        viewport,
+        this.renderer.settings.flashEffectEnabled,
+        this.renderer.settings.cutinDisplayMode ?? 'ON'
+      );
       renderOnlineAndSpectatorHud(
         ctx,
         this.activeLockstep.world,
@@ -4560,9 +5123,63 @@ export class SceneManager {
         this.input.getBindings(),
         this.fps,
         this.input.isTouchViewport(),
+        viewport,
+        this.assets
+      );
+      const hasBossHpBar = this.battleWorld.units.some(
+        (u) => u.team === 'OMEGA' && u.isOnField && u.isAlive && u.isBossUnit
+      );
+      renderBattleBanterOverlay(
+        ctx,
+        this.battleBanterController.getActiveItem(),
+        this.battleBanterController.getActiveAlpha(),
+        this.gameRegistry,
+        this.assets,
+        viewport,
+        hasBossHpBar,
+        this.battleWorld.raidState.active
+      );
+      renderTouchOverlay(
+        ctx,
+        this.input,
+        'BATTLE',
+        false,
+        this.battleWorld,
+        this.gameRegistry,
+        this.assets
+      );
+      sharedPixelCutinOverlay.render(
+        ctx,
+        this.battleWorld.activeCutin,
+        this.gameRegistry,
+        this.assets,
+        viewport,
+        this.renderer.settings.flashEffectEnabled,
+        this.renderer.settings.cutinDisplayMode ?? 'ON'
+      );
+    }
+
+    if (this.activeCutscenePlayer) {
+      renderDialogueScriptOverlay(
+        ctx,
+        this.activeCutscenePlayer,
+        this.gameRegistry,
+        this.assets,
+        this.tickCount,
+        viewport,
+        NPC_SPEAKER_CATALOG
+      );
+    }
+
+    if (this.activeRecruitmentBanner) {
+      renderRecruitmentOverlay(
+        ctx,
+        this.activeRecruitmentBanner,
+        this.gameRegistry,
+        this.assets,
+        this.tickCount,
         viewport
       );
-      renderTouchOverlay(ctx, this.input);
     }
 
     renderSaveAndTamperOverlay(

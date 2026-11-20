@@ -1,5 +1,6 @@
 import { LOGICAL_HEIGHT, LOGICAL_WIDTH } from '../core/constants';
 import type { Vec2 } from '../core/math/vector2';
+import type { CutinDisplayMode } from './vfx/PixelCutinOverlay';
 import {
   ResponsiveViewportManager,
   type ViewportMetrics
@@ -9,6 +10,7 @@ export interface RenderAccessibilitySettings {
   flashEffectEnabled: boolean;
   shakeIntensity: number; // 0.0 ~ 1.0
   showFps: boolean;
+  cutinDisplayMode?: CutinDisplayMode;
 }
 
 export class CanvasRenderer {
@@ -18,7 +20,8 @@ export class CanvasRenderer {
   public settings: RenderAccessibilitySettings = {
     flashEffectEnabled: true,
     shakeIntensity: 0.8,
-    showFps: true
+    showFps: true,
+    cutinDisplayMode: 'ON'
   };
 
   constructor(container: HTMLElement) {

@@ -1,0 +1,195 @@
+{
+  "episodeId": "ep_baratie",
+  "islandId": "baratie",
+  "seaZoneId": "east_blue",
+  "scripts": [
+    {
+      "scriptId": "eb3_baratie_arrival",
+      "episodeId": "ep_baratie",
+      "triggerType": "gold_marker",
+      "title": "해상 레스토랑 발라티에 소동",
+      "bindingId": "npc_sanji_baratie",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "바다 한가운데 떠 있는 물고기 모양의 거대 식당, 해상 레스토랑 발라티에.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제2장 · 이스트 블루",
+              "title": "바다의 요리사 상디",
+              "subtitle": "해상 레스토랑 발라티에 결전"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "determined",
+          "side": "right",
+          "text": "배고픈 놈에게 밥을 먹이는 게 요리사다. 해적이든 해군이든 바다에서 굶으면 끝장이야."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "와아! 이 요리 진짜 맛있다! 야, 너 우리 배 요리사가 돼라! 꼭 필요해!"
+        },
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "normal",
+          "side": "right",
+          "text": "거절한다. 난 오너 영감님께 갚아야 할 빚이 있거든. ...하지만 올 블루의 꿈은 안 버렸어."
+        },
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "shocked",
+          "side": "left",
+          "text": "크, 큰일 났다 루피! 50척 함대를 이끌던 이스트 블루 최악의 패자 돈 클리크가 쳐들어왔어!"
+        },
+        {
+          "speakerId": "npc_zeff",
+          "speakerName": "붉은 발 제프",
+          "emotion": "determined",
+          "side": "right",
+          "text": "애송이, 저런 찌질한 해적에게 식당을 넘길 순 없다. 네 발차기로 본때를 보여줘라."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "좋아! 이 식당은 내가 지킨다! 우솝, 상디, 저 황금 갑옷 녀석을 몰아내자!"
+        }
+      ]
+    },
+    {
+      "scriptId": "eb3_krieg_pre_boss",
+      "episodeId": "ep_baratie",
+      "triggerType": "pre_boss",
+      "title": "돈 클리크 대치 — 맹독 가스탄 MH5 경고",
+      "bindingId": "enc_baratie_krieg_boss",
+      "lines": [
+        {
+          "speakerId": "don_krieg",
+          "speakerName": "수령 · 돈 클리크",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "크하하하! 배도 채웠으니 이 레스토랑과 붉은 발의 항해 일지를 내놓아라!",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "sfx", "sfxId": "ship_cannon" }
+          ]
+        },
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "angry",
+          "side": "left",
+          "text": "은혜를 원수로 갚는 쓰레기 녀석! 여긴 영감님의 보물이다, 한 발도 못 들여놔!"
+        },
+        {
+          "speakerId": "don_krieg",
+          "speakerName": "수령 · 돈 클리크",
+          "emotion": "angry",
+          "side": "right",
+          "text": "어리석은 놈들! 우츠 강철 갑옷과 맹독 가스탄 MH5 앞에서 비명을 질러라!",
+          "directives": [{ "type": "cameraShake", "intensity": 0.75, "durationSec": 0.4 }]
+        },
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "shocked",
+          "side": "left",
+          "text": "루피, 조심해! 보라색 독가스 장판이 퍼지면 피해야 해! 내 화약성으로 엄호할게!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "무기가 백 개든 천 개든 상관없어! 내 신념을 담은 주먹으로 그 갑옷을 박살 내주마!"
+        }
+      ]
+    },
+    {
+      "scriptId": "eb3_baratie_post_boss_recruit",
+      "episodeId": "ep_baratie",
+      "triggerType": "post_boss",
+      "title": "제프와의 이별 & 상디·우솝 합류",
+      "bindingId": "enc_baratie_krieg_boss",
+      "lines": [
+        {
+          "speakerId": "don_krieg",
+          "speakerName": "수령 · 돈 클리크",
+          "emotion": "shocked",
+          "side": "right",
+          "text": "말도 안 돼... 내 우츠 강철 갑옷이 맨주먹 한 방에 부서지다니...!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 0.9, "durationSec": 0.45 },
+            { "type": "sfx", "sfxId": "blunt_hit" }
+          ]
+        },
+        {
+          "speakerId": "npc_zeff",
+          "speakerName": "붉은 발 제프",
+          "emotion": "normal",
+          "side": "right",
+          "text": "상디... 감기 걸리지 마라. 네 꿈인 올 블루를 반드시 두 눈으로 보고 오너라.",
+          "directives": [{ "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.5 }]
+        },
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "sad",
+          "side": "left",
+          "text": "오너 제프!! 그동안 정말 신세 많이 졌습니다!! 평생 은혜는 잊지 않겠습니다!!"
+        },
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "determined",
+          "side": "left",
+          "text": "자, 간다 루피! 올 블루를 찾으러 떠나는 김에 동료들 식사는 내가 책임지지!",
+          "directives": [
+            {
+              "type": "recruitmentBanner",
+              "unitId": "sanji",
+              "roleName": "요리사 (Cook)",
+              "passiveSummary": "선상 특식 버프(최대 HP +12%) & 무료 선상 요리 해금!"
+            }
+          ]
+        },
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "excited",
+          "side": "right",
+          "text": "바다의 용감한 전사 우솝 님도 본격 합류다! 내 저격 실력을 믿어두라고!",
+          "directives": [
+            {
+              "type": "recruitmentBanner",
+              "unitId": "usopp",
+              "roleName": "저격수 (Sniper)",
+              "passiveSummary": "원거리 견제·화약성 지원 사격 합류 완료!"
+            }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "그런데 나미가 고잉 메리호를 끌고 아론 파크로 갔대! 당장 나미를 데리러 가자!"
+        }
+      ]
+    }
+  ]
+}

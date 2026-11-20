@@ -1,0 +1,244 @@
+{
+  "episodeId": "ep_loguetown",
+  "islandId": "loguetown",
+  "seaZoneId": "east_blue",
+  "scripts": [
+    {
+      "scriptId": "eb5_loguetown_arrival",
+      "episodeId": "ep_loguetown",
+      "triggerType": "gold_marker",
+      "title": "시작과 끝의 마을 — 로저의 처형대",
+      "bindingId": "npc_dragon_shadow",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "해적왕 골 D. 로저가 태어나고 생을 마감한 곳, 시작과 끝의 마을 로그타운.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제2장 최종 · 이스트 블루",
+              "title": "시작과 끝의 마을 로그타운",
+              "subtitle": "하얀 사냥꾼 스모커와 운명의 폭풍"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "우와! 여기가 해적왕이 마지막으로 웃었던 처형대구나! 꼭 한 번 올라가 보고 싶었어!"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "determined",
+          "side": "left",
+          "text": "새 명검 유바시리와 삼대 귀철도 손에 넣었다. 기압이 심상치 않군, 폭풍이 온다."
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "shocked",
+          "side": "left",
+          "text": "루피! 해군 대령 스모커가 항구를 봉쇄했어! 지금 당장 배로 돌아가야 해!"
+        },
+        {
+          "speakerId": "npc_dragon_shadow",
+          "speakerName": "정체불명의 녹색 망토 사나이",
+          "emotion": "normal",
+          "side": "right",
+          "text": "...해적이라고? 그것도 나쁘지 않지. 세계는 우리의 대답을 기다리고 있다."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "어이, 조로, 상디! 저 연기 아저씨만 따돌리면 드디어 위대한 항로다! 가자!"
+        }
+      ]
+    },
+    {
+      "scriptId": "eb5_smoker_pre_boss",
+      "episodeId": "ep_loguetown",
+      "triggerType": "pre_boss",
+      "title": "하얀 사냥꾼 스모커 포위전",
+      "bindingId": "enc_loguetown_smoker_escape",
+      "lines": [
+        {
+          "speakerId": "smoker",
+          "speakerName": "하얀 사냥꾼 · 스모커 대령",
+          "emotion": "angry",
+          "side": "right",
+          "text": "네놈이 3,000만 베리의 밀짚모자냐? 내 앞에서 단 한 놈도 위대한 항로로 못 보낸다!",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "sfx", "sfxId": "logia_dissolve" }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "shocked",
+          "side": "left",
+          "text": "뭐야?! 주먹이 전부 하얀 연기를 통과해 버리잖아! 어떻게 때리는 거야?!"
+        },
+        {
+          "speakerId": "smoker",
+          "speakerName": "하얀 사냥꾼 · 스모커 대령",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "뭉게뭉게 열매의 자연계 능력이다. 화이트 블로우로 꼼짝 못 하게 붙잡아주마!"
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "determined",
+          "side": "left",
+          "text": "루피, 정면 승부는 무리야! 폭풍이 항구에 닿을 때까지 45초만 버텨서 탈출하자!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "알겠어! 이 연기 녀석에게 잡히지 않고 끝까지 버텨서 바다로 빠져나간다!"
+        }
+      ]
+    },
+    {
+      "scriptId": "eb5_loguetown_post_boss",
+      "episodeId": "ep_loguetown",
+      "triggerType": "post_boss",
+      "title": "녹색 돌풍과 로그타운 탈출",
+      "bindingId": "enc_loguetown_smoker_escape",
+      "lines": [
+        {
+          "speakerId": "npc_dragon_shadow",
+          "speakerName": "정체불명의 녹색 망토 사나이",
+          "emotion": "determined",
+          "side": "right",
+          "text": "스모커, 그 아이를 보내줘라. 사내의 출항을 막을 이유가 대체 어디 있나?",
+          "directives": [
+            { "type": "cameraShake", "intensity": 0.8, "durationSec": 0.45 },
+            { "type": "screenFlash", "color": "#86efac", "durationSec": 0.25 },
+            { "type": "sfx", "sfxId": "dodge_whoosh" }
+          ]
+        },
+        {
+          "speakerId": "smoker",
+          "speakerName": "하얀 사냥꾼 · 스모커 대령",
+          "emotion": "shocked",
+          "side": "right",
+          "text": "드, 드래곤?! 거대한 돌풍이 항구 전체를 덮쳤다... 밀짚모자, 끝까지 쫓아주마!"
+        },
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "excited",
+          "side": "left",
+          "text": "바람이 순풍으로 바뀌었어! 전원 고잉 메리호에 뛰어올라라!",
+          "directives": [{ "type": "bgm", "trackId": "sea_east_blue", "fadeSec": 0.4 }]
+        },
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "excited",
+          "side": "left",
+          "text": "휴, 살았다! 해군 대령 포위망을 뚫고 빠져나왔다니 우리 정말 대단한걸!"
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "determined",
+          "side": "left",
+          "text": "이제 동쪽 끝 리버스 마운틴 관문만 넘으면 꿈에 그리던 위대한 항로야!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "간다 얘들아! 리버스 마운틴으로 전속 전진이다!!"
+        }
+      ]
+    },
+    {
+      "scriptId": "eb5_reverse_mountain_gate",
+      "episodeId": "ep_loguetown",
+      "triggerType": "sea_gate",
+      "title": "리버스 마운틴 관문 — 위대한 항로 출항 선언",
+      "bindingId": "gate_reverse_mountain",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "determined",
+          "side": "center_narration",
+          "text": "폭풍우를 가르며 리버스 마운틴을 향해 나아가는 고잉 메리호. 다섯 동료가 나무통을 둘러쌌다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제3장 개막",
+              "title": "위대한 항로 돌입",
+              "subtitle": "리버스 마운틴 — 다섯 개의 꿈"
+            },
+            { "type": "bgm", "trackId": "sea_grand_line", "fadeSec": 0.5 }
+          ]
+        },
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "determined",
+          "side": "left",
+          "text": "올 블루를 찾기 위해!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "해적왕이 되기 위해!"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "determined",
+          "side": "right",
+          "text": "세계 제일의 대검호가 되기 위해!"
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "determined",
+          "side": "right",
+          "text": "전 세계의 지도를 그리기 위해!"
+        },
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "excited",
+          "side": "left",
+          "text": "바다의 용감한 전사가 되기 위해!!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "위대한 항로로!! 출항이다아아!!",
+          "directives": [
+            { "type": "sfx", "sfxId": "coup_de_burst" },
+            { "type": "cameraShake", "intensity": 0.85, "durationSec": 0.45 },
+            { "type": "screenFlash", "color": "#bae6fd", "durationSec": 0.25 }
+          ]
+        }
+      ]
+    }
+  ]
+}

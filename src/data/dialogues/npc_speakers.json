@@ -1,0 +1,116 @@
+{
+  "speakers": [
+    {
+      "speakerId": "npc_makino",
+      "displayName": "마키노",
+      "roleLabel": "후샤 마을 주점 주인",
+      "accentColor": "#4ade80",
+      "badgeGlyph": "🍺"
+    },
+    {
+      "speakerId": "npc_mayor",
+      "displayName": "우프 슬랩 촌장",
+      "roleLabel": "후샤 마을 촌장",
+      "accentColor": "#94a3b8",
+      "badgeGlyph": "🎩"
+    },
+    {
+      "speakerId": "npc_alvida",
+      "displayName": "철퇴의 알비다",
+      "roleLabel": "알비다 해적단 선장",
+      "accentColor": "#f43f5e",
+      "badgeGlyph": "⚓"
+    },
+    {
+      "speakerId": "npc_chouchou",
+      "displayName": "슈슈",
+      "roleLabel": "오렌지 마을 애견가게 수호견",
+      "accentColor": "#fbbf24",
+      "badgeGlyph": "🐾"
+    },
+    {
+      "speakerId": "npc_zeff",
+      "displayName": "붉은 발 제프",
+      "roleLabel": "해상 레스토랑 발라티에 오너",
+      "accentColor": "#f59e0b",
+      "badgeGlyph": "👨‍🍳"
+    },
+    {
+      "speakerId": "npc_nojiko",
+      "displayName": "노지코",
+      "roleLabel": "코코야시 마을 주민",
+      "accentColor": "#38bdf8",
+      "badgeGlyph": "🍊"
+    },
+    {
+      "speakerId": "npc_dragon_shadow",
+      "displayName": "정체불명의 녹색 망토 사나이",
+      "roleLabel": "폭풍을 부르는 남자",
+      "accentColor": "#10b981",
+      "badgeGlyph": "🌪"
+    },
+    {
+      "speakerId": "npc_kureha",
+      "displayName": "닥터 쿠레하",
+      "roleLabel": "드럼 성의 마녀 의사",
+      "accentColor": "#c084fc",
+      "badgeGlyph": "🧪"
+    },
+    {
+      "speakerId": "npc_vivi",
+      "displayName": "네펠타리 비비",
+      "roleLabel": "알라바스타 왕국 왕녀",
+      "accentColor": "#38bdf8",
+      "badgeGlyph": "👑"
+    },
+    {
+      "speakerId": "npc_wyper",
+      "displayName": "귀신 와이퍼",
+      "roleLabel": "샨디아 전사장",
+      "accentColor": "#f97316",
+      "badgeGlyph": "🔥"
+    },
+    {
+      "speakerId": "npc_iceberg",
+      "displayName": "아이스버그",
+      "roleLabel": "갈레라 컴퍼니 사장 · 워터 세븐 시장",
+      "accentColor": "#60a5fa",
+      "badgeGlyph": "🚢"
+    },
+    {
+      "speakerId": "npc_pedro",
+      "displayName": "나무 위 페드로",
+      "roleLabel": "밍크족 가디언즈 대장",
+      "accentColor": "#facc15",
+      "badgeGlyph": "🐆"
+    },
+    {
+      "speakerId": "npc_hyogoro",
+      "displayName": "꽃의 효고로",
+      "roleLabel": "와노쿠니 류오의 스승",
+      "accentColor": "#fb7185",
+      "badgeGlyph": "🌸"
+    },
+    {
+      "speakerId": "npc_vegapunk",
+      "displayName": "Dr. 베가펑크 (스텔라)",
+      "roleLabel": "세계 최고의 천재 과학자",
+      "accentColor": "#22d3ee",
+      "badgeGlyph": "🔬"
+    },
+    {
+      "speakerId": "npc_dorry",
+      "displayName": "청귀 도리",
+      "roleLabel": "거병 해적단 공동 두목",
+      "accentColor": "#3b82f6",
+      "badgeGlyph": "⚔"
+    },
+    {
+      "speakerId": "npc_brogy",
+      "displayName": "적귀 브로기",
+      "roleLabel": "거병 해적단 공동 두목",
+      "accentColor": "#ef4444",
+      "badgeGlyph": "🪓"
+    }
+  ]
+}

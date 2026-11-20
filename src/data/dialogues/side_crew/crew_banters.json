@@ -1,0 +1,402 @@
+{
+  "banters": [
+    {
+      "scriptId": "side_eb_zoro_sanji_feud",
+      "episodeId": "ep_baratie",
+      "triggerType": "side_banter",
+      "title": "조로 vs 상디 — 갑판 위 요리·검술 말다툼",
+      "seaZoneId": "east_blue",
+      "markerPos": { "x": 730, "y": 470 },
+      "markerLabel": "선상 대화: 조로 vs 상디 말다툼",
+      "requiredUnitIds": ["zoro"],
+      "rewardTrainingPoints": 12,
+      "rewardAffinity": 10,
+      "lines": [
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "angry",
+          "side": "right",
+          "text": "야, 이 마리모 머리! 내 주방에 발들이지 말랬지! 냉장고 자물쇠 부순 게 너지?!",
+          "directives": [{ "type": "sfx", "sfxId": "ui_confirm" }]
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "angry",
+          "side": "left",
+          "text": "뭐라고, 빙글 눈썹?! 술 한 병 꺼낸 것뿐이다! 고기 훔쳐 먹은 건 루피 녀석이라고!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "우물우물... 어? 상디, 이 뼈고기 진짜 맛있다! 하나 더 구워줘!"
+        },
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "shocked",
+          "side": "right",
+          "text": "범인은 선장이었잖아!! 그래도 덤빈 마리모는 용서 못 해! 한 판 붙자!"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "smirk",
+          "side": "left",
+          "text": "흥, 마침 몸 좀 풀려던 참이었다. 덤벼라, 다트 요리사!"
+        }
+      ]
+    },
+    {
+      "scriptId": "side_eb_nami_navigation_tip",
+      "episodeId": "ep_arlong_park",
+      "triggerType": "side_banter",
+      "title": "나미의 이스트 블루 항해 & 보물상자 팁",
+      "seaZoneId": "east_blue",
+      "markerPos": { "x": 960, "y": 460 },
+      "markerLabel": "선상 대화: 나미의 항해 팁",
+      "rewardTrainingPoints": 12,
+      "rewardAffinity": 10,
+      "lines": [
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "normal",
+          "side": "right",
+          "text": "루피, 바다 위를 항해할 땐 우측 상단 미니맵의 은빛 표류 보물상자를 절대 놓치지 마!",
+          "directives": [{ "type": "sfx", "sfxId": "ui_confirm" }]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "오! 보물상자에서 고기... 아니 베리랑 수련 포인트가 쏟아지는 거지?!"
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "내 항해사 직책이 활성화되면 숨겨진 보물까지 탐지하고 폭풍 감속도 절반으로 줄어들어."
+        },
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "determined",
+          "side": "left",
+          "text": "해군 순찰선은 현상금이 오를수록 강해지니까, 수련 포인트로 패기부터 미리 올려두자!"
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "excited",
+          "side": "right",
+          "text": "좋아, 메모 끝났지? 그럼 돛을 펴고 보물 싹쓸이 항해를 계속하자고!"
+        }
+      ]
+    },
+    {
+      "scriptId": "side_gl_chopper_usopp_clinic",
+      "episodeId": "ep_drum_kingdom",
+      "triggerType": "side_banter",
+      "title": "쵸파·우솝의 선상 진료실 & 8,000부하 허풍",
+      "seaZoneId": "grand_line",
+      "markerPos": { "x": 520, "y": 690 },
+      "markerLabel": "선상 대화: 쵸파·우솝 진료실 수다",
+      "rewardTrainingPoints": 15,
+      "rewardAffinity": 12,
+      "lines": [
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "smirk",
+          "side": "left",
+          "text": "잘 들어라, 쵸파! 이 우솝 선장님께는 8천 명의 용맹한 부하가 뒤를 받치고 있다고!"
+        },
+        {
+          "speakerId": "chopper",
+          "speakerName": "토니토니 쵸파",
+          "emotion": "excited",
+          "side": "right",
+          "text": "우와아아!! 정말이야, 우솝?! 8천 명이나 된다니 진짜 대단해!! 반짝반짝!"
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "angry",
+          "side": "left",
+          "text": "우솝, 순진한 쵸파한테 이상한 거짓말 가르치지 마! 쵸파, 전투 후 치료는 부탁해."
+        },
+        {
+          "speakerId": "chopper",
+          "speakerName": "토니토니 쵸파",
+          "emotion": "excited",
+          "side": "right",
+          "text": "나한테 맡겨! 선의 직책만 켜두면 전투가 끝나자마자 모두의 체력을 35%씩 치료해 줄게!"
+        },
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "normal",
+          "side": "left",
+          "text": "하하, 나도 '섬에 내리면 죽는 병'이 도질 때마다 쵸파 진료실에 들러야겠군!"
+        }
+      ]
+    },
+    {
+      "scriptId": "side_gl_sunny_workshop",
+      "episodeId": "ep_water_seven",
+      "triggerType": "side_banter",
+      "title": "쵸파·우솝·프랑키의 써니호 콜라 개조 수다",
+      "seaZoneId": "grand_line",
+      "markerPos": { "x": 1080, "y": 680 },
+      "markerLabel": "선상 대화: 써니호 콜라 개조 수다",
+      "rewardTrainingPoints": 15,
+      "rewardAffinity": 12,
+      "lines": [
+        {
+          "speakerId": "franky",
+          "speakerName": "사이보그 · 프랑키",
+          "emotion": "excited",
+          "side": "right",
+          "text": "아우!! 애들아, 써니호 콜라 탱크 3통을 풀 충전했다! 쿠 드 버스트 준비 완료다!",
+          "directives": [{ "type": "sfx", "sfxId": "coup_de_burst" }]
+        },
+        {
+          "speakerId": "usopp",
+          "speakerName": "저격수 · 우솝",
+          "emotion": "excited",
+          "side": "left",
+          "text": "오오!! 프랑키, 지난번 폭풍 속에서 [Shift]로 단숨에 뚫고 날아갈 때 진짜 짜릿했어!"
+        },
+        {
+          "speakerId": "chopper",
+          "speakerName": "토니토니 쵸파",
+          "emotion": "excited",
+          "side": "left",
+          "text": "프랑키 장군 로봇 합체도 보여줘!! 빔 나가는 거 한 번만 더 보고 싶어!!"
+        },
+        {
+          "speakerId": "franky",
+          "speakerName": "사이보그 · 프랑키",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "SUUUUPER!! 선체 자동 수리 시스템도 완벽하니 위대한 항로의 암초 따윈 두렵지 않아!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "시시시! 써니호는 진짜 세계 최고의 배야! 어서 다음 섬으로 날아가 보자!"
+        }
+      ]
+    },
+    {
+      "scriptId": "side_gl_robin_poneglyph_lore",
+      "episodeId": "ep_alabasta",
+      "triggerType": "side_banter",
+      "title": "니코 로빈의 고대 문자와 포네그리프 해설",
+      "seaZoneId": "grand_line",
+      "markerPos": { "x": 860, "y": 310 },
+      "markerLabel": "선상 대화: 로빈의 포네그리프 해설",
+      "rewardTrainingPoints": 18,
+      "rewardAffinity": 15,
+      "lines": [
+        {
+          "speakerId": "robin",
+          "speakerName": "니코 로빈",
+          "emotion": "normal",
+          "side": "right",
+          "text": "세상에는 파괴되지 않는 석비 '포네그리프'가 흩어져 있어. 그중 붉은 돌 4개가 가장 중요해."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "normal",
+          "side": "left",
+          "text": "빨간 돌 4개를 다 모으면 해적왕이 갔던 마지막 섬 라프텔에 갈 수 있는 거지, 로빈?"
+        },
+        {
+          "speakerId": "robin",
+          "speakerName": "니코 로빈",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "맞아, 선장님. 4개의 좌표가 교차하는 지점에 숨겨진 마지막 섬이 나타나지."
+        },
+        {
+          "speakerId": "robin",
+          "speakerName": "니코 로빈",
+          "emotion": "determined",
+          "side": "right",
+          "text": "내 고고학자 직책이 활성화되면 유적 해독은 물론, 모든 에피소드와 전투 보상이 30% 늘어나."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "좋아! 로빈이 공백의 100년 역사를 다 읽을 수 있게 내가 모든 빨간 돌을 찾아올게!"
+        }
+      ]
+    },
+    {
+      "scriptId": "side_gl_brook_binks_concert",
+      "episodeId": "ep_thriller_bark",
+      "triggerType": "side_banter",
+      "title": "소울 킹 브룩의 선상 바이올린과 빙크스의 술",
+      "seaZoneId": "grand_line",
+      "markerPos": { "x": 1350, "y": 700 },
+      "markerLabel": "선상 대화: 브룩의 선상 바이올린",
+      "rewardTrainingPoints": 18,
+      "rewardAffinity": 15,
+      "lines": [
+        {
+          "speakerId": "brook",
+          "speakerName": "소울 킹 · 브룩",
+          "emotion": "excited",
+          "side": "right",
+          "text": "요호호호! 파도 소리에 맞춰 '빙크스의 술'을 연주해 보겠습니다! 다들 잔을 들어주세요!",
+          "directives": [{ "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "역시 해적선에 음악가는 꼭 필요했어!! 노래를 들으니까 힘이 막 솟아나!"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "smirk",
+          "side": "left",
+          "text": "술맛이 제대로 도는 연주군. 브룩의 음악 덕분에 전투 중 스킬 회전도 한결 빨라졌어."
+        },
+        {
+          "speakerId": "brook",
+          "speakerName": "소울 킹 · 브룩",
+          "emotion": "normal",
+          "side": "right",
+          "text": "음악가 직책의 힘으로 동료들의 스킬 쿨타임이 15% 더 빠르게 돌아옵니다. 라분에게 닿을 때까지!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "위대한 항로를 한 바퀴 돌아서 꼭 다시 라분을 만나러 가자, 브룩!"
+        }
+      ]
+    },
+    {
+      "scriptId": "side_nw_jinbe_current_wisdom",
+      "episodeId": "ep_fishman_island",
+      "triggerType": "side_banter",
+      "title": "해협의 징베 — 신세계 조류와 트리플 로그 포스 조언",
+      "seaZoneId": "new_world",
+      "markerPos": { "x": 540, "y": 620 },
+      "markerLabel": "선상 대화: 징베의 신세계 조류 조언",
+      "rewardTrainingPoints": 20,
+      "rewardAffinity": 15,
+      "lines": [
+        {
+          "speakerId": "jinbe",
+          "speakerName": "해협의 · 징베",
+          "emotion": "normal",
+          "side": "right",
+          "text": "신세계의 바다는 조류와 날씨가 매 순간 급변하네. 하지만 내 조타술에 맡기면 흔들림이 없지."
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "excited",
+          "side": "left",
+          "text": "정말 대단해, 징베! 써니호가 거센 파도 속에서도 마치 물고기처럼 부드럽게 선회해!"
+        },
+        {
+          "speakerId": "jinbe",
+          "speakerName": "해협의 · 징베",
+          "emotion": "determined",
+          "side": "right",
+          "text": "조타수 패시브 덕분에 쿠 드 버스트 쿨타임도 30% 줄어드네. 사황 해역 돌파에 적극 활용하게."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "징베가 키를 잡으니까 든든해! 어떤 거대한 파도가 와도 전부 타고 넘어버리자!"
+        },
+        {
+          "speakerId": "jinbe",
+          "speakerName": "해협의 · 징베",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "와하하하! 좋네, 선장! 써니호의 진가를 신세계 바다에 똑똑히 보여주자고!"
+        }
+      ]
+    },
+    {
+      "scriptId": "side_nw_ten_crew_banquet",
+      "episodeId": "ep_wano",
+      "triggerType": "side_banter",
+      "title": "밀짚모자 일당 10인 전원 — 신세계 갑판 대연회",
+      "seaZoneId": "new_world",
+      "markerPos": { "x": 1120, "y": 540 },
+      "markerLabel": "선상 대화: 밀짚모자 10인 대연회",
+      "rewardTrainingPoints": 25,
+      "rewardAffinity": 20,
+      "lines": [
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "다들 잔 들어라!! 이스트 블루에서 혼자 출발했는데 이제 최고의 동료가 열 명이야!!",
+          "directives": [{ "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }]
+        },
+        {
+          "speakerId": "sanji",
+          "speakerName": "검은 다리 · 상디",
+          "emotion": "excited",
+          "side": "right",
+          "text": "사황 해적단에 걸맞은 해왕류 풀코스 요리다! 나미 씨와 로빈 씨 몫은 특제 디저트까지 준비했죠!"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "smirk",
+          "side": "left",
+          "text": "이제 마지막 바다까지 얼마 남지 않았다. 선장이 해적왕이 되는 날까지 한 걸음도 물러서지 않지."
+        },
+        {
+          "speakerId": "franky",
+          "speakerName": "사이보그 · 프랑키",
+          "emotion": "excited",
+          "side": "right",
+          "text": "SUUUUPER!! 써니호도 콜라도 만땅이다! 엘바프든 라프텔이든 끝까지 달려주마!"
+        },
+        {
+          "speakerId": "brook",
+          "speakerName": "소울 킹 · 브룩",
+          "emotion": "excited",
+          "side": "right",
+          "text": "요호호호! 이 감동에 심장이 터질 것 같네요... 심장은 없지만요! 건배!!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "건배애애!! 세상에서 제일 자유로운 해적단, 끝까지 가보자고!!",
+          "directives": [{ "type": "sfx", "sfxId": "ui_confirm" }]
+        }
+      ]
+    }
+  ]
+}

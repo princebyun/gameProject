@@ -23,7 +23,11 @@ export type StandardSfxId =
   | 'ui_cancel'
   | 'wanted_poster_slam'
   | 'ship_cannon'
-  | 'coup_de_burst';
+  | 'coup_de_burst'
+  | 'parry_clang'
+  | 'projectile_reflect'
+  | 'cutin_whoosh'
+  | 'bond_combo_burst';
 
 export interface SfxPlayResult {
   played: boolean;
@@ -304,6 +308,29 @@ export class SfxManager {
         case 'coup_de_burst':
           this.burstNoise(ctx, destination, t0, 0.3, 1800 * pitch, gainLevel * 0.95);
           this.sweepOsc(ctx, destination, 'sawtooth', 160 * pitch, 640 * pitch, t0, 0.28, gainLevel * 0.8);
+          break;
+        case 'parry_clang':
+          // Crisp metallic Armament Haki parry chime + heavy iron impact
+          this.sweepOsc(ctx, destination, 'square', 1480 * pitch, 820 * pitch, t0, 0.14, gainLevel * 0.95);
+          this.sweepOsc(ctx, destination, 'triangle', 2220 * pitch, 1320 * pitch, t0 + 0.02, 0.16, gainLevel * 0.78);
+          this.sweepOsc(ctx, destination, 'sawtooth', 160 * pitch, 52 * pitch, t0, 0.11, gainLevel * 0.8);
+          break;
+        case 'projectile_reflect':
+          // Upward ricochet beam deflection
+          this.sweepOsc(ctx, destination, 'sine', 520 * pitch, 1560 * pitch, t0, 0.12, gainLevel * 0.88);
+          this.sweepOsc(ctx, destination, 'square', 980 * pitch, 1960 * pitch, t0 + 0.04, 0.11, gainLevel * 0.62);
+          break;
+        case 'cutin_whoosh':
+          // High-speed anime banner slam whoosh + brass accent
+          this.burstNoise(ctx, destination, t0, 0.22, 2400 * pitch, gainLevel * 0.85);
+          this.sweepOsc(ctx, destination, 'sawtooth', 240 * pitch, 720 * pitch, t0, 0.18, gainLevel * 0.8);
+          this.sweepOsc(ctx, destination, 'square', 440 * pitch, 880 * pitch, t0 + 0.06, 0.16, gainLevel * 0.65);
+          break;
+        case 'bond_combo_burst':
+          // Dual-character super combo impact chord + sub-bass shockwave
+          this.sweepOsc(ctx, destination, 'sawtooth', 140 * pitch, 36 * pitch, t0, 0.32, gainLevel);
+          this.burstNoise(ctx, destination, t0, 0.26, 1200 * pitch, gainLevel * 0.92);
+          this.sweepOsc(ctx, destination, 'square', 523 * pitch, 1046 * pitch, t0 + 0.03, 0.22, gainLevel * 0.7);
           break;
         default:
           this.sweepOsc(ctx, destination, 'sine', 560 * pitch, 440 * pitch, t0, 0.06, gainLevel * 0.5);

@@ -42,7 +42,7 @@ function makeBuild(
 
 describe('Phase 8 Step 1 (Stage 2-B): 5 New Combat Hooks & 11 New Grand Line Units', () => {
   it('1. BATTLE_CALC_VERSION is 0.5.0 and all 11 new units (+ doppelman) and moves are registered', () => {
-    expect(BATTLE_CALC_VERSION).toBe('0.6.0');
+    expect(BATTLE_CALC_VERSION).toBe('0.7.0');
 
     const newUnitIds = [
       'wapol',

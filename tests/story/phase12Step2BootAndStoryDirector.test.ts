@@ -34,7 +34,7 @@ import {
 
 describe('Stage 5 Step 2 — Bandai RPG Boot/Opening, StoryDirector Free-Roam Loop & v5 Save Compatibility', () => {
   it('completes BootScene preload and advances/skips 4-slide OpeningNarrationScene cleanly', () => {
-    expect(BATTLE_CALC_VERSION).toBe('0.6.0');
+    expect(BATTLE_CALC_VERSION).toBe('0.7.0');
 
     // 1. BootScene reaches 100% cleanly once assetsReady is true
     const boot = createBootSceneState();

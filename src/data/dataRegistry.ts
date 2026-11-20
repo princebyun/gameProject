@@ -1,6 +1,7 @@
 import abilitiesJson from './abilities.json';
 import aiProfilesJson from './ai_profiles.json';
 import balanceJson from './balance.json';
+import combosJson from './combos.json';
 import elementsJson from './elements.json';
 import equipmentJson from './equipment.json';
 import formsJson from './forms.json';
@@ -10,6 +11,7 @@ import unitsJson from './units.json';
 import type {
   AiProfileDefinition,
   BalanceConfig,
+  BondComboDefinition,
   ElementsConfig,
   EquipmentDefinition,
   FormDefinition,
@@ -53,6 +55,11 @@ export function createDefaultDataRegistry(): GameDataRegistry {
     aiProfiles[ai.level] = ai;
   }
 
+  const combos: Record<string, BondComboDefinition> = {};
+  for (const c of combosJson as BondComboDefinition[]) {
+    combos[c.comboId] = c;
+  }
+
   return {
     balance: balanceJson as BalanceConfig,
     elements: elementsJson as ElementsConfig,
@@ -61,7 +68,8 @@ export function createDefaultDataRegistry(): GameDataRegistry {
     forms,
     equipment,
     units,
-    aiProfiles
+    aiProfiles,
+    combos
   };
 }
 

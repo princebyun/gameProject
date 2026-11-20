@@ -1,0 +1,174 @@
+{
+  "episodeId": "ep_skypiea",
+  "islandId": "skypiea",
+  "seaZoneId": "grand_line",
+  "scripts": [
+    {
+      "scriptId": "gl3_skypiea_arrival",
+      "episodeId": "ep_skypiea",
+      "triggerType": "gold_marker",
+      "title": "상공 1만 미터 — 구름 바다 스카이피아",
+      "bindingId": "npc_wyper_skypiea",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "excited",
+          "side": "center_narration",
+          "text": "거대한 녹 업 스트림을 타고 하늘 위로 솟구친 일당은 신화의 섬 스카이피아에 상륙했다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제3장 · 위대한 항로",
+              "title": "구름 너머의 황금향",
+              "subtitle": "하늘섬 스카이피아와 뇌신 에넬"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "우와아!! 진짜 구름 위에 섬이 있어! 황금종도 분명 저 거대한 콩줄기 위에 있을 거야!"
+        },
+        {
+          "speakerId": "robin",
+          "speakerName": "니코 로빈",
+          "emotion": "determined",
+          "side": "left",
+          "text": "이 유적은 400년 전 사라진 황금도시 샨도라야. 이곳에도 역사의 본문이 새겨져 있을 터."
+        },
+        {
+          "speakerId": "npc_wyper",
+          "speakerName": "귀신 와이퍼",
+          "emotion": "angry",
+          "side": "right",
+          "text": "청해인들아, 비켜라! 갓 에넬은 하늘섬 전체를 뇌운으로 지워버리려 하고 있다!"
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "shocked",
+          "side": "left",
+          "text": "섬 하나를 통째로 번개로 없애버린다고?! 게다가 그 에넬은 번개 자연계 능력자잖아!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "청해에 있는 아저씨에게 황금향은 하늘에 있다고 알려줘야 해! 내가 그 종을 울려주마!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl3_enel_pre_boss",
+      "episodeId": "ep_skypiea",
+      "triggerType": "pre_boss",
+      "title": "뇌신 갓 에넬 대치 — 번개의 유일한 천적",
+      "bindingId": "enc_skypiea_enel_boss",
+      "lines": [
+        {
+          "speakerId": "enel",
+          "speakerName": "뇌신 · 갓 에넬",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "야하하하! 신의 방주 맥심 앞에서 하등한 청해의 벌레가 감히 고개를 들다니. 엘 토르!",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "sfx", "sfxId": "haki_lightning" },
+            { "type": "screenFlash", "color": "#fef08a", "durationSec": 0.25 }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "normal",
+          "side": "left",
+          "text": "...어? 번개 맞았는데 하나도 안 아프네? 난 고무 인간이니까!"
+        },
+        {
+          "speakerId": "enel",
+          "speakerName": "뇌신 · 갓 에넬",
+          "emotion": "shocked",
+          "side": "right",
+          "text": "뭐, 뭐라고?! 6천만 볼트 뇌룡이 전혀 통하지 않아?! 네놈 정체가 대체 뭐냐!!",
+          "directives": [{ "type": "cameraShake", "intensity": 0.75, "durationSec": 0.4 }]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "네가 신이든 뭐든 상관없어! 하늘섬을 부수는 것도, 동료들을 다치게 하는 것도 못 참아!"
+        },
+        {
+          "speakerId": "enel",
+          "speakerName": "뇌신 · 갓 에넬",
+          "emotion": "angry",
+          "side": "right",
+          "text": "건방진 청해인... 그렇다면 2억 볼트 아말과 황금창으로 직접 심판해주마!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl3_skypiea_post_boss",
+      "episodeId": "ep_skypiea",
+      "triggerType": "post_boss",
+      "title": "하늘을 가르는 황금종의 울림",
+      "bindingId": "enc_skypiea_enel_boss",
+      "lines": [
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "하늘에 닿아라!! 고무고무 황금 라이플!! 종을 울려라아아!!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 1.0, "durationSec": 0.55 },
+            { "type": "screenFlash", "color": "#fde047", "durationSec": 0.35 },
+            { "type": "sfx", "sfxId": "melee_clash_clang" }
+          ]
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "excited",
+          "side": "center_narration",
+          "text": "뇌운이 갈라지고 400년 만에 울려 퍼진 황금종의 장엄한 소리가 청해까지 메아리쳤다.",
+          "directives": [{ "type": "bgm", "trackId": "victory_fanfare", "fadeSec": 0.3 }]
+        },
+        {
+          "speakerId": "npc_wyper",
+          "speakerName": "귀신 와이퍼",
+          "emotion": "normal",
+          "side": "right",
+          "text": "청해의 사내여... 샨도라의 등불을 다시 밝혀주었군. 400년의 전쟁은 끝났다."
+        },
+        {
+          "speakerId": "robin",
+          "speakerName": "니코 로빈",
+          "emotion": "smirk",
+          "side": "left",
+          "text": "황금종 기단에 로저의 글귀가 남아 있었어. '이 글을 가장 먼 땅으로 이끈다'고..."
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "excited",
+          "side": "left",
+          "text": "게다가 황금 보물도 한가득 챙겼어! 이제 청해로 내려가 배를 수리할 조선공을 찾자!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "좋아! 다음은 물의 도시 워터 세븐이다! 메리호를 멋지게 고쳐줄 조선공을 찾자!"
+        }
+      ]
+    }
+  ]
+}

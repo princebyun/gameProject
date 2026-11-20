@@ -1,5 +1,17 @@
 import { BATTLE_CALC_VERSION, FIXED_DT } from '../constants';
 import {
+  evaluateGuardOrParryOnIncomingAttack,
+  stepUnitGuardAndParry
+} from '../battle/parry';
+import {
+  addTeamBondGauge,
+  BOND_HIT_GAIN,
+  BOND_SWAP_FOLLOWUP_GAIN,
+  stepActiveBondCombo,
+  triggerBattleCutin,
+  tryActivateBondTagCombo
+} from '../battle/tagCombo';
+import {
   createInitialRaidRuntimeState,
   interceptRaidBossIncomingDamage,
   RAID_DOWNED_DURATION_SEC,
@@ -233,7 +245,18 @@ function createUnitRuntime(
     endgameBreakGaugeBonusRatio: eb?.breakGaugeDamageRatio ?? 0,
     isDowned: false,
     downedTimer: 0,
-    reviveProgressSec: 0
+    reviveProgressSec: 0,
+    guardHeld: false,
+    guardStartTick: -9999,
+    guardStamina: 100,
+    guardMaxStamina: 100,
+    guardBreakTicks: 0,
+    parryWhiffCooldownTicks: 0,
+    parryStunTicks: 0,
+    parryDamageVulnMult: 1.0,
+    awakeningGauge: 0,
+    justGuardFlashTicks: 0,
+    guardParrySucceededThisHold: false
   };
 }
 
@@ -300,13 +323,17 @@ export function createBattleWorld(
         team: 'ALPHA',
         voluntarySwapCooldownTimer: 0,
         pivotWindowTimer: 0,
-        pivotTriggeredByUnitId: null
+        pivotTriggeredByUnitId: null,
+        bondGauge: 0,
+        recentSwapComboWindowTicks: 0
       },
       OMEGA: {
         team: 'OMEGA',
         voluntarySwapCooldownTimer: 0,
         pivotWindowTimer: 0,
-        pivotTriggeredByUnitId: null
+        pivotTriggeredByUnitId: null,
+        bondGauge: 0,
+        recentSwapComboWindowTicks: 0
       }
     },
 
@@ -419,6 +446,11 @@ export function createBattleWorld(
       units.find((u) => u.team === 'OMEGA')?.instanceId ?? null
     ),
 
+    cutinFreezeTicks: 0,
+    activeCutin: null,
+    activeBondCombo: null,
+    parryMiniEvents: [],
+
     floatingTexts: [],
     vfxEvents: [],
     combatLog: [`[전투 개시] 모드: ${config.mode} / 버전: v${BATTLE_CALC_VERSION}`],
@@ -457,6 +489,9 @@ export function createBattleWorld(
         });
         if ((matchingBuild?.endgameBonuses?.startAwakeningGaugeRatio ?? 0) >= 1.0) {
           activateFormShift(u, world, registry);
+          // Pre-battle auto-awakening should not freeze tick 0
+          world.cutinFreezeTicks = 0;
+          world.activeCutin = null;
         }
       }
     }
@@ -1319,6 +1354,18 @@ export function notifyUnitHitByAttack(
     world.combatLog.push(
       `[보스 2페이즈] ${target.name} 체력 50% 이하! 흉포한 2페이즈 패턴 돌입!`
     );
+    if (world.mode !== 'AI_VS_AI') {
+      triggerBattleCutin(world, {
+        kind: 'BOSS_PHASE2',
+        team: target.team,
+        primaryUnit: target,
+        title: `${target.name} · PHASE 2`,
+        subtitle: '전력 해방! 흉포한 2페이즈 돌입!',
+        primaryColor: '#f43f5e',
+        secondaryColor: '#f59e0b',
+        portraitEmotion: 'angry'
+      });
+    }
   }
 }
 
@@ -1638,6 +1685,7 @@ function tryStartMoveWindup(
       world.raidState.bossUnitId === unit.instanceId &&
       world.raidState.groggyTimer > 0) ||
     unit.windupMoveId !== null ||
+    unit.guardHeld ||
     unit.dodgeActiveTimer > 0 ||
     unit.clashLockId !== null ||
     isUnitStaggered(unit)
@@ -1821,7 +1869,6 @@ function applyDirectAttackHits(
       }
 
       if (distVec(proj.pos, target.pos) <= proj.radiusPx + target.radiusPx) {
-        proj.destroyed = true;
         if (attacker && moveDef) {
           const isBurstProj = moveDef.projectileSpec?.pattern === 'BURST';
           const res = computeDamage(
@@ -1844,6 +1891,7 @@ function applyDirectAttackHits(
           );
 
           if (res.nullified) {
+            proj.destroyed = true;
             emitNullifiedHitFeedback(
               target,
               res.nullifyReason ?? 'NONE',
@@ -1854,25 +1902,54 @@ function applyDirectAttackHits(
             break;
           }
 
+          const parryAmpDmg =
+            target.parryStunTicks > 0
+              ? Math.round(res.damage * target.parryDamageVulnMult)
+              : res.damage;
+          const guardEval = evaluateGuardOrParryOnIncomingAttack(
+            target,
+            attacker,
+            'PROJECTILE',
+            parryAmpDmg,
+            normalizeVec(proj.vel, { x: 1, y: 0 }),
+            world,
+            registry,
+            proj
+          );
+          if (guardEval.outcome === 'PARRIED_PROJECTILE') {
+            // Projectile ownership & velocity have been reversed toward the caster!
+            break;
+          }
+
+          proj.destroyed = true;
+          const finalProjDmg = guardEval.finalDamage;
+
           target.lastIncomingMoveIdByAttacker[attacker.instanceId] = moveDef.id;
           const appliedProjDmg = interceptRaidBossIncomingDamage(
             world,
             target,
             attacker,
-            res.damage,
+            finalProjDmg,
             proj.currentPower,
             proj.hasArmamentHaki,
             proj.hasConquerorCoating,
             proj.isInternalDestruction
           );
           target.hp = Math.max(0, target.hp - appliedProjDmg);
+          addTeamBondGauge(
+            attacker.team,
+            world.rosters[attacker.team].recentSwapComboWindowTicks > 0
+              ? BOND_SWAP_FOLLOWUP_GAIN
+              : BOND_HIT_GAIN,
+            world
+          );
           if (proj.appliesVenomStacks && proj.appliesVenomStacks > 0) {
             applyVenomStacksToUnit(target, proj.appliesVenomStacks, world, registry);
           }
           notifyUnitHitByAttack(
             attacker,
             target,
-            res.damage,
+            finalProjDmg,
             proj.hasConquerorCoating,
             world,
             registry
@@ -1973,6 +2050,8 @@ function applyDirectAttackHits(
           if (moveDef.pivotSwapOnHit) {
             openPivotSwapWindow(attacker, world, registry);
           }
+        } else {
+          proj.destroyed = true;
         }
         break;
       }
@@ -2041,21 +2120,37 @@ function applyDirectAttackHits(
           continue;
         }
 
+        const parryAmpBeamDmg =
+          target.parryStunTicks > 0
+            ? Math.round(res.damage * target.parryDamageVulnMult)
+            : res.damage;
+        const beamGuardEval = evaluateGuardOrParryOnIncomingAttack(
+          target,
+          attacker,
+          'BEAM',
+          parryAmpBeamDmg,
+          beam.dir,
+          world,
+          registry
+        );
+        const finalBeamDmg = beamGuardEval.finalDamage;
+
         const appliedBeamDmg = interceptRaidBossIncomingDamage(
           world,
           target,
           attacker,
-          res.damage,
+          finalBeamDmg,
           beam.currentPower * 0.35,
           beam.hasArmamentHaki,
           beam.hasConquerorCoating,
           beam.isInternalDestruction
         );
         target.hp = Math.max(0, target.hp - appliedBeamDmg);
+        addTeamBondGauge(attacker.team, 3, world);
         notifyUnitHitByAttack(
           attacker,
           target,
-          res.damage,
+          finalBeamDmg,
           beam.hasConquerorCoating,
           world,
           registry
@@ -2159,22 +2254,47 @@ function applyDirectAttackHits(
           continue;
         }
 
+        const parryAmpMeleeDmg =
+          target.parryStunTicks > 0
+            ? Math.round(res.damage * target.parryDamageVulnMult)
+            : res.damage;
+        const meleeGuardEval = evaluateGuardOrParryOnIncomingAttack(
+          target,
+          attacker,
+          'MELEE',
+          parryAmpMeleeDmg,
+          arc.dir,
+          world,
+          registry
+        );
+        if (meleeGuardEval.outcome === 'PARRIED_MELEE') {
+          continue;
+        }
+        const finalMeleeDmg = meleeGuardEval.finalDamage;
+
         target.lastIncomingMoveIdByAttacker[attacker.instanceId] = moveDef.id;
         const appliedMeleeDmg = interceptRaidBossIncomingDamage(
           world,
           target,
           attacker,
-          res.damage,
+          finalMeleeDmg,
           arc.currentPower,
           arc.hasArmamentHaki,
           arc.hasConquerorCoating,
           arc.isInternalDestruction
         );
         target.hp = Math.max(0, target.hp - appliedMeleeDmg);
+        addTeamBondGauge(
+          attacker.team,
+          world.rosters[attacker.team].recentSwapComboWindowTicks > 0
+            ? BOND_SWAP_FOLLOWUP_GAIN
+            : BOND_HIT_GAIN,
+          world
+        );
         notifyUnitHitByAttack(
           attacker,
           target,
-          res.damage,
+          finalMeleeDmg,
           arc.hasConquerorCoating,
           world,
           registry
@@ -2264,7 +2384,9 @@ function applyDirectAttackHits(
         triggerTraitHook('onBeingHit', target, { moveArchetype: 'MELEE' }, world, registry);
 
         const rawKb = arc.hasConquerorCoating ? 210 : 140;
-        const effectiveKb = rawKb * Math.max(0, 1 - target.knockbackResist);
+        const effectiveKb = meleeGuardEval.negateKnockback
+          ? 0
+          : rawKb * Math.max(0, 1 - target.knockbackResist);
         target.knockbackVel = scaleVec(arc.dir, effectiveKb);
         world.hitstopTimer = Math.max(
           world.hitstopTimer,
@@ -2325,6 +2447,26 @@ export function stepBattleWorld(
 
   world.tick += 1;
 
+  // Phase 16: Deterministic 39-tick Cut-In Freeze (100% synced in online lockstep)
+  if (world.cutinFreezeTicks > 0) {
+    world.cutinFreezeTicks = Math.max(0, world.cutinFreezeTicks - 1);
+    if (world.activeCutin) {
+      world.activeCutin.elapsedTicks += 1;
+      if (world.cutinFreezeTicks <= 0) {
+        world.activeCutin = null;
+      }
+    }
+    return;
+  }
+
+  for (let i = world.parryMiniEvents.length - 1; i >= 0; i--) {
+    const ev = world.parryMiniEvents[i];
+    ev.elapsedTicks += 1;
+    if (ev.elapsedTicks >= ev.durationTicks) {
+      world.parryMiniEvents.splice(i, 1);
+    }
+  }
+
   if (world.screenShakeTimer > 0) {
     world.screenShakeTimer = Math.max(0, world.screenShakeTimer - dt);
   }
@@ -2375,6 +2517,7 @@ export function stepBattleWorld(
 
   world.elapsedSec += simDt;
   stepTeamRosters(world, simDt);
+  stepActiveBondCombo(world, registry, prng);
 
   if (world.environmentField.remainingSec > 0) {
     world.environmentField.remainingSec = Math.max(
@@ -2537,6 +2680,7 @@ export function stepBattleWorld(
     }
 
     const cmd = cmdMap.get(unit.instanceId);
+    stepUnitGuardAndParry(unit, cmd, world, simDt);
     if (cmd) {
       if (cmd.swapToBenchUnitId) {
         executeRosterSwap(unit, cmd.swapToBenchUnitId, world, registry, false);
@@ -2544,6 +2688,9 @@ export function stepBattleWorld(
       }
       if (cmd.aimVec && lenVec(cmd.aimVec) > 0.05) {
         unit.aimDir = normalizeVec(cmd.aimVec, unit.aimDir);
+      }
+      if (cmd.bondComboPressed) {
+        tryActivateBondTagCombo(unit, world, registry);
       }
       if (cmd.awakeningPressed) {
         activateFormShift(unit, world, registry);
@@ -2600,7 +2747,11 @@ export function stepBattleWorld(
       if (unit.parasiteConfuseTimer > 0) {
         mDir = { x: -mDir.x, y: -mDir.y };
       }
-      const castSlow = unit.windupMoveId || unit.activeBeamId ? 0.45 : 1.0;
+      const castSlow = unit.guardHeld
+        ? 0.35
+        : unit.windupMoveId || unit.activeBeamId
+          ? 0.45
+          : 1.0;
       unit.vel = scaleVec(mDir, moveSpeedPx * castSlow);
     } else {
       const friction = unit.onIceHazard ? 1.8 : 10;

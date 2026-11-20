@@ -24,7 +24,7 @@ import {
 
 describe('Phase 11 Step 1: Sprite Animation State Machine, Autotile Bitmask & Hot-Swap Fallback Priority', () => {
   it('1. BATTLE_CALC_VERSION remains 0.6.0 and sprites.json covers all units, forms & 4 ships with 11 standard states', () => {
-    expect(BATTLE_CALC_VERSION).toBe('0.6.0');
+    expect(BATTLE_CALC_VERSION).toBe('0.7.0');
     expect(defaultAssetManifestRegistry.spritesFile.standardRowOrder).toEqual([
       ...STANDARD_SPRITE_ANIM_STATES
     ]);

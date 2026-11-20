@@ -7,7 +7,14 @@ export function hasStatus(unit: UnitRuntimeState, kind: StatusKind): boolean {
 }
 
 export function isUnitStaggered(unit: UnitRuntimeState): boolean {
-  return hasStatus(unit, 'STAGGER') || hasStatus(unit, 'FREEZE');
+  return (
+    unit.parryStunTicks > 0 ||
+    unit.guardBreakTicks > 0 ||
+    hasStatus(unit, 'STAGGER') ||
+    hasStatus(unit, 'FREEZE') ||
+    hasStatus(unit, 'PARRY_STUNNED') ||
+    hasStatus(unit, 'GUARD_BREAK')
+  );
 }
 
 export function isUnitFrozen(unit: UnitRuntimeState): boolean {

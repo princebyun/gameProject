@@ -18,10 +18,102 @@ import {
   renderWorldMarkerBeacons,
   type WorldMarker
 } from '../story/worldMarkerSystem';
+import { drawPixelNineSlicePanel } from './ui/pixelNineSliceUi';
 import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
 } from './viewport/responsiveViewportManager';
+
+interface WakeSample {
+  x: number;
+  y: number;
+  headingRad: number;
+  boost: boolean;
+}
+
+const shipWakeTrail: WakeSample[] = [];
+let lastWakeZoneId = '';
+let lastWakeTick = -1;
+
+function updateAndRenderShipWakeTrail(
+  ctx: CanvasRenderingContext2D,
+  state: RpgCampaignState,
+  tick: number
+): void {
+  if (lastWakeZoneId !== state.currentZoneId || tick < lastWakeTick) {
+    shipWakeTrail.length = 0;
+    lastWakeZoneId = state.currentZoneId;
+  }
+  const speed = Math.hypot(state.ship.vel.x, state.ship.vel.y);
+  if (tick !== lastWakeTick && tick % 2 === 0 && (speed > 8 || state.ship.coupDeBurstActiveTimer > 0)) {
+    shipWakeTrail.push({
+      x: state.ship.pos.x,
+      y: state.ship.pos.y + 8,
+      headingRad: state.ship.headingRad,
+      boost: state.ship.coupDeBurstActiveTimer > 0
+    });
+    if (shipWakeTrail.length > 24) {
+      shipWakeTrail.shift();
+    }
+  }
+  lastWakeTick = tick;
+
+  if (shipWakeTrail.length < 2) return;
+
+  ctx.save();
+  for (let i = 0; i < shipWakeTrail.length; i++) {
+    const s = shipWakeTrail[i];
+    const ageRatio = (i + 1) / shipWakeTrail.length; // 0 = oldest, 1 = newest
+    const spread = (1 - ageRatio) * 16 + 4;
+    const perpX = -Math.sin(s.headingRad);
+    const perpY = Math.cos(s.headingRad);
+    const sz = Math.max(2, Math.round(ageRatio * 5));
+
+    ctx.globalAlpha = ageRatio * 0.52;
+    ctx.fillStyle = s.boost ? '#7dd3fc' : '#e0f2fe';
+    // Twin V-shaped pixel foam ribbons fanning behind hull
+    ctx.fillRect(Math.round(s.x + perpX * spread - sz * 0.5), Math.round(s.y + perpY * spread - sz * 0.5), sz, sz);
+    ctx.fillRect(Math.round(s.x - perpX * spread - sz * 0.5), Math.round(s.y - perpY * spread - sz * 0.5), sz, sz);
+
+    // Center white foam core
+    ctx.fillStyle = '#ffffff';
+    ctx.globalAlpha = ageRatio * 0.35;
+    ctx.fillRect(Math.round(s.x - 2), Math.round(s.y - 2), 4, 4);
+  }
+  ctx.restore();
+}
+
+function renderDriftingCloudShadows(
+  ctx: CanvasRenderingContext2D,
+  zoneWidth: number,
+  zoneHeight: number,
+  camX: number,
+  camY: number,
+  viewW: number,
+  viewH: number,
+  tick: number,
+  isNight: boolean
+): void {
+  ctx.save();
+  ctx.fillStyle = isNight ? 'rgba(2, 6, 23, 0.22)' : 'rgba(7, 18, 42, 0.14)';
+  const minX = -camX - 240;
+  const maxX = -camX + viewW + 240;
+  const minY = -camY - 140;
+  const maxY = -camY + viewH + 140;
+
+  for (let i = 0; i < 9; i++) {
+    const rawX = (i * 380 + tick * (0.45 + (i % 3) * 0.14)) % (zoneWidth + 420) - 210;
+    const rawY = ((i * 257 + 130) % Math.max(400, zoneHeight - 120)) + 60;
+    if (rawX < minX || rawX > maxX || rawY < minY || rawY > maxY) continue;
+    const w = 130 + (i % 3) * 48;
+    const h = 42 + (i % 2) * 18;
+    ctx.beginPath();
+    ctx.ellipse(rawX, rawY, w * 0.5, h * 0.5, 0, 0, Math.PI * 2);
+    ctx.ellipse(rawX + w * 0.24, rawY - 10, w * 0.34, h * 0.38, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.restore();
+}
 
 export function renderSeaSailingCanvas(
   ctx: CanvasRenderingContext2D,
@@ -155,10 +247,39 @@ export function renderSeaSailingCanvas(
     ctx.restore();
   }
 
-  // 4. Render Islands & Docking Rings
+  // 4. Render 2.5D Islands with 3-Depth Ocean Gradient, 2-Layer Breaking White Surf & Docking Rings
   for (const isl of zone.islands) {
     const completed = state.completedEpisodes.includes(isl.episodeId);
+    const surfPulse = Math.sin(tick * 0.08 + isl.pos.x * 0.02);
     ctx.save();
+
+    // Depth layer 1: Deep-to-mid turquoise coastal reef shelf
+    ctx.fillStyle = 'rgba(14, 165, 233, 0.22)';
+    ctx.beginPath();
+    ctx.arc(isl.pos.x, isl.pos.y + 3, 66, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Depth layer 2: Shallow emerald/turquoise coastal water
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.34)';
+    ctx.beginPath();
+    ctx.arc(isl.pos.x, isl.pos.y + 2, 54, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Animated 2-layer breaking white pixel surf foam
+    ctx.strokeStyle = 'rgba(224, 242, 254, 0.78)';
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash([7, 5]);
+    ctx.beginPath();
+    ctx.arc(isl.pos.x, isl.pos.y, 47 + surfPulse * 2.4, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 6]);
+    ctx.beginPath();
+    ctx.arc(isl.pos.x, isl.pos.y, 43.5 - surfPulse * 1.4, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
 
     // Docking zone dashed circle
     ctx.strokeStyle = completed
@@ -173,24 +294,58 @@ export function renderSeaSailingCanvas(
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // Island sandy coast + inner terrain
-    ctx.fillStyle = '#fde047';
+    // Island drop shadow in water + sandy beach
+    ctx.fillStyle = 'rgba(7, 15, 32, 0.42)';
+    ctx.beginPath();
+    ctx.arc(isl.pos.x + 2, isl.pos.y + 6, 42, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#fde68a';
     ctx.beginPath();
     ctx.arc(isl.pos.x, isl.pos.y, 42, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = isl.color;
+    // 2.5D elevated island cliff front wall + top terrain cap
+    ctx.fillStyle = '#573619';
     ctx.beginPath();
-    ctx.arc(isl.pos.x, isl.pos.y, 34, 0, Math.PI * 2);
+    ctx.arc(isl.pos.x, isl.pos.y + 5, 34, 0, Math.PI * 2);
     ctx.fill();
 
-    // Harbor dock pier
+    ctx.fillStyle = isl.color;
+    ctx.beginPath();
+    ctx.arc(isl.pos.x, isl.pos.y - 1, 34, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Crisp sunlit top highlight & pixel landmarks (trees / roofs)
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.16)';
+    ctx.beginPath();
+    ctx.arc(isl.pos.x - 6, isl.pos.y - 7, 18, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Mini 2.5D pixel town/tree silhouette
     ctx.fillStyle = '#78350f';
-    ctx.fillRect(isl.pos.x - 48, isl.pos.y - 6, 16, 12);
+    ctx.fillRect(isl.pos.x - 10, isl.pos.y - 8, 12, 10);
+    ctx.fillStyle = '#dc2626';
+    ctx.fillRect(isl.pos.x - 12, isl.pos.y - 12, 16, 5);
+    ctx.fillStyle = '#15803d';
+    ctx.fillRect(isl.pos.x + 8, isl.pos.y - 14, 10, 9);
+    ctx.fillStyle = '#78350f';
+    ctx.fillRect(isl.pos.x + 12, isl.pos.y - 5, 3, 6);
+
+    // Harbor wooden dock pier with posts
+    ctx.fillStyle = '#451a03';
+    ctx.fillRect(isl.pos.x - 50, isl.pos.y - 5, 18, 13);
+    ctx.fillStyle = '#92400e';
+    ctx.fillRect(isl.pos.x - 49, isl.pos.y - 6, 16, 11);
+    ctx.fillStyle = '#facc15';
+    ctx.fillRect(isl.pos.x - 49, isl.pos.y - 6, 2, 2);
+    ctx.fillRect(isl.pos.x - 49, isl.pos.y + 3, 2, 2);
 
     // Island labels & Completion Badge
     ctx.font = 'bold 11px monospace';
     ctx.textAlign = 'center';
+    ctx.fillStyle = '#090d16';
+    ctx.fillText(isl.name, isl.pos.x + 1, isl.pos.y - 51);
     ctx.fillStyle = '#ffffff';
     ctx.fillText(isl.name, isl.pos.x, isl.pos.y - 52);
 
@@ -244,14 +399,14 @@ export function renderSeaSailingCanvas(
         const fr = Math.floor((tick / 60) * clip.fps) % Math.max(1, clip.frames);
         ctx.drawImage(
           shipSheet.sheet,
-          fr * shipSheet.entry.frameWidth,
-          clip.row * shipSheet.entry.frameHeight,
-          shipSheet.entry.frameWidth,
-          shipSheet.entry.frameHeight,
-          Math.round(obj.pos.x - 22),
-          Math.round(obj.pos.y - 22),
-          44,
-          44
+          fr * shipSheet.sheetFrameWidth,
+          clip.row * shipSheet.sheetFrameHeight,
+          shipSheet.sheetFrameWidth,
+          shipSheet.sheetFrameHeight,
+          Math.round(obj.pos.x - 24),
+          Math.round(obj.pos.y - 24),
+          48,
+          48
         );
       } else {
         ctx.fillStyle = '#f43f5e';
@@ -270,14 +425,14 @@ export function renderSeaSailingCanvas(
         const fr = Math.floor((tick / 60) * clip.fps) % Math.max(1, clip.frames);
         ctx.drawImage(
           skSheet.sheet,
-          fr * skSheet.entry.frameWidth,
-          clip.row * skSheet.entry.frameHeight,
-          skSheet.entry.frameWidth,
-          skSheet.entry.frameHeight,
-          Math.round(obj.pos.x - 28),
-          Math.round(obj.pos.y - 28),
-          56,
-          56
+          fr * skSheet.sheetFrameWidth,
+          clip.row * skSheet.sheetFrameHeight,
+          skSheet.sheetFrameWidth,
+          skSheet.sheetFrameHeight,
+          Math.round(obj.pos.x - 30),
+          Math.round(obj.pos.y - 30),
+          60,
+          60
         );
       } else {
         ctx.fillStyle = '#a855f7';
@@ -298,8 +453,24 @@ export function renderSeaSailingCanvas(
     renderWorldMarkerBeacons(ctx, worldMarkers, tick, highlightGoldMarker);
   }
 
+  // 5.8 Ship White Foam Wake Trail (24-sample ribbon fanning behind player ship)
+  updateAndRenderShipWakeTrail(ctx, state, tick);
+
   // 6. Render Player Ship (Going Merry vs Thousand Sunny animated pixel sprite sheet)
   renderPlayerShip(ctx, state, tick, assets);
+
+  // 6.5 Drifting translucent cloud shadows sweeping slowly across the sea surface
+  renderDriftingCloudShadows(
+    ctx,
+    zone.width,
+    zone.height,
+    camX,
+    camY,
+    viewW,
+    viewH,
+    tick,
+    state.timeOfDay === 'NIGHT'
+  );
 
   ctx.restore();
 
@@ -322,39 +493,35 @@ export function renderSeaSailingCanvas(
     ctx.fillRect(0, 0, viewW, viewH);
   }
 
-  // 8. Top-Left Sea Zone & Ship Status HUD (respecting Safe Area)
+  // 8. Top-Left Sea Zone & Ship Status HUD (9-Slice Pirate-Wood RPG Frame, Safe Area compliant)
   const hudX = 10 + safeL;
   const hudY = 10 + safeT;
   const bountyTier = computeBountyTier(state.totalCrewBounty);
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.90)';
-  ctx.fillRect(hudX, hudY, 325, 76);
-  ctx.strokeStyle = '#38bdf8';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(hudX, hudY, 325, 76);
+  drawPixelNineSlicePanel(ctx, hudX, hudY, 330, 78, 'pirate_wood');
 
   ctx.font = 'bold 12px monospace';
   ctx.textAlign = 'left';
   ctx.fillStyle = '#fde047';
-  ctx.fillText(`⚓ ${zone.name}`, hudX + 8, hudY + 17);
+  ctx.fillText(`⚓ ${zone.name}`, hudX + 10, hudY + 19);
 
   ctx.font = '10px monospace';
   ctx.fillStyle = '#e2e8f0';
   ctx.fillText(
     `선박: ${shipDef.name} | 내구도: ${Math.round(state.ship.hullHp)}/${state.ship.maxHullHp}`,
-    hudX + 8,
-    hudY + 33
+    hudX + 10,
+    hudY + 35
   );
   ctx.fillStyle = '#38bdf8';
   ctx.fillText(
     `시간: ${state.timeOfDay} | 날씨: ${state.seaWeather} | ${fps} FPS`,
-    hudX + 8,
-    hudY + 48
+    hudX + 10,
+    hudY + 50
   );
-  ctx.fillStyle = '#f97316';
+  ctx.fillStyle = '#fb923c';
   ctx.fillText(
     `현상금: ${state.totalCrewBounty.toLocaleString()} B (${bountyTier.rankLabel}) | 포네그리프: ${state.roadPoneglyphCount}/4`,
-    hudX + 8,
-    hudY + 64
+    hudX + 10,
+    hudY + 66
   );
 
   // 9. Top-Right Log Pose Compass HUD (Single-Needle vs New World Triple-Needle)
@@ -375,7 +542,8 @@ function renderPlayerShip(
 ): void {
   const { pos, headingRad, shipId, coupDeBurstActiveTimer } = state.ship;
   if (assets) {
-    const { entry, sheet } = assets.getOrCreateShipSpriteSheet(shipId);
+    const { entry, sheet, sheetFrameWidth, sheetFrameHeight } =
+      assets.getOrCreateShipSpriteSheet(shipId);
     if (entry && sheet) {
       const animState =
         coupDeBurstActiveTimer > 0
@@ -386,8 +554,8 @@ function renderPlayerShip(
       const clip = entry.animations[animState];
       const frame = Math.floor((tick / 60) * clip.fps) % Math.max(1, clip.frames);
       const facingX = Math.cos(headingRad) < -0.05 ? -1 : 1;
-      const drawW = entry.frameWidth;
-      const drawH = entry.frameHeight;
+      const drawW = Math.round(entry.frameWidth * 1.15);
+      const drawH = Math.round(entry.frameHeight * 1.15);
 
       ctx.save();
       ctx.imageSmoothingEnabled = false;
@@ -395,10 +563,10 @@ function renderPlayerShip(
       ctx.scale(facingX, 1);
       ctx.drawImage(
         sheet,
-        frame * entry.frameWidth,
-        clip.row * entry.frameHeight,
-        entry.frameWidth,
-        entry.frameHeight,
+        frame * sheetFrameWidth,
+        clip.row * sheetFrameHeight,
+        sheetFrameWidth,
+        sheetFrameHeight,
         Math.round(-drawW * entry.anchor.x),
         Math.round(-drawH * entry.anchor.y),
         drawW,
@@ -481,12 +649,15 @@ function renderLogPoseHud(
   const x = viewW - w - 10 - safeR;
   const y = 10 + safeT;
 
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.90)';
-  ctx.fillRect(x, y, w, h);
-  ctx.strokeStyle =
-    zone.logPoseStyle === 'TRIPLE_NEEDLE_NEW_WORLD' ? '#a855f7' : '#38bdf8';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(x, y, w, h);
+  drawPixelNineSlicePanel(
+    ctx,
+    x,
+    y,
+    w,
+    h,
+    zone.logPoseStyle === 'TRIPLE_NEEDLE_NEW_WORLD' ? 'gold_ribbon' : 'navy_hud',
+    zone.logPoseStyle === 'TRIPLE_NEEDLE_NEW_WORLD' ? '#a855f7' : undefined
+  );
 
   ctx.font = 'bold 10px monospace';
   ctx.textAlign = 'left';
@@ -550,11 +721,7 @@ function renderSeaMinimapHud(
   const mx = 10 + safeL;
   const my = viewH - mh - 10 - safeB;
 
-  ctx.fillStyle = 'rgba(9, 13, 22, 0.88)';
-  ctx.fillRect(mx, my, mw, mh);
-  ctx.strokeStyle = '#334155';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(mx, my, mw, mh);
+  drawPixelNineSlicePanel(ctx, mx, my, mw, mh, 'pirate_wood');
 
   const scaleX = (mw - 12) / zone.width;
   const scaleY = (mh - 20) / zone.height;

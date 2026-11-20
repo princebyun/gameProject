@@ -12,6 +12,8 @@ export interface KeyBindingConfig {
   dodge: string;
   formShift: string;
   quickSwap: string;
+  guard: string;
+  bondCombo: string;
 }
 
 export const DEFAULT_KEY_BINDINGS: KeyBindingConfig = {
@@ -25,7 +27,9 @@ export const DEFAULT_KEY_BINDINGS: KeyBindingConfig = {
   skill4: 'Digit4',
   dodge: 'Space',
   formShift: 'KeyF',
-  quickSwap: 'KeyQ'
+  quickSwap: 'KeyQ',
+  guard: 'KeyK',
+  bondCombo: 'KeyR'
 };
 
 const STORAGE_KEY = 'aether_clash_key_bindings_v1';

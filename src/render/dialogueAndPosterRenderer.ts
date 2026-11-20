@@ -7,6 +7,7 @@ import type {
   IslandNpcDefinition,
   WantedPosterEvent
 } from '../core/types/rpgSchemas';
+import { drawPixelNineSlicePanel } from './ui/pixelNineSliceUi';
 import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
@@ -200,12 +201,8 @@ export function renderDialogueCutsceneOverlay(
   const x = Math.round((viewW - boxW) * 0.5);
   const y = viewH - safeB - boxH - 14;
 
-  // Bandai console dialogue backdrop
-  ctx.fillStyle = 'rgba(9, 13, 22, 0.95)';
-  ctx.fillRect(x, y, boxW, boxH);
-  ctx.strokeStyle = '#facc15';
-  ctx.lineWidth = 2.5;
-  ctx.strokeRect(x, y, boxW, boxH);
+  // Authentic 9-Slice Pirate-Wood Console Dialogue Backdrop
+  drawPixelNineSlicePanel(ctx, x, y, boxW, boxH, 'pirate_wood', '#ca8a04');
 
   // Speaker Nameplate floating on top-left border
   const nameTagW = Math.min(280, Math.max(170, (npc.name.length + npc.roleLabel.length) * 10 + 36));
@@ -270,20 +267,14 @@ export function renderDialogueCutsceneOverlay(
   const matchedUnitId = guessPortraitUnitId(npc);
   const unitDef = matchedUnitId && gameRegistry ? gameRegistry.units[matchedUnitId] : null;
   if (unitDef && assets) {
-    const resolved = assets.getOrCreateUnitSpriteSheet(unitDef, null, null);
-    if (resolved.sheet) {
-      const fw = resolved.entry.frameWidth;
-      const fh = resolved.entry.frameHeight;
+    const portrait = assets.getOrCreateUnitPortrait(unitDef, 'normal', null);
+    if (portrait.image) {
       ctx.drawImage(
-        resolved.sheet,
-        0,
-        0,
-        fw,
-        fh,
-        portX + 4,
-        portY + 4,
-        portSize - 8,
-        portSize - 8
+        portrait.image,
+        portX + 3,
+        portY + 3,
+        portSize - 6,
+        portSize - 6
       );
     }
   } else {
@@ -400,11 +391,7 @@ export function renderSeaGateBlockedPopup(
   const x = Math.round((viewW - w) * 0.5);
   const y = Math.round((viewH - h) * 0.5);
 
-  ctx.fillStyle = '#0f172a';
-  ctx.fillRect(x, y, w, h);
-  ctx.strokeStyle = '#f43f5e';
-  ctx.lineWidth = 3;
-  ctx.strokeRect(x, y, w, h);
+  drawPixelNineSlicePanel(ctx, x, y, w, h, 'crimson_boss');
 
   ctx.font = 'bold 16px monospace';
   ctx.textAlign = 'center';
@@ -490,34 +477,61 @@ export function renderWantedPosterOverlay(
 
   const framePalette: Record<
     WantedPosterFrameTier,
-    { border: string; inner: string; badge: string; label: string }
+    { border: string; inner: string; badge: string; label: string; shine: string }
   > = {
-    default: { border: '#78350f', inner: '#92400e', badge: '#78350f', label: '' },
-    gold: { border: '#eab308', inner: '#fef08a', badge: '#ca8a04', label: '★ GOLD FRAME ★' },
-    platinum: { border: '#94a3b8', inner: '#e2e8f0', badge: '#475569', label: '✦ PLATINUM FRAME ✦' },
-    diamond: { border: '#38bdf8', inner: '#bae6fd', badge: '#0284c7', label: '❖ DIAMOND CHAMPION ❖' }
+    default: { border: '#78350f', inner: '#b45309', badge: '#78350f', label: '', shine: '' },
+    gold: { border: '#ca8a04', inner: '#fef08a', badge: '#b45309', label: '★ GOLD FRAME ★', shine: 'rgba(254, 249, 195, 0.55)' },
+    platinum: { border: '#64748b', inner: '#f1f5f9', badge: '#475569', label: '✦ PLATINUM FRAME ✦', shine: 'rgba(248, 250, 252, 0.6)' },
+    diamond: { border: '#0284c7', inner: '#bae6fd', badge: '#0369a1', label: '❖ DIAMOND CHAMPION ❖', shine: 'rgba(186, 230, 253, 0.65)' }
   };
   const fp = framePalette[frameTier] ?? framePalette.default;
 
   if (frameTier !== 'default') {
-    ctx.strokeStyle = fp.inner;
-    ctx.lineWidth = 8;
-    ctx.strokeRect(x - 4, y - 4, w + 8, h + 8);
+    // Colosseum metallic outer showcase frame + corner bevel glow
+    ctx.fillStyle = fp.inner;
+    ctx.fillRect(x - 6, y - 6, w + 12, h + 12);
+    ctx.strokeStyle = fp.border;
+    ctx.lineWidth = 3;
+    ctx.strokeRect(x - 6, y - 6, w + 12, h + 12);
+    // Diagonal metallic specular glint across frame
+    ctx.strokeStyle = fp.shine;
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(x - 4, y + 36);
+    ctx.lineTo(x + 36, y - 4);
+    ctx.moveTo(x + w - 36, y + h + 4);
+    ctx.lineTo(x + w + 4, y + h - 36);
+    ctx.stroke();
   }
 
-  ctx.fillStyle = '#fef3c7';
-  ctx.fillRect(x, y, w, h);
-  ctx.strokeStyle = fp.border;
-  ctx.lineWidth = frameTier === 'default' ? 4 : 6;
-  ctx.strokeRect(x, y, w, h);
+  // Authentic Aged Parchment 9-Slice Poster Body
+  drawPixelNineSlicePanel(ctx, x, y, w, h, 'parchment', fp.border);
+
+  // Weathered paper stains & aged parchment pixel speckles
+  ctx.fillStyle = 'rgba(120, 53, 15, 0.09)';
+  ctx.fillRect(x + 8, y + 8, 26, 22);
+  ctx.fillRect(x + w - 34, y + h - 32, 26, 22);
+  ctx.fillStyle = 'rgba(69, 26, 3, 0.14)';
+  for (let i = 0; i < 18; i++) {
+    const sx = x + 12 + ((i * 37) % (w - 24));
+    const sy = y + 12 + ((i * 53) % (h - 24));
+    ctx.fillRect(sx, sy, 2, 2);
+  }
+  // Inner hand-inked border
+  ctx.strokeStyle = '#78350f';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(x + 11, y + 11, w - 22, h - 22);
 
   if (fp.label) {
     ctx.fillStyle = fp.badge;
-    ctx.fillRect(x + 24, y - 14, w - 48, 18);
+    ctx.fillRect(x + 24, y - 16, w - 48, 20);
+    ctx.strokeStyle = fp.inner;
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x + 24, y - 16, w - 48, 20);
     ctx.font = 'bold 10px monospace';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#ffffff';
-    ctx.fillText(fp.label, x + w * 0.5, y - 2);
+    ctx.fillText(fp.label, x + w * 0.5, y - 3);
   }
 
   ctx.font = 'bold 28px serif';
@@ -533,9 +547,14 @@ export function renderWantedPosterOverlay(
 
   const unitDef = gameRegistry.units[poster.unitId];
   if (unitDef) {
-    const sprite = assets.getOrCreateUnitSprite(unitDef, 'BASE', null);
-    if (sprite) {
-      ctx.drawImage(sprite, x + w * 0.5 - 48, y + 74, 96, 96);
+    const portrait = assets.getOrCreateUnitPortrait(unitDef, 'determined', null);
+    if (portrait.image) {
+      ctx.drawImage(portrait.image, x + w * 0.5 - 64, y + 58, 128, 128);
+    } else {
+      const sprite = assets.getOrCreateUnitSprite(unitDef, 'BASE', null);
+      if (sprite) {
+        ctx.drawImage(sprite, x + w * 0.5 - 48, y + 74, 96, 96);
+      }
     }
   }
 
@@ -628,3 +647,7 @@ export function renderSaveAndTamperOverlay(
 
   ctx.restore();
 }
+
+export * from './dialogue/dialogueCutscenePlayer';
+export * from './dialogue/recruitmentOverlay';
+export * from './dialogue/battleBanterOverlay';

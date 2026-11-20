@@ -349,7 +349,7 @@ describe('Phase 10 Step 2: Giant Boss Co-op Raid, Online 2P+1AI+Spectator 600-Ti
     expect(mig.migrated).toBe(true);
     expect(mig.migratedFromVersion).toBe(4);
     expect(mig.envelope.meta.saveVersion).toBe(5);
-    expect(mig.envelope.meta.battleCalcVersion).toBe('0.6.0');
+    expect(mig.envelope.meta.battleCalcVersion).toBe('0.7.0');
     expect(mig.envelope.payload.endgame).toBeDefined();
     expect(mig.envelope.payload.endgame?.impelDown.highestFloor).toBe(0);
     expect(mig.envelope.payload.endgame?.colosseum.posterFrameTier).toBe('default');

@@ -1,3 +1,4 @@
+import { triggerBattleCutin } from '../battle/tagCombo';
 import type { FormDefinition, GameDataRegistry, StatBlock } from '../types/dataSchemas';
 import type { BattleWorldState, MoveSlotRuntime, UnitRuntimeState } from '../types/battleState';
 import { isUnitStaggered } from './statusEngine';
@@ -376,6 +377,19 @@ export function activateFormShift(
     world.combatLog.push(
       `[각성/변신] ${unit.name} -> ${formDef.name} 발동! (+${healAmount} HP)`
     );
+  }
+
+  if (!isStanceOnly && world.tick > 0 && world.mode !== 'AI_VS_AI' && unit.isPlayerControlled) {
+    triggerBattleCutin(world, {
+      kind: 'AWAKENING',
+      team: unit.team,
+      primaryUnit: unit,
+      title: formDef.name,
+      subtitle: `${unit.name} · ${formDef.kind === 'OVERDRIVE' ? 'AWAKENING OVERDRIVE' : 'AWAKENED FORM'}`,
+      primaryColor: formDef.auraColor || '#facc15',
+      secondaryColor: formDef.hagoromoColor === 'white' ? '#f8fafc' : '#f97316',
+      portraitEmotion: 'determined'
+    });
   }
 
   return { activated: true, healAmount };

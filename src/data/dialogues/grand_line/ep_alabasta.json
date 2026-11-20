@@ -1,0 +1,181 @@
+{
+  "episodeId": "ep_alabasta",
+  "islandId": "alabasta",
+  "seaZoneId": "grand_line",
+  "scripts": [
+    {
+      "scriptId": "gl2_alabasta_arrival",
+      "episodeId": "ep_alabasta",
+      "triggerType": "gold_marker",
+      "title": "사막 왕국 알라바스타의 위기",
+      "bindingId": "npc_vivi_alabasta",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "3년째 비가 끊긴 모래의 대국 알라바스타. 왕국 전역은 바로크 워크스의 음모로 내전 직전이었다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제3장 · 위대한 항로",
+              "title": "모래 왕국의 기적",
+              "subtitle": "칠무해 크로커다일과 고대의 석비"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "npc_vivi",
+          "speakerName": "네펠타리 비비",
+          "emotion": "sad",
+          "side": "right",
+          "text": "루피... 왕국군과 반란군이 곧 정면 충돌해요. 흑막인 칠무해 크로커다일을 막지 않으면..."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "비비, 우린 동료잖아! 우리의 목숨도 같이 걸어봐! 크로커다일은 내가 날려버릴게!"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "determined",
+          "side": "left",
+          "text": "모래 자연계 능력자라 까다롭겠군. 하지만 물만 있으면 모래가 굳어 실체가 드러난다."
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "determined",
+          "side": "left",
+          "text": "수도 아르바나 광장에 오아시스 물통들이 배치돼 있어! 그걸 깨뜨려서 약점을 찔러야 해!"
+        },
+        {
+          "speakerId": "npc_vivi",
+          "speakerName": "네펠타리 비비",
+          "emotion": "determined",
+          "side": "right",
+          "text": "모두 고마워요! 지하 신전의 포네그리프를 노리는 크로커다일을 반드시 막아주세요!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl2_crocodile_pre_boss",
+      "episodeId": "ep_alabasta",
+      "triggerType": "pre_boss",
+      "title": "칠무해 서 크로커다일 대치",
+      "bindingId": "enc_alabasta_crocodile_boss",
+      "lines": [
+        {
+          "speakerId": "crocodile",
+          "speakerName": "왕하 칠무해 · 서 크로커다일",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "쿠하하하... 사막에서 목숨을 건졌다고 또 기어오다니, 가소로운 루키 녀석이군.",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "sfx", "sfxId": "logia_dissolve" }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "angry",
+          "side": "left",
+          "text": "비비의 나라를 돌려줘!! 네가 아무리 칠무해라도 난 지지 않아!"
+        },
+        {
+          "speakerId": "crocodile",
+          "speakerName": "왕하 칠무해 · 서 크로커다일",
+          "emotion": "angry",
+          "side": "right",
+          "text": "모래모래 열매의 앞에서 물 한 방울 없는 사막을 원망해라! 데저트 스파다!",
+          "directives": [{ "type": "cameraShake", "intensity": 0.75, "durationSec": 0.4 }]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "네 약점은 이미 파악했어! 주변 물통을 깨서 모래를 흠뻑 적셔주마!"
+        },
+        {
+          "speakerId": "crocodile",
+          "speakerName": "왕하 칠무해 · 서 크로커다일",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "어디 그 얕은 꾀로 사막의 왕을 쓰러뜨릴 수 있을지 시험해보지!"
+        }
+      ]
+    },
+    {
+      "scriptId": "gl2_alabasta_post_boss_recruit",
+      "episodeId": "ep_alabasta",
+      "triggerType": "post_boss",
+      "title": "기적의 빗줄기 & 고고학자 니코 로빈 합류",
+      "bindingId": "enc_alabasta_crocodile_boss",
+      "lines": [
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "고무고무 스톰!! 비비의 목소리를 막는 네놈을 지상까지 뚫고 날려버린다!!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 1.0, "durationSec": 0.55 },
+            { "type": "screenFlash", "color": "#bae6fd", "durationSec": 0.3 },
+            { "type": "sfx", "sfxId": "blunt_hit" }
+          ]
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "칠무해 크로커다일이 쓰러진 순간, 메말랐던 알라바스타 하늘에서 기적 같은 빗줄기가 쏟아졌다.",
+          "directives": [{ "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.5 }]
+        },
+        {
+          "speakerId": "npc_vivi",
+          "speakerName": "네펠타리 비비",
+          "emotion": "sad",
+          "side": "right",
+          "text": "언젠가 다시 만나면... 그 때도 날 동료라고 불러줄 건가요? 고마워요, 모두들!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "(왼팔의 X자 동료의 증표를 하늘 높이 치켜든다.) 당연하지! 우린 영원한 동료야!"
+        },
+        {
+          "speakerId": "robin",
+          "speakerName": "악마의 아이 · 니코 로빈",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "날 지하 신전에서 구해냈으니 책임을 져야 해, 선장님. 이 배의 고고학자로 받아주지 않을래?",
+          "directives": [
+            {
+              "type": "recruitmentBanner",
+              "unitId": "robin",
+              "roleName": "고고학자 (Archaeologist)",
+              "passiveSummary": "포네그리프 해독 활성화 & 전투·보물·에피소드 보상 +30%!"
+            }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "좋아! 로빈도 우리 동료다! 어, 나미! 기록지침이 갑자기 하늘 위를 가리키고 있어!"
+        }
+      ]
+    }
+  ]
+}

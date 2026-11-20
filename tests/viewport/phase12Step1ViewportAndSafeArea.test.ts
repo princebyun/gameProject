@@ -34,14 +34,14 @@ function createMockPlatform(): PlatformAdapter {
     },
     isFullscreen: () => true,
     toggleFullscreen: async () => true,
-    vibrate: () => {},
-    exportJsonFile: () => {}
+    vibrate: () => { },
+    exportJsonFile: () => { }
   };
 }
 
 describe('Stage 5 Step 1 — Galaxy S25 Ultra 19.5:9 Viewport, Safe Area & Android Native Fullscreen', () => {
   it('computes dynamic horizontal viewWidth cleanly for 16:9, Galaxy S25 Ultra 19.5:9, and clamps extremes', () => {
-    expect(BATTLE_CALC_VERSION).toBe('0.6.0');
+    expect(BATTLE_CALC_VERSION).toBe('0.7.0');
     expect(LOGICAL_WIDTH).toBe(960);
     expect(LOGICAL_HEIGHT).toBe(540);
 
@@ -126,7 +126,7 @@ describe('Stage 5 Step 1 — Galaxy S25 Ultra 19.5:9 Viewport, Safe Area & Andro
     for (const preset of ['SMALL', 'MEDIUM', 'LARGE'] as const) {
       input.setTouchButtonSize(preset);
       const buttons = input.getTouchButtons(s25Metrics);
-      expect(buttons.length).toBe(7);
+      expect(buttons.length).toBe(9);
 
       for (const btn of buttons) {
         expect(btn.x - btn.r).toBeGreaterThanOrEqual(s25Metrics.safeInsets.left);

@@ -1,0 +1,131 @@
+{
+  "version": "1.0.0",
+  "mode": "atlas",
+  "chromaKey": {
+    "enabled": false
+  },
+  "frameWidth": 64,
+  "frameHeight": 64,
+  "animations": {
+    "IDLE": {
+      "fps": 5,
+      "loop": true,
+      "frames": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivotX": 0.5,
+          "pivotY": 0.94
+        }
+      ]
+    },
+    "ATTACK_MELEE": {
+      "fps": 14,
+      "loop": false,
+      "hitFrame": 2,
+      "frames": [
+        {
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivotX": 0.5,
+          "pivotY": 0.94
+        },
+        {
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivotX": 0.42,
+          "pivotY": 0.94
+        },
+        {
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivotX": 0.42,
+          "pivotY": 0.94
+        },
+        {
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivotX": 0.5,
+          "pivotY": 0.94
+        }
+      ]
+    },
+    "WINDUP": {
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        {
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivotX": 0.5,
+          "pivotY": 0.94
+        }
+      ]
+    },
+    "ATTACK_CAST": {
+      "fps": 12,
+      "loop": false,
+      "hitFrame": 1,
+      "frames": [
+        {
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivotX": 0.5,
+          "pivotY": 0.94
+        },
+        {
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivotX": 0.42,
+          "pivotY": 0.94
+        },
+        {
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivotX": 0.42,
+          "pivotY": 0.94
+        }
+      ]
+    },
+    "CLASH": {
+      "fps": 12,
+      "loop": true,
+      "frames": [
+        {
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivotX": 0.42,
+          "pivotY": 0.94
+        },
+        {
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivotX": 0.42,
+          "pivotY": 0.94
+        }
+      ]
+    }
+  }
+}

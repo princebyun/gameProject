@@ -19,12 +19,14 @@ export function computeBattleStateHash(
       u.activeFormId ?? '-'
     }|${u.dodgeStacks}|${ex}|${st}|V:${u.venomStacks}|D:${u.isDowned ? 1 : 0}:${Math.round(
       u.downedTimer * 10
-    )}:${Math.round(u.reviveProgressSec * 10)}`;
+    )}:${Math.round(u.reviveProgressSec * 10)}|G:${Math.round(u.guardStamina)}:${u.guardBreakTicks}:${u.parryStunTicks}:AW:${Math.round(u.awakeningGauge)}`;
   });
 
   const clashPart = `BC:${world.beamClashes.length}|MC:${world.meleeClashes.length}|MG:${world.meleeBeamGuards.length}`;
-  const entitiesPart = `P:${world.projectiles.length}|B:${world.beams.length}|M:${world.meleeArcs.length}|F:${world.fieldZones.length}`;
+  const reflectedProjCount = world.projectiles.filter((p) => p.reflected).length;
+  const entitiesPart = `P:${world.projectiles.length}(R:${reflectedProjCount})|B:${world.beams.length}|M:${world.meleeArcs.length}|F:${world.fieldZones.length}`;
   const envPart = `W:${world.weather.id}|E:${world.environmentField.kind}|R:${world.ruleReversal.kind}`;
+  const bondPart = `BOND:A${Math.round(world.rosters.ALPHA.bondGauge)}:O${Math.round(world.rosters.OMEGA.bondGauge)}|CF:${world.cutinFreezeTicks}|BCMB:${world.activeBondCombo ? `${world.activeBondCombo.comboId}:${world.activeBondCombo.elapsedTicks}` : '-'}`;
   const raidPart = world.raidState.active
     ? `RAID:${world.raidState.raidId}|BG:${Math.round(world.raidState.breakGauge)}|GR:${Math.round(
         world.raidState.groggyTimer * 10
@@ -40,6 +42,7 @@ export function computeBattleStateHash(
     clashPart,
     entitiesPart,
     envPart,
+    bondPart,
     raidPart
   ].join('||');
 

@@ -4,6 +4,10 @@ import type {
   RpgCampaignState,
   RpgDataRegistry
 } from '../core/types/rpgSchemas';
+import {
+  SIDE_BANTER_MARKER_MANIFEST,
+  type SideBanterMarkerMeta
+} from '../data/dialogues/scriptManifest';
 import type { StoryNodeSnapshot } from './storyDirector';
 
 export type WorldMarkerKind = 'MAIN' | 'SIDE' | 'ACTIVITY';
@@ -90,6 +94,28 @@ export function collectSeaWorldMarkers(
     });
   }
 
+  // Open-world Blue Markers for uncompleted crew shipboard side banters
+  for (const banter of SIDE_BANTER_MARKER_MANIFEST) {
+    if (banter.seaZoneId !== zone.id) continue;
+    const flagKey = `side_banter_${banter.scriptId}`;
+    if (campaign.episodeFlags[flagKey]) continue;
+    if (
+      banter.requiredUnitIds &&
+      !banter.requiredUnitIds.every((uid) => campaign.recruitedUnitIds.includes(uid))
+    ) {
+      continue;
+    }
+    markers.push({
+      id: `side_banter_${banter.scriptId}`,
+      kind: 'SIDE',
+      label: `💬 ${banter.markerLabel}`,
+      x: banter.markerPos.x,
+      y: banter.markerPos.y,
+      color: MARKER_COLOR_MAP.SIDE,
+      pulse: true
+    });
+  }
+
   // Open-world repeatable activities (Bounties / Treasure)
   for (const obj of campaign.seaObjectsByZone[zone.id] ?? []) {
     if (obj.collectedOrDefeated) continue;
@@ -105,6 +131,34 @@ export function collectSeaWorldMarkers(
   }
 
   return markers;
+}
+
+export const SIDE_BANTER_INTERACT_RADIUS_PX = 92;
+
+/**
+ * Finds the nearest uncompleted blue-marker side crew banter within ship interaction radius.
+ */
+export function findNearbySeaSideBanter(
+  campaign: RpgCampaignState
+): SideBanterMarkerMeta | null {
+  for (const banter of SIDE_BANTER_MARKER_MANIFEST) {
+    if (banter.seaZoneId !== campaign.currentZoneId) continue;
+    if (campaign.episodeFlags[`side_banter_${banter.scriptId}`]) continue;
+    if (
+      banter.requiredUnitIds &&
+      !banter.requiredUnitIds.every((uid) => campaign.recruitedUnitIds.includes(uid))
+    ) {
+      continue;
+    }
+    const dist = Math.hypot(
+      campaign.ship.pos.x - banter.markerPos.x,
+      campaign.ship.pos.y - banter.markerPos.y
+    );
+    if (dist <= SIDE_BANTER_INTERACT_RADIUS_PX) {
+      return banter;
+    }
+  }
+  return null;
 }
 
 /**

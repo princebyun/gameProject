@@ -1,7 +1,18 @@
+import type { AssetLoader } from '../assets/assetLoader';
+import { isTeamBondComboAvailable } from '../core/battle/tagCombo';
+import { FIXED_DT } from '../core/constants';
 import { clamp } from '../core/math/vector2';
 import type { GameDataRegistry } from '../core/types/dataSchemas';
 import type { BattleWorldState, UnitRuntimeState } from '../core/types/battleState';
 import type { KeyBindingConfig } from '../input/keyBindings';
+import {
+  computeCooldownWipeRatio,
+  drawPixelNineSlicePanel,
+  drawPulsingHakiGauge,
+  drawRadialCooldownWipe,
+  drawSlantedPixelHpBar,
+  sharedHpDelayTracker
+} from './ui/pixelNineSliceUi';
 import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
@@ -14,7 +25,8 @@ export function renderBattleHud(
   bindings: KeyBindingConfig,
   fps: number,
   isTouchMode: boolean,
-  viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS
+  viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS,
+  assets?: AssetLoader
 ): void {
   const viewW = viewport.viewWidth;
   const viewH = viewport.viewHeight;
@@ -28,14 +40,32 @@ export function renderBattleHud(
     renderRaidSquadHud(ctx, alphaOnField, world, safeL, safeT);
   } else {
     alphaOnField.forEach((unit, idx) => {
-      renderUnitHudCard(ctx, unit, 12 + safeL, 10 + safeT + idx * 66, false, world, registry);
+      renderUnitHudCard(
+        ctx,
+        unit,
+        10 + safeL,
+        10 + safeT + idx * 70,
+        false,
+        world,
+        registry,
+        assets
+      );
     });
   }
 
   // 2. Top-Right: Team OMEGA HUD Cards (respecting Safe Area)
   const omegaOnField = world.units.filter((u) => u.team === 'OMEGA' && u.isOnField);
   omegaOnField.forEach((unit, idx) => {
-    renderUnitHudCard(ctx, unit, viewW - 252 - safeR, 10 + safeT + idx * 66, true, world, registry);
+    renderUnitHudCard(
+      ctx,
+      unit,
+      viewW - 268 - safeR,
+      10 + safeT + idx * 70,
+      true,
+      world,
+      registry,
+      assets
+    );
   });
 
   // 3. Top-Center: Global Weather, Environment Awakening Field, Rule Reversal, Timer & FPS
@@ -65,11 +95,14 @@ export function renderBattleHud(
 
   // 6. Winner Banner
   if (world.winnerTeam !== null) {
-    ctx.fillStyle = 'rgba(9, 13, 22, 0.78)';
-    ctx.fillRect(viewW * 0.5 - 180, viewH * 0.5 - 42, 360, 84);
-    ctx.strokeStyle = '#facc15';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(viewW * 0.5 - 180, viewH * 0.5 - 42, 360, 84);
+    drawPixelNineSlicePanel(
+      ctx,
+      viewW * 0.5 - 186,
+      viewH * 0.5 - 46,
+      372,
+      92,
+      'gold_ribbon'
+    );
 
     ctx.font = 'bold 22px monospace';
     ctx.textAlign = 'center';
@@ -111,15 +144,59 @@ function renderUnitHudCard(
   y: number,
   rightAligned: boolean,
   world: BattleWorldState,
-  registry: GameDataRegistry
+  registry: GameDataRegistry,
+  assets?: AssetLoader
 ): void {
-  const w = 240;
-  const h = 62;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
-  ctx.fillRect(x, y, w, h);
-  ctx.strokeStyle = unit.team === 'ALPHA' ? '#38bdf8' : '#f43f5e';
+  const w = 258;
+  const h = 66;
+  drawPixelNineSlicePanel(
+    ctx,
+    x,
+    y,
+    w,
+    h,
+    unit.team === 'ALPHA' ? 'navy_hud' : 'crimson_boss'
+  );
+
+  // Mini 64x64 Pixel Portrait Frame (46x46)
+  const portSize = 46;
+  const portX = rightAligned ? x + w - portSize - 7 : x + 7;
+  const portY = y + 10;
+  ctx.fillStyle = '#090d16';
+  ctx.fillRect(portX, portY, portSize, portSize);
+  ctx.strokeStyle = unit.activeFormId
+    ? '#facc15'
+    : unit.team === 'ALPHA'
+      ? '#38bdf8'
+      : '#f43f5e';
   ctx.lineWidth = 1.5;
-  ctx.strokeRect(x, y, w, h);
+  ctx.strokeRect(portX, portY, portSize, portSize);
+
+  const unitDef = registry.units[unit.speciesId];
+  if (unitDef && assets) {
+    const emo =
+      unit.hp / Math.max(1, unit.maxHp) < 0.3
+        ? 'angry'
+        : unit.activeFormId
+          ? 'excited'
+          : 'determined';
+    const pRes = assets.getOrCreateUnitPortrait(unitDef, emo, unit.activeFormId);
+    if (pRes.image) {
+      ctx.save();
+      ctx.imageSmoothingEnabled = false;
+      if (rightAligned) {
+        ctx.translate(portX + portSize, portY);
+        ctx.scale(-1, 1);
+        ctx.drawImage(pRes.image, 1, 1, portSize - 2, portSize - 2);
+      } else {
+        ctx.drawImage(pRes.image, portX + 1, portY + 1, portSize - 2, portSize - 2);
+      }
+      ctx.restore();
+    }
+  }
+
+  const contentX = rightAligned ? x + 8 : portX + portSize + 7;
+  const contentW = w - portSize - 22;
 
   // Unit Name, Stance & Haki Badge
   const elemMeta = registry.elements.elements.find((e) => e.id === unit.element);
@@ -128,66 +205,85 @@ function renderUnitHudCard(
   ctx.fillStyle = '#f8fafc';
   const stanceTag =
     unit.currentStanceRole !== 'BASE' ? ` (${unit.currentStanceRole})` : '';
-  ctx.fillText(`${unit.name}${stanceTag}`, x + 7, y + 13);
+  const nameRaw = `${unit.name}${stanceTag}`;
+  ctx.fillText(nameRaw.length > 13 ? `${nameRaw.slice(0, 12)}…` : nameRaw, contentX, y + 15);
 
   ctx.fillStyle = elemMeta?.color ?? '#38bdf8';
   ctx.textAlign = 'right';
   const hakiText = `무${unit.haki.armament}/견${unit.haki.observation}/패${unit.haki.conqueror}`;
-  ctx.fillText(hakiText, x + w - 7, y + 13);
+  ctx.fillText(hakiText, contentX + contentW, y + 15);
 
-  // HP Bar
+  // Slanted Pixel HP Bar with Trailing White Damage Delay Bar
   const hpRatio = clamp(unit.hp / Math.max(1, unit.maxHp), 0, 1);
-  ctx.fillStyle = '#1e293b';
-  ctx.fillRect(x + 8, y + 18, w - 16, 11);
-  ctx.fillStyle =
-    hpRatio > 0.5 ? '#22c55e' : hpRatio > 0.25 ? '#f59e0b' : '#ef4444';
-  ctx.fillRect(x + 8, y + 18, Math.round((w - 16) * hpRatio), 11);
+  const delayedHp = sharedHpDelayTracker.sample(unit.instanceId, hpRatio, FIXED_DT);
+  const hpColor = hpRatio > 0.5 ? '#22c55e' : hpRatio > 0.25 ? '#f59e0b' : '#ef4444';
+  drawSlantedPixelHpBar(ctx, contentX, y + 19, contentW, 11, hpRatio, delayedHp, hpColor, 4);
 
   ctx.font = 'bold 9px monospace';
   ctx.textAlign = 'center';
   ctx.fillStyle = '#ffffff';
-  ctx.fillText(`${unit.hp} / ${unit.maxHp}`, x + w * 0.5, y + 27);
+  ctx.fillText(`${unit.hp} / ${unit.maxHp}`, contentX + contentW * 0.5, y + 28);
+
+  // Pulsing Gold Haki / Awakening Gauge Strip
+  const canShift = !unit.hasUsedFormShift && unit.isAlive && unit.exhaustionTimer <= 0;
+  const hakiGaugeRatio = unit.activeFormId
+    ? unit.activeFormKind === 'OVERDRIVE'
+      ? clamp(unit.overdriveTimeRemainingSec / 12, 0, 1)
+      : 1
+    : canShift
+      ? 1
+      : 0.25;
+  drawPulsingHakiGauge(
+    ctx,
+    contentX,
+    y + 33,
+    contentW,
+    5,
+    hakiGaugeRatio,
+    world.tick,
+    Boolean(unit.activeFormId)
+  );
 
   // Row 3: Dodge stacks, Hagoromo Cloud Sash / Awakening / Exhaustion status
   ctx.textAlign = 'left';
   ctx.font = '9px monospace';
   ctx.fillStyle = '#2dd4bf';
-  ctx.fillText(`회피:${unit.dodgeStacks}/${unit.maxDodgeStacks}`, x + 8, y + 41);
+  ctx.fillText(`회피:${unit.dodgeStacks}/${unit.maxDodgeStacks}`, contentX, y + 48);
 
   if (unit.exhaustionTimer > 0) {
     ctx.fillStyle = '#f87171';
-    ctx.fillText(`탈진:${unit.exhaustionTimer.toFixed(1)}s`, x + 64, y + 41);
+    ctx.fillText(`탈진:${unit.exhaustionTimer.toFixed(1)}s`, contentX + 54, y + 48);
   } else if (unit.activeFormKind === 'OVERDRIVE') {
     ctx.fillStyle = '#e879f9';
     const hag = unit.hagoromoColor ? `☁${unit.hagoromoColor.toUpperCase()}` : '★OD';
     ctx.fillText(
-      `${hag} ${unit.overdriveTimeRemainingSec.toFixed(1)}s(${unit.overdriveUsesRemaining}회)`,
-      x + 64,
-      y + 41
+      `${hag} ${unit.overdriveTimeRemainingSec.toFixed(1)}s`,
+      contentX + 54,
+      y + 48
     );
   } else if (unit.activeFormId) {
     ctx.fillStyle = '#fb923c';
-    const hag = unit.hagoromoColor ? `☁구름띠:${unit.hagoromoColor}` : `★${unit.currentStanceRole}`;
-    ctx.fillText(hag, x + 64, y + 41);
+    const hag = unit.hagoromoColor ? `☁${unit.hagoromoColor}` : `★${unit.currentStanceRole}`;
+    ctx.fillText(hag, contentX + 54, y + 48);
   } else {
     ctx.fillStyle = '#94a3b8';
-    ctx.fillText(`[${unit.fruitType}]`, x + 64, y + 41);
+    ctx.fillText(`[${unit.fruitType}]`, contentX + 54, y + 48);
   }
 
   // Row 4: Real-time Status Effect Timer pills
-  let sx = rightAligned ? x + w - 8 : x + 8;
+  let sx = rightAligned ? contentX + contentW : contentX;
   ctx.font = 'bold 9px monospace';
   for (const st of unit.statuses) {
     const label = `${st.kind}:${st.remainingSec.toFixed(1)}s`;
     ctx.fillStyle = st.kind === 'STAGGER' ? '#facc15' : '#c084fc';
     ctx.textAlign = rightAligned ? 'right' : 'left';
-    ctx.fillText(label, sx, y + 55);
-    sx += rightAligned ? -78 : 78;
+    ctx.fillText(label, sx, y + 59);
+    sx += rightAligned ? -72 : 72;
   }
   if (unit.staggerImmunityTimer > 0 && unit.statuses.length === 0) {
     ctx.fillStyle = '#94a3b8';
     ctx.textAlign = rightAligned ? 'right' : 'left';
-    ctx.fillText(`면역:${unit.staggerImmunityTimer.toFixed(1)}s`, sx, y + 55);
+    ctx.fillText(`면역:${unit.staggerImmunityTimer.toFixed(1)}s`, sx, y + 59);
   }
 
   // Stage 2-B: Fruit Nullification countdown badge on unit HUD
@@ -197,15 +293,15 @@ function renderUnitHudCard(
     ctx.textAlign = rightAligned ? 'right' : 'left';
     ctx.fillText(
       `🌑능력봉인:${unit.fruitNullifyTimer.toFixed(1)}s`,
-      rightAligned ? x + w - 8 : x + 8,
-      y + 66
+      rightAligned ? contentX + contentW : contentX,
+      y + 72
     );
   }
 
   // Roster party dots & swap cooldown
   const teamUnits = world.units.filter((u) => u.team === unit.team);
   const roster = world.rosters[unit.team];
-  let dotX = x + w - 12;
+  let dotX = contentX + contentW - 4;
   for (let i = teamUnits.length - 1; i >= 0; i--) {
     const tu = teamUnits[i];
     ctx.fillStyle = !tu.isAlive
@@ -214,19 +310,19 @@ function renderUnitHudCard(
         ? '#38bdf8'
         : '#22c55e';
     ctx.beginPath();
-    ctx.arc(dotX, y + 40, 3.5, 0, Math.PI * 2);
+    ctx.arc(dotX, y + 46, 3, 0, Math.PI * 2);
     ctx.fill();
-    dotX -= 10;
+    dotX -= 9;
   }
 
   if (roster.pivotWindowTimer > 0) {
     ctx.fillStyle = '#38bdf8';
     ctx.textAlign = 'right';
-    ctx.fillText(`교체찬스 ${roster.pivotWindowTimer.toFixed(1)}s!`, x + w - 8, y + 55);
+    ctx.fillText(`교체찬스 ${roster.pivotWindowTimer.toFixed(1)}s!`, contentX + contentW, y + 59);
   } else if (roster.voluntarySwapCooldownTimer > 0) {
     ctx.fillStyle = '#94a3b8';
     ctx.textAlign = 'right';
-    ctx.fillText(`교체CD ${roster.voluntarySwapCooldownTimer.toFixed(0)}s`, x + w - 8, y + 55);
+    ctx.fillText(`교체CD ${roster.voluntarySwapCooldownTimer.toFixed(0)}s`, contentX + contentW, y + 59);
   }
 }
 
@@ -238,11 +334,7 @@ function renderTopCenterGlobalHud(
   safeT: number
 ): void {
   const cx = viewW * 0.5;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-  ctx.fillRect(cx - 115, 8 + safeT, 230, 44);
-  ctx.strokeStyle = '#334155';
-  ctx.lineWidth = 1;
-  ctx.strokeRect(cx - 115, 8 + safeT, 230, 44);
+  drawPixelNineSlicePanel(ctx, cx - 120, 8 + safeT, 240, 44, 'pirate_wood');
 
   ctx.font = 'bold 12px monospace';
   ctx.textAlign = 'center';
@@ -318,11 +410,14 @@ function renderTopBossHpBar(
   const h = 34;
 
   ctx.save();
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
-  ctx.fillRect(x, y, w, h);
-  ctx.strokeStyle = boss.bossPhase2Triggered ? '#ef4444' : '#f59e0b';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(x, y, w, h);
+  drawPixelNineSlicePanel(
+    ctx,
+    x,
+    y,
+    w,
+    h,
+    boss.bossPhase2Triggered ? 'crimson_boss' : 'pirate_wood'
+  );
 
   // Boss Name & Mechanic Tag (Lunarian Flame / Super Regen Lockout)
   ctx.font = 'bold 10px monospace';
@@ -372,17 +467,29 @@ function renderTopBossHpBar(
   ctx.fillStyle = mechColor;
   ctx.fillText(mechText, x + w - 8, y + 12);
 
-  // Large Boss HP Bar with 50% Phase 2 Divider Notch
-  const barX = x + 8;
+  // Large Slanted Boss HP Bar with Trailing White Delay Bar & 50% Phase 2 Divider Notch
+  const barX = x + 10;
   const barY = y + 16;
-  const barW = w - 16;
+  const barW = w - 20;
   const barH = 12;
   const hpRatio = clamp(boss.hp / Math.max(1, boss.maxHp), 0, 1);
+  const delayedBossHp = sharedHpDelayTracker.sample(
+    `boss_${boss.instanceId}`,
+    hpRatio,
+    FIXED_DT
+  );
 
-  ctx.fillStyle = '#1e293b';
-  ctx.fillRect(barX, barY, barW, barH);
-  ctx.fillStyle = boss.bossPhase2Triggered ? '#dc2626' : '#f97316';
-  ctx.fillRect(barX, barY, Math.round(barW * hpRatio), barH);
+  drawSlantedPixelHpBar(
+    ctx,
+    barX,
+    barY,
+    barW,
+    barH,
+    hpRatio,
+    delayedBossHp,
+    boss.bossPhase2Triggered ? '#dc2626' : '#f97316',
+    6
+  );
 
   // 50% Phase 2 Divider Notch
   const midX = Math.round(barX + barW * 0.5);
@@ -703,17 +810,27 @@ function renderBottomSkillHud(
     const ready = slot.charges > 0 && slot.cooldownTimer <= 0;
     const elemMeta = registry.elements.elements.find((e) => e.id === mDef.element);
 
-    ctx.fillStyle = ready
-      ? 'rgba(15, 23, 42, 0.90)'
-      : 'rgba(15, 23, 42, 0.60)';
-    ctx.fillRect(x, y, slotWidth, slotHeight);
-    ctx.strokeStyle = mDef.hasConquerorCoating
-      ? '#ef4444'
-      : ready
-        ? (elemMeta?.color ?? '#38bdf8')
-        : '#475569';
-    ctx.lineWidth = ready ? 1.5 : 1;
-    ctx.strokeRect(x, y, slotWidth, slotHeight);
+    drawPixelNineSlicePanel(
+      ctx,
+      x,
+      y,
+      slotWidth,
+      slotHeight,
+      mDef.hasConquerorCoating ? 'crimson_boss' : ready ? 'navy_hud' : 'pirate_wood',
+      mDef.hasConquerorCoating
+        ? '#ef4444'
+        : ready
+          ? (elemMeta?.color ?? '#38bdf8')
+          : '#475569'
+    );
+
+    if (slot.cooldownTimer > 0) {
+      const cdRatio = computeCooldownWipeRatio(
+        slot.cooldownTimer,
+        Math.max(0.5, mDef.cooldownSec ?? 6)
+      );
+      drawRadialCooldownWipe(ctx, x + 3, y + 3, slotWidth - 6, slotHeight - 6, cdRatio);
+    }
 
     ctx.font = 'bold 10px monospace';
     ctx.textAlign = 'left';
@@ -794,16 +911,91 @@ function renderBottomSkillHud(
   }
 
   const roster = world.rosters[unit.team];
+  // Phase 16: Compact Guard Stamina & 2:2 Bond Tag Combo Gauge Strip above Bottom Skill Bar
+  const gaugeY = y - 18;
+  const bondActive = isTeamBondComboAvailable(unit.team, world);
+  const halfW = bondActive ? Math.floor((totalW - 8) * 0.5) : totalW;
+
+  // Left: Armament Guard Stamina Bar
+  const guardRatio = clamp(
+    unit.guardStamina / Math.max(1, unit.guardMaxStamina),
+    0,
+    1
+  );
+  const guardBroken = unit.guardBreakTicks > 0;
+  ctx.fillStyle = 'rgba(9, 13, 22, 0.88)';
+  ctx.fillRect(startX, gaugeY, halfW, 14);
+  ctx.strokeStyle = guardBroken
+    ? '#ef4444'
+    : unit.justGuardFlashTicks > 0
+      ? '#fde047'
+      : unit.guardHeld
+        ? '#c084fc'
+        : '#475569';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(startX, gaugeY, halfW, 14);
+
+  ctx.fillStyle = guardBroken
+    ? '#dc2626'
+    : unit.justGuardFlashTicks > 0
+      ? '#facc15'
+      : '#a855f7';
+  ctx.fillRect(startX + 2, gaugeY + 2, Math.round((halfW - 4) * guardRatio), 10);
+
+  ctx.font = 'bold 9px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#ffffff';
+  const guardKey = bindings.guard.replace('Key', '');
+  ctx.fillText(
+    guardBroken
+      ? `💥 GUARD BREAK (${(unit.guardBreakTicks / 60).toFixed(1)}s)`
+      : `🛡 가드 [${guardKey}/Shift] ${Math.round(unit.guardStamina)}%`,
+    startX + halfW * 0.5,
+    gaugeY + 10
+  );
+
+  // Right: Team 2:2 Bond Tag Combo Gauge Bar (visible when >= 2 alive allies)
+  if (bondActive) {
+    const bx = startX + halfW + 8;
+    const bondRatio = clamp(roster.bondGauge / 100, 0, 1);
+    const bondReady = roster.bondGauge >= 100;
+    const pulse = bondReady ? Math.sin(world.tick * 0.25) * 0.5 + 0.5 : 0;
+    ctx.fillStyle = 'rgba(9, 13, 22, 0.88)';
+    ctx.fillRect(bx, gaugeY, halfW, 14);
+    ctx.strokeStyle = bondReady ? '#fde047' : '#f59e0b';
+    ctx.lineWidth = bondReady ? 2 : 1.5;
+    ctx.strokeRect(bx, gaugeY, halfW, 14);
+
+    ctx.fillStyle = bondReady
+      ? pulse > 0.5
+        ? '#fde047'
+        : '#f59e0b'
+      : '#d97706';
+    ctx.fillRect(bx + 2, gaugeY + 2, Math.round((halfW - 4) * bondRatio), 10);
+
+    ctx.font = 'bold 9px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = bondReady ? '#090d16' : '#ffffff';
+    const bondKey = bindings.bondCombo.replace('Key', '');
+    ctx.fillText(
+      bondReady
+        ? `★ [${bondKey}] 동료 합동기 READY!`
+        : `★ 합동기 [${bondKey}] ${Math.floor(roster.bondGauge)}%`,
+      bx + halfW * 0.5,
+      gaugeY + 10
+    );
+  }
+
   if (roster.pivotWindowTimer > 0) {
     ctx.fillStyle = 'rgba(14, 165, 233, 0.92)';
-    ctx.fillRect(viewW * 0.5 - 135, y - 28, 270, 22);
+    ctx.fillRect(viewW * 0.5 - 135, gaugeY - 26, 270, 22);
     ctx.font = 'bold 11px monospace';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#ffffff';
     ctx.fillText(
       `⚡ [${bindings.quickSwap.replace('Key', '')}] 즉시 파티 교체 가능 (${roster.pivotWindowTimer.toFixed(1)}s)`,
       viewW * 0.5,
-      y - 13
+      gaugeY - 11
     );
   }
 }

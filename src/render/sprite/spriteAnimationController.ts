@@ -13,6 +13,10 @@ import type {
   SpriteAnimState,
   SpriteSheetManifestEntry
 } from '../../data/assets/types';
+import {
+  resolveFrameSourceAndDestRect,
+  type SpriteSheetMetaJson
+} from '../../assets/smartSpriteSheetLoader';
 import { SpriteEffectCache } from './spriteEffectCache';
 
 export interface AfterimageSample {
@@ -351,10 +355,10 @@ export class SpriteAnimationController {
       : null;
     const hasArmamentActive = Boolean(
       unit.haki.armament >= 2 &&
-        (activeWindupMove?.hasArmamentHaki ||
-          hasOwnMelee ||
-          unit.clashLockId !== null ||
-          st.attackAnimTimerSec > 0)
+      (activeWindupMove?.hasArmamentHaki ||
+        hasOwnMelee ||
+        unit.clashLockId !== null ||
+        st.attackAnimTimerSec > 0)
     );
 
     return {
@@ -386,27 +390,52 @@ export class SpriteAnimationController {
       elementColor: string;
       afterimages: AfterimageSample[];
       tick: number;
+      sheetFrameWidth?: number;
+      sheetFrameHeight?: number;
+      atlasMeta?: SpriteSheetMetaJson | null;
+      animState?: SpriteAnimState;
     }
   ): void {
-    const fw = entry.frameWidth;
-    const fh = entry.frameHeight;
-    const drawW = Math.round(fw * drawScale);
-    const drawH = Math.round(fh * drawScale);
-    const anchorOffX = Math.round(drawW * entry.anchor.x);
-    const anchorOffY = Math.round(drawH * entry.anchor.y);
+    const fw = opts.sheetFrameWidth ?? entry.frameWidth;
+    const fh = opts.sheetFrameHeight ?? entry.frameHeight;
+    const animState = opts.animState ?? 'IDLE';
+    const rects = resolveFrameSourceAndDestRect(
+      entry,
+      opts.atlasMeta ?? null,
+      animState,
+      row,
+      frameIndex,
+      fw,
+      fh,
+      drawScale
+    );
+    const drawW = rects.destW;
+    const drawH = rects.destH;
+    const anchorOffX = -rects.destX;
+    const anchorOffY = -rects.destY;
 
     ctx.imageSmoothingEnabled = false;
 
-    // 1. Afterimage Trail (behind main sprite)
+    // 1. Afterimage Trail (behind main sprite — works for BOTH grid sheets AND external PNG atlases!)
     for (const ai of opts.afterimages) {
-      const alpha = Math.max(0.08, (ai.remainingSec / ai.totalSec) * 0.45);
-      const tinted = this.effectCache.getOrCreateEffectFrame(
-        entry.key,
-        sheet,
+      const alpha = Math.max(0.08, (ai.remainingSec / ai.totalSec) * 0.48);
+      const aiRects = resolveFrameSourceAndDestRect(
+        entry,
+        opts.atlasMeta ?? null,
+        animState,
         ai.row,
         ai.frame,
         fw,
         fh,
+        drawScale
+      );
+      const tinted = this.effectCache.getOrCreateEffectRect(
+        entry.key,
+        sheet,
+        aiRects.srcX,
+        aiRects.srcY,
+        aiRects.srcW,
+        aiRects.srcH,
         'AFTERIMAGE',
         ai.color
       );
@@ -415,20 +444,20 @@ export class SpriteAnimationController {
       ctx.globalAlpha = alpha;
       ctx.translate(Math.round(ai.x), Math.round(ai.y));
       ctx.scale(ai.facingX, 1);
-      ctx.drawImage(tinted, -anchorOffX, -anchorOffY, drawW, drawH);
+      ctx.drawImage(tinted, aiRects.destX, aiRects.destY, aiRects.destW, aiRects.destH);
       ctx.restore();
     }
 
     // 2. Logia Element Particle Dispersion (splits sprite into elemental pixel particles)
     if (opts.logiaDispersionTimer > 0) {
       const spread = Math.min(1, opts.logiaDispersionTimer / 0.38);
-      const logiaFrame = this.effectCache.getOrCreateEffectFrame(
+      const logiaFrame = this.effectCache.getOrCreateEffectRect(
         entry.key,
         sheet,
-        row,
-        frameIndex,
-        fw,
-        fh,
+        rects.srcX,
+        rects.srcY,
+        rects.srcW,
+        rects.srcH,
         'LOGIA_SILHOUETTE',
         opts.elementColor
       );
@@ -461,19 +490,21 @@ export class SpriteAnimationController {
       return;
     }
 
-    // 3. Main Sprite Frame (with cached White Hit Flash or Armament Blackening)
+    // 3. Main Sprite Frame (with cached White Hit Flash or Armament Blackening — works for Grid AND External Atlas PNGs!)
     let sourceImg: HTMLImageElement | HTMLCanvasElement = sheet;
-    let srcX = frameIndex * fw;
-    let srcY = row * fh;
+    let srcX = rects.srcX;
+    let srcY = rects.srcY;
+    let srcW = rects.srcW;
+    let srcH = rects.srcH;
 
     if (opts.hitFlashActive && opts.flashEffectEnabled) {
-      const flashCanvas = this.effectCache.getOrCreateEffectFrame(
+      const flashCanvas = this.effectCache.getOrCreateEffectRect(
         entry.key,
         sheet,
-        row,
-        frameIndex,
-        fw,
-        fh,
+        rects.srcX,
+        rects.srcY,
+        rects.srcW,
+        rects.srcH,
         'WHITE_FLASH',
         '#ffffff'
       );
@@ -481,15 +512,17 @@ export class SpriteAnimationController {
         sourceImg = flashCanvas;
         srcX = 0;
         srcY = 0;
+        srcW = rects.srcW;
+        srcH = rects.srcH;
       }
     } else if (opts.hasArmamentActive) {
-      const armCanvas = this.effectCache.getOrCreateEffectFrame(
+      const armCanvas = this.effectCache.getOrCreateEffectRect(
         entry.key,
         sheet,
-        row,
-        frameIndex,
-        fw,
-        fh,
+        rects.srcX,
+        rects.srcY,
+        rects.srcW,
+        rects.srcH,
         'ARMAMENT_BLACK',
         '#111827'
       );
@@ -497,14 +530,71 @@ export class SpriteAnimationController {
         sourceImg = armCanvas;
         srcX = 0;
         srcY = 0;
+        srcW = rects.srcW;
+        srcH = rects.srcH;
       }
     }
 
+    // 4. Procedural Motion Synthesis for missing states on real External Atlas PNGs (never reverts to procedural shapes!)
+    let offsetX = 0;
+    let offsetY = 0;
+    let tiltRad = 0;
+    let alphaMult = 1;
+    if (rects.synthesizedFromIdle) {
+      const t = opts.tick * 0.28;
+      if (animState === 'MOVE') {
+        // Crisp 2-3px walk bounce + subtle forward/back stride tilt
+        offsetY = -Math.round(Math.abs(Math.sin(t)) * 3);
+        tiltRad = Math.sin(t) * 0.08;
+      } else if (animState === 'ATTACK_MELEE' || animState === 'ATTACK_CAST') {
+        offsetX = 4;
+        tiltRad = 0.14;
+      } else if (animState === 'DODGE') {
+        offsetX = 3;
+        offsetY = -2;
+        tiltRad = 0.18;
+        alphaMult = 0.85;
+      } else if (animState === 'HIT') {
+        offsetX = -4;
+        tiltRad = -0.15;
+      } else if (animState === 'DOWNED') {
+        offsetY = -4;
+        tiltRad = -1.2;
+        alphaMult = 0.72;
+      } else if (animState === 'TRANSFORM') {
+        offsetY = -Math.round(Math.abs(Math.sin(t * 1.6)) * 4);
+      } else if (animState === 'VICTORY') {
+        offsetY = -Math.round(Math.abs(Math.sin(t * 0.9)) * 5);
+      }
+    }
+
+    // Subtle ground contact shadow beneath feet
     ctx.save();
+    ctx.fillStyle = 'rgba(5, 9, 18, 0.36)';
+    ctx.beginPath();
+    ctx.ellipse(
+      Math.round(worldPos.x),
+      Math.round(worldPos.y + 1),
+      Math.max(10, Math.round(rects.destW * 0.3)),
+      Math.max(4, Math.round(rects.destW * 0.11)),
+      0,
+      0,
+      Math.PI * 2
+    );
+    ctx.fill();
+    ctx.restore();
+
+    ctx.save();
+    ctx.globalAlpha *= alphaMult;
     ctx.translate(Math.round(worldPos.x), Math.round(worldPos.y));
     ctx.scale(facingX, 1);
+    if (offsetX !== 0 || offsetY !== 0) {
+      ctx.translate(offsetX, offsetY);
+    }
+    if (tiltRad !== 0) {
+      ctx.rotate(tiltRad);
+    }
     if (opts.hasArmamentActive) {
-      // Subtle crimson/purple Armament outline aura
       ctx.shadowColor = '#a855f7';
       ctx.shadowBlur = 6;
     }
@@ -512,12 +602,12 @@ export class SpriteAnimationController {
       sourceImg,
       srcX,
       srcY,
-      fw,
-      fh,
-      -anchorOffX,
-      -anchorOffY,
-      drawW,
-      drawH
+      srcW,
+      srcH,
+      rects.destX,
+      rects.destY,
+      rects.destW,
+      rects.destH
     );
     ctx.restore();
   }

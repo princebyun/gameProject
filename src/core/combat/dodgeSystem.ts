@@ -10,6 +10,7 @@ import {
 } from '../math/vector2';
 import type { GameDataRegistry } from '../types/dataSchemas';
 import type { BattleWorldState, UnitRuntimeState } from '../types/battleState';
+import { addTeamBondGauge, BOND_JUST_DODGE_GAIN } from '../battle/tagCombo';
 import { isUnitRooted, isUnitStaggered } from './statusEngine';
 import { triggerTraitHook } from './traitHooks';
 
@@ -122,6 +123,7 @@ export function tryExecuteDodge(
     unit.recentDodgeWhiffTimer = 0;
     world.slowMoTimer = dodge.justDodgeSlowMoSec;
     world.slowMoScale = dodge.justDodgeSlowMoScale;
+    addTeamBondGauge(unit.team, BOND_JUST_DODGE_GAIN, world);
 
     triggerTraitHook('onJustDodge', unit, {}, world, registry);
 

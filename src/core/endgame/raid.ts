@@ -1,3 +1,5 @@
+import { evaluateGuardOrParryOnIncomingAttack } from '../battle/parry';
+import { triggerBattleCutin } from '../battle/tagCombo';
 import { applyStatus } from '../combat/statusEngine';
 import type { SeededPRNG } from '../math/prng';
 import {
@@ -402,12 +404,22 @@ function detonateTelegraphZone(
     }
 
     if (hit) {
-      const dmg = Math.max(
+      const rawDmg = Math.max(
         22,
         Math.round(u.maxHp * 0.19 * zone.damageMultiplier)
       );
+      const guardEval = evaluateGuardOrParryOnIncomingAttack(
+        u,
+        boss,
+        'TELEGRAPH',
+        rawDmg,
+        zone.dir,
+        world,
+        registry
+      );
+      const dmg = guardEval.finalDamage;
       u.hp = Math.max(0, u.hp - dmg);
-      if (zone.applyStatus) {
+      if (zone.applyStatus && !guardEval.negateKnockback) {
         applyStatus(u, zone.applyStatus, 1.3, boss.instanceId, world, registry);
       }
       world.floatingTexts.push({
@@ -564,6 +576,19 @@ export function stepRaidBattleRules(
         });
         rs.patternCooldowns[chosen.id] = chosen.cooldownSec;
         rs.patternGlobalCooldown = 3.2;
+
+        if (chosen.shape === 'SAFE_ZONE' || chosen.shape === 'CROSS_BEAM') {
+          triggerBattleCutin(world, {
+            kind: 'RAID_ULTIMATE',
+            team: boss.team,
+            primaryUnit: boss,
+            title: chosen.name,
+            subtitle: `⚠ 거대 보스 대기술 경고 · ${boss.name}`,
+            primaryColor: '#dc2626',
+            secondaryColor: '#facc15',
+            portraitEmotion: 'angry'
+          });
+        }
       }
     }
 

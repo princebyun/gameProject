@@ -302,10 +302,10 @@ export function renderTitleSceneCanvas(
     const drawSize = 96;
     ctx.drawImage(
       shipResolved.sheet,
-      frameIdx * shipResolved.entry.frameWidth,
-      clip.row * shipResolved.entry.frameHeight,
-      shipResolved.entry.frameWidth,
-      shipResolved.entry.frameHeight,
+      frameIdx * shipResolved.sheetFrameWidth,
+      clip.row * shipResolved.sheetFrameHeight,
+      shipResolved.sheetFrameWidth,
+      shipResolved.sheetFrameHeight,
       shipX,
       shipY,
       drawSize,

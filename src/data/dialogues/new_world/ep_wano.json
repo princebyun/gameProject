@@ -1,0 +1,222 @@
+{
+  "episodeId": "ep_wano",
+  "islandId": "wano_onigashima",
+  "seaZoneId": "new_world",
+  "scripts": [
+    {
+      "scriptId": "nw4_wano_arrival",
+      "episodeId": "ep_wano",
+      "triggerType": "gold_marker",
+      "title": "와노쿠니 오니가시마 — 해골 돔 토벌 개시",
+      "bindingId": "npc_robin_poneglyph",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "determined",
+          "side": "center_narration",
+          "text": "불축제의 밤, 사무라이와 해적 동맹이 백수 해적단의 본거지 오니가시마 해골 돔으로 진격했다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제4장 절정 · 신세계",
+              "title": "오니가시마 사황 결전",
+              "subtitle": "백수의 카이도와 해방의 드럼"
+            },
+            { "type": "bgm", "trackId": "sea_new_world", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "npc_hyogoro",
+          "speakerName": "꽃의 효고로",
+          "emotion": "determined",
+          "side": "right",
+          "text": "밀짚모자 나으리, 내부 파괴 '류오'와 패왕색 휘감기를 익혔다면 카이도의 용 비늘도 뚫을 수 있소!"
+        },
+        {
+          "speakerId": "robin",
+          "speakerName": "니코 로빈",
+          "emotion": "determined",
+          "side": "left",
+          "text": "해골 돔 지하에 두 번째 붉은 로드 포네그리프가 보관돼 있어. 옥상 결전에서 승리하면 확보할 수 있어."
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "determined",
+          "side": "left",
+          "text": "옥상 문지기는 대간판 화재의 킹인가. 등 뒤 불꽃이 꺼지는 순간이 기회다, 내가 베어 넘기지!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "와노쿠니 사람들이 배불리 밥 먹을 수 있는 세상을 만들겠어! 옥상까지 단숨에 뚫고 올라가자!"
+        },
+        {
+          "speakerId": "law",
+          "speakerName": "죽음의 외과의 · 트라팔가 로",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "최악의 세대가 사황을 끌어내리는 밤이다. 뒤처지지 마라, 밀짚모자 당번."
+        }
+      ]
+    },
+    {
+      "scriptId": "nw4_king_pre_boss",
+      "episodeId": "ep_wano",
+      "triggerType": "pre_boss",
+      "title": "대간판 화재의 킹 대치 — 루나리아족의 불꽃",
+      "bindingId": "enc_wano_king_gate",
+      "lines": [
+        {
+          "speakerId": "king",
+          "speakerName": "백수 해적단 대간판 · 화재의 킹",
+          "emotion": "normal",
+          "side": "right",
+          "text": "카이도 씨를 해적왕으로 만들 사내 앞에 감히 칼을 들다니. 루나리아족의 방어는 절대적이다.",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "sfx", "sfxId": "slash_heavy" }
+          ]
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "determined",
+          "side": "left",
+          "text": "등의 불꽃이 켜져 있을 땐 철벽이고, 불꽃이 꺼지면 고속으로 돌진하는 구조군. 파훼법은 찾았다!"
+        },
+        {
+          "speakerId": "king",
+          "speakerName": "백수 해적단 대간판 · 화재의 킹",
+          "emotion": "angry",
+          "side": "right",
+          "text": "종족의 비밀을 눈치채다니! 화룡 황제로 네 명검째 태워버려주마!"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "smirk",
+          "side": "left",
+          "text": "선장과 친구와의 약속을 지키기 위해... 지옥의 왕이라도 되어주지! 염왕삼도류!!"
+        }
+      ]
+    },
+    {
+      "scriptId": "nw4_kaido_pre_boss",
+      "episodeId": "ep_wano",
+      "triggerType": "pre_boss",
+      "title": "해골 돔 옥상 — 사황 백수의 카이도 대치",
+      "bindingId": "enc_wano_kaido_boss",
+      "lines": [
+        {
+          "speakerId": "kaido",
+          "speakerName": "사황 · 백수의 카이도",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "보로로로로!! 잘 올라왔다, 밀짚모자! 육해공 최강 생물 앞에서 어떤 해적이 될 셈이냐?!",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_yonko_awakening", "fadeSec": 0.35 },
+            { "type": "sfx", "sfxId": "haki_lightning" },
+            { "type": "cameraShake", "intensity": 0.9, "durationSec": 0.45 }
+          ]
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "난 몽키 D. 루피! 너를 뛰어넘어 해적왕이 될 사나이다!!"
+        },
+        {
+          "speakerId": "kaido",
+          "speakerName": "사황 · 백수의 카이도",
+          "emotion": "angry",
+          "side": "right",
+          "text": "패기만이 모든 것을 능가한다! 내 뇌명팔괘와 화룡대횃불을 버텨내 보아라!!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "심장 소리가... 두근두근 울려 퍼져!! [Shift+F]로 해방의 드럼을 깨워 날려버리겠어!!"
+        },
+        {
+          "speakerId": "kaido",
+          "speakerName": "사황 · 백수의 카이도",
+          "emotion": "excited",
+          "side": "right",
+          "text": "하늘이 갈라질 때까지 싸워보자꾸나, 조이보이!!"
+        }
+      ]
+    },
+    {
+      "scriptId": "nw4_wano_post_boss",
+      "episodeId": "ep_wano",
+      "triggerType": "post_boss",
+      "title": "기어 5 해방의 드럼 승리 · 사황 30억 수배서 & 로드 포네그리프",
+      "bindingId": "enc_wano_kaido_boss",
+      "lines": [
+        {
+          "speakerId": "luffy",
+          "speakerName": "기어 5 · 몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "고무고무 바즈랑 건!! 친구들이 배불리 밥 먹는 세상을 만들 거다아아!!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 1.0, "durationSec": 0.6 },
+            { "type": "screenFlash", "color": "#ffffff", "durationSec": 0.35 },
+            { "type": "sfx", "sfxId": "awakening_drums" }
+          ]
+        },
+        {
+          "speakerId": "kaido",
+          "speakerName": "사황 · 백수의 카이도",
+          "emotion": "shocked",
+          "side": "right",
+          "text": "이것이... 자유의 전사... 나를 쓰러뜨린 사내가 바로 조이보이였던가...!"
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "excited",
+          "side": "center_narration",
+          "text": "20년간 와노쿠니를 뒤덮었던 먹구름이 걷히고, 새로운 사황 밀짚모자 루피가 세상에 선포되었다!",
+          "directives": [{ "type": "bgm", "trackId": "victory_fanfare", "fadeSec": 0.35 }]
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "excited",
+          "side": "center_narration",
+          "text": "신 사황 등극! 몽키 D. 루피 — 현상금 30억 베리! 와노쿠니 로드 포네그리프 탁본 확보!",
+          "directives": [
+            { "type": "sfx", "sfxId": "wanted_poster_slam" },
+            {
+              "type": "wantedPoster",
+              "bounty": 3000000000,
+              "title": "신 사황 · 태양의 신 30억 베리"
+            }
+          ]
+        },
+        {
+          "speakerId": "robin",
+          "speakerName": "니코 로빈",
+          "emotion": "smirk",
+          "side": "left",
+          "text": "로드 포네그리프도 손에 넣었어. 다음 기록지침이 가리키는 곳은 500년 앞선 미래섬 에그헤드야."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "기어 5도 자유자재로 쓸 수 있게 됐어! 자, 천재 과학자가 사는 미래섬 에그헤드로 가자!!"
+        }
+      ]
+    }
+  ]
+}

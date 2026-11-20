@@ -1,0 +1,180 @@
+{
+  "episodeId": "ep_orange_town",
+  "islandId": "orange_town",
+  "seaZoneId": "east_blue",
+  "scripts": [
+    {
+      "scriptId": "eb2_orange_arrival",
+      "episodeId": "ep_orange_town",
+      "triggerType": "gold_marker",
+      "title": "오렌지 마을 — 슈슈와 나미의 제안",
+      "bindingId": "npc_nami_orange",
+      "lines": [
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "불타는 거리의 오렌지 마을. 주인을 기다리는 작은 개 슈슈가 홀로 가게를 지키고 있었다.",
+          "directives": [
+            {
+              "type": "chapterCard",
+              "chapterNum": "제2장 · 이스트 블루",
+              "title": "오렌지 마을의 보물",
+              "subtitle": "광대 버기와 도둑고양이 나미"
+            },
+            { "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.4 }
+          ]
+        },
+        {
+          "speakerId": "npc_chouchou",
+          "speakerName": "슈슈",
+          "emotion": "determined",
+          "side": "right",
+          "text": "멍! 으르릉... (주인과의 추억이 담긴 애견가게 앞을 한 발짝도 물러서지 않는다.)"
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "shocked",
+          "side": "right",
+          "text": "잠깐, 너희 해적이지?! 버기 일당에게서 위대한 항로 해도를 훔쳐야 하니까 손을 잡자!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "오! 항해사구나! 마침 우리 배에 항해사가 필요했어! 내 동료가 돼라!"
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "angry",
+          "side": "right",
+          "text": "누가 해적 동료가 된대?! 딱 이번만 임시 동맹이야! 보물과 해도는 내가 챙긴다!"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "smirk",
+          "side": "left",
+          "text": "어이 선장, 저 광대 녀석이 마을에 포탄을 쏘고 있어. 슈슈의 보물부터 지켜주자고."
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "determined",
+          "side": "left",
+          "text": "슈슈, 잘 싸웠어! 나머지는 나한테 맡겨. 빨간 코 녀석을 날려버릴게!"
+        }
+      ]
+    },
+    {
+      "scriptId": "eb2_buggy_pre_boss",
+      "episodeId": "ep_orange_town",
+      "triggerType": "pre_boss",
+      "title": "광대 버기 대치 — 동강동강 열매의 위협",
+      "bindingId": "enc_orange_buggy_boss",
+      "lines": [
+        {
+          "speakerId": "buggy",
+          "speakerName": "광대 버기",
+          "emotion": "angry",
+          "side": "right",
+          "text": "지금 누구더러 빨간 코라고 했냐!! 화려하게 버기 탄으로 날려주마!",
+          "directives": [
+            { "type": "bgm", "trackId": "battle_boss", "fadeSec": 0.3 },
+            { "type": "sfx", "sfxId": "ship_cannon" },
+            { "type": "cameraShake", "intensity": 0.7, "durationSec": 0.35 }
+          ]
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "shocked",
+          "side": "left",
+          "text": "쳇! 칼로 베었는데 몸이 동강나서 피해버렸어! 참격이 전혀 통하지 않는 녀석이다!"
+        },
+        {
+          "speakerId": "buggy",
+          "speakerName": "광대 버기",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "갸하하하! 난 동강동강 인간이다! 어떤 명검이라도 나를 벨 수는 없지!"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "angry",
+          "side": "left",
+          "text": "내 소중한 밀짚모자에 상처를 내다니 용서 못 해! 칼이 안 통하면 내 주먹으로 때려주마!"
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "determined",
+          "side": "left",
+          "text": "루피, 조로의 참격 대신 네 타격 기술로 몰아붙여! 난 보물과 해도를 확보할게!"
+        }
+      ]
+    },
+    {
+      "scriptId": "eb2_orange_post_boss",
+      "episodeId": "ep_orange_town",
+      "triggerType": "post_boss",
+      "title": "버기 격파 & 나미 임시 동행",
+      "bindingId": "enc_orange_buggy_boss",
+      "lines": [
+        {
+          "speakerId": "buggy",
+          "speakerName": "광대 버기",
+          "emotion": "shocked",
+          "side": "right",
+          "text": "으아아악!! 내 몸 파츠를 묶어놓고 고무고무 바주카라니... 기억해둬라, 밀짚모자!!",
+          "directives": [
+            { "type": "cameraShake", "intensity": 0.85, "durationSec": 0.45 },
+            { "type": "screenFlash", "color": "#fef08a", "durationSec": 0.25 },
+            { "type": "sfx", "sfxId": "blunt_hit" }
+          ]
+        },
+        {
+          "speakerId": "narrator",
+          "speakerName": "내레이션",
+          "emotion": "normal",
+          "side": "center_narration",
+          "text": "광대 버기가 하늘 저편으로 날아가고, 오렌지 마을은 마침내 평화를 되찾았다.",
+          "directives": [{ "type": "bgm", "trackId": "island_peaceful", "fadeSec": 0.5 }]
+        },
+        {
+          "speakerId": "npc_chouchou",
+          "speakerName": "슈슈",
+          "emotion": "normal",
+          "side": "right",
+          "text": "멍! 멍! (남은 먹이 한 봉지를 물고 루피를 향해 힘껏 짖으며 감사 인사를 전한다.)"
+        },
+        {
+          "speakerId": "luffy",
+          "speakerName": "몽키 D. 루피",
+          "emotion": "excited",
+          "side": "left",
+          "text": "잘 있어, 슈슈! 네 보물은 무사해! 자, 나미! 이제 우리 항해사가 되어주는 거지?"
+        },
+        {
+          "speakerId": "nami",
+          "speakerName": "도둑고양이 · 나미",
+          "emotion": "smirk",
+          "side": "right",
+          "text": "흥, 위대한 항로 해도를 손에 넣었으니 당분간만 동행해 줄게. 내 몫은 확실히 챙긴다?"
+        },
+        {
+          "speakerId": "zoro",
+          "speakerName": "롤로노아 조로",
+          "emotion": "normal",
+          "side": "left",
+          "text": "큰 배와 요리사도 필요해. 다음은 해상 레스토랑 발라티에로 항로를 잡자고."
+        }
+      ]
+    }
+  ]
+}

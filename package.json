@@ -21,7 +21,13 @@
     "preview": "vite preview --outDir dist-web",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "validate:assets": "node --import tsx scripts/validate-assets.ts"
+    "validate:assets": "node --import tsx scripts/validate-assets.ts",
+    "validate:scripts": "node --import tsx scripts/validate-scripts.ts",
+    "pixelize:sprite": "node scripts/pixelize-sprite.mjs",
+    "export:thumbnails": "node --import tsx scripts/export-thumbnails.mjs",
+    "sync:sprites": "node --import tsx scripts/sync-sprites.mjs",
+    "upgrade:sprites": "node scripts/upgrade-sprites.mjs",
+    "ai:handoff": "node scripts/ai-handoff.mjs"
   },
   "dependencies": {
     "@capacitor/app": "^8.1.2",
