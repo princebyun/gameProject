@@ -27,6 +27,7 @@ export interface IslandExplorationRuntime {
   playerPos: Vec2;
   playerHeadingRad: number;
   playerRadiusPx: number;
+  isMoving?: boolean;
   deactivatedBarrierIds: string[];
   activatedSwitchIds: string[];
   activeDialogueNpc: IslandNpcDefinition | null;
@@ -157,9 +158,11 @@ export function stepIslandExploration(
   if (!islandMap) return emptyOut;
 
   // 1. Movement & obstacle / active Laser Barrier collision
+  runtime.isMoving = false;
   if (!runtime.activeDialogueNpc && lenVec(moveVec) > 0.05) {
     const dir = normalizeVec(moveVec);
     runtime.playerHeadingRad = Math.atan2(dir.y, dir.x);
+    runtime.isMoving = true;
     const walkSpeedPx = 195;
     const candidatePos = {
       x: clamp(

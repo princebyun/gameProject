@@ -44,9 +44,10 @@ export interface SpriteSheetManifestEntry {
   unitId?: string;
   formId?: string;
   shipId?: string;
+  rigType?: string;
   src: string;
-  frameWidth: 32 | 48 | 96;
-  frameHeight: 32 | 48 | 96;
+  frameWidth: 32 | 48 | 64 | 96;
+  frameHeight: 32 | 48 | 64 | 96;
   anchor: { x: number; y: number };
   animations: Record<SpriteAnimState, SpriteAnimClipDef>;
 }

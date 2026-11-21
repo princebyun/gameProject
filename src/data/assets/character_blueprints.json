@@ -1,0 +1,5430 @@
+{
+  "version": "1.0.0",
+  "entries": [
+    {
+      "key": "luffy_base",
+      "unitId": "luffy",
+      "formId": "base",
+      "name": "몽키 D. 루피 (기본)",
+      "group": "straw_hats",
+      "rigType": "humanoid_brawler",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "attackStyle": "stretch_punch",
+      "head": {
+        "hairStyle": "spiky_short",
+        "faceFeature": "under_eye_scar",
+        "chestFeature": "x_scar_open_vest",
+        "hasStrawHat": true
+      },
+      "palette": {
+        "skin": [
+          "#FFE3C8",
+          "#F2BE96",
+          "#C98A63"
+        ],
+        "hair": [
+          "#2B3346",
+          "#161A24",
+          "#0A0C12"
+        ],
+        "top": [
+          "#F44D3C",
+          "#D62822",
+          "#8F1616"
+        ],
+        "bottom": [
+          "#4A89D6",
+          "#2B5B9E",
+          "#193766"
+        ],
+        "accent": [
+          "#FFF07C",
+          "#F2C12E",
+          "#B88414"
+        ],
+        "weaponOrEffect": [
+          "#FFE3C8",
+          "#F2BE96",
+          "#C98A63"
+        ],
+        "hatOrHelm": [
+          "#F5D76E",
+          "#E3B434",
+          "#A87918"
+        ],
+        "scarColor": "#A66A4C",
+        "eyeColor": "#161A24"
+      }
+    },
+    {
+      "key": "luffy_form_luffy_gear5",
+      "unitId": "luffy",
+      "formId": "form_luffy_gear5",
+      "name": "몽키 D. 루피 (기어 5 · 태양의 신 니카)",
+      "group": "straw_hats",
+      "rigType": "humanoid_brawler",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "attackStyle": "stretch_punch",
+      "hagoromoCloud": "white",
+      "head": {
+        "hairStyle": "flame_white_nika",
+        "faceFeature": "under_eye_scar",
+        "chestFeature": "x_scar_open_vest",
+        "hasStrawHat": false
+      },
+      "palette": {
+        "skin": [
+          "#FFE3C8",
+          "#F2BE96",
+          "#C98A63"
+        ],
+        "hair": [
+          "#FFFFFF",
+          "#F1F5F9",
+          "#CBD5E1"
+        ],
+        "top": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "bottom": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "accent": [
+          "#E9D5FF",
+          "#A855F7",
+          "#6B21A8"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#F43F5E",
+          "#881337"
+        ],
+        "coatOrWings": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "scarColor": "#A66A4C",
+        "eyeColor": "#E11D48"
+      }
+    },
+    {
+      "key": "zoro_base",
+      "unitId": "zoro",
+      "formId": "base",
+      "name": "롤로노아 조로 (기본 · 삼도류)",
+      "group": "straw_hats",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "santoryu_mouth",
+      "head": {
+        "hairStyle": "marimo_cropped",
+        "faceFeature": "left_eye_scar",
+        "chestFeature": "diagonal_scar_haramaki"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#86EFAC",
+          "#22C55E",
+          "#15803D"
+        ],
+        "top": [
+          "#22C55E",
+          "#15803D",
+          "#14532D"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#0F172A"
+        ],
+        "accent": [
+          "#DC2626",
+          "#991B1B",
+          "#450A0A"
+        ],
+        "weaponOrEffect": [
+          "#F8FAFC",
+          "#94A3B8",
+          "#334155"
+        ],
+        "scarColor": "#7C2D12",
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "zoro_form_zoro_king_of_hell",
+      "unitId": "zoro",
+      "formId": "form_zoro_king_of_hell",
+      "name": "롤로노아 조로 (염왕삼도류 · 패왕색 각성)",
+      "group": "straw_hats",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "santoryu_mouth",
+      "head": {
+        "hairStyle": "marimo_cropped",
+        "faceFeature": "left_eye_scar",
+        "chestFeature": "diagonal_scar_haramaki"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#4ADE80",
+          "#16A34A",
+          "#14532D"
+        ],
+        "top": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "bottom": [
+          "#1E293B",
+          "#0F172A",
+          "#020617"
+        ],
+        "accent": [
+          "#A855F7",
+          "#7E22CE",
+          "#3B0764"
+        ],
+        "weaponOrEffect": [
+          "#86EFAC",
+          "#22C55E",
+          "#A855F7"
+        ],
+        "scarColor": "#7C2D12",
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "sanji_base",
+      "unitId": "sanji",
+      "formId": "base",
+      "name": "검은 다리 상디 (기본)",
+      "group": "straw_hats",
+      "rigType": "humanoid_brawler",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "attackStyle": "kick",
+      "head": {
+        "hairStyle": "side_sweep_left_covered",
+        "faceFeature": "curly_brow_cigar",
+        "chestFeature": "black_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "top": [
+          "#334155",
+          "#1E293B",
+          "#0F172A"
+        ],
+        "bottom": [
+          "#1E293B",
+          "#0F172A",
+          "#020617"
+        ],
+        "accent": [
+          "#38BDF8",
+          "#0284C7",
+          "#0369A1"
+        ],
+        "weaponOrEffect": [
+          "#FDE047",
+          "#F97316",
+          "#C2410C"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "sanji_form_sanji_diable_jambe",
+      "unitId": "sanji",
+      "formId": "form_sanji_diable_jambe",
+      "name": "검은 다리 상디 (디아블 잠브 · 이프리트 잠브)",
+      "group": "straw_hats",
+      "rigType": "humanoid_brawler",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "attackStyle": "kick",
+      "elementalArm": "fire_leg",
+      "head": {
+        "hairStyle": "side_sweep_left_covered",
+        "faceFeature": "curly_brow_cigar",
+        "chestFeature": "black_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "top": [
+          "#7F1D1D",
+          "#450A0A",
+          "#1E293B"
+        ],
+        "bottom": [
+          "#1E293B",
+          "#0F172A",
+          "#020617"
+        ],
+        "accent": [
+          "#FDE047",
+          "#F97316",
+          "#DC2626"
+        ],
+        "weaponOrEffect": [
+          "#E0F2FE",
+          "#38BDF8",
+          "#F97316"
+        ],
+        "eyeColor": "#F97316"
+      }
+    },
+    {
+      "key": "nami_base",
+      "unitId": "nami",
+      "formId": "base",
+      "name": "도둑고양이 나미 (기본 · 소서리 크리마 택트)",
+      "group": "straw_hats",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "clima_tact_zeus",
+      "head": {
+        "hairStyle": "long_wavy",
+        "faceFeature": "none",
+        "chestFeature": "bikini_top"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#FDBA74",
+          "#F97316",
+          "#C2410C"
+        ],
+        "top": [
+          "#7DD3FC",
+          "#0284C7",
+          "#0369A1"
+        ],
+        "bottom": [
+          "#60A5FA",
+          "#1D4ED8",
+          "#1E3A8A"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#7DD3FC",
+          "#38BDF8",
+          "#FACC15"
+        ],
+        "eyeColor": "#7C2D12"
+      }
+    },
+    {
+      "key": "nami_form_tempest_awakening",
+      "unitId": "nami",
+      "formId": "form_tempest_awakening",
+      "name": "도둑고양이 나미 (제우스 뇌운 각성)",
+      "group": "straw_hats",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "clima_tact_zeus",
+      "hagoromoCloud": "white",
+      "head": {
+        "hairStyle": "long_wavy",
+        "faceFeature": "none",
+        "chestFeature": "bikini_top"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#FDBA74",
+          "#F97316",
+          "#C2410C"
+        ],
+        "top": [
+          "#38BDF8",
+          "#0284C7",
+          "#1E3A8A"
+        ],
+        "bottom": [
+          "#3B82F6",
+          "#1D4ED8",
+          "#172554"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#EAB308"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "eyeColor": "#0284C7"
+      }
+    },
+    {
+      "key": "usopp_base",
+      "unitId": "usopp",
+      "formId": "base",
+      "name": "저격수 우솝 (기본 · 흑카부토)",
+      "group": "straw_hats",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "kabuto_slingshot",
+      "head": {
+        "hairStyle": "curly_bandanna",
+        "faceFeature": "long_nose_goggles",
+        "chestFeature": "overalls_strap"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#3F3F46",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#D97706",
+          "#92400E",
+          "#451A03"
+        ],
+        "bottom": [
+          "#B45309",
+          "#78350F",
+          "#451A03"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#EAB308",
+          "#A16207"
+        ],
+        "weaponOrEffect": [
+          "#4ADE80",
+          "#16A34A",
+          "#14532D"
+        ],
+        "hatOrHelm": [
+          "#86EFAC",
+          "#22C55E",
+          "#15803D"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "usopp_form_tempest_awakening",
+      "unitId": "usopp",
+      "formId": "form_tempest_awakening",
+      "name": "갓 우솝 (팝 그린 · 저격왕 각성)",
+      "group": "straw_hats",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "kabuto_slingshot",
+      "head": {
+        "hairStyle": "curly_bandanna",
+        "faceFeature": "long_nose_goggles",
+        "chestFeature": "overalls_strap"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#3F3F46",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#FACC15",
+          "#CA8A04",
+          "#854D0E"
+        ],
+        "bottom": [
+          "#B45309",
+          "#78350F",
+          "#451A03"
+        ],
+        "accent": [
+          "#4ADE80",
+          "#16A34A",
+          "#14532D"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#22C55E",
+          "#15803D"
+        ],
+        "hatOrHelm": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "eyeColor": "#16A34A"
+      }
+    },
+    {
+      "key": "chopper_base",
+      "unitId": "chopper",
+      "formId": "base",
+      "name": "토니토니 쵸파 (두뇌 포인트 · 기본)",
+      "group": "straw_hats",
+      "rigType": "small_agile",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "smallSubMode": "reindeer_chibi",
+      "head": {
+        "hairStyle": "reindeer_antlers_hat",
+        "faceFeature": "blue_nose",
+        "chestFeature": "fur_chest"
+      },
+      "palette": {
+        "skin": [
+          "#F59E0B",
+          "#B45309",
+          "#78350F"
+        ],
+        "hair": [
+          "#92400E",
+          "#78350F",
+          "#451A03"
+        ],
+        "top": [
+          "#F472B6",
+          "#EC4899",
+          "#BE185D"
+        ],
+        "bottom": [
+          "#F87171",
+          "#DC2626",
+          "#7F1D1D"
+        ],
+        "accent": [
+          "#7DD3FC",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "weaponOrEffect": [
+          "#FDE047",
+          "#F472B6",
+          "#BE185D"
+        ],
+        "hatOrHelm": [
+          "#F472B6",
+          "#EC4899",
+          "#9D174D"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "chopper_form_chopper_guard",
+      "unitId": "chopper",
+      "formId": "form_chopper_guard",
+      "name": "토니토니 쵸파 (가드 포인트 · 구형 털 팽창)",
+      "group": "straw_hats",
+      "rigType": "small_agile",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "smallSubMode": "guard_sphere",
+      "head": {
+        "hairStyle": "reindeer_antlers_hat",
+        "faceFeature": "blue_nose",
+        "chestFeature": "fur_chest"
+      },
+      "palette": {
+        "skin": [
+          "#F59E0B",
+          "#B45309",
+          "#78350F"
+        ],
+        "hair": [
+          "#B45309",
+          "#92400E",
+          "#451A03"
+        ],
+        "top": [
+          "#F59E0B",
+          "#D97706",
+          "#92400E"
+        ],
+        "bottom": [
+          "#B45309",
+          "#78350F",
+          "#451A03"
+        ],
+        "accent": [
+          "#7DD3FC",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "weaponOrEffect": [
+          "#FDE047",
+          "#F59E0B",
+          "#B45309"
+        ],
+        "hatOrHelm": [
+          "#F472B6",
+          "#EC4899",
+          "#9D174D"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "chopper_form_chopper_kungfu",
+      "unitId": "chopper",
+      "formId": "form_chopper_kungfu",
+      "name": "토니토니 쵸파 (쿵푸 포인트)",
+      "group": "straw_hats",
+      "rigType": "small_agile",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "smallSubMode": "kungfu_brawler",
+      "head": {
+        "hairStyle": "reindeer_antlers_hat",
+        "faceFeature": "blue_nose",
+        "chestFeature": "fur_chest"
+      },
+      "palette": {
+        "skin": [
+          "#F59E0B",
+          "#B45309",
+          "#78350F"
+        ],
+        "hair": [
+          "#92400E",
+          "#78350F",
+          "#451A03"
+        ],
+        "top": [
+          "#FBBF24",
+          "#D97706",
+          "#92400E"
+        ],
+        "bottom": [
+          "#60A5FA",
+          "#2563EB",
+          "#1E3A8A"
+        ],
+        "accent": [
+          "#FB7185",
+          "#E11D48",
+          "#881337"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#FB7185",
+          "#E11D48"
+        ],
+        "hatOrHelm": [
+          "#F472B6",
+          "#EC4899",
+          "#9D174D"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "chopper_form_chopper_monster",
+      "unitId": "chopper",
+      "formId": "form_chopper_monster",
+      "name": "토니토니 쵸파 (몬스터 포인트 · 폭주 거대 괴수)",
+      "group": "straw_hats",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "giant_humanoid",
+      "head": {
+        "hairStyle": "reindeer_antlers_hat",
+        "faceFeature": "blue_nose",
+        "chestFeature": "fur_chest"
+      },
+      "palette": {
+        "skin": [
+          "#D97706",
+          "#92400E",
+          "#451A03"
+        ],
+        "hair": [
+          "#78350F",
+          "#451A03",
+          "#1C1917"
+        ],
+        "top": [
+          "#B45309",
+          "#78350F",
+          "#451A03"
+        ],
+        "bottom": [
+          "#F87171",
+          "#DC2626",
+          "#7F1D1D"
+        ],
+        "accent": [
+          "#38BDF8",
+          "#0284C7",
+          "#0369A1"
+        ],
+        "weaponOrEffect": [
+          "#FDA4AF",
+          "#EF4444",
+          "#991B1B"
+        ],
+        "hatOrHelm": [
+          "#F472B6",
+          "#EC4899",
+          "#9D174D"
+        ],
+        "eyeColor": "#FEF08A"
+      }
+    },
+    {
+      "key": "robin_base",
+      "unitId": "robin",
+      "formId": "base",
+      "name": "니코 로빈 (기본 · 시엔 플뢰르)",
+      "group": "straw_hats",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "hana_crossed_arms",
+      "head": {
+        "hairStyle": "long_straight_dark",
+        "faceFeature": "none",
+        "chestFeature": "corset_collar"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#334155",
+          "#0F172A",
+          "#020617"
+        ],
+        "top": [
+          "#A855F7",
+          "#7E22CE",
+          "#4C1D95"
+        ],
+        "bottom": [
+          "#C084FC",
+          "#9333EA",
+          "#581C87"
+        ],
+        "accent": [
+          "#FBCFE8",
+          "#F472B6",
+          "#DB2777"
+        ],
+        "weaponOrEffect": [
+          "#FBCFE8",
+          "#F472B6",
+          "#BE185D"
+        ],
+        "eyeColor": "#0284C7"
+      }
+    },
+    {
+      "key": "robin_form_robin_demonio",
+      "unitId": "robin",
+      "formId": "form_robin_demonio",
+      "name": "니코 로빈 (데모니오 플뢰르 · 거대 악마 개화)",
+      "group": "straw_hats",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "giant_humanoid",
+      "head": {
+        "hairStyle": "bull_horns",
+        "faceFeature": "oni_fangs_mustache",
+        "chestFeature": "corset_collar"
+      },
+      "palette": {
+        "skin": [
+          "#FDA4AF",
+          "#E11D48",
+          "#881337"
+        ],
+        "hair": [
+          "#4C0519",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "top": [
+          "#FB7185",
+          "#E11D48",
+          "#881337"
+        ],
+        "bottom": [
+          "#BE123C",
+          "#881337",
+          "#4C0519"
+        ],
+        "accent": [
+          "#F472B6",
+          "#DB2777",
+          "#831843"
+        ],
+        "weaponOrEffect": [
+          "#FDA4AF",
+          "#E11D48",
+          "#4C0519"
+        ],
+        "coatOrWings": [
+          "#881337",
+          "#4C0519",
+          "#1E1B4B"
+        ],
+        "eyeColor": "#FEF08A"
+      }
+    },
+    {
+      "key": "franky_base",
+      "unitId": "franky",
+      "formId": "base",
+      "name": "사이보그 프랑키 (기본 · BF-37)",
+      "group": "straw_hats",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "cyborg_arms",
+      "head": {
+        "hairStyle": "cyborg_pompadour",
+        "faceFeature": "sunglasses_star",
+        "chestFeature": "open_shirt_chain"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#7DD3FC",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "top": [
+          "#F87171",
+          "#EF4444",
+          "#B91C1C"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#0F172A"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#7DD3FC",
+          "#38BDF8",
+          "#0369A1"
+        ],
+        "coatOrWings": [
+          "#7DD3FC",
+          "#0284C7",
+          "#1E3A8A"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "franky_form_franky_shogun",
+      "unitId": "franky",
+      "formId": "form_franky_shogun",
+      "name": "아이언 파이럿 프랑키 장군 (BF-38 거대 합체 로봇)",
+      "group": "straw_hats",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "giant_humanoid",
+      "weaponMount": "right_hand",
+      "head": {
+        "hairStyle": "viking_horned_helm",
+        "faceFeature": "sunglasses_star",
+        "chestFeature": "mecha_star_chest"
+      },
+      "palette": {
+        "skin": [
+          "#E2E8F0",
+          "#94A3B8",
+          "#475569"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "top": [
+          "#FEF08A",
+          "#EAB308",
+          "#A16207"
+        ],
+        "bottom": [
+          "#38BDF8",
+          "#0284C7",
+          "#1E3A8A"
+        ],
+        "accent": [
+          "#F87171",
+          "#EF4444",
+          "#991B1B"
+        ],
+        "weaponOrEffect": [
+          "#7DD3FC",
+          "#38BDF8",
+          "#FACC15"
+        ],
+        "coatOrWings": [
+          "#F87171",
+          "#DC2626",
+          "#7F1D1D"
+        ],
+        "hatOrHelm": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "eyeColor": "#38BDF8"
+      }
+    },
+    {
+      "key": "brook_base",
+      "unitId": "brook",
+      "formId": "base",
+      "name": "소울 킹 브룩 (기본 · 소울 솔리드)",
+      "group": "straw_hats",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "cane_sword",
+      "head": {
+        "hairStyle": "giant_afro_skull",
+        "faceFeature": "skull_sockets",
+        "chestFeature": "cravat_ribs"
+      },
+      "palette": {
+        "skin": [
+          "#FFFFFF",
+          "#F1F5F9",
+          "#CBD5E1"
+        ],
+        "hair": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#334155",
+          "#1E293B",
+          "#0F172A"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#0F172A"
+        ],
+        "accent": [
+          "#FDE047",
+          "#F97316",
+          "#C2410C"
+        ],
+        "weaponOrEffect": [
+          "#E0F2FE",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "hatOrHelm": [
+          "#FDE047",
+          "#EAB308",
+          "#A16207"
+        ],
+        "eyeColor": "#090D16"
+      }
+    },
+    {
+      "key": "brook_form_tempest_awakening",
+      "unitId": "brook",
+      "formId": "form_tempest_awakening",
+      "name": "소울 킹 브룩 (황천의 냉기 · 영혼 해방)",
+      "group": "straw_hats",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "cane_sword",
+      "hagoromoCloud": "white",
+      "head": {
+        "hairStyle": "giant_afro_skull",
+        "faceFeature": "skull_sockets",
+        "chestFeature": "cravat_ribs"
+      },
+      "palette": {
+        "skin": [
+          "#FFFFFF",
+          "#F1F5F9",
+          "#CBD5E1"
+        ],
+        "hair": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#38BDF8",
+          "#0284C7",
+          "#1E3A8A"
+        ],
+        "bottom": [
+          "#1E293B",
+          "#0F172A",
+          "#020617"
+        ],
+        "accent": [
+          "#67E8F9",
+          "#06B6D4",
+          "#0E7490"
+        ],
+        "weaponOrEffect": [
+          "#CFFAFE",
+          "#22D3EE",
+          "#0284C7"
+        ],
+        "hatOrHelm": [
+          "#FDE047",
+          "#EAB308",
+          "#A16207"
+        ],
+        "eyeColor": "#22D3EE"
+      }
+    },
+    {
+      "key": "jinbe_base",
+      "unitId": "jinbe",
+      "formId": "base",
+      "name": "해협의 징베 (기본 · 어인 공수도)",
+      "group": "straw_hats",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "fishman_gi",
+      "elementalArm": "water_fist",
+      "head": {
+        "hairStyle": "topknot_sideburns",
+        "faceFeature": "fishman_gills_fangs",
+        "chestFeature": "sun_tattoo_gi"
+      },
+      "palette": {
+        "skin": [
+          "#7DD3FC",
+          "#0284C7",
+          "#0369A1"
+        ],
+        "hair": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "top": [
+          "#FB923C",
+          "#EA580C",
+          "#9A3412"
+        ],
+        "bottom": [
+          "#7F1D1D",
+          "#450A0A",
+          "#1C1917"
+        ],
+        "accent": [
+          "#F87171",
+          "#DC2626",
+          "#991B1B"
+        ],
+        "weaponOrEffect": [
+          "#BAE6FD",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "coatOrWings": [
+          "#7F1D1D",
+          "#450A0A",
+          "#1E1B4B"
+        ],
+        "scarColor": "#DC2626",
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "jinbe_form_colossus_overdrive",
+      "unitId": "jinbe",
+      "formId": "form_colossus_overdrive",
+      "name": "해협의 징베 (어인 공수도 오의 · 무뢰관)",
+      "group": "straw_hats",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "fishman_gi",
+      "elementalArm": "water_fist",
+      "head": {
+        "hairStyle": "topknot_sideburns",
+        "faceFeature": "fishman_gills_fangs",
+        "chestFeature": "sun_tattoo_gi"
+      },
+      "palette": {
+        "skin": [
+          "#7DD3FC",
+          "#0284C7",
+          "#0369A1"
+        ],
+        "hair": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "top": [
+          "#FDE047",
+          "#F97316",
+          "#C2410C"
+        ],
+        "bottom": [
+          "#312E81",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "accent": [
+          "#38BDF8",
+          "#0284C7",
+          "#0369A1"
+        ],
+        "weaponOrEffect": [
+          "#E0F2FE",
+          "#38BDF8",
+          "#0369A1"
+        ],
+        "coatOrWings": [
+          "#38BDF8",
+          "#0284C7",
+          "#1E3A8A"
+        ],
+        "scarColor": "#DC2626",
+        "eyeColor": "#38BDF8"
+      }
+    },
+    {
+      "key": "morgan_base",
+      "unitId": "morgan",
+      "formId": "base",
+      "name": "도끼손 모건 (기본)",
+      "group": "east_blue",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "axe_arm",
+      "head": {
+        "hairStyle": "spiky_short",
+        "faceFeature": "steel_jaw",
+        "chestFeature": "admiral_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#EAB308",
+          "#A16207"
+        ],
+        "top": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "bottom": [
+          "#3B82F6",
+          "#1D4ED8",
+          "#1E3A8A"
+        ],
+        "accent": [
+          "#94A3B8",
+          "#64748B",
+          "#334155"
+        ],
+        "weaponOrEffect": [
+          "#F8FAFC",
+          "#CBD5E1",
+          "#475569"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "morgan_form_solar_awakening",
+      "unitId": "morgan",
+      "formId": "form_solar_awakening",
+      "name": "도끼손 모건 (폭군 진홍 각성)",
+      "group": "east_blue",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "axe_arm",
+      "head": {
+        "hairStyle": "spiky_short",
+        "faceFeature": "steel_jaw",
+        "chestFeature": "admiral_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#EAB308",
+          "#A16207"
+        ],
+        "top": [
+          "#FECACA",
+          "#F87171",
+          "#991B1B"
+        ],
+        "bottom": [
+          "#1E3A8A",
+          "#172554",
+          "#0F172A"
+        ],
+        "accent": [
+          "#FDE047",
+          "#F97316",
+          "#C2410C"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#F97316",
+          "#DC2626"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "buggy_base",
+      "unitId": "buggy",
+      "formId": "base",
+      "name": "광대 버기 (기본 · 동강동강 열매)",
+      "group": "east_blue",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "bara_split_body",
+      "head": {
+        "hairStyle": "clown_hat_tails",
+        "faceFeature": "clown_red_nose",
+        "chestFeature": "open_shirt_chain"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#7DD3FC",
+          "#0284C7",
+          "#0369A1"
+        ],
+        "top": [
+          "#F87171",
+          "#DC2626",
+          "#991B1B"
+        ],
+        "bottom": [
+          "#4ADE80",
+          "#16A34A",
+          "#14532D"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#F8FAFC",
+          "#EF4444",
+          "#991B1B"
+        ],
+        "hatOrHelm": [
+          "#F87171",
+          "#DC2626",
+          "#7F1D1D"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "buggy_form_solar_awakening",
+      "unitId": "buggy",
+      "formId": "form_solar_awakening",
+      "name": "천냥광대 버기 (동강동강 페스티벌)",
+      "group": "east_blue",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "bara_split_body",
+      "head": {
+        "hairStyle": "clown_hat_tails",
+        "faceFeature": "clown_red_nose",
+        "chestFeature": "open_shirt_chain"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#7DD3FC",
+          "#0284C7",
+          "#0369A1"
+        ],
+        "top": [
+          "#FB923C",
+          "#EA580C",
+          "#9A3412"
+        ],
+        "bottom": [
+          "#38BDF8",
+          "#0284C7",
+          "#1E3A8A"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#F97316",
+          "#DC2626"
+        ],
+        "hatOrHelm": [
+          "#F97316",
+          "#DC2626",
+          "#7F1D1D"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "don_krieg_base",
+      "unitId": "don_krieg",
+      "formId": "base",
+      "name": "돈 클리크 (기본 · 우츠강 황금 갑옷)",
+      "group": "east_blue",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "wootz_armor",
+      "weaponMount": "trident",
+      "head": {
+        "hairStyle": "slick_back",
+        "faceFeature": "none",
+        "chestFeature": "gold_plate_armor"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#94A3B8",
+          "#475569",
+          "#1E293B"
+        ],
+        "top": [
+          "#FEF08A",
+          "#EAB308",
+          "#A16207"
+        ],
+        "bottom": [
+          "#64748B",
+          "#334155",
+          "#0F172A"
+        ],
+        "accent": [
+          "#C084FC",
+          "#9333EA",
+          "#581C87"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#F97316",
+          "#B45309"
+        ],
+        "coatOrWings": [
+          "#C084FC",
+          "#7E22CE",
+          "#3B0764"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "don_krieg_form_colossus_overdrive",
+      "unitId": "don_krieg",
+      "formId": "form_colossus_overdrive",
+      "name": "돈 클리크 (대전창 · MH5 중무장 각성)",
+      "group": "east_blue",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "wootz_armor",
+      "weaponMount": "trident",
+      "head": {
+        "hairStyle": "slick_back",
+        "faceFeature": "none",
+        "chestFeature": "gold_plate_armor"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#94A3B8",
+          "#475569",
+          "#1E293B"
+        ],
+        "top": [
+          "#FDE047",
+          "#F59E0B",
+          "#B45309"
+        ],
+        "bottom": [
+          "#475569",
+          "#1E293B",
+          "#090D16"
+        ],
+        "accent": [
+          "#E879F9",
+          "#A855F7",
+          "#581C87"
+        ],
+        "weaponOrEffect": [
+          "#FDE047",
+          "#E879F9",
+          "#9333EA"
+        ],
+        "coatOrWings": [
+          "#E879F9",
+          "#9333EA",
+          "#4C1D95"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "arlong_base",
+      "unitId": "arlong",
+      "formId": "base",
+      "name": "톱상어 아론 (기본 · 키리바치)",
+      "group": "east_blue",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "kiribachi",
+      "head": {
+        "hairStyle": "spiky_short",
+        "faceFeature": "fishman_gills_fangs",
+        "chestFeature": "sun_tattoo_gi"
+      },
+      "palette": {
+        "skin": [
+          "#7DD3FC",
+          "#0284C7",
+          "#0369A1"
+        ],
+        "hair": [
+          "#312E81",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "top": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "bottom": [
+          "#86EFAC",
+          "#16A34A",
+          "#14532D"
+        ],
+        "accent": [
+          "#F87171",
+          "#DC2626",
+          "#991B1B"
+        ],
+        "weaponOrEffect": [
+          "#F8FAFC",
+          "#94A3B8",
+          "#334155"
+        ],
+        "hatOrHelm": [
+          "#FDE68A",
+          "#D97706",
+          "#92400E"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "arlong_form_solar_awakening",
+      "unitId": "arlong",
+      "formId": "form_solar_awakening",
+      "name": "톱상어 아론 (샤크 온 투스 폭주)",
+      "group": "east_blue",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "kiribachi",
+      "head": {
+        "hairStyle": "spiky_short",
+        "faceFeature": "fishman_gills_fangs",
+        "chestFeature": "sun_tattoo_gi"
+      },
+      "palette": {
+        "skin": [
+          "#7DD3FC",
+          "#0284C7",
+          "#0369A1"
+        ],
+        "hair": [
+          "#312E81",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "top": [
+          "#FB923C",
+          "#EA580C",
+          "#9A3412"
+        ],
+        "bottom": [
+          "#4ADE80",
+          "#15803D",
+          "#052E16"
+        ],
+        "accent": [
+          "#EF4444",
+          "#B91C1C",
+          "#7F1D1D"
+        ],
+        "weaponOrEffect": [
+          "#BAE6FD",
+          "#38BDF8",
+          "#DC2626"
+        ],
+        "hatOrHelm": [
+          "#FDE68A",
+          "#D97706",
+          "#92400E"
+        ],
+        "eyeColor": "#FEF08A"
+      }
+    },
+    {
+      "key": "smoker_base",
+      "unitId": "smoker",
+      "formId": "base",
+      "name": "하얀 사냥꾼 스모커 (기본 · 해루석 짓테)",
+      "group": "east_blue",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "moku_jitte",
+      "elementalArm": "smoke",
+      "head": {
+        "hairStyle": "slick_back",
+        "faceFeature": "curly_brow_cigar",
+        "chestFeature": "tattoos_bare_chest"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "top": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "bottom": [
+          "#3B82F6",
+          "#1E40AF",
+          "#172554"
+        ],
+        "accent": [
+          "#4ADE80",
+          "#16A34A",
+          "#14532D"
+        ],
+        "weaponOrEffect": [
+          "#E2E8F0",
+          "#94A3B8",
+          "#38BDF8"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "smoker_form_tempest_awakening",
+      "unitId": "smoker",
+      "formId": "form_tempest_awakening",
+      "name": "하얀 사냥꾼 스모커 (화이트 블로우 · 뭉게뭉게 각성)",
+      "group": "east_blue",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "moku_jitte",
+      "elementalArm": "smoke",
+      "hagoromoCloud": "white",
+      "head": {
+        "hairStyle": "slick_back",
+        "faceFeature": "curly_brow_cigar",
+        "chestFeature": "tattoos_bare_chest"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "top": [
+          "#E0F2FE",
+          "#BAE6FD",
+          "#7DD3FC"
+        ],
+        "bottom": [
+          "#1E40AF",
+          "#1E3A8A",
+          "#0F172A"
+        ],
+        "accent": [
+          "#5EEAD4",
+          "#14B8A6",
+          "#0F766E"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#CBD5E1",
+          "#2DD4BF"
+        ],
+        "eyeColor": "#2DD4BF"
+      }
+    },
+    {
+      "key": "wapol_base",
+      "unitId": "wapol",
+      "formId": "base",
+      "name": "브리킹 와포루 (기본 · 우걱우걱 열매)",
+      "group": "grand_line",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "pirate_captain_coat",
+      "head": {
+        "hairStyle": "crown_hippo",
+        "faceFeature": "steel_jaw",
+        "chestFeature": "gold_plate_armor"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#C084FC",
+          "#9333EA",
+          "#581C87"
+        ],
+        "top": [
+          "#C084FC",
+          "#9333EA",
+          "#581C87"
+        ],
+        "bottom": [
+          "#94A3B8",
+          "#475569",
+          "#1E293B"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#E2E8F0",
+          "#94A3B8",
+          "#475569"
+        ],
+        "coatOrWings": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "hatOrHelm": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "wapol_form_colossus_overdrive",
+      "unitId": "wapol",
+      "formId": "form_colossus_overdrive",
+      "name": "와포루 하우스 (우걱우걱 팩토리 합체)",
+      "group": "grand_line",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "wootz_armor",
+      "head": {
+        "hairStyle": "crown_hippo",
+        "faceFeature": "steel_jaw",
+        "chestFeature": "mecha_star_chest"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#E879F9",
+          "#A855F7",
+          "#581C87"
+        ],
+        "top": [
+          "#E2E8F0",
+          "#94A3B8",
+          "#475569"
+        ],
+        "bottom": [
+          "#64748B",
+          "#334155",
+          "#0F172A"
+        ],
+        "accent": [
+          "#FDE047",
+          "#F97316",
+          "#C2410C"
+        ],
+        "weaponOrEffect": [
+          "#FDE047",
+          "#EF4444",
+          "#7F1D1D"
+        ],
+        "coatOrWings": [
+          "#E879F9",
+          "#9333EA",
+          "#4C1D95"
+        ],
+        "hatOrHelm": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "crocodile_base",
+      "unitId": "crocodile",
+      "formId": "base",
+      "name": "서 크로커다일 (기본 · 모래모래 열매)",
+      "group": "grand_line",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "sand_hook",
+      "elementalArm": "sand",
+      "head": {
+        "hairStyle": "slick_back",
+        "faceFeature": "face_stitch_cigar",
+        "chestFeature": "admiral_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "top": [
+          "#FBBF24",
+          "#D97706",
+          "#92400E"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#FDE68A",
+          "#D97706",
+          "#92400E"
+        ],
+        "coatOrWings": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "scarColor": "#7C2D12",
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "crocodile_form_solar_awakening",
+      "unitId": "crocodile",
+      "formId": "form_solar_awakening",
+      "name": "서 크로커다일 (사막의 폭풍 · 그라운드 데스)",
+      "group": "grand_line",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "sand_hook",
+      "elementalArm": "sand",
+      "head": {
+        "hairStyle": "slick_back",
+        "faceFeature": "face_stitch_cigar",
+        "chestFeature": "admiral_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "top": [
+          "#FDE047",
+          "#F59E0B",
+          "#B45309"
+        ],
+        "bottom": [
+          "#1E293B",
+          "#0F172A",
+          "#020617"
+        ],
+        "accent": [
+          "#A855F7",
+          "#7E22CE",
+          "#4C1D95"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#F59E0B",
+          "#B45309"
+        ],
+        "coatOrWings": [
+          "#475569",
+          "#1E293B",
+          "#090D16"
+        ],
+        "scarColor": "#7C2D12",
+        "eyeColor": "#F59E0B"
+      }
+    },
+    {
+      "key": "enel_base",
+      "unitId": "enel",
+      "formId": "base",
+      "name": "갓 에넬 (기본 · 노노사마 보 & 뇌고)",
+      "group": "grand_line",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "goro_drums",
+      "weaponMount": "cane_sword",
+      "head": {
+        "hairStyle": "bandana_earlobes",
+        "faceFeature": "none",
+        "chestFeature": "tattoos_bare_chest"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "top": [
+          "#FFE3C8",
+          "#F2BE96",
+          "#C98A63"
+        ],
+        "bottom": [
+          "#FB923C",
+          "#EA580C",
+          "#9A3412"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#E0F2FE",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "hatOrHelm": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "eyeColor": "#0284C7"
+      }
+    },
+    {
+      "key": "enel_form_enel_amuru",
+      "unitId": "enel",
+      "formId": "form_enel_amuru",
+      "name": "갓 에넬 (2억 볼트 아말 · 뇌신 거대 변신)",
+      "group": "grand_line",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "giant_humanoid",
+      "hagoromoCloud": "white",
+      "head": {
+        "hairStyle": "flame_white_nika",
+        "faceFeature": "oni_fangs_mustache",
+        "chestFeature": "tattoos_bare_chest"
+      },
+      "palette": {
+        "skin": [
+          "#E0F2FE",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "top": [
+          "#BAE6FD",
+          "#38BDF8",
+          "#0369A1"
+        ],
+        "bottom": [
+          "#FB923C",
+          "#EA580C",
+          "#9A3412"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#7DD3FC",
+          "#0284C7"
+        ],
+        "coatOrWings": [
+          "#E0F2FE",
+          "#7DD3FC",
+          "#0284C7"
+        ],
+        "eyeColor": "#FFFFFF"
+      }
+    },
+    {
+      "key": "blueno_base",
+      "unitId": "blueno",
+      "formId": "base",
+      "name": "CP9 블루노 (기본 · 문문 열매)",
+      "group": "grand_line",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "doa_portal",
+      "head": {
+        "hairStyle": "bull_horns",
+        "faceFeature": "none",
+        "chestFeature": "black_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "top": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "accent": [
+          "#5EEAD4",
+          "#14B8A6",
+          "#0F766E"
+        ],
+        "weaponOrEffect": [
+          "#99F6E4",
+          "#2DD4BF",
+          "#0D9488"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "blueno_form_tempest_awakening",
+      "unitId": "blueno",
+      "formId": "form_tempest_awakening",
+      "name": "CP9 블루노 (에어 도어 · 철괴 륜)",
+      "group": "grand_line",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "doa_portal",
+      "head": {
+        "hairStyle": "bull_horns",
+        "faceFeature": "none",
+        "chestFeature": "black_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "top": [
+          "#14B8A6",
+          "#0F766E",
+          "#134E4A"
+        ],
+        "bottom": [
+          "#1E293B",
+          "#0F172A",
+          "#020617"
+        ],
+        "accent": [
+          "#99F6E4",
+          "#2DD4BF",
+          "#0D9488"
+        ],
+        "weaponOrEffect": [
+          "#CCFBF1",
+          "#2DD4BF",
+          "#0F766E"
+        ],
+        "eyeColor": "#2DD4BF"
+      }
+    },
+    {
+      "key": "kaku_base",
+      "unitId": "kaku",
+      "formId": "base",
+      "name": "CP9 카쿠 (기본 · 사도류)",
+      "group": "grand_line",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "dual_hand",
+      "head": {
+        "hairStyle": "marine_cap",
+        "faceFeature": "giraffe_square_nose",
+        "chestFeature": "black_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#FB923C",
+          "#C2410C",
+          "#7C2D12"
+        ],
+        "top": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "accent": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "weaponOrEffect": [
+          "#E0F2FE",
+          "#7DD3FC",
+          "#0284C7"
+        ],
+        "hatOrHelm": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "kaku_form_kaku_giraffe",
+      "unitId": "kaku",
+      "formId": "form_kaku_giraffe",
+      "name": "CP9 카쿠 (기린 인수형 · 사도류 람각 아마네다치)",
+      "group": "grand_line",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "quad_giraffe",
+      "head": {
+        "hairStyle": "bull_horns",
+        "faceFeature": "giraffe_square_nose",
+        "chestFeature": "black_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "hair": [
+          "#B45309",
+          "#78350F",
+          "#451A03"
+        ],
+        "top": [
+          "#FDE047",
+          "#EAB308",
+          "#A16207"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "accent": [
+          "#B45309",
+          "#78350F",
+          "#451A03"
+        ],
+        "weaponOrEffect": [
+          "#E0F2FE",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "lucci_base",
+      "unitId": "lucci",
+      "formId": "base",
+      "name": "로브 루치 (기본 · CP9 / CP0)",
+      "group": "grand_line",
+      "rigType": "humanoid_brawler",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "attackStyle": "punch",
+      "head": {
+        "hairStyle": "top_hat_pigeon",
+        "faceFeature": "none",
+        "chestFeature": "black_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "bottom": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "accent": [
+          "#FDE047",
+          "#F59E0B",
+          "#B45309"
+        ],
+        "weaponOrEffect": [
+          "#FDE047",
+          "#F59E0B",
+          "#DC2626"
+        ],
+        "hatOrHelm": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "lucci_form_lucci_hybrid",
+      "unitId": "lucci",
+      "formId": "form_lucci_hybrid",
+      "name": "로브 루치 (레오파드 인수형)",
+      "group": "grand_line",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "none",
+      "head": {
+        "hairStyle": "oni_horns_mane",
+        "faceFeature": "leopard_muzzle",
+        "chestFeature": "fur_chest"
+      },
+      "palette": {
+        "skin": [
+          "#FDE047",
+          "#F59E0B",
+          "#B45309"
+        ],
+        "hair": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#FDE047",
+          "#F59E0B",
+          "#B45309"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "accent": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "weaponOrEffect": [
+          "#FDE047",
+          "#F97316",
+          "#DC2626"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "lucci_form_lucci_awakened",
+      "unitId": "lucci",
+      "formId": "form_lucci_awakened",
+      "name": "로브 루치 (각성 레오파드 · 검은 구름 띠)",
+      "group": "grand_line",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "none",
+      "hagoromoCloud": "black",
+      "head": {
+        "hairStyle": "oni_horns_mane",
+        "faceFeature": "leopard_muzzle",
+        "chestFeature": "fur_chest"
+      },
+      "palette": {
+        "skin": [
+          "#FDE047",
+          "#F59E0B",
+          "#B45309"
+        ],
+        "hair": [
+          "#27272A",
+          "#090D16",
+          "#020617"
+        ],
+        "top": [
+          "#FBBF24",
+          "#D97706",
+          "#92400E"
+        ],
+        "bottom": [
+          "#1E293B",
+          "#0F172A",
+          "#020617"
+        ],
+        "accent": [
+          "#C084FC",
+          "#9333EA",
+          "#581C87"
+        ],
+        "weaponOrEffect": [
+          "#E879F9",
+          "#A855F7",
+          "#EF4444"
+        ],
+        "coatOrWings": [
+          "#3B0764",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "moria_base",
+      "unitId": "moria",
+      "formId": "base",
+      "name": "겟코 모리아 (기본 · 그림자그림자 열매)",
+      "group": "grand_line",
+      "rigType": "caster_ranged",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "kage_bats",
+      "head": {
+        "hairStyle": "onion_goth",
+        "faceFeature": "oni_fangs_mustache",
+        "chestFeature": "corset_collar"
+      },
+      "palette": {
+        "skin": [
+          "#E0E7FF",
+          "#C7D2FE",
+          "#818CF8"
+        ],
+        "hair": [
+          "#F87171",
+          "#DC2626",
+          "#7F1D1D"
+        ],
+        "top": [
+          "#3F3F46",
+          "#18181B",
+          "#09090B"
+        ],
+        "bottom": [
+          "#C084FC",
+          "#9333EA",
+          "#581C87"
+        ],
+        "accent": [
+          "#E879F9",
+          "#A855F7",
+          "#6B21A8"
+        ],
+        "weaponOrEffect": [
+          "#C084FC",
+          "#7E22CE",
+          "#1E1B4B"
+        ],
+        "eyeColor": "#FEF08A"
+      }
+    },
+    {
+      "key": "moria_form_moria_shadows_asgard",
+      "unitId": "moria",
+      "formId": "form_moria_shadows_asgard",
+      "name": "겟코 모리아 (섀도즈 아스가르드 · 1000개 그림자 거인)",
+      "group": "grand_line",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "giant_humanoid",
+      "hagoromoCloud": "black",
+      "head": {
+        "hairStyle": "bull_horns",
+        "faceFeature": "oni_fangs_mustache",
+        "chestFeature": "corset_collar"
+      },
+      "palette": {
+        "skin": [
+          "#E0E7FF",
+          "#C7D2FE",
+          "#818CF8"
+        ],
+        "hair": [
+          "#EF4444",
+          "#B91C1C",
+          "#7F1D1D"
+        ],
+        "top": [
+          "#312E81",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "bottom": [
+          "#A855F7",
+          "#6B21A8",
+          "#3B0764"
+        ],
+        "accent": [
+          "#E879F9",
+          "#C084FC",
+          "#7E22CE"
+        ],
+        "weaponOrEffect": [
+          "#E879F9",
+          "#9333EA",
+          "#1E1B4B"
+        ],
+        "coatOrWings": [
+          "#581C87",
+          "#3B0764",
+          "#090D16"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "doppelman_base",
+      "unitId": "doppelman",
+      "formId": "base",
+      "name": "도펠맨 (그림자 분신)",
+      "group": "grand_line",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "kage_bats",
+      "head": {
+        "hairStyle": "shadow_silhouette",
+        "faceFeature": "oni_fangs_mustache",
+        "chestFeature": "none"
+      },
+      "palette": {
+        "skin": [
+          "#312E81",
+          "#090D16",
+          "#020617"
+        ],
+        "hair": [
+          "#581C87",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "top": [
+          "#312E81",
+          "#090D16",
+          "#020617"
+        ],
+        "bottom": [
+          "#312E81",
+          "#090D16",
+          "#020617"
+        ],
+        "accent": [
+          "#E879F9",
+          "#A855F7",
+          "#6B21A8"
+        ],
+        "weaponOrEffect": [
+          "#F0ABFC",
+          "#A855F7",
+          "#3B0764"
+        ],
+        "eyeColor": "#E879F9"
+      }
+    },
+    {
+      "key": "doppelman_form_tempest_awakening",
+      "unitId": "doppelman",
+      "formId": "form_tempest_awakening",
+      "name": "도펠맨 (브릭 배트 군집 각성)",
+      "group": "grand_line",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "kage_bats",
+      "hagoromoCloud": "black",
+      "head": {
+        "hairStyle": "shadow_silhouette",
+        "faceFeature": "oni_fangs_mustache",
+        "chestFeature": "none"
+      },
+      "palette": {
+        "skin": [
+          "#312E81",
+          "#090D16",
+          "#020617"
+        ],
+        "hair": [
+          "#7E22CE",
+          "#3B0764",
+          "#090D16"
+        ],
+        "top": [
+          "#4C1D95",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "bottom": [
+          "#312E81",
+          "#090D16",
+          "#020617"
+        ],
+        "accent": [
+          "#F0ABFC",
+          "#D946EF",
+          "#86198F"
+        ],
+        "weaponOrEffect": [
+          "#F0ABFC",
+          "#C084FC",
+          "#581C87"
+        ],
+        "eyeColor": "#F0ABFC"
+      }
+    },
+    {
+      "key": "magellan_base",
+      "unitId": "magellan",
+      "formId": "base",
+      "name": "서장 마젤란 (기본 · 히드라)",
+      "group": "grand_line",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "venom_wings",
+      "elementalArm": "venom",
+      "head": {
+        "hairStyle": "bull_horns",
+        "faceFeature": "oni_fangs_mustache",
+        "chestFeature": "admiral_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#581C87",
+          "#3B0764",
+          "#1E1B4B"
+        ],
+        "top": [
+          "#312E81",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "bottom": [
+          "#312E81",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#E879F9",
+          "#A855F7",
+          "#581C87"
+        ],
+        "coatOrWings": [
+          "#4C1D95",
+          "#312E81",
+          "#090D16"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "magellan_form_magellan_venom_demon",
+      "unitId": "magellan",
+      "formId": "form_magellan_venom_demon",
+      "name": "서장 마젤란 (베놈 데몬 · 지옥의 심판)",
+      "group": "grand_line",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "giant_humanoid",
+      "elementalArm": "venom",
+      "hagoromoCloud": "black",
+      "head": {
+        "hairStyle": "bull_horns",
+        "faceFeature": "skull_sockets",
+        "chestFeature": "none"
+      },
+      "palette": {
+        "skin": [
+          "#FDA4AF",
+          "#E11D48",
+          "#881337"
+        ],
+        "hair": [
+          "#991B1B",
+          "#7F1D1D",
+          "#450A0A"
+        ],
+        "top": [
+          "#FB7185",
+          "#DC2626",
+          "#7F1D1D"
+        ],
+        "bottom": [
+          "#B91C1C",
+          "#7F1D1D",
+          "#450A0A"
+        ],
+        "accent": [
+          "#F0ABFC",
+          "#C084FC",
+          "#7E22CE"
+        ],
+        "weaponOrEffect": [
+          "#FDA4AF",
+          "#E11D48",
+          "#881337"
+        ],
+        "coatOrWings": [
+          "#991B1B",
+          "#450A0A",
+          "#1E1B4B"
+        ],
+        "eyeColor": "#FEF08A"
+      }
+    },
+    {
+      "key": "akainu_base",
+      "unitId": "akainu",
+      "formId": "base",
+      "name": "대장 아카이누 (기본 · 대분화)",
+      "group": "marineford_allies",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "admiral_justice_coat",
+      "elementalArm": "magma",
+      "head": {
+        "hairStyle": "marine_cap",
+        "faceFeature": "curly_brow_cigar",
+        "chestFeature": "admiral_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#EF4444",
+          "#B91C1C",
+          "#7F1D1D"
+        ],
+        "bottom": [
+          "#DC2626",
+          "#991B1B",
+          "#450A0A"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#F97316",
+          "#C2410C"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#F97316",
+          "#991B1B"
+        ],
+        "coatOrWings": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "hatOrHelm": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "akainu_form_akainu_magma_zone",
+      "unitId": "akainu",
+      "formId": "form_akainu_magma_zone",
+      "name": "원수 아카이누 (대분화 마그마 환경 각성)",
+      "group": "marineford_allies",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "admiral_justice_coat",
+      "elementalArm": "magma",
+      "head": {
+        "hairStyle": "marine_cap",
+        "faceFeature": "curly_brow_cigar",
+        "chestFeature": "admiral_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#F97316",
+          "#DC2626",
+          "#7F1D1D"
+        ],
+        "bottom": [
+          "#B91C1C",
+          "#7F1D1D",
+          "#450A0A"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#EA580C"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#F97316",
+          "#7F1D1D"
+        ],
+        "coatOrWings": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "hatOrHelm": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "eyeColor": "#F97316"
+      }
+    },
+    {
+      "key": "aokiji_base",
+      "unitId": "aokiji",
+      "formId": "base",
+      "name": "대장 아오키지 (기본 · 아이스 세이버)",
+      "group": "marineford_allies",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "admiral_justice_coat",
+      "elementalArm": "ice",
+      "head": {
+        "hairStyle": "sleep_mask_curls",
+        "faceFeature": "none",
+        "chestFeature": "admiral_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#38BDF8",
+          "#0284C7",
+          "#1E3A8A"
+        ],
+        "bottom": [
+          "#E2E8F0",
+          "#94A3B8",
+          "#475569"
+        ],
+        "accent": [
+          "#E0F2FE",
+          "#7DD3FC",
+          "#0284C7"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#BAE6FD",
+          "#0284C7"
+        ],
+        "coatOrWings": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "hatOrHelm": [
+          "#4ADE80",
+          "#16A34A",
+          "#14532D"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "aokiji_form_aokiji_ice_age",
+      "unitId": "aokiji",
+      "formId": "form_aokiji_ice_age",
+      "name": "쿠잔 아오키지 (아이스 에이지 빙결 환경 각성)",
+      "group": "marineford_allies",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "admiral_justice_coat",
+      "elementalArm": "ice",
+      "head": {
+        "hairStyle": "sleep_mask_curls",
+        "faceFeature": "none",
+        "chestFeature": "admiral_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#7DD3FC",
+          "#0284C7",
+          "#0C4A6E"
+        ],
+        "bottom": [
+          "#BAE6FD",
+          "#38BDF8",
+          "#0369A1"
+        ],
+        "accent": [
+          "#FFFFFF",
+          "#E0F2FE",
+          "#38BDF8"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#7DD3FC",
+          "#0369A1"
+        ],
+        "coatOrWings": [
+          "#E0F2FE",
+          "#BAE6FD",
+          "#7DD3FC"
+        ],
+        "hatOrHelm": [
+          "#4ADE80",
+          "#16A34A",
+          "#14532D"
+        ],
+        "eyeColor": "#38BDF8"
+      }
+    },
+    {
+      "key": "kizaru_base",
+      "unitId": "kizaru",
+      "formId": "base",
+      "name": "대장 키자루 (기본 · 아마노무라쿠모)",
+      "group": "marineford_allies",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "admiral_justice_coat",
+      "elementalArm": "light",
+      "head": {
+        "hairStyle": "slick_back",
+        "faceFeature": "admiral_shades",
+        "chestFeature": "admiral_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#FEF08A",
+          "#EAB308",
+          "#A16207"
+        ],
+        "bottom": [
+          "#FACC15",
+          "#CA8A04",
+          "#854D0E"
+        ],
+        "accent": [
+          "#FFFFFF",
+          "#FEF08A",
+          "#FACC15"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#FEF08A",
+          "#F59E0B"
+        ],
+        "coatOrWings": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "eyeColor": "#F59E0B"
+      }
+    },
+    {
+      "key": "kizaru_form_kizaru_light_realm",
+      "unitId": "kizaru",
+      "formId": "form_kizaru_light_realm",
+      "name": "대장 키자루 (팔척경 · 광속 영역 각성)",
+      "group": "marineford_allies",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "admiral_justice_coat",
+      "elementalArm": "light",
+      "head": {
+        "hairStyle": "slick_back",
+        "faceFeature": "admiral_shades",
+        "chestFeature": "admiral_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#FFFFFF",
+          "#FEF08A",
+          "#EAB308"
+        ],
+        "bottom": [
+          "#FEF08A",
+          "#EAB308",
+          "#A16207"
+        ],
+        "accent": [
+          "#FFFFFF",
+          "#FEF08A",
+          "#FACC15"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#FEF08A",
+          "#EAB308"
+        ],
+        "coatOrWings": [
+          "#FFFFFF",
+          "#FEF9C3",
+          "#FDE047"
+        ],
+        "eyeColor": "#FEF08A"
+      }
+    },
+    {
+      "key": "blackbeard_base",
+      "unitId": "blackbeard",
+      "formId": "base",
+      "name": "마샬 D. 티치 (검은 수염 · 어둠 & 흔들 이중 능력)",
+      "group": "marineford_allies",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "pirate_captain_coat",
+      "elementalArm": "dark_quake",
+      "head": {
+        "hairStyle": "curly_bandanna",
+        "faceFeature": "black_beard_grin",
+        "chestFeature": "open_shirt_chain"
+      },
+      "palette": {
+        "skin": [
+          "#D99B6C",
+          "#B46936",
+          "#7C3F19"
+        ],
+        "hair": [
+          "#27272A",
+          "#090D16",
+          "#020617"
+        ],
+        "top": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#C084FC",
+          "#7E22CE",
+          "#38BDF8"
+        ],
+        "coatOrWings": [
+          "#334155",
+          "#18181B",
+          "#090D16"
+        ],
+        "hatOrHelm": [
+          "#EF4444",
+          "#991B1B",
+          "#450A0A"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "blackbeard_form_colossus_overdrive",
+      "unitId": "blackbeard",
+      "formId": "form_colossus_overdrive",
+      "name": "사황 검은 수염 (블랙홀 & 천지개벽 오버드라이브)",
+      "group": "marineford_allies",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "pirate_captain_coat",
+      "elementalArm": "dark_quake",
+      "hagoromoCloud": "black",
+      "head": {
+        "hairStyle": "curly_bandanna",
+        "faceFeature": "black_beard_grin",
+        "chestFeature": "open_shirt_chain"
+      },
+      "palette": {
+        "skin": [
+          "#D99B6C",
+          "#B46936",
+          "#7C3F19"
+        ],
+        "hair": [
+          "#27272A",
+          "#090D16",
+          "#020617"
+        ],
+        "top": [
+          "#C084FC",
+          "#7E22CE",
+          "#3B0764"
+        ],
+        "bottom": [
+          "#1E1B4B",
+          "#090D16",
+          "#020617"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#E0F2FE",
+          "#A855F7",
+          "#3B0764"
+        ],
+        "coatOrWings": [
+          "#3B0764",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "hatOrHelm": [
+          "#FACC15",
+          "#CA8A04",
+          "#713F12"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "marco_base",
+      "unitId": "marco",
+      "formId": "base",
+      "name": "불사조 마르코 (기본)",
+      "group": "marineford_allies",
+      "rigType": "humanoid_brawler",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "attackStyle": "kick",
+      "head": {
+        "hairStyle": "pineapple_blonde",
+        "faceFeature": "none",
+        "chestFeature": "open_shirt_chain"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "top": [
+          "#A855F7",
+          "#7E22CE",
+          "#4C1D95"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#0F172A"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#7DD3FC",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "marco_form_marco_hybrid",
+      "unitId": "marco",
+      "formId": "form_marco_hybrid",
+      "name": "불사조 마르코 (불사조 인수형 · 재생의 푸른 날개)",
+      "group": "marineford_allies",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "winged_phoenix",
+      "head": {
+        "hairStyle": "pineapple_blonde",
+        "faceFeature": "none",
+        "chestFeature": "open_shirt_chain"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "top": [
+          "#A855F7",
+          "#7E22CE",
+          "#4C1D95"
+        ],
+        "bottom": [
+          "#38BDF8",
+          "#0284C7",
+          "#0369A1"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#E0F2FE",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "coatOrWings": [
+          "#7DD3FC",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "eyeColor": "#38BDF8"
+      }
+    },
+    {
+      "key": "marco_form_marco_phoenix",
+      "unitId": "marco",
+      "formId": "form_marco_phoenix",
+      "name": "불사조 마르코 (환수종 불사조 완전체)",
+      "group": "marineford_allies",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "winged_phoenix",
+      "hagoromoCloud": "white",
+      "head": {
+        "hairStyle": "pineapple_blonde",
+        "faceFeature": "none",
+        "chestFeature": "none"
+      },
+      "palette": {
+        "skin": [
+          "#E0F2FE",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "top": [
+          "#BAE6FD",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "bottom": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#7DD3FC",
+          "#0284C7"
+        ],
+        "coatOrWings": [
+          "#E0F2FE",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "eyeColor": "#FEF08A"
+      }
+    },
+    {
+      "key": "law_base",
+      "unitId": "law",
+      "formId": "base",
+      "name": "트라팔가 로 (기본 · 키코쿠 & ROOM)",
+      "group": "marineford_allies",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "nodachi",
+      "head": {
+        "hairStyle": "spotted_hat",
+        "faceFeature": "none",
+        "chestFeature": "open_shirt_chain"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "bottom": [
+          "#3B82F6",
+          "#1D4ED8",
+          "#1E3A8A"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#BAE6FD",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "hatOrHelm": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "eyeColor": "#0F172A"
+      }
+    },
+    {
+      "key": "law_form_law_kroom",
+      "unitId": "law",
+      "formId": "form_law_kroom",
+      "name": "트라팔가 로 (K·ROOM · 펑크처 빌레 각성)",
+      "group": "marineford_allies",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "nodachi",
+      "head": {
+        "hairStyle": "spotted_hat",
+        "faceFeature": "none",
+        "chestFeature": "open_shirt_chain"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "top": [
+          "#1E293B",
+          "#0F172A",
+          "#020617"
+        ],
+        "bottom": [
+          "#1D4ED8",
+          "#1E3A8A",
+          "#0F172A"
+        ],
+        "accent": [
+          "#7DD3FC",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "weaponOrEffect": [
+          "#E0F2FE",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "hatOrHelm": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "eyeColor": "#38BDF8"
+      }
+    },
+    {
+      "key": "hody_jones_base",
+      "unitId": "hody_jones",
+      "formId": "base",
+      "name": "호디 존스 (기본 · 백상아리 어인)",
+      "group": "new_world",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "fishman_gi",
+      "weaponMount": "trident",
+      "head": {
+        "hairStyle": "white_wild_hair",
+        "faceFeature": "fishman_gills_fangs",
+        "chestFeature": "sun_tattoo_gi"
+      },
+      "palette": {
+        "skin": [
+          "#94A3B8",
+          "#475569",
+          "#1E293B"
+        ],
+        "hair": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "top": [
+          "#475569",
+          "#334155",
+          "#0F172A"
+        ],
+        "bottom": [
+          "#FB923C",
+          "#C2410C",
+          "#7C2D12"
+        ],
+        "accent": [
+          "#F87171",
+          "#DC2626",
+          "#991B1B"
+        ],
+        "weaponOrEffect": [
+          "#E2E8F0",
+          "#94A3B8",
+          "#38BDF8"
+        ],
+        "coatOrWings": [
+          "#F472B6",
+          "#DB2777",
+          "#831843"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "hody_jones_form_colossus_overdrive",
+      "unitId": "hody_jones",
+      "formId": "form_colossus_overdrive",
+      "name": "호디 존스 (에너지 스테로이드 극한 폭주)",
+      "group": "new_world",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "fishman_gi",
+      "weaponMount": "trident",
+      "head": {
+        "hairStyle": "white_wild_hair",
+        "faceFeature": "fishman_gills_fangs",
+        "chestFeature": "sun_tattoo_gi"
+      },
+      "palette": {
+        "skin": [
+          "#94A3B8",
+          "#475569",
+          "#1E293B"
+        ],
+        "hair": [
+          "#FFFFFF",
+          "#F8FAFC",
+          "#CBD5E1"
+        ],
+        "top": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "bottom": [
+          "#DC2626",
+          "#991B1B",
+          "#450A0A"
+        ],
+        "accent": [
+          "#EF4444",
+          "#B91C1C",
+          "#7F1D1D"
+        ],
+        "weaponOrEffect": [
+          "#FDA4AF",
+          "#EF4444",
+          "#991B1B"
+        ],
+        "coatOrWings": [
+          "#EF4444",
+          "#991B1B",
+          "#450A0A"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "doflamingo_base",
+      "unitId": "doflamingo",
+      "formId": "base",
+      "name": "돈키호테 도플라밍고 (기본 · 천야차)",
+      "group": "new_world",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "ito_strings_coat",
+      "head": {
+        "hairStyle": "feathered_shades",
+        "faceFeature": "doffy_shades",
+        "chestFeature": "pink_feather_chest"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "top": [
+          "#F9A8D4",
+          "#EC4899",
+          "#BE185D"
+        ],
+        "bottom": [
+          "#FB7185",
+          "#E11D48",
+          "#881337"
+        ],
+        "accent": [
+          "#FDA4AF",
+          "#F43F5E",
+          "#9F1239"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#FBCFE8",
+          "#F43F5E"
+        ],
+        "coatOrWings": [
+          "#F9A8D4",
+          "#EC4899",
+          "#9D174D"
+        ],
+        "eyeColor": "#E11D48"
+      }
+    },
+    {
+      "key": "doflamingo_form_doflamingo_awakening",
+      "unitId": "doflamingo",
+      "formId": "form_doflamingo_awakening",
+      "name": "돈키호테 도플라밍고 (에버 화이트 · 16발의 성스러운 흉탄)",
+      "group": "new_world",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "ito_strings_coat",
+      "hagoromoCloud": "white",
+      "head": {
+        "hairStyle": "feathered_shades",
+        "faceFeature": "doffy_shades",
+        "chestFeature": "pink_feather_chest"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "top": [
+          "#F472B6",
+          "#DB2777",
+          "#831843"
+        ],
+        "bottom": [
+          "#E11D48",
+          "#9F1239",
+          "#4C0519"
+        ],
+        "accent": [
+          "#FFFFFF",
+          "#FBCFE8",
+          "#F43F5E"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#F472B6",
+          "#A855F7"
+        ],
+        "coatOrWings": [
+          "#FBCFE8",
+          "#EC4899",
+          "#9D174D"
+        ],
+        "eyeColor": "#F43F5E"
+      }
+    },
+    {
+      "key": "katakuri_base",
+      "unitId": "katakuri",
+      "formId": "base",
+      "name": "샬롯 카타쿠리 (기본 · 토룡 모구라)",
+      "group": "new_world",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "trident",
+      "head": {
+        "hairStyle": "spiky_scarf",
+        "faceFeature": "mouth_scarf_fangs",
+        "chestFeature": "tattoos_bare_chest"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#F472B6",
+          "#BE185D",
+          "#831843"
+        ],
+        "top": [
+          "#3F3F46",
+          "#18181B",
+          "#09090B"
+        ],
+        "bottom": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "accent": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "weaponOrEffect": [
+          "#F8FAFC",
+          "#CBD5E1",
+          "#E879F9"
+        ],
+        "scarColor": "#DB2777",
+        "eyeColor": "#E11D48"
+      }
+    },
+    {
+      "key": "katakuri_form_katakuri_mochi_world",
+      "unitId": "katakuri",
+      "formId": "form_katakuri_mochi_world",
+      "name": "샬롯 카타쿠리 (무쌍 도넛 · 쫀득쫀득 각성)",
+      "group": "new_world",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "trident",
+      "hagoromoCloud": "white",
+      "head": {
+        "hairStyle": "spiky_scarf",
+        "faceFeature": "mouth_scarf_fangs",
+        "chestFeature": "tattoos_bare_chest"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#F472B6",
+          "#BE185D",
+          "#831843"
+        ],
+        "top": [
+          "#581C87",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "bottom": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "accent": [
+          "#F0ABFC",
+          "#E879F9",
+          "#A855F7"
+        ],
+        "weaponOrEffect": [
+          "#FDF4FF",
+          "#E879F9",
+          "#A855F7"
+        ],
+        "scarColor": "#DB2777",
+        "eyeColor": "#F43F5E"
+      }
+    },
+    {
+      "key": "king_base",
+      "unitId": "king",
+      "formId": "base",
+      "name": "화재의 킹 (기본 · 루나리아족 흑익)",
+      "group": "new_world",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "lunarian_wings",
+      "weaponMount": "flame_sword",
+      "head": {
+        "hairStyle": "winged_mask",
+        "faceFeature": "lunarian_mask_tattoo",
+        "chestFeature": "gold_plate_armor"
+      },
+      "palette": {
+        "skin": [
+          "#D99B6C",
+          "#B46936",
+          "#7C3F19"
+        ],
+        "hair": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "top": [
+          "#3F3F46",
+          "#18181B",
+          "#09090B"
+        ],
+        "bottom": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#F97316",
+          "#C2410C"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#F97316",
+          "#DC2626"
+        ],
+        "coatOrWings": [
+          "#27272A",
+          "#090D16",
+          "#020617"
+        ],
+        "eyeColor": "#F97316"
+      }
+    },
+    {
+      "key": "king_form_king_pteranodon",
+      "unitId": "king",
+      "formId": "form_king_pteranodon",
+      "name": "화재의 킹 (프테라노돈 인수형 · 화룡황제)",
+      "group": "new_world",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "winged_phoenix",
+      "weaponMount": "flame_sword",
+      "head": {
+        "hairStyle": "winged_mask",
+        "faceFeature": "lunarian_mask_tattoo",
+        "chestFeature": "gold_plate_armor"
+      },
+      "palette": {
+        "skin": [
+          "#D99B6C",
+          "#B46936",
+          "#7C3F19"
+        ],
+        "hair": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "top": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "bottom": [
+          "#27272A",
+          "#18181B",
+          "#09090B"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#F97316",
+          "#DC2626"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#F97316",
+          "#B91C1C"
+        ],
+        "coatOrWings": [
+          "#FB923C",
+          "#C2410C",
+          "#431407"
+        ],
+        "eyeColor": "#FEF08A"
+      }
+    },
+    {
+      "key": "kaido_base",
+      "unitId": "kaido",
+      "formId": "base",
+      "name": "백수 카이도 (기본 · 팔재계)",
+      "group": "new_world",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "pirate_captain_coat",
+      "weaponMount": "right_hand",
+      "head": {
+        "hairStyle": "oni_horns_mane",
+        "faceFeature": "oni_fangs_mustache",
+        "chestFeature": "dragon_scales_chest"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#334155",
+          "#0F172A",
+          "#020617"
+        ],
+        "top": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "bottom": [
+          "#A855F7",
+          "#6B21A8",
+          "#3B0764"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#475569",
+          "#1E293B",
+          "#A855F7"
+        ],
+        "coatOrWings": [
+          "#7DD3FC",
+          "#0284C7",
+          "#1E3A8A"
+        ],
+        "scarColor": "#991B1B",
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "kaido_form_kaido_hybrid",
+      "unitId": "kaido",
+      "formId": "form_kaido_hybrid",
+      "name": "백수 카이도 (청룡 인수형 · 강항라)",
+      "group": "new_world",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "pirate_captain_coat",
+      "weaponMount": "right_hand",
+      "head": {
+        "hairStyle": "oni_horns_mane",
+        "faceFeature": "oni_fangs_mustache",
+        "chestFeature": "dragon_scales_chest"
+      },
+      "palette": {
+        "skin": [
+          "#7DD3FC",
+          "#0284C7",
+          "#075985"
+        ],
+        "hair": [
+          "#312E81",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "top": [
+          "#7DD3FC",
+          "#0284C7",
+          "#075985"
+        ],
+        "bottom": [
+          "#A855F7",
+          "#6B21A8",
+          "#3B0764"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#E879F9",
+          "#9333EA",
+          "#1E1B4B"
+        ],
+        "coatOrWings": [
+          "#818CF8",
+          "#4F46E5",
+          "#1E1B4B"
+        ],
+        "scarColor": "#DC2626",
+        "eyeColor": "#FEF08A"
+      }
+    },
+    {
+      "key": "kaido_form_kaido_beast",
+      "unitId": "kaido",
+      "formId": "form_kaido_beast",
+      "name": "백수 카이도 (환수종 청룡 완전체 · 보로 브레스)",
+      "group": "new_world",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "serpentine_dragon",
+      "head": {
+        "hairStyle": "oni_horns_mane",
+        "faceFeature": "oni_fangs_mustache",
+        "chestFeature": "dragon_scales_chest"
+      },
+      "palette": {
+        "skin": [
+          "#7DD3FC",
+          "#0284C7",
+          "#075985"
+        ],
+        "hair": [
+          "#E0F2FE",
+          "#7DD3FC",
+          "#0284C7"
+        ],
+        "top": [
+          "#7DD3FC",
+          "#0284C7",
+          "#075985"
+        ],
+        "bottom": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#F97316",
+          "#DC2626"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#F97316",
+          "#DC2626"
+        ],
+        "coatOrWings": [
+          "#BAE6FD",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "kaido_form_kaido_flame_dragon",
+      "unitId": "kaido",
+      "formId": "form_kaido_flame_dragon",
+      "name": "백수 카이도 (화룡대횃불 · 승룡 화염 팔괘)",
+      "group": "new_world",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "serpentine_dragon",
+      "hagoromoCloud": "black",
+      "head": {
+        "hairStyle": "oni_horns_mane",
+        "faceFeature": "oni_fangs_mustache",
+        "chestFeature": "dragon_scales_chest"
+      },
+      "palette": {
+        "skin": [
+          "#FDE047",
+          "#F97316",
+          "#C2410C"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#F97316",
+          "#B91C1C"
+        ],
+        "top": [
+          "#FDE047",
+          "#F97316",
+          "#C2410C"
+        ],
+        "bottom": [
+          "#FEF08A",
+          "#EAB308",
+          "#A16207"
+        ],
+        "accent": [
+          "#FFFFFF",
+          "#FEF08A",
+          "#F97316"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#FEF08A",
+          "#DC2626"
+        ],
+        "coatOrWings": [
+          "#FDE047",
+          "#EA580C",
+          "#7F1D1D"
+        ],
+        "eyeColor": "#FFFFFF"
+      }
+    },
+    {
+      "key": "s_hawk_base",
+      "unitId": "s_hawk",
+      "formId": "base",
+      "name": "세라핌 S-호크 (기본 · 흑도 & 루나리아)",
+      "group": "new_world",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "dual_hand",
+      "head": {
+        "hairStyle": "white_wild_hair",
+        "faceFeature": "sunglasses_star",
+        "chestFeature": "open_shirt_chain"
+      },
+      "palette": {
+        "skin": [
+          "#D99B6C",
+          "#B46936",
+          "#7C3F19"
+        ],
+        "hair": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "top": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "accent": [
+          "#86EFAC",
+          "#22C55E",
+          "#15803D"
+        ],
+        "weaponOrEffect": [
+          "#86EFAC",
+          "#22C55E",
+          "#14532D"
+        ],
+        "coatOrWings": [
+          "#27272A",
+          "#090D16",
+          "#020617"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "s_hawk_form_tempest_awakening",
+      "unitId": "s_hawk",
+      "formId": "form_tempest_awakening",
+      "name": "세라핌 S-호크 (싹둑싹둑 흑도 참격파 각성)",
+      "group": "new_world",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "dual_hand",
+      "head": {
+        "hairStyle": "white_wild_hair",
+        "faceFeature": "sunglasses_star",
+        "chestFeature": "open_shirt_chain"
+      },
+      "palette": {
+        "skin": [
+          "#D99B6C",
+          "#B46936",
+          "#7C3F19"
+        ],
+        "hair": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "top": [
+          "#14532D",
+          "#052E16",
+          "#090D16"
+        ],
+        "bottom": [
+          "#1E293B",
+          "#0F172A",
+          "#020617"
+        ],
+        "accent": [
+          "#4ADE80",
+          "#22C55E",
+          "#15803D"
+        ],
+        "weaponOrEffect": [
+          "#BBF7D0",
+          "#4ADE80",
+          "#15803D"
+        ],
+        "coatOrWings": [
+          "#F97316",
+          "#C2410C",
+          "#431407"
+        ],
+        "eyeColor": "#FEF08A"
+      }
+    },
+    {
+      "key": "saturn_base",
+      "unitId": "saturn",
+      "formId": "base",
+      "name": "제이가르시아 새턴 성 (오로성 · 우규 인수형)",
+      "group": "new_world",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "spider_oni",
+      "hagoromoCloud": "black",
+      "head": {
+        "hairStyle": "elder_beard_cap",
+        "faceFeature": "oni_fangs_mustache",
+        "chestFeature": "admiral_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "top": [
+          "#581C87",
+          "#3B0764",
+          "#1E1B4B"
+        ],
+        "bottom": [
+          "#3B0764",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "accent": [
+          "#F87171",
+          "#DC2626",
+          "#991B1B"
+        ],
+        "weaponOrEffect": [
+          "#E879F9",
+          "#A855F7",
+          "#DC2626"
+        ],
+        "coatOrWings": [
+          "#3B0764",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "saturn_form_saturn_gyuki",
+      "unitId": "saturn",
+      "formId": "form_saturn_gyuki",
+      "name": "제이가르시아 새턴 성 (우규 완전 각성태 · 맹독 마안)",
+      "group": "new_world",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "spider_oni",
+      "hagoromoCloud": "black",
+      "head": {
+        "hairStyle": "elder_beard_cap",
+        "faceFeature": "oni_fangs_mustache",
+        "chestFeature": "admiral_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#C084FC",
+          "#7E22CE",
+          "#3B0764"
+        ],
+        "hair": [
+          "#FFFFFF",
+          "#E2E8F0",
+          "#94A3B8"
+        ],
+        "top": [
+          "#7E22CE",
+          "#581C87",
+          "#1E1B4B"
+        ],
+        "bottom": [
+          "#4C1D95",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "accent": [
+          "#FDA4AF",
+          "#E11D48",
+          "#881337"
+        ],
+        "weaponOrEffect": [
+          "#F0ABFC",
+          "#E11D48",
+          "#581C87"
+        ],
+        "coatOrWings": [
+          "#581C87",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "eyeColor": "#FEF08A"
+      }
+    },
+    {
+      "key": "loki_base",
+      "unitId": "loki",
+      "formId": "base",
+      "name": "저주받은 왕자 로키 (기본 · 엘바프 거인 왕자)",
+      "group": "new_world",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "giant_humanoid",
+      "weaponMount": "right_hand",
+      "head": {
+        "hairStyle": "viking_horned_helm",
+        "faceFeature": "eye_bandage",
+        "chestFeature": "tattoos_bare_chest"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#F472B6",
+          "#BE185D",
+          "#831843"
+        ],
+        "top": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#7DD3FC",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "coatOrWings": [
+          "#F87171",
+          "#DC2626",
+          "#7F1D1D"
+        ],
+        "hatOrHelm": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "eyeColor": "#EF4444"
+      }
+    },
+    {
+      "key": "loki_form_loki_ragnir",
+      "unitId": "loki",
+      "formId": "form_loki_ragnir",
+      "name": "저주받은 왕자 로키 (철뇌 라그니르 · 태양신 파괴자 각성)",
+      "group": "new_world",
+      "rigType": "giant_beast",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "giantSubRig": "giant_humanoid",
+      "weaponMount": "right_hand",
+      "hagoromoCloud": "black",
+      "head": {
+        "hairStyle": "viking_horned_helm",
+        "faceFeature": "eye_bandage",
+        "chestFeature": "tattoos_bare_chest"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#F472B6",
+          "#BE185D",
+          "#831843"
+        ],
+        "top": [
+          "#475569",
+          "#1E293B",
+          "#090D16"
+        ],
+        "bottom": [
+          "#1E293B",
+          "#0F172A",
+          "#020617"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#EA580C"
+        ],
+        "weaponOrEffect": [
+          "#E0F2FE",
+          "#38BDF8",
+          "#FACC15"
+        ],
+        "coatOrWings": [
+          "#EF4444",
+          "#991B1B",
+          "#450A0A"
+        ],
+        "hatOrHelm": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "eyeColor": "#FEF08A"
+      }
+    },
+    {
+      "key": "unit_ignis_vanguard_base",
+      "unitId": "unit_ignis_vanguard",
+      "formId": "base",
+      "name": "이그니스 뱅가드 (기본)",
+      "group": "arena_originals",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "flame_sword",
+      "head": {
+        "hairStyle": "spiky_short",
+        "faceFeature": "none",
+        "chestFeature": "gold_plate_armor"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#FDE047",
+          "#F97316",
+          "#C2410C"
+        ],
+        "top": [
+          "#FB923C",
+          "#EA580C",
+          "#9A3412"
+        ],
+        "bottom": [
+          "#475569",
+          "#1E293B",
+          "#090D16"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#FEF08A",
+          "#F97316",
+          "#DC2626"
+        ],
+        "eyeColor": "#F97316"
+      }
+    },
+    {
+      "key": "unit_ignis_vanguard_form_solar_awakening",
+      "unitId": "unit_ignis_vanguard",
+      "formId": "form_solar_awakening",
+      "name": "이그니스 뱅가드 (진홍 각성)",
+      "group": "arena_originals",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "flame_sword",
+      "head": {
+        "hairStyle": "spiky_short",
+        "faceFeature": "none",
+        "chestFeature": "gold_plate_armor"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#FACC15",
+          "#EA580C"
+        ],
+        "top": [
+          "#FDE047",
+          "#F97316",
+          "#DC2626"
+        ],
+        "bottom": [
+          "#7F1D1D",
+          "#450A0A",
+          "#090D16"
+        ],
+        "accent": [
+          "#FFFFFF",
+          "#FEF08A",
+          "#F97316"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#FEF08A",
+          "#EF4444"
+        ],
+        "eyeColor": "#FEF08A"
+      }
+    },
+    {
+      "key": "unit_tideweaver_base",
+      "unitId": "unit_tideweaver",
+      "formId": "base",
+      "name": "타이드위버 (기본)",
+      "group": "arena_originals",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "elemental_orb",
+      "head": {
+        "hairStyle": "long_wavy",
+        "faceFeature": "none",
+        "chestFeature": "corset_collar"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#7DD3FC",
+          "#0284C7",
+          "#1E3A8A"
+        ],
+        "top": [
+          "#38BDF8",
+          "#0284C7",
+          "#0369A1"
+        ],
+        "bottom": [
+          "#1D4ED8",
+          "#1E3A8A",
+          "#172554"
+        ],
+        "accent": [
+          "#E0F2FE",
+          "#7DD3FC",
+          "#0284C7"
+        ],
+        "weaponOrEffect": [
+          "#E0F2FE",
+          "#38BDF8",
+          "#1D4ED8"
+        ],
+        "eyeColor": "#0284C7"
+      }
+    },
+    {
+      "key": "unit_tideweaver_form_colossus_overdrive",
+      "unitId": "unit_tideweaver",
+      "formId": "form_colossus_overdrive",
+      "name": "타이드위버 (타이탄 오버드라이브)",
+      "group": "arena_originals",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "elemental_orb",
+      "hagoromoCloud": "white",
+      "head": {
+        "hairStyle": "long_wavy",
+        "faceFeature": "none",
+        "chestFeature": "corset_collar"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#E0F2FE",
+          "#38BDF8",
+          "#0284C7"
+        ],
+        "top": [
+          "#7DD3FC",
+          "#0284C7",
+          "#1E3A8A"
+        ],
+        "bottom": [
+          "#312E81",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "accent": [
+          "#F0ABFC",
+          "#E879F9",
+          "#A855F7"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#7DD3FC",
+          "#A855F7"
+        ],
+        "eyeColor": "#E879F9"
+      }
+    },
+    {
+      "key": "unit_volt_strider_base",
+      "unitId": "unit_volt_strider",
+      "formId": "base",
+      "name": "볼트 스트라이더 (기본)",
+      "group": "arena_originals",
+      "rigType": "humanoid_brawler",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "attackStyle": "kick",
+      "head": {
+        "hairStyle": "spiky_short",
+        "faceFeature": "sunglasses_star",
+        "chestFeature": "black_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "top": [
+          "#FDE047",
+          "#EAB308",
+          "#A16207"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "accent": [
+          "#FB923C",
+          "#F97316",
+          "#C2410C"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#FEF08A",
+          "#F97316"
+        ],
+        "eyeColor": "#0284C7"
+      }
+    },
+    {
+      "key": "unit_volt_strider_form_tempest_awakening",
+      "unitId": "unit_volt_strider",
+      "formId": "form_tempest_awakening",
+      "name": "볼트 스트라이더 (창공 각성)",
+      "group": "arena_originals",
+      "rigType": "humanoid_brawler",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "attackStyle": "kick",
+      "head": {
+        "hairStyle": "spiky_short",
+        "faceFeature": "sunglasses_star",
+        "chestFeature": "black_suit_tie"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#FFFFFF",
+          "#FEF08A",
+          "#FACC15"
+        ],
+        "top": [
+          "#5EEAD4",
+          "#14B8A6",
+          "#0F766E"
+        ],
+        "bottom": [
+          "#1E293B",
+          "#0F172A",
+          "#020617"
+        ],
+        "accent": [
+          "#FEF08A",
+          "#FACC15",
+          "#CA8A04"
+        ],
+        "weaponOrEffect": [
+          "#CCFBF1",
+          "#2DD4BF",
+          "#FACC15"
+        ],
+        "eyeColor": "#2DD4BF"
+      }
+    },
+    {
+      "key": "unit_terra_bastion_base",
+      "unitId": "unit_terra_bastion",
+      "formId": "base",
+      "name": "테라 바스티온 (기본)",
+      "group": "arena_originals",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "wootz_armor",
+      "head": {
+        "hairStyle": "viking_horned_helm",
+        "faceFeature": "steel_jaw",
+        "chestFeature": "gold_plate_armor"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#A3E635",
+          "#65A30D",
+          "#365314"
+        ],
+        "top": [
+          "#BEF264",
+          "#84CC16",
+          "#4D7C0F"
+        ],
+        "bottom": [
+          "#57534E",
+          "#292524",
+          "#0C0A09"
+        ],
+        "accent": [
+          "#D9F99D",
+          "#84CC16",
+          "#3F6212"
+        ],
+        "weaponOrEffect": [
+          "#ECFCCB",
+          "#84CC16",
+          "#365314"
+        ],
+        "coatOrWings": [
+          "#78716C",
+          "#44403C",
+          "#1C1917"
+        ],
+        "hatOrHelm": [
+          "#BEF264",
+          "#65A30D",
+          "#365314"
+        ],
+        "eyeColor": "#84CC16"
+      }
+    },
+    {
+      "key": "unit_terra_bastion_form_colossus_overdrive",
+      "unitId": "unit_terra_bastion",
+      "formId": "form_colossus_overdrive",
+      "name": "테라 바스티온 (타이탄 오버드라이브)",
+      "group": "arena_originals",
+      "rigType": "bulky_tall_coat",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "coatStyle": "wootz_armor",
+      "head": {
+        "hairStyle": "viking_horned_helm",
+        "faceFeature": "steel_jaw",
+        "chestFeature": "gold_plate_armor"
+      },
+      "palette": {
+        "skin": [
+          "#F6C89F",
+          "#D99B6C",
+          "#A66A3F"
+        ],
+        "hair": [
+          "#D9F99D",
+          "#84CC16",
+          "#3F6212"
+        ],
+        "top": [
+          "#E879F9",
+          "#A855F7",
+          "#581C87"
+        ],
+        "bottom": [
+          "#44403C",
+          "#1C1917",
+          "#0C0A09"
+        ],
+        "accent": [
+          "#D9F99D",
+          "#84CC16",
+          "#4D7C0F"
+        ],
+        "weaponOrEffect": [
+          "#F0ABFC",
+          "#A855F7",
+          "#84CC16"
+        ],
+        "coatOrWings": [
+          "#A855F7",
+          "#6B21A8",
+          "#3B0764"
+        ],
+        "hatOrHelm": [
+          "#D9F99D",
+          "#84CC16",
+          "#3F6212"
+        ],
+        "eyeColor": "#E879F9"
+      }
+    },
+    {
+      "key": "unit_zephyr_blade_base",
+      "unitId": "unit_zephyr_blade",
+      "formId": "base",
+      "name": "제피르 블레이드 (기본)",
+      "group": "arena_originals",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "dual_hand",
+      "head": {
+        "hairStyle": "long_straight_dark",
+        "faceFeature": "none",
+        "chestFeature": "diagonal_scar_haramaki"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#99F6E4",
+          "#14B8A6",
+          "#0F766E"
+        ],
+        "top": [
+          "#5EEAD4",
+          "#14B8A6",
+          "#0F766E"
+        ],
+        "bottom": [
+          "#334155",
+          "#1E293B",
+          "#090D16"
+        ],
+        "accent": [
+          "#CCFBF1",
+          "#2DD4BF",
+          "#0D9488"
+        ],
+        "weaponOrEffect": [
+          "#CCFBF1",
+          "#2DD4BF",
+          "#0F766E"
+        ],
+        "eyeColor": "#0F766E"
+      }
+    },
+    {
+      "key": "unit_zephyr_blade_form_tempest_awakening",
+      "unitId": "unit_zephyr_blade",
+      "formId": "form_tempest_awakening",
+      "name": "제피르 블레이드 (창공 각성)",
+      "group": "arena_originals",
+      "rigType": "swordsman_weapon",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "weaponMount": "dual_hand",
+      "hagoromoCloud": "white",
+      "head": {
+        "hairStyle": "long_straight_dark",
+        "faceFeature": "none",
+        "chestFeature": "diagonal_scar_haramaki"
+      },
+      "palette": {
+        "skin": [
+          "#FFF1E6",
+          "#FCD5B5",
+          "#D69E72"
+        ],
+        "hair": [
+          "#CCFBF1",
+          "#2DD4BF",
+          "#0F766E"
+        ],
+        "top": [
+          "#99F6E4",
+          "#14B8A6",
+          "#115E59"
+        ],
+        "bottom": [
+          "#1E293B",
+          "#0F172A",
+          "#020617"
+        ],
+        "accent": [
+          "#FFFFFF",
+          "#99F6E4",
+          "#14B8A6"
+        ],
+        "weaponOrEffect": [
+          "#FFFFFF",
+          "#5EEAD4",
+          "#0D9488"
+        ],
+        "eyeColor": "#2DD4BF"
+      }
+    },
+    {
+      "key": "unit_void_conduit_base",
+      "unitId": "unit_void_conduit",
+      "formId": "base",
+      "name": "보이드 컨듀잇 (기본)",
+      "group": "arena_originals",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "elemental_orb",
+      "head": {
+        "hairStyle": "fur_hood",
+        "faceFeature": "none",
+        "chestFeature": "corset_collar"
+      },
+      "palette": {
+        "skin": [
+          "#E0E7FF",
+          "#C7D2FE",
+          "#818CF8"
+        ],
+        "hair": [
+          "#E9D5FF",
+          "#A855F7",
+          "#6B21A8"
+        ],
+        "top": [
+          "#C084FC",
+          "#9333EA",
+          "#581C87"
+        ],
+        "bottom": [
+          "#3B0764",
+          "#1E1B4B",
+          "#090D16"
+        ],
+        "accent": [
+          "#F3E8FF",
+          "#C084FC",
+          "#7E22CE"
+        ],
+        "weaponOrEffect": [
+          "#F3E8FF",
+          "#C084FC",
+          "#6B21A8"
+        ],
+        "eyeColor": "#E879F9"
+      }
+    },
+    {
+      "key": "unit_void_conduit_form_colossus_overdrive",
+      "unitId": "unit_void_conduit",
+      "formId": "form_colossus_overdrive",
+      "name": "보이드 컨듀잇 (타이탄 오버드라이브)",
+      "group": "arena_originals",
+      "rigType": "caster_ranged",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "casterProp": "elemental_orb",
+      "hagoromoCloud": "black",
+      "head": {
+        "hairStyle": "fur_hood",
+        "faceFeature": "none",
+        "chestFeature": "corset_collar"
+      },
+      "palette": {
+        "skin": [
+          "#E0E7FF",
+          "#C7D2FE",
+          "#818CF8"
+        ],
+        "hair": [
+          "#F0ABFC",
+          "#D946EF",
+          "#86198F"
+        ],
+        "top": [
+          "#E879F9",
+          "#A855F7",
+          "#581C87"
+        ],
+        "bottom": [
+          "#1E1B4B",
+          "#090D16",
+          "#020617"
+        ],
+        "accent": [
+          "#FDF4FF",
+          "#E879F9",
+          "#A21CAF"
+        ],
+        "weaponOrEffect": [
+          "#FDF4FF",
+          "#E879F9",
+          "#7E22CE"
+        ],
+        "eyeColor": "#FDF4FF"
+      }
+    }
+  ]
+}

@@ -152,13 +152,39 @@ describe('Stage 5 Step 1 — Galaxy S25 Ultra 19.5:9 Viewport, Safe Area & Andro
     // Verify floating joystick re-anchors on touch inside left-bottom zone and resets on release
     reloaded.forceShowTouchUi = true;
     reloaded.updateViewportMetrics(s25Metrics);
-    const handled = reloaded.handleCanvasPointerDown({ x: 180, y: 390 });
+    const handled = reloaded.handleCanvasPointerDown({ x: 180, y: 390 }, 1);
     expect(handled).toBe(true);
     expect(reloaded.virtualJoystickActive).toBe(true);
     expect(reloaded.virtualJoystickOrigin.x).toBe(180);
-    reloaded.handleCanvasPointerUp();
+
+    // Multi-touch: second pointer (right thumb) tapping/moving/releasing must not cancel left-thumb joystick
+    reloaded.handleCanvasPointerMove({ x: 210, y: 390 }, 1);
+    expect(reloaded.virtualMoveVec.x).toBeGreaterThan(0.2);
+    const s1Btn = reloaded.getTouchButtons(s25Metrics).find((b) => b.id === 'SKILL_0')!;
+    expect(reloaded.handleCanvasPointerDown({ x: s1Btn.x, y: s1Btn.y }, 2)).toBe(true);
+    reloaded.handleCanvasPointerMove({ x: s1Btn.x - 10, y: s1Btn.y }, 2);
+    reloaded.handleCanvasPointerUp(2);
+    expect(reloaded.virtualJoystickActive).toBe(true);
+    expect(reloaded.virtualMoveVec.x).toBeGreaterThan(0.2);
+
+    // Releasing left-thumb pointer (pointerId = 1) resets the joystick
+    reloaded.handleCanvasPointerUp(1);
     expect(reloaded.virtualJoystickActive).toBe(false);
     expect(reloaded.virtualJoystickOrigin).toEqual(reloaded.virtualJoystickHomeOrigin);
+
+    // Verify bottom Battle HUD direct tap/click hit-test for skill cards and quick-swap banner
+    const slot0Y = s25Metrics.viewHeight - 44 - 8 - s25Metrics.safeInsets.bottom + 20;
+    const centerSlotX = Math.round(s25Metrics.viewWidth * 0.5 - 50);
+    expect(reloaded.hitTestBattleBottomHud({ x: centerSlotX, y: slot0Y }, 4, s25Metrics)).toBe(
+      'SKILL_1'
+    );
+    expect(
+      reloaded.hitTestBattleBottomHud(
+        { x: Math.round(s25Metrics.viewWidth * 0.5), y: slot0Y - 36 },
+        4,
+        s25Metrics
+      )
+    ).toBe('SWAP');
   });
 
   it('verifies Android native Edge-to-Edge shortEdges cutout and immersive fullscreen config', () => {

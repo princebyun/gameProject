@@ -152,26 +152,21 @@ function renderUnitHudCard(
   ctx.textAlign = 'left';
   ctx.font = '9px monospace';
   ctx.fillStyle = '#2dd4bf';
-  ctx.fillText(`회피:${unit.dodgeStacks}/${unit.maxDodgeStacks}`, x + 8, y + 41);
+  ctx.fillText(`회피 ${unit.dodgeStacks}/${unit.maxDodgeStacks}`, x + 8, y + 41);
 
   if (unit.exhaustionTimer > 0) {
     ctx.fillStyle = '#f87171';
-    ctx.fillText(`탈진:${unit.exhaustionTimer.toFixed(1)}s`, x + 64, y + 41);
+    ctx.fillText(`탈진 ${unit.exhaustionTimer.toFixed(1)}초`, x + 72, y + 41);
   } else if (unit.activeFormKind === 'OVERDRIVE') {
     ctx.fillStyle = '#e879f9';
-    const hag = unit.hagoromoColor ? `☁${unit.hagoromoColor.toUpperCase()}` : '★OD';
     ctx.fillText(
-      `${hag} ${unit.overdriveTimeRemainingSec.toFixed(1)}s(${unit.overdriveUsesRemaining}회)`,
-      x + 64,
+      `★각성 ${unit.overdriveTimeRemainingSec.toFixed(1)}초`,
+      x + 72,
       y + 41
     );
   } else if (unit.activeFormId) {
     ctx.fillStyle = '#fb923c';
-    const hag = unit.hagoromoColor ? `☁구름띠:${unit.hagoromoColor}` : `★${unit.currentStanceRole}`;
-    ctx.fillText(hag, x + 64, y + 41);
-  } else {
-    ctx.fillStyle = '#94a3b8';
-    ctx.fillText(`[${unit.fruitType}]`, x + 64, y + 41);
+    ctx.fillText(`★변신 중`, x + 72, y + 41);
   }
 
   // Row 4: Real-time Status Effect Timer pills
@@ -233,7 +228,7 @@ function renderUnitHudCard(
 function renderTopCenterGlobalHud(
   ctx: CanvasRenderingContext2D,
   world: BattleWorldState,
-  fps: number,
+  _fps: number,
   viewW: number,
   safeT: number
 ): void {
@@ -250,41 +245,41 @@ function renderTopCenterGlobalHud(
     world.winCondition.kind === 'SURVIVE_TIME' ? '#fde047' : '#f8fafc';
   if (world.winCondition.kind === 'SURVIVE_TIME') {
     const rem = Math.max(0, world.winCondition.targetSec - world.elapsedSec);
-    ctx.fillText(`⏱ 생존 탈출: ${rem.toFixed(1)}s | ${fps} FPS`, cx, 23);
+    ctx.fillText(`⏱ 생존 목표: ${rem.toFixed(1)}초`, cx, 23 + safeT);
   } else if (world.winCondition.kind === 'REACH_EXTRACTION') {
     const rem = Math.max(0, world.winCondition.unlockAfterSec - world.elapsedSec);
     ctx.fillText(
-      rem > 0 ? `⚓ 탈출구 개방: ${rem.toFixed(1)}s` : `⚓ 탈출 구역 이동!`,
+      rem > 0 ? `⚓ 탈출구 개방: ${rem.toFixed(1)}초` : `⚓ 탈출 구역으로 이동!`,
       cx,
-      23
+      23 + safeT
     );
   } else {
-    ctx.fillText(`TIME ${world.elapsedSec.toFixed(1)}s | ${fps} FPS`, cx, 23);
+    ctx.fillText(`⚔ 전투 시간 ${world.elapsedSec.toFixed(0)}초`, cx, 23 + safeT);
   }
 
   ctx.font = 'bold 9px monospace';
   const badges: string[] = [];
   if (world.environmentField.kind !== 'NONE' && world.environmentField.remainingSec > 0) {
     badges.push(
-      `각성필드:${world.environmentField.kind} (${world.environmentField.remainingSec.toFixed(1)}s)`
+      `⚡ 각성 필드 (${world.environmentField.remainingSec.toFixed(0)}초)`
     );
   }
   if (world.weather.id !== 'NONE' && world.weather.remainingSec > 0) {
-    badges.push(`날씨:${world.weather.id} (${world.weather.remainingSec.toFixed(1)}s)`);
+    badges.push(`날씨 효과 (${world.weather.remainingSec.toFixed(0)}초)`);
   }
   if (world.ruleReversal.kind !== 'NONE' && world.ruleReversal.remainingSec > 0) {
-    badges.push(`반전:SPEED_INV (${world.ruleReversal.remainingSec.toFixed(1)}s)`);
+    badges.push(`속도 반전 (${world.ruleReversal.remainingSec.toFixed(0)}초)`);
   }
 
   if (world.persistentZones.splitActive) {
-    badges.push('🔥❄ 마그마/빙결 반반 분할');
+    badges.push('🔥❄ 마그마/빙결 지대');
   } else if (world.persistentZones.magmaActive) {
-    badges.push('🔥 대분화 지대(화상/+25%)');
+    badges.push('🔥 대분화 지대');
   } else if (world.persistentZones.iceActive) {
-    badges.push('❄ 아이스 에이지(둔화/+25%)');
+    badges.push('❄ 빙결 지대');
   }
   if (world.gauntletWaves.length > 1) {
-    badges.push(`WAVE ${world.currentWaveIndex + 1}/${world.gauntletWaves.length}`);
+    badges.push(`웨이브 ${world.currentWaveIndex + 1}/${world.gauntletWaves.length}`);
   }
   if (world.birdcage.active) {
     const shrinkPct = Math.round((1 - world.birdcage.shrinkScale) * 100);
@@ -292,11 +287,11 @@ function renderTopCenterGlobalHud(
   }
 
   if (badges.length === 0) {
-    ctx.fillStyle = '#64748b';
-    ctx.fillText(`ONE PIECE CLASH ENGINE | ${world.mode}`, cx, 42);
+    ctx.fillStyle = '#94a3b8';
+    ctx.fillText(world.mode === '2V2' ? '2:2 팀 배틀' : world.mode === 'COOP_RAID' ? '거대 보스 레이드' : '1:1 결투', cx, 42 + safeT);
   } else {
     ctx.fillStyle = '#facc15';
-    ctx.fillText(badges.join(' | '), cx, 42);
+    ctx.fillText(badges.join(' | '), cx, 42 + safeT);
   }
 }
 
@@ -527,7 +522,7 @@ function renderRaidSquadHud(
   });
 
   // Shared Team Revives Badge cleanly below the 3 squad bars
-  const revY = 10 + Math.min(3, squad.length) * (cardH + 4) + 2;
+  const revY = 10 + safeT + Math.min(3, squad.length) * (cardH + 4) + 2;
   ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
   ctx.fillRect(x, revY, w, 20);
   ctx.strokeStyle = world.raidState.teamRevivesRemaining > 0 ? '#4ade80' : '#ef4444';
@@ -725,11 +720,21 @@ function renderBottomSkillHud(
     ctx.fillText(`[${keyLabels[idx]}] ${shortName}`, x + 5, y + 14);
 
     ctx.font = '9px monospace';
+    const archetypeKo =
+      mDef.archetype === 'MELEE'
+        ? '근접'
+        : mDef.archetype === 'PROJECTILE'
+          ? '원거리'
+          : mDef.archetype === 'BEAM'
+            ? '광선'
+            : mDef.archetype === 'AOE_FIELD'
+              ? '범위'
+              : '특수';
     const hakiTag = mDef.hasConquerorCoating
-      ? '⚡패왕'
+      ? '⚡패왕색'
       : mDef.hasArmamentHaki
-        ? '●무장'
-        : mDef.archetype.slice(0, 4);
+        ? '●무장색'
+        : archetypeKo;
     ctx.fillStyle = mDef.hasConquerorCoating
       ? '#f87171'
       : (elemMeta?.color ?? '#38bdf8');
@@ -741,10 +746,10 @@ function renderBottomSkillHud(
 
     if (slot.cooldownTimer > 0) {
       ctx.fillStyle = '#facc15';
-      ctx.fillText(`CD ${slot.cooldownTimer.toFixed(1)}s`, x + slotWidth - 5, y + 40);
+      ctx.fillText(`${slot.cooldownTimer.toFixed(1)}초`, x + slotWidth - 5, y + 40);
     } else {
-      ctx.fillStyle = '#94a3b8';
-      ctx.fillText(`PWR ${mDef.basePower}`, x + slotWidth - 5, y + 40);
+      ctx.fillStyle = '#4ade80';
+      ctx.fillText('사용 가능', x + slotWidth - 5, y + 40);
     }
   });
 

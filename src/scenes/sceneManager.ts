@@ -38,12 +38,9 @@ import { renderImpelDownModal } from './endgame/impelDownScene';
 import { renderRaidLobbyModal } from './endgame/raidLobbyScene';
 import {
   createBattleWorld,
-  spawnBeamInstance,
-  spawnMeleeArcInstance,
-  spawnProjectileInstance,
   stepBattleWorld
 } from '../core/combat/battleWorld';
-import { activateFormShift, cycleZoanStance } from '../core/combat/formShiftEngine';
+import { activateFormShift } from '../core/combat/formShiftEngine';
 import { BATTLE_CALC_VERSION, FIXED_DT } from '../core/constants';
 import { SeededPRNG } from '../core/math/prng';
 import {
@@ -68,14 +65,8 @@ import {
   createBattleWorldFromContext
 } from '../core/rpg/battleBridge';
 import { createInitialCampaignState } from '../core/rpg/campaignState';
+import { computeBountyTier } from '../core/rpg/crewAndBountyEngine';
 import {
-  assignCrewRole,
-  computeBountyTier,
-  executeShipboardCooking,
-  purchaseTrainingUpgrade
-} from '../core/rpg/crewAndBountyEngine';
-import {
-  completeEpisode,
   enterIslandEpisode,
   exitIslandToSea,
   stepIslandExploration,
@@ -87,7 +78,6 @@ import {
   type SailingStepOutput
 } from '../core/rpg/sailingPhysics';
 import { tryTransitionThroughSeaGate } from '../core/rpg/seaGateValidator';
-import { canEnterOnlineBattle } from '../core/save/antiCheat';
 import type {
   GlobalSettingsPayload,
   SaveEnvelope,
@@ -105,7 +95,6 @@ import type {
 } from '../core/types/battleState';
 import type {
   BattleContext,
-  CrewRoleId,
   GateValidationResult,
   RpgCampaignState,
   RpgDataRegistry
@@ -123,14 +112,29 @@ import {
   createPlatformBridge,
   type PlatformBridge
 } from '../platform/platformBridge';
+import type { ImportedSavePreview } from '../platform/storage/saveFileIO';
+import type { SaveStorageAdapter } from '../platform/storage/storageAdapter';
 import {
-  parseAndValidateImportedSaveJson,
-  type ImportedSavePreview
-} from '../platform/storage/saveFileIO';
+  runDebugStoryJump,
+  runSandboxShowcaseScenario,
+  type SandboxShowcaseKind
+} from './controllers/debugShowcaseController';
 import {
-  ALL_SAVE_SLOTS,
-  type SaveStorageAdapter
-} from '../platform/storage/storageAdapter';
+  createCrewCampModalElement,
+  renderCrewCampModal
+} from './modals/crewCampModal';
+import {
+  createOnlineLobbyModalElement as buildOnlineLobbyModalElement,
+  renderOnlineLobbyModalContents as renderOnlineLobbyModalDom
+} from './modals/onlineLobbyModal';
+import {
+  createSaveManagerModalElement,
+  renderSaveManagerModal
+} from './modals/saveManagerModal';
+import {
+  createMobileVirtualControllerDockElement,
+  createSettingsModalElement
+} from './modals/settingsModal';
 import { renderBattleArena } from '../render/battleRenderer';
 import { CanvasRenderer } from '../render/canvasRenderer';
 import {
@@ -230,6 +234,8 @@ export class SceneManager {
   public activeBattleContext: BattleContext | null = null;
   public gateBlockedPopup: GateValidationResult | null = null;
   public showWantedPosterOverlay = false;
+  private wantedPosterOpenTimer = 0;
+  private devToolsExpanded = false;
 
   public platformBridge: PlatformBridge;
   public storage: SaveStorageAdapter;
@@ -795,10 +801,22 @@ export class SceneManager {
     void this.audio.setBattleMood(isBossFight ? 'BOSS' : 'NORMAL');
   }
 
+  private clearTransientFocusAndInput(): void {
+    this.input.resetTransientInputState(false);
+    if (
+      typeof document !== 'undefined' &&
+      document.activeElement instanceof HTMLElement &&
+      document.activeElement !== this.renderer?.canvas
+    ) {
+      document.activeElement.blur();
+    }
+  }
+
   public switchToScene(scene: ActiveAppScene): void {
     this.activeScene = scene;
     this.gateBlockedPopup = null;
     this.forfeitConfirmArmed = false;
+    this.clearTransientFocusAndInput();
     if (scene !== 'TITLE') {
       this.titleScene?.hide();
     }
@@ -826,6 +844,7 @@ export class SceneManager {
   public startStoryBattle(ctx: BattleContext): void {
     this.activeBattleContext = ctx;
     this.activeScene = 'STORY_BATTLE';
+    this.clearTransientFocusAndInput();
     this.titleScene?.hide();
     this.updateFloatingHudToggleVisibility();
     this.storyDirector.enterStoryMission(ctx.encounterId, ctx.encounterName);
@@ -865,6 +884,7 @@ export class SceneManager {
 
     if (this.campaign.latestWantedPoster !== prevPoster && this.campaign.latestWantedPoster) {
       this.showWantedPosterOverlay = true;
+      this.wantedPosterOpenTimer = 0;
       this.audio.playSfxId('wanted_poster_slam');
     }
 
@@ -874,6 +894,7 @@ export class SceneManager {
     } else {
       this.activeScene = 'SEA_SAILING';
     }
+    this.clearTransientFocusAndInput();
 
     if (victory) {
       const outcome = this.storyDirector.completeStoryMission(
@@ -1145,6 +1166,7 @@ export class SceneManager {
     const kind = this.activeEndgameBattleKind;
     this.activeEndgameBattleKind = null;
     this.activeScene = this.islandRuntime ? 'ISLAND_EPISODE' : 'SEA_SAILING';
+    this.clearTransientFocusAndInput();
     this.audio.playSfx('FORM_SHIFT');
     this.updateShowcaseToolbar();
     this.refreshSideDrawer();
@@ -1235,6 +1257,7 @@ export class SceneManager {
 
     this.campaign.voyageLog.push(`[통신 대전 종료] ${reason} (승자: ${winnerTeam})`);
     this.activeLockstep = null;
+    this.clearTransientFocusAndInput();
     if (this.isTerminalOnlineMatch && this.islandRuntime) {
       this.switchToScene('ISLAND_EPISODE');
     } else {
@@ -1244,246 +1267,29 @@ export class SceneManager {
   }
 
   public executeDebugStoryJump(actionKey: string): void {
-    this.gateBlockedPopup = null;
-    this.showWantedPosterOverlay = false;
-
-    if (actionKey === 'open_asset_preview') {
-      this.assetPreviewScene?.open();
-      return;
-    }
-
-    if (actionKey === 'sea_east_blue') {
-      exitIslandToSea(this.campaign);
-      this.campaign.currentZoneId = 'east_blue';
-      this.campaign.ship.pos = { ...this.rpgRegistry.seaZones.east_blue.spawnPoint };
-      this.switchToScene('SEA_SAILING');
-    } else if (actionKey === 'dock_foosha') {
-      this.campaign.currentZoneId = 'east_blue';
-      this.campaign.ship.pos = { x: 360, y: 300 };
-      const res = enterIslandEpisode(this.campaign, 'foosha_shells', this.rpgRegistry);
-      if (res.allowed && res.runtime) {
-        this.islandRuntime = res.runtime;
-        this.switchToScene('ISLAND_EPISODE');
-      }
-    } else if (actionKey === 'dock_orange_town') {
-      this.campaign.currentZoneId = 'east_blue';
-      this.campaign.ship.pos = { x: 600, y: 640 };
-      const res = enterIslandEpisode(this.campaign, 'orange_town', this.rpgRegistry);
-      if (res.allowed && res.runtime) {
-        this.islandRuntime = res.runtime;
-        this.switchToScene('ISLAND_EPISODE');
-      }
-    } else if (actionKey === 'dock_baratie') {
-      this.campaign.currentZoneId = 'east_blue';
-      this.campaign.ship.pos = { x: 830, y: 310 };
-      const res = enterIslandEpisode(this.campaign, 'baratie', this.rpgRegistry);
-      if (res.allowed && res.runtime) {
-        this.islandRuntime = res.runtime;
-        this.switchToScene('ISLAND_EPISODE');
-      }
-    } else if (actionKey === 'dock_arlong_park') {
-      this.campaign.currentZoneId = 'east_blue';
-      this.campaign.ship.pos = { x: 1060, y: 660 };
-      const res = enterIslandEpisode(this.campaign, 'arlong_park', this.rpgRegistry);
-      if (res.allowed && res.runtime) {
-        this.islandRuntime = res.runtime;
-        this.switchToScene('ISLAND_EPISODE');
-      }
-    } else if (actionKey === 'dock_loguetown') {
-      this.campaign.currentZoneId = 'east_blue';
-      this.campaign.ship.pos = { x: 1240, y: 350 };
-      const res = enterIslandEpisode(this.campaign, 'loguetown', this.rpgRegistry);
-      if (res.allowed && res.runtime) {
-        this.islandRuntime = res.runtime;
-        this.switchToScene('ISLAND_EPISODE');
-      }
-    } else if (actionKey === 'gate_reverse_mountain') {
-      this.campaign.currentZoneId = 'east_blue';
-      this.campaign.ship.pos = { x: 1435, y: 480 };
-      this.switchToScene('SEA_SAILING');
-      const gateRes = tryTransitionThroughSeaGate(this.campaign, this.rpgRegistry);
-      if (!gateRes.allowed) {
-        this.gateBlockedPopup = gateRes;
-      }
-    } else if (actionKey === 'sea_grand_line') {
-      for (const epId of [
-        'ep_east_blue_start',
-        'ep_orange_town',
-        'ep_baratie',
-        'ep_arlong_park',
-        'ep_loguetown'
-      ]) {
-        completeEpisode(this.campaign, epId, this.rpgRegistry, this.gameRegistry);
-      }
-      exitIslandToSea(this.campaign);
-      this.campaign.currentZoneId = 'grand_line';
-      this.campaign.ship.pos = { ...this.rpgRegistry.seaZones.grand_line.spawnPoint };
-      this.switchToScene('SEA_SAILING');
-    } else if (actionKey === 'gate_red_line_blocked') {
-      for (const epId of [
-        'ep_east_blue_start',
-        'ep_orange_town',
-        'ep_baratie',
-        'ep_arlong_park',
-        'ep_loguetown'
-      ]) {
-        completeEpisode(this.campaign, epId, this.rpgRegistry, this.gameRegistry);
-      }
-      this.campaign.completedEpisodes = this.campaign.completedEpisodes.filter(
-        (id) => id !== 'ep_water_seven'
-      );
-      exitIslandToSea(this.campaign);
-      this.campaign.currentZoneId = 'grand_line';
-      this.campaign.ship.pos = { x: 1615, y: 520 };
-      this.switchToScene('SEA_SAILING');
-      const gateRes = tryTransitionThroughSeaGate(this.campaign, this.rpgRegistry);
-      if (!gateRes.allowed) {
-        this.gateBlockedPopup = gateRes;
-      }
-    } else if (
-      actionKey === 'dock_drum_kingdom' ||
-      actionKey === 'dock_alabasta' ||
-      actionKey === 'dock_skypiea' ||
-      actionKey === 'dock_water_seven' ||
-      actionKey === 'dock_thriller_bark' ||
-      actionKey === 'dock_marineford'
-    ) {
-      for (const epId of [
-        'ep_east_blue_start',
-        'ep_orange_town',
-        'ep_baratie',
-        'ep_arlong_park',
-        'ep_loguetown'
-      ]) {
-        completeEpisode(this.campaign, epId, this.rpgRegistry, this.gameRegistry);
-      }
-      const islandId = actionKey.replace('dock_', '');
-      const node = this.rpgRegistry.seaZones.grand_line.islands.find(
-        (i) => i.islandId === islandId
-      );
-      this.campaign.currentZoneId = 'grand_line';
-      this.campaign.ship.pos = node ? { ...node.pos } : { x: 600, y: 520 };
-      const res = enterIslandEpisode(this.campaign, islandId, this.rpgRegistry);
-      if (res.allowed && res.runtime) {
-        this.islandRuntime = res.runtime;
-        this.switchToScene('ISLAND_EPISODE');
-      }
-    } else if (actionKey === 'sea_new_world') {
-      for (const epId of [
-        'ep_east_blue_start',
-        'ep_orange_town',
-        'ep_baratie',
-        'ep_arlong_park',
-        'ep_loguetown',
-        'ep_drum_kingdom',
-        'ep_alabasta',
-        'ep_skypiea',
-        'ep_water_seven',
-        'ep_thriller_bark',
-        'ep_marineford'
-      ]) {
-        completeEpisode(this.campaign, epId, this.rpgRegistry, this.gameRegistry);
-      }
-      exitIslandToSea(this.campaign);
-      this.campaign.currentZoneId = 'grand_line';
-      this.campaign.ship.pos = { x: 1615, y: 520 };
-      tryTransitionThroughSeaGate(this.campaign, this.rpgRegistry);
-      this.switchToScene('SEA_SAILING');
-    } else if (
-      actionKey === 'dock_fishman_island' ||
-      actionKey === 'dock_dressrosa' ||
-      actionKey === 'dock_totto_land' ||
-      actionKey === 'dock_wano'
-    ) {
-      for (const epId of [
-        'ep_east_blue_start',
-        'ep_orange_town',
-        'ep_baratie',
-        'ep_arlong_park',
-        'ep_loguetown',
-        'ep_drum_kingdom',
-        'ep_alabasta',
-        'ep_skypiea',
-        'ep_water_seven',
-        'ep_thriller_bark',
-        'ep_marineford'
-      ]) {
-        completeEpisode(this.campaign, epId, this.rpgRegistry, this.gameRegistry);
-      }
-      const islandId =
-        actionKey === 'dock_wano'
-          ? 'wano_onigashima'
-          : actionKey.replace('dock_', '');
-      const node = this.rpgRegistry.seaZones.new_world.islands.find(
-        (i) => i.islandId === islandId
-      );
-      this.campaign.currentZoneId = 'new_world';
-      this.campaign.ship.pos = node ? { ...node.pos } : { x: 680, y: 420 };
-      const res = enterIslandEpisode(this.campaign, islandId, this.rpgRegistry);
-      if (res.allowed && res.runtime) {
-        this.islandRuntime = res.runtime;
-        this.switchToScene('ISLAND_EPISODE');
-      }
-    } else if (actionKey === 'dock_egghead') {
-      for (const epId of [
-        'ep_east_blue_start',
-        'ep_orange_town',
-        'ep_baratie',
-        'ep_arlong_park',
-        'ep_loguetown',
-        'ep_drum_kingdom',
-        'ep_alabasta',
-        'ep_skypiea',
-        'ep_water_seven',
-        'ep_thriller_bark',
-        'ep_marineford',
-        'ep_wano'
-      ]) {
-        completeEpisode(this.campaign, epId, this.rpgRegistry, this.gameRegistry);
-      }
-      this.campaign.currentZoneId = 'new_world';
-      this.campaign.ship.pos = { x: 1240, y: 720 };
-      const res = enterIslandEpisode(this.campaign, 'egghead', this.rpgRegistry);
-      if (res.allowed && res.runtime) {
-        this.islandRuntime = res.runtime;
-        this.switchToScene('ISLAND_EPISODE');
-      }
-    } else if (actionKey === 'dock_elbaf') {
-      for (const epId of [
-        'ep_east_blue_start',
-        'ep_orange_town',
-        'ep_baratie',
-        'ep_arlong_park',
-        'ep_loguetown',
-        'ep_drum_kingdom',
-        'ep_alabasta',
-        'ep_skypiea',
-        'ep_water_seven',
-        'ep_thriller_bark',
-        'ep_marineford',
-        'ep_wano',
-        'ep_egghead'
-      ]) {
-        completeEpisode(this.campaign, epId, this.rpgRegistry, this.gameRegistry);
-      }
-      this.campaign.currentZoneId = 'new_world';
-      this.campaign.ship.pos = { x: 1760, y: 460 };
-      const res = enterIslandEpisode(this.campaign, 'elbaf', this.rpgRegistry);
-      if (res.allowed && res.runtime) {
-        this.islandRuntime = res.runtime;
-        this.switchToScene('ISLAND_EPISODE');
-      }
-    } else if (actionKey === 'clear_current_island') {
-      if (this.activeScene === 'ISLAND_EPISODE' && this.islandRuntime) {
-        const isl = this.rpgRegistry.islands[this.islandRuntime.islandId];
-        if (isl) {
-          completeEpisode(this.campaign, isl.episodeId, this.rpgRegistry, this.gameRegistry);
-          this.showWantedPosterOverlay = true;
-        }
-      }
-    }
-    void this.triggerAutoSave('스토리 진행');
-    this.refreshSideDrawer();
+    runDebugStoryJump(
+      {
+        activeScene: this.activeScene,
+        campaign: this.campaign,
+        rpgRegistry: this.rpgRegistry,
+        gameRegistry: this.gameRegistry,
+        assetPreviewScene: this.assetPreviewScene,
+        getIslandRuntime: () => this.islandRuntime,
+        setIslandRuntime: (rt) => {
+          this.islandRuntime = rt;
+        },
+        setGateBlockedPopup: (popup) => {
+          this.gateBlockedPopup = popup;
+        },
+        setShowWantedPosterOverlay: (show) => {
+          this.showWantedPosterOverlay = show;
+        },
+        switchToScene: (scene) => this.switchToScene(scene),
+        triggerAutoSave: (reason) => this.triggerAutoSave(reason),
+        refreshSideDrawer: () => this.refreshSideDrawer()
+      },
+      actionKey
+    );
   }
 
   private buildDomLayout(): void {
@@ -1824,48 +1630,56 @@ export class SceneManager {
     topBar.className = 'top-bar';
     topBar.innerHTML = `
       <div class="top-bar-group">
-        <span class="brand-title">🏴‍☠️ ONE PIECE GRAND VOYAGE</span>
-        <button id="tab-rpg" class="btn-tab-active">⚓ 해역 항해 & 에피소드 RPG</button>
-        <button id="tab-endgame" style="background:#713f12;border-color:#facc15;color:#fef08a;">🏆 엔드게임 허브</button>
-        <button id="tab-online" style="background:#581c87;border-color:#c084fc;">🌐 실시간 통신 대전 (Phase 4)</button>
-        <button id="tab-sandbox">⚔ 배틀 샌드박스</button>
-        <span id="net-status-badge" class="net-badge">🟢 온라인 (오프라인 캐시 준비됨)</span>
+        <span class="brand-title">🏴‍☠️ 원피스 그랜드 보야지</span>
+        <button id="tab-rpg" class="btn-tab-active">⚓ 모험 계속</button>
+        <button id="btn-camp-menu" style="background:#0f766e;border-color:#2dd4bf;color:#f0fdf4;">🏕 동료 & 수련</button>
+        <button id="tab-endgame" style="background:#713f12;border-color:#facc15;color:#fef08a;">🏆 도전 모드</button>
+        <button id="tab-online" style="background:#581c87;border-color:#c084fc;">🌐 통신 대전</button>
+        <button id="btn-save-menu">💾 저장 / 불러오기</button>
+        <button id="btn-toggle-journal">📜 항해 일지</button>
+        <button id="btn-settings">⚙ 설정</button>
+        <button id="btn-return-title" style="background:#334155;border-color:#94a3b8;color:#f8fafc;">🏠 타이틀</button>
       </div>
       <div class="top-bar-group">
-        <label>🛠 Debug / Story Skip:
-          <select id="sel-debug-jump" aria-label="스토리 점프">
-            <option value="">-- 해역/에피소드 즉시 이동 --</option>
-            <option value="sea_east_blue">1. [이스트 블루] 자유 항해</option>
-            <option value="dock_foosha">2. [이스트 블루 1/5] 후샤 마을 & 쉘즈타운 (도끼손 모건)</option>
-            <option value="dock_orange_town">2-2. [이스트 블루 2/5] 오렌지 마을 (버기 · 참격 면역)</option>
-            <option value="dock_baratie">2-3. [이스트 블루 3/5] 발라티에 (돈 클리크 · 상디·우솝 합류)</option>
-            <option value="dock_arlong_park">2-4. [이스트 블루 4/5] 아론 파크 (아론 수변전 · 나미 합류)</option>
-            <option value="dock_loguetown">2-5. [이스트 블루 5/5] 로그타운 (스모커 45초 생존 탈출)</option>
-            <option value="gate_reverse_mountain">3. [관문 검증] 리버스 마운틴 통과 시도 (5개 섬 검증)</option>
-            <option value="sea_grand_line">4. [위대한 항로] 이스트 블루 5개 완료 + 진입</option>
-            <option value="dock_drum_kingdom">4-1. [위대한 항로 1/6] 드럼 왕국 (와포루 · 쵸파 선의 합류)</option>
-            <option value="dock_alabasta">4-2. [위대한 항로 2/6] 알라바스타 (크로커다일 물통 젖음 · 로빈 합류)</option>
-            <option value="dock_skypiea">4-3. [위대한 항로 3/6] 하늘섬 스카이피아 (갓 에넬 · 고무 천적)</option>
-            <option value="dock_water_seven">4-4. [위대한 항로 4/6] 워터 세븐 (블루노·카쿠·루치 & 프랑키)</option>
-            <option value="dock_thriller_bark">4-5. [위대한 항로 5/6] 스릴러 바크 (모리아 분신 · 브룩 음악가)</option>
-            <option value="dock_marineford">4-6. [위대한 항로 6/6] 마린포드 정상전쟁 (마르코 2:2 동맹 3연전)</option>
-            <option value="gate_red_line_blocked">5. [관문 차단 검증] 위대한 항로 미완료 시 신세계 6섬 체크리스트 팝업</option>
-            <option value="sea_new_world">7. [신세계] 위대한 항로 6개 완료 + 레드라인 돌파</option>
-            <option value="dock_fishman_island">7-1. [신세계 1/6] 어인섬 (호디 폭주 · 징베 조타수 합류)</option>
-            <option value="dock_dressrosa">7-2. [신세계 2/6] 드레스로자 (도플라밍고 새장 · 실 각성)</option>
-            <option value="dock_totto_land">7-3. [신세계 3/6] 토트랜드 (카타쿠리 미래 예지 · 로드 포네그리프)</option>
-            <option value="dock_wano">8. [신세계 4/6] 와노쿠니 오니가시마 (킹·카이도 & 기어5)</option>
-            <option value="dock_egghead">9. [신세계 5/6] 미래섬 에그헤드 (S-호크·키자루·새턴 성)</option>
-            <option value="dock_elbaf">10. [신세계 6/6] 거인족의 나라 엘바프 (거대 보스: 로키)</option>
-            <option value="clear_current_island">★ 현재 입항한 섬 에피소드 즉시 클리어</option>
-            <option value="open_asset_preview">🎨 [Dev] AssetPreviewScene (스프라이트·타일셋·오디오)</option>
-          </select>
-        </label>
-        <button id="btn-asset-preview" style="background:#0f766e;border-color:#2dd4bf;color:#ccfbf1;">🎨 에셋 프리뷰</button>
-        <button id="btn-return-title" style="background:#334155;border-color:#94a3b8;color:#f8fafc;">🏠 타이틀</button>
-        <button id="btn-save-menu" class="btn-tab-active">💾 세이브 / 백업 관리</button>
-        <button id="btn-camp-menu">🏕 선원·직책·수련</button>
-        <button id="btn-settings">⚙ 설정/접근성</button>
+        <span id="net-status-badge" class="net-badge">🟢 온라인</span>
+        <button id="btn-toggle-devtools" class="btn-showcase" title="스토리 스킵 및 개발자 테스트 도구 열기">🛠 개발자 도구</button>
+      </div>
+      <div id="dev-tools-bar-row" class="top-bar-group" style="display:none;width:100%;padding-top:6px;margin-top:4px;border-top:1px dashed #334155;justify-content:space-between;">
+        <div class="top-bar-group">
+          <label style="color:#fde047;font-size:11px;">⚡ 스토리 빠른 이동:
+            <select id="sel-debug-jump" aria-label="스토리 점프">
+              <option value="">-- 해역 / 에피소드 즉시 이동 --</option>
+              <option value="sea_east_blue">1. [이스트 블루] 자유 항해</option>
+              <option value="dock_foosha">2. [이스트 블루 1/5] 후샤 마을 & 쉘즈타운 (도끼손 모건)</option>
+              <option value="dock_orange_town">2-2. [이스트 블루 2/5] 오렌지 마을 (버기 · 참격 면역)</option>
+              <option value="dock_baratie">2-3. [이스트 블루 3/5] 발라티에 (돈 클리크 · 상디·우솝 합류)</option>
+              <option value="dock_arlong_park">2-4. [이스트 블루 4/5] 아론 파크 (아론 수변전 · 나미 합류)</option>
+              <option value="dock_loguetown">2-5. [이스트 블루 5/5] 로그타운 (스모커 45초 생존 탈출)</option>
+              <option value="gate_reverse_mountain">3. [관문 검증] 리버스 마운틴 통과 시도 (5개 섬 검증)</option>
+              <option value="sea_grand_line">4. [위대한 항로] 이스트 블루 5개 완료 + 진입</option>
+              <option value="dock_drum_kingdom">4-1. [위대한 항로 1/6] 드럼 왕국 (와포루 · 쵸파 선의 합류)</option>
+              <option value="dock_alabasta">4-2. [위대한 항로 2/6] 알라바스타 (크로커다일 물통 젖음 · 로빈 합류)</option>
+              <option value="dock_skypiea">4-3. [위대한 항로 3/6] 하늘섬 스카이피아 (갓 에넬 · 고무 천적)</option>
+              <option value="dock_water_seven">4-4. [위대한 항로 4/6] 워터 세븐 (블루노·카쿠·루치 & 프랑키)</option>
+              <option value="dock_thriller_bark">4-5. [위대한 항로 5/6] 스릴러 바크 (모리아 분신 · 브룩 음악가)</option>
+              <option value="dock_marineford">4-6. [위대한 항로 6/6] 마린포드 정상전쟁 (마르코 2:2 동맹 3연전)</option>
+              <option value="gate_red_line_blocked">5. [관문 차단 검증] 위대한 항로 미완료 시 신세계 6섬 체크리스트 팝업</option>
+              <option value="sea_new_world">7. [신세계] 위대한 항로 6개 완료 + 레드라인 돌파</option>
+              <option value="dock_fishman_island">7-1. [신세계 1/6] 어인섬 (호디 폭주 · 징베 조타수 합류)</option>
+              <option value="dock_dressrosa">7-2. [신세계 2/6] 드레스로자 (도플라밍고 새장 · 실 각성)</option>
+              <option value="dock_totto_land">7-3. [신세계 3/6] 토트랜드 (카타쿠리 미래 예지 · 로드 포네그리프)</option>
+              <option value="dock_wano">8. [신세계 4/6] 와노쿠니 오니가시마 (킹·카이도 & 기어5)</option>
+              <option value="dock_egghead">9. [신세계 5/6] 미래섬 에그헤드 (S-호크·키자루·새턴 성)</option>
+              <option value="dock_elbaf">10. [신세계 6/6] 거인족의 나라 엘바프 (거대 보스: 로키)</option>
+              <option value="clear_current_island">★ 현재 입항한 섬 에피소드 즉시 클리어</option>
+              <option value="open_asset_preview">🎨 [Dev] AssetPreviewScene (스프라이트·타일셋·오디오)</option>
+            </select>
+          </label>
+        </div>
+        <div class="top-bar-group">
+          <button id="tab-sandbox" class="btn-showcase">⚔ 배틀 샌드박스</button>
+          <button id="btn-asset-preview" class="btn-showcase">🎨 도트 에셋 프리뷰</button>
+        </div>
       </div>
     `;
     const hudToggleBtn = document.createElement('button');
@@ -1985,10 +1799,7 @@ export class SceneManager {
   }
 
   private createOnlineLobbyModalElement(): HTMLElement {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.id = 'online-lobby-modal';
-    return modal;
+    return buildOnlineLobbyModalElement();
   }
 
   private async ensureOnlineTransportConnected(
@@ -2099,767 +1910,63 @@ export class SceneManager {
   }
 
   private renderOnlineLobbyModalContents(): void {
-    const currentSaveEnv = this.buildCurrentSaveEnvelope('auto');
-    const onlineEligibility = canEnterOnlineBattle(
-      currentSaveEnv,
-      this.rpgRegistry,
-      this.gameRegistry
-    );
-    const rttMs = this.activeTransport?.getRttMs() ?? 12;
-
-    const unitSelectOptions = [
-      'luffy',
-      'zoro',
-      'sanji',
-      'usopp',
-      'nami',
-      'chopper',
-      'robin',
-      'franky',
-      'brook',
-      'jinbe',
-      'marco',
-      'law',
-      'morgan',
-      'buggy',
-      'don_krieg',
-      'arlong',
-      'smoker',
-      'wapol',
-      'crocodile',
-      'enel',
-      'blueno',
-      'kaku',
-      'lucci',
-      'moria',
-      'aokiji',
-      'akainu',
-      'blackbeard',
-      'hody_jones',
-      'doflamingo',
-      'katakuri',
-      'king',
-      'kaido',
-      's_hawk',
-      'kizaru',
-      'saturn',
-      'loki'
-    ]
-      .map((id) => {
-        const u = this.gameRegistry.units[id];
-        return `<option value="${id}">${u?.name ?? id}</option>`;
-      })
-      .join('');
-
-    const waitingRoomHtml = this.currentRoomState
-      ? `<div class="slot-card" style="border:2px solid #38bdf8;background:#0f172a;">
-          <div class="field-row">
-            <h4 style="color:#fde047;font-size:14px;">
-              방 코드: <span id="lbl-room-code" style="color:#38bdf8;letter-spacing:2px;">${this.currentRoomState.roomCode}</span>
-              (${this.currentRoomState.mode} / ${this.currentRoomState.partyRule === 'rpg_save' ? '내 세이브전' : '표준 프리셋전'})
-            </h4>
-            <div style="display:flex;gap:6px;">
-              <button id="btn-copy-room-code" class="btn-showcase">📋 방 코드 복사</button>
-              <button id="btn-leave-room" class="btn-danger">방 나가기</button>
-            </div>
-          </div>
-          <div style="font-size:11px;color:#94a3b8;">
-            내 역할: <strong style="color:#4ade80;">${this.onlineAssignedRole}</strong> |
-            배틀 계산 버전: <strong>v${this.currentRoomState.battleCalcVersion}</strong> |
-            Ping: <strong style="color:#38bdf8;">${rttMs} ms</strong>
-          </div>
-
-          <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px;">
-            ${this.currentRoomState.slots
-        .map((s) => {
-          const isCpuOrEmpty = s.occupantType !== 'HUMAN';
-          return `<div class="field-row" style="background:#162032;padding:6px;border-radius:4px;">
-                  <div>
-                    <strong style="color:${s.team === 'ALPHA' ? '#38bdf8' : '#f43f5e'};">[P${s.slotIndex + 1}/${s.team}]</strong>
-                    <span>${s.playerName}</span>
-                    <span style="color:#4ade80;font-size:10px;">(${s.occupantType}${s.ready ? ' / READY' : ''})</span>
-                  </div>
-                  ${isCpuOrEmpty
-              ? `<div style="display:flex;gap:4px;align-items:center;">
-                          <select data-cpu-species="${s.slotIndex}">${unitSelectOptions}</select>
-                          <select data-cpu-lv="${s.slotIndex}">
-                            <option value="1">CPU Lv.1</option>
-                            <option value="2">CPU Lv.2</option>
-                            <option value="3">CPU Lv.3</option>
-                            <option value="4" selected>CPU Lv.4</option>
-                            <option value="5">CPU Lv.5</option>
-                          </select>
-                          <button data-toggle-cpu="${s.slotIndex}" class="btn-showcase">
-                            ${s.occupantType === 'CPU' ? 'CPU 해제' : '🤖 CPU 채우기'}
-                          </button>
-                        </div>`
-              : `<span style="font-size:11px;color:#38bdf8;">Ping: ${s.pingMs}ms</span>`
-            }
-                </div>`;
-        })
-        .join('')}
-          </div>
-
-          <div style="font-size:11px;color:#e9d5ff;margin-top:4px;">
-            🎥 관전자 (${this.currentRoomState.spectators.length}/4명): ${this.currentRoomState.spectators.map((sp) => sp.playerName).join(', ') || '없음'
-      }
-          </div>
-
-          <div style="display:flex;justify-content:space-between;margin-top:8px;">
-            <div style="display:flex;gap:6px;">
-              <button id="btn-sim-add-spec" class="btn-showcase">👁 로컬 관전자 슬롯 전환</button>
-            </div>
-            <button id="btn-start-online-match" class="btn-tab-active">▶ 실시간 통신 대전 시작!</button>
-          </div>
-        </div>`
-      : '';
-
-    this.onlineModalEl.innerHTML = `
-      <div class="modal-box" role="dialog" aria-label="실시간 통신 대전 로비">
-        <div class="field-row">
-          <h3 style="color:#c084fc;font-size:15px;">
-            🌐 실시간 통신 대전 로비 ${this.isTerminalOnlineMatch
-        ? '(항구 대전 단말기 모드 — 회복 아이템 금지 & HP/PP 무손실)'
-        : ''
-      }
-          </h3>
-          <button id="btn-close-online-modal">닫기</button>
-        </div>
-
-        <div class="field-row" style="font-size:11px;background:#162032;padding:6px 10px;border-radius:4px;">
-          <span>배틀 계산 버전: <strong style="color:#fde047;">v${BATTLE_CALC_VERSION}</strong></span>
-          <span>통산 온라인 전적: <strong style="color:#4ade80;">${this.campaign.onlineStats.wins}승 ${this.campaign.onlineStats.losses}패 ${this.campaign.onlineStats.draws}무</strong></span>
-          <span>Ping: <strong style="color:#38bdf8;">${rttMs} ms</strong></span>
-        </div>
-
-        <div style="font-size:11px;padding:6px 8px;border-radius:4px;background:${onlineEligibility.allowed ? 'rgba(22,163,74,0.18)' : 'rgba(185,28,28,0.28)'
-      };color:${onlineEligibility.allowed ? '#4ade80' : '#fca5a5'};border:1px solid ${onlineEligibility.allowed ? '#22c55e' : '#ef4444'
-      };">
-          ${onlineEligibility.allowed
-        ? '✓ 안티치트 검증 통과: [내 RPG 세이브 파티전 (rpg_save)] 및 [표준 프리셋 평등전] 모두 참가 가능합니다.'
-        : `⚠ 안티치트 차단됨: ${onlineEligibility.reasons.join(' / ')} — [내 세이브 파티전] 생성 및 참가가 비활성화되었습니다.`
-      }
-        </div>
-
-        ${this.onlineErrorNotice
-        ? `<div style="background:#7f1d1d;border:1px solid #ef4444;color:#fecaca;padding:8px;border-radius:4px;font-size:11px;">
-                ❌ ${this.onlineErrorNotice}
-              </div>`
-        : ''
-      }
-
-        ${waitingRoomHtml}
-
-        <div class="slot-card">
-          <h4 style="color:#38bdf8;font-size:12px;">1. 새로운 통신 대전 / 협동 레이드 방 만들기 (Create Room)</h4>
-          <div class="field-row">
-            <label>대전 모드:</label>
-            <select id="sel-online-mode">
-              <option value="2V2" ${this.onlineLobbyDefaultMode === '2V2' ? 'selected' : ''}>2:2 합동 대전 (빈자리 CPU 채우기 지원)</option>
-              <option value="1V1" ${this.onlineLobbyDefaultMode === '1V1' ? 'selected' : ''}>1:1 정면 결투</option>
-              <option value="COOP_RAID" ${this.onlineLobbyDefaultMode === 'COOP_RAID' ? 'selected' : ''}>🤝 협동 레이드 (Co-op Raid: 2~3인 + 빈자리 AI)</option>
-            </select>
-            <label>레이드 보스:</label>
-            <select id="sel-online-raid-id">
-              ${Object.values(this.endgameRegistry.raids)
-                .map(
-                  (r) =>
-                    `<option value="${r.raidId}" ${r.raidId === this.selectedRaidId ? 'selected' : ''}>${r.name} (Scale ${r.entityScale}x)</option>`
-                )
-                .join('')}
-            </select>
-          </div>
-          <div class="field-row">
-            <label>파티 규칙:</label>
-            <select id="sel-online-rule">
-              <option value="standard_preset">표준 프리셋 평등전 (standard_preset)</option>
-              <option value="rpg_save" ${!onlineEligibility.allowed ? 'disabled' : ''}>
-                내 RPG 세이브 파티전 (rpg_save)${!onlineEligibility.allowed ? ' [차단됨]' : ''}
-              </option>
-            </select>
-            <label>아레나 크기:</label>
-            <select id="sel-online-arena">
-              <option value="medium">Medium (840x460)</option>
-              <option value="large" selected>Large (1120x640)</option>
-              <option value="small">Small (640x380)</option>
-            </select>
-            <button id="btn-create-online-room" class="btn-tab-active">➕ 방 코드 생성 및 대기실 개설</button>
-          </div>
-        </div>
-
-        <div class="slot-card">
-          <h4 style="color:#38bdf8;font-size:12px;">2. 6자리 방 코드 입력 참가 / 관전 (Join or Spectate)</h4>
-          <div class="field-row">
-            <input type="text" id="inp-join-room-code" maxlength="6" placeholder="6자리 방 코드 (예: K7M9P2)" style="width:180px;text-transform:uppercase;font-family:monospace;font-weight:bold;" value="${this.currentRoomState?.roomCode ?? ''
-      }" />
-            <button id="btn-join-as-player" class="btn-tab-active">⚔ 플레이어 참가</button>
-            <button id="btn-join-as-spectator" style="background:#581c87;border-color:#c084fc;">👁 관전자 참가 (최대 4인)</button>
-          </div>
-        </div>
-
-        <div class="slot-card">
-          <h4 style="color:#fde047;font-size:12px;">3. 프로토콜 & 서버 이중 안티치트 즉시 검증 도구</h4>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;">
-            <button id="btn-test-version-mismatch" class="btn-showcase">🧪 구버전 불일치(v0.1.0) 참가 거부 테스트</button>
-            <button id="btn-test-server-anticheat" class="btn-danger">🧪 서버 이중 안티치트(불법 패기 Lv4) 강제 전송 차단 테스트</button>
-          </div>
-        </div>
-      </div>
-    `;
-
-    this.onlineModalEl
-      .querySelector('#btn-close-online-modal')
-      ?.addEventListener('click', () => {
-        this.onlineModalEl.classList.remove('open');
-      });
-
-    // Create Room
-    this.onlineModalEl
-      .querySelector('#btn-create-online-room')
-      ?.addEventListener('click', async () => {
-        const mode = (
-          this.onlineModalEl.querySelector('#sel-online-mode') as HTMLSelectElement
-        ).value as '1V1' | '2V2' | 'COOP_RAID';
-        const raidId =
-          (
-            this.onlineModalEl.querySelector(
-              '#sel-online-raid-id'
-            ) as HTMLSelectElement | null
-          )?.value ?? this.selectedRaidId;
-        const partyRule = (
-          this.onlineModalEl.querySelector('#sel-online-rule') as HTMLSelectElement
-        ).value as PartyRuleMode;
-        const arenaSizeKey = (
-          this.onlineModalEl.querySelector('#sel-online-arena') as HTMLSelectElement
-        ).value as 'small' | 'medium' | 'large';
-
-        if (partyRule === 'rpg_save' && !onlineEligibility.allowed) {
-          this.onlineErrorNotice =
-            '현재 세이브에 안티치트 위반이 감지되어 내 세이브 파티전(rpg_save) 방을 생성할 수 없습니다.';
-          this.renderOnlineLobbyModalContents();
-          return;
-        }
-
-        const transport = await this.ensureOnlineTransportConnected();
-        transport.send({
-          type: 'CREATE_ROOM',
-          clientId: transport.clientId,
-          playerName: '몽키 D. 루피(P1)',
-          battleCalcVersion: BATTLE_CALC_VERSION,
-          mode,
-          raidId: mode === 'COOP_RAID' ? raidId : undefined,
-          partyRule,
-          arenaSizeKey,
-          awakeningAllowed: true,
-          roster: this.buildOnlineRosterPayload(partyRule)
-        });
-      });
-
-    // Join as Player
-    this.onlineModalEl
-      .querySelector('#btn-join-as-player')
-      ?.addEventListener('click', async () => {
-        const code = (
-          this.onlineModalEl.querySelector('#inp-join-room-code') as HTMLInputElement
-        ).value
-          .trim()
-          .toUpperCase();
-        if (!code) {
-          this.onlineErrorNotice = '6자리 방 코드를 입력해 주세요.';
-          this.renderOnlineLobbyModalContents();
-          return;
-        }
-        const rule = this.currentRoomState?.partyRule ?? 'standard_preset';
-        if (rule === 'rpg_save' && !onlineEligibility.allowed) {
-          this.onlineErrorNotice =
-            '비공식 수정 데이터 세이브로는 내 세이브 파티전(rpg_save)에 참가할 수 없습니다.';
-          this.renderOnlineLobbyModalContents();
-          return;
-        }
-
-        const transport = await this.ensureOnlineTransportConnected();
-        transport.send({
-          type: 'JOIN_ROOM',
-          roomCode: code,
-          clientId: transport.clientId,
-          playerName: '도전자(Guest)',
-          battleCalcVersion: BATTLE_CALC_VERSION,
-          asSpectator: false,
-          roster: this.buildOnlineRosterPayload(rule)
-        });
-      });
-
-    // Join as Spectator
-    this.onlineModalEl
-      .querySelector('#btn-join-as-spectator')
-      ?.addEventListener('click', async () => {
-        const code = (
-          this.onlineModalEl.querySelector('#inp-join-room-code') as HTMLInputElement
-        ).value
-          .trim()
-          .toUpperCase();
-        if (!code) {
-          this.onlineErrorNotice = '관전할 6자리 방 코드를 입력해 주세요.';
-          this.renderOnlineLobbyModalContents();
-          return;
-        }
-        const transport = await this.ensureOnlineTransportConnected();
-        transport.send({
-          type: 'JOIN_ROOM',
-          roomCode: code,
-          clientId: transport.clientId,
-          playerName: '관전자(Spectator)',
-          battleCalcVersion: BATTLE_CALC_VERSION,
-          asSpectator: true
-        });
-      });
-
-    // Copy Room Code
-    this.onlineModalEl
-      .querySelector('#btn-copy-room-code')
-      ?.addEventListener('click', () => {
-        if (this.currentRoomState && navigator.clipboard) {
-          navigator.clipboard
-            .writeText(this.currentRoomState.roomCode)
-            .catch(() => { });
-        }
-      });
-
-    // Leave Room
-    this.onlineModalEl
-      .querySelector('#btn-leave-room')
-      ?.addEventListener('click', () => {
-        if (this.currentRoomState && this.activeTransport) {
-          this.activeTransport.send({
-            type: 'LEAVE_ROOM',
-            roomCode: this.currentRoomState.roomCode
-          });
-        }
-        this.currentRoomState = null;
-        this.renderOnlineLobbyModalContents();
-      });
-
-    // CPU Slot configuration buttons
-    this.onlineModalEl
-      .querySelectorAll<HTMLButtonElement>('[data-toggle-cpu]')
-      .forEach((btn) => {
-        btn.addEventListener('click', async () => {
-          if (!this.currentRoomState) return;
-          const slotIdx = Number(btn.dataset.toggleCpu);
-          const slot = this.currentRoomState.slots[slotIdx];
-          const lvSel = this.onlineModalEl.querySelector(
-            `[data-cpu-lv="${slotIdx}"]`
-          ) as HTMLSelectElement | null;
-          const spSel = this.onlineModalEl.querySelector(
-            `[data-cpu-species="${slotIdx}"]`
-          ) as HTMLSelectElement | null;
-
-          const transport = await this.ensureOnlineTransportConnected();
-          transport.send({
-            type: 'CONFIGURE_CPU_SLOT',
-            roomCode: this.currentRoomState.roomCode,
-            slotIndex: slotIdx,
-            enabled: slot?.occupantType !== 'CPU',
-            aiLevel: Number(lvSel?.value ?? 4),
-            speciesId: spSel?.value ?? slot?.speciesId
-          });
-        });
-      });
-
-    // Switch local client role to Spectator for single-tab Spectator HUD verification
-    this.onlineModalEl
-      .querySelector('#btn-sim-add-spec')
-      ?.addEventListener('click', () => {
-        this.onlineAssignedRole =
-          this.onlineAssignedRole === 'SPECTATOR' ? 'PLAYER' : 'SPECTATOR';
-        this.renderOnlineLobbyModalContents();
-      });
-
-    // Start Online Match
-    this.onlineModalEl
-      .querySelector('#btn-start-online-match')
-      ?.addEventListener('click', async () => {
-        if (!this.currentRoomState) return;
-        const transport = await this.ensureOnlineTransportConnected();
-        transport.send({
-          type: 'START_MATCH',
-          roomCode: this.currentRoomState.roomCode
-        });
-      });
-
-    // Test 1: Version Mismatch Rejection
-    this.onlineModalEl
-      .querySelector('#btn-test-version-mismatch')
-      ?.addEventListener('click', async () => {
-        const transport = await this.ensureOnlineTransportConnected();
-        transport.send({
-          type: 'CREATE_ROOM',
-          clientId: transport.clientId,
-          playerName: 'OutdatedClient',
-          battleCalcVersion: '0.1.0',
-          mode: '1V1',
-          partyRule: 'standard_preset',
-          arenaSizeKey: 'medium',
-          awakeningAllowed: true,
-          roster: this.buildOnlineRosterPayload('standard_preset')
-        });
-      });
-
-    // Test 2: Server 2-Stage Anti-Cheat Rejection
-    this.onlineModalEl
-      .querySelector('#btn-test-server-anticheat')
-      ?.addEventListener('click', async () => {
-        const transport = await this.ensureOnlineTransportConnected();
-        const forgedRoster = this.buildOnlineRosterPayload('rpg_save');
-        if (forgedRoster.saveEnvelope) {
-          forgedRoster.saveEnvelope.payload.crew.unitProgressMap[
-            'luffy'
-          ].haki.conqueror = 4 as unknown as 3;
-        }
-        transport.send({
-          type: 'CREATE_ROOM',
-          clientId: transport.clientId,
-          playerName: 'BypassCheater',
-          battleCalcVersion: BATTLE_CALC_VERSION,
-          mode: '1V1',
-          partyRule: 'rpg_save',
-          arenaSizeKey: 'medium',
-          awakeningAllowed: true,
-          roster: forgedRoster
-        });
-      });
+    renderOnlineLobbyModalDom({
+      onlineModalEl: this.onlineModalEl,
+      campaign: this.campaign,
+      rpgRegistry: this.rpgRegistry,
+      gameRegistry: this.gameRegistry,
+      endgameRegistry: this.endgameRegistry,
+      getCurrentRoomState: () => this.currentRoomState,
+      setCurrentRoomState: (room) => {
+        this.currentRoomState = room;
+      },
+      getOnlineAssignedRole: () => this.onlineAssignedRole,
+      setOnlineAssignedRole: (role) => {
+        this.onlineAssignedRole = role;
+      },
+      getOnlineErrorNotice: () => this.onlineErrorNotice,
+      setOnlineErrorNotice: (msg) => {
+        this.onlineErrorNotice = msg;
+      },
+      getIsTerminalOnlineMatch: () => this.isTerminalOnlineMatch,
+      getOnlineLobbyDefaultMode: () => this.onlineLobbyDefaultMode,
+      getSelectedRaidId: () => this.selectedRaidId,
+      getActiveTransport: () => this.activeTransport,
+      ensureOnlineTransportConnected: (preferWs) =>
+        this.ensureOnlineTransportConnected(preferWs),
+      buildCurrentSaveEnvelope: (slot) => this.buildCurrentSaveEnvelope(slot),
+      buildOnlineRosterPayload: (rule) => this.buildOnlineRosterPayload(rule)
+    });
   }
 
   private createSaveManagerModal(): HTMLElement {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.id = 'save-manager-modal';
-    return modal;
+    return createSaveManagerModalElement();
   }
 
   public async openSaveManagerModal(errorMessage?: string): Promise<void> {
-    const slots = await this.storage.listAllSlots();
-    const onlineCheck = canEnterOnlineBattle(
-      this.buildCurrentSaveEnvelope('auto'),
-      this.rpgRegistry,
-      this.gameRegistry
+    await renderSaveManagerModal(
+      {
+        saveModalEl: this.saveModalEl,
+        storage: this.storage,
+        platformBridge: this.platformBridge,
+        campaign: this.campaign,
+        rpgRegistry: this.rpgRegistry,
+        gameRegistry: this.gameRegistry,
+        getPendingImportPreview: () => this.pendingImportPreview,
+        setPendingImportPreview: (preview) => {
+          this.pendingImportPreview = preview;
+        },
+        getPendingImportTargetSlot: () => this.pendingImportTargetSlot,
+        setPendingImportTargetSlot: (slot) => {
+          this.pendingImportTargetSlot = slot;
+        },
+        buildCurrentSaveEnvelope: (slot) => this.buildCurrentSaveEnvelope(slot),
+        saveToSlot: (slot) => this.saveToSlot(slot),
+        applyLoadedEnvelope: (env) => this.applyLoadedEnvelope(env),
+        syncLogsDom: () => this.syncLogsDom()
+      },
+      errorMessage
     );
-
-    const slotCardsHtml = ALL_SAVE_SLOTS.map((slotId) => {
-      const env = slots[slotId];
-      const title =
-        slotId === 'auto'
-          ? '🔄 AUTO 슬롯 (자동 저장)'
-          : `💾 ${slotId.toUpperCase()} 슬롯`;
-
-      if (!env) {
-        return `<div class="slot-card">
-          <div class="field-row">
-            <strong style="color:#94a3b8;">${title} — [비어 있음]</strong>
-            <div>
-              ${slotId !== 'auto'
-            ? `<button data-save-slot="${slotId}" class="btn-tab-active">현재 진행 저장</button>`
-            : ''
-          }
-            </div>
-          </div>
-        </div>`;
-      }
-
-      const sum = env.meta.summary;
-      const ac = env.meta.antiCheat;
-      const badgeHtml = ac.isTampered
-        ? `<span style="color:#f87171;font-weight:bold;">⚠ 비공식 수정 데이터 (${ac.violationCodes.join(', ')})</span>`
-        : `<span style="color:#4ade80;">✓ 무결성 검증 완료 (온라인 가능)</span>`;
-
-      return `<div class="slot-card">
-        <div class="field-row">
-          <strong style="color:#fde047;">${title}</strong>
-          <span style="font-size:10px;color:#94a3b8;">${env.meta.savedAt.slice(0, 19).replace('T', ' ')}</span>
-        </div>
-        <div style="font-size:11px;color:#e2e8f0;">
-          해역: <strong style="color:#38bdf8;">${sum.currentZoneName}</strong> | 선장 Lv.${sum.captainLevel} | 동료 ${sum.crewCount}명 | 클리어 ${sum.completedEpisodeCount}개
-        </div>
-        <div style="font-size:11px;color:#f97316;">
-          총 현상금: ฿ ${sum.bounty.toLocaleString()} | ${badgeHtml}
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:2px;">
-          ${slotId !== 'auto'
-          ? `<button data-save-slot="${slotId}" class="btn-tab-active">덮어쓰기 저장</button>`
-          : ''
-        }
-          <button data-load-slot="${slotId}">📂 불러오기</button>
-          <button data-export-slot="${slotId}">📤 JSON 내보내기</button>
-          <button data-delete-slot="${slotId}" class="btn-danger">🗑 삭제</button>
-        </div>
-      </div>`;
-    }).join('');
-
-    const previewHtml = this.pendingImportPreview
-      ? `<div class="slot-card" style="border:2px solid ${this.pendingImportPreview.antiCheat.isTampered ? '#ef4444' : '#22c55e'
-      };background:#1e1b4b;">
-          <h4 style="color:#fde047;">🔍 JSON 가져오기 덮어쓰기 전 미리보기 확인</h4>
-          <div style="font-size:11px;">
-            대상 슬롯: <strong>${this.pendingImportTargetSlot.toUpperCase()}</strong> |
-            해역: <strong>${this.pendingImportPreview.envelope.meta.summary.currentZoneName}</strong> |
-            현상금: <strong>฿ ${this.pendingImportPreview.envelope.meta.summary.bounty.toLocaleString()}</strong> |
-            플레이 시간: <strong>${this.pendingImportPreview.envelope.meta.playTimeSec}초</strong>
-          </div>
-          <div style="font-size:11px;color:${this.pendingImportPreview.antiCheat.isTampered ? '#fca5a5' : '#4ade80'
-      };">
-            무결성/합법성 상태: ${this.pendingImportPreview.antiCheat.isTampered
-        ? `⚠ 비공식 수정 데이터 감지 [${this.pendingImportPreview.antiCheat.violationCodes.join(', ')}] — 싱글 플레이는 가능하나 통신 대전이 제한됩니다.`
-        : '✓ 정상 세이브 데이터 (HMAC-SHA256 서명 및 게임 규칙 합법성 통과)'
-      }
-          </div>
-          <div style="display:flex;gap:8px;margin-top:4px;">
-            <button id="btn-confirm-import" class="btn-tab-active">✓ 확인 및 슬롯에 복원 적용</button>
-            <button id="btn-cancel-import">취소</button>
-          </div>
-        </div>`
-      : '';
-
-    this.saveModalEl.innerHTML = `
-      <div class="modal-box" role="dialog" aria-label="세이브 및 JSON 백업 관리">
-        <div class="field-row">
-          <h3 style="color:#fde047;font-size:15px;">💾 IndexedDB 다중 슬롯 & JSON 백업 (Export/Import)</h3>
-          <button id="btn-close-save-modal">닫기</button>
-        </div>
-
-        <div style="font-size:11px;color:${onlineCheck.allowed ? '#4ade80' : '#f87171'
-      };">
-          현재 세션 온라인 대전 자격: ${onlineCheck.allowed
-        ? '✓ 정상 (canEnterOnlineBattle: ALLOWED)'
-        : `⚠ 제한됨 (${onlineCheck.reasons[0]})`
-      }
-        </div>
-
-        ${errorMessage
-        ? `<div style="background:#7f1d1d;border:1px solid #ef4444;color:#fecaca;padding:8px;border-radius:4px;font-size:11px;">❌ ${errorMessage}</div>`
-        : ''
-      }
-
-        ${previewHtml}
-
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          ${slotCardsHtml}
-        </div>
-
-        <div class="slot-card">
-          <h4 style="color:#38bdf8;font-size:12px;">📥 기기 간 JSON 백업 불러오기 (.op-save.json Import)</h4>
-          <div class="field-row">
-            <label>복원할 대상 슬롯:</label>
-            <select id="sel-import-target-slot">
-              <option value="slot_1" ${this.pendingImportTargetSlot === 'slot_1' ? 'selected' : ''}>SLOT_1</option>
-              <option value="slot_2" ${this.pendingImportTargetSlot === 'slot_2' ? 'selected' : ''}>SLOT_2</option>
-              <option value="slot_3" ${this.pendingImportTargetSlot === 'slot_3' ? 'selected' : ''}>SLOT_3</option>
-              <option value="auto" ${this.pendingImportTargetSlot === 'auto' ? 'selected' : ''}>AUTO</option>
-            </select>
-            <button id="btn-native-file-import" class="btn-showcase">📂 파일 선택기 열기 (.op-save.json)</button>
-            <input type="file" id="inp-import-file" accept=".json,.op-save.json" />
-          </div>
-          <div id="save-drop-zone" class="drop-zone">
-            여기에 .op-save.json 파일을 드래그 앤 드롭하거나 아래 JSON 텍스트를 붙여넣어 검증/불러오기 하세요.
-          </div>
-          <textarea id="txt-import-json" rows="3" placeholder="JSON 세이브 데이터를 여기에 붙여넣거나 [현재 세이브 JSON 복사] 후 수치를 변조해 안티치트를 테스트할 수 있습니다." style="width:100%;font-family:monospace;font-size:10px;"></textarea>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;">
-            <div style="display:flex;gap:6px;">
-              <button id="btn-fill-current-json" class="btn-showcase">📋 현재 세이브 JSON 채우기</button>
-              <button id="btn-simulate-tamper" class="btn-danger">🧪 변조 JSON 시뮬레이션 (베리+1 / 불법 신세계)</button>
-            </div>
-            <button id="btn-parse-import-json" class="btn-tab-active">🔍 JSON 검증 및 미리보기</button>
-          </div>
-        </div>
-
-        <div style="display:flex;justify-content:space-between;margin-top:4px;">
-          <button id="btn-clear-all-idb" class="btn-danger">🧹 IndexedDB 전체 슬롯 초기화</button>
-          <button id="btn-close-save-modal-bottom" class="btn-tab-active">닫기</button>
-        </div>
-      </div>
-    `;
-
-    this.saveModalEl.classList.add('open');
-
-    const closeSaveModal = () => {
-      this.pendingImportPreview = null;
-      this.saveModalEl.classList.remove('open');
-    };
-    this.saveModalEl
-      .querySelector('#btn-close-save-modal')
-      ?.addEventListener('click', closeSaveModal);
-    this.saveModalEl
-      .querySelector('#btn-close-save-modal-bottom')
-      ?.addEventListener('click', closeSaveModal);
-
-    this.saveModalEl
-      .querySelectorAll<HTMLButtonElement>('[data-save-slot]')
-      .forEach((btn) => {
-        btn.addEventListener('click', async () => {
-          const slotId = btn.dataset.saveSlot as SaveSlotId;
-          await this.saveToSlot(slotId);
-          await this.openSaveManagerModal();
-        });
-      });
-
-    this.saveModalEl
-      .querySelectorAll<HTMLButtonElement>('[data-load-slot]')
-      .forEach((btn) => {
-        btn.addEventListener('click', async () => {
-          const slotId = btn.dataset.loadSlot as SaveSlotId;
-          const env = await this.storage.loadSlot(slotId);
-          if (env) {
-            this.applyLoadedEnvelope(env);
-            closeSaveModal();
-          }
-        });
-      });
-
-    this.saveModalEl
-      .querySelectorAll<HTMLButtonElement>('[data-export-slot]')
-      .forEach((btn) => {
-        btn.addEventListener('click', async () => {
-          const slotId = btn.dataset.exportSlot as SaveSlotId;
-          const env = await this.storage.loadSlot(slotId);
-          if (env) {
-            const expRes = await this.platformBridge.fileTransfer.exportSaveEnvelope(env);
-            const txtArea = this.saveModalEl.querySelector(
-              '#txt-import-json'
-            ) as HTMLTextAreaElement | null;
-            if (txtArea) txtArea.value = expRes.jsonContent;
-            if (expRes.exported) {
-              this.campaign.voyageLog.push(
-                `[JSON Export] 슬롯 [${slotId}] 백업 파일(${expRes.filename})을 내보냈습니다.`
-              );
-              this.syncLogsDom();
-            }
-          }
-        });
-      });
-
-    this.saveModalEl
-      .querySelectorAll<HTMLButtonElement>('[data-delete-slot]')
-      .forEach((btn) => {
-        btn.addEventListener('click', async () => {
-          const slotId = btn.dataset.deleteSlot as SaveSlotId;
-          await this.storage.deleteSlot(slotId);
-          await this.openSaveManagerModal();
-        });
-      });
-
-    this.saveModalEl
-      .querySelector('#btn-clear-all-idb')
-      ?.addEventListener('click', async () => {
-        await this.storage.clearAllSlots();
-        this.campaign.voyageLog.push('[IndexedDB 초기화] 모든 세이브 슬롯이 초기화되었습니다.');
-        await this.openSaveManagerModal();
-      });
-
-    const selTarget = this.saveModalEl.querySelector(
-      '#sel-import-target-slot'
-    ) as HTMLSelectElement;
-    selTarget?.addEventListener('change', () => {
-      this.pendingImportTargetSlot = selTarget.value as SaveSlotId;
-    });
-
-    const handleRawImportText = async (text: string) => {
-      try {
-        this.pendingImportPreview = parseAndValidateImportedSaveJson(
-          text,
-          this.rpgRegistry,
-          this.gameRegistry
-        );
-        await this.openSaveManagerModal();
-      } catch (err) {
-        this.pendingImportPreview = null;
-        const msg =
-          err instanceof Error ? err.message : '알 수 없는 JSON 가져오기 오류';
-        await this.openSaveManagerModal(msg);
-      }
-    };
-
-    const fileInp = this.saveModalEl.querySelector(
-      '#inp-import-file'
-    ) as HTMLInputElement;
-    fileInp?.addEventListener('change', async () => {
-      const file = fileInp.files?.[0];
-      if (!file) return;
-      const text = await file.text();
-      await handleRawImportText(text);
-    });
-
-    this.saveModalEl
-      .querySelector('#btn-native-file-import')
-      ?.addEventListener('click', async () => {
-        const picked =
-          await this.platformBridge.fileTransfer.importSaveEnvelopeFile();
-        if (picked) {
-          await handleRawImportText(picked.jsonContent);
-        }
-      });
-
-    const dropZone = this.saveModalEl.querySelector(
-      '#save-drop-zone'
-    ) as HTMLElement;
-    dropZone?.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropZone.style.borderColor = '#facc15';
-    });
-    dropZone?.addEventListener('dragleave', () => {
-      dropZone.style.borderColor = '#38bdf8';
-    });
-    dropZone?.addEventListener('drop', async (e) => {
-      e.preventDefault();
-      dropZone.style.borderColor = '#38bdf8';
-      const file = e.dataTransfer?.files?.[0];
-      if (!file) return;
-      const text = await file.text();
-      await handleRawImportText(text);
-    });
-
-    const txtArea = this.saveModalEl.querySelector(
-      '#txt-import-json'
-    ) as HTMLTextAreaElement;
-
-    this.saveModalEl
-      .querySelector('#btn-fill-current-json')
-      ?.addEventListener('click', () => {
-        const env = this.buildCurrentSaveEnvelope(this.pendingImportTargetSlot);
-        txtArea.value = JSON.stringify(env, null, 2);
-      });
-
-    this.saveModalEl
-      .querySelector('#btn-simulate-tamper')
-      ?.addEventListener('click', () => {
-        const env = this.buildCurrentSaveEnvelope(this.pendingImportTargetSlot);
-        env.payload.economy.berry += 1;
-        env.payload.world.currentZoneId = 'new_world';
-        txtArea.value = JSON.stringify(env, null, 2);
-      });
-
-    this.saveModalEl
-      .querySelector('#btn-parse-import-json')
-      ?.addEventListener('click', async () => {
-        await handleRawImportText(txtArea.value);
-      });
-
-    this.saveModalEl
-      .querySelector('#btn-confirm-import')
-      ?.addEventListener('click', async () => {
-        if (!this.pendingImportPreview) return;
-        const env = this.pendingImportPreview.envelope;
-        env.meta.slotId = this.pendingImportTargetSlot;
-        await this.storage.saveSlot(this.pendingImportTargetSlot, env);
-        this.applyLoadedEnvelope(env);
-        this.pendingImportPreview = null;
-        await this.openSaveManagerModal();
-      });
-
-    this.saveModalEl
-      .querySelector('#btn-cancel-import')
-      ?.addEventListener('click', async () => {
-        this.pendingImportPreview = null;
-        await this.openSaveManagerModal();
-      });
   }
 
   private updateShowcaseToolbar(): void {
@@ -3026,101 +2133,8 @@ export class SceneManager {
     }
   }
 
-  public triggerSandboxShowcase(
-    kind:
-      | 'BEAM_CLASH'
-      | 'CONQUEROR_CLASH'
-      | 'HAGOROMO_AWAKENING'
-      | 'ZOAN_CYCLE'
-      | 'LOGIA_PASS'
-  ): void {
-    const alpha = this.battleWorld.units.find(
-      (u) => u.team === 'ALPHA' && u.isOnField && u.isAlive
-    );
-    const omega = this.battleWorld.units.find(
-      (u) => u.team === 'OMEGA' && u.isOnField && u.isAlive
-    );
-    if (!alpha || !omega) return;
-
-    this.battleWorld.projectiles = [];
-    this.battleWorld.beams = [];
-    this.battleWorld.meleeArcs = [];
-    this.battleWorld.beamClashes = [];
-    this.battleWorld.meleeBeamGuards = [];
-    this.battleWorld.meleeClashes = [];
-
-    alpha.pos = {
-      x: this.battleWorld.arenaWidth * 0.34,
-      y: this.battleWorld.arenaHeight * 0.5
-    };
-    alpha.prevPos = { ...alpha.pos };
-    alpha.aimDir = { x: 1, y: 0 };
-
-    omega.pos = {
-      x: this.battleWorld.arenaWidth * 0.66,
-      y: this.battleWorld.arenaHeight * 0.5
-    };
-    omega.prevPos = { ...omega.pos };
-    omega.aimDir = { x: -1, y: 0 };
-
-    if (kind === 'BEAM_CLASH') {
-      spawnBeamInstance(
-        alpha,
-        this.gameRegistry.moves['move_kaido_boro_breath'],
-        { x: 1, y: 0 },
-        this.battleWorld,
-        this.gameRegistry
-      );
-      spawnBeamInstance(
-        omega,
-        this.gameRegistry.moves['move_kizaru_laser_beam'],
-        { x: -1, y: 0 },
-        this.battleWorld,
-        this.gameRegistry
-      );
-    } else if (kind === 'CONQUEROR_CLASH') {
-      alpha.pos.x = this.battleWorld.arenaWidth * 0.44;
-      omega.pos.x = this.battleWorld.arenaWidth * 0.56;
-      spawnMeleeArcInstance(
-        alpha,
-        this.gameRegistry.moves['move_luffy_bajrang_gun'],
-        { x: 1, y: 0 },
-        this.battleWorld,
-        this.gameRegistry
-      );
-      spawnMeleeArcInstance(
-        omega,
-        this.gameRegistry.moves['move_kaido_ragnaraku'],
-        { x: -1, y: 0 },
-        this.battleWorld,
-        this.gameRegistry
-      );
-    } else if (kind === 'HAGOROMO_AWAKENING') {
-      alpha.hasUsedFormShift = false;
-      alpha.exhaustionTimer = 0;
-      activateFormShift(alpha, this.battleWorld, this.gameRegistry, 'form_luffy_gear5');
-      omega.hasUsedFormShift = false;
-      omega.exhaustionTimer = 0;
-      activateFormShift(omega, this.battleWorld, this.gameRegistry, 'form_lucci_awakened');
-    } else if (kind === 'ZOAN_CYCLE') {
-      alpha.stanceCooldownTimer = 0;
-      omega.stanceCooldownTimer = 0;
-      cycleZoanStance(alpha, this.battleWorld, this.gameRegistry);
-      cycleZoanStance(omega, this.battleWorld, this.gameRegistry);
-    } else if (kind === 'LOGIA_PASS') {
-      omega.fruitType = 'LOGIA';
-      omega.traitId = 'ability_pika_logia';
-      omega.iframeTimer = 0;
-      const p = spawnProjectileInstance(
-        alpha,
-        this.gameRegistry.moves['move_kizaru_yasakani'],
-        { x: 1, y: 0 },
-        this.battleWorld,
-        this.gameRegistry
-      );
-      p.hasArmamentHaki = false;
-      p.pos = { x: omega.pos.x - 10, y: omega.pos.y };
-    }
+  public triggerSandboxShowcase(kind: SandboxShowcaseKind): void {
+    runSandboxShowcaseScenario(this.battleWorld, this.gameRegistry, kind);
   }
 
   private refreshSideDrawer(): void {
@@ -3309,360 +2323,87 @@ export class SceneManager {
   }
 
   private createCrewCampModal(): HTMLElement {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.id = 'crew-camp-modal';
-    return modal;
+    return createCrewCampModalElement();
   }
 
   private openCrewCampModal(): void {
-    const rolesHtml = Object.values(this.rpgRegistry.crewRoles)
-      .map((r) => {
-        const holder = this.campaign.assignedCrewRoles[r.roleId] ?? '미배치';
-        return `<div class="field-row" style="border-bottom:1px solid #1e293b;padding:4px 0;">
-          <div>
-            <strong style="color:#fde047;">[${r.name}]</strong> <span style="color:#38bdf8;">(${holder})</span>
-            <div style="font-size:10px;color:#94a3b8;">${r.description}</div>
-          </div>
-          <button data-assign-role="${r.roleId}">직책 활성화</button>
-        </div>`;
-      })
-      .join('');
-
-    const trainingHtml = this.rpgRegistry.trainingRules
-      .map((tr) => {
-        return `<div class="field-row" style="border-bottom:1px solid #1e293b;padding:4px 0;">
-          <div>
-            <strong style="color:#4ade80;">${tr.name}</strong>
-            <div style="font-size:10px;color:#94a3b8;">비용: ฿${tr.costBerries} / ${tr.costTrainingPoints} TP — ${tr.description}</div>
-          </div>
-          <button data-train-id="${tr.id}">수련</button>
-        </div>`;
-      })
-      .join('');
-
-    const cookUnlocked =
-      this.campaign.unlockedCrewRoles.includes('COOK') &&
-      Boolean(this.campaign.assignedCrewRoles.COOK);
-    const cookCd = Math.ceil(this.campaign.shipboardCookingCooldownSec ?? 0);
-
-    // Stage 2-C: 10 Straw Hat Crewmates Assembly Tracker & Road Poneglyph Tracker
-    const strawHatTen: { id: string; label: string }[] = [
-      { id: 'luffy', label: '루피(선장)' },
-      { id: 'zoro', label: '조로(검사)' },
-      { id: 'nami', label: '나미(항해사)' },
-      { id: 'usopp', label: '우솝(저격수)' },
-      { id: 'sanji', label: '상디(요리사)' },
-      { id: 'chopper', label: '쵸파(선의)' },
-      { id: 'robin', label: '로빈(고고학자)' },
-      { id: 'franky', label: '프랑키(조선공)' },
-      { id: 'brook', label: '브룩(음악가)' },
-      { id: 'jinbe', label: '징베(조타수)' }
-    ];
-    const joinedStrawHats = strawHatTen.filter((m) =>
-      this.campaign.recruitedUnitIds.includes(m.id)
-    );
-    const strawHatBadgesHtml = strawHatTen
-      .map((m) => {
-        const has = this.campaign.recruitedUnitIds.includes(m.id);
-        return `<span style="padding:2px 6px;border-radius:4px;font-size:10px;border:1px solid ${
-          has ? '#4ade80' : '#334155'
-        };background:${has ? 'rgba(22,163,74,0.22)' : '#0f172a'};color:${
-          has ? '#86efac' : '#64748b'
-        };">${has ? '✓' : '○'} ${m.label}</span>`;
-      })
-      .join('');
-
-    const poneglyphItems = [
-      {
-        label: '토트랜드 로드 포네그리프 (빅 맘 · 카타쿠리)',
-        done: this.campaign.completedEpisodes.includes('ep_totto_land')
-      },
-      {
-        label: '와노쿠니 로드 포네그리프 (카이도)',
-        done: this.campaign.completedEpisodes.includes('ep_wano')
-      },
-      {
-        label: '어인섬 바다의 숲 석비 (징베 합류)',
-        done: this.campaign.completedEpisodes.includes('ep_fishman_island')
-      },
-      {
-        label: '엘바프 최종장 마지막 단서 (로키)',
-        done: this.campaign.completedEpisodes.includes('ep_elbaf')
-      }
-    ];
-    const poneglyphHtml = poneglyphItems
-      .map(
-        (p) =>
-          `<div style="font-size:10px;color:${p.done ? '#fca5a5' : '#64748b'};">${
-            p.done ? '🟥 [확보 완료]' : '⬜ [미확보]'
-          } ${p.label}</div>`
-      )
-      .join('');
-
-    this.campModalEl.innerHTML = `
-      <div class="modal-box" role="dialog" aria-label="선원 직책 및 패기 수련 캠프">
-        <h3 style="color:#fde047;font-size:15px;">🏕 밀짚모자 일당 10인 집결 & 항해 일지 · 패기 수련</h3>
-        <div style="font-size:12px;color:#38bdf8;">
-          보유 베리: ฿ ${this.campaign.berries.toLocaleString()} | 수련 포인트: ${this.campaign.trainingPoints} TP | 로드 포네그리프: ${this.campaign.roadPoneglyphCount}/4 | 콜로세움 CP: <strong style="color:#facc15;">${this.campaign.endgame.colosseum.cp} CP</strong>
-        </div>
-        <div class="slot-card" id="camp-wanted-poster-frame-card" style="background:#1c1917;border-width:2px;border-color:${
-          this.campaign.endgame.colosseum.posterFrameTier === 'diamond'
-            ? '#38bdf8'
-            : this.campaign.endgame.colosseum.posterFrameTier === 'platinum'
-              ? '#cbd5e1'
-              : this.campaign.endgame.colosseum.posterFrameTier === 'gold'
-                ? '#eab308'
-                : '#78350f'
-        };">
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
-            <strong style="color:#fde047;font-size:12px;">📜 수배서 테두리 등급: [${this.campaign.endgame.colosseum.posterFrameTier.toUpperCase()}]</strong>
-            <span style="font-size:10px;color:#cbd5e1;">총 현상금: ฿ ${this.campaign.totalCrewBounty.toLocaleString()} | 임펠 다운 최고: Level ${this.campaign.endgame.impelDown.highestFloor}</span>
-          </div>
-        </div>
-        <div class="slot-card" style="background:#0f172a;border-color:#4ade80;">
-          <strong style="color:#4ade80;font-size:12px;">🏴‍☠️ 밀짚모자 일당 집결 진행도 (${joinedStrawHats.length} / 10명)</strong>
-          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;">${strawHatBadgesHtml}</div>
-        </div>
-        <div class="slot-card" style="background:#1c1917;border-color:#ef4444;">
-          <strong style="color:#f87171;font-size:12px;">🟥 항해 일지 — 로드 포네그리프 수집 현황 (${this.campaign.roadPoneglyphCount} / 4)</strong>
-          ${poneglyphHtml}
-        </div>
-        <div class="slot-card" style="background:#1e293b;border-color:#f97316;">
-          <div class="field-row">
-            <div>
-              <strong style="color:#fb923c;">🍳 선상 요리 (상디 요리사 직책 전용)</strong>
-              <div style="font-size:10px;color:#cbd5e1;">비용 무료 (쿨타임 30초) — 파티 HP +50% 회복 & 다음 전투 공격력 +10% 버프</div>
-            </div>
-            <button id="btn-shipboard-cook" class="btn-tab-active" ${!cookUnlocked || cookCd > 0 ? 'disabled' : ''}>
-              ${!cookUnlocked ? '요리사 미해금' : cookCd > 0 ? `준비 중 (${cookCd}s)` : '🍳 선상 요리 실행'}
-            </button>
-          </div>
-        </div>
-        <h4 style="color:#38bdf8;font-size:13px;margin-top:4px;">1. 선원 전 직책 패시브 (조타수·음악가 포함 9종)</h4>
-        ${rolesHtml}
-        <h4 style="color:#38bdf8;font-size:13px;margin-top:6px;">2. 패기 & 악마의 열매 각성 수련</h4>
-        ${trainingHtml}
-        <div style="display:flex;justify-content:flex-end;margin-top:8px;">
-          <button id="btn-close-camp" class="btn-tab-active">닫기</button>
-        </div>
-      </div>
-    `;
-
-    this.campModalEl.classList.add('open');
-
-    this.campModalEl
-      .querySelector('#btn-close-camp')
-      ?.addEventListener('click', () => {
-        this.campModalEl.classList.remove('open');
-      });
-
-    this.campModalEl
-      .querySelector('#btn-shipboard-cook')
-      ?.addEventListener('click', () => {
-        const res = executeShipboardCooking(this.campaign);
-        if (res.success) {
-          this.audio.playSfx('FORM_SHIFT');
-          void this.triggerAutoSave('선상 요리');
-        }
-        this.openCrewCampModal();
-        this.refreshSideDrawer();
-      });
-
-    this.campModalEl
-      .querySelectorAll<HTMLButtonElement>('[data-assign-role]')
-      .forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const rId = btn.dataset.assignRole as CrewRoleId;
-          const rDef = this.rpgRegistry.crewRoles[rId];
-          assignCrewRole(
-            this.campaign,
-            rId,
-            rDef?.defaultHolderName ?? rId,
-            this.rpgRegistry
-          );
-          void this.triggerAutoSave('직책 변경');
-          this.openCrewCampModal();
-          this.refreshSideDrawer();
-        });
-      });
-
-    this.campModalEl
-      .querySelectorAll<HTMLButtonElement>('[data-train-id]')
-      .forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const tId = btn.dataset.trainId!;
-          const leaderId = this.campaign.activePartyUnitIds[0] ?? 'luffy';
-          const res = purchaseTrainingUpgrade(
-            this.campaign,
-            leaderId,
-            tId,
-            this.rpgRegistry
-          );
-          if (res.success) {
-            void this.triggerAutoSave('패기/각성 수련');
-          }
-          this.openCrewCampModal();
-          this.refreshSideDrawer();
-        });
-      });
+    renderCrewCampModal({
+      campModalEl: this.campModalEl,
+      campaign: this.campaign,
+      rpgRegistry: this.rpgRegistry,
+      audio: this.audio,
+      triggerAutoSave: (reason) => this.triggerAutoSave(reason),
+      refreshSideDrawer: () => this.refreshSideDrawer()
+    });
   }
 
   private createMobileVirtualControllerDock(): HTMLElement {
-    const dock = document.createElement('div');
-    dock.className = 'mobile-gamepad-dock';
-    dock.id = 'mobile-virtual-controller';
-    dock.innerHTML = `
-      <div class="dpad-grid" aria-label="가상 방향키">
-        <div></div>
-        <button class="dpad-btn" data-dir="UP">▲</button>
-        <div></div>
-        <button class="dpad-btn" data-dir="LEFT">◀</button>
-        <div class="dpad-btn" style="font-size:10px;color:#38bdf8;">MOVE</div>
-        <button class="dpad-btn" data-dir="RIGHT">▶</button>
-        <div></div>
-        <button class="dpad-btn" data-dir="DOWN">▼</button>
-        <div></div>
-      </div>
-      <div class="action-pad-grid" aria-label="가상 액션 버튼">
-        <button class="act-btn" data-act="SKILL_0" style="border-color:#38bdf8;">S1/입항<span>ACT1</span></button>
-        <button class="act-btn" data-act="SKILL_1" style="border-color:#38bdf8;">S2/쿠드<span>ACT2</span></button>
-        <button class="act-btn" data-act="FORM_SHIFT" style="border-color:#f59e0b;color:#fbbf24;">변신/각성<span>FORM</span></button>
-        <button class="act-btn" data-act="SKILL_2" style="border-color:#38bdf8;">S3<span>스킬3</span></button>
-        <button class="act-btn" data-act="SKILL_3" style="border-color:#38bdf8;">S4<span>스킬4</span></button>
-        <button class="act-btn" data-act="DODGE" style="border-color:#2dd4bf;color:#2dd4bf;">회피/상호<span>DODGE</span></button>
-      </div>
-    `;
-
-    const setDir = (dir: string | null) => {
-      if (dir === 'UP') this.input.virtualMoveVec = { x: 0, y: -1 };
-      else if (dir === 'DOWN') this.input.virtualMoveVec = { x: 0, y: 1 };
-      else if (dir === 'LEFT') this.input.virtualMoveVec = { x: -1, y: 0 };
-      else if (dir === 'RIGHT') this.input.virtualMoveVec = { x: 1, y: 0 };
-      else this.input.virtualMoveVec = { x: 0, y: 0 };
-    };
-
-    dock.querySelectorAll<HTMLButtonElement>('[data-dir]').forEach((btn) => {
-      const dir = btn.dataset.dir ?? null;
-      btn.addEventListener('pointerdown', (e) => {
-        e.preventDefault();
-        setDir(dir);
-      });
-      btn.addEventListener('pointerup', () => setDir(null));
-      btn.addEventListener('pointerleave', () => setDir(null));
-    });
-
-    dock.querySelectorAll<HTMLButtonElement>('[data-act]').forEach((btn) => {
-      const act = btn.dataset.act as
-        | 'SKILL_0'
-        | 'SKILL_1'
-        | 'SKILL_2'
-        | 'SKILL_3'
-        | 'DODGE'
-        | 'FORM_SHIFT';
-      btn.addEventListener('pointerdown', (e) => {
-        e.preventDefault();
-        if (this.activeScene === 'SEA_SAILING' || this.activeScene === 'ISLAND_EPISODE') {
-          if (act === 'SKILL_0' || act === 'DODGE') {
-            this.pendingRpgInteract = true;
-          } else if (act === 'SKILL_1') {
-            this.pendingCoupDeBurst = true;
-          }
-        } else {
-          this.input.triggerVirtualAction(act);
-        }
-      });
-    });
-
-    return dock;
+    return createMobileVirtualControllerDockElement(
+      this.input,
+      () =>
+        this.activeScene === 'SEA_SAILING' ||
+        this.activeScene === 'ISLAND_EPISODE',
+      () => {
+        this.pendingRpgInteract = true;
+      },
+      () => {
+        this.pendingCoupDeBurst = true;
+      }
+    );
   }
 
   private createSettingsModal(): HTMLElement {
-    const modal = document.createElement('div');
-    modal.className = 'modal-backdrop';
-    modal.id = 'settings-modal';
-    const b = this.input.getBindings();
-
-    modal.innerHTML = `
-      <div class="modal-box" role="dialog" aria-label="접근성 및 조작 설정">
-        <h3 style="color:#38bdf8;font-size:15px;">⚙ 접근성, 화면 모드 및 키 바인딩 설정 (${this.platformBridge.runtimeTarget.toUpperCase()})</h3>
-        <div class="field-row">
-          <label for="sel-window-mode">화면 표시 모드 (F11 / Alt+Enter):</label>
-          <select id="sel-window-mode">
-            <option value="windowed">창 모드 (Windowed)</option>
-            <option value="fullscreen">전체화면 (Fullscreen)</option>
-            <option value="borderless">테두리 없는 창 (Borderless Window)</option>
-          </select>
-        </div>
-        <div class="field-row">
-          <label for="chk-haptics">패기 상쇄/완벽 회피/각성 진동 피드백 (Haptics):</label>
-          <input type="checkbox" id="chk-haptics" checked />
-        </div>
-        <div class="field-row">
-          <label for="chk-flash">화면 번쩍임 효과 (Flash Effect):</label>
-          <input type="checkbox" id="chk-flash" checked />
-        </div>
-        <div class="field-row">
-          <label for="rng-shake">카메라 흔들림 강도 (0~100%):</label>
-          <input type="range" id="rng-shake" min="0" max="100" value="80" />
-        </div>
-        <div class="field-row">
-          <label for="rng-bgm-vol">BGM 음량 (0~100%):</label>
-          <input type="range" id="rng-bgm-vol" min="0" max="100" value="70" />
-        </div>
-        <div class="field-row">
-          <label for="rng-sfx-vol">효과음(SFX) 음량 (0~100%):</label>
-          <input type="range" id="rng-sfx-vol" min="0" max="100" value="80" />
-        </div>
-        <div class="field-row">
-          <label for="chk-mute">오디오 음소거 (Mute Audio):</label>
-          <input type="checkbox" id="chk-mute" />
-        </div>
-        <div class="field-row">
-          <label for="chk-touch-ui">캔버스 가상 터치 UI 상시 표시:</label>
-          <input type="checkbox" id="chk-touch-ui" />
-        </div>
-        <div class="field-row">
-          <label for="sel-touch-size">터치 버튼 크기 (6.9인치 엄지 최적화):</label>
-          <select id="sel-touch-size">
-            <option value="SMALL" ${this.input.getTouchPrefs().sizePreset === 'SMALL' ? 'selected' : ''}>소 (85%)</option>
-            <option value="MEDIUM" ${this.input.getTouchPrefs().sizePreset === 'MEDIUM' ? 'selected' : ''}>중 (100% 권장)</option>
-            <option value="LARGE" ${this.input.getTouchPrefs().sizePreset === 'LARGE' ? 'selected' : ''}>대 (120%)</option>
-          </select>
-        </div>
-        <div class="field-row">
-          <label for="rng-touch-opacity">터치 버튼 투명도 (35~100%):</label>
-          <input type="range" id="rng-touch-opacity" min="35" max="100" value="${Math.round(this.input.getTouchPrefs().opacity * 100)}" />
-        </div>
-        <hr style="border-color:#1e293b;" />
-        <div class="field-row">
-          <label>회피 키 (Dodge):</label>
-          <input type="text" id="bind-dodge" value="${b.dodge}" style="width:110px;" />
-        </div>
-        <div class="field-row">
-          <label>변신/각성 키 (Form Shift):</label>
-          <input type="text" id="bind-form" value="${b.formShift}" style="width:110px;" />
-        </div>
-        <div style="display:flex;justify-content:space-between;gap:8px;margin-top:6px;">
-          <button id="btn-quit-game" class="btn-danger">🚪 게임 종료 (Exit)</button>
-          <div style="display:flex;gap:8px;">
-            <button id="btn-reset-binds">초기화</button>
-            <button id="btn-close-settings" class="btn-tab-active">닫기</button>
-          </div>
-        </div>
-      </div>
-    `;
-    return modal;
+    return createSettingsModalElement(this.input, this.platformBridge);
   }
 
   private bindTopBarEvents(topBar: HTMLElement): void {
     const toggleBtn = this.rootEl.querySelector('#btn-toggle-hud-drawer') as HTMLButtonElement | null;
+    const devToolsRow = topBar.querySelector('#dev-tools-bar-row') as HTMLElement | null;
+    const btnToggleJournal = topBar.querySelector('#btn-toggle-journal') as HTMLButtonElement | null;
+    const btnToggleDevTools = topBar.querySelector('#btn-toggle-devtools') as HTMLButtonElement | null;
+
+    const closeTopMenu = () => {
+      topBar.classList.remove('open');
+      this.sideDrawerEl?.classList.remove('open');
+      if (!this.devToolsExpanded) {
+        this.showcaseBarEl?.classList.remove('open');
+      }
+      if (toggleBtn) toggleBtn.textContent = '☰ 메뉴';
+      this.clearTransientFocusAndInput();
+    };
+
     toggleBtn?.addEventListener('click', () => {
       const opening = !topBar.classList.contains('open');
       topBar.classList.toggle('open', opening);
-      this.sideDrawerEl?.classList.toggle('open', opening);
-      this.showcaseBarEl?.classList.toggle('open', opening);
+      if (!opening) {
+        this.sideDrawerEl?.classList.remove('open');
+        if (!this.devToolsExpanded) {
+          this.showcaseBarEl?.classList.remove('open');
+        }
+      } else if (this.devToolsExpanded) {
+        this.showcaseBarEl?.classList.add('open');
+      }
       toggleBtn.textContent = opening ? '✕ 닫기' : '☰ 메뉴';
+      this.clearTransientFocusAndInput();
+    });
+
+    btnToggleJournal?.addEventListener('click', () => {
+      const open = !this.sideDrawerEl?.classList.contains('open');
+      this.sideDrawerEl?.classList.toggle('open', open);
+      if (btnToggleJournal) {
+        btnToggleJournal.classList.toggle('btn-tab-active', Boolean(open));
+      }
+      this.clearTransientFocusAndInput();
+    });
+
+    btnToggleDevTools?.addEventListener('click', () => {
+      this.devToolsExpanded = !this.devToolsExpanded;
+      if (devToolsRow) {
+        devToolsRow.style.display = this.devToolsExpanded ? 'flex' : 'none';
+      }
+      this.showcaseBarEl?.classList.toggle('open', this.devToolsExpanded);
+      btnToggleDevTools.classList.toggle('btn-tab-active', this.devToolsExpanded);
+      this.clearTransientFocusAndInput();
     });
 
     const tabRpg = topBar.querySelector('#tab-rpg') as HTMLButtonElement;
@@ -3673,57 +2414,66 @@ export class SceneManager {
     tabRpg.addEventListener('click', () => {
       tabRpg.classList.add('btn-tab-active');
       tabSandbox.classList.remove('btn-tab-active');
+      closeTopMenu();
       this.switchToScene(
         this.campaign.activeIslandId ? 'ISLAND_EPISODE' : 'SEA_SAILING'
       );
     });
 
     tabEndgame?.addEventListener('click', () => {
+      closeTopMenu();
       this.openEndgameHub();
     });
 
     tabOnline.addEventListener('click', () => {
+      closeTopMenu();
       this.openOnlineLobbyModal(false);
     });
 
     tabSandbox.addEventListener('click', () => {
       tabSandbox.classList.add('btn-tab-active');
       tabRpg.classList.remove('btn-tab-active');
+      this.sideDrawerEl?.classList.add('open');
+      this.showcaseBarEl?.classList.add('open');
       this.switchToScene('SANDBOX');
     });
 
     const selJump = topBar.querySelector('#sel-debug-jump') as HTMLSelectElement;
     selJump.addEventListener('change', () => {
       if (!selJump.value) return;
+      const targetJump = selJump.value;
+      selJump.value = '';
+      selJump.blur();
       tabRpg.classList.add('btn-tab-active');
       tabSandbox.classList.remove('btn-tab-active');
-      this.executeDebugStoryJump(selJump.value);
-      selJump.value = '';
+      closeTopMenu();
+      this.executeDebugStoryJump(targetJump);
     });
 
     topBar.querySelector('#btn-asset-preview')?.addEventListener('click', () => {
       this.audio.unlock();
+      closeTopMenu();
       this.assetPreviewScene?.open();
     });
 
     topBar.querySelector('#btn-return-title')?.addEventListener('click', async () => {
       await this.scanLatestSaveOnBoot();
-      topBar.classList.remove('open');
-      this.sideDrawerEl?.classList.remove('open');
-      this.showcaseBarEl?.classList.remove('open');
-      if (this.hudToggleBtnEl) this.hudToggleBtnEl.textContent = '☰ 메뉴';
+      closeTopMenu();
       this.enterTitleScene();
     });
 
     topBar.querySelector('#btn-save-menu')?.addEventListener('click', () => {
+      closeTopMenu();
       void this.openSaveManagerModal();
     });
 
     topBar.querySelector('#btn-camp-menu')?.addEventListener('click', () => {
+      closeTopMenu();
       this.openCrewCampModal();
     });
 
     topBar.querySelector('#btn-settings')?.addEventListener('click', () => {
+      closeTopMenu();
       this.settingsModalEl.classList.add('open');
     });
 
@@ -3928,7 +2678,7 @@ export class SceneManager {
           return;
         }
 
-        // Tapping the bottom-center interaction prompt banner triggers interact directly
+        // Tapping the bottom-center interaction prompt banner or an in-range interactable object triggers interact directly
         const vm = this.renderer.getMetrics();
         if (
           Math.abs(pt.x - vm.viewWidth * 0.5) <= 220 &&
@@ -3938,9 +2688,39 @@ export class SceneManager {
           this.audio.playSfxId('ui_confirm');
           return;
         }
+
+        if (this.activeScene === 'ISLAND_EPISODE' && this.islandRuntime) {
+          const localPt = { x: pt.x - vm.arenaOffsetX, y: pt.y };
+          const nearObj =
+            this.lastIslandStep.nearbySwitch?.pos ??
+            this.lastIslandStep.nearbyNpc?.pos ??
+            this.lastIslandStep.nearbyEncounter?.pos ??
+            null;
+          if (
+            nearObj &&
+            Math.hypot(localPt.x - nearObj.x, localPt.y - nearObj.y) <= 56
+          ) {
+            this.pendingRpgInteract = true;
+            this.audio.playSfxId('ui_confirm');
+            return;
+          }
+        }
       }
 
-      const handledByTouchUi = this.input.handleCanvasPointerDown(pt);
+      // Battle scenes: tapping/clicking bottom HUD skill slots, dodge/form cards, or quick-swap banner
+      if (
+        this.activeScene === 'STORY_BATTLE' ||
+        this.activeScene === 'ONLINE_BATTLE' ||
+        this.activeScene === 'SANDBOX'
+      ) {
+        const hudHit = this.input.hitTestBattleBottomHud(pt, 4);
+        if (hudHit) {
+          this.input.triggerVirtualAction(hudHit);
+          return;
+        }
+      }
+
+      const handledByTouchUi = this.input.handleCanvasPointerDown(pt, e.pointerId);
       if (
         !handledByTouchUi &&
         (this.activeScene === 'SEA_SAILING' || this.activeScene === 'ISLAND_EPISODE')
@@ -3952,15 +2732,22 @@ export class SceneManager {
     });
     c.addEventListener('pointermove', (e) => {
       const pt = this.renderer.clientToLogical(e.clientX, e.clientY);
-      this.input.handleCanvasPointerMove(pt);
+      this.input.handleCanvasPointerMove(pt, e.pointerId);
     });
-    window.addEventListener('pointerup', () => {
-      this.input.handleCanvasPointerUp();
+    window.addEventListener('pointerup', (e) => {
+      this.input.handleCanvasPointerUp(e.pointerId);
+    });
+    window.addEventListener('pointercancel', (e) => {
+      this.input.handleCanvasPointerUp(e.pointerId);
     });
 
     window.addEventListener('keydown', (e) => {
-      const tag = (e.target as HTMLElement | null)?.tagName;
-      if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+      const targetEl = e.target as HTMLElement | null;
+      const tag = targetEl?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      if (tag === 'SELECT') {
+        targetEl?.blur();
+      }
 
       if (this.activeScene === 'TITLE') {
         this.titleScene?.expandMenu();
@@ -3981,6 +2768,17 @@ export class SceneManager {
           } else {
             this.audio.playSfxId('ui_move');
           }
+          return;
+        }
+      }
+
+      if (e.code === 'Escape') {
+        if (this.showWantedPosterOverlay) {
+          this.showWantedPosterOverlay = false;
+          return;
+        }
+        if (this.gateBlockedPopup) {
+          this.gateBlockedPopup = null;
           return;
         }
       }
@@ -4065,19 +2863,28 @@ export class SceneManager {
       );
     }
 
-    const dummyUnit = this.battleWorld.units[0];
-    const cmd = this.input.buildPlayerCommand(
-      dummyUnit,
-      this.battleWorld,
-      this.gameRegistry
-    );
-    const moveVec = cmd ? cmd.moveVec : { x: 0, y: 0 };
+    // Use BattleWorld-independent movement input so exploration never locks up
+    // even if battleWorld.units[0] was KO'd or swapped off-field during the last battle.
+    const moveVec = this.input.getExplorationMoveVector();
     const interactPressed = this.pendingRpgInteract;
     const coupPressed = this.pendingCoupDeBurst;
     this.pendingRpgInteract = false;
     this.pendingCoupDeBurst = false;
 
-    if (this.showWantedPosterOverlay || this.gateBlockedPopup) {
+    if (this.showWantedPosterOverlay) {
+      this.wantedPosterOpenTimer += dt;
+      // Allow directional input to dismiss the wanted poster once displayed for 0.8s
+      if (
+        this.wantedPosterOpenTimer >= 0.8 &&
+        (Math.abs(moveVec.x) > 0.1 || Math.abs(moveVec.y) > 0.1)
+      ) {
+        this.showWantedPosterOverlay = false;
+      } else {
+        return;
+      }
+    }
+
+    if (this.gateBlockedPopup) {
       return;
     }
 
@@ -4298,8 +3105,11 @@ export class SceneManager {
             !u.isDowned &&
             u.isPlayerControlled
         );
-        // Offline Co-op Raid: auto-transfer player control if current squadmate is downed
-        if (!playerUnit && this.battleWorld.raidState.active) {
+        // Auto-transfer player control if current controlled ally was KO'd, downed, or swapped out
+        if (
+          !playerUnit &&
+          !(this.activeScene === 'SANDBOX' && this.sandboxConfig.mode === 'AI_VS_AI')
+        ) {
           const nextStanding = this.battleWorld.units.find(
             (u) => u.team === 'ALPHA' && u.isOnField && u.isAlive && !u.isDowned
           );
@@ -4428,7 +3238,7 @@ export class SceneManager {
         this.storyDirector.getLoopMode(),
         this.missionTrackerState,
         viewport,
-        92
+        78
       );
       if (this.gateBlockedPopup) {
         renderSeaGateBlockedPopup(ctx, this.gateBlockedPopup, viewport);
@@ -4473,7 +3283,7 @@ export class SceneManager {
         this.storyDirector.getLoopMode(),
         this.missionTrackerState,
         viewport,
-        102
+        66
       );
       if (this.islandRuntime.activeDialogueNpc) {
         renderDialogueCutsceneOverlay(

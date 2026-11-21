@@ -3,8 +3,9 @@
 단일 TypeScript + Vite 소스코드(`src/core/`, `src/scenes/`, `src/data/`)를 유지한 채 **Web/iOS/macOS PWA**, **Windows 64비트 PC 실행 파일(Electron `.exe`)**, **Android 모바일 앱(Capacitor `.apk`)** 3개 플랫폼으로 빌드·패키징하고, 플랫폼별 네이티브 저장소·기기 어댑터(`PlatformBridge`)와 실시간 WebSocket 멀티플레이어 중계 서버(`server/`)를 통합한 2D 픽셀 실시간 액션 RPG 프로젝트입니다.
 
 > **Git 원격 저장소:** `https://github.com/princebyun/gameProject.git`  
-> **현재 엔진 버전:** `BATTLE_CALC_VERSION = "0.5.0"` | `CURRENT_SAVE_VERSION = 4`  
-> **자동화 검증 현황:** `npm run typecheck` 0 errors | Vitest **14개 스위트 / 64개 테스트 전원 통과** | 3대 플랫폼 프로덕션 빌드 통과
+> **현재 엔진 버전:** `BATTLE_CALC_VERSION = "0.6.0"` | `CURRENT_SAVE_VERSION = 5`  
+> **자동화 검증 현황:** `npm run typecheck` 0 errors | Vitest **20개 스위트 / 89개 테스트 전원 통과** | `npm run validate:assets` 통과 | 3대 플랫폼 프로덕션 빌드 통과  
+> **에이전트/인수인계 문서:** [AGENTS.md](./AGENTS.md) | [HANDOFF.md](./HANDOFF.md) | [ASSET_REPLACEMENT_GUIDE.md](./ASSET_REPLACEMENT_GUIDE.md) | [BUILD_RELEASE.md](./BUILD_RELEASE.md)
 
 ---
 
@@ -42,17 +43,24 @@ npm run dev:all
 
 ---
 
-## 2. 현재 구현 완료 콘텐츠 요약 (Phase 1 ~ Phase 9 / Stage 2-C)
+## 2. 현재 구현 완료 콘텐츠 요약 (Phase 1 ~ Phase 9 & Stage 3 ~ Stage 5)
 
-- **순수 결정론적 전투 엔진 (`src/core/`):** Zero DOM/Window 의존, `60Hz` 고정 타임스텝(`FIXED_DT = 1/60`) + `SeededPRNG`, 6종 맞대결 물리(광선 vs 광선, 근접 vs 광선, 근접 vs 투사체, 근접 vs 근접, 패왕색 하늘 가르기), 2스택 완벽 회피(Just Dodge), 패기 3종(무장·견문·패왕 Lv0~3), 악마의 열매 다단계 변신·환경 각성·오버드라이브, 보스 전용 공통 전투 훅 15종(루나리아 불꽃, 초재생, 거대 스케일, 참격 분할 면역, 45초 생존/탈출전, 수변 지형 & 확산 독가스, 젖음·천적 상쇄, 어둠 열매 능력 봉인, 도펠맨 분신 소환·스왑, 마그마/빙결 반반 분할, 불사조 1회 부활 & 3연전 동맹, 도플라밍고 새장 점진 축소, 카타쿠리 미래 예지 회피/집중 붕괴, 호디 E.S 백발 폭주).
+- **순수 결정론적 전투 엔진 (`src/core/`):** Zero DOM/Window 의존, `60Hz` 고정 타임스텝(`FIXED_DT = 1/60`) + `SeededPRNG`, 6종 맞대결 물리(광선 vs 광선, 근접 vs 광선, 근접 vs 투사체, 근접 vs 근접, 패왕색 하늘 가르기), 2스택 완벽 회피(Just Dodge), 패기 3종(무장·견문·패왕 Lv0~3), 악마의 열매 다단계 변신·환경 각성·오버드라이브, 보스 전용 공통 전투 훅 15종 이상(루나리아 불꽃, 초재생, 거대 스케일, 참격 분할 면역, 45초 생존/탈출전, 수변 지형 & 확산 독가스, 젖음·천적 상쇄, 어둠 열매 능력 봉인, 도펠맨 분신 소환·스왑, 마그마/빙결 반반 분할, 불사조 1회 부활 & 3연전 동맹, 도플라밍고 새장 점진 축소, 카타쿠리 미래 예지 회피/집중 붕괴, 호디 E.S 백발 폭주, 마젤란 맹독 중첩/베놈 데몬).
 - **3대 해역 · 총 17개 에피소드 섬 자유 항해 RPG (`src/data/`):**
   - **이스트 블루 (5개 필수 섬):** 후샤·쉘즈타운(모건/조로) → 오렌지 마을(버기) → 발라티에(돈 클리크/상디·우솝) → 아론 파크(아론/나미) → 로그타운(스모커 45초 생존) → **리버스 마운틴 관문**
   - **위대한 항로 (6개 필수 섬):** 드럼 왕국(와포루/쵸파) → 알라바스타(크로커다일 물통 기믹/로빈) → 하늘섬(에넬) → 워터 세븐(블루노·카쿠·루치/프랑키·써니호) → 스릴러 바크(모리아/브룩) → 마린포드(마르코 2:2 동맹 3연전: 아오키지→아카이누→검은 수염) → **레드라인 신세계 관문**
   - **신세계 (6개 섬, 3침 로그 포스):** 어인섬(호디 존스/징베 조타수 — 밀짚모자 10인 완성) → 드레스로자(도플라밍고 새장) → 토트랜드(카타쿠리 미래 예지 · 로드 포네그리프 · 견문색 Lv.3) → 와노쿠니(킹·카이도/기어 5) → 에그헤드(S-호크·키자루·새턴 성) → 엘바프(로키)
-- **원피스 전체 로스터 36종:** 밀짚모자 일당 10인(전 직책 완성: 선장·검사·항해사·요리사·선의·조선공·고고학자·음악가·조타수) + 동맹·보스 26종, 연습 배틀 샌드박스 및 Phase 4 온라인 로비 전원 지원.
+- **엔드게임 3대 모드 확장 & Save v5 (`src/core/endgame/`):**
+  - **임펠 다운 6층+ 로그라이트 서바이벌:** 1~6층(마젤란 보스) 및 7층+ 무한 심층, 유물 3택 1 드래프트, 중단/이어하기.
+  - **코리다 콜로세움 8강 토너먼트:** C/B/A/S 티어 8강전, 장외 링아웃, 콜로세움 CP 기술 전수(Move Tutor) 및 수배서 테두리 프레임.
+  - **거대 보스 협동 레이드:** 카이도·새턴 성·로키 브레이크/그로기, 팀 DPS 체크 보호막, 2초 근접 구조 & 팀 공용 부활, 온라인 `COOP_RAID` 및 레이드 유물.
+- **픽셀 스프라이트 · 바이옴 타일셋 · 8/16비트 레트로 오디오 (`src/assets/`, `src/audio/`):**
+  - 98종 스프라이트 시트(11행 표준 애니메이션 + 오프스크린 이펙트 합성 캐시), 14종 바이옴 16×16 오토타일 타일셋, 4채널 Web Audio 칩튠 BGM(10곡)·SFX(18종), `public/assets/` 무중단 핫스왑 리졸버 및 인게임 `AssetPreviewScene`.
+- **갤럭시 S25 울트라 19.5:9 풀스크린 & 스토리 디렉터 (`src/render/viewport/`, `src/story/`):**
+  - 고정 높이 `540px` + 가변 가로폭 `960~1260px` (`ResponsiveViewportManager`), Android Edge-to-Edge 풀스크린, 독립 멀티터치 플로팅 조이스틱 & 부채꼴 터치 버튼(크기 S/M/L · 투명도 설정), `BootScene → TitleScene → OpeningNarrationScene` 인트로, `StoryDirector` & GTA 스타일 월드 비콘(`MAIN/SIDE/ACTIVITY`) & 반다이 스타일 하단 대화 컷신 오버레이.
 - **실시간 통신 대전 & 2단계 안티치트 (`server/`, `src/core/net/`, `src/core/save/`):**
-  - 6자리 방 코드(`0/O, 1/I` 제외), 1:1 및 2:2(+CPU) Lockstep 60틱 `stateHash` 동기화, 관전자 중계 HUD, 항구 대전 단말기(HP/PP 무손실).
-  - Canonical JSON `HMAC-SHA256-DERIVED` 무결성 검증(`IntegrityVerifier`) + 게임 규칙 교차 검증(`LegalityValidator`) + 순차 세이브 마이그레이터(`v0 → v1 → v2 → v3 → v4`).
+  - 6자리 방 코드(`0/O, 1/I` 제외), 1:1, 2:2 및 협동 레이드(`COOP_RAID`) Lockstep 60틱 `stateHash` 동기화, 관전자 중계 HUD, 항구 대전 단말기(HP/PP 무손실).
+  - Canonical JSON `HMAC-SHA256-DERIVED` 무결성 검증(`IntegrityVerifier`) + 게임 규칙 교차 검증(`LegalityValidator`) + 순차 세이브 마이그레이터(`v0 → v1 → v2 → v3 → v4 → v5`).
 
 ---
 

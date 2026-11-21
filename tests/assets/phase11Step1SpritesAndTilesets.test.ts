@@ -1,5 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { ExternalAssetResolver } from '../../src/assets/externalAssetResolver';
+import {
+  ExternalAssetResolver,
+  isValidMultiFrameSpriteSheet
+} from '../../src/assets/externalAssetResolver';
+import {
+  LUFFY_11_STATE_KEYFRAMES,
+  LUFFY_FRAME_HEIGHT,
+  LUFFY_FRAME_WIDTH,
+  LUFFY_PIXEL_PALETTE,
+  renderLuffyArticulatedSheetPixels,
+  renderLuffyPortraitPixels
+} from '../../src/assets/luffyArticulatedPixelSheet';
 import { createBattleWorld } from '../../src/core/combat/battleWorld';
 import { BATTLE_CALC_VERSION, FIXED_DT } from '../../src/core/constants';
 import {
@@ -32,14 +43,24 @@ describe('Phase 11 Step 1: Sprite Animation State Machine, Autotile Bitmask & Ho
     for (const unit of Object.values(defaultDataRegistry.units)) {
       const baseEntry = resolveSpriteSheetEntry(unit.id, null);
       expect(baseEntry, `Missing base sprite manifest for ${unit.id}`).not.toBeNull();
-      expect([32, 48, 96]).toContain(baseEntry!.frameWidth);
-      expect(baseEntry!.anchor).toEqual({ x: 0.5, y: 0.85 });
+      expect([32, 48, 64, 96]).toContain(baseEntry!.frameWidth);
+      expect(baseEntry!.anchor.x).toBe(0.5);
+      expect([0.85, 0.9]).toContain(baseEntry!.anchor.y);
       for (const st of STANDARD_SPRITE_ANIM_STATES) {
         expect(baseEntry!.animations[st]).toBeDefined();
       }
     }
 
-    // Specific size checks: Gear 5 (48), Kaido Dragon (96), Saturn (96), Loki (96)
+    // Specific size & anchor checks: Luffy Base (48x48, anchor 0.5/0.9), Gear 5 (48), Kaido Dragon (96), Saturn (96), Loki (96)
+    const luffyBaseEntry = resolveSpriteSheetEntry('luffy', null)!;
+    expect(luffyBaseEntry.frameWidth).toBe(48);
+    expect(luffyBaseEntry.frameHeight).toBe(48);
+    expect(luffyBaseEntry.anchor).toEqual({ x: 0.5, y: 0.9 });
+    expect(luffyBaseEntry.animations.IDLE.frames).toBe(4);
+    expect(luffyBaseEntry.animations.MOVE.frames).toBe(6);
+    expect(luffyBaseEntry.animations.ATTACK_MELEE.frames).toBe(4);
+    expect(luffyBaseEntry.animations.ATTACK_CAST.frames).toBe(4);
+    expect(luffyBaseEntry.animations.DODGE.frames).toBe(3);
     expect(resolveSpriteSheetEntry('luffy', 'form_luffy_gear5')?.frameWidth).toBe(48);
     expect(resolveSpriteSheetEntry('kaido', 'form_kaido_beast')?.frameWidth).toBe(96);
     expect(resolveSpriteSheetEntry('saturn', null)?.frameWidth).toBe(96);
@@ -208,17 +229,54 @@ describe('Phase 11 Step 1: Sprite Animation State Machine, Autotile Bitmask & Ho
     expect(resFallback.image).toBe(fakeBakedImg);
     expect(resolverMissing.getSourceStatus('luffy_base')).toBe('BAKED_FALLBACK');
 
-    // Case B: External PNG exists -> EXTERNAL_PNG takes priority over baked fallback!
+    // Case B: External multi-frame PNG exists (width >= frameWidth * 4) -> EXTERNAL_PNG takes priority over baked fallback!
     const resolverPresent = new ExternalAssetResolver(async (src) =>
       src === 'assets/sprites/luffy_base.png' ? fakeExternalImg : null
     );
     const resExternal = await resolverPresent.resolveImageAsync(
       'luffy_base',
       'assets/sprites/luffy_base.png',
-      () => fakeBakedImg
+      () => fakeBakedImg,
+      { frameWidth: 48, minHorizontalFrames: 4 }
     );
     expect(resExternal.source).toBe('EXTERNAL_PNG');
     expect(resExternal.image).toBe(fakeExternalImg);
     expect(resolverPresent.getSourceStatus('luffy_base')).toBe('EXTERNAL_PNG');
+
+    // Case C: Single stationary PNG (width < frameWidth * 4, e.g. 48x48 single frame) is rejected as reference-only!
+    const singleStaticImg = { width: 48, height: 48 } as unknown as HTMLCanvasElement;
+    expect(isValidMultiFrameSpriteSheet(singleStaticImg, 48, 4)).toBe(false);
+    expect(isValidMultiFrameSpriteSheet(fakeExternalImg, 48, 4)).toBe(true);
+    const resolverSingleStatic = new ExternalAssetResolver(async () => singleStaticImg);
+    const resRejectedSingle = await resolverSingleStatic.resolveImageAsync(
+      'luffy_base',
+      'assets/sprites/luffy_base.png',
+      () => fakeBakedImg,
+      { frameWidth: 48, minHorizontalFrames: 4 }
+    );
+    expect(resRejectedSingle.source).toBe('BAKED_FALLBACK');
+
+    // Case D: Articulated 48x48 luffy_base pixel sheet verifies distinct limb crossing & Gomu-Gomu arm stretch
+    expect(LUFFY_PIXEL_PALETTE.hatBase).toBe('#facc15');
+    expect(LUFFY_PIXEL_PALETTE.ribbonBase).toBe('#dc2626');
+    expect(LUFFY_PIXEL_PALETTE.vestBase).toBe('#ef4444');
+    expect(LUFFY_PIXEL_PALETTE.shortsBase).toBe('#1d4ed8');
+    expect(LUFFY_11_STATE_KEYFRAMES.MOVE[0].frontFootX).toBeGreaterThan(
+      LUFFY_11_STATE_KEYFRAMES.MOVE[0].backFootX
+    );
+    expect(LUFFY_11_STATE_KEYFRAMES.MOVE[3].frontFootX).toBeLessThan(
+      LUFFY_11_STATE_KEYFRAMES.MOVE[3].backFootX
+    );
+    expect(LUFFY_11_STATE_KEYFRAMES.ATTACK_MELEE[2].frontFistX).toBeGreaterThanOrEqual(44);
+
+    const sheetPixels = renderLuffyArticulatedSheetPixels();
+    expect(sheetPixels.width).toBe(LUFFY_FRAME_WIDTH * 6);
+    expect(sheetPixels.height).toBe(LUFFY_FRAME_HEIGHT * 11);
+
+    for (const emotion of ['neutral', 'grin', 'angry', 'shock'] as const) {
+      const portrait = renderLuffyPortraitPixels(emotion);
+      expect(portrait.width).toBe(64);
+      expect(portrait.height).toBe(64);
+    }
   });
 });

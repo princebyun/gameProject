@@ -29,7 +29,7 @@ export function renderSeaSailingCanvas(
   rpgRegistry: RpgDataRegistry,
   stepInfo: SailingStepOutput,
   tick: number,
-  fps: number,
+  _fps: number,
   assets?: AssetLoader,
   viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS,
   worldMarkers?: WorldMarker[],
@@ -326,11 +326,17 @@ export function renderSeaSailingCanvas(
   const hudX = 10 + safeL;
   const hudY = 10 + safeT;
   const bountyTier = computeBountyTier(state.totalCrewBounty);
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.90)';
-  ctx.fillRect(hudX, hudY, 325, 76);
+  const weatherKo =
+    state.seaWeather === 'STORM'
+      ? '🌧 폭풍우'
+      : state.seaWeather === 'FOG'
+        ? '🌫 안개'
+        : '☀ 맑음';
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+  ctx.fillRect(hudX, hudY, 272, 62);
   ctx.strokeStyle = '#38bdf8';
   ctx.lineWidth = 1.5;
-  ctx.strokeRect(hudX, hudY, 325, 76);
+  ctx.strokeRect(hudX, hudY, 272, 62);
 
   ctx.font = 'bold 12px monospace';
   ctx.textAlign = 'left';
@@ -338,23 +344,22 @@ export function renderSeaSailingCanvas(
   ctx.fillText(`⚓ ${zone.name}`, hudX + 8, hudY + 17);
 
   ctx.font = '10px monospace';
+  ctx.textAlign = 'right';
+  ctx.fillStyle = '#38bdf8';
+  ctx.fillText(weatherKo, hudX + 264, hudY + 17);
+
+  ctx.textAlign = 'left';
   ctx.fillStyle = '#e2e8f0';
   ctx.fillText(
-    `선박: ${shipDef.name} | 내구도: ${Math.round(state.ship.hullHp)}/${state.ship.maxHullHp}`,
+    `🚢 ${shipDef.name} (내구도 ${Math.round(state.ship.hullHp)}/${state.ship.maxHullHp})`,
     hudX + 8,
-    hudY + 33
-  );
-  ctx.fillStyle = '#38bdf8';
-  ctx.fillText(
-    `시간: ${state.timeOfDay} | 날씨: ${state.seaWeather} | ${fps} FPS`,
-    hudX + 8,
-    hudY + 48
+    hudY + 35
   );
   ctx.fillStyle = '#f97316';
   ctx.fillText(
-    `현상금: ${state.totalCrewBounty.toLocaleString()} B (${bountyTier.rankLabel}) | 포네그리프: ${state.roadPoneglyphCount}/4`,
+    `💰 현상금 ฿${state.totalCrewBounty.toLocaleString()} (${bountyTier.rankLabel})`,
     hudX + 8,
-    hudY + 64
+    hudY + 51
   );
 
   // 9. Top-Right Log Pose Compass HUD (Single-Needle vs New World Triple-Needle)
@@ -623,58 +628,58 @@ function renderSailingInteractionPrompt(
     const isl = stepInfo.nearbyIsland;
     const done = state.completedEpisodes.includes(isl.episodeId);
     ctx.fillStyle = 'rgba(15, 23, 42, 0.94)';
-    ctx.fillRect(cx - 210, y, 420, 42);
+    ctx.fillRect(cx - 190, y, 380, 40);
     ctx.strokeStyle = done ? '#4ade80' : '#facc15';
     ctx.lineWidth = 2;
-    ctx.strokeRect(cx - 210, y, 420, 42);
+    ctx.strokeRect(cx - 190, y, 380, 40);
 
     ctx.font = 'bold 12px monospace';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#fde047';
     ctx.fillText(
       isl.playableInVerticalSlice
-        ? `⚓ [E / Space / 입항 버튼] "${isl.name}" 에피소드 페이지 입항`
-        : `⚓ "${isl.name}" (자유 항해 해역 거점 — 주변 보물/해상전 탐색)`,
+        ? `⚓ [E / Space / 화면 터치] "${isl.name}" 입항하기`
+        : `⚓ "${isl.name}" (자유 항해 해역 거점)`,
       cx,
       y + 17
     );
     ctx.font = '10px monospace';
     ctx.fillStyle = '#cbd5e1';
-    ctx.fillText(isl.summary, cx, y + 34);
+    ctx.fillText(isl.summary, cx, y + 33);
   } else if (stepInfo.nearbySeaGate) {
     const gate = stepInfo.nearbySeaGate;
     ctx.fillStyle = 'rgba(15, 23, 42, 0.94)';
-    ctx.fillRect(cx - 210, y, 420, 42);
+    ctx.fillRect(cx - 190, y, 380, 40);
     ctx.strokeStyle = '#38bdf8';
     ctx.lineWidth = 2;
-    ctx.strokeRect(cx - 210, y, 420, 42);
+    ctx.strokeRect(cx - 190, y, 380, 40);
 
     ctx.font = 'bold 12px monospace';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#38bdf8';
     ctx.fillText(
-      `⛩ [E / Space / 관문 버튼] "${gate.name}" 돌파 -> ${gate.toZoneId.toUpperCase()}`,
+      `⛩ [E / Space / 화면 터치] "${gate.name}" 진입`,
       cx,
       y + 17
     );
     ctx.font = '10px monospace';
     ctx.fillStyle = '#cbd5e1';
-    ctx.fillText(gate.description, cx, y + 34);
+    ctx.fillText(gate.description, cx, y + 33);
   } else {
     // Controls hint bar
     const shipDef = rpgRegistry.ships[state.ship.shipId];
     const coupHint = shipDef?.hasCoupDeBurst
       ? state.ship.coupDeBurstCooldownTimer > 0
-        ? ` | [Shift] 쿠 드 버스트 (${state.ship.coupDeBurstCooldownTimer.toFixed(1)}s)`
-        : ' | [Shift] 쿠 드 버스트 READY!'
+        ? ` · [Shift] 가속 (${state.ship.coupDeBurstCooldownTimer.toFixed(0)}초)`
+        : ' · [Shift] 쿠 드 버스트 가속'
       : '';
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.80)';
-    ctx.fillRect(cx - 200, viewH - 28 - safeB, 400, 20);
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.78)';
+    ctx.fillRect(cx - 165, viewH - 28 - safeB, 330, 20);
     ctx.font = '10px monospace';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#cbd5e1';
     ctx.fillText(
-      `[WASD/방향키] 자유 항해 | [E/Space] 섬 입항·관문 진입${coupHint}`,
+      `[방향키 / WASD] 항해 · [E / Space] 입항${coupHint}`,
       cx,
       viewH - 14 - safeB
     );

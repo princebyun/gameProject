@@ -18,6 +18,24 @@ export type ExternalImageLoaderFn = (
   src: string
 ) => Promise<HTMLImageElement | HTMLCanvasElement | null>;
 
+/**
+ * Step 2: Verifies that an external sprite sheet PNG is an authentic multi-frame sprite sheet
+ * (at least `minHorizontalFrames` frames wide, default >= 4) and NOT a single stationary image.
+ * Single stationary images are strictly treated as design references and rejected from direct rendering.
+ */
+export function isValidMultiFrameSpriteSheet(
+  img: HTMLImageElement | HTMLCanvasElement | null,
+  frameWidth = 32,
+  minHorizontalFrames = 4
+): boolean {
+  if (!img) return false;
+  const w =
+    'naturalWidth' in img && img.naturalWidth > 0
+      ? img.naturalWidth
+      : img.width;
+  return w >= Math.max(16, frameWidth) * minHorizontalFrames;
+}
+
 export type ExternalAudioLoaderFn = (
   src: string,
   ctx: AudioContext | null
@@ -103,7 +121,11 @@ export class ExternalAssetResolver {
   public resolveImageSyncOrBake(
     key: string,
     src: string,
-    bakeFallback: () => HTMLCanvasElement | null
+    bakeFallback: () => HTMLCanvasElement | null,
+    options?: {
+      minHorizontalFrames?: number;
+      frameWidth?: number;
+    }
   ): ResolvedImageAsset {
     const cached = this.imageCache.get(key);
     if (cached) {
@@ -120,11 +142,20 @@ export class ExternalAssetResolver {
     this.imageCache.set(key, initial);
     this.sourceStatusMap.set(key, 'BAKED_FALLBACK');
 
-    // Non-blocking hot-swap check for external PNG under public/assets/
+    const minFrames =
+      options?.minHorizontalFrames ??
+      (src.includes('assets/sprites/') ? 4 : 1);
+    const frameW = options?.frameWidth ?? 32;
+
+    // Non-blocking hot-swap check for external multi-frame PNG under public/assets/
     if (!this.pendingImageProbes.has(key)) {
       const probe = this.imageLoader(src)
         .then((extImg) => {
-          if (extImg) {
+          if (
+            extImg &&
+            (minFrames <= 1 ||
+              isValidMultiFrameSpriteSheet(extImg, frameW, minFrames))
+          ) {
             const upgraded: ResolvedImageAsset = {
               key,
               src,
@@ -146,12 +177,17 @@ export class ExternalAssetResolver {
 
   /**
    * Async resolution used by tests, preloaders, and AssetPreviewScene:
-   * Checks external PNG first; if present, overrides with EXTERNAL_PNG; otherwise uses baked fallback.
+   * Checks external PNG first; if it is a valid multi-frame sheet (frames >= 4 for sprites),
+   * overrides with EXTERNAL_PNG; otherwise uses baked fallback.
    */
   public async resolveImageAsync(
     key: string,
     src: string,
-    bakeFallback: () => HTMLCanvasElement | null
+    bakeFallback: () => HTMLCanvasElement | null,
+    options?: {
+      minHorizontalFrames?: number;
+      frameWidth?: number;
+    }
   ): Promise<ResolvedImageAsset> {
     const existing = this.imageCache.get(key);
     if (existing && existing.source === 'EXTERNAL_PNG') {
@@ -162,9 +198,18 @@ export class ExternalAssetResolver {
       return await pending;
     }
 
+    const minFrames =
+      options?.minHorizontalFrames ??
+      (src.includes('assets/sprites/') ? 4 : 1);
+    const frameW = options?.frameWidth ?? 32;
+
     const promise = (async (): Promise<ResolvedImageAsset> => {
       const extImg = await this.imageLoader(src);
-      if (extImg) {
+      if (
+        extImg &&
+        (minFrames <= 1 ||
+          isValidMultiFrameSpriteSheet(extImg, frameW, minFrames))
+      ) {
         const res: ResolvedImageAsset = {
           key,
           src,

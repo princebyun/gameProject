@@ -269,22 +269,40 @@ export function renderDialogueCutsceneOverlay(
 
   const matchedUnitId = guessPortraitUnitId(npc);
   const unitDef = matchedUnitId && gameRegistry ? gameRegistry.units[matchedUnitId] : null;
-  if (unitDef && assets) {
-    const resolved = assets.getOrCreateUnitSpriteSheet(unitDef, null, null);
-    if (resolved.sheet) {
-      const fw = resolved.entry.frameWidth;
-      const fh = resolved.entry.frameHeight;
+  if (matchedUnitId && assets) {
+    const portrait = assets.getOrCreateUnitPortrait(
+      matchedUnitId,
+      matchedUnitId === 'luffy' ? 'excited' : 'normal'
+    );
+    if (portrait) {
       ctx.drawImage(
-        resolved.sheet,
+        portrait,
         0,
         0,
-        fw,
-        fh,
+        64,
+        64,
         portX + 4,
         portY + 4,
         portSize - 8,
         portSize - 8
       );
+    } else if (unitDef) {
+      const resolved = assets.getOrCreateUnitSpriteSheet(unitDef, null, null);
+      if (resolved.sheet) {
+        const fw = resolved.entry.frameWidth;
+        const fh = resolved.entry.frameHeight;
+        ctx.drawImage(
+          resolved.sheet,
+          0,
+          0,
+          fw,
+          fh,
+          portX + 4,
+          portY + 4,
+          portSize - 8,
+          portSize - 8
+        );
+      }
     }
   } else {
     // Stylized pixel NPC emblem portrait
@@ -533,9 +551,14 @@ export function renderWantedPosterOverlay(
 
   const unitDef = gameRegistry.units[poster.unitId];
   if (unitDef) {
-    const sprite = assets.getOrCreateUnitSprite(unitDef, 'BASE', null);
-    if (sprite) {
-      ctx.drawImage(sprite, x + w * 0.5 - 48, y + 74, 96, 96);
+    const portrait = assets.getOrCreateUnitPortrait(poster.unitId, 'smirk');
+    if (portrait) {
+      ctx.drawImage(portrait, x + w * 0.5 - 52, y + 70, 104, 104);
+    } else {
+      const sprite = assets.getOrCreateUnitSprite(unitDef, 'BASE', null);
+      if (sprite) {
+        ctx.drawImage(sprite, x + w * 0.5 - 48, y + 74, 96, 96);
+      }
     }
   }
 
@@ -577,7 +600,7 @@ export function renderWantedPosterOverlay(
 
   ctx.font = '10px monospace';
   ctx.fillStyle = '#0284c7';
-  ctx.fillText('[클릭 또는 E/Space: 수배서 닫기]', x + w * 0.5, y + 354);
+  ctx.fillText('[화면 터치 / 방향키 / Space로 닫기]', x + w * 0.5, y + 354);
 
   ctx.restore();
 }

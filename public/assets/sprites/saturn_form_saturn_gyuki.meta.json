@@ -1,0 +1,88 @@
+{
+  "key": "saturn_form_saturn_gyuki",
+  "unitId": "saturn",
+  "formId": "form_saturn_gyuki",
+  "rigType": "giant_beast",
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
+  "anchor": {
+    "x": 0.5,
+    "y": 0.9
+  },
+  "source": "PROCEDURAL_RIG_BAKED",
+  "sha256": "38dea4bf8a6b9dffffe6d8b57451187067966c769e5cb67db2f0c343f128b72b",
+  "bakedAt": "2026-11-21T14:55:00.794Z",
+  "animations": {
+    "IDLE": {
+      "row": 0,
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    "MOVE": {
+      "row": 1,
+      "frames": 6,
+      "fps": 12,
+      "loop": true
+    },
+    "WINDUP": {
+      "row": 2,
+      "frames": 3,
+      "fps": 10,
+      "loop": false
+    },
+    "ATTACK_MELEE": {
+      "row": 3,
+      "frames": 4,
+      "fps": 14,
+      "loop": false,
+      "hitFrame": 2
+    },
+    "ATTACK_CAST": {
+      "row": 4,
+      "frames": 4,
+      "fps": 12,
+      "loop": false,
+      "hitFrame": 2
+    },
+    "CLASH": {
+      "row": 5,
+      "frames": 2,
+      "fps": 12,
+      "loop": true
+    },
+    "DODGE": {
+      "row": 6,
+      "frames": 3,
+      "fps": 12,
+      "loop": false
+    },
+    "HIT": {
+      "row": 7,
+      "frames": 2,
+      "fps": 10,
+      "loop": false
+    },
+    "DOWNED": {
+      "row": 8,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    "TRANSFORM": {
+      "row": 9,
+      "frames": 4,
+      "fps": 10,
+      "loop": false,
+      "hitFrame": 2
+    },
+    "VICTORY": {
+      "row": 10,
+      "frames": 3,
+      "fps": 6,
+      "loop": true
+    }
+  }
+}

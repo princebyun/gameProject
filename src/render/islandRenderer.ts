@@ -276,9 +276,24 @@ export function renderIslandEpisodeCanvas(
 
     const bossUnit = gameRegistry.units[enc.enemyUnitIds[0]];
     if (bossUnit) {
-      const sprite = assets.getOrCreateUnitSprite(bossUnit, 'BASE', null);
-      if (sprite) {
-        ctx.drawImage(sprite, enc.pos.x - 20, enc.pos.y - 20, 40, 40);
+      const resolved = assets.getOrCreateUnitSpriteSheet(bossUnit, 'base', null);
+      if (resolved.sheet) {
+        const fw = resolved.entry.frameWidth;
+        const fh = resolved.entry.frameHeight;
+        const animClip = resolved.entry.animations.IDLE;
+        const frameIdx =
+          Math.floor((tick / 60) * animClip.fps) % Math.max(1, animClip.frames);
+        ctx.drawImage(
+          resolved.sheet,
+          frameIdx * fw,
+          animClip.row * fh,
+          fw,
+          fh,
+          enc.pos.x - 22,
+          enc.pos.y - 24,
+          44,
+          44
+        );
       }
     }
 
@@ -312,24 +327,37 @@ export function renderIslandEpisodeCanvas(
   if (leaderDef) {
     const resolved = assets.getOrCreateUnitSpriteSheet(leaderDef, 'base', null);
     if (resolved.sheet) {
-      const idleClip = resolved.entry.animations.IDLE;
-      const frameIdx = Math.floor((tick / 60) * idleClip.fps) % idleClip.frames;
+      const animClip = runtime.isMoving
+        ? resolved.entry.animations.MOVE
+        : resolved.entry.animations.IDLE;
+      const frameIdx =
+        Math.floor((tick / 60) * animClip.fps) % Math.max(1, animClip.frames);
       const fw = resolved.entry.frameWidth;
       const fh = resolved.entry.frameHeight;
-      const drawW = 44;
-      const drawH = 44;
+      const drawW = fw;
+      const drawH = fh;
+      const facingX = Math.cos(runtime.playerHeadingRad) < -0.05 ? -1 : 1;
+      const anchorX = Math.round(drawW * resolved.entry.anchor.x);
+      const anchorY = Math.round(drawH * resolved.entry.anchor.y);
+      ctx.save();
       ctx.imageSmoothingEnabled = false;
+      ctx.translate(
+        Math.round(runtime.playerPos.x),
+        Math.round(runtime.playerPos.y + 10)
+      );
+      ctx.scale(facingX, 1);
       ctx.drawImage(
         resolved.sheet,
         frameIdx * fw,
-        idleClip.row * fh,
+        animClip.row * fh,
         fw,
         fh,
-        Math.round(runtime.playerPos.x - drawW * resolved.entry.anchor.x),
-        Math.round(runtime.playerPos.y - drawH * resolved.entry.anchor.y + 8),
+        -anchorX,
+        -anchorY,
         drawW,
         drawH
       );
+      ctx.restore();
     }
   }
   ctx.restore();
@@ -342,88 +370,95 @@ export function renderIslandEpisodeCanvas(
   // Exit centered island coordinate space before drawing screen-space Safe-Area HUDs
   ctx.restore();
 
-  // 9. Top Episode Header & Quest Objective Checklist HUD (respecting Safe Area)
+  // 9. Compact Top-Left Island Episode Header HUD (respecting Safe Area)
   const hudX = 10 + safeL;
   const hudY = 10 + safeT;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.90)';
-  ctx.fillRect(hudX, hudY, 420, 86);
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+  ctx.fillRect(hudX, hudY, 316, 50);
   ctx.strokeStyle = '#facc15';
   ctx.lineWidth = 1.5;
-  ctx.strokeRect(hudX, hudY, 420, 86);
+  ctx.strokeRect(hudX, hudY, 316, 50);
 
   ctx.font = 'bold 12px monospace';
   ctx.textAlign = 'left';
   ctx.fillStyle = '#fde047';
-  ctx.fillText(`🏝 ${islandMap.name}`, hudX + 8, hudY + 17);
+  ctx.fillText(`🏝 ${islandMap.name}`, hudX + 8, hudY + 18);
 
   if (episode) {
     const epCompleted = state.completedEpisodes.includes(episode.episodeId);
+    const doneSteps = episode.steps.filter((st) => Boolean(state.episodeFlags[st.requiredFlag])).length;
     ctx.font = 'bold 10px monospace';
     ctx.fillStyle = epCompleted ? '#4ade80' : '#38bdf8';
     ctx.fillText(
-      epCompleted ? `★ ${episode.title} [클리어 완료!]` : episode.title,
+      epCompleted
+        ? `★ ${episode.title} [클리어 완료]`
+        : `${episode.title} (${doneSteps}/${episode.steps.length})`,
       hudX + 8,
-      hudY + 33
+      hudY + 37
     );
-
-    ctx.font = '10px monospace';
-    episode.steps.forEach((st, idx) => {
-      const done = Boolean(state.episodeFlags[st.requiredFlag]);
-      ctx.fillStyle = done ? '#4ade80' : '#e2e8f0';
-      const prefix = done ? '✓' : '▶';
-      ctx.fillText(`${prefix} ${st.title}`, hudX + 8, hudY + 49 + idx * 13);
-    });
   }
 
   // 10. Bottom Interaction Prompt Bar (centered in full viewWidth, respecting Safe Area bottom)
   const cx = viewW * 0.5;
-  const py = viewH - 44 - safeB;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
-  ctx.fillRect(cx - 210, py, 420, 34);
-  ctx.strokeStyle = '#38bdf8';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(cx - 210, py, 420, 34);
+  const py = viewH - 42 - safeB;
+  const hasAction = Boolean(
+    stepInfo.nearbySwitch ||
+      stepInfo.nearbyNpc ||
+      stepInfo.nearbyEncounter ||
+      stepInfo.atBattleTerminal ||
+      stepInfo.atPortExit
+  );
+  const boxW = hasAction ? 360 : 300;
+  const boxH = hasAction ? 32 : 22;
+  const boxY = hasAction ? py : viewH - 30 - safeB;
 
-  ctx.font = 'bold 11px monospace';
+  ctx.fillStyle = hasAction ? 'rgba(15, 23, 42, 0.94)' : 'rgba(15, 23, 42, 0.78)';
+  ctx.fillRect(cx - boxW * 0.5, boxY, boxW, boxH);
+  if (hasAction) {
+    ctx.strokeStyle = '#facc15';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(cx - boxW * 0.5, boxY, boxW, boxH);
+  }
+
+  ctx.font = hasAction ? 'bold 11px monospace' : '10px monospace';
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#fde047';
+  ctx.fillStyle = hasAction ? '#fde047' : '#cbd5e1';
 
   if (stepInfo.nearbySwitch) {
     ctx.fillText(
-      `⚙ [E / Space / 상호작용] "${stepInfo.nearbySwitch.label}" 작동 (레이저 배리어 해제)`,
+      `⚙ [E / Space / 터치] "${stepInfo.nearbySwitch.label}" 작동하기`,
       cx,
-      py + 21
+      boxY + 20
     );
   } else if (stepInfo.nearbyNpc) {
     ctx.fillText(
-      `💬 [E / Space / 상호작용] "${stepInfo.nearbyNpc.name}"와(과) 대화하기`,
+      `💬 [E / Space / 터치] "${stepInfo.nearbyNpc.name}" 대화하기`,
       cx,
-      py + 21
+      boxY + 20
     );
   } else if (stepInfo.nearbyEncounter) {
     ctx.fillText(
-      `⚔ [E / Space / 상호작용] "${stepInfo.nearbyEncounter.name}" 보스전 돌입!`,
+      `⚔ [E / Space / 터치] "${stepInfo.nearbyEncounter.name}" 전투 시작!`,
       cx,
-      py + 21
+      boxY + 20
     );
   } else if (stepInfo.atBattleTerminal) {
     ctx.fillText(
-      `🌐 [E / Space / 상호작용] 항구 대전 단말기 접속 (온라인 통신 대전 — 아이템 금지 & HP/PP 무손실)`,
+      `🌐 [E / Space / 터치] 항구 통신 대전 단말기 접속`,
       cx,
-      py + 21
+      boxY + 20
     );
   } else if (stepInfo.atPortExit) {
     ctx.fillText(
-      `⚓ [E / Space / 상호작용] 항구 출구 — 직전 해역(${state.lastDockedPort.zoneId}) 바다로 복귀`,
+      `⚓ [E / Space / 터치] 바다로 출항하기`,
       cx,
-      py + 21
+      boxY + 20
     );
   } else {
-    ctx.fillStyle = '#cbd5e1';
     ctx.fillText(
-      `[WASD/방향키] 섬 탐험 이동 | [E/Space] NPC 대화·퍼즐 스위치·보스전·항구 출구`,
+      `[방향키 / WASD] 이동 · [E / Space] 대화 및 조사`,
       cx,
-      py + 21
+      boxY + 15
     );
   }
 }

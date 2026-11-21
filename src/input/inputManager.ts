@@ -60,6 +60,8 @@ export class UnifiedInputManager {
   public virtualJoystickKnob: Vec2 = { x: 108, y: 432 };
   public virtualJoystickActive: boolean = false;
   public virtualMoveVec: Vec2 = { x: 0, y: 0 };
+  private joystickPointerId: number | null = null;
+  private lastFormShiftTapMs = 0;
   private touchPendingSkill: number | null = null;
   private touchPendingDodge = false;
   private touchPendingFormShift = false;
@@ -258,8 +260,15 @@ export class UnifiedInputManager {
     else if (action === 'SKILL_2') this.touchPendingSkill = 2;
     else if (action === 'SKILL_3') this.touchPendingSkill = 3;
     else if (action === 'DODGE') this.touchPendingDodge = true;
-    else if (action === 'FORM_SHIFT') this.touchPendingFormShift = true;
-    else if (action === 'AWAKENING') this.touchPendingAwakening = true;
+    else if (action === 'FORM_SHIFT') {
+      const now = this.platform.nowMs();
+      if (now - this.lastFormShiftTapMs <= 380) {
+        this.touchPendingAwakening = true;
+      } else {
+        this.touchPendingFormShift = true;
+      }
+      this.lastFormShiftTapMs = now;
+    } else if (action === 'AWAKENING') this.touchPendingAwakening = true;
     else if (action === 'SWAP') this.touchPendingSwap = true;
   }
 
@@ -276,7 +285,62 @@ export class UnifiedInputManager {
     return null;
   }
 
-  public handleCanvasPointerDown(logicalPos: Vec2): boolean {
+  /**
+   * Hit-tests the bottom-center battle HUD skill slots, dodge card, form/awakening card,
+   * and quick-swap banner so both touch and mouse players can tap/click them directly.
+   */
+  public hitTestBattleBottomHud(
+    logicalPos: Vec2,
+    totalSlots = 4,
+    metrics: ViewportMetrics = this.viewportMetrics
+  ): TouchButtonRect['id'] | 'AWAKENING' | null {
+    if (totalSlots <= 0) return null;
+    const isTouch = this.isTouchViewport();
+    const slotWidth = isTouch ? 84 : 118;
+    const slotHeight = 44;
+    const gap = 6;
+    const totalW = totalSlots * slotWidth + (totalSlots - 1) * gap;
+    const startX = Math.round((metrics.viewWidth - totalW) * 0.5);
+    const y = metrics.viewHeight - slotHeight - 8 - metrics.safeInsets.bottom;
+
+    // Quick swap banner right above the skill bar
+    if (
+      logicalPos.x >= metrics.viewWidth * 0.5 - 135 &&
+      logicalPos.x <= metrics.viewWidth * 0.5 + 135 &&
+      logicalPos.y >= y - 28 &&
+      logicalPos.y <= y - 4
+    ) {
+      return 'SWAP';
+    }
+
+    if (logicalPos.y >= y && logicalPos.y <= y + slotHeight) {
+      for (let idx = 0; idx < totalSlots; idx++) {
+        const sx = startX + idx * (slotWidth + gap);
+        if (logicalPos.x >= sx && logicalPos.x <= sx + slotWidth) {
+          const actions: TouchButtonRect['id'][] = [
+            'SKILL_0',
+            'SKILL_1',
+            'SKILL_2',
+            'SKILL_3'
+          ];
+          return actions[idx] ?? null;
+        }
+      }
+      if (!isTouch) {
+        const dx = startX - 96;
+        if (logicalPos.x >= dx && logicalPos.x <= dx + 90) {
+          return 'DODGE';
+        }
+        const fx = startX + totalW + 6;
+        if (logicalPos.x >= fx && logicalPos.x <= fx + 122) {
+          return 'FORM_SHIFT';
+        }
+      }
+    }
+    return null;
+  }
+
+  public handleCanvasPointerDown(logicalPos: Vec2, pointerId?: number): boolean {
     if (this.isTouchViewport()) {
       for (const btn of this.getTouchButtons()) {
         if (distVec(logicalPos, { x: btn.x, y: btn.y }) <= btn.r + 8) {
@@ -284,9 +348,13 @@ export class UnifiedInputManager {
           return true;
         }
       }
-      // Left-bottom floating joystick zone
+      // Left-bottom floating joystick zone (locks to its own pointerId for true multi-touch)
       const m = this.viewportMetrics;
-      if (logicalPos.x <= m.viewWidth * 0.42 && logicalPos.y >= m.viewHeight * 0.36) {
+      if (
+        !this.virtualJoystickActive &&
+        logicalPos.x <= m.viewWidth * 0.42 &&
+        logicalPos.y >= m.viewHeight * 0.36
+      ) {
         const s = this.getTouchScale();
         const pad = Math.round(52 * s);
         this.virtualJoystickOrigin = {
@@ -298,6 +366,7 @@ export class UnifiedInputManager {
           )
         };
         this.virtualJoystickActive = true;
+        this.joystickPointerId = pointerId ?? null;
         this.updateVirtualJoystick(logicalPos);
         return true;
       }
@@ -307,16 +376,32 @@ export class UnifiedInputManager {
     return false;
   }
 
-  public handleCanvasPointerMove(logicalPos: Vec2): void {
+  public handleCanvasPointerMove(logicalPos: Vec2, pointerId?: number): void {
     this.mouseLogicalPos = logicalPos;
     if (this.virtualJoystickActive) {
+      if (
+        this.joystickPointerId !== null &&
+        pointerId !== undefined &&
+        pointerId !== this.joystickPointerId
+      ) {
+        return;
+      }
       this.updateVirtualJoystick(logicalPos);
     }
   }
 
-  public handleCanvasPointerUp(): void {
+  public handleCanvasPointerUp(pointerId?: number): void {
+    if (
+      this.virtualJoystickActive &&
+      this.joystickPointerId !== null &&
+      pointerId !== undefined &&
+      pointerId !== this.joystickPointerId
+    ) {
+      return;
+    }
     this.mouseDown = false;
     this.virtualJoystickActive = false;
+    this.joystickPointerId = null;
     this.virtualJoystickOrigin = { ...this.virtualJoystickHomeOrigin };
     this.virtualJoystickKnob = { ...this.virtualJoystickHomeOrigin };
     this.virtualMoveVec = { x: 0, y: 0 };
@@ -340,9 +425,14 @@ export class UnifiedInputManager {
     if (typeof window === 'undefined') return;
 
     window.addEventListener('keydown', (e) => {
-      const tag = (e.target as HTMLElement | null)?.tagName;
-      if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') {
+      const targetEl = e.target as HTMLElement | null;
+      const tag = targetEl?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
         return;
+      }
+      if (tag === 'SELECT') {
+        // Prevent a lingering focused <select> from swallowing game movement keys
+        targetEl?.blur();
       }
       if (!this.keysDown.has(e.code)) {
         this.keysJustPressed.add(e.code);
@@ -355,9 +445,78 @@ export class UnifiedInputManager {
     });
 
     window.addEventListener('blur', () => {
-      this.keysDown.clear();
-      this.keysJustPressed.clear();
+      this.resetTransientInputState(true);
     });
+  }
+
+  /**
+   * Resets transient pointer/joystick/one-shot action state across scene transitions
+   * so post-battle exploration never inherits stuck pointers or stale action flags.
+   */
+  public resetTransientInputState(clearHeldKeys: boolean = false): void {
+    if (clearHeldKeys) {
+      this.keysDown.clear();
+    }
+    this.keysJustPressed.clear();
+    this.mouseDown = false;
+    this.virtualJoystickActive = false;
+    this.joystickPointerId = null;
+    this.virtualJoystickOrigin = { ...this.virtualJoystickHomeOrigin };
+    this.virtualJoystickKnob = { ...this.virtualJoystickHomeOrigin };
+    this.virtualMoveVec = { x: 0, y: 0 };
+    this.touchPendingSkill = null;
+    this.touchPendingDodge = false;
+    this.touchPendingFormShift = false;
+    this.touchPendingAwakening = false;
+    this.touchPendingSwap = false;
+  }
+
+  /**
+   * Computes the normalized 2D movement vector for island and sea exploration directly
+   * from keyboard (WASD + Arrow keys), virtual touch joystick, and gamepad left stick,
+   * completely independent of BattleWorldState or whether battleWorld.units[0] is alive/on-field.
+   */
+  public getExplorationMoveVector(): Vec2 {
+    let mx = 0;
+    let my = 0;
+
+    if (this.keysDown.has(this.bindings.moveUp) || this.keysDown.has('ArrowUp') || this.keysDown.has('KeyW')) {
+      my -= 1;
+    }
+    if (this.keysDown.has(this.bindings.moveDown) || this.keysDown.has('ArrowDown') || this.keysDown.has('KeyS')) {
+      my += 1;
+    }
+    if (this.keysDown.has(this.bindings.moveLeft) || this.keysDown.has('ArrowLeft') || this.keysDown.has('KeyA')) {
+      mx -= 1;
+    }
+    if (this.keysDown.has(this.bindings.moveRight) || this.keysDown.has('ArrowRight') || this.keysDown.has('KeyD')) {
+      mx += 1;
+    }
+
+    if (lenVec(this.virtualMoveVec) > 0.08) {
+      mx += this.virtualMoveVec.x;
+      my += this.virtualMoveVec.y;
+    }
+
+    if (typeof navigator !== 'undefined' && typeof navigator.getGamepads === 'function') {
+      const pads = navigator.getGamepads();
+      const pad = pads?.[0];
+      if (pad) {
+        if (Math.abs(pad.axes[0] ?? 0) > 0.18) mx += pad.axes[0];
+        if (Math.abs(pad.axes[1] ?? 0) > 0.18) my += pad.axes[1];
+      }
+    }
+
+    this.keysJustPressed.clear();
+    this.touchPendingSkill = null;
+    this.touchPendingDodge = false;
+    this.touchPendingFormShift = false;
+    this.touchPendingAwakening = false;
+    this.touchPendingSwap = false;
+
+    return lenVec({ x: mx, y: my }) > 0.05
+      ? normalizeVec({ x: mx, y: my })
+      : { x: 0, y: 0 };
   }
 
   public buildPlayerCommand(

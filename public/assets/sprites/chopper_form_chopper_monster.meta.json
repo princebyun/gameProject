@@ -1,0 +1,88 @@
+{
+  "key": "chopper_form_chopper_monster",
+  "unitId": "chopper",
+  "formId": "form_chopper_monster",
+  "rigType": "giant_beast",
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
+  "anchor": {
+    "x": 0.5,
+    "y": 0.9
+  },
+  "source": "PROCEDURAL_RIG_BAKED",
+  "sha256": "907f2bdcbb53acb6f16de43cc169cb2d73115264ad78b79fd273f29808e6f929",
+  "bakedAt": "2026-11-21T14:54:59.754Z",
+  "animations": {
+    "IDLE": {
+      "row": 0,
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    "MOVE": {
+      "row": 1,
+      "frames": 6,
+      "fps": 12,
+      "loop": true
+    },
+    "WINDUP": {
+      "row": 2,
+      "frames": 3,
+      "fps": 10,
+      "loop": false
+    },
+    "ATTACK_MELEE": {
+      "row": 3,
+      "frames": 4,
+      "fps": 14,
+      "loop": false,
+      "hitFrame": 2
+    },
+    "ATTACK_CAST": {
+      "row": 4,
+      "frames": 4,
+      "fps": 12,
+      "loop": false,
+      "hitFrame": 2
+    },
+    "CLASH": {
+      "row": 5,
+      "frames": 2,
+      "fps": 12,
+      "loop": true
+    },
+    "DODGE": {
+      "row": 6,
+      "frames": 3,
+      "fps": 12,
+      "loop": false
+    },
+    "HIT": {
+      "row": 7,
+      "frames": 2,
+      "fps": 10,
+      "loop": false
+    },
+    "DOWNED": {
+      "row": 8,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    "TRANSFORM": {
+      "row": 9,
+      "frames": 4,
+      "fps": 10,
+      "loop": false,
+      "hitFrame": 2
+    },
+    "VICTORY": {
+      "row": 10,
+      "frames": 3,
+      "fps": 6,
+      "loop": true
+    }
+  }
+}

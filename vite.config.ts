@@ -19,7 +19,7 @@ export default defineConfig(() => {
       : targetPlatform === 'android'
         ? 'dist-android'
         : 'dist-web';
-  const base = isWeb ? '/' : './';
+  const base = './';
 
   return {
     base,
@@ -28,7 +28,31 @@ export default defineConfig(() => {
     },
     build: {
       outDir,
-      emptyOutDir: true
+      emptyOutDir: true,
+      sourcemap: false,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
+            if (id.includes('/src/data/') || id.includes('\\src\\data\\')) {
+              return 'game-data';
+            }
+            if (
+              id.includes('/src/render/sprite/rig/') ||
+              id.includes('\\src\\render\\sprite\\rig\\') ||
+              id.includes('luffyArticulatedPixelSheet')
+            ) {
+              return 'pixel-rig';
+            }
+            if (id.includes('/src/core/') || id.includes('\\src\\core\\')) {
+              return 'core-engine';
+            }
+            return undefined;
+          }
+        }
+      }
     },
     plugins: [
       ...(isWeb
@@ -69,15 +93,17 @@ export default defineConfig(() => {
               workbox: {
                 // Keep app shell, JSON manifests, UI icons, and core SFX precached
                 globPatterns: ['**/*.{js,css,html,svg,png,json,webmanifest}'],
-                // Offload large external sprite sheets, biome tilesets, and BGM streams to Runtime CacheFirst
+                // Offload large external sprite sheets, portraits, biome tilesets, and BGM streams to Runtime CacheFirst
                 globIgnores: [
                   'assets/sprites/**',
+                  'assets/portraits/**',
                   'assets/tilesets/**',
-                  'assets/audio/bgm/**'
+                  'assets/audio/bgm/**',
+                  '**/*.meta.json'
                 ],
                 runtimeCaching: [
                   {
-                    urlPattern: /\/assets\/(sprites|tilesets)\/.*\.png$/i,
+                    urlPattern: /\/assets\/(sprites|portraits|tilesets)\/.*\.png$/i,
                     handler: 'CacheFirst',
                     options: {
                       cacheName: 'opgv-pixel-art-cache',

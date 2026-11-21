@@ -1,0 +1,88 @@
+{
+  "key": "arlong_form_solar_awakening",
+  "unitId": "arlong",
+  "formId": "form_solar_awakening",
+  "rigType": "swordsman_weapon",
+  "frameWidth": 64,
+  "frameHeight": 64,
+  "sheetWidth": 384,
+  "sheetHeight": 704,
+  "anchor": {
+    "x": 0.5,
+    "y": 0.9
+  },
+  "source": "PROCEDURAL_RIG_BAKED",
+  "sha256": "d5d4cab8f5e9d5c069e246856717eaec0d7a3221dc1f9b4ecde91052ad25008a",
+  "bakedAt": "2026-11-21T14:54:59.978Z",
+  "animations": {
+    "IDLE": {
+      "row": 0,
+      "frames": 4,
+      "fps": 5,
+      "loop": true
+    },
+    "MOVE": {
+      "row": 1,
+      "frames": 6,
+      "fps": 12,
+      "loop": true
+    },
+    "WINDUP": {
+      "row": 2,
+      "frames": 3,
+      "fps": 10,
+      "loop": false
+    },
+    "ATTACK_MELEE": {
+      "row": 3,
+      "frames": 4,
+      "fps": 14,
+      "loop": false,
+      "hitFrame": 2
+    },
+    "ATTACK_CAST": {
+      "row": 4,
+      "frames": 4,
+      "fps": 12,
+      "loop": false,
+      "hitFrame": 2
+    },
+    "CLASH": {
+      "row": 5,
+      "frames": 2,
+      "fps": 12,
+      "loop": true
+    },
+    "DODGE": {
+      "row": 6,
+      "frames": 3,
+      "fps": 12,
+      "loop": false
+    },
+    "HIT": {
+      "row": 7,
+      "frames": 2,
+      "fps": 10,
+      "loop": false
+    },
+    "DOWNED": {
+      "row": 8,
+      "frames": 2,
+      "fps": 4,
+      "loop": true
+    },
+    "TRANSFORM": {
+      "row": 9,
+      "frames": 4,
+      "fps": 10,
+      "loop": false,
+      "hitFrame": 2
+    },
+    "VICTORY": {
+      "row": 10,
+      "frames": 3,
+      "fps": 6,
+      "loop": true
+    }
+  }
+}

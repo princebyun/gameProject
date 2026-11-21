@@ -7,6 +7,10 @@ import type {
   TilesetManifestFile
 } from '../src/data/assets/types';
 import { STANDARD_SPRITE_ANIM_STATES } from '../src/data/assets/types';
+import {
+  ALL_PORTRAIT_EMOTIONS,
+  type CharacterBlueprintsFile
+} from '../src/render/sprite/rig/rigTypes';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,6 +20,39 @@ function readJson<T>(relPath: string): T {
   const abs = path.join(ROOT, relPath);
   const raw = fs.readFileSync(abs, 'utf-8');
   return JSON.parse(raw) as T;
+}
+
+/**
+ * Checks whether a relative path under `ROOT` exists with 100% strict case sensitivity
+ * on every path segment (prevents Windows case-insensitive pass / Linux-Android WebView 404).
+ */
+function existsStrictCase(relPath: string): boolean {
+  const normalized = relPath.replace(/\\/g, '/').replace(/^\.\//, '');
+  const parts = normalized.split('/').filter(Boolean);
+  let currentDir = ROOT;
+
+  for (const part of parts) {
+    if (!fs.existsSync(currentDir) || !fs.statSync(currentDir).isDirectory()) {
+      return false;
+    }
+    const entries = fs.readdirSync(currentDir);
+    if (!entries.includes(part)) {
+      return false;
+    }
+    currentDir = path.join(currentDir, part);
+  }
+  return fs.existsSync(currentDir);
+}
+
+function readPngDimensions(absPath: string): { width: number; height: number } | null {
+  const buf = fs.readFileSync(absPath);
+  if (buf.byteLength < 24 || buf[0] !== 0x89 || buf[1] !== 0x50) {
+    return null;
+  }
+  return {
+    width: buf.readUInt32BE(16),
+    height: buf.readUInt32BE(20)
+  };
 }
 
 interface UnitJsonEntry {
@@ -79,7 +116,7 @@ const REQUIRED_SHIP_KEYS = [
   'ship_sea_king'
 ];
 
-const VALID_FRAME_SIZES = new Set([32, 48, 96]);
+const VALID_FRAME_SIZES = new Set([32, 48, 64, 96]);
 
 function main(): void {
   const errors: string[] = [];
@@ -94,12 +131,16 @@ function main(): void {
     .map((f) => readJson<IslandJsonEntry>(`src/data/islands/${f}`));
 
   const sprites = readJson<SpriteSheetManifestFile>('src/data/assets/sprites.json');
+  const blueprints = readJson<CharacterBlueprintsFile>(
+    'src/data/assets/character_blueprints.json'
+  );
   const tilesets = readJson<TilesetManifestFile>('src/data/assets/tilesets.json');
   const audio = readJson<AudioManifestFile>('src/data/assets/audio.json');
 
   const formIdSet = new Set(forms.map((f) => f.id));
+  const blueprintByKey = new Map(blueprints.entries.map((b) => [b.key, b]));
 
-  // 1. Validate sprites.json
+  // 1. Validate sprites.json & strict case-sensitive external PNG + .meta.json files
   const spriteByKey = new Map<string, SpriteSheetManifestFile['entries'][number]>();
   let externalSpriteCount = 0;
 
@@ -111,14 +152,52 @@ function main(): void {
 
     if (!VALID_FRAME_SIZES.has(entry.frameWidth) || !VALID_FRAME_SIZES.has(entry.frameHeight)) {
       errors.push(
-        `[sprites.json] Invalid frame size on "${entry.key}": ${entry.frameWidth}x${entry.frameHeight} (expected 32, 48, or 96)`
+        `[sprites.json] Invalid frame size on "${entry.key}": ${entry.frameWidth}x${entry.frameHeight} (expected 32, 48, 64, or 96)`
       );
     }
 
     if (!entry.src || !entry.src.startsWith('assets/sprites/')) {
       errors.push(`[sprites.json] Invalid src path on "${entry.key}": "${entry.src}"`);
-    } else if (fs.existsSync(path.join(ROOT, 'public', entry.src))) {
-      externalSpriteCount += 1;
+    } else {
+      const relPublicPng = `public/${entry.src}`;
+      const relPublicMeta = `public/assets/sprites/${entry.key}.meta.json`;
+      const absSpritePath = path.join(ROOT, relPublicPng);
+      const absMetaPath = path.join(ROOT, relPublicMeta);
+
+      if (!existsStrictCase(relPublicPng)) {
+        errors.push(
+          `[sprites.json] Missing or case-mismatched sprite PNG on disk: "${relPublicPng}"`
+        );
+      } else {
+        const stat = fs.statSync(absSpritePath);
+        if (stat.size <= 0) {
+          errors.push(`[sprites.json] Sprite PNG "${relPublicPng}" is 0 bytes`);
+        }
+        const dims = readPngDimensions(absSpritePath);
+        if (!dims) {
+          errors.push(`[sprites.json] Invalid PNG header on "${relPublicPng}"`);
+        } else {
+          if (dims.width < entry.frameWidth * 4) {
+            errors.push(
+              `[sprites.json] External PNG "${entry.src}" is too narrow (${dims.width}px < ${entry.frameWidth * 4}px minimum 4-frame sheet).`
+            );
+          } else if (dims.height < entry.frameHeight * STANDARD_SPRITE_ANIM_STATES.length) {
+            errors.push(
+              `[sprites.json] External PNG "${entry.src}" has invalid height (${dims.height}px < ${entry.frameHeight * STANDARD_SPRITE_ANIM_STATES.length}px).`
+            );
+          } else {
+            externalSpriteCount += 1;
+          }
+        }
+      }
+
+      if (!existsStrictCase(relPublicMeta)) {
+        errors.push(
+          `[sprites.json] Missing or case-mismatched sprite .meta.json on disk: "${relPublicMeta}"`
+        );
+      } else if (fs.statSync(absMetaPath).size <= 0) {
+        errors.push(`[sprites.json] Sprite meta file "${relPublicMeta}" is 0 bytes`);
+      }
     }
 
     for (let rowIdx = 0; rowIdx < STANDARD_SPRITE_ANIM_STATES.length; rowIdx++) {
@@ -137,15 +216,26 @@ function main(): void {
             `[sprites.json] Invalid frames/fps on "${entry.key}.${state}": frames=${clip.frames}, fps=${clip.fps}`
           );
         }
+        if ((state === 'IDLE' || state === 'MOVE') && clip.frames < 4) {
+          errors.push(
+            `[sprites.json] "${entry.key}.${state}" must have at least 4 frames (got ${clip.frames})`
+          );
+        }
       }
     }
   }
 
+  // 1.5 Verify all units, forms, blueprints & 64x64 8-emotion portraits
+  let verifiedPortraitsCount = 0;
   for (const unit of units) {
     const baseKey = `${unit.id}_base`;
     if (!spriteByKey.has(baseKey)) {
       errors.push(`[sprites.json] Missing base sprite entry for unit "${unit.id}" (expected "${baseKey}")`);
     }
+    if (!blueprintByKey.has(baseKey)) {
+      errors.push(`[character_blueprints.json] Missing base blueprint "${baseKey}"`);
+    }
+
     const unitFormIds = new Set<string>();
     if (unit.defaultFormId) unitFormIds.add(unit.defaultFormId);
     if (unit.awakenedFormId) unitFormIds.add(unit.awakenedFormId);
@@ -158,6 +248,29 @@ function main(): void {
       const formKey = `${unit.id}_${formId}`;
       if (!spriteByKey.has(formKey)) {
         errors.push(`[sprites.json] Missing form sprite entry "${formKey}"`);
+      }
+      if (!blueprintByKey.has(formKey)) {
+        errors.push(`[character_blueprints.json] Missing form blueprint "${formKey}"`);
+      }
+    }
+
+    for (const emotion of ALL_PORTRAIT_EMOTIONS) {
+      const relPortrait = `public/assets/portraits/${unit.id}_${emotion}.png`;
+      if (!existsStrictCase(relPortrait)) {
+        errors.push(
+          `[portraits] Missing or case-mismatched 64x64 portrait: "${relPortrait}"`
+        );
+      } else {
+        const absPortrait = path.join(ROOT, relPortrait);
+        const stat = fs.statSync(absPortrait);
+        const dims = readPngDimensions(absPortrait);
+        if (stat.size <= 0 || !dims || dims.width !== 64 || dims.height !== 64) {
+          errors.push(
+            `[portraits] Invalid 64x64 portrait file "${relPortrait}" (size=${stat.size}, dims=${dims?.width}x${dims?.height})`
+          );
+        } else {
+          verifiedPortraitsCount += 1;
+        }
       }
     }
   }
@@ -188,7 +301,7 @@ function main(): void {
         `[tilesets.json] Biome "${biome.biomeId}" must have at least 4 animated frames`
       );
     }
-    if (fs.existsSync(path.join(ROOT, 'public', biome.src))) {
+    if (existsStrictCase(`public/${biome.src}`)) {
       externalTilesetCount += 1;
     }
   }
@@ -238,7 +351,7 @@ function main(): void {
     ) {
       errors.push(`[audio.json] Incomplete 4-channel chiptunePreset on BGM "${track.id}"`);
     }
-    if (fs.existsSync(path.join(ROOT, 'public', track.src))) {
+    if (existsStrictCase(`public/${track.src}`)) {
       externalAudioCount += 1;
     }
   }
@@ -260,7 +373,7 @@ function main(): void {
         `[audio.json] Invalid throttle/polyphony on SFX "${sfx.id}": throttleMs=${sfx.throttleMs}, maxPolyphony=${sfx.maxPolyphony}`
       );
     }
-    if (fs.existsSync(path.join(ROOT, 'public', sfx.src))) {
+    if (existsStrictCase(`public/${sfx.src}`)) {
       externalAudioCount += 1;
     }
   }
@@ -279,9 +392,12 @@ function main(): void {
     process.exit(1);
   }
 
-  console.log('✅ Asset manifest validation PASSED (0 errors)!');
+  console.log('✅ Asset manifest validation PASSED (0 errors, strict case-sensitive match)!');
   console.log(
     `   • Sprites: ${sprites.entries.length} sheets (${units.length} units + forms + 4 ships) | External PNG: ${externalSpriteCount}, Baked Fallback: ${sprites.entries.length - externalSpriteCount}`
+  );
+  console.log(
+    `   • Portraits: ${verifiedPortraitsCount} 64x64 PNGs (${units.length} units × ${ALL_PORTRAIT_EMOTIONS.length} emotions) | External PNG: ${verifiedPortraitsCount}`
   );
   console.log(
     `   • Tilesets: ${tilesets.biomes.length} biomes (${seaZones.length} seas, ${islands.length} islands) | External PNG: ${externalTilesetCount}, Baked Fallback: ${tilesets.biomes.length - externalTilesetCount}`
