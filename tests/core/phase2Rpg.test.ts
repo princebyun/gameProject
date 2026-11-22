@@ -148,6 +148,8 @@ describe('Phase 2 Sea-Zone Free Sailing, SeaGate Unlock Rules, Island Episodes &
     // Move player inside island to Port Exit and press interact to return to sea
     const runtime = dockRes.runtime!;
     const islandMap = rpgReg.islands['foosha_shells'];
+    expect(islandMap).toBeDefined();
+    if (!islandMap) throw new Error('Missing foosha_shells');
     runtime.playerPos = { ...islandMap.portExitZone.pos };
     const islOut = stepIslandExploration(
       state,
@@ -203,9 +205,11 @@ describe('Phase 2 Sea-Zone Free Sailing, SeaGate Unlock Rules, Island Episodes &
     const dockElbaf = enterIslandEpisode(state, 'elbaf', rpgReg);
     expect(dockElbaf.allowed).toBe(true);
     const elbafMap = rpgReg.islands['elbaf'];
+    expect(elbafMap).toBeDefined();
+    if (!elbafMap) throw new Error('Missing elbaf');
     expect(elbafMap.giantProps.length).toBeGreaterThan(0);
-    expect(elbafMap.giantProps[0].visualScale).toBeGreaterThanOrEqual(2.2);
-    expect(elbafMap.npcs[0].visualScale).toBeGreaterThanOrEqual(2.2);
+    expect(elbafMap.giantProps[0]?.visualScale).toBeGreaterThanOrEqual(2.2);
+    expect(elbafMap.npcs[0]?.visualScale).toBeGreaterThanOrEqual(2.2);
   });
 
   it('Crew Recruitment, 7 Crew Roles, Bounty Tiers, Haki Training, Coup de Burst & BattleContext <-> BattleResult Sync', () => {
@@ -295,7 +299,7 @@ describe('Phase 2 Sea-Zone Free Sailing, SeaGate Unlock Rules, Island Episodes &
       rpgReg
     );
     expect(upgRes.success).toBe(true);
-    expect(state.unitHakiOverrides['law'].armament).toBe(2);
+    expect(state.unitHakiOverrides['law']?.armament).toBe(2);
 
     // Unlock Thousand Sunny and test Coup de Burst activation
     completeEpisode(state, 'ep_water_seven', rpgReg, gameReg);
@@ -365,8 +369,8 @@ describe('Phase 2 Sea-Zone Free Sailing, SeaGate Unlock Rules, Island Episodes &
     ] as const) {
       const dockRes = enterIslandEpisode(state, islId, rpgReg);
       expect(dockRes.allowed).toBe(true);
-      const bossEnc = rpgReg.islands[islId].encounters[0];
-      expect(bossEnc.isBoss).toBe(true);
+      const bossEnc = rpgReg.islands[islId]?.encounters[0];
+      expect(bossEnc?.isBoss).toBe(true);
       completeEpisode(state, epId, rpgReg, gameReg);
       exitIslandToSea(state);
     }

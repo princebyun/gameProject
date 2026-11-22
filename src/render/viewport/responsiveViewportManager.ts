@@ -1,5 +1,6 @@
 import { LOGICAL_HEIGHT, LOGICAL_WIDTH } from '../../core/constants';
 import { clamp, type Vec2 } from '../../core/math/vector2';
+import type { Disposable } from '../../core/types/disposable';
 import {
   computeSafeRect,
   convertCssInsetsToLogical,
@@ -88,11 +89,11 @@ export const DEFAULT_VIEWPORT_METRICS: ViewportMetrics = computeResponsiveViewpo
  * Manages fixed-height (540px) + dynamic-width (960..1260px) Edge-to-Edge canvas sizing
  * with crisp DPR pixel buffers and Safe Area inset tracking.
  */
-export class ResponsiveViewportManager {
+export class ResponsiveViewportManager implements Disposable {
   public readonly safeArea = new SafeAreaLayout();
   private metrics: ViewportMetrics = { ...DEFAULT_VIEWPORT_METRICS };
   private listeners = new Set<(m: ViewportMetrics) => void>();
-  private boundResizeHandler: (() => void) | null = null;
+  private abortController: AbortController | null = null;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
@@ -195,25 +196,31 @@ export class ResponsiveViewportManager {
 
   private attachListeners(): void {
     if (typeof window === 'undefined') return;
-    this.boundResizeHandler = () => {
+    this.abortController?.abort();
+    this.abortController = new AbortController();
+    const { signal } = this.abortController;
+    const onResize = () => {
       this.sync();
     };
-    window.addEventListener('resize', this.boundResizeHandler, { passive: true });
-    window.addEventListener('orientationchange', this.boundResizeHandler, {
-      passive: true
+    window.addEventListener('resize', onResize, { passive: true, signal });
+    window.addEventListener('orientationchange', onResize, {
+      passive: true,
+      signal
     });
-    window.visualViewport?.addEventListener('resize', this.boundResizeHandler, {
-      passive: true
+    window.visualViewport?.addEventListener('resize', onResize, {
+      passive: true,
+      signal
     });
   }
 
   public destroy(): void {
-    if (this.boundResizeHandler && typeof window !== 'undefined') {
-      window.removeEventListener('resize', this.boundResizeHandler);
-      window.removeEventListener('orientationchange', this.boundResizeHandler);
-      window.visualViewport?.removeEventListener('resize', this.boundResizeHandler);
-    }
+    this.abortController?.abort();
+    this.abortController = null;
     this.safeArea.destroy();
     this.listeners.clear();
+  }
+
+  public dispose(): void {
+    this.destroy();
   }
 }

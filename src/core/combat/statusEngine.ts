@@ -191,6 +191,7 @@ export function stepUnitStatuses(
 
   for (let i = unit.statuses.length - 1; i >= 0; i--) {
     const st = unit.statuses[i];
+    if (!st) continue;
     st.remainingSec -= dt;
     if (st.remainingSec <= 0) {
       unit.statuses.splice(i, 1);
@@ -204,8 +205,10 @@ export function stepUnitStatuses(
   }
 
   for (let i = unit.statBuffs.length - 1; i >= 0; i--) {
-    unit.statBuffs[i].remainingSec -= dt;
-    if (unit.statBuffs[i].remainingSec <= 0) {
+    const buff = unit.statBuffs[i];
+    if (!buff) continue;
+    buff.remainingSec -= dt;
+    if (buff.remainingSec <= 0) {
       unit.statBuffs.splice(i, 1);
     }
   }

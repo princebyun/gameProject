@@ -1,5 +1,7 @@
 import { LOGICAL_HEIGHT, LOGICAL_WIDTH } from '../core/constants';
 import type { Vec2 } from '../core/math/vector2';
+import type { Disposable } from '../core/types/disposable';
+import { releaseOffscreenCanvas } from './canvasGpuDispose';
 import {
   ResponsiveViewportManager,
   type ViewportMetrics
@@ -11,7 +13,7 @@ export interface RenderAccessibilitySettings {
   showFps: boolean;
 }
 
-export class CanvasRenderer {
+export class CanvasRenderer implements Disposable {
   public readonly canvas: HTMLCanvasElement;
   public readonly ctx: CanvasRenderingContext2D;
   public readonly viewport: ResponsiveViewportManager;
@@ -62,5 +64,11 @@ export class CanvasRenderer {
 
   public clientToArenaLogical(clientX: number, clientY: number): Vec2 {
     return this.viewport.clientToArenaLogical(clientX, clientY);
+  }
+
+  public dispose(): void {
+    this.viewport.dispose();
+    releaseOffscreenCanvas(this.canvas);
+    this.canvas.remove?.();
   }
 }

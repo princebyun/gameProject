@@ -120,7 +120,9 @@ describe('Phase 8 Step 2 (Stage 2-B): Grand Line Complete Edition — 6 Islands,
     expect(bonuses.skillCooldownReductionRatio).toBeCloseTo(0.15, 2);
 
     // Verify Doctor post-battle +35% heal restores surviving party HP ratios
-    const drumEnc = defaultRpgDataRegistry.islands['drum_kingdom'].encounters[0];
+    const drumEnc = defaultRpgDataRegistry.islands['drum_kingdom']?.encounters[0];
+    expect(drumEnc).toBeDefined();
+    if (!drumEnc) throw new Error('Missing drum encounter');
     const ctx = createBattleContextFromIslandEncounter(
       state,
       'drum_kingdom',
@@ -149,7 +151,9 @@ describe('Phase 8 Step 2 (Stage 2-B): Grand Line Complete Edition — 6 Islands,
     );
 
     // Alabasta Crocodile battle context -> 3 destructible water barrels
-    const alaEnc = defaultRpgDataRegistry.islands['alabasta'].encounters[0];
+    const alaEnc = defaultRpgDataRegistry.islands['alabasta']?.encounters[0];
+    expect(alaEnc).toBeDefined();
+    if (!alaEnc) throw new Error('Missing alabasta encounter');
     const alaCtx = createBattleContextFromIslandEncounter(
       state,
       'alabasta',
@@ -168,7 +172,9 @@ describe('Phase 8 Step 2 (Stage 2-B): Grand Line Complete Edition — 6 Islands,
     expect(alaWorld.destructibleProps.every((p) => p.kind === 'WATER_BARREL')).toBe(true);
 
     // Marineford 3-Wave Gauntlet -> Marco joins ALPHA as AI ally in 2V2 & waves advance 1 -> 2 -> 3
-    const mfEnc = defaultRpgDataRegistry.islands['marineford'].encounters[0];
+    const mfEnc = defaultRpgDataRegistry.islands['marineford']?.encounters[0];
+    expect(mfEnc).toBeDefined();
+    if (!mfEnc) throw new Error('Missing marineford encounter');
     const mfCtx = createBattleContextFromIslandEncounter(
       state,
       'marineford',

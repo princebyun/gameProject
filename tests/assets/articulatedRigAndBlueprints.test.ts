@@ -28,10 +28,10 @@ function hashCellPixels(
   for (let y = 0; y < fh; y++) {
     for (let x = 0; x < fw; x++) {
       const idx = ((cellY + y) * sheetWidth + (cellX + x)) * 4;
-      const r = sheetData[idx];
-      const g = sheetData[idx + 1];
-      const b = sheetData[idx + 2];
-      const a = sheetData[idx + 3];
+      const r = sheetData[idx] ?? 0;
+      const g = sheetData[idx + 1] ?? 0;
+      const b = sheetData[idx + 2] ?? 0;
+      const a = sheetData[idx + 3] ?? 0;
       const packed = ((r << 24) | (g << 16) | (b << 8) | a) >>> 0;
       h1 ^= packed;
       h1 = Math.imul(h1, 0x01000193) >>> 0;
@@ -166,6 +166,7 @@ describe('6-Archetype Articulated 2D Pixel Rig Baker & Blueprints Coverage', () 
         [fw - 1, fh - 1]
       ];
       for (const [cx, cy] of corners) {
+        if (cx === undefined || cy === undefined) continue;
         const a = data[(cy * width + cx) * 4 + 3];
         expect(a, `Corner (${cx},${cy}) not transparent on ${key}`).toBe(0);
       }

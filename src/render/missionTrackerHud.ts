@@ -4,6 +4,7 @@ import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
 } from './viewport/responsiveViewportManager';
+import { getSafeHudBounds } from './viewport/safeAreaLayout';
 
 export interface MissionTrackerState {
   collapsed: boolean;
@@ -31,9 +32,9 @@ export function renderMissionTrackerHud(
   viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS,
   topOffsetY = 78
 ): void {
-  const { left: safeL, top: safeT } = viewport.safeInsets;
-  const x = 10 + safeL;
-  const y = topOffsetY + safeT;
+  const safe = getSafeHudBounds(viewport);
+  const x = 10 + safe.left;
+  const y = topOffsetY + safe.top;
   const w = trackerState.collapsed ? 156 : 316;
   const h = trackerState.collapsed ? 24 : 44;
 

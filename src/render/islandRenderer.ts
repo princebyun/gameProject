@@ -15,10 +15,17 @@ import {
   renderWorldMarkerBeacons,
   type WorldMarker
 } from '../story/worldMarkerSystem';
+import { renderIslandHeaderAndPromptHud } from './rpg/islandHudRenderer';
+import {
+  isCircleInBounds,
+  isRectInBounds,
+  type ViewportWorldBounds
+} from './viewport/frustumCulling';
 import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
 } from './viewport/responsiveViewportManager';
+import { getSafeHudBounds } from './viewport/safeAreaLayout';
 
 export function renderIslandEpisodeCanvas(
   ctx: CanvasRenderingContext2D,
@@ -37,12 +44,16 @@ export function renderIslandEpisodeCanvas(
   const episode = islandMap ? rpgRegistry.episodes[islandMap.episodeId] : null;
   if (!islandMap) return;
 
-  const viewW = viewport.viewWidth;
-  const viewH = viewport.viewHeight;
-  const { left: safeL, top: safeT, bottom: safeB } = viewport.safeInsets;
-  const offsetX = viewport.arenaOffsetX;
-
-  ctx.imageSmoothingEnabled = false;
+  const safe = getSafeHudBounds(viewport);
+  const viewW = safe.viewWidth;
+  const viewH = safe.viewHeight;
+  const offsetX = safe.arenaOffsetX;
+  const islandBounds: ViewportWorldBounds = {
+    minX: -offsetX - 48,
+    minY: -48,
+    maxX: viewW - offsetX + 48,
+    maxY: viewH + 48
+  };
 
   // 1. Chunk-Cached Biome Autotile Tileset Backdrop across full Edge-to-Edge width
   const islandBiome = resolveBiomeForIsland(
@@ -146,11 +157,14 @@ export function renderIslandEpisodeCanvas(
 
   // 3. Obstacles & Buildings
   for (const obs of islandMap.obstacles) {
+    if (!isRectInBounds(islandBounds, obs.x, obs.y, obs.width, obs.height)) continue;
+    const ox = Math.round(obs.x);
+    const oy = Math.round(obs.y);
     ctx.fillStyle = '#1e293b';
-    ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+    ctx.fillRect(ox, oy, obs.width, obs.height);
     ctx.strokeStyle = '#64748b';
     ctx.lineWidth = 2;
-    ctx.strokeRect(obs.x, obs.y, obs.width, obs.height);
+    ctx.strokeRect(ox, oy, obs.width, obs.height);
 
     if (obs.label) {
       ctx.font = 'bold 11px monospace';
@@ -158,40 +172,34 @@ export function renderIslandEpisodeCanvas(
       ctx.fillStyle = '#e2e8f0';
       ctx.fillText(
         obs.label,
-        obs.x + obs.width * 0.5,
-        obs.y + obs.height * 0.5 + 4
+        Math.round(ox + obs.width * 0.5),
+        Math.round(oy + obs.height * 0.5 + 4)
       );
     }
   }
 
   // 4. Giant-Scale Props (Wano Road Poneglyph & Elbaf Yggdrasil World Tree / Giant Sword)
   for (const prop of islandMap.giantProps) {
+    const px = Math.round(prop.pos.x - prop.width * 0.5);
+    const py = Math.round(prop.pos.y - prop.height * 0.5);
+    if (!isRectInBounds(islandBounds, px, py, prop.width, prop.height)) continue;
     ctx.save();
     ctx.fillStyle = prop.color;
-    ctx.fillRect(
-      prop.pos.x - prop.width * 0.5,
-      prop.pos.y - prop.height * 0.5,
-      prop.width,
-      prop.height
-    );
+    ctx.fillRect(px, py, prop.width, prop.height);
     ctx.strokeStyle = '#fde047';
     ctx.lineWidth = 2.5;
-    ctx.strokeRect(
-      prop.pos.x - prop.width * 0.5,
-      prop.pos.y - prop.height * 0.5,
-      prop.width,
-      prop.height
-    );
+    ctx.strokeRect(px, py, prop.width, prop.height);
 
     ctx.font = 'bold 11px monospace';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#ffffff';
-    ctx.fillText(prop.label, prop.pos.x, prop.pos.y + 4);
+    ctx.fillText(prop.label, Math.round(prop.pos.x), Math.round(prop.pos.y + 4));
     ctx.restore();
   }
 
   // 5. Egghead Laser Barriers & Puzzle Switches
   for (const barrier of islandMap.laserBarriers) {
+    if (!isRectInBounds(islandBounds, barrier.x, barrier.y, barrier.width, barrier.height)) continue;
     const deactivated = runtime.deactivatedBarrierIds.includes(barrier.barrierId);
     ctx.save();
     if (!deactivated) {
@@ -201,13 +209,12 @@ export function renderIslandEpisodeCanvas(
       ctx.lineWidth = 3;
       ctx.strokeRect(barrier.x, barrier.y, barrier.width, barrier.height);
 
-      // Pulsing core laser line
       ctx.strokeStyle = '#ffffff';
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.moveTo(barrier.x + barrier.width * 0.5, barrier.y);
+      ctx.moveTo(Math.round(barrier.x + barrier.width * 0.5), barrier.y);
       ctx.lineTo(
-        barrier.x + barrier.width * 0.5,
+        Math.round(barrier.x + barrier.width * 0.5),
         barrier.y + barrier.height
       );
       ctx.stroke();
@@ -220,11 +227,14 @@ export function renderIslandEpisodeCanvas(
   }
 
   for (const sw of islandMap.puzzleSwitches) {
+    const sx = Math.round(sw.pos.x);
+    const sy = Math.round(sw.pos.y);
+    if (!isCircleInBounds(islandBounds, sx, sy, 48)) continue;
     const activated = runtime.activatedSwitchIds.includes(sw.switchId);
     ctx.save();
     ctx.fillStyle = activated ? '#16a34a' : '#e11d48';
     ctx.beginPath();
-    ctx.arc(sw.pos.x, sw.pos.y, 16, 0, Math.PI * 2);
+    ctx.arc(sx, sy, 16, 0, Math.PI * 2);
     ctx.fill();
     ctx.strokeStyle = '#ffffff';
     ctx.lineWidth = 2;
@@ -235,19 +245,22 @@ export function renderIslandEpisodeCanvas(
     ctx.fillStyle = activated ? '#4ade80' : '#fda4af';
     ctx.fillText(
       activated ? `✓ ${sw.label} (해제됨)` : `⚙ ${sw.label}`,
-      sw.pos.x,
-      sw.pos.y - 22
+      sx,
+      sy - 22
     );
     ctx.restore();
   }
 
   // 6. NPCs (including Elbaf 2.35x Giant Warriors Dorry & Brogy)
   for (const npc of islandMap.npcs) {
-    ctx.save();
     const r = Math.round(16 * npc.visualScale);
+    const nx = Math.round(npc.pos.x);
+    const ny = Math.round(npc.pos.y);
+    if (!isCircleInBounds(islandBounds, nx, ny, r + 48)) continue;
+    ctx.save();
     ctx.fillStyle = npc.color;
     ctx.beginPath();
-    ctx.arc(npc.pos.x, npc.pos.y, r, 0, Math.PI * 2);
+    ctx.arc(nx, ny, r, 0, Math.PI * 2);
     ctx.fill();
     ctx.strokeStyle = '#ffffff';
     ctx.lineWidth = 2;
@@ -256,25 +269,29 @@ export function renderIslandEpisodeCanvas(
     ctx.font = 'bold 11px monospace';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#fde047';
-    ctx.fillText(npc.name, npc.pos.x, npc.pos.y - r - 12);
+    ctx.fillText(npc.name, nx, ny - r - 12);
     ctx.font = '9px monospace';
     ctx.fillStyle = '#cbd5e1';
-    ctx.fillText(`<${npc.roleLabel}>`, npc.pos.x, npc.pos.y - r - 2);
+    ctx.fillText(`<${npc.roleLabel}>`, nx, ny - r - 2);
     ctx.restore();
   }
 
   // 7. Boss / Enemy Encounters
   for (const enc of islandMap.encounters) {
+    const ex = Math.round(enc.pos.x);
+    const ey = Math.round(enc.pos.y);
+    if (!isCircleInBounds(islandBounds, ex, ey, 56)) continue;
     const cleared = Boolean(state.episodeFlags[enc.setsFlagOnVictory]);
     ctx.save();
     const pulse = 22 + Math.sin(tick * 0.15) * 3;
     ctx.strokeStyle = cleared ? '#4ade80' : '#ef4444';
     ctx.lineWidth = 2.5;
     ctx.beginPath();
-    ctx.arc(enc.pos.x, enc.pos.y, pulse, 0, Math.PI * 2);
+    ctx.arc(ex, ey, pulse, 0, Math.PI * 2);
     ctx.stroke();
 
-    const bossUnit = gameRegistry.units[enc.enemyUnitIds[0]];
+    const leadEnemyId = enc.enemyUnitIds[0];
+    const bossUnit = leadEnemyId ? gameRegistry.units[leadEnemyId] : undefined;
     if (bossUnit) {
       const resolved = assets.getOrCreateUnitSpriteSheet(bossUnit, 'base', null);
       if (resolved.sheet) {
@@ -289,8 +306,8 @@ export function renderIslandEpisodeCanvas(
           animClip.row * fh,
           fw,
           fh,
-          enc.pos.x - 22,
-          enc.pos.y - 24,
+          ex - 22,
+          ey - 24,
           44,
           44
         );
@@ -302,8 +319,8 @@ export function renderIslandEpisodeCanvas(
     ctx.fillStyle = cleared ? '#4ade80' : '#fca5a5';
     ctx.fillText(
       cleared ? `✓ ${enc.name} (격파 완료)` : `⚔ BOSS: ${enc.name}`,
-      enc.pos.x,
-      enc.pos.y - 30
+      ex,
+      ey - 30
     );
     ctx.restore();
   }
@@ -340,7 +357,6 @@ export function renderIslandEpisodeCanvas(
       const anchorX = Math.round(drawW * resolved.entry.anchor.x);
       const anchorY = Math.round(drawH * resolved.entry.anchor.y);
       ctx.save();
-      ctx.imageSmoothingEnabled = false;
       ctx.translate(
         Math.round(runtime.playerPos.x),
         Math.round(runtime.playerPos.y + 10)
@@ -370,95 +386,6 @@ export function renderIslandEpisodeCanvas(
   // Exit centered island coordinate space before drawing screen-space Safe-Area HUDs
   ctx.restore();
 
-  // 9. Compact Top-Left Island Episode Header HUD (respecting Safe Area)
-  const hudX = 10 + safeL;
-  const hudY = 10 + safeT;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
-  ctx.fillRect(hudX, hudY, 316, 50);
-  ctx.strokeStyle = '#facc15';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(hudX, hudY, 316, 50);
-
-  ctx.font = 'bold 12px monospace';
-  ctx.textAlign = 'left';
-  ctx.fillStyle = '#fde047';
-  ctx.fillText(`🏝 ${islandMap.name}`, hudX + 8, hudY + 18);
-
-  if (episode) {
-    const epCompleted = state.completedEpisodes.includes(episode.episodeId);
-    const doneSteps = episode.steps.filter((st) => Boolean(state.episodeFlags[st.requiredFlag])).length;
-    ctx.font = 'bold 10px monospace';
-    ctx.fillStyle = epCompleted ? '#4ade80' : '#38bdf8';
-    ctx.fillText(
-      epCompleted
-        ? `★ ${episode.title} [클리어 완료]`
-        : `${episode.title} (${doneSteps}/${episode.steps.length})`,
-      hudX + 8,
-      hudY + 37
-    );
-  }
-
-  // 10. Bottom Interaction Prompt Bar (centered in full viewWidth, respecting Safe Area bottom)
-  const cx = viewW * 0.5;
-  const py = viewH - 42 - safeB;
-  const hasAction = Boolean(
-    stepInfo.nearbySwitch ||
-      stepInfo.nearbyNpc ||
-      stepInfo.nearbyEncounter ||
-      stepInfo.atBattleTerminal ||
-      stepInfo.atPortExit
-  );
-  const boxW = hasAction ? 360 : 300;
-  const boxH = hasAction ? 32 : 22;
-  const boxY = hasAction ? py : viewH - 30 - safeB;
-
-  ctx.fillStyle = hasAction ? 'rgba(15, 23, 42, 0.94)' : 'rgba(15, 23, 42, 0.78)';
-  ctx.fillRect(cx - boxW * 0.5, boxY, boxW, boxH);
-  if (hasAction) {
-    ctx.strokeStyle = '#facc15';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(cx - boxW * 0.5, boxY, boxW, boxH);
-  }
-
-  ctx.font = hasAction ? 'bold 11px monospace' : '10px monospace';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = hasAction ? '#fde047' : '#cbd5e1';
-
-  if (stepInfo.nearbySwitch) {
-    ctx.fillText(
-      `⚙ [E / Space / 터치] "${stepInfo.nearbySwitch.label}" 작동하기`,
-      cx,
-      boxY + 20
-    );
-  } else if (stepInfo.nearbyNpc) {
-    ctx.fillText(
-      `💬 [E / Space / 터치] "${stepInfo.nearbyNpc.name}" 대화하기`,
-      cx,
-      boxY + 20
-    );
-  } else if (stepInfo.nearbyEncounter) {
-    ctx.fillText(
-      `⚔ [E / Space / 터치] "${stepInfo.nearbyEncounter.name}" 전투 시작!`,
-      cx,
-      boxY + 20
-    );
-  } else if (stepInfo.atBattleTerminal) {
-    ctx.fillText(
-      `🌐 [E / Space / 터치] 항구 통신 대전 단말기 접속`,
-      cx,
-      boxY + 20
-    );
-  } else if (stepInfo.atPortExit) {
-    ctx.fillText(
-      `⚓ [E / Space / 터치] 바다로 출항하기`,
-      cx,
-      boxY + 20
-    );
-  } else {
-    ctx.fillText(
-      `[방향키 / WASD] 이동 · [E / Space] 대화 및 조사`,
-      cx,
-      boxY + 15
-    );
-  }
+  // 9-10. Compact Top-Left Header & Bottom Interaction Prompt HUD
+  renderIslandHeaderAndPromptHud(ctx, state, islandMap, episode, stepInfo, viewport);
 }

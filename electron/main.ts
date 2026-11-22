@@ -57,6 +57,17 @@ function getMimeType(ext: string): string {
       return 'image/svg+xml';
     case '.png':
       return 'image/png';
+    case '.webp':
+      return 'image/webp';
+    case '.jpg':
+    case '.jpeg':
+      return 'image/jpeg';
+    case '.ogg':
+      return 'audio/ogg';
+    case '.mp3':
+      return 'audio/mpeg';
+    case '.wav':
+      return 'audio/wav';
     case '.ico':
       return 'image/x-icon';
     case '.woff2':
@@ -68,6 +79,9 @@ function getMimeType(ext: string): string {
 
 function registerCustomAppProtocol(): void {
   const distElectronRoot = path.resolve(__dirname, '..', '..', 'dist-electron');
+  const rootWithSep = distElectronRoot.endsWith(path.sep)
+    ? distElectronRoot
+    : `${distElectronRoot}${path.sep}`;
 
   protocol.handle('app', async (request) => {
     const parsedUrl = new URL(request.url);
@@ -82,7 +96,7 @@ function registerCustomAppProtocol(): void {
     const candidatePath = path.join(distElectronRoot, safeRelative);
 
     // Prevent directory traversal outside dist-electron
-    if (!candidatePath.startsWith(distElectronRoot)) {
+    if (candidatePath !== distElectronRoot && !candidatePath.startsWith(rootWithSep)) {
       return new Response('Forbidden', { status: 403 });
     }
 
@@ -97,7 +111,11 @@ function registerCustomAppProtocol(): void {
         }
       });
     } catch {
-      // SPA fallback to index.html
+      const ext = path.extname(candidatePath).toLowerCase();
+      if (ext && ext !== '.html') {
+        return new Response('Not Found', { status: 404 });
+      }
+      // SPA fallback to index.html only for extensionless routes or .html
       try {
         const fallbackIndex = path.join(distElectronRoot, 'index.html');
         const indexData = await fs.readFile(fallbackIndex);
@@ -176,6 +194,9 @@ function registerIpcHandlers(): void {
       return null;
     }
     const chosenPath = res.filePaths[0];
+    if (!chosenPath) {
+      return null;
+    }
     const jsonContent = await fs.readFile(chosenPath, { encoding: 'utf-8' });
     return {
       filename: path.basename(chosenPath),

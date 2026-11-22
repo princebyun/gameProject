@@ -121,6 +121,7 @@ describe('Phase 10 Step 2: Giant Boss Co-op Raid, Online 2P+1AI+Spectator 600-Ti
 
     // Verify 1:1 Melee-vs-Beam freeze guard is DISABLED in raid mode
     const zoroMove = defaultDataRegistry.moves['move_zoro_rengoku_onigiri'];
+    if (!zoroMove) throw new Error('Missing move_zoro_rengoku_onigiri');
     const beamMove = Object.values(defaultDataRegistry.moves).find(
       (m) => m.archetype === 'BEAM'
     )!;
@@ -281,8 +282,11 @@ describe('Phase 10 Step 2: Giant Boss Co-op Raid, Online 2P+1AI+Spectator 600-Ti
 
     // Run 600 ticks (10 seconds) with deterministic varied player inputs
     for (let t = 0; t < 600 && p1.world.winnerTeam === null; t++) {
+      const p1UnitId = p1.config.slotToUnitInstanceId[0];
+      const p2UnitId = p2.config.slotToUnitInstanceId[1];
+      if (!p1UnitId || !p2UnitId) throw new Error('Missing slot unit ID');
       p1.submitLocalCommandForNextTick({
-        unitId: p1.config.slotToUnitInstanceId[0],
+        unitId: p1UnitId,
         moveVec: { x: t % 60 < 30 ? 1 : 0, y: t % 80 < 40 ? 0.5 : -0.5 },
         aimVec: { x: 1, y: 0 },
         castMoveSlotIndex: t % 45 === 10 ? 0 : null,
@@ -291,7 +295,7 @@ describe('Phase 10 Step 2: Giant Boss Co-op Raid, Online 2P+1AI+Spectator 600-Ti
         swapToBenchUnitId: null
       });
       p2.submitLocalCommandForNextTick({
-        unitId: p2.config.slotToUnitInstanceId[1],
+        unitId: p2UnitId,
         moveVec: { x: t % 50 < 25 ? 1 : -0.5, y: t % 70 < 35 ? -0.6 : 0.6 },
         aimVec: { x: 1, y: 0 },
         castMoveSlotIndex: t % 40 === 15 ? 1 : null,

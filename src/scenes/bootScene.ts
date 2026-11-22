@@ -49,7 +49,6 @@ export function renderBootScene(
   const cy = Math.round(h * 0.46);
 
   ctx.save();
-  ctx.imageSmoothingEnabled = false;
 
   // Deep ocean navy gradient
   const grad = ctx.createLinearGradient(0, 0, 0, h);

@@ -186,8 +186,8 @@ export function createInitialCampaignState(
       pos: { x: eastBlue.spawnPoint.x, y: eastBlue.spawnPoint.y },
       vel: { x: 0, y: 0 },
       headingRad: 0,
-      hullHp: merry.maxHullHp,
-      maxHullHp: merry.maxHullHp,
+      hullHp: merry?.maxHullHp ?? 1000,
+      maxHullHp: merry?.maxHullHp ?? 1000,
       coupDeBurstCooldownTimer: 0,
       coupDeBurstActiveTimer: 0
     },

@@ -1,10 +1,61 @@
 import type { AssetLoader } from '../assets/assetLoader';
 import type { SaveEnvelope } from '../core/save/schema';
+import type { Disposable } from '../core/types/disposable';
 import { resolveBiomeForSeaZone } from '../data/assets/assetManifestRegistry';
+import { releaseOffscreenCanvas } from '../render/canvasGpuDispose';
 import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
 } from '../render/viewport/responsiveViewportManager';
+
+let cachedTitleSkyCanvas: HTMLCanvasElement | null = null;
+let cachedTitleSkyW = 0;
+let cachedTitleSkyH = 0;
+
+export function disposeTitleSceneCaches(): void {
+  releaseOffscreenCanvas(cachedTitleSkyCanvas);
+  cachedTitleSkyCanvas = null;
+  cachedTitleSkyW = 0;
+  cachedTitleSkyH = 0;
+}
+
+function getOrBakeTitleSkyCanvas(
+  w: number,
+  horizonY: number
+): HTMLCanvasElement | null {
+  if (typeof document === 'undefined') return null;
+  if (
+    cachedTitleSkyCanvas &&
+    cachedTitleSkyW === w &&
+    cachedTitleSkyH === horizonY
+  ) {
+    return cachedTitleSkyCanvas;
+  }
+  releaseOffscreenCanvas(cachedTitleSkyCanvas);
+  const c = document.createElement('canvas');
+  c.width = Math.max(1, w);
+  c.height = Math.max(1, horizonY);
+  const gctx = c.getContext('2d');
+  if (!gctx) {
+    releaseOffscreenCanvas(c);
+    return null;
+  }
+  const skyGrad = gctx.createLinearGradient(0, 0, 0, horizonY);
+  skyGrad.addColorStop(0, '#0c2d57');
+  skyGrad.addColorStop(0.65, '#1d6fa5');
+  skyGrad.addColorStop(1, '#fbbf24');
+  gctx.fillStyle = skyGrad;
+  gctx.fillRect(0, 0, w, horizonY);
+  gctx.fillStyle = 'rgba(254, 240, 138, 0.85)';
+  gctx.beginPath();
+  gctx.arc(Math.round(w * 0.72), horizonY - 26, 38, 0, Math.PI * 2);
+  gctx.fill();
+
+  cachedTitleSkyCanvas = c;
+  cachedTitleSkyW = w;
+  cachedTitleSkyH = horizonY;
+  return c;
+}
 
 export interface TitleSavePreview {
   envelope: SaveEnvelope;
@@ -35,12 +86,13 @@ export function formatPlayTime(sec: number): string {
  * - Animated pixel ocean, drifting clouds, sailing pirate ship on full dynamic width
  * - Initial "화면을 터치하거나 아무 키나 누르세요" prompt -> slides open Main Menu
  */
-export class TitleSceneController {
+export class TitleSceneController implements Disposable {
   private overlayEl: HTMLElement;
   private menuExpanded = false;
   private confirmOverwriteOpen = false;
   private savePreview: TitleSavePreview | null = null;
   private isVisible = false;
+  private domAbortController: AbortController | null = null;
 
   constructor(
     private readonly rootEl: HTMLElement,
@@ -76,6 +128,15 @@ export class TitleSceneController {
     this.overlayEl.style.display = 'none';
   }
 
+  public dispose(): void {
+    this.hide();
+    this.domAbortController?.abort();
+    this.domAbortController = null;
+    this.overlayEl.onclick = null;
+    this.overlayEl.remove?.();
+    disposeTitleSceneCaches();
+  }
+
   public getIsVisible(): boolean {
     return this.isVisible;
   }
@@ -92,6 +153,10 @@ export class TitleSceneController {
   }
 
   private renderOverlayDom(): void {
+    this.domAbortController?.abort();
+    this.domAbortController = new AbortController();
+    const { signal } = this.domAbortController;
+
     if (!this.menuExpanded) {
       this.overlayEl.innerHTML = `
         <div style="text-align:center;margin-top:4dvh;text-shadow:0 3px 10px rgba(0,0,0,0.85);">
@@ -106,14 +171,10 @@ export class TitleSceneController {
         </div>
       `;
 
-      const handler = () => {
-        this.expandMenu();
-      };
-      this.overlayEl.onclick = handler;
+      this.overlayEl.addEventListener('click', () => this.expandMenu(), { signal });
       return;
     }
 
-    this.overlayEl.onclick = null;
     const sp = this.savePreview;
 
     this.overlayEl.innerHTML = `
@@ -190,7 +251,7 @@ export class TitleSceneController {
 
     this.overlayEl
       .querySelector('#btn-title-continue')
-      ?.addEventListener('click', () => this.callbacks.onContinue());
+      ?.addEventListener('click', () => this.callbacks.onContinue(), { signal });
 
     this.overlayEl
       .querySelector('#btn-title-new-game')
@@ -201,33 +262,33 @@ export class TitleSceneController {
         } else {
           this.callbacks.onNewAdventure();
         }
-      });
+      }, { signal });
 
     this.overlayEl
       .querySelector('#btn-confirm-new-cancel')
       ?.addEventListener('click', () => {
         this.confirmOverwriteOpen = false;
         this.renderOverlayDom();
-      });
+      }, { signal });
 
     this.overlayEl
       .querySelector('#btn-confirm-new-ok')
       ?.addEventListener('click', () => {
         this.confirmOverwriteOpen = false;
         this.callbacks.onNewAdventure();
-      });
+      }, { signal });
 
     this.overlayEl
       .querySelector('#btn-title-sandbox')
-      ?.addEventListener('click', () => this.callbacks.onSandbox());
+      ?.addEventListener('click', () => this.callbacks.onSandbox(), { signal });
 
     this.overlayEl
       .querySelector('#btn-title-online')
-      ?.addEventListener('click', () => this.callbacks.onOnlineOrRaid());
+      ?.addEventListener('click', () => this.callbacks.onOnlineOrRaid(), { signal });
 
     this.overlayEl
       .querySelector('#btn-title-settings')
-      ?.addEventListener('click', () => this.callbacks.onSettings());
+      ?.addEventListener('click', () => this.callbacks.onSettings(), { signal });
   }
 }
 
@@ -242,21 +303,15 @@ export function renderTitleSceneCanvas(
   const horizonY = Math.round(h * 0.56);
 
   ctx.save();
-  ctx.imageSmoothingEnabled = false;
 
-  // 1. Vibrant Grand Line Sky Gradient
-  const skyGrad = ctx.createLinearGradient(0, 0, 0, horizonY);
-  skyGrad.addColorStop(0, '#0c2d57');
-  skyGrad.addColorStop(0.65, '#1d6fa5');
-  skyGrad.addColorStop(1, '#fbbf24');
-  ctx.fillStyle = skyGrad;
-  ctx.fillRect(0, 0, w, horizonY);
-
-  // Sun disc near horizon
-  ctx.fillStyle = 'rgba(254, 240, 138, 0.85)';
-  ctx.beginPath();
-  ctx.arc(Math.round(w * 0.72), horizonY - 26, 38, 0, Math.PI * 2);
-  ctx.fill();
+  // 1. Vibrant Grand Line Sky Gradient + Sun disc (cached offscreen canvas)
+  const skyCanvas = getOrBakeTitleSkyCanvas(w, horizonY);
+  if (skyCanvas) {
+    ctx.drawImage(skyCanvas, 0, 0);
+  } else {
+    ctx.fillStyle = '#1d6fa5';
+    ctx.fillRect(0, 0, w, horizonY);
+  }
 
   // Drifting pixel clouds
   ctx.fillStyle = 'rgba(248, 250, 252, 0.75)';

@@ -29,6 +29,7 @@ function buildOnePieceUnit(
 ): UnitBuildConfig {
   const reg = createDefaultDataRegistry();
   const u = reg.units[speciesId];
+  if (!u) throw new Error(`Missing unit species: ${speciesId}`);
   return {
     instanceId,
     speciesId,
@@ -58,12 +59,14 @@ describe('Phase 1.5 One Piece Combat Rules, Devil Fruit Awakening & Haki Mechani
     const world = createBattleWorld(cfg, registry);
     const luffy = world.units[0];
     const kizaru = world.units[1];
+    if (!luffy || !kizaru) throw new Error('Missing luffy or kizaru');
     kizaru.iframeTimer = 0;
 
     expect(kizaru.fruitType).toBe('LOGIA');
 
     // 1. Non-Haki Gomu Gomu no Pistol (`hasArmamentHaki: false`) -> nullified by Logia Intangibility
     const pistolMove = registry.moves['move_luffy_pistol'];
+    if (!pistolMove) throw new Error('Missing move_luffy_pistol');
     expect(pistolMove.hasArmamentHaki).toBe(false);
 
     const nonHakiRes = computeDamage(
@@ -83,6 +86,7 @@ describe('Phase 1.5 One Piece Combat Rules, Devil Fruit Awakening & Haki Mechani
 
     // 2. Armament Haki Red Hawk (`hasArmamentHaki: true`) -> hits Logia tangible body!
     const redHawkMove = registry.moves['move_luffy_red_hawk'];
+    if (!redHawkMove) throw new Error('Missing move_luffy_red_hawk');
     expect(redHawkMove.hasArmamentHaki).toBe(true);
 
     const hakiRes = computeDamage(
@@ -111,6 +115,7 @@ describe('Phase 1.5 One Piece Combat Rules, Devil Fruit Awakening & Haki Mechani
     const world = createBattleWorld(cfg, registry);
     const luffy = world.units[0];
     const kaido = world.units[1];
+    if (!luffy || !kaido) throw new Error('Missing luffy or kaido');
     luffy.iframeTimer = 0;
 
     // 1. Rubber Body immunity to LIGHTNING
@@ -185,6 +190,7 @@ describe('Phase 1.5 One Piece Combat Rules, Devil Fruit Awakening & Haki Mechani
     };
     const world = createBattleWorld(cfg, registry);
     const lucci = world.units[0];
+    if (!lucci) throw new Error('Missing lucci');
 
     // Stage 1: BASE Human Form
     expect(lucci.currentStanceRole).toBe('BASE');
@@ -240,10 +246,25 @@ describe('Phase 1.5 One Piece Combat Rules, Devil Fruit Awakening & Haki Mechani
     const world = createBattleWorld(cfg, registry);
     const prng = new SeededPRNG(1004);
 
-    const kaidoA = world.units[0];
-    const luffyA = world.units[1];
-    const kizaruB = world.units[2];
-    const kaidoB = world.units[3];
+    const [kaidoA, luffyA, kizaruB, kaidoB] = world.units;
+    const boroBreathMove = registry.moves['move_kaido_boro_breath'];
+    const kizaruLaserMove = registry.moves['move_kizaru_laser_beam'];
+    const bajrangMove = registry.moves['move_luffy_bajrang_gun'];
+    const ragnarakuMove = registry.moves['move_kaido_ragnaraku'];
+    const yasakaniMove = registry.moves['move_kizaru_yasakani'];
+    if (
+      !kaidoA ||
+      !luffyA ||
+      !kizaruB ||
+      !kaidoB ||
+      !boroBreathMove ||
+      !kizaruLaserMove ||
+      !bajrangMove ||
+      !ragnarakuMove ||
+      !yasakaniMove
+    ) {
+      throw new Error('Missing 2v2 units or moves');
+    }
 
     // Shift Kaido A into HYBRID -> BEAST (Giant Azure Dragon)
     cycleZoanStance(kaidoA, world, registry);
@@ -262,14 +283,14 @@ describe('Phase 1.5 One Piece Combat Rules, Devil Fruit Awakening & Haki Mechani
 
     spawnBeamInstance(
       kaidoA,
-      registry.moves['move_kaido_boro_breath'],
+      boroBreathMove,
       { x: 1, y: 0 },
       world,
       registry
     );
     spawnBeamInstance(
       kizaruB,
-      registry.moves['move_kizaru_laser_beam'],
+      kizaruLaserMove,
       { x: -1, y: 0 },
       world,
       registry
@@ -286,14 +307,14 @@ describe('Phase 1.5 One Piece Combat Rules, Devil Fruit Awakening & Haki Mechani
 
     spawnMeleeArcInstance(
       luffyA,
-      registry.moves['move_luffy_bajrang_gun'],
+      bajrangMove,
       { x: 1, y: 0 },
       world,
       registry
     );
     spawnMeleeArcInstance(
       kaidoB,
-      registry.moves['move_kaido_ragnaraku'],
+      ragnarakuMove,
       { x: -1, y: 0 },
       world,
       registry
@@ -301,7 +322,7 @@ describe('Phase 1.5 One Piece Combat Rules, Devil Fruit Awakening & Haki Mechani
 
     resolveMeleeVsMelee(world, FIXED_DT, registry);
     expect(world.meleeClashes.length).toBe(1);
-    expect(world.meleeClashes[0].isConquerorSkySplit).toBe(true);
+    expect(world.meleeClashes[0]?.isConquerorSkySplit).toBe(true);
     expect(
       world.vfxEvents.some((v) => v.kind === 'SKY_SPLIT_SHOCKWAVE')
     ).toBe(true);
@@ -314,7 +335,7 @@ describe('Phase 1.5 One Piece Combat Rules, Devil Fruit Awakening & Haki Mechani
     expect(world.environmentField.kind).toBe('RUBBER_BOUNCE_ZONE');
     const enemyProj = spawnProjectileInstance(
       kizaruB,
-      registry.moves['move_kizaru_yasakani'],
+      yasakaniMove,
       { x: -1, y: 0 },
       world,
       registry
@@ -349,6 +370,7 @@ describe('Phase 1.5 One Piece Combat Rules, Devil Fruit Awakening & Haki Mechani
     const zoro = world.units[0];
     const law = world.units[1];
     const kaido = world.units[3];
+    if (!zoro || !law || !kaido) throw new Error('Missing units in 3v3');
 
     // Zoro is NONE (non-fruit user) -> takes no SEA bonus penalty compared to a Devil Fruit user
     const seaOnZoro = computeDamage(

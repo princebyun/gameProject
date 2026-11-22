@@ -174,6 +174,7 @@ export function stepFieldAndGlobalEffects(
 
   for (let i = world.fieldZones.length - 1; i >= 0; i--) {
     const zone = world.fieldZones[i];
+    if (!zone) continue;
     zone.remainingSec -= dt;
 
     if (zone.remainingSec <= 0 || (zone.fieldKind === 'DOME_SHIELD' && zone.domeHp <= 0)) {

@@ -1,16 +1,23 @@
 import type { AssetLoader } from '../assets/assetLoader';
-import type { WantedPosterFrameTier } from '../core/endgame/types';
 import type { Vec2 } from '../core/math/vector2';
 import type { GameDataRegistry } from '../core/types/dataSchemas';
-import type {
-  GateValidationResult,
-  IslandNpcDefinition,
-  WantedPosterEvent
-} from '../core/types/rpgSchemas';
+import type { IslandNpcDefinition } from '../core/types/rpgSchemas';
+import {
+  renderSaveAndTamperOverlay,
+  renderSeaGateBlockedPopup,
+  renderWantedPosterOverlay
+} from './rpg/cutsceneOverlayRenderer';
 import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
 } from './viewport/responsiveViewportManager';
+import { getSafeHudBounds } from './viewport/safeAreaLayout';
+
+export {
+  renderSaveAndTamperOverlay,
+  renderSeaGateBlockedPopup,
+  renderWantedPosterOverlay
+};
 
 export interface DialogueOverlayUiState {
   lastNpcId: string | null;
@@ -138,46 +145,24 @@ export function handleDialogueOverlayTap(
   return 'ADVANCE';
 }
 
+const PORTRAIT_UNIT_CANDIDATES = [
+  'luffy', 'zoro', 'nami', 'usopp', 'sanji', 'chopper', 'robin',
+  'franky', 'brook', 'jinbe', 'law', 'marco', 'lucci', 'kaku',
+  'blueno', 'buggy', 'morgan', 'smoker', 'arlong', 'crocodile', 'enel',
+  'doflamingo', 'katakuri', 'kaido', 'kizaru', 'saturn', 'loki', 'magellan'
+] as const;
+
 function guessPortraitUnitId(npc: IslandNpcDefinition): string | null {
   const id = npc.npcId.toLowerCase();
-  const candidates = [
-    'luffy',
-    'zoro',
-    'nami',
-    'usopp',
-    'sanji',
-    'chopper',
-    'robin',
-    'franky',
-    'brook',
-    'jinbe',
-    'law',
-    'marco',
-    'lucci',
-    'kaku',
-    'blueno',
-    'buggy',
-    'morgan',
-    'smoker',
-    'arlong',
-    'crocodile',
-    'enel',
-    'doflamingo',
-    'katakuri',
-    'kaido',
-    'kizaru',
-    'saturn',
-    'loki',
-    'magellan'
-  ];
-  for (const cid of candidates) {
-    if (id.includes(cid)) return cid;
+  for (let i = 0; i < PORTRAIT_UNIT_CANDIDATES.length; i++) {
+    const cid = PORTRAIT_UNIT_CANDIDATES[i];
+    if (cid && id.includes(cid)) return cid;
   }
   return null;
 }
 
 /**
- * 1. Bandai RPG-Style Wide Bottom Dialogue & Choice Cutscene Overlay (Safe Area compliant)
+ * Bandai RPG-Style Wide Bottom Dialogue & Choice Cutscene Overlay (Safe Area compliant)
  */
 export function renderDialogueCutsceneOverlay(
   ctx: CanvasRenderingContext2D,
@@ -188,17 +173,15 @@ export function renderDialogueCutsceneOverlay(
   gameRegistry?: GameDataRegistry,
   assets?: AssetLoader
 ): void {
-  const viewW = viewport.viewWidth;
-  const viewH = viewport.viewHeight;
-  const { left: safeL, right: safeR, top: safeT, bottom: safeB } = viewport.safeInsets;
+  const safe = getSafeHudBounds(viewport);
+  const viewW = safe.viewWidth;
 
   ctx.save();
-  ctx.imageSmoothingEnabled = false;
 
-  const boxW = Math.min(820, viewW - safeL - safeR - 24);
+  const boxW = Math.min(820, safe.width - 24);
   const boxH = 148;
   const x = Math.round((viewW - boxW) * 0.5);
-  const y = viewH - safeB - boxH - 14;
+  const y = safe.bottom - boxH - 14;
 
   // Bandai console dialogue backdrop
   ctx.fillStyle = 'rgba(9, 13, 22, 0.95)';
@@ -305,7 +288,6 @@ export function renderDialogueCutsceneOverlay(
       }
     }
   } else {
-    // Stylized pixel NPC emblem portrait
     ctx.fillStyle = npc.color;
     ctx.fillRect(portX + 20, portY + 16, 44, 34);
     ctx.fillStyle = '#fde68a';
@@ -340,15 +322,17 @@ export function renderDialogueCutsceneOverlay(
 
   if (isLastLine && doneTyping && npc.choices && npc.choices.length > 0) {
     const ch = npc.choices[0];
-    ctx.fillStyle = 'rgba(2, 132, 199, 0.35)';
-    ctx.fillRect(textX, y + 96, boxW - (portSize + 44), 30);
-    ctx.strokeStyle = '#38bdf8';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(textX, y + 96, boxW - (portSize + 44), 30);
+    if (ch) {
+      ctx.fillStyle = 'rgba(2, 132, 199, 0.35)';
+      ctx.fillRect(textX, y + 96, boxW - (portSize + 44), 30);
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(textX, y + 96, boxW - (portSize + 44), 30);
 
-    ctx.font = 'bold 11px monospace';
-    ctx.fillStyle = '#7dd3fc';
-    ctx.fillText(`▶ [터치 / E / Space 선택] ${ch.label}`, textX + 10, y + 115);
+      ctx.font = 'bold 11px monospace';
+      ctx.fillStyle = '#7dd3fc';
+      ctx.fillText(`▶ [터치 / E / Space 선택] ${ch.label}`, textX + 10, y + 115);
+    }
   } else {
     ctx.font = 'bold 11px monospace';
     ctx.textAlign = 'right';
@@ -364,10 +348,10 @@ export function renderDialogueCutsceneOverlay(
 
   // Optional Dialogue History Log Modal Overlay
   if (ui?.showLog) {
-    const lw = Math.min(640, viewW - safeL - safeR - 40);
-    const lh = Math.min(280, viewH - safeT - safeB - 190);
+    const lw = Math.min(640, safe.width - 40);
+    const lh = Math.min(280, safe.height - 190);
     const lx = Math.round((viewW - lw) * 0.5);
-    const ly = Math.max(16 + safeT, y - lh - 24);
+    const ly = Math.max(16 + safe.top, y - lh - 24);
     ctx.fillStyle = 'rgba(9, 13, 22, 0.96)';
     ctx.fillRect(lx, ly, lw, lh);
     ctx.strokeStyle = '#38bdf8';
@@ -379,274 +363,18 @@ export function renderDialogueCutsceneOverlay(
     ctx.fillStyle = '#fde047';
     ctx.fillText('📜 대화 로그 (화면을 터치하면 닫힙니다)', lx + 12, ly + 22);
 
-    const recent = ui.history.slice(-8);
+    const startIdx = Math.max(0, ui.history.length - 8);
     ctx.font = '11px monospace';
-    recent.forEach((h, idx) => {
-      const ry = ly + 44 + idx * 26;
+    for (let idx = startIdx; idx < ui.history.length; idx++) {
+      const h = ui.history[idx];
+      if (!h) continue;
+      const ry = ly + 44 + (idx - startIdx) * 26;
       ctx.fillStyle = '#38bdf8';
       ctx.fillText(`[${h.speaker}]`, lx + 12, ry);
       ctx.fillStyle = '#e2e8f0';
       const clipped = h.text.length > 44 ? `${h.text.slice(0, 43)}…` : h.text;
       ctx.fillText(clipped, lx + 110, ry);
-    });
-  }
-
-  ctx.restore();
-}
-
-/**
- * 2. SeaGate Blocked Checklist Popup (Enforces East Blue / Grand Line prerequisites before New World)
- */
-export function renderSeaGateBlockedPopup(
-  ctx: CanvasRenderingContext2D,
-  gateResult: GateValidationResult,
-  viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS
-): void {
-  const viewW = viewport.viewWidth;
-  const viewH = viewport.viewHeight;
-
-  ctx.save();
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.72)';
-  ctx.fillRect(0, 0, viewW, viewH);
-
-  const totalItems = gateResult.checklist.length;
-  const useTwoCols = totalItems > 5;
-  const rows = useTwoCols ? Math.ceil(totalItems / 2) : totalItems;
-  const w = useTwoCols ? 740 : 540;
-  const rowStep = useTwoCols ? 32 : 34;
-  const h = Math.min(470, Math.max(250, 148 + rows * rowStep));
-  const x = Math.round((viewW - w) * 0.5);
-  const y = Math.round((viewH - h) * 0.5);
-
-  ctx.fillStyle = '#0f172a';
-  ctx.fillRect(x, y, w, h);
-  ctx.strokeStyle = '#f43f5e';
-  ctx.lineWidth = 3;
-  ctx.strokeRect(x, y, w, h);
-
-  ctx.font = 'bold 16px monospace';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#fda4af';
-  ctx.fillText(
-    `🔒 관문 진입 차단: ${gateResult.gateName}`,
-    x + w * 0.5,
-    y + 30
-  );
-
-  ctx.font = '12px monospace';
-  ctx.fillStyle = '#e2e8f0';
-  const doneCount = gateResult.checklist.filter((c) => c.completed).length;
-  ctx.fillText(
-    `[${gateResult.targetZoneId.toUpperCase()}] 해역 진입 필수 에피소드 (${doneCount}/${totalItems} 완료):`,
-    x + w * 0.5,
-    y + 54
-  );
-
-  const colW = useTwoCols ? Math.floor((w - 52) / 2) : w - 56;
-  gateResult.checklist.forEach((item, idx) => {
-    const col = useTwoCols ? idx % 2 : 0;
-    const row = useTwoCols ? Math.floor(idx / 2) : idx;
-    const cellX = x + 20 + col * (colW + 12);
-    const rowY = y + 74 + row * rowStep;
-    ctx.fillStyle = item.completed
-      ? 'rgba(22, 163, 74, 0.22)'
-      : 'rgba(225, 29, 72, 0.22)';
-    ctx.fillRect(cellX, rowY, colW, 26);
-    ctx.strokeStyle = item.completed ? '#4ade80' : '#f43f5e';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(cellX, rowY, colW, 26);
-
-    ctx.font = 'bold 10px monospace';
-    ctx.textAlign = 'left';
-    ctx.fillStyle = item.completed ? '#4ade80' : '#fda4af';
-    const statusIcon = item.completed ? '✓' : '❌';
-    const label = `${statusIcon} ${item.islandName}`;
-    ctx.fillText(
-      label.length > 34 ? `${label.slice(0, 33)}…` : label,
-      cellX + 8,
-      rowY + 17
-    );
-  });
-
-  ctx.font = 'bold 11px monospace';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#fde047';
-  ctx.fillText(
-    '해당 섬의 정박 구역(Docking Zone)에 입항해 에피소드를 클리어한 뒤 다시 방문하세요.',
-    x + w * 0.5,
-    y + h - 38
-  );
-  ctx.fillStyle = '#38bdf8';
-  ctx.fillText('[E / Space / 클릭: 팝업 닫기]', x + w * 0.5, y + h - 16);
-
-  ctx.restore();
-}
-
-/**
- * 3. Wanted Poster Bounty Cutscene Overlay
- */
-export function renderWantedPosterOverlay(
-  ctx: CanvasRenderingContext2D,
-  poster: WantedPosterEvent,
-  gameRegistry: GameDataRegistry,
-  assets: AssetLoader,
-  isTampered: boolean = false,
-  frameTier: WantedPosterFrameTier = 'default',
-  viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS
-): void {
-  const viewW = viewport.viewWidth;
-  const viewH = viewport.viewHeight;
-
-  ctx.save();
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.72)';
-  ctx.fillRect(0, 0, viewW, viewH);
-
-  const w = 260;
-  const h = 368;
-  const x = Math.round((viewW - w) * 0.5);
-  const y = Math.round((viewH - h) * 0.5);
-
-  const framePalette: Record<
-    WantedPosterFrameTier,
-    { border: string; inner: string; badge: string; label: string }
-  > = {
-    default: { border: '#78350f', inner: '#92400e', badge: '#78350f', label: '' },
-    gold: { border: '#eab308', inner: '#fef08a', badge: '#ca8a04', label: '★ GOLD FRAME ★' },
-    platinum: { border: '#94a3b8', inner: '#e2e8f0', badge: '#475569', label: '✦ PLATINUM FRAME ✦' },
-    diamond: { border: '#38bdf8', inner: '#bae6fd', badge: '#0284c7', label: '❖ DIAMOND CHAMPION ❖' }
-  };
-  const fp = framePalette[frameTier] ?? framePalette.default;
-
-  if (frameTier !== 'default') {
-    ctx.strokeStyle = fp.inner;
-    ctx.lineWidth = 8;
-    ctx.strokeRect(x - 4, y - 4, w + 8, h + 8);
-  }
-
-  ctx.fillStyle = '#fef3c7';
-  ctx.fillRect(x, y, w, h);
-  ctx.strokeStyle = fp.border;
-  ctx.lineWidth = frameTier === 'default' ? 4 : 6;
-  ctx.strokeRect(x, y, w, h);
-
-  if (fp.label) {
-    ctx.fillStyle = fp.badge;
-    ctx.fillRect(x + 24, y - 14, w - 48, 18);
-    ctx.font = 'bold 10px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText(fp.label, x + w * 0.5, y - 2);
-  }
-
-  ctx.font = 'bold 28px serif';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#451a03';
-  ctx.fillText('WANTED', x + w * 0.5, y + 40);
-
-  ctx.fillStyle = '#1e293b';
-  ctx.fillRect(x + 35, y + 52, w - 70, 140);
-  ctx.strokeStyle = '#78350f';
-  ctx.lineWidth = 2.5;
-  ctx.strokeRect(x + 35, y + 52, w - 70, 140);
-
-  const unitDef = gameRegistry.units[poster.unitId];
-  if (unitDef) {
-    const portrait = assets.getOrCreateUnitPortrait(poster.unitId, 'smirk');
-    if (portrait) {
-      ctx.drawImage(portrait, x + w * 0.5 - 52, y + 70, 104, 104);
-    } else {
-      const sprite = assets.getOrCreateUnitSprite(unitDef, 'BASE', null);
-      if (sprite) {
-        ctx.drawImage(sprite, x + w * 0.5 - 48, y + 74, 96, 96);
-      }
     }
-  }
-
-  ctx.font = 'bold 14px serif';
-  ctx.fillStyle = '#451a03';
-  ctx.fillText('DEAD OR ALIVE', x + w * 0.5, y + 214);
-
-  ctx.font = 'bold 18px monospace';
-  ctx.fillStyle = '#1c1917';
-  ctx.fillText(poster.characterName, x + w * 0.5, y + 242);
-
-  ctx.font = 'bold 11px monospace';
-  ctx.fillStyle = '#78350f';
-  ctx.fillText(
-    `이전: ฿ ${poster.previousBounty.toLocaleString()}`,
-    x + w * 0.5,
-    y + 266
-  );
-
-  ctx.font = 'bold 16px monospace';
-  ctx.fillStyle = '#b91c1c';
-  ctx.fillText(
-    `฿ ${poster.newBounty.toLocaleString()} -`,
-    x + w * 0.5,
-    y + 292
-  );
-
-  ctx.font = '10px monospace';
-  ctx.fillStyle = '#57534e';
-  ctx.fillText(`사유: ${poster.reason}`, x + w * 0.5, y + 314);
-
-  if (isTampered) {
-    ctx.fillStyle = '#dc2626';
-    ctx.fillRect(x + 14, y + 322, w - 28, 18);
-    ctx.font = 'bold 9px monospace';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText('⚠ 비공식 수정 데이터 (통신 대전 제한)', x + w * 0.5, y + 334);
-  }
-
-  ctx.font = '10px monospace';
-  ctx.fillStyle = '#0284c7';
-  ctx.fillText('[화면 터치 / 방향키 / Space로 닫기]', x + w * 0.5, y + 354);
-
-  ctx.restore();
-}
-
-/**
- * 4. Pixel Auto-Save Indicator & Persistent Tamper Warning Overlay
- */
-export function renderSaveAndTamperOverlay(
-  ctx: CanvasRenderingContext2D,
-  saveIndicatorTimer: number,
-  saveIndicatorText: string,
-  isTampered: boolean,
-  viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS
-): void {
-  const viewW = viewport.viewWidth;
-  const viewH = viewport.viewHeight;
-  const { right: safeR, top: safeT, bottom: safeB } = viewport.safeInsets;
-
-  ctx.save();
-
-  if (isTampered) {
-    const bx = viewW - safeR - 246;
-    const by = 110 + safeT;
-    ctx.fillStyle = 'rgba(185, 28, 28, 0.92)';
-    ctx.fillRect(bx, by, 236, 22);
-    ctx.strokeStyle = '#fca5a5';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(bx, by, 236, 22);
-    ctx.font = 'bold 10px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText('⚠ 비공식 수정 데이터 (통신 대전 제한)', bx + 118, by + 15);
-  }
-
-  if (saveIndicatorTimer > 0) {
-    const sx = viewW - safeR - 172;
-    const sy = viewH - safeB - 30;
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
-    ctx.fillRect(sx, sy, 162, 22);
-    ctx.strokeStyle = '#4ade80';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(sx, sy, 162, 22);
-    ctx.font = 'bold 10px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#4ade80';
-    ctx.fillText(saveIndicatorText, sx + 81, sy + 15);
   }
 
   ctx.restore();

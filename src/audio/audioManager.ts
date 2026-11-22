@@ -1,4 +1,5 @@
 import { ExternalAssetResolver } from '../assets/externalAssetResolver';
+import type { Disposable } from '../core/types/disposable';
 import {
   defaultAssetManifestRegistry,
   type AssetManifestRegistry
@@ -26,7 +27,7 @@ const LEGACY_SFX_MAP: Record<SfxKind, StandardSfxId> = {
   UI_CLICK: 'ui_confirm'
 };
 
-export class AudioManager {
+export class AudioManager implements Disposable {
   public readonly engine: RetroAudioEngine;
 
   constructor(
@@ -101,5 +102,9 @@ export class AudioManager {
 
   public playSfxId(sfxId: StandardSfxId | string): SfxPlayResult {
     return this.engine.playSfxById(sfxId);
+  }
+
+  public dispose(): void {
+    this.engine.dispose();
   }
 }

@@ -44,6 +44,7 @@ function makeBuild(
   isPlayer: boolean = true
 ): UnitBuildConfig {
   const def = defaultDataRegistry.units[speciesId];
+  if (!def) throw new Error(`Missing unit species: ${speciesId}`);
   return {
     instanceId,
     speciesId,
@@ -76,6 +77,7 @@ describe('Phase 7 (Stage 2-A): East Blue Complete Edition', () => {
     for (const id of newUnits) {
       const def = defaultDataRegistry.units[id];
       expect(def, `Unit ${id} should exist`).toBeDefined();
+      if (!def) throw new Error(`Unit ${id} should exist`);
       expect(def.defaultMoves.length).toBe(4);
     }
 
@@ -101,9 +103,11 @@ describe('Phase 7 (Stage 2-A): East Blue Complete Edition', () => {
     };
     const world = createBattleWorld(cfg, defaultDataRegistry);
     const prng = new SeededPRNG(7001);
-    const zoro = world.units[0];
-    const luffy = world.units[1];
-    const buggy = world.units[2];
+    const [zoro, luffy, buggy] = world.units;
+    const oniGiriMove = defaultDataRegistry.moves['move_zoro_oni_giri'];
+    if (!zoro || !luffy || !buggy || !oniGiriMove) {
+      throw new Error('Missing Buggy test units or move');
+    }
 
     // Direct SLASH hit with Armament Haki -> 0 damage + SLASH_SPLIT
     const slashRes = computeDamage(
@@ -128,7 +132,7 @@ describe('Phase 7 (Stage 2-A): East Blue Complete Edition', () => {
     for (let attempt = 0; attempt < 2; attempt++) {
       spawnMeleeArcInstance(
         zoro,
-        defaultDataRegistry.moves['move_zoro_oni_giri'],
+        oniGiriMove,
         { x: 1, y: 0 },
         world,
         defaultDataRegistry
@@ -157,7 +161,8 @@ describe('Phase 7 (Stage 2-A): East Blue Complete Edition', () => {
 
   it('3. Smoker SURVIVE_TIME (45s): surviving 45s wins regardless of Smoker HP and emits Dragon gale storm escape cutscene', () => {
     const loguetownEnc =
-      defaultRpgDataRegistry.islands['loguetown'].encounters[0];
+      defaultRpgDataRegistry.islands['loguetown']?.encounters[0];
+    if (!loguetownEnc) throw new Error('Missing Loguetown encounter');
     expect(loguetownEnc.winCondition?.kind).toBe('SURVIVE_TIME');
 
     const cfg: BattleWorldConfig = {
@@ -172,6 +177,7 @@ describe('Phase 7 (Stage 2-A): East Blue Complete Edition', () => {
     const prng = new SeededPRNG(7002);
     const luffy = world.units[0];
     const smoker = world.units[1];
+    if (!luffy || !smoker) throw new Error('Missing luffy or smoker');
 
     // Keep them spaced apart while simulating 45.1s of survival
     luffy.pos = { x: 150, y: 300 };
@@ -189,7 +195,8 @@ describe('Phase 7 (Stage 2-A): East Blue Complete Edition', () => {
 
   it('4. Arlong Park waterTerrain & Don Krieg MH5 poisonCloud: Fishman gains +20% ATK/SPD & SEA bonus, Fruit user gets -30% slow, MH5 expands', () => {
     const arlongEnc =
-      defaultRpgDataRegistry.islands['arlong_park'].encounters[0];
+      defaultRpgDataRegistry.islands['arlong_park']?.encounters[0];
+    if (!arlongEnc) throw new Error('Missing arlong_park encounter');
     const cfg: BattleWorldConfig = {
       seed: 7003,
       arenaSizeKey: 'large',
@@ -202,6 +209,7 @@ describe('Phase 7 (Stage 2-A): East Blue Complete Edition', () => {
     const prng = new SeededPRNG(7003);
     const luffy = world.units[0];
     const arlong = world.units[1];
+    if (!luffy || !arlong) throw new Error('Missing luffy or arlong');
 
     // Measure stats outside water first
     luffy.pos = { x: 100, y: 100 };
@@ -215,6 +223,7 @@ describe('Phase 7 (Stage 2-A): East Blue Complete Edition', () => {
 
     // Move both into Arlong Park waterZone[0] ({ x: 420, y: 210, radiusPx: 110 })
     const wz = world.waterZones[0];
+    if (!wz) throw new Error('Missing waterZone 0');
     luffy.pos = { x: wz.x - 20, y: wz.y };
     arlong.pos = { x: wz.x + 20, y: wz.y };
     stepBattleWorld(world, [], defaultDataRegistry, prng, FIXED_DT);
@@ -241,19 +250,23 @@ describe('Phase 7 (Stage 2-A): East Blue Complete Edition', () => {
     };
     const worldKrieg = createBattleWorld(cfgKrieg, defaultDataRegistry);
     const krieg = worldKrieg.units[1];
+    const mh5Move = defaultDataRegistry.moves['move_krieg_mh5_poison'];
+    if (!krieg || !mh5Move) throw new Error('Missing krieg or mh5 move');
     spawnFieldMove(
       krieg,
-      defaultDataRegistry.moves['move_krieg_mh5_poison'],
+      mh5Move,
       { x: 420, y: 230 },
       worldKrieg,
       defaultDataRegistry
     );
-    const startRadius = worldKrieg.fieldZones[0].radiusPx;
+    const startField = worldKrieg.fieldZones[0];
+    if (!startField) throw new Error('Missing MH5 field zone');
+    const startRadius = startField.radiusPx;
     for (let t = 0; t < 120; t++) {
       stepBattleWorld(worldKrieg, [], defaultDataRegistry, prng, FIXED_DT);
     }
-    expect(worldKrieg.fieldZones[0].isPoisonCloud).toBe(true);
-    expect(worldKrieg.fieldZones[0].radiusPx).toBeGreaterThan(startRadius + 25);
+    expect(worldKrieg.fieldZones[0]?.isPoisonCloud).toBe(true);
+    expect(worldKrieg.fieldZones[0]?.radiusPx).toBeGreaterThan(startRadius + 25);
   });
 
   it('5. Sanji (COOK Shipboard Cooking) & Nami (NAVIGATOR +20% Sailing Speed & 50% Storm Resistance) role passives', () => {
@@ -301,7 +314,7 @@ describe('Phase 7 (Stage 2-A): East Blue Complete Edition', () => {
       defaultDataRegistry
     );
     expect(
-      battleWorld.units[0].statBuffs.some((b) => b.id === 'cook_shipboard_meal_atk')
+      battleWorld.units[0]?.statBuffs.some((b) => b.id === 'cook_shipboard_meal_atk')
     ).toBe(true);
 
     // Clear Arlong Park -> recruits Nami, unlocks NAVIGATOR & awards 30M Bounty Wanted Poster
@@ -338,7 +351,7 @@ describe('Phase 7 (Stage 2-A): East Blue Complete Edition', () => {
     );
     expect(gate4of5.allowed).toBe(false);
     expect(gate4of5.missingEpisodes.length).toBe(1);
-    expect(gate4of5.missingEpisodes[0].episodeId).toBe('ep_loguetown');
+    expect(gate4of5.missingEpisodes[0]?.episodeId).toBe('ep_loguetown');
 
     // Complete 5th episode (ep_loguetown) -> Reverse Mountain opens!
     completeEpisode(campaign, 'ep_loguetown', defaultRpgDataRegistry, defaultDataRegistry);

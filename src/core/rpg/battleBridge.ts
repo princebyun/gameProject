@@ -38,9 +38,13 @@ export function createBattleWorldFromContext(
   const partyIds =
     state.activePartyUnitIds.length > 0 ? state.activePartyUnitIds : ['luffy'];
 
+  const fallbackUnit = Object.values(gameRegistry.units)[0];
+  if (!fallbackUnit) {
+    throw new Error('GameDataRegistry has no units defined');
+  }
+
   const teamAlpha: UnitBuildConfig[] = partyIds.map((uid, idx) => {
-    const unitDef =
-      gameRegistry.units[uid] ?? Object.values(gameRegistry.units)[0];
+    const unitDef = gameRegistry.units[uid] ?? fallbackUnit;
     const unlockedForms = state.unitUnlockedForms[uid] ?? [];
     const activeFormId =
       unlockedForms[unlockedForms.length - 1] ?? unitDef.defaultFormId;
@@ -65,12 +69,13 @@ export function createBattleWorldFromContext(
   // Stage 2-B: Scenario guest AI ally (e.g. Marco joins Marineford 2V2 as AI partner)
   if (context.guestAllyUnitIds && context.guestAllyUnitIds.length > 0) {
     const guestId = context.guestAllyUnitIds[0];
-    const guestDef = gameRegistry.units[guestId];
+    const guestDef = guestId ? gameRegistry.units[guestId] : undefined;
+    const leadId = partyIds[0];
     if (guestDef && !teamAlpha.some((b) => b.speciesId === guestId)) {
       const guestBuild: UnitBuildConfig = {
         instanceId: `guest_ally_${guestId}`,
         speciesId: guestDef.id,
-        level: Math.max(52, state.unitLevelOverrides[partyIds[0]] ?? 52),
+        level: Math.max(52, (leadId ? state.unitLevelOverrides[leadId] : undefined) ?? 52),
         ivs: { hp: 31, atk: 31, def: 31, spAtk: 31, spDef: 31, spd: 31 },
         evs: { ...DEFAULT_EVS },
         moveIds: [...guestDef.defaultMoves],
@@ -95,8 +100,7 @@ export function createBattleWorldFromContext(
     prefix: string
   ): UnitBuildConfig[] =>
     unitIds.map((uid, idx) => {
-      const unitDef =
-        gameRegistry.units[uid] ?? Object.values(gameRegistry.units)[0];
+      const unitDef = gameRegistry.units[uid] ?? fallbackUnit;
       return {
         instanceId: `${prefix}_${idx}_${uid}`,
         speciesId: unitDef.id,

@@ -167,8 +167,13 @@ describe('Step 3 & Step 4: Production dist-web/ Bundle Audit & Galaxy S25 Ultra 
     );
 
     const prng = new SeededPRNG(20261122);
-    activateFormShift(world.units[3], world, defaultDataRegistry, 'form_kaido_beast');
-    activateFormShift(world.units[4], world, defaultDataRegistry, 'form_saturn_gyuki');
+    const kaidoUnit = world.units[3];
+    const saturnUnit = world.units[4];
+    expect(kaidoUnit).toBeDefined();
+    expect(saturnUnit).toBeDefined();
+    if (!kaidoUnit || !saturnUnit) throw new Error('Missing boss unit');
+    activateFormShift(kaidoUnit, world, defaultDataRegistry, 'form_kaido_beast');
+    activateFormShift(saturnUnit, world, defaultDataRegistry, 'form_saturn_gyuki');
 
     for (let tick = 0; tick < 30; tick++) {
       stepBattleWorld(
@@ -217,8 +222,11 @@ describe('Step 3 & Step 4: Production dist-web/ Bundle Audit & Galaxy S25 Ultra 
     // 5. Post-Battle Movement Regression Check:
     // Even if battleWorld.units[0] is KO'd (isAlive = false) or swapped off-field (isOnField = false)
     // when a battle ends, directional movement in Island / Sea exploration must never lock up.
-    world.units[0].isAlive = false;
-    world.units[0].isOnField = false;
+    const leadUnit = world.units[0];
+    expect(leadUnit).toBeDefined();
+    if (!leadUnit) throw new Error('Missing lead unit');
+    leadUnit.isAlive = false;
+    leadUnit.isOnField = false;
 
     const input = new UnifiedInputManager({
       platformName: 'web-pwa',

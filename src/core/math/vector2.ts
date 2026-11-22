@@ -1,7 +1,5 @@
-export interface Vec2 {
-  x: number;
-  y: number;
-}
+import type { Vec2 } from '../../data/schemas/commonSchemas';
+export type { Vec2 };
 
 export function vec2(x: number = 0, y: number = 0): Vec2 {
   return { x, y };
@@ -150,7 +148,7 @@ export function segmentsDistance(
   });
 
   candidates.sort((x, y) => x.distance - y.distance);
-  return candidates[0];
+  return candidates[0]!;
 }
 
 export function isCircleIntersectingSector(

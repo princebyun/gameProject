@@ -1,4 +1,5 @@
 import { ExternalAssetResolver } from '../assets/externalAssetResolver';
+import type { Disposable } from '../core/types/disposable';
 import {
   defaultAssetManifestRegistry,
   type AssetManifestRegistry
@@ -6,6 +7,7 @@ import {
 import type { BgmTrackManifestEntry } from '../data/assets/types';
 import { ChiptuneSynthPlayer } from './chiptuneSynthPlayer';
 import { SfxManager, type SfxPlayResult } from './sfxManager';
+import { attachOnEndedDisconnect, disconnectAudioNodes } from './webAudioCleanup';
 
 export type BattleBgmMood =
   | 'NORMAL'
@@ -18,7 +20,7 @@ interface ActiveExternalBgmNode {
   gain: GainNode;
 }
 
-export class RetroAudioEngine {
+export class RetroAudioEngine implements Disposable {
   public readonly resolver: ExternalAssetResolver;
   public readonly manifestRegistry: AssetManifestRegistry;
   public readonly sfx: SfxManager;
@@ -40,7 +42,7 @@ export class RetroAudioEngine {
   private bgmSourceStatus = new Map<string, 'EXTERNAL_OGG' | 'CHIPTUNE_FALLBACK'>();
   private breakFilterActive = false;
   private unlocked = false;
-  private gestureAttached = false;
+  private gestureAbortController: AbortController | null = null;
 
   private chiptune = new ChiptuneSynthPlayer();
   private externalBgmNode: ActiveExternalBgmNode | null = null;
@@ -58,16 +60,20 @@ export class RetroAudioEngine {
   }
 
   public attachGestureUnlock(): void {
-    if (this.gestureAttached || typeof window === 'undefined') return;
-    this.gestureAttached = true;
-
+    if (this.gestureAbortController || typeof window === 'undefined') return;
+    this.gestureAbortController = new AbortController();
+    const { signal } = this.gestureAbortController;
     const unlockHandler = () => {
       this.unlock();
     };
+    window.addEventListener('pointerdown', unlockHandler, { passive: true, signal });
+    window.addEventListener('touchstart', unlockHandler, { passive: true, signal });
+    window.addEventListener('keydown', unlockHandler, { passive: true, signal });
+  }
 
-    window.addEventListener('pointerdown', unlockHandler, { passive: true });
-    window.addEventListener('touchstart', unlockHandler, { passive: true });
-    window.addEventListener('keydown', unlockHandler, { passive: true });
+  public detachGestureUnlock(): void {
+    this.gestureAbortController?.abort();
+    this.gestureAbortController = null;
   }
 
   public unlock(): boolean {
@@ -77,6 +83,7 @@ export class RetroAudioEngine {
       ctx.resume().catch(() => {});
     }
     this.unlocked = true;
+    this.detachGestureUnlock();
     // If a BGM was requested before first user gesture, kick it off now
     if (
       this.currentBgmId &&
@@ -329,6 +336,7 @@ export class RetroAudioEngine {
 
       source.connect(gain);
       gain.connect(destination);
+      attachOnEndedDisconnect(source, gain);
       source.start(now);
 
       this.externalBgmNode = { source, gain };
@@ -358,5 +366,30 @@ export class RetroAudioEngine {
         // ignore already-stopped sources
       }
     }
+  }
+
+  public dispose(): void {
+    this.detachGestureUnlock();
+    this.bgmRequestToken += 1;
+    this.currentBgmId = null;
+    this.chiptune.dispose();
+    const ext = this.externalBgmNode;
+    this.externalBgmNode = null;
+    if (ext) {
+      try { ext.source.stop(); } catch { /* already stopped */ }
+      disconnectAudioNodes(ext.source, ext.gain);
+    }
+    this.sfx.dispose();
+    disconnectAudioNodes(this.bgmBusGain, this.bgmFilter, this.sfxBusGain, this.masterGain);
+    this.bgmBusGain = null;
+    this.bgmFilter = null;
+    this.sfxBusGain = null;
+    this.masterGain = null;
+    if (this.ctx) {
+      if (this.ctx.state !== 'closed') void this.ctx.close().catch(() => {});
+      this.ctx = null;
+    }
+    this.bgmSourceStatus.clear();
+    this.unlocked = false;
   }
 }

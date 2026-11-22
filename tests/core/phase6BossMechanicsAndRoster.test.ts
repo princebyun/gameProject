@@ -38,6 +38,7 @@ function makeBuild(
   isPlayer: boolean = true
 ): UnitBuildConfig {
   const def = defaultDataRegistry.units[speciesId];
+  if (!def) throw new Error(`Missing unit species: ${speciesId}`);
   return {
     instanceId,
     speciesId,
@@ -70,6 +71,7 @@ describe('Phase 6: 7 Core Episode Bosses + Franky, 4 Boss Combat Hooks & 5-Islan
     for (const id of newUnitIds) {
       const def = defaultDataRegistry.units[id];
       expect(def, `Unit ${id} should exist`).toBeDefined();
+      if (!def) throw new Error(`Unit ${id} should exist`);
       expect(def.defaultMoves.length).toBe(4);
       for (const mId of def.defaultMoves) {
         expect(defaultDataRegistry.moves[mId], `Move ${mId} should exist`).toBeDefined();
@@ -78,37 +80,37 @@ describe('Phase 6: 7 Core Episode Bosses + Franky, 4 Boss Combat Hooks & 5-Islan
 
     // Verify 5-island boss encounter rosters
     expect(
-      defaultRpgDataRegistry.islands['foosha_shells'].encounters.some((e) =>
+      defaultRpgDataRegistry.islands['foosha_shells']?.encounters.some((e) =>
         e.enemyUnitIds.includes('morgan')
       )
     ).toBe(true);
     expect(
-      defaultRpgDataRegistry.islands['water_seven'].encounters.some((e) =>
+      defaultRpgDataRegistry.islands['water_seven']?.encounters.some((e) =>
         e.enemyUnitIds.includes('blueno')
       )
     ).toBe(true);
     expect(
-      defaultRpgDataRegistry.islands['water_seven'].encounters.some(
+      defaultRpgDataRegistry.islands['water_seven']?.encounters.some(
         (e) => e.enemyUnitIds.includes('kaku') && e.enemyUnitIds.includes('lucci')
       )
     ).toBe(true);
     expect(
-      defaultRpgDataRegistry.islands['wano_onigashima'].encounters.some((e) =>
+      defaultRpgDataRegistry.islands['wano_onigashima']?.encounters.some((e) =>
         e.enemyUnitIds.includes('king')
       )
     ).toBe(true);
     expect(
-      defaultRpgDataRegistry.islands['egghead'].encounters.some((e) =>
+      defaultRpgDataRegistry.islands['egghead']?.encounters.some((e) =>
         e.enemyUnitIds.includes('s_hawk')
       )
     ).toBe(true);
     expect(
-      defaultRpgDataRegistry.islands['egghead'].encounters.some((e) =>
+      defaultRpgDataRegistry.islands['egghead']?.encounters.some((e) =>
         e.enemyUnitIds.includes('saturn')
       )
     ).toBe(true);
     expect(
-      defaultRpgDataRegistry.islands['elbaf'].encounters.some((e) =>
+      defaultRpgDataRegistry.islands['elbaf']?.encounters.some((e) =>
         e.enemyUnitIds.includes('loki')
       )
     ).toBe(true);
@@ -126,6 +128,7 @@ describe('Phase 6: 7 Core Episode Bosses + Franky, 4 Boss Combat Hooks & 5-Islan
     const prng = new SeededPRNG(6001);
     const zoro = world.units[0];
     const king = world.units[1];
+    if (!zoro || !king) throw new Error('Missing zoro or king');
 
     expect(king.lunarianFlameOn).toBe(true);
     expect(world.bossIntroTimer).toBe(1.5);
@@ -195,6 +198,7 @@ describe('Phase 6: 7 Core Episode Bosses + Franky, 4 Boss Combat Hooks & 5-Islan
     const prng = new SeededPRNG(6002);
     const luffy = world.units[0];
     const saturn = world.units[1];
+    if (!luffy || !saturn) throw new Error('Missing luffy or saturn');
 
     expect(saturn.entityScale).toBe(1.8);
     expect(saturn.knockbackResist).toBe(0.7);
@@ -238,6 +242,8 @@ describe('Phase 6: 7 Core Episode Bosses + Franky, 4 Boss Combat Hooks & 5-Islan
     const worldLoki = createBattleWorld(cfgLoki, defaultDataRegistry);
     const luffy = worldLoki.units[0];
     const loki = worldLoki.units[1];
+    const pistolMove = defaultDataRegistry.moves['move_luffy_pistol'];
+    if (!luffy || !loki || !pistolMove) throw new Error('Missing Loki test units or move');
 
     expect(loki.entityScale).toBe(2.1);
     expect(loki.knockbackResist).toBe(0.85);
@@ -250,7 +256,7 @@ describe('Phase 6: 7 Core Episode Bosses + Franky, 4 Boss Combat Hooks & 5-Islan
     loki.pos = { x: 450, y: 300 };
     spawnMeleeArcInstance(
       luffy,
-      defaultDataRegistry.moves['move_luffy_pistol'],
+      pistolMove,
       { x: 1, y: 0 },
       worldLoki,
       defaultDataRegistry
@@ -275,18 +281,23 @@ describe('Phase 6: 7 Core Episode Bosses + Franky, 4 Boss Combat Hooks & 5-Islan
     const worldBeam = createBattleWorld(cfgBeam, defaultDataRegistry);
     const franky = worldBeam.units[0];
     const kizaru = worldBeam.units[1];
+    const radicalBeamMove = defaultDataRegistry.moves['move_franky_radical_beam'];
+    const kizaruLaserMove = defaultDataRegistry.moves['move_kizaru_laser_beam'];
+    if (!franky || !kizaru || !radicalBeamMove || !kizaruLaserMove) {
+      throw new Error('Missing Franky/Kizaru units or beam moves');
+    }
     franky.pos = { x: 300, y: 300 };
     kizaru.pos = { x: 700, y: 300 };
     spawnBeamInstance(
       franky,
-      defaultDataRegistry.moves['move_franky_radical_beam'],
+      radicalBeamMove,
       { x: 1, y: 0 },
       worldBeam,
       defaultDataRegistry
     );
     spawnBeamInstance(
       kizaru,
-      defaultDataRegistry.moves['move_kizaru_laser_beam'],
+      kizaruLaserMove,
       { x: -1, y: 0 },
       worldBeam,
       defaultDataRegistry
@@ -305,11 +316,16 @@ describe('Phase 6: 7 Core Episode Bosses + Franky, 4 Boss Combat Hooks & 5-Islan
     const worldSlash = createBattleWorld(cfgSlash, defaultDataRegistry);
     const zoro = worldSlash.units[0];
     const kaku = worldSlash.units[1];
+    const rankyakuMove = defaultDataRegistry.moves['move_kaku_rankyaku_amanedachi'];
+    const oniGiriMove = defaultDataRegistry.moves['move_zoro_oni_giri'];
+    if (!zoro || !kaku || !rankyakuMove || !oniGiriMove) {
+      throw new Error('Missing Zoro/Kaku units or moves');
+    }
     zoro.pos = { x: 360, y: 230 };
     kaku.pos = { x: 430, y: 230 };
     const proj = spawnProjectileInstance(
       kaku,
-      defaultDataRegistry.moves['move_kaku_rankyaku_amanedachi'],
+      rankyakuMove,
       { x: -1, y: 0 },
       worldSlash,
       defaultDataRegistry
@@ -317,7 +333,7 @@ describe('Phase 6: 7 Core Episode Bosses + Franky, 4 Boss Combat Hooks & 5-Islan
     proj.pos = { x: 390, y: 230 };
     spawnMeleeArcInstance(
       zoro,
-      defaultDataRegistry.moves['move_zoro_oni_giri'],
+      oniGiriMove,
       { x: 1, y: 0 },
       worldSlash,
       defaultDataRegistry
@@ -351,7 +367,9 @@ describe('Phase 6: 7 Core Episode Bosses + Franky, 4 Boss Combat Hooks & 5-Islan
     expect(campaign.assignedCrewRoles.SHIPWRIGHT).toBe('프랑키');
     expect(campaign.ship.shipId).toBe('thousand_sunny');
     // Thousand Sunny base maxHullHp (1800) * 1.4 (SHIPWRIGHT bonus) = 2520
-    const sunnyBase = defaultRpgDataRegistry.ships['thousand_sunny'].maxHullHp;
+    const sunnyShip = defaultRpgDataRegistry.ships['thousand_sunny'];
+    if (!sunnyShip) throw new Error('Missing thousand_sunny ship');
+    const sunnyBase = sunnyShip.maxHullHp;
     expect(campaign.ship.maxHullHp).toBe(Math.round(sunnyBase * 1.4));
 
     const env = serializeCampaignToSaveEnvelope(

@@ -37,6 +37,7 @@ function makeBuild(
   isPlayer: boolean
 ): UnitBuildConfig {
   const def = defaultDataRegistry.units[speciesId];
+  if (!def) throw new Error(`Missing unit species: ${speciesId}`);
   return {
     instanceId,
     speciesId,
@@ -57,6 +58,7 @@ describe('Phase 10 Step 1: Pure TS Endgame Core — Impel Down 6F, Magellan & Co
     expect(BATTLE_CALC_VERSION).toBe('0.6.0');
     const magellan = defaultDataRegistry.units['magellan'];
     expect(magellan).toBeDefined();
+    if (!magellan) throw new Error('Missing magellan');
     expect(magellan.fruitType).toBe('PARAMECIA');
     expect(magellan.aiBehaviorId).toBe('venom_warden');
     expect(magellan.defaultMoves).toEqual([
@@ -102,7 +104,9 @@ describe('Phase 10 Step 1: Pure TS Endgame Core — Impel Down 6F, Magellan & Co
     const f1World = createBattleWorld(f1Config, defaultDataRegistry);
     const luffy = f1World.units.find((u) => u.speciesId === 'luffy')!;
     luffy.hp = Math.round(luffy.maxHp * 0.45);
-    luffy.moveSlots[0].charges = 1;
+    const luffyFirstSlot = luffy.moveSlots[0];
+    if (!luffyFirstSlot) throw new Error('Missing luffy moveSlot 0');
+    luffyFirstSlot.charges = 1;
 
     const outcome1 = recordImpelDownFloorOutcome(
       run,
@@ -114,8 +118,11 @@ describe('Phase 10 Step 1: Pure TS Endgame Core — Impel Down 6F, Magellan & Co
     expect(outcome1.clearedFloor).toBe(1);
     expect(outcome1.draftChoices.length).toBe(3);
     expect(run.status).toBe('DRAFTING');
-    expect(run.carryoverMap['luffy'].hpRatio).toBeCloseTo(0.45, 1);
-    expect(run.carryoverMap['luffy'].moveChargesMap[luffy.moveSlots[0].moveId]).toBe(1);
+    const runLuffyCarryover = run.carryoverMap['luffy'];
+    const carryMoveSlot0 = luffy.moveSlots[0];
+    if (!runLuffyCarryover || !carryMoveSlot0) throw new Error('Missing luffy carryover or slot 0');
+    expect(runLuffyCarryover.hpRatio).toBeCloseTo(0.45, 1);
+    expect(runLuffyCarryover.moveChargesMap[carryMoveSlot0.moveId]).toBe(1);
 
     // Suspend & resume verification (JSON round-trip fidelity)
     suspendImpelDownRun(campaign, run);
@@ -123,7 +130,7 @@ describe('Phase 10 Step 1: Pure TS Endgame Core — Impel Down 6F, Magellan & Co
     expect(restored).not.toBeNull();
     expect(restored.currentFloor).toBe(1);
     expect(restored.status).toBe('DRAFTING');
-    expect(restored.carryoverMap['luffy'].hpRatio).toBeCloseTo(0.45, 1);
+    expect(restored.carryoverMap['luffy']?.hpRatio).toBeCloseTo(0.45, 1);
 
     // Pick a healing buff if injected into pendingDraftBuffIds to test direct HP heal effect
     restored.pendingDraftBuffIds = [
@@ -131,7 +138,7 @@ describe('Phase 10 Step 1: Pure TS Endgame Core — Impel Down 6F, Magellan & Co
       'buff_seastone_shatter',
       'buff_antibody_formation'
     ];
-    const hpBeforeHeal = restored.carryoverMap['luffy'].hpRatio;
+    const hpBeforeHeal = restored.carryoverMap['luffy']?.hpRatio ?? 0;
     const pickRes = selectImpelDownDraftBuff(
       restored,
       'buff_ivankov_healing_hormone',
@@ -141,7 +148,7 @@ describe('Phase 10 Step 1: Pure TS Endgame Core — Impel Down 6F, Magellan & Co
     );
     expect(pickRes.applied).toBe(true);
     expect(restored.currentFloor).toBe(2);
-    expect(restored.carryoverMap['luffy'].hpRatio).toBeGreaterThan(hpBeforeHeal + 0.3);
+    expect(restored.carryoverMap['luffy']?.hpRatio).toBeGreaterThan(hpBeforeHeal + 0.3);
 
     // Verify Floor 2 carryover is reflected in Floor 2 battle world
     const { config: f2Config } = buildImpelDownFloorBattleConfig(
@@ -153,7 +160,7 @@ describe('Phase 10 Step 1: Pure TS Endgame Core — Impel Down 6F, Magellan & Co
     const f2World = createBattleWorld(f2Config, defaultDataRegistry);
     const luffyF2 = f2World.units.find((u) => u.speciesId === 'luffy')!;
     expect(luffyF2.hp).toBeCloseTo(
-      Math.round(luffyF2.maxHp * restored.carryoverMap['luffy'].hpRatio),
+      Math.round(luffyF2.maxHp * (restored.carryoverMap['luffy']?.hpRatio ?? 0)),
       -1
     );
 
@@ -187,9 +194,11 @@ describe('Phase 10 Step 1: Pure TS Endgame Core — Impel Down 6F, Magellan & Co
     const f6World = createBattleWorld(f6Config, defaultDataRegistry);
     recordImpelDownFloorOutcome(restored, f6World, true, campaign, defaultEndgameRegistry);
     expect(campaign.endgame.impelDown.highestFloor).toBe(6);
+    const firstDraftBuffId = restored.pendingDraftBuffIds?.[0];
+    if (!firstDraftBuffId) throw new Error('Missing pending draft buff id');
     selectImpelDownDraftBuff(
       restored,
-      restored.pendingDraftBuffIds![0],
+      firstDraftBuffId,
       campaign,
       defaultDataRegistry,
       defaultEndgameRegistry
@@ -237,6 +246,7 @@ describe('Phase 10 Step 1: Pure TS Endgame Core — Impel Down 6F, Magellan & Co
     const lHigh = worldHigh.units.find((u) => u.speciesId === 'luffy')!;
     lLow.pos = { x: 100, y: 270 };
     lHigh.pos = { x: 100, y: 270 };
+    if (!worldLow.units[1] || !worldHigh.units[1]) throw new Error('Missing unit 1');
     worldLow.units[1].pos = { x: 800, y: 270 };
     worldHigh.units[1].pos = { x: 800, y: 270 };
     lLow.venomStacks = 1;
@@ -247,6 +257,7 @@ describe('Phase 10 Step 1: Pure TS Endgame Core — Impel Down 6F, Magellan & Co
     const pLow = new SeededPRNG(55);
     const pHigh = new SeededPRNG(55);
     for (let t = 0; t < 35; t++) {
+      if (!worldLow.units[1] || !worldHigh.units[1]) throw new Error('Missing unit 1');
       worldLow.units[1].aiReactionTimer = 5;
       worldHigh.units[1].aiReactionTimer = 5;
       stepBattleWorld(worldLow, [], defaultDataRegistry, pLow, FIXED_DT);

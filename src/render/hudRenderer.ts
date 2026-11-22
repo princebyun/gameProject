@@ -1,11 +1,26 @@
 import { clamp } from '../core/math/vector2';
-import type { GameDataRegistry } from '../core/types/dataSchemas';
 import type { BattleWorldState, UnitRuntimeState } from '../core/types/battleState';
+import type { GameDataRegistry } from '../core/types/dataSchemas';
 import type { KeyBindingConfig } from '../input/keyBindings';
+import {
+  renderBossIntroBanner,
+  renderRaidSquadHud,
+  renderTopBossHpBar,
+  renderWaveGauntletBanner
+} from './hud/bossAndRaidHudRenderer';
+import {
+  renderActiveClashHud,
+  renderBottomSkillHud
+} from './hud/clashAndSkillHudRenderer';
 import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
 } from './viewport/responsiveViewportManager';
+import { getSafeHudBounds } from './viewport/safeAreaLayout';
+
+const SCRATCH_ALPHA_FIELD: UnitRuntimeState[] = [];
+const SCRATCH_OMEGA_FIELD: UnitRuntimeState[] = [];
+const SCRATCH_BADGES: string[] = [];
 
 export function renderBattleHud(
   ctx: CanvasRenderingContext2D,
@@ -16,60 +31,86 @@ export function renderBattleHud(
   isTouchMode: boolean,
   viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS
 ): void {
-  const viewW = viewport.viewWidth;
-  const viewH = viewport.viewHeight;
-  const { left: safeL, right: safeR, top: safeT, bottom: safeB } = viewport.safeInsets;
+  const safe = getSafeHudBounds(viewport);
+  const viewW = safe.viewWidth;
+  const viewH = safe.viewHeight;
 
   ctx.save();
 
+  SCRATCH_ALPHA_FIELD.length = 0;
+  SCRATCH_OMEGA_FIELD.length = 0;
+  let primaryUnit: UnitRuntimeState | undefined;
+  let firstAliveAlpha: UnitRuntimeState | undefined;
+  let firstAnyAlpha: UnitRuntimeState | undefined;
+
+  for (let i = 0; i < world.units.length; i++) {
+    const u = world.units[i];
+    if (!u) continue;
+    if (u.team === 'ALPHA') {
+      if (!firstAnyAlpha) firstAnyAlpha = u;
+      if (u.isOnField) {
+        SCRATCH_ALPHA_FIELD.push(u);
+        if (!primaryUnit && u.isPlayerControlled && u.isAlive && !u.isDowned) {
+          primaryUnit = u;
+        } else if (!firstAliveAlpha && u.isAlive && !u.isDowned) {
+          firstAliveAlpha = u;
+        }
+      }
+    } else if (u.team === 'OMEGA' && u.isOnField) {
+      SCRATCH_OMEGA_FIELD.push(u);
+    }
+  }
+
   // 1. Top-Left: Team ALPHA HUD Cards (respecting Safe Area)
-  const alphaOnField = world.units.filter((u) => u.team === 'ALPHA' && u.isOnField);
   if (world.raidState.active) {
-    renderRaidSquadHud(ctx, alphaOnField, world, safeL, safeT);
+    renderRaidSquadHud(ctx, SCRATCH_ALPHA_FIELD, world, safe.insets.left, safe.insets.top);
   } else {
-    alphaOnField.forEach((unit, idx) => {
-      renderUnitHudCard(ctx, unit, 12 + safeL, 10 + safeT + idx * 66, false, world, registry);
-    });
+    for (let idx = 0; idx < SCRATCH_ALPHA_FIELD.length; idx++) {
+      const unit = SCRATCH_ALPHA_FIELD[idx];
+      if (!unit) continue;
+      renderUnitHudCard(ctx, unit, Math.round(12 + safe.insets.left), Math.round(10 + safe.insets.top + idx * 66), false, world, registry);
+    }
   }
 
   // 2. Top-Right: Team OMEGA HUD Cards (respecting Safe Area)
-  const omegaOnField = world.units.filter((u) => u.team === 'OMEGA' && u.isOnField);
-  omegaOnField.forEach((unit, idx) => {
-    renderUnitHudCard(ctx, unit, viewW - 252 - safeR, 10 + safeT + idx * 66, true, world, registry);
-  });
-
-  // 3. Top-Center: Global Weather, Environment Awakening Field, Rule Reversal, Timer & FPS
-  renderTopCenterGlobalHud(ctx, world, fps, viewW, safeT);
-
-  // 3.5 Phase 6: Dedicated Top Boss HP Bar (with 50% Phase 2 Notch, Lunarian Flame & Super Regen Lockout Timers)
-  renderTopBossHpBar(ctx, world, registry, viewW, safeT);
-
-  // 4. Active Clash Gauge Overlay (Beam vs Beam, Melee vs Beam Guard, Melee vs Melee + Conqueror Sky Split)
-  renderActiveClashHud(ctx, world, viewW, safeT);
-
-  // 4.5 Phase 6: 1.5s Boss Intro Banner (Name, Title/Epithet, Bounty/Rank)
-  if (world.bossIntroTimer > 0 && world.bossIntroName) {
-    renderBossIntroBanner(ctx, world, viewW, safeT);
+  for (let idx = 0; idx < SCRATCH_OMEGA_FIELD.length; idx++) {
+    const unit = SCRATCH_OMEGA_FIELD[idx];
+    if (!unit) continue;
+    renderUnitHudCard(ctx, unit, Math.round(safe.right - 252), Math.round(10 + safe.insets.top + idx * 66), true, world, registry);
   }
-  renderWaveGauntletBanner(ctx, world, viewW, safeT);
+
+  // 3. Top-Center: Global Weather, Environment Awakening Field, Rule Reversal, Timer
+  renderTopCenterGlobalHud(ctx, world, fps, viewW, safe.insets.top);
+
+  // 3.5 Dedicated Top Boss HP Bar
+  renderTopBossHpBar(ctx, world, registry, viewW, safe.insets.top);
+
+  // 4. Active Clash Gauge Overlay
+  renderActiveClashHud(ctx, world, viewW, safe.insets.top);
+
+  // 4.5 Boss Intro & Wave Gauntlet Banners
+  if (world.bossIntroTimer > 0 && world.bossIntroName) {
+    renderBossIntroBanner(ctx, world, viewW, safe.insets.top);
+  }
+  renderWaveGauntletBanner(ctx, world, viewW, safe.insets.top);
 
   // 5. Bottom Action & Skill Bar for Primary Controlled Alpha Unit
-  const primaryUnit =
-    alphaOnField.find((u) => u.isPlayerControlled && u.isAlive && !u.isDowned) ??
-    alphaOnField.find((u) => u.isAlive && !u.isDowned) ??
-    alphaOnField[0] ??
-    world.units.find((u) => u.team === 'ALPHA');
-  if (primaryUnit) {
-    renderBottomSkillHud(ctx, primaryUnit, world, registry, bindings, isTouchMode, viewW, viewH, safeB);
+  const resolvedPrimary =
+    primaryUnit ?? firstAliveAlpha ?? SCRATCH_ALPHA_FIELD[0] ?? firstAnyAlpha;
+  if (resolvedPrimary) {
+    renderBottomSkillHud(ctx, resolvedPrimary, world, registry, bindings, isTouchMode, safe);
   }
+
+  SCRATCH_ALPHA_FIELD.length = 0;
+  SCRATCH_OMEGA_FIELD.length = 0;
 
   // 6. Winner Banner
   if (world.winnerTeam !== null) {
     ctx.fillStyle = 'rgba(9, 13, 22, 0.78)';
-    ctx.fillRect(viewW * 0.5 - 180, viewH * 0.5 - 42, 360, 84);
+    ctx.fillRect(safe.centerX - 180, viewH * 0.5 - 42, 360, 84);
     ctx.strokeStyle = '#facc15';
     ctx.lineWidth = 2;
-    ctx.strokeRect(viewW * 0.5 - 180, viewH * 0.5 - 42, 360, 84);
+    ctx.strokeRect(safe.centerX - 180, viewH * 0.5 - 42, 360, 84);
 
     ctx.font = 'bold 22px monospace';
     ctx.textAlign = 'center';
@@ -78,27 +119,27 @@ export function renderBattleHud(
       world.winnerTeam === 'DRAW'
         ? 'BATTLE DRAW!'
         : `${world.winnerTeam} TEAM VICTORY!`;
-    ctx.fillText(title, viewW * 0.5, viewH * 0.5 - 4);
+    ctx.fillText(title, safe.centerX, viewH * 0.5 - 4);
     ctx.font = '11px monospace';
     ctx.fillStyle = '#cbd5e1';
     ctx.fillText(
       world.winReasonText ?? '상단 [전투 재시작] 버튼으로 새 매치를 시작하세요',
-      viewW * 0.5,
+      safe.centerX,
       viewH * 0.5 + 22
     );
   }
 
-  // 7. Stage 2-A Tactical Hint Banner (e.g. Buggy Slash Immunity Swap Hint)
+  // 7. Tactical Hint Banner
   if (world.tacticalHintText && world.tacticalHintTimer > 0) {
     ctx.fillStyle = 'rgba(127, 29, 29, 0.92)';
-    ctx.fillRect(viewW * 0.5 - 230, viewH - 96 - safeB, 460, 26);
+    ctx.fillRect(safe.centerX - 230, safe.bottom - 96, 460, 26);
     ctx.strokeStyle = '#facc15';
     ctx.lineWidth = 1.5;
-    ctx.strokeRect(viewW * 0.5 - 230, viewH - 96 - safeB, 460, 26);
+    ctx.strokeRect(safe.centerX - 230, safe.bottom - 96, 460, 26);
     ctx.font = 'bold 11px monospace';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#fde047';
-    ctx.fillText(world.tacticalHintText, viewW * 0.5, viewH - 79 - safeB);
+    ctx.fillText(world.tacticalHintText, safe.centerX, safe.bottom - 79);
   }
 
   ctx.restore();
@@ -121,8 +162,9 @@ function renderUnitHudCard(
   ctx.lineWidth = 1.5;
   ctx.strokeRect(x, y, w, h);
 
-  // Unit Name, Stance & Haki Badge
-  const elemMeta = registry.elements.elements.find((e) => e.id === unit.element);
+  const elemMeta =
+    registry.elementsById?.get(unit.element) ??
+    registry.elements.elements.find((e) => e.id === unit.element);
   ctx.font = 'bold 10px monospace';
   ctx.textAlign = 'left';
   ctx.fillStyle = '#f8fafc';
@@ -135,7 +177,6 @@ function renderUnitHudCard(
   const hakiText = `무${unit.haki.armament}/견${unit.haki.observation}/패${unit.haki.conqueror}`;
   ctx.fillText(hakiText, x + w - 7, y + 13);
 
-  // HP Bar
   const hpRatio = clamp(unit.hp / Math.max(1, unit.maxHp), 0, 1);
   ctx.fillStyle = '#1e293b';
   ctx.fillRect(x + 8, y + 18, w - 16, 11);
@@ -148,7 +189,6 @@ function renderUnitHudCard(
   ctx.fillStyle = '#ffffff';
   ctx.fillText(`${unit.hp} / ${unit.maxHp}`, x + w * 0.5, y + 27);
 
-  // Row 3: Dodge stacks, Hagoromo Cloud Sash / Awakening / Exhaustion status
   ctx.textAlign = 'left';
   ctx.font = '9px monospace';
   ctx.fillStyle = '#2dd4bf';
@@ -169,7 +209,6 @@ function renderUnitHudCard(
     ctx.fillText(`★변신 중`, x + 72, y + 41);
   }
 
-  // Row 4: Real-time Status Effect Timer pills
   let sx = rightAligned ? x + w - 8 : x + 8;
   ctx.font = 'bold 9px monospace';
   for (const st of unit.statuses) {
@@ -185,7 +224,6 @@ function renderUnitHudCard(
     ctx.fillText(`면역:${unit.staggerImmunityTimer.toFixed(1)}s`, sx, y + 55);
   }
 
-  // Stage 2-B: Fruit Nullification countdown badge on unit HUD
   if (unit.fruitNullifyTimer > 0 && unit.fruitType !== 'NONE') {
     ctx.fillStyle = '#a855f7';
     ctx.font = 'bold 9px monospace';
@@ -197,12 +235,11 @@ function renderUnitHudCard(
     );
   }
 
-  // Roster party dots & swap cooldown
-  const teamUnits = world.units.filter((u) => u.team === unit.team);
   const roster = world.rosters[unit.team];
   let dotX = x + w - 12;
-  for (let i = teamUnits.length - 1; i >= 0; i--) {
-    const tu = teamUnits[i];
+  for (let i = world.units.length - 1; i >= 0; i--) {
+    const tu = world.units[i];
+    if (!tu || tu.team !== unit.team) continue;
     ctx.fillStyle = !tu.isAlive
       ? '#475569'
       : tu.isOnField
@@ -258,557 +295,40 @@ function renderTopCenterGlobalHud(
   }
 
   ctx.font = 'bold 9px monospace';
-  const badges: string[] = [];
+  SCRATCH_BADGES.length = 0;
   if (world.environmentField.kind !== 'NONE' && world.environmentField.remainingSec > 0) {
-    badges.push(
+    SCRATCH_BADGES.push(
       `⚡ 각성 필드 (${world.environmentField.remainingSec.toFixed(0)}초)`
     );
   }
   if (world.weather.id !== 'NONE' && world.weather.remainingSec > 0) {
-    badges.push(`날씨 효과 (${world.weather.remainingSec.toFixed(0)}초)`);
+    SCRATCH_BADGES.push(`날씨 효과 (${world.weather.remainingSec.toFixed(0)}초)`);
   }
   if (world.ruleReversal.kind !== 'NONE' && world.ruleReversal.remainingSec > 0) {
-    badges.push(`속도 반전 (${world.ruleReversal.remainingSec.toFixed(0)}초)`);
+    SCRATCH_BADGES.push(`속도 반전 (${world.ruleReversal.remainingSec.toFixed(0)}초)`);
   }
 
   if (world.persistentZones.splitActive) {
-    badges.push('🔥❄ 마그마/빙결 지대');
+    SCRATCH_BADGES.push('🔥❄ 마그마/빙결 지대');
   } else if (world.persistentZones.magmaActive) {
-    badges.push('🔥 대분화 지대');
+    SCRATCH_BADGES.push('🔥 대분화 지대');
   } else if (world.persistentZones.iceActive) {
-    badges.push('❄ 빙결 지대');
+    SCRATCH_BADGES.push('❄ 빙결 지대');
   }
   if (world.gauntletWaves.length > 1) {
-    badges.push(`웨이브 ${world.currentWaveIndex + 1}/${world.gauntletWaves.length}`);
+    SCRATCH_BADGES.push(`웨이브 ${world.currentWaveIndex + 1}/${world.gauntletWaves.length}`);
   }
   if (world.birdcage.active) {
     const shrinkPct = Math.round((1 - world.birdcage.shrinkScale) * 100);
-    badges.push(`🕸 새장 축소 ${shrinkPct}%`);
+    SCRATCH_BADGES.push(`🕸 새장 축소 ${shrinkPct}%`);
   }
 
-  if (badges.length === 0) {
+  if (SCRATCH_BADGES.length === 0) {
     ctx.fillStyle = '#94a3b8';
     ctx.fillText(world.mode === '2V2' ? '2:2 팀 배틀' : world.mode === 'COOP_RAID' ? '거대 보스 레이드' : '1:1 결투', cx, 42 + safeT);
   } else {
     ctx.fillStyle = '#facc15';
-    ctx.fillText(badges.join(' | '), cx, 42 + safeT);
+    ctx.fillText(SCRATCH_BADGES.join(' | '), cx, 42 + safeT);
   }
-}
-
-function renderTopBossHpBar(
-  ctx: CanvasRenderingContext2D,
-  world: BattleWorldState,
-  registry: GameDataRegistry,
-  viewW: number,
-  safeT: number
-): void {
-  const boss = world.units.find(
-    (u) => u.team === 'OMEGA' && u.isOnField && u.isAlive && u.isBossUnit
-  );
-  if (!boss) return;
-
-  const w = 436;
-  const x = Math.round((viewW - w) * 0.5);
-  const y = 55 + safeT;
-  const h = 34;
-
-  ctx.save();
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
-  ctx.fillRect(x, y, w, h);
-  ctx.strokeStyle = boss.bossPhase2Triggered ? '#ef4444' : '#f59e0b';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(x, y, w, h);
-
-  // Boss Name & Mechanic Tag (Lunarian Flame / Super Regen Lockout)
-  ctx.font = 'bold 10px monospace';
-  ctx.textAlign = 'left';
-  ctx.fillStyle = '#fde047';
-  const phaseTag = boss.bossPhase2Triggered ? ' [2페이즈]' : '';
-  ctx.fillText(`☠ BOSS: ${boss.name}${phaseTag}`, x + 8, y + 12);
-
-  const trait = registry.traits[boss.traitId];
-  let mechText = `Scale ${boss.entityScale.toFixed(1)}x`;
-  let mechColor = '#cbd5e1';
-
-  if (trait?.lunarianFlame?.enabled) {
-    if (boss.lunarianFlameOn) {
-      mechText = '🔥 불꽃 ON (피해-75%/경직면역)';
-      mechColor = '#fb923c';
-    } else {
-      mechText = `💨 불꽃 OFF (속도+45%/재점화 ${boss.lunarianReigniteTimer.toFixed(1)}s)`;
-      mechColor = '#38bdf8';
-    }
-  } else if (trait?.superRegeneration?.enabled) {
-    if (boss.superRegenLockoutTimer > 0) {
-      mechText = `⚡ 재생 억제: ${boss.superRegenLockoutTimer.toFixed(1)}s`;
-      mechColor = '#ef4444';
-    } else {
-      mechText = '🩸 초재생 활성 (+3% HP/s)';
-      mechColor = '#4ade80';
-    }
-  } else if (trait?.futureSightCounter?.enabled) {
-    if (boss.foresightBreakTimer > 0) {
-      mechText = `💥 집중 붕괴: ${boss.foresightBreakTimer.toFixed(1)}s (피해+20%)`;
-      mechColor = '#facc15';
-    } else {
-      mechText = `👁 미래 예지 집중도: ${Math.round(boss.foresightFocus)}/100`;
-      mechColor = '#e879f9';
-    }
-  } else if (trait?.shrinkingArena?.enabled && world.birdcage.active) {
-    const shrinkPct = Math.round((1 - world.birdcage.shrinkScale) * 100);
-    mechText = `🕸 새장 축소율: ${shrinkPct}%`;
-    mechColor = '#f43f5e';
-  } else if (trait?.energySteroidOverdrive?.enabled && boss.steroidOverdriveActive) {
-    mechText = '💊 E.S 백발 폭주 (+35% 공/속 · 피격+15%)';
-    mechColor = '#ef4444';
-  }
-
-  ctx.textAlign = 'right';
-  ctx.fillStyle = mechColor;
-  ctx.fillText(mechText, x + w - 8, y + 12);
-
-  // Large Boss HP Bar with 50% Phase 2 Divider Notch
-  const barX = x + 8;
-  const barY = y + 16;
-  const barW = w - 16;
-  const barH = 12;
-  const hpRatio = clamp(boss.hp / Math.max(1, boss.maxHp), 0, 1);
-
-  ctx.fillStyle = '#1e293b';
-  ctx.fillRect(barX, barY, barW, barH);
-  ctx.fillStyle = boss.bossPhase2Triggered ? '#dc2626' : '#f97316';
-  ctx.fillRect(barX, barY, Math.round(barW * hpRatio), barH);
-
-  // 50% Phase 2 Divider Notch
-  const midX = Math.round(barX + barW * 0.5);
-  ctx.fillStyle = '#fde047';
-  ctx.fillRect(midX - 1, barY - 1, 2, barH + 2);
-
-  ctx.font = 'bold 9px monospace';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#ffffff';
-  ctx.fillText(
-    `${boss.hp} / ${boss.maxHp} (50% 2페이즈 경계)`,
-    barX + barW * 0.5,
-    barY + 9
-  );
-
-  // Stage 3 Step 2: Raid Break Gauge Bar & Team DPS Check Shield Bar underneath Boss HP
-  if (world.raidState.active && world.raidState.bossUnitId === boss.instanceId) {
-    const rs = world.raidState;
-    const brY = y + h + 3;
-    const brH = 18;
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
-    ctx.fillRect(x, brY, w, brH);
-    ctx.strokeStyle = rs.groggyTimer > 0 ? '#facc15' : '#38bdf8';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(x, brY, w, brH);
-
-    const brBarX = x + 8;
-    const brBarY = brY + 3;
-    const brBarW = w - 16;
-    const brBarH = 12;
-    const ratio =
-      rs.groggyTimer > 0
-        ? clamp(rs.groggyTimer / Math.max(0.1, rs.groggyDurationSec), 0, 1)
-        : clamp(rs.breakGauge / Math.max(1, rs.breakGaugeMax), 0, 1);
-
-    ctx.fillStyle = '#1e293b';
-    ctx.fillRect(brBarX, brBarY, brBarW, brBarH);
-    ctx.fillStyle = rs.groggyTimer > 0 ? '#facc15' : '#38bdf8';
-    ctx.fillRect(brBarX, brBarY, Math.round(brBarW * ratio), brBarH);
-
-    ctx.font = 'bold 9px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = rs.groggyTimer > 0 ? '#0f172a' : '#ffffff';
-    ctx.fillText(
-      rs.groggyTimer > 0
-        ? `💥 BREAK! 그로기 ${rs.groggyTimer.toFixed(1)}s (초재생 정지 · 피해 ×${rs.groggyDamageMult})`
-        : `⚡ BREAK GAUGE: ${Math.round(rs.breakGauge)} / ${rs.breakGaugeMax}`,
-      brBarX + brBarW * 0.5,
-      brBarY + 9
-    );
-
-    if (rs.dpsCheck.active) {
-      const dpsY = brY + brH + 3;
-      const dpsH = 18;
-      ctx.fillStyle = 'rgba(67, 20, 7, 0.94)';
-      ctx.fillRect(x, dpsY, w, dpsH);
-      ctx.strokeStyle = '#fb923c';
-      ctx.lineWidth = 1.5;
-      ctx.strokeRect(x, dpsY, w, dpsH);
-
-      const sRatio = clamp(
-        rs.dpsCheck.shieldHp / Math.max(1, rs.dpsCheck.maxShieldHp),
-        0,
-        1
-      );
-      ctx.fillStyle = '#1e293b';
-      ctx.fillRect(brBarX, dpsY + 3, brBarW, 12);
-      ctx.fillStyle = '#f97316';
-      ctx.fillRect(brBarX, dpsY + 3, Math.round(brBarW * sRatio), 12);
-
-      ctx.fillStyle = '#ffffff';
-      ctx.fillText(
-        `🛡 DPS CHECK 보호막: ${Math.round(rs.dpsCheck.shieldHp)} / ${rs.dpsCheck.maxShieldHp} (${rs.dpsCheck.remainingSec.toFixed(1)}s)`,
-        brBarX + brBarW * 0.5,
-        dpsY + 12
-      );
-    }
-  }
-  ctx.restore();
-}
-
-function renderRaidSquadHud(
-  ctx: CanvasRenderingContext2D,
-  squad: UnitRuntimeState[],
-  world: BattleWorldState,
-  safeL: number,
-  safeT: number
-): void {
-  const x = 10 + safeL;
-  const w = 236;
-  const cardH = 42;
-  squad.slice(0, 3).forEach((u, idx) => {
-    const y = 10 + safeT + idx * (cardH + 4);
-    ctx.fillStyle = u.isDowned
-      ? 'rgba(127, 29, 29, 0.9)'
-      : 'rgba(15, 23, 42, 0.88)';
-    ctx.fillRect(x, y, w, cardH);
-    ctx.strokeStyle = u.isDowned
-      ? '#f43f5e'
-      : u.isPlayerControlled
-        ? '#facc15'
-        : '#38bdf8';
-    ctx.lineWidth = u.isPlayerControlled ? 2 : 1.2;
-    ctx.strokeRect(x, y, w, cardH);
-
-    ctx.font = 'bold 9px monospace';
-    ctx.textAlign = 'left';
-    ctx.fillStyle = '#f8fafc';
-    const roleTag = u.isPlayerControlled ? '★YOU' : 'AI/ALLY';
-    ctx.fillText(`[${roleTag}] ${u.name}`, x + 6, y + 12);
-
-    ctx.textAlign = 'right';
-    ctx.fillStyle = u.isDowned ? '#fda4af' : '#94a3b8';
-    ctx.fillText(
-      u.isDowned ? `🆘 ${u.downedTimer.toFixed(1)}s` : `${u.hp}/${u.maxHp}`,
-      x + w - 6,
-      y + 12
-    );
-
-    const hpPct = clamp(u.hp / Math.max(1, u.maxHp), 0, 1);
-    ctx.fillStyle = '#1e293b';
-    ctx.fillRect(x + 6, y + 17, w - 12, 9);
-    ctx.fillStyle = u.isDowned
-      ? '#f43f5e'
-      : hpPct > 0.5
-        ? '#22c55e'
-        : hpPct > 0.25
-          ? '#eab308'
-          : '#ef4444';
-    ctx.fillRect(x + 6, y + 17, Math.round((w - 12) * hpPct), 9);
-
-    ctx.font = '8px monospace';
-    ctx.textAlign = 'left';
-    ctx.fillStyle = u.isDowned ? '#86efac' : '#7dd3fc';
-    ctx.fillText(
-      u.isDowned
-        ? `구조 진행: ${Math.round((u.reviveProgressSec / 2.0) * 100)}% (반경 내 2초)`
-        : `회피 ${u.dodgeStacks}/${u.maxDodgeStacks}${u.activeFormId ? ' · 각성' : ''}`,
-      x + 6,
-      y + 36
-    );
-  });
-
-  // Shared Team Revives Badge cleanly below the 3 squad bars
-  const revY = 10 + safeT + Math.min(3, squad.length) * (cardH + 4) + 2;
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
-  ctx.fillRect(x, revY, w, 20);
-  ctx.strokeStyle = world.raidState.teamRevivesRemaining > 0 ? '#4ade80' : '#ef4444';
-  ctx.lineWidth = 1.2;
-  ctx.strokeRect(x, revY, w, 20);
-  ctx.font = 'bold 9px monospace';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = world.raidState.teamRevivesRemaining > 0 ? '#86efac' : '#fca5a5';
-  ctx.fillText(
-    `❤️ 팀 공용 부활 잔여: ${world.raidState.teamRevivesRemaining} / ${world.raidState.teamRevivesMax}회`,
-    x + w * 0.5,
-    revY + 13
-  );
-}
-
-function renderBossIntroBanner(
-  ctx: CanvasRenderingContext2D,
-  world: BattleWorldState,
-  viewW: number,
-  safeT: number
-): void {
-  const cx = viewW * 0.5;
-  const y = 116 + safeT;
-  const w = 440;
-  const h = 64;
-
-  ctx.save();
-  ctx.fillStyle = 'rgba(9, 13, 22, 0.92)';
-  ctx.fillRect(cx - w * 0.5, y, w, h);
-  ctx.strokeStyle = '#ef4444';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(cx - w * 0.5, y, w, h);
-
-  ctx.font = 'bold 10px monospace';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#f87171';
-  ctx.fillText('━━━ ☠ BOSS ENCOUNTER ☠ ━━━', cx, y + 15);
-
-  ctx.font = 'bold 16px monospace';
-  ctx.fillStyle = '#fde047';
-  ctx.fillText(world.bossIntroName ?? 'BOSS', cx, y + 34);
-
-  ctx.font = 'bold 11px monospace';
-  ctx.fillStyle = '#e2e8f0';
-  const sub = [world.bossIntroTitle, world.bossIntroBountyLabel]
-    .filter(Boolean)
-    .join(' | ');
-  ctx.fillText(sub.slice(0, 52), cx, y + 52);
-  ctx.restore();
-}
-
-function renderWaveGauntletBanner(
-  ctx: CanvasRenderingContext2D,
-  world: BattleWorldState,
-  viewW: number,
-  safeT: number
-): void {
-  if (world.waveBannerTimer <= 0 || !world.waveBannerText) return;
-  const cx = viewW * 0.5;
-  const y = 96 + safeT;
-  ctx.save();
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
-  ctx.fillRect(cx - 190, y, 380, 26);
-  ctx.strokeStyle = '#38bdf8';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(cx - 190, y, 380, 26);
-  ctx.font = 'bold 12px monospace';
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#38bdf8';
-  ctx.fillText(`⚔ ${world.waveBannerText}`, cx, y + 17);
-  ctx.restore();
-}
-
-function renderActiveClashHud(
-  ctx: CanvasRenderingContext2D,
-  world: BattleWorldState,
-  viewW: number,
-  safeT: number
-): void {
-  const cx = viewW * 0.5;
-  let y = 58 + safeT;
-
-  if (world.beamClashes.length > 0) {
-    const bc = world.beamClashes[0];
-    const rem = Math.max(0, bc.maxTieSec - bc.elapsedSec);
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
-    ctx.fillRect(cx - 130, y, 260, 26);
-    ctx.strokeStyle = '#facc15';
-    ctx.strokeRect(cx - 130, y, 260, 26);
-
-    const ratio = clamp(bc.clashRatio, 0, 1);
-    ctx.fillStyle = '#38bdf8';
-    ctx.fillRect(cx - 126, y + 14, Math.round(252 * ratio), 8);
-    ctx.fillStyle = '#f43f5e';
-    ctx.fillRect(
-      cx - 126 + Math.round(252 * ratio),
-      y + 14,
-      252 - Math.round(252 * ratio),
-      8
-    );
-
-    ctx.font = 'bold 10px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#fde047';
-    ctx.fillText(`⚡ BEAM CLASH! 무승부까지 ${rem.toFixed(1)}s`, cx, y + 11);
-    y += 30;
-  }
-
-  if (world.meleeBeamGuards.length > 0) {
-    const mg = world.meleeBeamGuards[0];
-    const rem = Math.max(0, mg.durationSec - mg.elapsedSec);
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
-    ctx.fillRect(cx - 120, y, 240, 20);
-    ctx.strokeStyle = '#2dd4bf';
-    ctx.strokeRect(cx - 120, y, 240, 20);
-    ctx.font = 'bold 10px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#2dd4bf';
-    ctx.fillText(`🛡 MELEE vs BEAM GUARD (${rem.toFixed(2)}s | 30% 피해)`, cx, y + 14);
-    y += 24;
-  }
-
-  if (world.meleeClashes.length > 0) {
-    const mc = world.meleeClashes[0];
-    const rem = Math.max(0, mc.maxDurationSec - mc.elapsedSec);
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
-    ctx.fillRect(cx - 135, y, 270, 22);
-    ctx.strokeStyle = mc.isConquerorSkySplit ? '#ef4444' : '#facc15';
-    ctx.strokeRect(cx - 135, y, 270, 22);
-    ctx.font = 'bold 10px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = mc.isConquerorSkySplit ? '#f87171' : '#fde047';
-    ctx.fillText(
-      mc.isConquerorSkySplit
-        ? `⚡ 패왕색 하늘 가르기 힘겨루기! (${rem.toFixed(1)}s)`
-        : `⚔ MELEE CLASH! (${rem.toFixed(1)}s)`,
-      cx,
-      y + 15
-    );
-  }
-}
-
-function renderBottomSkillHud(
-  ctx: CanvasRenderingContext2D,
-  unit: UnitRuntimeState,
-  world: BattleWorldState,
-  registry: GameDataRegistry,
-  bindings: KeyBindingConfig,
-  isTouchMode: boolean,
-  viewW: number,
-  viewH: number,
-  safeB: number
-): void {
-  const slotWidth = isTouchMode ? 84 : 118;
-  const slotHeight = 44;
-  const gap = 6;
-  const totalSlots = unit.moveSlots.length;
-  const totalW = totalSlots * slotWidth + (totalSlots - 1) * gap;
-  const startX = Math.round((viewW - totalW) * 0.5);
-  const y = viewH - slotHeight - 8 - safeB;
-
-  const keyLabels = [
-    bindings.skill1.replace('Digit', '').replace('Key', ''),
-    bindings.skill2.replace('Digit', '').replace('Key', ''),
-    bindings.skill3.replace('Digit', '').replace('Key', ''),
-    bindings.skill4.replace('Digit', '').replace('Key', '')
-  ];
-
-  unit.moveSlots.forEach((slot, idx) => {
-    const mDef = registry.moves[slot.moveId];
-    if (!mDef) return;
-    const x = startX + idx * (slotWidth + gap);
-    const ready = slot.charges > 0 && slot.cooldownTimer <= 0;
-    const elemMeta = registry.elements.elements.find((e) => e.id === mDef.element);
-
-    ctx.fillStyle = ready
-      ? 'rgba(15, 23, 42, 0.90)'
-      : 'rgba(15, 23, 42, 0.60)';
-    ctx.fillRect(x, y, slotWidth, slotHeight);
-    ctx.strokeStyle = mDef.hasConquerorCoating
-      ? '#ef4444'
-      : ready
-        ? (elemMeta?.color ?? '#38bdf8')
-        : '#475569';
-    ctx.lineWidth = ready ? 1.5 : 1;
-    ctx.strokeRect(x, y, slotWidth, slotHeight);
-
-    ctx.font = 'bold 10px monospace';
-    ctx.textAlign = 'left';
-    ctx.fillStyle = ready ? '#f8fafc' : '#94a3b8';
-    const shortName =
-      mDef.name.length > (isTouchMode ? 7 : 10)
-        ? mDef.name.slice(0, isTouchMode ? 7 : 10)
-        : mDef.name;
-    ctx.fillText(`[${keyLabels[idx]}] ${shortName}`, x + 5, y + 14);
-
-    ctx.font = '9px monospace';
-    const archetypeKo =
-      mDef.archetype === 'MELEE'
-        ? '근접'
-        : mDef.archetype === 'PROJECTILE'
-          ? '원거리'
-          : mDef.archetype === 'BEAM'
-            ? '광선'
-            : mDef.archetype === 'AOE_FIELD'
-              ? '범위'
-              : '특수';
-    const hakiTag = mDef.hasConquerorCoating
-      ? '⚡패왕색'
-      : mDef.hasArmamentHaki
-        ? '●무장색'
-        : archetypeKo;
-    ctx.fillStyle = mDef.hasConquerorCoating
-      ? '#f87171'
-      : (elemMeta?.color ?? '#38bdf8');
-    ctx.fillText(hakiTag, x + 5, y + 27);
-
-    ctx.textAlign = 'right';
-    ctx.fillStyle = slot.charges > 0 ? '#4ade80' : '#f87171';
-    ctx.fillText(`${slot.charges}/${slot.maxCharges}`, x + slotWidth - 5, y + 27);
-
-    if (slot.cooldownTimer > 0) {
-      ctx.fillStyle = '#facc15';
-      ctx.fillText(`${slot.cooldownTimer.toFixed(1)}초`, x + slotWidth - 5, y + 40);
-    } else {
-      ctx.fillStyle = '#4ade80';
-      ctx.fillText('사용 가능', x + slotWidth - 5, y + 40);
-    }
-  });
-
-  if (!isTouchMode) {
-    const dx = startX - 96;
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
-    ctx.fillRect(dx, y, 90, slotHeight);
-    ctx.strokeStyle = '#2dd4bf';
-    ctx.strokeRect(dx, y, 90, slotHeight);
-    ctx.font = 'bold 10px monospace';
-    ctx.textAlign = 'left';
-    ctx.fillStyle = '#2dd4bf';
-    ctx.fillText(`[${bindings.dodge.replace('Key', '')}] 회피`, dx + 6, y + 15);
-    ctx.fillStyle = '#f8fafc';
-    ctx.fillText(`스택: ${unit.dodgeStacks}/${unit.maxDodgeStacks}`, dx + 6, y + 29);
-    const rechRatio =
-      unit.dodgeStacks < unit.maxDodgeStacks
-        ? unit.dodgeRechargeTimer / registry.balance.dodge.rechargeSec
-        : 1;
-    ctx.fillStyle = '#1e293b';
-    ctx.fillRect(dx + 6, y + 34, 78, 5);
-    ctx.fillStyle = '#2dd4bf';
-    ctx.fillRect(dx + 6, y + 34, Math.round(78 * rechRatio), 5);
-
-    const fx = startX + totalW + 6;
-    const canShift = !unit.hasUsedFormShift && unit.isAlive && unit.exhaustionTimer <= 0;
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
-    ctx.fillRect(fx, y, 122, slotHeight);
-    ctx.strokeStyle = canShift ? '#f59e0b' : '#475569';
-    ctx.strokeRect(fx, y, 122, slotHeight);
-    ctx.font = 'bold 9px monospace';
-    ctx.textAlign = 'left';
-    ctx.fillStyle = canShift ? '#fbbf24' : '#64748b';
-    ctx.fillText(`[F]변신 / [Shift+F]각성`, fx + 5, y + 15);
-    ctx.fillStyle = '#e2e8f0';
-    ctx.fillText(
-      unit.fruitNullifyTimer > 0 && unit.fruitType !== 'NONE'
-        ? `봉인 (${unit.fruitNullifyTimer.toFixed(1)}s)`
-        : unit.exhaustionTimer > 0
-          ? `탈진 (${unit.exhaustionTimer.toFixed(1)}s)`
-          : unit.activeFormId
-            ? `폼: ${unit.currentStanceRole}`
-            : `대기 (${unit.currentStanceRole})`,
-      fx + 5,
-      y + 32
-    );
-  }
-
-  const roster = world.rosters[unit.team];
-  if (roster.pivotWindowTimer > 0) {
-    ctx.fillStyle = 'rgba(14, 165, 233, 0.92)';
-    ctx.fillRect(viewW * 0.5 - 135, y - 28, 270, 22);
-    ctx.font = 'bold 11px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText(
-      `⚡ [${bindings.quickSwap.replace('Key', '')}] 즉시 파티 교체 가능 (${roster.pivotWindowTimer.toFixed(1)}s)`,
-      viewW * 0.5,
-      y - 13
-    );
-  }
+  SCRATCH_BADGES.length = 0;
 }

@@ -40,6 +40,17 @@ import epEggheadJson from './episodes/ep_egghead.json';
 import epElbafJson from './episodes/ep_elbaf.json';
 import epElbafPart2Json from './episodes/ep_elbaf_part2.json';
 
+import {
+  assertArray,
+  assertRecord,
+  assertValidCrewRoleDefinition,
+  assertValidEpisodeDefinition,
+  assertValidIslandMapDefinition,
+  assertValidRecruitmentRule,
+  assertValidSeaZoneDefinition,
+  assertValidShipDefinition,
+  assertValidTrainingRule
+} from './schemaGuards';
 import type {
   CrewRoleDefinition,
   CrewRoleId,
@@ -51,30 +62,68 @@ import type {
   SeaZoneId,
   ShipDefinition,
   TrainingUpgradeRule
-} from '../core/types/rpgSchemas';
+} from './schemas/rpgSchemas';
 
 export function createDefaultRpgDataRegistry(): RpgDataRegistry {
+  const seaZonesMap = new Map<SeaZoneId, SeaZoneDefinition>();
+  const rawZones = assertArray(seaZonesJson, 'seaZones');
+  for (let i = 0; i < rawZones.length; i++) {
+    const z = assertValidSeaZoneDefinition(rawZones[i], i);
+    seaZonesMap.set(z.id, z);
+  }
+  const eastBlue = seaZonesMap.get('east_blue');
+  const grandLine = seaZonesMap.get('grand_line');
+  const newWorld = seaZonesMap.get('new_world');
+  if (!eastBlue || !grandLine || !newWorld) {
+    throw new Error('[RpgDataRegistry] Missing required sea zone(s)');
+  }
   const seaZones: Record<SeaZoneId, SeaZoneDefinition> = {
-    east_blue: (seaZonesJson as SeaZoneDefinition[]).find((z) => z.id === 'east_blue')!,
-    grand_line: (seaZonesJson as SeaZoneDefinition[]).find((z) => z.id === 'grand_line')!,
-    new_world: (seaZonesJson as SeaZoneDefinition[]).find((z) => z.id === 'new_world')!
+    east_blue: eastBlue,
+    grand_line: grandLine,
+    new_world: newWorld
   };
 
   const ships: Record<string, ShipDefinition> = {};
-  for (const s of shipsJson as ShipDefinition[]) {
+  const shipsMap = new Map<string, ShipDefinition>();
+  const rawShips = assertArray(shipsJson, 'ships');
+  for (let i = 0; i < rawShips.length; i++) {
+    const s = assertValidShipDefinition(rawShips[i], i);
     ships[s.id] = s;
+    shipsMap.set(s.id, s);
   }
 
   const crewRoles = {} as Record<CrewRoleId, CrewRoleDefinition>;
-  const recRaw = recruitmentJson as {
-    crewRoles: CrewRoleDefinition[];
-    recruitmentRules: RecruitmentRule[];
-  };
-  for (const r of recRaw.crewRoles) {
-    crewRoles[r.roleId] = r;
+  const crewRolesMap = new Map<CrewRoleId, CrewRoleDefinition>();
+  const recObj = assertRecord(recruitmentJson, 'recruitment');
+  const rawRoles = assertArray(recObj['crewRoles'], 'recruitment.crewRoles');
+  for (let i = 0; i < rawRoles.length; i++) {
+    const role = assertValidCrewRoleDefinition(rawRoles[i], i);
+    crewRoles[role.roleId] = role;
+    crewRolesMap.set(role.roleId, role);
   }
 
-  const islandsList = [
+  const rawRules = assertArray(
+    recObj['recruitmentRules'],
+    'recruitment.recruitmentRules'
+  );
+  const recruitmentRules: RecruitmentRule[] = [];
+  const recruitmentByUnitIdMap = new Map<string, RecruitmentRule>();
+  for (let i = 0; i < rawRules.length; i++) {
+    const rule = assertValidRecruitmentRule(rawRules[i], i);
+    recruitmentRules.push(rule);
+    recruitmentByUnitIdMap.set(rule.unitId, rule);
+  }
+
+  const rawTraining = assertArray(trainingJson, 'training');
+  const trainingRules: TrainingUpgradeRule[] = [];
+  const trainingRulesMap = new Map<string, TrainingUpgradeRule>();
+  for (let i = 0; i < rawTraining.length; i++) {
+    const tr = assertValidTrainingRule(rawTraining[i], i);
+    trainingRules.push(tr);
+    trainingRulesMap.set(tr.id, tr);
+  }
+
+  const rawIslands: unknown[] = [
     fooshaShellsJson,
     orangeTownJson,
     baratieJson,
@@ -92,14 +141,16 @@ export function createDefaultRpgDataRegistry(): RpgDataRegistry {
     wanoOnigashimaJson,
     eggheadJson,
     elbafJson
-  ] as unknown as IslandMapDefinition[];
-
+  ];
   const islands: Record<string, IslandMapDefinition> = {};
-  for (const isl of islandsList) {
+  const islandsMap = new Map<string, IslandMapDefinition>();
+  for (let i = 0; i < rawIslands.length; i++) {
+    const isl = assertValidIslandMapDefinition(rawIslands[i], i);
     islands[isl.islandId] = isl;
+    islandsMap.set(isl.islandId, isl);
   }
 
-  const episodesList = [
+  const rawEpisodes: unknown[] = [
     epEastBlueStartJson,
     epOrangeTownJson,
     epBaratieJson,
@@ -118,21 +169,30 @@ export function createDefaultRpgDataRegistry(): RpgDataRegistry {
     epEggheadJson,
     epElbafJson,
     epElbafPart2Json
-  ] as unknown as EpisodeDefinition[];
-
+  ];
   const episodes: Record<string, EpisodeDefinition> = {};
-  for (const ep of episodesList) {
+  const episodesMap = new Map<string, EpisodeDefinition>();
+  for (let i = 0; i < rawEpisodes.length; i++) {
+    const ep = assertValidEpisodeDefinition(rawEpisodes[i], i);
     episodes[ep.episodeId] = ep;
+    episodesMap.set(ep.episodeId, ep);
   }
 
   return {
     seaZones,
+    seaZonesMap,
     ships,
+    shipsMap,
     crewRoles,
-    recruitmentRules: recRaw.recruitmentRules,
-    trainingRules: trainingJson as TrainingUpgradeRule[],
+    crewRolesMap,
+    recruitmentRules,
+    recruitmentByUnitIdMap,
+    trainingRules,
+    trainingRulesMap,
     islands,
-    episodes
+    islandsMap,
+    episodes,
+    episodesMap
   };
 }
 

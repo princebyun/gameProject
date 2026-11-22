@@ -1,9 +1,11 @@
 import type { ExternalAssetResolver } from '../assets/externalAssetResolver';
+import type { Disposable } from '../core/types/disposable';
 import {
   defaultAssetManifestRegistry,
   type AssetManifestRegistry
 } from '../data/assets/assetManifestRegistry';
 import type { SfxManifestEntry } from '../data/assets/types';
+import { attachOnEndedDisconnect } from './webAudioCleanup';
 
 export type StandardSfxId =
   | 'slash_light'
@@ -33,7 +35,7 @@ export interface SfxPlayResult {
   reason?: 'UNKNOWN_SFX' | 'MUTED' | 'THROTTLED';
 }
 
-export class SfxManager {
+export class SfxManager implements Disposable {
   private volume = 0.8;
   private muted = false;
   private recentTimestamps = new Map<string, number[]>();
@@ -195,6 +197,7 @@ export class SfxManager {
       gain.gain.setValueAtTime(volume, ctx.currentTime);
       src.connect(gain);
       gain.connect(destination);
+      attachOnEndedDisconnect(src, gain);
       src.start(ctx.currentTime);
     } catch {
       // ignore playback restriction errors
@@ -339,6 +342,7 @@ export class SfxManager {
     );
     osc.connect(gain);
     gain.connect(destination);
+    attachOnEndedDisconnect(osc, gain);
     osc.start(startTime);
     osc.stop(startTime + duration + 0.015);
   }
@@ -364,7 +368,16 @@ export class SfxManager {
     src.connect(filter);
     filter.connect(gain);
     gain.connect(destination);
+    attachOnEndedDisconnect(src, filter, gain);
     src.start(startTime);
     src.stop(startTime + duration + 0.015);
+  }
+
+  public dispose(): void {
+    this.recentTimestamps.clear();
+    this.externalBuffers.clear();
+    this.externalStatus.clear();
+    this.loadingKeys.clear();
+    this.noiseBuffer = null;
   }
 }

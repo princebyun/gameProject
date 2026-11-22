@@ -1,3 +1,4 @@
+import type { Disposable } from '../../core/types/disposable';
 import type {
   ClientToServerMessage,
   ServerToClientMessage
@@ -8,12 +9,13 @@ import type {
   TransportMessageHandler
 } from '../../core/net/transport';
 
-export class WebSocketTransport implements NetworkTransport {
+export class WebSocketTransport implements NetworkTransport, Disposable {
   private ws: WebSocket | null = null;
   private connected = false;
   private msgHandlers: TransportMessageHandler[] = [];
   private disconnectHandlers: TransportDisconnectHandler[] = [];
   private pingIntervalId: ReturnType<typeof setInterval> | null = null;
+  private connectTimeoutId: ReturnType<typeof setTimeout> | null = null;
   private rttMs = 18;
 
   constructor(
@@ -22,7 +24,14 @@ export class WebSocketTransport implements NetworkTransport {
       (import.meta as unknown as { env?: Record<string, string> }).env
         ?.VITE_MULTIPLAYER_URL || 'ws://localhost:8787'
     )
-  ) {}
+  ) { }
+
+  private clearConnectTimeout(): void {
+    if (this.connectTimeoutId !== null) {
+      clearTimeout(this.connectTimeoutId);
+      this.connectTimeoutId = null;
+    }
+  }
 
   public async connect(): Promise<void> {
     if (this.connected && this.ws) return;
@@ -34,7 +43,9 @@ export class WebSocketTransport implements NetworkTransport {
       const sock = new WebSocket(this.serverUrl);
       this.ws = sock;
 
-      const timeout = setTimeout(() => {
+      this.clearConnectTimeout();
+      this.connectTimeoutId = setTimeout(() => {
+        this.connectTimeoutId = null;
         sock.close();
         reject(
           new Error(
@@ -44,14 +55,14 @@ export class WebSocketTransport implements NetworkTransport {
       }, 3500);
 
       sock.onopen = () => {
-        clearTimeout(timeout);
+        this.clearConnectTimeout();
         this.connected = true;
         this.startPingLoop();
         resolve();
       };
 
       sock.onerror = () => {
-        clearTimeout(timeout);
+        this.clearConnectTimeout();
         this.connected = false;
         reject(
           new Error(
@@ -76,6 +87,7 @@ export class WebSocketTransport implements NetworkTransport {
       };
 
       sock.onclose = () => {
+        this.clearConnectTimeout();
         const wasConnected = this.connected;
         this.connected = false;
         this.stopPingLoop();
@@ -105,9 +117,14 @@ export class WebSocketTransport implements NetworkTransport {
   }
 
   public disconnect(): void {
+    this.clearConnectTimeout();
     this.stopPingLoop();
     this.connected = false;
     if (this.ws) {
+      this.ws.onopen = null;
+      this.ws.onerror = null;
+      this.ws.onmessage = null;
+      this.ws.onclose = null;
       try {
         this.ws.close();
       } catch {
@@ -115,6 +132,12 @@ export class WebSocketTransport implements NetworkTransport {
       }
       this.ws = null;
     }
+    this.msgHandlers.length = 0;
+    this.disconnectHandlers.length = 0;
+  }
+
+  public dispose(): void {
+    this.disconnect();
   }
 
   public isConnected(): boolean {

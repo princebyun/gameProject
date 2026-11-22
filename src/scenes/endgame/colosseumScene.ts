@@ -37,7 +37,7 @@ export function renderColosseumModal(
     campaign.recruitedUnitIds.length > 0 ? campaign.recruitedUnitIds : ['luffy'];
   const currentUnitId = recruited.includes(selectedTutorUnitId)
     ? selectedTutorUnitId
-    : recruited[0];
+    : (recruited[0] ?? 'luffy');
 
   let mainSectionHtml = '';
 
@@ -57,7 +57,7 @@ export function renderColosseumModal(
       [];
     const slotOptions = currentMoves
       .slice(0, 4)
-      .map((mId, idx) => {
+      .map((mId: string, idx: number) => {
         const m = gameReg.moves[mId];
         return `<option value="${idx}">슬롯 ${idx + 1}: ${m?.name ?? mId}</option>`;
       })

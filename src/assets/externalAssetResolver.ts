@@ -1,18 +1,34 @@
+import type { Disposable } from '../core/types/disposable';
 import type { AssetSourceKind } from '../data/assets/types';
+import { releaseCanvasLike } from '../render/canvasGpuDispose';
 
-export interface ResolvedImageAsset {
-  key: string;
-  src: string;
-  source: 'EXTERNAL_PNG' | 'BAKED_FALLBACK';
-  image: HTMLImageElement | HTMLCanvasElement | null;
-}
+export type ResolvedImageAsset =
+  | {
+      key: string;
+      src: string;
+      source: 'EXTERNAL_PNG';
+      image: HTMLImageElement | HTMLCanvasElement;
+    }
+  | {
+      key: string;
+      src: string;
+      source: 'BAKED_FALLBACK';
+      image: HTMLCanvasElement | null;
+    };
 
-export interface ResolvedAudioAsset {
-  key: string;
-  src: string;
-  source: 'EXTERNAL_OGG' | 'CHIPTUNE_FALLBACK';
-  buffer: AudioBuffer | null;
-}
+export type ResolvedAudioAsset =
+  | {
+      key: string;
+      src: string;
+      source: 'EXTERNAL_OGG';
+      buffer: AudioBuffer;
+    }
+  | {
+      key: string;
+      src: string;
+      source: 'CHIPTUNE_FALLBACK';
+      buffer: null;
+    };
 
 export type ExternalImageLoaderFn = (
   src: string
@@ -89,7 +105,7 @@ async function defaultBrowserAudioLoader(
  * Prioritizes external files under public/assets/ (.png / .ogg) and falls back cleanly
  * to baked offscreen pixel sheets or chiptune synth when the external file does not exist.
  */
-export class ExternalAssetResolver {
+export class ExternalAssetResolver implements Disposable {
   private imageCache = new Map<string, ResolvedImageAsset>();
   private pendingImageProbes = new Map<string, Promise<ResolvedImageAsset>>();
   private audioCache = new Map<string, ResolvedAudioAsset>();
@@ -98,8 +114,27 @@ export class ExternalAssetResolver {
 
   constructor(
     private readonly imageLoader: ExternalImageLoaderFn = defaultBrowserImageLoader,
-    private readonly audioLoader: ExternalAudioLoaderFn = defaultBrowserAudioLoader
+    private readonly audioLoader: ExternalAudioLoaderFn = defaultBrowserAudioLoader,
+    private readonly maxImageEntries: number = 192
   ) {}
+
+  private putImageCache(key: string, asset: ResolvedImageAsset): void {
+    const existing = this.imageCache.get(key);
+    if (existing) {
+      this.imageCache.delete(key);
+      if (existing.image !== asset.image) {
+        releaseCanvasLike(existing.image);
+      }
+    } else if (this.imageCache.size >= this.maxImageEntries) {
+      const oldestKey = this.imageCache.keys().next().value;
+      if (oldestKey !== undefined) {
+        const oldest = this.imageCache.get(oldestKey);
+        this.imageCache.delete(oldestKey);
+        if (oldest) releaseCanvasLike(oldest.image);
+      }
+    }
+    this.imageCache.set(key, asset);
+  }
 
   public getSourceStatus(key: string): AssetSourceKind | undefined {
     return this.sourceStatusMap.get(key);
@@ -129,6 +164,9 @@ export class ExternalAssetResolver {
   ): ResolvedImageAsset {
     const cached = this.imageCache.get(key);
     if (cached) {
+      // Touch LRU recency
+      this.imageCache.delete(key);
+      this.imageCache.set(key, cached);
       return cached;
     }
 
@@ -139,7 +177,7 @@ export class ExternalAssetResolver {
       source: 'BAKED_FALLBACK',
       image: baked
     };
-    this.imageCache.set(key, initial);
+    this.putImageCache(key, initial);
     this.sourceStatusMap.set(key, 'BAKED_FALLBACK');
 
     const minFrames =
@@ -162,8 +200,9 @@ export class ExternalAssetResolver {
               source: 'EXTERNAL_PNG',
               image: extImg
             };
-            this.imageCache.set(key, upgraded);
+            this.putImageCache(key, upgraded);
             this.sourceStatusMap.set(key, 'EXTERNAL_PNG');
+            this.pendingImageProbes.delete(key);
             return upgraded;
           }
           return initial;
@@ -216,7 +255,7 @@ export class ExternalAssetResolver {
           source: 'EXTERNAL_PNG',
           image: extImg
         };
-        this.imageCache.set(key, res);
+        this.putImageCache(key, res);
         this.sourceStatusMap.set(key, 'EXTERNAL_PNG');
         return res;
       }
@@ -226,7 +265,7 @@ export class ExternalAssetResolver {
         source: 'BAKED_FALLBACK',
         image: bakeFallback()
       };
-      this.imageCache.set(key, fallback);
+      this.putImageCache(key, fallback);
       this.sourceStatusMap.set(key, 'BAKED_FALLBACK');
       return fallback;
     })();
@@ -275,10 +314,17 @@ export class ExternalAssetResolver {
   }
 
   public clearCache(): void {
+    for (const asset of this.imageCache.values()) {
+      releaseCanvasLike(asset.image);
+    }
     this.imageCache.clear();
     this.pendingImageProbes.clear();
     this.audioCache.clear();
     this.pendingAudioProbes.clear();
     this.sourceStatusMap.clear();
+  }
+
+  public dispose(): void {
+    this.clearCache();
   }
 }

@@ -21,6 +21,7 @@
     "preview": "vite preview --outDir dist-web",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
+    "check:arch": "node scripts/check-architecture.mjs",
     "validate:assets": "node --import tsx scripts/validate-assets.ts",
     "validate:scripts": "node --import tsx scripts/validate-scripts.ts",
     "bake:sprites": "node --import tsx scripts/bake-sprites.mjs",

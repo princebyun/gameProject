@@ -1,8 +1,10 @@
+import type { Disposable } from '../core/types/disposable';
 import type {
   FormDefinition,
   UnitDefinition,
   ZoanStanceRole
 } from '../core/types/dataSchemas';
+import { releaseOffscreenCanvas } from '../render/canvasGpuDispose';
 import {
   defaultAssetManifestRegistry,
   resolveShipSpriteEntry,
@@ -32,9 +34,11 @@ import {
 } from './proceduralPixelSheetBaker';
 import { bakeProceduralBiomeTileset } from './proceduralTilesetBaker';
 
-export class AssetLoader {
+export class AssetLoader implements Disposable {
   private spriteCache = new Map<string, HTMLCanvasElement>();
   private tileCache = new Map<string, HTMLCanvasElement>();
+  private readonly maxSpriteIconEntries = 96;
+  private readonly maxArenaTileEntries = 32;
   public readonly resolver = new ExternalAssetResolver();
   public readonly manifestRegistry: AssetManifestRegistry =
     defaultAssetManifestRegistry;
@@ -163,6 +167,8 @@ export class AssetLoader {
     const cacheKey = `${unit.id}_${stanceRole}_${activeFormId ?? 'none'}`;
     const existing = this.spriteCache.get(cacheKey);
     if (existing) {
+      this.spriteCache.delete(cacheKey);
+      this.spriteCache.set(cacheKey, existing);
       return existing;
     }
 
@@ -192,6 +198,14 @@ export class AssetLoader {
       );
     }
 
+    if (this.spriteCache.size >= this.maxSpriteIconEntries) {
+      const oldestKey = this.spriteCache.keys().next().value;
+      if (oldestKey !== undefined) {
+        const oldest = this.spriteCache.get(oldestKey);
+        this.spriteCache.delete(oldestKey);
+        releaseOffscreenCanvas(oldest);
+      }
+    }
     this.spriteCache.set(cacheKey, canvas);
     return canvas;
   }
@@ -201,7 +215,11 @@ export class AssetLoader {
       return null;
     }
     const existing = this.tileCache.get(theme);
-    if (existing) return existing;
+    if (existing) {
+      this.tileCache.delete(theme);
+      this.tileCache.set(theme, existing);
+      return existing;
+    }
 
     const canvas = document.createElement('canvas');
     canvas.width = 32;
@@ -219,15 +237,29 @@ export class AssetLoader {
     ctx.fillStyle = '#334155';
     ctx.fillRect(15, 15, 2, 2);
 
+    if (this.tileCache.size >= this.maxArenaTileEntries) {
+      const oldestKey = this.tileCache.keys().next().value;
+      if (oldestKey !== undefined) {
+        const oldest = this.tileCache.get(oldestKey);
+        this.tileCache.delete(oldestKey);
+        releaseOffscreenCanvas(oldest);
+      }
+    }
     this.tileCache.set(theme, canvas);
     return canvas;
   }
 
   public dispose(): void {
+    for (const c of this.spriteCache.values()) {
+      releaseOffscreenCanvas(c);
+    }
     this.spriteCache.clear();
+    for (const c of this.tileCache.values()) {
+      releaseOffscreenCanvas(c);
+    }
     this.tileCache.clear();
-    this.spriteController.effectCache.clear();
-    this.tilemapRenderer.clearCache();
-    this.resolver.clearCache();
+    this.spriteController.dispose();
+    this.tilemapRenderer.dispose();
+    this.resolver.dispose();
   }
 }

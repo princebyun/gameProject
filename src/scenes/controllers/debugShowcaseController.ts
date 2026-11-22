@@ -22,7 +22,7 @@ import type {
   RpgDataRegistry
 } from '../../core/types/rpgSchemas';
 import type { AssetPreviewScene } from '../dev/assetPreviewScene';
-import type { ActiveAppScene } from '../sceneManager';
+import type { ActiveAppScene } from '../sceneTypes';
 
 export type SandboxShowcaseKind =
   | 'BEAM_CLASH'
@@ -329,17 +329,20 @@ export function runSandboxShowcaseScenario(
   omega.prevPos = { ...omega.pos };
   omega.aimDir = { x: -1, y: 0 };
 
+  const getMove = (id: string) =>
+    gameRegistry.moves[id] ?? Object.values(gameRegistry.moves)[0]!;
+
   if (kind === 'BEAM_CLASH') {
     spawnBeamInstance(
       alpha,
-      gameRegistry.moves['move_kaido_boro_breath'],
+      getMove('move_kaido_boro_breath'),
       { x: 1, y: 0 },
       battleWorld,
       gameRegistry
     );
     spawnBeamInstance(
       omega,
-      gameRegistry.moves['move_kizaru_laser_beam'],
+      getMove('move_kizaru_laser_beam'),
       { x: -1, y: 0 },
       battleWorld,
       gameRegistry
@@ -349,14 +352,14 @@ export function runSandboxShowcaseScenario(
     omega.pos.x = battleWorld.arenaWidth * 0.56;
     spawnMeleeArcInstance(
       alpha,
-      gameRegistry.moves['move_luffy_bajrang_gun'],
+      getMove('move_luffy_bajrang_gun'),
       { x: 1, y: 0 },
       battleWorld,
       gameRegistry
     );
     spawnMeleeArcInstance(
       omega,
-      gameRegistry.moves['move_kaido_ragnaraku'],
+      getMove('move_kaido_ragnaraku'),
       { x: -1, y: 0 },
       battleWorld,
       gameRegistry
@@ -379,7 +382,7 @@ export function runSandboxShowcaseScenario(
     omega.iframeTimer = 0;
     const p = spawnProjectileInstance(
       alpha,
-      gameRegistry.moves['move_kizaru_yasakani'],
+      getMove('move_kizaru_yasakani'),
       { x: 1, y: 0 },
       battleWorld,
       gameRegistry

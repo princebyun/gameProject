@@ -1,6 +1,6 @@
 # AI_BUNDLE.md — One Piece Grand Voyage Handoff Context Bundle
 
-Generated at: 2026-11-21T15:48:18.620Z
+Generated at: 2026-11-22T15:44:28.164Z
 
 ## File: `AGENTS.md`
 ```md
@@ -57,17 +57,19 @@ npm run build:web
 ```md
 # HANDOFF.md — One Piece Grand Voyage 프로젝트 인수인계 및 현재 상태 문서
 
-> **최종 업데이트 기준:** 전투 종료 후 방향키 먹통 버그 근본 해결 · 친유저(Player-Friendly) UI 개편 · APK 패키징 직전 에셋 대소문자 무결성 감사 · 코드베이스 모듈화 리팩토링 · 프로덕션 웹 빌드(`dist-web/`) 최적화 · 갤럭시 S25 울트라(`19.5:9`) E2E 검증 완료  
-> **현재 프로젝트 상태:** **다음 단계: 최종 APK 빌드 준비 완료 (Pre-APK Ready)**  
+> **최종 업데이트 기준:** Stage 9 APK 패키징 직전 전면 아키텍처·성능·안정성 리팩토링(순환 참조 0건 · TypeScript `strict`+`noUncheckedIndexedAccess` 0에러 · God Class 전량 분리 · `ctx.shadowBlur` 0건 · 60Hz 풀/컬링 최적화 · GPU 오프스크린 캔버스·`AbortController`·WebAudio 누수 차단) · 프로덕션 웹 빌드(`dist-web/`) 검증 완료  
+> **현재 프로젝트 상태:** **APK 패키징 직전 리팩토링 & 정적·결정론·유닛·E2E 자동화 게이트 통과 완료 (네이티브 APK 빌드는 요청 범위 제외; 라이브 Chrome CDP 검증은 원격 디버깅 활성화 시 즉시 실행 가능)**  
 > **버전 현황:**  
-> - **전투 계산 버전 (`BATTLE_CALC_VERSION`):** `"0.6.0"` (`src/core/constants.ts`)  
+> - **앱 패키지 버전:** `0.1.0` (`package.json`)  
+> - **전투 계산 버전 (`BATTLE_CALC_VERSION`):** `"0.6.0"` (`src/core/constants.ts` — 리팩토링 전후 결정론 `stateHash` 3종 100% 동일 유지)  
 > - **세이브 스키마 버전 (`CURRENT_SAVE_VERSION`):** `5` (`v0 → v1 → v2 → v3 → v4 → v5` 무손실 순차 마이그레이션 & `HMAC-SHA256-DERIVED` 2단계 안티치트 호환)  
+> - **TypeScript & 아키텍처 규격:** `strict: true` + `noUncheckedIndexedAccess: true` + `noUnusedLocals/Parameters: true` + `noImplicitReturns: true` (`check:arch` `192`개 파일 순환 참조 `0건`, 계층 위반 `0건`, `any`/`@ts-ignore` `0건`, `shadowBlur` `0건`, 400줄 이상 로직 파일 `0건`)  
 > - **에셋 매니페스트:** 스프라이트 시트 `98/98종` (`External PNG: 98, Baked Fallback: 0`) | 표정 초상화 `352/352종` (`64×64 PNG`) | 바이옴 타일셋 `14종` | 오디오 `BGM 10곡 / SFX 18종`  
-> **자동화 검증 현황:** `npm run validate:assets` 통과 (`0 errors`) | `npm run validate:scripts` 통과 (`0 errors`) | `npm run typecheck` 통과 (`0 errors`) | Vitest **22개 스위트 / 94개 테스트 전원 통과**
+> **자동화 검증 현황:** `npm run check:arch` 통과 (`0 issues`) | `npm run validate:assets` 통과 (`0 errors`) | `npm run validate:scripts` 통과 (`0 errors`) | `npm run typecheck` & Electron `tsc` 통과 (`0 errors`) | `npm run build:web` 통과 (`dist-web/` `564`개 파일, `2,485,485 bytes`) | Vitest **25개 스위트 / 106개 테스트 전원 통과**
 
 ---
 
-## 1. 완료된 단계별 구현 내역 (Phase 1~9 & Stage 3~8)
+## 1. 완료된 단계별 구현 내역 (Phase 1~9 & Stage 3~9)
 
 ### 1.1 코어 전투 엔진 & 3대 해역 17개 섬 캠페인 (Phase 1 ~ Phase 9)
 - **결정론적 60Hz 전투 엔진 (`src/core/combat/`):**
@@ -118,12 +120,41 @@ npm run build:web
   - `crewCampModal.ts`, `saveManagerModal.ts`, `onlineLobbyModal.ts`에서 핵심 플레이 기능(상디 선상 요리, 패기/각성 수련, 4개 세이브 슬롯, 방 생성/방 코드 참가)을 최상단에 배치하고, JSON 텍스트 붙여넣기 및 안티치트 변조 시뮬레이션 버튼은 `<details>` 접이식 섹션으로 정리.
   - 바다·섬·전투 캔버스 HUD(`sailingRenderer.ts`, `islandRenderer.ts`, `missionTrackerHud.ts`, `hudRenderer.ts`)의 중복 퀘스트 박스와 내부 영문 코드(`TIME`, `FPS`, `PARAMEICIA`, `PWR`, `CD`)를 간결하고 직관적인 한국어 UI로 정돈.
 
+### 1.6 멀티타깃 배포 패키징 검증 (Windows x64 Electron & Android Debug APK)
+- **Electron 메인 커스텀 프로토콜 보강 (`electron/main.ts`):**
+  - `getMimeType()`에 외부 핫스왑 오디오/이미지 MIME(`.ogg`, `.mp3`, `.wav`, `.webp`, `.jpg`, `.jpeg`)를 추가하고, `registerCustomAppProtocol()`의 디렉터리 트래버설 방어를 `path.sep` 경계 기준으로 강화.
+  - `.html` 이외의 확장자를 가진 미존재 에셋(`assets/tilesets/*.png`, `assets/audio/**/*.ogg` 등) 요청 시 SPA 폴백(`index.html`) 대신 즉시 `404 Not Found`를 반환하도록 개선.
+- **Windows x64 Electron 패키징 완료 (`npm run package:win`):**
+  - `dist-electron/`: `560`개 파일(`2.32 MB`), 스프라이트 `196`개(`98 PNG + 98 .meta.json`), 초상화 `355`개 파일, `sw.js`/`*.map`/문서 유입 `0`건.
+  - `dist-electron-main/`: `package.json` (`{"type":"commonjs"}`), `electron/main.js`, `electron/preload.js` 생성 확인.
+  - `release/windows/`: `win-unpacked/OnePieceGrandVoyage.exe` (`238.4 MB`), `win-unpacked/resources/app.asar` (`3.23 MB`), `OnePieceGrandVoyage-0.1.0-win-x64.exe` (NSIS 설치형, `118.09 MB`), `OnePieceGrandVoyage-0.1.0-win-x64-portable.exe` (포터블, `107.11 MB`) 생성 확인.
+- **Android Debug APK 현황:**
+  - `android/app/build/outputs/apk/debug/app-debug.apk` 및 `release/android/OnePieceGrandVoyage-v0.1.0-debug.apk` (`5.99 MB`) 빌드 산출물 확인 완료 (`adb` 연결 기기 미연결 상태).
+
+### 1.7 Stage 9 — APK 패키징 직전 아키텍처·Strict TS·God Class 분리·60FPS & 메모리 누수 전면 리팩토링
+- **Step 1 — 순환 참조 0건 · 단방향 계층 경계 · TypeScript `strict` 전면 통과:**
+  - `scripts/check-architecture.mjs` (`npm run check:arch`) 구축: TS AST 기반 순환 참조 탐지(`0건`), 계층 경계 검증(`data` 무의존 / `core` DOM·렌더·씬·오디오 격리 / `render·audio·assets -> scenes` 차단), `any`·`@ts-ignore`·`ctx.shadowBlur` 자동 차단.
+  - `tsconfig.json` `strict: true`, `noUncheckedIndexedAccess: true`, `noUnusedLocals: true`, `noUnusedParameters: true`, `noImplicitReturns: true` 활성화 및 전 모듈 무경고 통과(`assertNever` 판별 유니온 완전성 검사 포함).
+- **Step 2 — God Class 조합 기반 분리 & 통합 `DataRegistry` (`0` 로직 파일 `>= 400줄`):**
+  - `src/scenes/sceneManager.ts`(3,403줄 → **392줄**): `src/scenes/controllers/` 하위 14개 단일 책임 컨트롤러·렌더러로 분리; `src/core/combat/` (`worldFactory`, `unitRuntimeFactory`, `clashResolver`, `damageCalc`, `formShiftEngine` 등), `src/core/endgame/`, `src/core/rpg/`, `src/core/save/`, `src/render/` (`spriteAnimationStateMachine` vs `spriteFrameRenderer`, `SafeAreaLayout` 단일 유틸리티, `hud/`, `battle/`, `rpg/` 서브모듈) 전량 400줄 미만으로 정돈.
+  - `src/data/unifiedDataRegistry.ts`, `src/data/schemaGuards.ts`, `src/core/combat/worldLookup.ts`: 스키마 런타임 타입 가드 및 `Map`/`WeakMap` $O(1)$ 인덱스 구축으로 전투·렌더 루프 선형 `.find()` 탐색 제거.
+- **Step 3 — Android WebView 60FPS 핫패스 & 제로 리크 생명주기:**
+  - `src/render/sprite/spriteEffectCache.ts` & `spriteFrameRenderer.ts`: 모바일 프레임 드랍 주범인 `ctx.shadowBlur`를 **0건**으로 제거하고, 무장색 경화 1px 픽셀 아우라를 캐시된 `'ARMAMENT_BLACK'` 오프스크린 스프라이트에 사전 베이킹.
+  - `src/render/viewport/frustumCulling.ts` & `src/render/pools/renderScratchPools.ts`: 전투(거대 보스 `0.88x` 줌아웃 포함)·항해·섬 탐색 프러스텀 컬링, 정수 픽셀 좌표(`Math.round`), `lerpVecInto`·`ObjectPool`(`AfterimagePool`, `ParticlePool`, `FloatingTextPool`)·재사용 HUD 버퍼 도입, 프레임당 중복 `imageSmoothingEnabled` 재설정 및 `titleScene` 하늘 그라데이션 재할당 제거.
+  - `src/render/canvasGpuDispose.ts`, `src/core/types/disposable.ts`: `SpriteEffectCache`, `TilemapLayerRenderer`, `AssetLoader`, `ExternalAssetResolver`에 LRU 상한 및 제거/`dispose()` 시 `canvas.width = 0; canvas.height = 0;` GPU 텍스처 즉시 해제 적용; `ResponsiveViewportManager`, `CanvasRenderer`, `RetroAudioEngine`, `ChiptuneSynthPlayer`, `SfxManager`, `DeviceAdapter`, `WebSocketTransport`, `TitleSceneController`, `SceneManager`에 `Disposable`, `AbortController({ signal })`, `onended` 오디오 노드 `disconnect()` 일괄 적용.
+- **Step 4 — 검증 현황 (`tests/core/determinismBaseline.test.ts`, `tests/render/phase3OptimizationAndLeak.test.ts`, `tests/viewport/productionDistGalaxyS25E2E.test.ts`):**
+  - Vitest **25개 스위트 / 106개 테스트 100% 통과**, 리팩토링 전 기준선 `stateHash` 3종(`2V2`, `1V1`, `COOP_RAID`) 100% 동일 유지 확인.
+  - 프로덕션 `dist-web/` 빌드(`1.47s`, `.md`/`.map` 오염 `0건`) 및 헤드리스 E2E 통과. (실시간 Chrome DevTools 프로파일링은 호스트 Chrome `chrome://inspect/#remote-debugging` 미활성화 상태로 대기 중)
+
 ---
 
 ## 2. 남은 이슈 (Remaining Issues)
 
-- **치명적/기능적 버그:** **0건**
-  - 전투 코어 결정론(`BATTLE_CALC_VERSION = "0.6.0"`), 세이브 호환성(`CURRENT_SAVE_VERSION = 5`), 전 캐릭터 98종 멀티프레임 도트 시트 & 352종 표정 초상화, 전투 종료 후 탐험 이동 제어 및 친유저 UI 모두 검증 완료.
+- **치명적/기능적/아키텍처 버그:** **0건**
+  - 전투 코어 결정론(`BATTLE_CALC_VERSION = "0.6.0"`, 기준선 `stateHash` 3종 100% 일치), 세이브 호환성(`CURRENT_SAVE_VERSION = 5`), 순환 참조 `0건`, 계층 침범 `0건`, `any`/`@ts-ignore` `0건`, `ctx.shadowBlur` `0건`, 400줄 이상 로직 파일 `0건`, 오프스크린 캔버스 GPU 메모리(`width=0, height=0`) 및 `AbortController`·WebAudio 해제 모두 검증 완료.
+- **라이브 Chrome DevTools(CDP) 원격 디버깅 연결 대기:**
+  - 프로덕션 번들(`dist-web/`) 무결성, 갤럭시 S25 울트라(`19.5:9`, `915×412`) 뷰포트·Safe Area, 60FPS 풀·컬링·GPU 메모리 해제 회귀는 자동화 테스트(`tests/viewport/productionDistGalaxyS25E2E.test.ts`, `tests/render/phase3OptimizationAndLeak.test.ts`)로 100% 검증 완료.
+  - 호스트 Chrome에서 `chrome://inspect/#remote-debugging`(`DevToolsActivePort`)이 비활성화 상태여서 라이브 CDP 브라우저 계측만 대기 중이며, 활성화 시 `npm run preview`로 즉시 실측 가능.
 - **선택적 외부 에셋 핫스왑 슬롯 (Optional Asset Slots):**
   - `public/assets/tilesets/` (`14종` 바이옴 타일셋) 및 `public/assets/audio/` (`BGM 10곡 / SFX 18종`)는 현재 런타임 프로시저럴 오토타일 베이커 및 WebAudio 칩튠 신디사이저로 100% 동작 중이며, 추후 외부 `.png` / `.ogg` 파일 배치 시 코드 수정 없이 즉시 로드 가능.
 
@@ -131,11 +162,13 @@ npm run build:web
 
 ## 3. 다음 할 일 (Next Steps)
 
-1. **최종 Android APK 패키징 및 실기기 검증 (`npm run package:android:apk`)**
-   - `npm run build:android`로 `dist-android/` 상대 경로 번들을 생성한 뒤, Capacitor Android 프로젝트 동기화(`npx cap sync android`) 및 Gradle APK 빌드(`assembleDebug` / `assembleRelease`)를 수행해 갤럭시 S25 울트라(`19.5:9`) 실기기 설치 테스트 진행.
-2. **Windows 데스크톱(Electron) 포터블 빌드 (`npm run package:desktop`)**
-   - 필요 시 Electron 래퍼 기반 Windows 데스크톱 실행 파일 패키징 검증.
-3. **선택적 외부 타일셋(`.png`) 및 오디오(`.ogg`) 에셋 핫스왑 확장**
+1. **최종 Android APK 재패키징 및 갤럭시 S25 울트라(`19.5:9`) 실기기 설치 테스트 (`npm run package:android:apk`)**
+   - Stage 9 리팩토링(60FPS 드로우콜 최적화·오프스크린 GPU 텍스처 즉시 해제·메모리 누수 차단)이 반영된 최신 코드로 `npm run build:android` → `npx cap sync android` → Gradle APK 빌드(`assembleDebug` / `assembleRelease`)를 실행하고 실기기 테스트 및 릴리스 서명 진행.
+2. **라이브 Chrome 원격 디버깅(`chrome://inspect/#remote-debugging`) 프로파일링 (선택)**
+   - 호스트 Chrome에서 원격 디버깅을 켠 뒤 `npm run preview`(`http://localhost:4173/`)에 연결해 실브라우저 60FPS 프레임 타임 및 씬 반복 전환 시 `performance.memory` 힙 안정성 실측.
+3. **Windows 데스크톱(Electron) 최신 리팩토링 반영 리패키징 (`npm run package:win`)**
+   - 필요 시 Stage 9 최적화가 반영된 Windows 설치형/포터블 실행 파일 재생성 및 코드 서명 배포.
+4. **선택적 외부 타일셋(`.png`) 및 오디오(`.ogg`) 에셋 핫스왑 확장**
    - `public/assets/tilesets/` 및 `public/assets/audio/`에 커스텀 마스터링 파일 추가 시 `npm run validate:assets`로 즉시 검증 가능.
 
 ---
@@ -143,19 +176,22 @@ npm run build:web
 ## 4. 빠른 검증 및 실행 방법
 
 ```powershell
-# 1. 스프라이트·초상화·타일셋·오디오 대소문자 엄격 무결성 검사
+# 1. 아키텍처·순환참조·any·shadowBlur 자동 감사
+npm run check:arch
+
+# 2. 스프라이트·초상화·타일셋·오디오 대소문자 엄격 무결성 검사
 npm run validate:assets
 
-# 2. 캠페인·섬·대사·유닛·폼·스킬 데이터 교차 참조 무결성 검사
+# 3. 캠페인·섬·대사·유닛·폼·스킬 데이터 교차 참조 무결성 검사
 npm run validate:scripts
 
-# 3. 정적 타입 검사
+# 4. 정적 타입 검사 (strict + noUncheckedIndexedAccess)
 npm run typecheck
 
-# 4. 전체 단위/통합/E2E 테스트 (22개 스위트 / 94개 테스트)
+# 5. 전체 단위/결정론/최적화/E2E 테스트 (25개 스위트 / 106개 테스트)
 npm run test
 
-# 5. 프로덕션 웹 빌드 및 AI 핸드오프 번들 갱신
+# 6. 프로덕션 웹 빌드 및 AI 핸드오프 번들 갱신
 npm run build:web
 npm run ai:handoff
 ```
@@ -169,7 +205,7 @@ npm run ai:handoff
 
 > **Git 원격 저장소:** `https://github.com/princebyun/gameProject.git`  
 > **현재 엔진 버전:** `BATTLE_CALC_VERSION = "0.6.0"` | `CURRENT_SAVE_VERSION = 5`  
-> **자동화 검증 현황:** `npm run typecheck` 0 errors | Vitest **20개 스위트 / 89개 테스트 전원 통과** | `npm run validate:assets` 통과 | 3대 플랫폼 프로덕션 빌드 통과  
+> **자동화 검증 현황:** `npm run typecheck` 0 errors | Vitest **22개 스위트 / 94개 테스트 전원 통과** | `npm run validate:assets` 통과 | 3대 플랫폼 프로덕션 빌드 통과  
 > **에이전트/인수인계 문서:** [AGENTS.md](./AGENTS.md) | [HANDOFF.md](./HANDOFF.md) | [ASSET_REPLACEMENT_GUIDE.md](./ASSET_REPLACEMENT_GUIDE.md) | [BUILD_RELEASE.md](./BUILD_RELEASE.md)
 
 ---
@@ -196,7 +232,7 @@ npm install
 # 2. TypeScript 전체 정적 검사 (src/, server/, electron/, tests/)
 npm run typecheck
 
-# 3. 전체 결정론·전투·RPG·세이브·멀티·크로스플랫폼 단위/통합 테스트 실행 (64개)
+# 3. 전체 결정론·전투·RPG·세이브·멀티·크로스플랫폼 단위/통합 테스트 실행 (94개)
 npm run test
 
 # 4. 로컬 개발 서버 실행 (클라이언트 단독: http://localhost:5173)
@@ -235,11 +271,11 @@ npm run dev:all
 gameProject/
 ├── src/
 │   ├── core/                    # [Pure TypeScript] DOM/Window/WebSocket 의존 0건 (서버와 직접 공유)
-│   │   ├── constants.ts         # BATTLE_CALC_VERSION = "0.5.0", FIXED_DT = 1/60
+│   │   ├── constants.ts         # BATTLE_CALC_VERSION = "0.6.0", FIXED_DT = 1/60
 │   │   ├── combat/              # 전투 월드, 데미지, 맞대결, 회피, 변신/각성, 필드, 상태이상
 │   │   ├── ai/                  # 5단계 Utility AI & 보스 전술 프리셋 19종
 │   │   ├── rpg/                 # 자유 항해 물리, 관문 검증, 에피소드, 선원 직책, 전투 브리지
-│   │   ├── save/                # SaveEnvelope v4, SHA-256/HMAC, 직렬화, v0~v4 마이그레이터, 안티치트
+│   │   ├── save/                # SaveEnvelope v5, SHA-256/HMAC, 직렬화, v0~v5 마이그레이터, 안티치트
 │   │   └── net/                 # 통신 프로토콜, Lockstep 컨트롤러, 60틱 상태 해셔, 단말기 규칙
 │   ├── data/                    # 100% 외부화 JSON (units, moves, forms, abilities, sea_zones, islands/*, episodes/*)
 │   ├── platform/                # [멀티플랫폼 어댑터 계층] 게임 코어/씬과 네이티브 API를 완전 분리
@@ -255,7 +291,7 @@ gameProject/
 ├── server/                      # Node.js + ws 경량 중계 서버 (src/core/save/antiCheat.ts 직접 공유)
 ├── electron/                    # Windows PC Electron 메인 프로세스(app://resonance) & 보안 Preload IPC
 ├── android/                     # Capacitor Android 네이티브 프로젝트 (Gradle, AndroidManifest.xml)
-├── tests/core/                  # Vitest 14개 테스트 스위트 (64개 검증 케이스)
+├── tests/core/                  # Vitest 22개 테스트 스위트 (94개 검증 케이스)
 ├── vite.config.ts               # VITE_PLATFORM (web | electron | android) 분기 빌드 설정
 ├── electron-builder.yml         # Windows x64 NSIS 설치형 + Portable .exe 패키징 설정
 ├── capacitor.config.ts          # Android Capacitor 동기화 설정 (webDir: dist-android)
@@ -280,10 +316,10 @@ gameProject/
 - `electron/preload.ts`는 `contextBridge.exposeInMainWorld('opElectronBridge', ...)`를 통해 아래 화이트리스트 채널만 노출합니다:
   - 세이브 IPC: `save:read`, `save:write`, `save:list`, `save:delete` (내부적으로 `AtomicNodeFileStore`가 `<file>.tmp.<pid>.<ts>`에 기록 후 `fs.rename`으로 교체해 정전/강제종료 시 세이브 손상을 방지)
   - 파일 다이얼로그 IPC: `dialog:exportSave`, `dialog:importSave`
-  - 창 제어 IPC: `window:setMode`, `window:toggleFullscreen`, `app:requestQuit`
+  - 창 제어 IPC: `window:setDisplayMode`, `window:getDisplayMode`, `window:quit`
 
 ### 4.2 크로스플랫폼 세이브 호환 (`.op-save.json`)
-- Windows PC(`%APPDATA%`), Android APK(`Directory.Data/saves/`), Web PWA(`IndexedDB`) 어디에서 Export한 `.op-save.json`이든 **동일한 `SaveEnvelope` v4 스키마 및 Canonical JSON HMAC-SHA256 서명**을 사용합니다.
+- Windows PC(`%APPDATA%`), Android APK(`Directory.Data/saves/`), Web PWA(`IndexedDB`) 어디에서 Export한 `.op-save.json`이든 **동일한 `SaveEnvelope` v5 스키마 및 Canonical JSON HMAC-SHA256 서명**을 사용합니다.
 - 다른 기기에서 Import해도 `IntegrityVerifier`와 `LegalityValidator`를 에러 없이 통과하며 `onlineEligible: true`가 유지됩니다(`tests/core/phase5CrossPlatformPackaging.test.ts`로 자동 검증됨).
 
 ---
@@ -373,6 +409,7 @@ $env:VITE_MULTIPLAYER_URL="wss://relay.your-domain.com"; npm run package:android
     "preview": "vite preview --outDir dist-web",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
+    "check:arch": "node scripts/check-architecture.mjs",
     "validate:assets": "node --import tsx scripts/validate-assets.ts",
     "validate:scripts": "node --import tsx scripts/validate-scripts.ts",
     "bake:sprites": "node --import tsx scripts/bake-sprites.mjs",

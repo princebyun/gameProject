@@ -1,6 +1,13 @@
-import type { AssetLoader } from '../../assets/assetLoader';
+import type { Disposable } from '../../core/types/disposable';
 import type { TilesetManifestEntry } from '../../data/assets/types';
+import { releaseOffscreenCanvas } from '../canvasGpuDispose';
 import { computeCardinalBitmask } from './autotileBitmask';
+
+export interface TilesetAtlasProvider {
+  getOrCreateBiomeTileset(
+    biome: TilesetManifestEntry
+  ): HTMLImageElement | HTMLCanvasElement | null;
+}
 
 export interface TileChunkCacheEntry {
   cacheKey: string;
@@ -22,7 +29,7 @@ export interface IslandRectObstacle {
  * Renders static ground/wall/decor layers once into offscreen chunks and draws only
  * visible chunks + 4-frame animated tiles per frame for crisp 60FPS pixel rendering.
  */
-export class TilemapLayerRenderer {
+export class TilemapLayerRenderer implements Disposable {
   private mapChunkCache = new Map<string, TileChunkCacheEntry>();
   private readonly chunkSizePx = 256;
   private readonly maxCachedMaps = 6;
@@ -31,17 +38,38 @@ export class TilemapLayerRenderer {
     return this.mapChunkCache.size;
   }
 
+  private releaseEntry(entry: TileChunkCacheEntry | undefined): void {
+    if (!entry) return;
+    for (let i = 0; i < entry.chunks.length; i++) {
+      releaseOffscreenCanvas(entry.chunks[i]);
+    }
+    entry.chunks.length = 0;
+  }
+
   public clearCache(): void {
+    for (const entry of this.mapChunkCache.values()) {
+      this.releaseEntry(entry);
+    }
     this.mapChunkCache.clear();
   }
 
+  public dispose(): void {
+    this.clearCache();
+  }
+
   private putCache(key: string, entry: TileChunkCacheEntry): void {
-    if (this.mapChunkCache.has(key)) {
+    const existing = this.mapChunkCache.get(key);
+    if (existing) {
       this.mapChunkCache.delete(key);
+      if (existing !== entry) {
+        this.releaseEntry(existing);
+      }
     } else if (this.mapChunkCache.size >= this.maxCachedMaps) {
       const oldest = this.mapChunkCache.keys().next().value;
       if (oldest !== undefined) {
+        const oldestEntry = this.mapChunkCache.get(oldest);
         this.mapChunkCache.delete(oldest);
+        this.releaseEntry(oldestEntry);
       }
     }
     this.mapChunkCache.set(key, entry);
@@ -114,7 +142,7 @@ export class TilemapLayerRenderer {
 
         for (let r = startRow; r < endRow; r++) {
           for (let c = startCol; c < endCol; c++) {
-            const cell = grid[r][c];
+            const cell = grid[r]?.[c] ?? 0;
             const dx = c * drawTs - cc * this.chunkSizePx;
             const dy = r * drawTs - cr * this.chunkSizePx;
 
@@ -201,7 +229,7 @@ export class TilemapLayerRenderer {
     viewWidth: number,
     viewHeight: number,
     biome: TilesetManifestEntry,
-    assets: AssetLoader,
+    assets: TilesetAtlasProvider,
     tick: number,
     obstacles: IslandRectObstacle[] = [],
     waterStripY?: { minY: number; maxY: number }
@@ -209,7 +237,6 @@ export class TilemapLayerRenderer {
     const atlas = assets.getOrCreateBiomeTileset(biome);
     if (!atlas) return;
 
-    ctx.imageSmoothingEnabled = false;
     const srcTs = biome.tileSize;
     const drawTs = srcTs * biome.renderScale;
 

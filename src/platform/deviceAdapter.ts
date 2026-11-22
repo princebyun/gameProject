@@ -32,27 +32,43 @@ export interface DeviceAdapter {
     onToast?: ToastNotificationCallback
   ): void;
   requestQuitWithConfirmation(): Promise<boolean>;
+  dispose?(): void;
 }
 
-function attachGlobalFullscreenShortcuts(toggleFn: () => void): void {
+function attachGlobalFullscreenShortcuts(
+  toggleFn: () => void,
+  signal: AbortSignal
+): void {
   if (typeof window === 'undefined') return;
-  window.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === 'F11' || (e.altKey && e.key === 'Enter')) {
-      e.preventDefault();
-      toggleFn();
-    }
-  });
+  window.addEventListener(
+    'keydown',
+    (e: KeyboardEvent) => {
+      if (e.key === 'F11' || (e.altKey && e.key === 'Enter')) {
+        e.preventDefault();
+        toggleFn();
+      }
+    },
+    { signal }
+  );
 }
 
 export class WebDeviceAdapter implements DeviceAdapter {
   public readonly supportsWindowDisplayModes = false;
   private hapticsEnabled = true;
   private displayMode: WindowDisplayMode = 'windowed';
+  private abortController: AbortController | null = null;
 
   public async init(): Promise<void> {
+    this.abortController?.abort();
+    this.abortController = new AbortController();
     attachGlobalFullscreenShortcuts(() => {
       void this.toggleFullscreen();
-    });
+    }, this.abortController.signal);
+  }
+
+  public dispose(): void {
+    this.abortController?.abort();
+    this.abortController = null;
   }
 
   public async getDisplayMode(): Promise<WindowDisplayMode> {
@@ -140,6 +156,7 @@ export class ElectronDeviceAdapter implements DeviceAdapter {
   private readonly bridge: ElectronPreloadBridge;
   private hapticsEnabled = true;
   private cachedMode: WindowDisplayMode = 'windowed';
+  private abortController: AbortController | null = null;
 
   constructor(bridge?: ElectronPreloadBridge) {
     const resolved =
@@ -155,9 +172,16 @@ export class ElectronDeviceAdapter implements DeviceAdapter {
 
   public async init(): Promise<void> {
     this.cachedMode = await this.bridge.windowGetDisplayMode();
+    this.abortController?.abort();
+    this.abortController = new AbortController();
     attachGlobalFullscreenShortcuts(() => {
       void this.toggleFullscreen();
-    });
+    }, this.abortController.signal);
+  }
+
+  public dispose(): void {
+    this.abortController?.abort();
+    this.abortController = null;
   }
 
   public async getDisplayMode(): Promise<WindowDisplayMode> {
@@ -213,6 +237,7 @@ export class CapacitorDeviceAdapter implements DeviceAdapter {
   public readonly supportsWindowDisplayModes = false;
   private hapticsEnabled = true;
   private lastRootBackPressAtMs = 0;
+  private backListenerHandle: Promise<{ remove(): Promise<void> }> | null = null;
 
   public async init(): Promise<void> {
     try {
@@ -290,7 +315,7 @@ export class CapacitorDeviceAdapter implements DeviceAdapter {
     onToast?: ToastNotificationCallback
   ): void {
     try {
-      void App.addListener('backButton', () => {
+      this.backListenerHandle = App.addListener('backButton', () => {
         const res = handler();
         if (res.handledByScene) {
           return;
@@ -305,6 +330,13 @@ export class CapacitorDeviceAdapter implements DeviceAdapter {
       });
     } catch {
       // Ignore if not running inside Capacitor native shell
+    }
+  }
+
+  public dispose(): void {
+    if (this.backListenerHandle) {
+      void this.backListenerHandle.then((h) => h.remove()).catch(() => {});
+      this.backListenerHandle = null;
     }
   }
 

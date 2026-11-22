@@ -18,6 +18,7 @@ function buildUnit(
 ): UnitBuildConfig {
   const reg = createDefaultDataRegistry();
   const u = reg.units[speciesId];
+  if (!u) throw new Error(`Missing unit ${speciesId}`);
   return {
     instanceId,
     speciesId,
@@ -120,13 +121,18 @@ describe('Phase 1 Sandbox & AI vs AI Full Integration Verification', () => {
 
     const voltUnit = world.units[0];
     const enemyUnit = world.units[3];
+    const voltBlitzMove = registry.moves['move_volt_blitz'];
+    expect(voltUnit).toBeDefined();
+    expect(enemyUnit).toBeDefined();
+    expect(voltBlitzMove).toBeDefined();
+    if (!voltUnit || !enemyUnit || !voltBlitzMove) throw new Error('Missing sandbox actors');
     enemyUnit.pos = { x: voltUnit.pos.x + 30, y: voltUnit.pos.y };
     enemyUnit.iframeTimer = 0;
 
     // Cast Volt Blitz (pivotSwapOnHit: true)
     spawnMeleeArcInstance(
       voltUnit,
-      registry.moves['move_volt_blitz'],
+      voltBlitzMove,
       { x: 1, y: 0 },
       world,
       registry

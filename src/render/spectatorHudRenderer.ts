@@ -5,6 +5,7 @@ import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
 } from './viewport/responsiveViewportManager';
+import { getSafeHudBounds } from './viewport/safeAreaLayout';
 
 export type SpectatorCameraTarget = 'ALL' | 0 | 1 | 2 | 3;
 
@@ -19,20 +20,20 @@ export function renderOnlineAndSpectatorHud(
   isTerminalMatch: boolean,
   viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS
 ): void {
-  const viewW = viewport.viewWidth;
-  const viewH = viewport.viewHeight;
-  const { top: safeT, bottom: safeB } = viewport.safeInsets;
+  const safe = getSafeHudBounds(viewport);
+  const viewW = safe.viewWidth;
+  const viewH = safe.viewHeight;
 
   ctx.save();
 
-  const cx = viewW * 0.5;
+  const cx = safe.centerX;
 
   // 1. Top Online Match Status & Sync Integrity Banner
   ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
-  ctx.fillRect(cx - 190, 54 + safeT, 380, 22);
+  ctx.fillRect(cx - 190, 54 + safe.top, 380, 22);
   ctx.strokeStyle = isSpectator ? '#a855f7' : '#38bdf8';
   ctx.lineWidth = 1.5;
-  ctx.strokeRect(cx - 190, 54 + safeT, 380, 22);
+  ctx.strokeRect(cx - 190, 54 + safe.top, 380, 22);
 
   const latestHashShort = lockstep.getLatestStateHash().slice(0, 8);
   ctx.font = 'bold 10px monospace';
@@ -46,12 +47,12 @@ export function renderOnlineAndSpectatorHud(
   ctx.fillText(
     `${roleTag} | ROOM:${lockstep.config.roomCode} | PING:${pingMs}ms | HASH:${latestHashShort} | ${fps}FPS`,
     cx,
-    68 + safeT
+    68 + safe.top
   );
 
   // 2. Spectator Dedicated Broadcast Footer (Replaces player skill bar & touch controls)
   if (isSpectator) {
-    const fy = viewH - 54 - safeB;
+    const fy = safe.bottom - 54;
     ctx.fillStyle = 'rgba(15, 23, 42, 0.94)';
     ctx.fillRect(cx - 320, fy, 640, 46);
     ctx.strokeStyle = '#a855f7';

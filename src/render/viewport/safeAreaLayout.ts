@@ -124,3 +124,63 @@ export function computeSafeRect(
     height: bottom - top
   };
 }
+
+export interface ViewportBoundsLike {
+  viewWidth: number;
+  viewHeight: number;
+  arenaOffsetX: number;
+  safeInsets: SafeAreaInsets;
+}
+
+export interface SafeHudBounds extends SafeRect {
+  viewWidth: number;
+  viewHeight: number;
+  centerX: number;
+  arenaOffsetX: number;
+  insets: SafeAreaInsets;
+}
+
+/**
+ * Extracts normalized Safe Area inset coordinates and safe bounding box from any ViewportMetrics-like object.
+ */
+export function getSafeHudBounds(viewport: ViewportBoundsLike, extraPadding = 0): SafeHudBounds {
+  const rect = computeSafeRect(
+    viewport.viewWidth,
+    viewport.viewHeight,
+    viewport.safeInsets,
+    extraPadding
+  );
+  return {
+    ...rect,
+    viewWidth: viewport.viewWidth,
+    viewHeight: viewport.viewHeight,
+    centerX: viewport.viewWidth * 0.5,
+    arenaOffsetX: viewport.arenaOffsetX,
+    insets: viewport.safeInsets
+  };
+}
+
+/**
+ * Converts a viewport-logical coordinate (x in 0..viewWidth) into 960x540 deterministic arena/island space.
+ */
+export function logicalToArenaPoint(
+  viewport: Pick<ViewportBoundsLike, 'arenaOffsetX'>,
+  pt: { x: number; y: number }
+): { x: number; y: number } {
+  return {
+    x: pt.x - viewport.arenaOffsetX,
+    y: pt.y
+  };
+}
+
+/**
+ * Checks whether a logical Y coordinate falls within a bottom HUD band inset from safeInsets.bottom.
+ */
+export function isPointInBottomSafeBand(
+  viewport: Pick<ViewportBoundsLike, 'viewHeight' | 'safeInsets'>,
+  ptY: number,
+  bandHeight: number
+): boolean {
+  const safeBottomEdge = viewport.viewHeight - viewport.safeInsets.bottom;
+  return ptY >= safeBottomEdge - bandHeight && ptY <= viewport.viewHeight;
+}

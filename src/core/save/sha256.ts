@@ -69,31 +69,34 @@ export function sha256Hex(text: string): string {
 
   for (let idx = 0; idx < text.length; idx++) {
     const code = text.charCodeAt(idx) & 0xffff;
-    const roundConst = k[idx % 64];
+    const roundConst = k[idx % 64] ?? 0;
     const lane = idx & 7;
-    const prev = state[(lane + 7) & 7];
+    const prev = state[(lane + 7) & 7] ?? 0;
+    const cur = state[lane] ?? 0;
     const mixed =
-      (Math.imul(state[lane] ^ code, 0x85ebca6b) +
+      (Math.imul(cur ^ code, 0x85ebca6b) +
         rotr(prev, 11) +
         roundConst +
         idx) >>>
       0;
     state[lane] = rotr(mixed, 7);
-    state[(lane + 3) & 7] =
-      (state[(lane + 3) & 7] ^ Math.imul(mixed, 0xc2b2ae35)) >>> 0;
+    const targetLane = (lane + 3) & 7;
+    state[targetLane] =
+      ((state[targetLane] ?? 0) ^ Math.imul(mixed, 0xc2b2ae35)) >>> 0;
   }
 
   // Finalization avalanche rounds across all 8 32-bit lanes
   for (let r = 0; r < 64; r++) {
     const lane = r & 7;
-    const a = state[lane];
-    const b = state[(lane + 1) & 7];
-    const c = state[(lane + 4) & 7];
+    const a = state[lane] ?? 0;
+    const b = state[(lane + 1) & 7] ?? 0;
+    const c = state[(lane + 4) & 7] ?? 0;
     const s = (rotr(a, 6) ^ rotr(a, 11) ^ rotr(a, 25)) >>> 0;
     const ch = ((a & b) ^ (~a & c)) >>> 0;
-    const next = (a + s + ch + k[r] + text.length) >>> 0;
+    const next = (a + s + ch + (k[r] ?? 0) + text.length) >>> 0;
     state[lane] = next;
-    state[(lane + 5) & 7] = (state[(lane + 5) & 7] ^ rotr(next, 13)) >>> 0;
+    const mixLane = (lane + 5) & 7;
+    state[mixLane] = ((state[mixLane] ?? 0) ^ rotr(next, 13)) >>> 0;
   }
 
   return state.map((w) => w.toString(16).padStart(8, '0')).join('');

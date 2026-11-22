@@ -177,11 +177,14 @@ describe('Phase 4 Real-Time Online Multiplayer, Server Anti-Cheat & Deterministi
       JSON.stringify(cleanRoster)
     );
     const env2 = forgedRoster2.saveEnvelope!;
-    env2.payload.crew.unitProgressMap['luffy'].haki.conqueror = 4 as unknown as 3;
-    env2.payload.crew.unitProgressMap['luffy'].unlockedFormIds = [
+    const luffyProg2 = env2.payload.crew.unitProgressMap['luffy'];
+    expect(luffyProg2).toBeDefined();
+    if (!luffyProg2) throw new Error('Missing luffy progress');
+    luffyProg2.haki.conqueror = 4 as unknown as 3;
+    luffyProg2.unlockedFormIds = [
       'form_luffy_gear5'
     ];
-    env2.payload.crew.unitProgressMap['luffy'].fruitAwakeningUnlocked = true;
+    luffyProg2.fruitAwakeningUnlocked = true;
     env2.meta.integrity = computeSaveIntegrity(
       env2.meta.saveVersion,
       env2.meta.battleCalcVersion,
@@ -347,8 +350,8 @@ describe('Phase 4 Real-Time Online Multiplayer, Server Anti-Cheat & Deterministi
 
     // 6. Run 600 ticks (10 seconds @ 60FPS) with live inputs: movement, beam clashes, Zoan stance shifts, and Gear 5 awakening
     for (let tick = 0; tick < 600; tick++) {
-      const p1UnitId = ctrl1.config.slotToUnitInstanceId[0];
-      const p2UnitId = ctrl2.config.slotToUnitInstanceId[2];
+      const p1UnitId = ctrl1.config.slotToUnitInstanceId[0] ?? 'net_slot_0_luffy';
+      const p2UnitId = ctrl2.config.slotToUnitInstanceId[2] ?? 'net_slot_2_kaido';
 
       const cmd1: UnitInputCommand = {
         unitId: p1UnitId,
@@ -421,17 +424,15 @@ describe('Phase 4 Real-Time Online Multiplayer, Server Anti-Cheat & Deterministi
     );
 
     const preSnap = capturePreTerminalPartySnapshot(envelope);
-    const originalHp = envelope.payload.crew.unitProgressMap['luffy'].currentHp;
-    const originalPistolPp =
-      envelope.payload.crew.unitProgressMap['luffy'].movePpMap[
-        'move_luffy_pistol'
-      ];
+    const luffyPre = envelope.payload.crew.unitProgressMap['luffy'];
+    expect(luffyPre).toBeDefined();
+    if (!luffyPre) throw new Error('Missing luffy progress');
+    const originalHp = luffyPre.currentHp;
+    const originalPistolPp = luffyPre.movePpMap['move_luffy_pistol'];
 
     // Simulate damage and PP drain during terminal online battle
-    envelope.payload.crew.unitProgressMap['luffy'].currentHp = 12;
-    envelope.payload.crew.unitProgressMap['luffy'].movePpMap[
-      'move_luffy_pistol'
-    ] = 0;
+    luffyPre.currentHp = 12;
+    luffyPre.movePpMap['move_luffy_pistol'] = 0;
 
     // Apply terminal match outcome -> restores HP & PP while incrementing onlineStats.wins
     const updatedEnv = applyTerminalBattleOutcome(
@@ -444,10 +445,10 @@ describe('Phase 4 Real-Time Online Multiplayer, Server Anti-Cheat & Deterministi
     expect(campaign.onlineStats.wins).toBe(1);
     expect(updatedEnv.payload.economy.onlineStats?.wins).toBe(1);
     expect(
-      updatedEnv.payload.crew.unitProgressMap['luffy'].currentHp
+      updatedEnv.payload.crew.unitProgressMap['luffy']?.currentHp
     ).toBe(originalHp);
     expect(
-      updatedEnv.payload.crew.unitProgressMap['luffy'].movePpMap[
+      updatedEnv.payload.crew.unitProgressMap['luffy']?.movePpMap[
         'move_luffy_pistol'
       ]
     ).toBe(originalPistolPp);

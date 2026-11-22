@@ -3,6 +3,7 @@ import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
 } from '../render/viewport/responsiveViewportManager';
+import { getSafeHudBounds } from '../render/viewport/safeAreaLayout';
 
 export interface OpeningSlideDef {
   id: 'ROGER_SCAFFOLD' | 'GREAT_PIRATE_ERA' | 'STRAW_HAT_PROMISE' | 'CHAPTER_1_CARD';
@@ -146,15 +147,15 @@ export function renderOpeningNarrationScene(
   tick: number,
   viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS
 ): void {
-  const w = viewport.viewWidth;
-  const h = viewport.viewHeight;
-  const { left: safeL, right: safeR, top: safeT, bottom: safeB } = viewport.safeInsets;
-  const cx = Math.round(w * 0.5);
+  const safe = getSafeHudBounds(viewport);
+  const w = safe.viewWidth;
+  const h = safe.viewHeight;
+  const cx = Math.round(safe.centerX);
   const slide =
     OPENING_NARRATION_SLIDES[state.slideIndex] ?? OPENING_NARRATION_SLIDES[0];
+  if (!slide) return;
 
   ctx.save();
-  ctx.imageSmoothingEnabled = false;
 
   // 1. Scene-specific Pixel Illustration Backdrop
   if (slide.id === 'ROGER_SCAFFOLD') {
@@ -238,7 +239,7 @@ export function renderOpeningNarrationScene(
     ctx.fillRect(0, 0, w, h);
 
     ctx.globalAlpha = fade;
-    const cardW = Math.min(620, w - safeL - safeR - 48);
+    const cardW = Math.min(620, safe.width - 48);
     const cardX = Math.round(cx - cardW * 0.5);
     const cardY = Math.round(h * 0.22);
     ctx.fillStyle = 'rgba(9, 13, 22, 0.84)';
@@ -272,15 +273,15 @@ export function renderOpeningNarrationScene(
   ctx.fillStyle = '#fde047';
   ctx.fillText(
     `SCENE ${state.slideIndex + 1}/${OPENING_NARRATION_SLIDES.length} · ${slide.heading}`,
-    16 + safeL,
-    28 + safeT
+    16 + safe.left,
+    28 + safe.top
   );
 
   // 3. Top-Right [건너뛰기 >>] Button (Safe Area)
   const skipW = 124;
   const skipH = 30;
-  const skipX = w - safeR - skipW - 16;
-  const skipY = 12 + safeT;
+  const skipX = safe.right - skipW - 16;
+  const skipY = 12 + safe.top;
   state.skipButtonBounds = { x: skipX, y: skipY, w: skipW, h: skipH };
 
   ctx.fillStyle = 'rgba(15, 23, 42, 0.86)';
@@ -294,10 +295,10 @@ export function renderOpeningNarrationScene(
   ctx.fillText('건너뛰기 >>', skipX + skipW * 0.5, skipY + 19);
 
   // 4. Bandai-style Wide Bottom Typewriter Subtitle Box (Safe Area)
-  const boxW = Math.min(820, w - safeL - safeR - 32);
+  const boxW = Math.min(820, safe.width - 32);
   const boxH = 114;
   const boxX = Math.round(cx - boxW * 0.5);
-  const boxY = h - safeB - boxH - 16;
+  const boxY = safe.bottom - boxH - 16;
 
   ctx.fillStyle = 'rgba(9, 13, 22, 0.92)';
   ctx.fillRect(boxX, boxY, boxW, boxH);

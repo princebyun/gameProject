@@ -63,7 +63,7 @@ export class RigPixelSurface {
 
   public getAlpha(x: number, y: number): number {
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) return 0;
-    return this.data[(y * this.width + x) * 4 + 3];
+    return this.data[(y * this.width + x) * 4 + 3] ?? 0;
   }
 
   public fillRect(
@@ -251,6 +251,7 @@ export class RigPixelSurface {
         let foundOpaqueNeighbor = false;
 
         for (const [dx, dy] of dirs) {
+          if (dx === undefined || dy === undefined) continue;
           const nx = x + dx;
           const ny = y + dy;
           if (nx < cellX || nx >= cellX + cellW || ny < cellY || ny >= cellY + cellH) {
@@ -260,9 +261,9 @@ export class RigPixelSurface {
           const na = this.data[nIdx + 3];
           // Only outline opaque character pixels (skip semi-transparent ground shadow)
           if (na === 255) {
-            neighborR = this.data[nIdx];
-            neighborG = this.data[nIdx + 1];
-            neighborB = this.data[nIdx + 2];
+            neighborR = this.data[nIdx] ?? 0;
+            neighborG = this.data[nIdx + 1] ?? 0;
+            neighborB = this.data[nIdx + 2] ?? 0;
             foundOpaqueNeighbor = true;
             break;
           }

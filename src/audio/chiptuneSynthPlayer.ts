@@ -1,4 +1,6 @@
+import type { Disposable } from '../core/types/disposable';
 import type { BgmTrackManifestEntry } from '../data/assets/types';
+import { attachOnEndedDisconnect, disconnectAudioNodes } from './webAudioCleanup';
 
 function midiToFreq(midi: number): number {
   return 440 * Math.pow(2, (midi - 69) / 12);
@@ -11,7 +13,7 @@ function midiToFreq(midi: number): number {
  * - Ch 3: Triangle Bass
  * - Ch 4: White Noise Percussion (Kick / Snare / Hi-hat)
  */
-export class ChiptuneSynthPlayer {
+export class ChiptuneSynthPlayer implements Disposable {
   private timerId: ReturnType<typeof setInterval> | null = null;
   private stepIndex = 0;
   private nextStepTime = 0;
@@ -19,6 +21,8 @@ export class ChiptuneSynthPlayer {
   private outputGain: GainNode | null = null;
   private noiseBuffer: AudioBuffer | null = null;
   private isPlaying = false;
+  private pendingFadeTimers = new Set<ReturnType<typeof setTimeout>>();
+  private fadingBuses = new Set<GainNode>();
 
   public start(
     ctx: AudioContext,
@@ -65,6 +69,7 @@ export class ChiptuneSynthPlayer {
     this.activeTrack = null;
 
     if (bus) {
+      this.fadingBuses.add(bus);
       try {
         const ctx = bus.context;
         const now = ctx.currentTime;
@@ -74,17 +79,38 @@ export class ChiptuneSynthPlayer {
           0.0001,
           now + Math.max(0.02, fadeOutSec)
         );
-        setTimeout(() => {
+        const tid = setTimeout(() => {
+          this.pendingFadeTimers.delete(tid);
+          this.fadingBuses.delete(bus);
           try {
             bus.disconnect();
           } catch {
             // ignore
           }
         }, Math.ceil(fadeOutSec * 1000) + 60);
+        this.pendingFadeTimers.add(tid);
       } catch {
-        // ignore cleanup errors in headless/closed AudioContext
+        this.fadingBuses.delete(bus);
+        try {
+          bus.disconnect();
+        } catch {
+          // ignore
+        }
       }
     }
+  }
+
+  public dispose(): void {
+    this.stop(0);
+    for (const tid of this.pendingFadeTimers) {
+      clearTimeout(tid);
+    }
+    this.pendingFadeTimers.clear();
+    for (const bus of this.fadingBuses) {
+      disconnectAudioNodes(bus);
+    }
+    this.fadingBuses.clear();
+    this.noiseBuffer = null;
   }
 
   public getIsPlaying(): boolean {
@@ -223,6 +249,7 @@ export class ChiptuneSynthPlayer {
       gain.gain.exponentialRampToValueAtTime(0.0001, time + Math.max(0.03, duration));
       osc.connect(gain);
       gain.connect(bus);
+      attachOnEndedDisconnect(osc, gain);
       osc.start(time);
       osc.stop(time + duration + 0.01);
     } catch {
@@ -241,6 +268,7 @@ export class ChiptuneSynthPlayer {
       gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.1);
       osc.connect(gain);
       gain.connect(bus);
+      attachOnEndedDisconnect(osc, gain);
       osc.start(time);
       osc.stop(time + 0.11);
     } catch {
@@ -269,6 +297,7 @@ export class ChiptuneSynthPlayer {
       src.connect(filter);
       filter.connect(gain);
       gain.connect(bus);
+      attachOnEndedDisconnect(src, filter, gain);
       src.start(time);
       src.stop(time + duration + 0.01);
     } catch {

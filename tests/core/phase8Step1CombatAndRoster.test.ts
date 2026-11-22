@@ -25,6 +25,7 @@ function makeBuild(
   isPlayer: boolean = false
 ): UnitBuildConfig {
   const def = defaultDataRegistry.units[speciesId];
+  if (!def) throw new Error(`Missing unit species: ${speciesId}`);
   return {
     instanceId,
     speciesId,
@@ -60,6 +61,7 @@ describe('Phase 8 Step 1 (Stage 2-B): 5 New Combat Hooks & 11 New Grand Line Uni
     for (const id of newUnitIds) {
       const def = defaultDataRegistry.units[id];
       expect(def, `Unit ${id} must exist`).toBeDefined();
+      if (!def) throw new Error(`Unit ${id} must exist`);
       expect(def.defaultMoves.length).toBe(4);
       for (const mId of def.defaultMoves) {
         expect(defaultDataRegistry.moves[mId], `Move ${mId} must exist`).toBeDefined();
@@ -93,6 +95,8 @@ describe('Phase 8 Step 1 (Stage 2-B): 5 New Combat Hooks & 11 New Grand Line Uni
     const world = createBattleWorld(cfg, defaultDataRegistry);
     const luffy = world.units[0];
     const croc = world.units[1];
+    const barrel = world.destructibleProps[0];
+    if (!luffy || !croc || !barrel) throw new Error('Missing luffy, croc, or water barrel');
     croc.pos = { x: 470, y: 270 };
 
     // Dry Crocodile ignores non-Haki BLUNT attack
@@ -112,7 +116,7 @@ describe('Phase 8 Step 1 (Stage 2-B): 5 New Combat Hooks & 11 New Grand Line Uni
 
     // Destroy water barrel nearby -> splashes WET (8s) on Crocodile
     const destroyed = damageDestructibleProp(
-      world.destructibleProps[0],
+      barrel,
       50,
       world,
       defaultDataRegistry
@@ -146,6 +150,7 @@ describe('Phase 8 Step 1 (Stage 2-B): 5 New Combat Hooks & 11 New Grand Line Uni
     const world = createBattleWorld(cfg, defaultDataRegistry);
     const luffy = world.units[0];
     const enel = world.units[1];
+    if (!luffy || !enel) throw new Error('Missing luffy or enel');
     luffy.haki = { armament: 0, observation: 0, conqueror: 0 };
 
     // Luffy hits Enel with non-Haki BLUNT -> natural counter (RUBBER_BODY) pierces Logia!
@@ -193,10 +198,8 @@ describe('Phase 8 Step 1 (Stage 2-B): 5 New Combat Hooks & 11 New Grand Line Uni
       ]
     };
     const world = createBattleWorld(cfg, defaultDataRegistry);
-    const kizaru = world.units[0];
-    const zoro = world.units[1];
-    const bb = world.units[2];
-    const sanji = world.units[3];
+    const [kizaru, zoro, bb, sanji] = world.units;
+    if (!kizaru || !zoro || !bb || !sanji) throw new Error('Missing 2v2 units');
 
     // Activate Kizaru's Awakening first
     const shiftRes = activateFormShift(kizaru, world, defaultDataRegistry);
@@ -242,8 +245,9 @@ describe('Phase 8 Step 1 (Stage 2-B): 5 New Combat Hooks & 11 New Grand Line Uni
     };
     const worldMoria = createBattleWorld(cfgMoria, defaultDataRegistry);
     const moria = worldMoria.units[1];
-    moria.pos = { x: 600, y: 260 };
     const swapMove = defaultDataRegistry.moves['move_moria_doppelman_swap'];
+    if (!moria || !swapMove) throw new Error('Missing moria or swap move');
+    moria.pos = { x: 600, y: 260 };
     const summonRes = summonOrSwapMinion(moria, swapMove, worldMoria, defaultDataRegistry);
     expect(summonRes.action).toBe('SUMMONED');
     const minion = worldMoria.units.find((u) => u.instanceId === summonRes.minionId)!;
@@ -268,6 +272,7 @@ describe('Phase 8 Step 1 (Stage 2-B): 5 New Combat Hooks & 11 New Grand Line Uni
     const prng = new SeededPRNG(8005);
     const akainu = worldSplit.units[0];
     const aokiji = worldSplit.units[1];
+    if (!akainu || !aokiji) throw new Error('Missing akainu or aokiji');
     activateFormShift(akainu, worldSplit, defaultDataRegistry);
     activateFormShift(aokiji, worldSplit, defaultDataRegistry);
     expect(worldSplit.persistentZones.magmaActive).toBe(true);
@@ -298,9 +303,8 @@ describe('Phase 8 Step 1 (Stage 2-B): 5 New Combat Hooks & 11 New Grand Line Uni
       ]
     };
     const worldMarco = createBattleWorld(cfgMarco, defaultDataRegistry);
-    const luffyM = worldMarco.units[0];
-    const marcoM = worldMarco.units[1];
-    const wave1Boss = worldMarco.units[2];
+    const [luffyM, marcoM, wave1Boss] = worldMarco.units;
+    if (!luffyM || !marcoM || !wave1Boss) throw new Error('Missing gauntlet units');
 
     luffyM.pos = { x: 300, y: 300 };
     marcoM.pos = { x: 340, y: 300 };
@@ -343,9 +347,8 @@ describe('Phase 8 Step 1 (Stage 2-B): 5 New Combat Hooks & 11 New Grand Line Uni
       }
     };
     const world = createBattleWorld(cfg, defaultDataRegistry);
-    const chopper = world.units[0];
-    const brook = world.units[1];
-    const wapol = world.units[2];
+    const [chopper, brook, wapol] = world.units;
+    if (!chopper || !brook || !wapol) throw new Error('Missing chopper, brook, or wapol');
 
     // Chopper cycles BASE -> GUARD POINT (-60% incoming damage) -> KUNGFU POINT -> Monster Point (1.9x)
     const baseHit = computeDamage(100, wapol, chopper, 'PHYSICAL', 'BLUNT', world, defaultDataRegistry);
@@ -372,9 +375,11 @@ describe('Phase 8 Step 1 (Stage 2-B): 5 New Combat Hooks & 11 New Grand Line Uni
     expect(spdWater).toBe(spdDry);
 
     // Quick melee smoke check to keep unused import clean
+    const brookSlashMove = defaultDataRegistry.moves['move_brook_yahazu_giri'];
+    if (!brookSlashMove) throw new Error('Missing move_brook_yahazu_giri');
     spawnMeleeArcInstance(
       brook,
-      defaultDataRegistry.moves['move_brook_yahazu_giri'],
+      brookSlashMove,
       { x: 1, y: 0 },
       world,
       defaultDataRegistry

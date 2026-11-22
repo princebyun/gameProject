@@ -19,6 +19,7 @@ import {
 } from '../src/core/net/protocol';
 import { createStandardPresetBuild } from '../src/core/net/terminalArenaRule';
 import { canEnterOnlineBattle } from '../src/core/save/antiCheat';
+import { assertNever } from '../src/core/types/exhaustive';
 import type { GameDataRegistry } from '../src/core/types/dataSchemas';
 import type {
   BattleWorldConfig,
@@ -524,9 +525,11 @@ export class AuthoritativeRoomCoordinator {
         const raidDef =
           defaultEndgameRegistry.raids[room.raidId ?? 'raid_kaido_flame'] ??
           Object.values(defaultEndgameRegistry.raids)[0];
-        teamOmega.length = 0;
-        teamOmega.push(buildRaidBossUnitBuild(raidDef, this.gameRegistry));
-        raidConfig = buildRaidConfigFromDef(raidDef);
+        if (raidDef) {
+          teamOmega.length = 0;
+          teamOmega.push(buildRaidBossUnitBuild(raidDef, this.gameRegistry));
+          raidConfig = buildRaidConfigFromDef(raidDef);
+        }
       }
 
       room.status = 'IN_MATCH';
@@ -623,7 +626,10 @@ export class AuthoritativeRoomCoordinator {
 
     if (msg.type === 'LEAVE_ROOM') {
       this.handleClientDisconnect(clientId);
+      return;
     }
+
+    assertNever(msg, 'Unhandled ClientToServerMessage');
   }
 
   public handleClientDisconnect(clientId: string): void {

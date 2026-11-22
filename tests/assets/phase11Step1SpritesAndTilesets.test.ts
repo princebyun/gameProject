@@ -106,6 +106,7 @@ describe('Phase 11 Step 1: Sprite Animation State Machine, Autotile Bitmask & Ho
     // BattleWorldState read-only observation: HP drop triggers 80ms hitFlashActive
     const luffyDef = defaultDataRegistry.units['luffy'];
     const zoroDef = defaultDataRegistry.units['zoro'];
+    if (!luffyDef || !zoroDef) throw new Error('Missing luffy or zoro unit def');
     const world = createBattleWorld(
       {
         seed: 42,
@@ -146,6 +147,7 @@ describe('Phase 11 Step 1: Sprite Animation State Machine, Autotile Bitmask & Ho
     );
 
     const pLuffy = world.units[0];
+    if (!pLuffy) throw new Error('Missing pLuffy');
     const firstSync = controller.syncAndStepUnit(
       pLuffy,
       world,
@@ -261,13 +263,19 @@ describe('Phase 11 Step 1: Sprite Animation State Machine, Autotile Bitmask & Ho
     expect(LUFFY_PIXEL_PALETTE.ribbonBase).toBe('#dc2626');
     expect(LUFFY_PIXEL_PALETTE.vestBase).toBe('#ef4444');
     expect(LUFFY_PIXEL_PALETTE.shortsBase).toBe('#1d4ed8');
-    expect(LUFFY_11_STATE_KEYFRAMES.MOVE[0].frontFootX).toBeGreaterThan(
-      LUFFY_11_STATE_KEYFRAMES.MOVE[0].backFootX
+    const moveFrame0 = LUFFY_11_STATE_KEYFRAMES.MOVE[0];
+    const moveFrame3 = LUFFY_11_STATE_KEYFRAMES.MOVE[3];
+    const attackMeleeFrame2 = LUFFY_11_STATE_KEYFRAMES.ATTACK_MELEE[2];
+    if (!moveFrame0 || !moveFrame3 || !attackMeleeFrame2) {
+      throw new Error('Missing expected Luffy keyframe');
+    }
+    expect(moveFrame0.frontFootX).toBeGreaterThan(
+      moveFrame0.backFootX
     );
-    expect(LUFFY_11_STATE_KEYFRAMES.MOVE[3].frontFootX).toBeLessThan(
-      LUFFY_11_STATE_KEYFRAMES.MOVE[3].backFootX
+    expect(moveFrame3.frontFootX).toBeLessThan(
+      moveFrame3.backFootX
     );
-    expect(LUFFY_11_STATE_KEYFRAMES.ATTACK_MELEE[2].frontFistX).toBeGreaterThanOrEqual(44);
+    expect(attackMeleeFrame2.frontFistX).toBeGreaterThanOrEqual(44);
 
     const sheetPixels = renderLuffyArticulatedSheetPixels();
     expect(sheetPixels.width).toBe(LUFFY_FRAME_WIDTH * 6);

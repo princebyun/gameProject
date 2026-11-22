@@ -36,13 +36,16 @@ export function computeCardinalBitmask<T>(
   outOfBoundsMatches: boolean = true
 ): number {
   const rows = grid.length;
-  const cols = rows > 0 ? grid[0].length : 0;
+  const cols = rows > 0 ? (grid[0]?.length ?? 0) : 0;
 
   const check = (c: number, r: number): boolean => {
     if (r < 0 || r >= rows || c < 0 || c >= cols) {
       return outOfBoundsMatches;
     }
-    return matches(grid[r][c]);
+    const rowArr = grid[r];
+    if (!rowArr) return outOfBoundsMatches;
+    const cell = rowArr[c];
+    return cell !== undefined ? matches(cell) : outOfBoundsMatches;
   };
 
   return computeBitmaskFromNeighbors(

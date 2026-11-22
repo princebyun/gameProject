@@ -32,6 +32,7 @@ describe('Stage 4 Step 2 — Retro Audio Pipeline, Throttling & Full Manifest In
     for (const id of expectedBgm) {
       const t = registry.bgmById[id];
       expect(t, `Missing BGM track ${id}`).toBeDefined();
+      if (!t) throw new Error(`Missing BGM track ${id}`);
       expect(t.loopEndSec).toBeGreaterThan(t.loopStartSec);
       expect(t.bpm).toBeGreaterThan(60);
       expect(t.chiptunePreset.leadPattern.length).toBeGreaterThanOrEqual(16);
@@ -40,7 +41,7 @@ describe('Stage 4 Step 2 — Retro Audio Pipeline, Throttling & Full Manifest In
       expect(t.chiptunePreset.drumPattern.length).toBeGreaterThanOrEqual(16);
     }
 
-    expect(registry.bgmById['victory_fanfare'].loop).toBe(false);
+    expect(registry.bgmById['victory_fanfare']?.loop).toBe(false);
     expect(resolveBgmForSeaZone('east_blue')).toBe('sea_east_blue');
     expect(resolveBgmForSeaZone('grand_line_first_half')).toBe('sea_grand_line');
     expect(resolveBgmForSeaZone('new_world')).toBe('sea_new_world');
@@ -68,6 +69,7 @@ describe('Stage 4 Step 2 — Retro Audio Pipeline, Throttling & Full Manifest In
     for (const id of expectedSfx) {
       const s = registry.sfxById[id];
       expect(s, `Missing SFX ${id}`).toBeDefined();
+      if (!s) throw new Error(`Missing SFX ${id}`);
       expect(s.throttleMs).toBe(50);
       expect(s.maxPolyphony).toBe(3);
       expect(s.pitchJitterRatio).toBe(0.06);
@@ -77,7 +79,7 @@ describe('Stage 4 Step 2 — Retro Audio Pipeline, Throttling & Full Manifest In
   it('enforces 50ms / max-3-voice SFX throttling and ±6% pitch jitter without clipping', () => {
     const rngValues = [0.0, 0.5, 1.0, 0.25, 0.75];
     let rngIdx = 0;
-    const deterministicRng = () => rngValues[rngIdx++ % rngValues.length];
+    const deterministicRng = () => rngValues[rngIdx++ % rngValues.length] ?? 0.5;
 
     const resolver = new ExternalAssetResolver(
       async () => null,
@@ -100,9 +102,11 @@ describe('Stage 4 Step 2 — Retro Audio Pipeline, Throttling & Full Manifest In
     expect(throttled.length).toBe(3);
 
     // Verify exact ±6% pitch jitter range (0.94, 1.0, 1.06)
-    expect(played[0].pitchMultiplier).toBe(0.94);
-    expect(played[1].pitchMultiplier).toBe(1);
-    expect(played[2].pitchMultiplier).toBe(1.06);
+    const [played0, played1, played2] = played;
+    if (!played0 || !played1 || !played2) throw new Error('Expected 3 played SFX entries');
+    expect(played0.pitchMultiplier).toBe(0.94);
+    expect(played1.pitchMultiplier).toBe(1);
+    expect(played2.pitchMultiplier).toBe(1.06);
 
     // Different SFX ID should NOT be blocked during slash_light's 50ms window
     const otherSfx = engine.playSfxById('haki_lightning', 1015);
@@ -189,11 +193,15 @@ describe('Stage 4 Step 2 — Retro Audio Pipeline, Throttling & Full Manifest In
 
     for (const zone of Object.values(defaultRpgDataRegistry.seaZones)) {
       const biomeId = registry.tilesetsFile.seaZoneBiomeMap[zone.id];
+      expect(biomeId).toBeDefined();
+      if (!biomeId) throw new Error(`Missing sea zone biome mapping for ${zone.id}`);
       expect(registry.biomesById[biomeId]).toBeDefined();
     }
 
     for (const island of Object.values(defaultRpgDataRegistry.islands)) {
       const biomeId = registry.tilesetsFile.islandBiomeMap[island.islandId];
+      expect(biomeId).toBeDefined();
+      if (!biomeId) throw new Error(`Missing island biome mapping for ${island.islandId}`);
       expect(registry.biomesById[biomeId]).toBeDefined();
     }
   });

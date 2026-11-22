@@ -113,10 +113,10 @@ class PixelSurface {
     } else {
       const a = alpha / 255;
       const inv = 1 - a;
-      this.data[idx] = Math.round(c.r * a + this.data[idx] * inv);
-      this.data[idx + 1] = Math.round(c.g * a + this.data[idx + 1] * inv);
-      this.data[idx + 2] = Math.round(c.b * a + this.data[idx + 2] * inv);
-      this.data[idx + 3] = Math.min(255, this.data[idx + 3] + alpha);
+      this.data[idx] = Math.round(c.r * a + (this.data[idx] ?? 0) * inv);
+      this.data[idx + 1] = Math.round(c.g * a + (this.data[idx + 1] ?? 0) * inv);
+      this.data[idx + 2] = Math.round(c.b * a + (this.data[idx + 2] ?? 0) * inv);
+      this.data[idx + 3] = Math.min(255, (this.data[idx + 3] ?? 0) + alpha);
     }
   }
 
@@ -2138,13 +2138,16 @@ export function renderLuffyArticulatedSheetPixels(): {
 
   for (let rowIdx = 0; rowIdx < STANDARD_SPRITE_ANIM_STATES.length; rowIdx++) {
     const state = STANDARD_SPRITE_ANIM_STATES[rowIdx];
+    if (!state) continue;
     const poses = LUFFY_11_STATE_KEYFRAMES[state];
     for (let colIdx = 0; colIdx < poses.length; colIdx++) {
+      const pose = poses[colIdx];
+      if (!pose) continue;
       renderArticulatedLuffyCell(
         surf,
         colIdx * LUFFY_FRAME_WIDTH,
         rowIdx * LUFFY_FRAME_HEIGHT,
-        poses[colIdx]
+        pose
       );
     }
   }

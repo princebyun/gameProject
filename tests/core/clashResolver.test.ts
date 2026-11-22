@@ -59,6 +59,7 @@ describe('ClashResolver — 5-Archetype Clash Physics', () => {
     const { world, registry } = make1v1World();
     const unitA = world.units[0];
     const unitB = world.units[1];
+    if (!unitA || !unitB) throw new Error('Missing 1v1 units');
 
     unitA.pos = { x: 200, y: 230 };
     unitA.aimDir = { x: 1, y: 0 };
@@ -70,13 +71,14 @@ describe('ClashResolver — 5-Archetype Clash Physics', () => {
     unitB.effectiveStats.spAtk = 150;
 
     const beamMove = registry.moves['move_solar_ray'];
+    if (!beamMove) throw new Error('Missing move_solar_ray');
     const beamA = spawnBeamInstance(unitA, beamMove, { x: 1, y: 0 }, world, registry);
     const beamB = spawnBeamInstance(unitB, beamMove, { x: -1, y: 0 }, world, registry);
 
     // Step initial clash detection
     resolveBeamVsBeam(world, FIXED_DT, registry);
     expect(world.beamClashes.length).toBe(1);
-    expect(world.beamClashes[0].clashRatio).toBeCloseTo(0.5, 4);
+    expect(world.beamClashes[0]?.clashRatio).toBeCloseTo(0.5, 4);
 
     // Run for 2.5s with equal power -> should end in a draw and terminate both beams
     const stepsForTie = Math.ceil(registry.balance.beam.clashTieTimeoutSec / FIXED_DT) + 2;
@@ -99,7 +101,7 @@ describe('ClashResolver — 5-Archetype Clash Physics', () => {
     for (let i = 0; i < 30; i++) {
       resolveBeamVsBeam(world, FIXED_DT, registry);
     }
-    expect(world.beamClashes[0].clashRatio).toBeGreaterThan(0.58);
+    expect(world.beamClashes[0]?.clashRatio).toBeGreaterThan(0.58);
 
     // Test angle break when aim diverges >= 30 degrees
     beamA2.dir = { x: 0.5, y: 0.866 }; // 60 degrees away from +X axis
@@ -112,6 +114,7 @@ describe('ClashResolver — 5-Archetype Clash Physics', () => {
     const { world, registry } = make1v1World();
     const meleeUnit = world.units[0];
     const shooterUnit = world.units[1];
+    if (!meleeUnit || !shooterUnit) throw new Error('Missing melee/shooter units');
 
     meleeUnit.pos = { x: 250, y: 230 };
     meleeUnit.aimDir = { x: 1, y: 0 };
@@ -120,6 +123,8 @@ describe('ClashResolver — 5-Archetype Clash Physics', () => {
 
     const slashMove = registry.moves['move_aero_crescent'];
     const barrageMove = registry.moves['move_aqua_barrage'];
+    const heavyProjMove = registry.moves['move_overdrive_meteor'];
+    if (!slashMove || !barrageMove || !heavyProjMove) throw new Error('Missing test moves');
 
     const arc = spawnMeleeArcInstance(meleeUnit, slashMove, { x: 1, y: 0 }, world, registry);
     expect(arc.totalLingerDurationSec).toBeGreaterThanOrEqual(0.6);
@@ -148,7 +153,7 @@ describe('ClashResolver — 5-Archetype Clash Physics', () => {
     // Now fire an overpowering projectile stronger than the remaining melee arc power
     const heavyProj = spawnProjectileInstance(
       shooterUnit,
-      registry.moves['move_overdrive_meteor'],
+      heavyProjMove,
       { x: -1, y: 0 },
       world,
       registry
@@ -171,6 +176,7 @@ describe('ClashResolver — 5-Archetype Clash Physics', () => {
     const { world, registry } = make1v1World();
     const meleeUnit = world.units[0];
     const beamUnit = world.units[1];
+    if (!meleeUnit || !beamUnit) throw new Error('Missing melee/beam units');
 
     meleeUnit.pos = { x: 260, y: 230 };
     meleeUnit.aimDir = { x: 1, y: 0 };
@@ -179,6 +185,7 @@ describe('ClashResolver — 5-Archetype Clash Physics', () => {
 
     const slashMove = registry.moves['move_aero_crescent'];
     const beamMove = registry.moves['move_solar_ray'];
+    if (!slashMove || !beamMove) throw new Error('Missing slash/beam move');
 
     // Case 1: Melee is stronger -> takes 30% graze damage during guard, then severs beam and dashes forward
     const arcWin = spawnMeleeArcInstance(meleeUnit, slashMove, { x: 1, y: 0 }, world, registry);
@@ -195,7 +202,9 @@ describe('ClashResolver — 5-Archetype Clash Physics', () => {
     // Trigger guard session
     resolveMeleeVsBeam(world, FIXED_DT, registry);
     expect(world.meleeBeamGuards.length).toBe(1);
-    const guardDuration = world.meleeBeamGuards[0].durationSec;
+    const guard0 = world.meleeBeamGuards[0];
+    if (!guard0) throw new Error('Missing melee-beam guard');
+    const guardDuration = guard0.durationSec;
     expect(guardDuration).toBeGreaterThanOrEqual(registry.balance.melee.beamGuardMinSec);
     expect(guardDuration).toBeLessThanOrEqual(registry.balance.melee.beamGuardMaxSec);
 
@@ -237,18 +246,21 @@ describe('ClashResolver — 5-Archetype Clash Physics', () => {
     const { world, registry, prng } = make1v1World();
     const uA = world.units[0];
     const uB = world.units[1];
+    const mortarMove = registry.moves['move_terra_mortar'];
+    const boltMove = registry.moves['move_pyro_bolt'];
+    if (!uA || !uB || !mortarMove || !boltMove) throw new Error('Missing units or moves');
 
     // Parabolic mortar in mid-flight apex should bypass ground bolt
     const mortar = spawnProjectileInstance(
       uA,
-      registry.moves['move_terra_mortar'],
+      mortarMove,
       { x: 1, y: 0 },
       world,
       registry
     );
     const bolt = spawnProjectileInstance(
       uB,
-      registry.moves['move_pyro_bolt'],
+      boltMove,
       { x: -1, y: 0 },
       world,
       registry

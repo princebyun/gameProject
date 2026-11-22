@@ -23,11 +23,14 @@ export function renderRaidLobbyModal(
 ): void {
   const raidsList = Object.values(endgameReg.raids);
   const activeRaid = endgameReg.raids[selectedRaidId] ?? raidsList[0];
+  if (!activeRaid) {
+    return;
+  }
   const recruited =
     campaign.recruitedUnitIds.length > 0 ? campaign.recruitedUnitIds : ['luffy'];
-  const currentRelicUnit = recruited.includes(selectedRelicUnitId)
-    ? selectedRelicUnitId
-    : recruited[0];
+  const currentRelicUnit =
+    (recruited.includes(selectedRelicUnitId) ? selectedRelicUnitId : recruited[0]) ??
+    'luffy';
   const raidsProgress = campaign.endgame.raids;
 
   const bossCardsHtml = raidsList

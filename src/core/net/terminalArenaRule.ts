@@ -22,6 +22,9 @@ export function createStandardPresetBuild(
 ): UnitBuildConfig {
   const unitDef =
     gameRegistry.units[speciesId] ?? Object.values(gameRegistry.units)[0];
+  if (!unitDef) {
+    throw new Error(`Missing unit definition for speciesId=${speciesId}`);
+  }
   return {
     instanceId,
     speciesId: unitDef.id,

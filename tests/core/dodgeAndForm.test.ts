@@ -52,6 +52,8 @@ describe('Dodge System, Element Affinity, Form Shift & Status Timers', () => {
     const world = createBattleWorld(cfg, registry);
     const player = world.units[0];
     const enemy = world.units[1];
+    const pyroBoltMove = registry.moves['move_pyro_bolt'];
+    if (!player || !enemy || !pyroBoltMove) throw new Error('Missing units or move');
 
     expect(player.dodgeStacks).toBe(2);
 
@@ -69,7 +71,7 @@ describe('Dodge System, Element Affinity, Form Shift & Status Timers', () => {
     // Spawn an enemy projectile right next to player to trigger Just Dodge
     const enemyProj = spawnProjectileInstance(
       enemy,
-      registry.moves['move_pyro_bolt'],
+      pyroBoltMove,
       { x: -1, y: 0 },
       world,
       registry
@@ -124,6 +126,7 @@ describe('Dodge System, Element Affinity, Form Shift & Status Timers', () => {
     const world = createBattleWorld(cfg, registry);
     const alpha = world.units[0];
     const omega = world.units[1];
+    if (!alpha || !omega) throw new Error('Missing alpha/omega units');
 
     // Reduce alpha HP to 50% and trigger AWAKENING
     alpha.maxHp = 400;
@@ -171,6 +174,7 @@ describe('Dodge System, Element Affinity, Form Shift & Status Timers', () => {
     };
     const world = createBattleWorld(cfg, registry);
     const target = world.units[1];
+    if (!target) throw new Error('Missing target unit');
     target.iframeTimer = 0;
 
     const applied = applyStatus(target, 'STAGGER', 3.0, 'alpha_1', world, registry);

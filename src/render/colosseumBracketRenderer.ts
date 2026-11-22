@@ -110,14 +110,25 @@ export function renderColosseumBracketCanvas(
   };
 
   // Connectors QF -> SF
+  const col0 = cols[0];
+  const col1 = cols[1];
+  const col2 = cols[2];
+  if (!col0 || !col1 || !col2) {
+    ctx.restore();
+    return;
+  }
+
   ctx.strokeStyle = '#475569';
   ctx.lineWidth = 1.5;
   for (let i = 0; i < 4; i++) {
-    const startX = cols[0].x + boxW;
-    const startY = qfYs[i] + boxH * 0.5;
+    const qfY = qfYs[i];
     const targetSfIdx = Math.floor(i / 2);
-    const endX = cols[1].x;
-    const endY = sfYs[targetSfIdx] + boxH * 0.5;
+    const sfY = sfYs[targetSfIdx];
+    if (qfY === undefined || sfY === undefined) continue;
+    const startX = col0.x + boxW;
+    const startY = qfY + boxH * 0.5;
+    const endX = col1.x;
+    const endY = sfY + boxH * 0.5;
     const midX = (startX + endX) * 0.5;
     ctx.beginPath();
     ctx.moveTo(startX, startY);
@@ -129,9 +140,11 @@ export function renderColosseumBracketCanvas(
 
   // Connectors SF -> FINAL
   for (let i = 0; i < 2; i++) {
-    const startX = cols[1].x + boxW;
-    const startY = sfYs[i] + boxH * 0.5;
-    const endX = cols[2].x;
+    const sfY = sfYs[i];
+    if (sfY === undefined) continue;
+    const startX = col1.x + boxW;
+    const startY = sfY + boxH * 0.5;
+    const endX = col2.x;
     const endY = finY + boxH * 0.5;
     const midX = (startX + endX) * 0.5;
     ctx.beginPath();
@@ -142,27 +155,33 @@ export function renderColosseumBracketCanvas(
     ctx.stroke();
   }
 
-  qf.forEach((m, i) => drawMatchBox(m, cols[0].x, qfYs[i]));
-  sf.forEach((m, i) => drawMatchBox(m, cols[1].x, sfYs[i]));
+  qf.forEach((m, i) => {
+    const qy = qfYs[i];
+    if (qy !== undefined) drawMatchBox(m, col0.x, qy);
+  });
+  sf.forEach((m, i) => {
+    const sy = sfYs[i];
+    if (sy !== undefined) drawMatchBox(m, col1.x, sy);
+  });
   if (fin) {
-    drawMatchBox(fin, cols[2].x, finY);
+    drawMatchBox(fin, col2.x, finY);
   }
 
   // Champion banner
   if (tournament.champion) {
     ctx.fillStyle = 'rgba(234, 179, 8, 0.22)';
-    ctx.fillRect(cols[2].x, finY + boxH + 14, boxW, 38);
+    ctx.fillRect(col2.x, finY + boxH + 14, boxW, 38);
     ctx.strokeStyle = '#facc15';
     ctx.lineWidth = 2;
-    ctx.strokeRect(cols[2].x, finY + boxH + 14, boxW, 38);
+    ctx.strokeRect(col2.x, finY + boxH + 14, boxW, 38);
     ctx.font = 'bold 10px monospace';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#fde047';
-    ctx.fillText('🏆 CHAMPION', cols[2].x + boxW * 0.5, finY + boxH + 29);
+    ctx.fillText('🏆 CHAMPION', col2.x + boxW * 0.5, finY + boxH + 29);
     ctx.fillStyle = '#ffffff';
     ctx.fillText(
       tournament.champion.displayName.slice(0, 18),
-      cols[2].x + boxW * 0.5,
+      col2.x + boxW * 0.5,
       finY + boxH + 45
     );
   }

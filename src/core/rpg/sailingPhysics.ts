@@ -86,7 +86,12 @@ export function stepSeaSailing(
 ): SailingStepOutput {
   const zone = rpgRegistry.seaZones[state.currentZoneId];
   const shipDef =
-    rpgRegistry.ships[state.ship.shipId] ?? rpgRegistry.ships['going_merry'];
+    rpgRegistry.ships[state.ship.shipId] ??
+    rpgRegistry.ships['going_merry'] ??
+    Object.values(rpgRegistry.ships)[0];
+  if (!shipDef) {
+    throw new Error(`Missing ship definition for ${state.ship.shipId}`);
+  }
   const roleBonuses = computeCrewRoleBonuses(state, rpgRegistry);
 
   // 1. Advance Time-of-Day (every 24s) & Marine Weather (every 30s)
@@ -94,14 +99,14 @@ export function stepSeaSailing(
   if (state.timeOfDayTimerSec >= 24) {
     state.timeOfDayTimerSec -= 24;
     const idx = TIME_ORDER.indexOf(state.timeOfDay);
-    state.timeOfDay = TIME_ORDER[(idx + 1) % TIME_ORDER.length];
+    state.timeOfDay = TIME_ORDER[(idx + 1) % TIME_ORDER.length] ?? 'MORNING';
   }
 
   state.weatherTimerSec += dt;
   if (state.weatherTimerSec >= 30) {
     state.weatherTimerSec -= 30;
     const wIdx = WEATHER_ORDER.indexOf(state.seaWeather);
-    state.seaWeather = WEATHER_ORDER[(wIdx + 1) % WEATHER_ORDER.length];
+    state.seaWeather = WEATHER_ORDER[(wIdx + 1) % WEATHER_ORDER.length] ?? 'CLEAR';
   }
 
   // 2. Step Coup de Burst timers & Shipwright hull auto-repair

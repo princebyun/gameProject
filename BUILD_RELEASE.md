@@ -62,5 +62,5 @@ npx cap open android
 
 ## 5. 기기 간 크로스플랫폼 세이브 호환 (`.op-save.json`)
 
-- **Windows PC (`%APPDATA%`) ↔ Android APK (공유 시트 / 파일 선택기) ↔ Web PWA (IndexedDB)** 간에 내보낸 `.op-save.json` 백업 파일은 100% 동일한 `SaveEnvelope` v4 스키마와 Canonical JSON `HMAC-SHA256-DERIVED` 서명을 사용합니다.
+- **Windows PC (`%APPDATA%`) ↔ Android APK (공유 시트 / 파일 선택기) ↔ Web PWA (IndexedDB)** 간에 내보낸 `.op-save.json` 백업 파일은 100% 동일한 `SaveEnvelope` v5 스키마와 Canonical JSON `HMAC-SHA256-DERIVED` 서명을 사용합니다.
 - 어느 기기에서 내보낸 `.op-save.json`이든 다른 플랫폼에서 불러올 때 `IntegrityVerifier`와 `LegalityValidator`를 에러 없이 통과하며 `onlineEligible: true` 상태가 그대로 유지됩니다.

@@ -129,6 +129,8 @@ describe('Stage 5 Step 2 — Bandai RPG Boot/Opening, StoryDirector Free-Roam Lo
 
     // Island markers in Foosha/Shells should include MAIN (Makino), SIDE (Zoro), ACTIVITY (Battle Terminal)
     const fooshaMap = defaultRpgDataRegistry.islands['foosha_shells'];
+    expect(fooshaMap).toBeDefined();
+    if (!fooshaMap) throw new Error('Missing foosha_shells');
     const islandMarkers = collectIslandWorldMarkers(campaign, fooshaMap, node);
     expect(islandMarkers.some((m) => m.kind === 'MAIN')).toBe(true);
     expect(islandMarkers.some((m) => m.kind === 'SIDE')).toBe(true);
@@ -165,6 +167,8 @@ describe('Stage 5 Step 2 — Bandai RPG Boot/Opening, StoryDirector Free-Roam Lo
     // Bandai Dialogue tap-to-complete (1st tap) -> advance (2nd tap)
     const dlgUi = createDialogueOverlayUiState();
     const makino = fooshaMap.npcs[0];
+    expect(makino).toBeDefined();
+    if (!makino) throw new Error('Missing Makino NPC');
     stepDialogueOverlayUi(dlgUi, makino, 0, 0.05);
     expect(
       handleDialogueOverlayTap({ x: 480, y: 450 }, makino, 0, dlgUi)

@@ -4,7 +4,7 @@
 
 > **Git 원격 저장소:** `https://github.com/princebyun/gameProject.git`  
 > **현재 엔진 버전:** `BATTLE_CALC_VERSION = "0.6.0"` | `CURRENT_SAVE_VERSION = 5`  
-> **자동화 검증 현황:** `npm run typecheck` 0 errors | Vitest **20개 스위트 / 89개 테스트 전원 통과** | `npm run validate:assets` 통과 | 3대 플랫폼 프로덕션 빌드 통과  
+> **자동화 검증 현황:** `npm run typecheck` 0 errors | Vitest **22개 스위트 / 94개 테스트 전원 통과** | `npm run validate:assets` 통과 | 3대 플랫폼 프로덕션 빌드 통과  
 > **에이전트/인수인계 문서:** [AGENTS.md](./AGENTS.md) | [HANDOFF.md](./HANDOFF.md) | [ASSET_REPLACEMENT_GUIDE.md](./ASSET_REPLACEMENT_GUIDE.md) | [BUILD_RELEASE.md](./BUILD_RELEASE.md)
 
 ---
@@ -31,7 +31,7 @@ npm install
 # 2. TypeScript 전체 정적 검사 (src/, server/, electron/, tests/)
 npm run typecheck
 
-# 3. 전체 결정론·전투·RPG·세이브·멀티·크로스플랫폼 단위/통합 테스트 실행 (64개)
+# 3. 전체 결정론·전투·RPG·세이브·멀티·크로스플랫폼 단위/통합 테스트 실행 (94개)
 npm run test
 
 # 4. 로컬 개발 서버 실행 (클라이언트 단독: http://localhost:5173)
@@ -70,11 +70,11 @@ npm run dev:all
 gameProject/
 ├── src/
 │   ├── core/                    # [Pure TypeScript] DOM/Window/WebSocket 의존 0건 (서버와 직접 공유)
-│   │   ├── constants.ts         # BATTLE_CALC_VERSION = "0.5.0", FIXED_DT = 1/60
+│   │   ├── constants.ts         # BATTLE_CALC_VERSION = "0.6.0", FIXED_DT = 1/60
 │   │   ├── combat/              # 전투 월드, 데미지, 맞대결, 회피, 변신/각성, 필드, 상태이상
 │   │   ├── ai/                  # 5단계 Utility AI & 보스 전술 프리셋 19종
 │   │   ├── rpg/                 # 자유 항해 물리, 관문 검증, 에피소드, 선원 직책, 전투 브리지
-│   │   ├── save/                # SaveEnvelope v4, SHA-256/HMAC, 직렬화, v0~v4 마이그레이터, 안티치트
+│   │   ├── save/                # SaveEnvelope v5, SHA-256/HMAC, 직렬화, v0~v5 마이그레이터, 안티치트
 │   │   └── net/                 # 통신 프로토콜, Lockstep 컨트롤러, 60틱 상태 해셔, 단말기 규칙
 │   ├── data/                    # 100% 외부화 JSON (units, moves, forms, abilities, sea_zones, islands/*, episodes/*)
 │   ├── platform/                # [멀티플랫폼 어댑터 계층] 게임 코어/씬과 네이티브 API를 완전 분리
@@ -90,7 +90,7 @@ gameProject/
 ├── server/                      # Node.js + ws 경량 중계 서버 (src/core/save/antiCheat.ts 직접 공유)
 ├── electron/                    # Windows PC Electron 메인 프로세스(app://resonance) & 보안 Preload IPC
 ├── android/                     # Capacitor Android 네이티브 프로젝트 (Gradle, AndroidManifest.xml)
-├── tests/core/                  # Vitest 14개 테스트 스위트 (64개 검증 케이스)
+├── tests/core/                  # Vitest 22개 테스트 스위트 (94개 검증 케이스)
 ├── vite.config.ts               # VITE_PLATFORM (web | electron | android) 분기 빌드 설정
 ├── electron-builder.yml         # Windows x64 NSIS 설치형 + Portable .exe 패키징 설정
 ├── capacitor.config.ts          # Android Capacitor 동기화 설정 (webDir: dist-android)
@@ -115,10 +115,10 @@ gameProject/
 - `electron/preload.ts`는 `contextBridge.exposeInMainWorld('opElectronBridge', ...)`를 통해 아래 화이트리스트 채널만 노출합니다:
   - 세이브 IPC: `save:read`, `save:write`, `save:list`, `save:delete` (내부적으로 `AtomicNodeFileStore`가 `<file>.tmp.<pid>.<ts>`에 기록 후 `fs.rename`으로 교체해 정전/강제종료 시 세이브 손상을 방지)
   - 파일 다이얼로그 IPC: `dialog:exportSave`, `dialog:importSave`
-  - 창 제어 IPC: `window:setMode`, `window:toggleFullscreen`, `app:requestQuit`
+  - 창 제어 IPC: `window:setDisplayMode`, `window:getDisplayMode`, `window:quit`
 
 ### 4.2 크로스플랫폼 세이브 호환 (`.op-save.json`)
-- Windows PC(`%APPDATA%`), Android APK(`Directory.Data/saves/`), Web PWA(`IndexedDB`) 어디에서 Export한 `.op-save.json`이든 **동일한 `SaveEnvelope` v4 스키마 및 Canonical JSON HMAC-SHA256 서명**을 사용합니다.
+- Windows PC(`%APPDATA%`), Android APK(`Directory.Data/saves/`), Web PWA(`IndexedDB`) 어디에서 Export한 `.op-save.json`이든 **동일한 `SaveEnvelope` v5 스키마 및 Canonical JSON HMAC-SHA256 서명**을 사용합니다.
 - 다른 기기에서 Import해도 `IntegrityVerifier`와 `LegalityValidator`를 에러 없이 통과하며 `onlineEligible: true`가 유지됩니다(`tests/core/phase5CrossPlatformPackaging.test.ts`로 자동 검증됨).
 
 ---

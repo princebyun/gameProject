@@ -1,6 +1,11 @@
 import audioJson from './audio.json';
 import spritesJson from './sprites.json';
 import tilesetsJson from './tilesets.json';
+import {
+  assertValidAudioManifestFile,
+  assertValidSpriteManifestFile,
+  assertValidTilesetManifestFile
+} from '../schemaGuards';
 import type {
   AudioManifestFile,
   BgmTrackManifestEntry,
@@ -14,44 +19,60 @@ import type {
 export interface AssetManifestRegistry {
   spritesFile: SpriteSheetManifestFile;
   spritesByKey: Record<string, SpriteSheetManifestEntry>;
+  spritesMap: ReadonlyMap<string, SpriteSheetManifestEntry>;
   tilesetsFile: TilesetManifestFile;
   biomesById: Record<string, TilesetManifestEntry>;
+  biomesMap: ReadonlyMap<string, TilesetManifestEntry>;
   audioFile: AudioManifestFile;
   bgmById: Record<string, BgmTrackManifestEntry>;
+  bgmMap: ReadonlyMap<string, BgmTrackManifestEntry>;
   sfxById: Record<string, SfxManifestEntry>;
+  sfxMap: ReadonlyMap<string, SfxManifestEntry>;
 }
 
 export function createAssetManifestRegistry(): AssetManifestRegistry {
-  const spritesFile = spritesJson as unknown as SpriteSheetManifestFile;
+  const spritesFile = assertValidSpriteManifestFile(spritesJson);
   const spritesByKey: Record<string, SpriteSheetManifestEntry> = {};
+  const spritesMap = new Map<string, SpriteSheetManifestEntry>();
   for (const entry of spritesFile.entries) {
     spritesByKey[entry.key] = entry;
+    spritesMap.set(entry.key, entry);
   }
 
-  const tilesetsFile = tilesetsJson as unknown as TilesetManifestFile;
+  const tilesetsFile = assertValidTilesetManifestFile(tilesetsJson);
   const biomesById: Record<string, TilesetManifestEntry> = {};
+  const biomesMap = new Map<string, TilesetManifestEntry>();
   for (const biome of tilesetsFile.biomes) {
     biomesById[biome.biomeId] = biome;
+    biomesMap.set(biome.biomeId, biome);
   }
 
-  const audioFile = audioJson as unknown as AudioManifestFile;
+  const audioFile = assertValidAudioManifestFile(audioJson);
   const bgmById: Record<string, BgmTrackManifestEntry> = {};
+  const bgmMap = new Map<string, BgmTrackManifestEntry>();
   for (const track of audioFile.bgmTracks) {
     bgmById[track.id] = track;
+    bgmMap.set(track.id, track);
   }
   const sfxById: Record<string, SfxManifestEntry> = {};
+  const sfxMap = new Map<string, SfxManifestEntry>();
   for (const sfx of audioFile.sfxEntries) {
     sfxById[sfx.id] = sfx;
+    sfxMap.set(sfx.id, sfx);
   }
 
   return {
     spritesFile,
     spritesByKey,
+    spritesMap,
     tilesetsFile,
     biomesById,
+    biomesMap,
     audioFile,
     bgmById,
-    sfxById
+    bgmMap,
+    sfxById,
+    sfxMap
   };
 }
 
@@ -64,13 +85,12 @@ export function resolveSpriteSheetEntry(
   registry: AssetManifestRegistry = defaultAssetManifestRegistry
 ): SpriteSheetManifestEntry | null {
   if (activeFormId) {
-    const formKey = `${unitId}_${activeFormId}`;
-    if (registry.spritesByKey[formKey]) {
-      return registry.spritesByKey[formKey];
+    const formEntry = registry.spritesMap.get(`${unitId}_${activeFormId}`);
+    if (formEntry) {
+      return formEntry;
     }
   }
-  const baseKey = `${unitId}_base`;
-  return registry.spritesByKey[baseKey] ?? null;
+  return registry.spritesMap.get(`${unitId}_base`) ?? null;
 }
 
 export function resolveShipSpriteEntry(
@@ -78,10 +98,21 @@ export function resolveShipSpriteEntry(
   registry: AssetManifestRegistry = defaultAssetManifestRegistry
 ): SpriteSheetManifestEntry | null {
   return (
-    registry.spritesByKey[`ship_${shipId}`] ??
-    registry.spritesByKey['ship_going_merry'] ??
+    registry.spritesMap.get(`ship_${shipId}`) ??
+    registry.spritesMap.get('ship_going_merry') ??
     null
   );
+}
+
+function getBiomeOrFirst(
+  biomeId: string,
+  registry: AssetManifestRegistry
+): TilesetManifestEntry {
+  const entry = registry.biomesMap.get(biomeId) ?? registry.tilesetsFile.biomes[0];
+  if (!entry) {
+    throw new Error(`Missing tileset biome entry for ${biomeId}`);
+  }
+  return entry;
 }
 
 export function resolveBiomeForSeaZone(
@@ -89,7 +120,7 @@ export function resolveBiomeForSeaZone(
   registry: AssetManifestRegistry = defaultAssetManifestRegistry
 ): TilesetManifestEntry {
   const biomeId = registry.tilesetsFile.seaZoneBiomeMap[zoneId] ?? 'sea_east_blue';
-  return registry.biomesById[biomeId] ?? registry.tilesetsFile.biomes[0];
+  return getBiomeOrFirst(biomeId, registry);
 }
 
 export function resolveBiomeForIsland(
@@ -97,7 +128,7 @@ export function resolveBiomeForIsland(
   registry: AssetManifestRegistry = defaultAssetManifestRegistry
 ): TilesetManifestEntry {
   const biomeId = registry.tilesetsFile.islandBiomeMap[islandId] ?? 'port_town';
-  return registry.biomesById[biomeId] ?? registry.tilesetsFile.biomes[0];
+  return getBiomeOrFirst(biomeId, registry);
 }
 
 export function resolveBiomeForArena(
@@ -105,21 +136,21 @@ export function resolveBiomeForArena(
   registry: AssetManifestRegistry = defaultAssetManifestRegistry
 ): TilesetManifestEntry {
   const biomeId = registry.tilesetsFile.arenaBiomeMap[arenaKey] ?? 'port_town';
-  return registry.biomesById[biomeId] ?? registry.tilesetsFile.biomes[0];
+  return getBiomeOrFirst(biomeId, registry);
 }
 
 export function resolveBgmTrack(
   trackId: string,
   registry: AssetManifestRegistry = defaultAssetManifestRegistry
 ): BgmTrackManifestEntry | null {
-  return registry.bgmById[trackId] ?? null;
+  return registry.bgmMap.get(trackId) ?? null;
 }
 
 export function resolveSfxEntry(
   sfxId: string,
   registry: AssetManifestRegistry = defaultAssetManifestRegistry
 ): SfxManifestEntry | null {
-  return registry.sfxById[sfxId] ?? null;
+  return registry.sfxMap.get(sfxId) ?? null;
 }
 
 export function resolveBgmForSeaZone(zoneId: string): string {

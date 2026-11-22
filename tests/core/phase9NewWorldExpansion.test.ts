@@ -39,6 +39,7 @@ function makeBuild(
   isPlayer: boolean = false
 ): UnitBuildConfig {
   const def = defaultDataRegistry.units[speciesId];
+  if (!def) throw new Error(`Missing unit species: ${speciesId}`);
   return {
     instanceId,
     speciesId,
@@ -76,6 +77,7 @@ describe('Phase 9 (Stage 2-C): New World Mid-Sea Expansion — 3 Hooks, 4 Units,
     for (const id of ['hody_jones', 'doflamingo', 'katakuri', 'jinbe']) {
       const def = defaultDataRegistry.units[id];
       expect(def, `Unit ${id} must exist`).toBeDefined();
+      if (!def) throw new Error(`Unit ${id} must exist`);
       expect(def.defaultMoves.length).toBe(4);
       for (const mId of def.defaultMoves) {
         expect(defaultDataRegistry.moves[mId], `Move ${mId} must exist`).toBeDefined();
@@ -109,6 +111,7 @@ describe('Phase 9 (Stage 2-C): New World Mid-Sea Expansion — 3 Hooks, 4 Units,
     const prng = new SeededPRNG(9001);
     const luffy = world.units[0];
     const doffy = world.units[1];
+    if (!luffy || !doffy) throw new Error('Missing luffy or doflamingo');
 
     // Drop Doflamingo to 60% HP -> triggers Birdcage!
     doffy.hp = Math.round(doffy.maxHp * 0.6);
@@ -154,6 +157,11 @@ describe('Phase 9 (Stage 2-C): New World Mid-Sea Expansion — 3 Hooks, 4 Units,
     const prng = new SeededPRNG(9002);
     const luffy = world.units[0];
     const kata = world.units[1];
+    const bulletStringMove = defaultDataRegistry.moves['move_doffy_bullet_string'];
+    const pistolMove = defaultDataRegistry.moves['move_luffy_pistol'];
+    if (!luffy || !kata || !bulletStringMove || !pistolMove) {
+      throw new Error('Missing Katakuri test units or moves');
+    }
 
     // Give Luffy Observation Lv1 (cannot naturally pierce Katakuri Future Sight)
     luffy.haki = { armament: 2, observation: 1, conqueror: 1 };
@@ -164,7 +172,7 @@ describe('Phase 9 (Stage 2-C): New World Mid-Sea Expansion — 3 Hooks, 4 Units,
     // Single linear projectile hits Katakuri -> FORESIGHT_EVADE (0 dmg + counter melee spawned!)
     const proj = spawnProjectileInstance(
       luffy,
-      defaultDataRegistry.moves['move_doffy_bullet_string'],
+      bulletStringMove,
       { x: 1, y: 0 },
       world,
       defaultDataRegistry
@@ -184,7 +192,7 @@ describe('Phase 9 (Stage 2-C): New World Mid-Sea Expansion — 3 Hooks, 4 Units,
     luffy.pos = { x: kata.pos.x - 24, y: kata.pos.y };
     spawnMeleeArcInstance(
       luffy,
-      defaultDataRegistry.moves['move_luffy_pistol'],
+      pistolMove,
       { x: 1, y: 0 },
       world,
       defaultDataRegistry
@@ -231,6 +239,7 @@ describe('Phase 9 (Stage 2-C): New World Mid-Sea Expansion — 3 Hooks, 4 Units,
     const world = createBattleWorld(cfg, defaultDataRegistry);
     const jinbe = world.units[0];
     const hody = world.units[1];
+    if (!jinbe || !hody) throw new Error('Missing jinbe or hody');
 
     const atkBefore = getUnitCurrentStat(hody, 'atk', world, defaultDataRegistry);
     const spdBefore = getUnitCurrentStat(hody, 'spd', world, defaultDataRegistry);
@@ -334,7 +343,7 @@ describe('Phase 9 (Stage 2-C): New World Mid-Sea Expansion — 3 Hooks, 4 Units,
     // New World 3-needle Log Pose recommends next 3 incomplete islands (Dressrosa, Totto Land, Wano)
     const needles = computeLogPoseNeedles(state, defaultRpgDataRegistry);
     expect(needles.length).toBe(3);
-    expect(needles[0].targetName).toContain('드레스로자');
+    expect(needles[0]?.targetName).toContain('드레스로자');
 
     // Clear Totto Land -> Road Poneglyph + Luffy Observation Lv3 (Future Sight)!
     state.unitHakiOverrides['luffy'] = { armament: 2, observation: 1, conqueror: 2 };
