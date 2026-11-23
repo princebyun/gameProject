@@ -3,17 +3,17 @@
   "unitId": "enel",
   "formId": "base",
   "rigType": "caster_ranged",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "7a4004130866e4621d67c3a73f7e388415dc88646a8b80895be7f5d9708793af",
-  "bakedAt": "2026-11-21T14:55:00.053Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "d9da22e60e6eee4045ece60b30c7d4311e535cd0087b4b41d1a782cf65bca4ae",
+  "bakedAt": "2026-11-23T00:58:03.273Z",
   "animations": {
     "IDLE": {
       "row": 0,

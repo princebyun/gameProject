@@ -1,0 +1,306 @@
+{
+  "version": "1.0.0",
+  "islandBackdropMap": {
+    "foosha_shells": "east_blue_harbor",
+    "orange_town": "east_blue_harbor",
+    "baratie": "east_blue_harbor",
+    "arlong_park": "fishman_island_seabed",
+    "loguetown": "east_blue_harbor",
+    "drum_kingdom": "drum_snow_peak",
+    "alabasta": "alabasta_desert",
+    "skypiea": "skypiea_upper_yard",
+    "water_seven": "water7_dock",
+    "thriller_bark": "thriller_bark_gothic",
+    "marineford": "marineford_ice_bay",
+    "impel_down": "impel_down_hell",
+    "fishman_island": "fishman_island_seabed",
+    "dressrosa": "dressrosa_colosseum",
+    "totto_land": "whole_cake_mirror",
+    "wano_onigashima": "onigashima_rooftop",
+    "egghead": "egghead_lab",
+    "elbaf": "elbaf_underworld"
+  },
+  "seaZoneBackdropMap": {
+    "east_blue": "east_blue_harbor",
+    "grand_line": "water7_dock",
+    "new_world": "onigashima_rooftop"
+  },
+  "arenaModeBackdropMap": {
+    "DEFAULT": "east_blue_harbor",
+    "IMPEL_DOWN": "impel_down_hell",
+    "COLOSSEUM": "dressrosa_colosseum",
+    "COOP_RAID": "onigashima_rooftop",
+    "MAGMA": "impel_down_hell",
+    "ICE": "marineford_ice_bay",
+    "LAB": "egghead_lab",
+    "ELBAF": "elbaf_underworld"
+  },
+  "backdrops": [
+    {
+      "id": "east_blue_harbor",
+      "name": "이스트 블루 · 후샤 항구 부두",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "DAY",
+      "ambientTint": "#38bdf8",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/east_blue_harbor/sky.png",
+        "mid": "assets/backgrounds/east_blue_harbor/mid.png",
+        "ground": "assets/backgrounds/east_blue_harbor/ground.png"
+      }
+    },
+    {
+      "id": "drum_snow_peak",
+      "name": "드럼 왕국 · 설산 왕성",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "DAY",
+      "ambientTint": "#e2e8f0",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/drum_snow_peak/sky.png",
+        "mid": "assets/backgrounds/drum_snow_peak/mid.png",
+        "ground": "assets/backgrounds/drum_snow_peak/ground.png"
+      }
+    },
+    {
+      "id": "alabasta_desert",
+      "name": "알라바스타 · 아르바나 모래 궁전",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "DUSK",
+      "ambientTint": "#f59e0b",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/alabasta_desert/sky.png",
+        "mid": "assets/backgrounds/alabasta_desert/mid.png",
+        "ground": "assets/backgrounds/alabasta_desert/ground.png"
+      }
+    },
+    {
+      "id": "skypiea_upper_yard",
+      "name": "하늘섬 스카이피아 · 어퍼 야드",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "DAY",
+      "ambientTint": "#bae6fd",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/skypiea_upper_yard/sky.png",
+        "mid": "assets/backgrounds/skypiea_upper_yard/mid.png",
+        "ground": "assets/backgrounds/skypiea_upper_yard/ground.png"
+      }
+    },
+    {
+      "id": "water7_dock",
+      "name": "워터 세븐 · 조선소 대운하",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "DUSK",
+      "ambientTint": "#0ea5e9",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/water7_dock/sky.png",
+        "mid": "assets/backgrounds/water7_dock/mid.png",
+        "ground": "assets/backgrounds/water7_dock/ground.png"
+      }
+    },
+    {
+      "id": "thriller_bark_gothic",
+      "name": "스릴러 바크 · 저주받은 고성",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "NIGHT",
+      "ambientTint": "#6b21a8",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/thriller_bark_gothic/sky.png",
+        "mid": "assets/backgrounds/thriller_bark_gothic/mid.png",
+        "ground": "assets/backgrounds/thriller_bark_gothic/ground.png"
+      }
+    },
+    {
+      "id": "marineford_ice_bay",
+      "name": "마린포드 · 오리스 얼음만",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "DUSK",
+      "ambientTint": "#38bdf8",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/marineford_ice_bay/sky.png",
+        "mid": "assets/backgrounds/marineford_ice_bay/mid.png",
+        "ground": "assets/backgrounds/marineford_ice_bay/ground.png"
+      }
+    },
+    {
+      "id": "fishman_island_seabed",
+      "name": "어인섬 · 용궁성 심해 산호초",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "NIGHT",
+      "ambientTint": "#06b6d4",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/fishman_island_seabed/sky.png",
+        "mid": "assets/backgrounds/fishman_island_seabed/mid.png",
+        "ground": "assets/backgrounds/fishman_island_seabed/ground.png"
+      }
+    },
+    {
+      "id": "dressrosa_colosseum",
+      "name": "드레스로자 · 코리다 콜로세움",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "DUSK",
+      "ambientTint": "#f43f5e",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/dressrosa_colosseum/sky.png",
+        "mid": "assets/backgrounds/dressrosa_colosseum/mid.png",
+        "ground": "assets/backgrounds/dressrosa_colosseum/ground.png"
+      }
+    },
+    {
+      "id": "whole_cake_mirror",
+      "name": "토트랜드 · 브륄레 거울 세계",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "NIGHT",
+      "ambientTint": "#e879f9",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/whole_cake_mirror/sky.png",
+        "mid": "assets/backgrounds/whole_cake_mirror/mid.png",
+        "ground": "assets/backgrounds/whole_cake_mirror/ground.png"
+      }
+    },
+    {
+      "id": "onigashima_rooftop",
+      "name": "와노쿠니 · 오니가시마 도개골 옥상",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "NIGHT",
+      "ambientTint": "#f43f5e",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/onigashima_rooftop/sky.png",
+        "mid": "assets/backgrounds/onigashima_rooftop/mid.png",
+        "ground": "assets/backgrounds/onigashima_rooftop/ground.png"
+      }
+    },
+    {
+      "id": "egghead_lab",
+      "name": "미래섬 에그헤드 · 라보페이즈",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "NIGHT",
+      "ambientTint": "#22d3ee",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/egghead_lab/sky.png",
+        "mid": "assets/backgrounds/egghead_lab/mid.png",
+        "ground": "assets/backgrounds/egghead_lab/ground.png"
+      }
+    },
+    {
+      "id": "elbaf_underworld",
+      "name": "엘바프 · 세계수 아담 명계",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "DUSK",
+      "ambientTint": "#84cc16",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/elbaf_underworld/sky.png",
+        "mid": "assets/backgrounds/elbaf_underworld/mid.png",
+        "ground": "assets/backgrounds/elbaf_underworld/ground.png"
+      }
+    },
+    {
+      "id": "impel_down_hell",
+      "name": "대감옥 임펠 다운 · 무한지옥",
+      "width": 1280,
+      "height": 540,
+      "groundY": 198,
+      "timeOfDay": "NIGHT",
+      "ambientTint": "#dc2626",
+      "parallaxFactors": [
+        0.12,
+        0.42,
+        1
+      ],
+      "layers": {
+        "sky": "assets/backgrounds/impel_down_hell/sky.png",
+        "mid": "assets/backgrounds/impel_down_hell/mid.png",
+        "ground": "assets/backgrounds/impel_down_hell/ground.png"
+      }
+    }
+  ]
+}

@@ -1,7 +1,9 @@
 import type {
   AudioManifestFile,
+  BattleBackdropsManifestFile,
   SpriteSheetManifestFile,
-  TilesetManifestFile
+  TilesetManifestFile,
+  VfxManifestFile
 } from './assets/types';
 import {
   assertArray,
@@ -101,6 +103,40 @@ export function assertValidIslandMapDefinition(
   assertNumber(obj['height'], `${ctx}.height`);
   assertArray(obj['npcs'], `${ctx}.npcs`);
   assertArray(obj['encounters'], `${ctx}.encounters`);
+
+  if (obj['tileMap'] !== undefined) {
+    const tm = assertRecord(obj['tileMap'], `${ctx}.tileMap`);
+    assertNumber(tm['tileSize'], `${ctx}.tileMap.tileSize`);
+    assertNumber(tm['cols'], `${ctx}.tileMap.cols`);
+    assertNumber(tm['rows'], `${ctx}.tileMap.rows`);
+    assertRecord(tm['tileLegend'], `${ctx}.tileMap.tileLegend`);
+    assertRecord(tm['surfaceLegend'], `${ctx}.tileMap.surfaceLegend`);
+    assertArray(tm['groundRows'], `${ctx}.tileMap.groundRows`);
+    assertArray(tm['detailRows'], `${ctx}.tileMap.detailRows`);
+    assertArray(tm['solidRows'], `${ctx}.tileMap.solidRows`);
+    assertArray(tm['overheadRows'], `${ctx}.tileMap.overheadRows`);
+    assertArray(tm['surfaceRows'], `${ctx}.tileMap.surfaceRows`);
+  }
+  if (obj['zones'] !== undefined) {
+    assertArray(obj['zones'], `${ctx}.zones`);
+  }
+  if (obj['chests'] !== undefined) {
+    const chests = assertArray(obj['chests'], `${ctx}.chests`);
+    for (let i = 0; i < chests.length; i++) {
+      const ch = assertRecord(chests[i], `${ctx}.chests[${i}]`);
+      assertNonEmptyString(ch['chestId'], `${ctx}.chests[${i}].chestId`);
+      assertNumber(ch['tileX'], `${ctx}.chests[${i}].tileX`);
+      assertNumber(ch['tileY'], `${ctx}.chests[${i}].tileY`);
+      assertRecord(ch['reward'], `${ctx}.chests[${i}].reward`);
+    }
+  }
+  if (obj['markers'] !== undefined) {
+    assertArray(obj['markers'], `${ctx}.markers`);
+  }
+  if (obj['landmarks'] !== undefined) {
+    assertArray(obj['landmarks'], `${ctx}.landmarks`);
+  }
+
   return obj as unknown as IslandMapDefinition;
 }
 
@@ -240,12 +276,52 @@ export function assertValidAudioManifestFile(value: unknown): AudioManifestFile 
   return obj as unknown as AudioManifestFile;
 }
 
+export function assertValidBattleBackdropsManifestFile(
+  value: unknown
+): BattleBackdropsManifestFile {
+  const obj = assertRecord(value, 'assets.backgroundsFile');
+  const backdrops = assertArray(obj['backdrops'], 'assets.backgroundsFile.backdrops');
+  for (let i = 0; i < backdrops.length; i++) {
+    const b = assertRecord(backdrops[i], `backgrounds[${i}]`);
+    assertNonEmptyString(b['id'], `backgrounds[${i}].id`);
+    assertNumber(b['width'], `backgrounds[${i}].width`);
+    assertNumber(b['height'], `backgrounds[${i}].height`);
+    const layers = assertRecord(b['layers'], `backgrounds[${i}].layers`);
+    assertNonEmptyString(layers['sky'], `backgrounds[${i}].layers.sky`);
+    assertNonEmptyString(layers['mid'], `backgrounds[${i}].layers.mid`);
+    assertNonEmptyString(layers['ground'], `backgrounds[${i}].layers.ground`);
+  }
+  return obj as unknown as BattleBackdropsManifestFile;
+}
+
+export function assertValidVfxManifestFile(value: unknown): VfxManifestFile {
+  const obj = assertRecord(value, 'assets.vfxFile');
+  const atlases = assertArray(obj['atlases'], 'assets.vfxFile.atlases');
+  for (let i = 0; i < atlases.length; i++) {
+    const a = assertRecord(atlases[i], `vfx[${i}]`);
+    assertNonEmptyString(a['id'], `vfx[${i}].id`);
+    assertNonEmptyString(a['src'], `vfx[${i}].src`);
+    assertNumber(a['frameWidth'], `vfx[${i}].frameWidth`);
+    assertNumber(a['frameHeight'], `vfx[${i}].frameHeight`);
+    assertNumber(a['frameCount'], `vfx[${i}].frameCount`);
+  }
+  return obj as unknown as VfxManifestFile;
+}
+
 export function assertValidAssetManifestRegistry(value: {
   spritesFile: SpriteSheetManifestFile;
   tilesetsFile: TilesetManifestFile;
   audioFile: AudioManifestFile;
+  backgroundsFile?: BattleBackdropsManifestFile;
+  vfxFile?: VfxManifestFile;
 }): void {
   assertValidSpriteManifestFile(value.spritesFile);
   assertValidTilesetManifestFile(value.tilesetsFile);
   assertValidAudioManifestFile(value.audioFile);
+  if (value.backgroundsFile) {
+    assertValidBattleBackdropsManifestFile(value.backgroundsFile);
+  }
+  if (value.vfxFile) {
+    assertValidVfxManifestFile(value.vfxFile);
+  }
 }

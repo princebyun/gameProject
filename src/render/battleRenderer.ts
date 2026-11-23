@@ -4,6 +4,7 @@ import type { BattleWorldState } from '../core/types/battleState';
 import type { GameDataRegistry } from '../core/types/dataSchemas';
 import { resolveBiomeForArena } from '../data/assets/assetManifestRegistry';
 import { renderUnitOnArena } from './battle/battleUnitRenderer';
+import type { BattleBackdropContext } from './battle/parallaxBattleBackdrop';
 import {
   renderArenaClashSparksAndFloatingTexts,
   renderArenaFloorZonesAndProjectiles
@@ -93,7 +94,8 @@ export function renderBattleArena(
   alpha: number,
   settings: RenderAccessibilitySettings,
   cameraTargetIndex: 'ALL' | 0 | 1 | 2 | 3 = 'ALL',
-  viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS
+  viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS,
+  backdropContext?: BattleBackdropContext
 ): void {
   const viewW = viewport.viewWidth;
   const viewH = viewport.viewHeight;
@@ -115,24 +117,6 @@ export function renderBattleArena(
             : 'DEFAULT';
   const arenaBiome = resolveBiomeForArena(arenaBiomeKey, assets.manifestRegistry);
 
-  ctx.fillStyle = arenaBiome.palette.wall;
-  ctx.fillRect(0, 0, viewW, viewH);
-  assets.tilemapRenderer.renderBiomeBackdrop(
-    ctx,
-    `arena_outer_${arenaBiomeKey}_${viewW}x${viewH}`,
-    viewW,
-    viewH,
-    0,
-    0,
-    viewW,
-    viewH,
-    arenaBiome,
-    assets,
-    world.tick
-  );
-  ctx.fillStyle = 'rgba(7, 11, 18, 0.42)';
-  ctx.fillRect(0, 0, viewW, viewH);
-
   const cam = computeArenaCameraOffset(
     world,
     alpha,
@@ -149,6 +133,23 @@ export function renderBattleArena(
     }
   }
   const zoomScale = hasGiantBossOnField ? 0.88 : 1.0;
+
+  // 1. Multi-layer 1280x540+ Parallax Battle Backdrop (Sky -> Mid -> Muted Arena Floor)
+  const backdropEntry = assets.parallaxBackdrop.render(
+    ctx,
+    assets,
+    {
+      islandId: backdropContext?.islandId ?? null,
+      seaZoneId: backdropContext?.seaZoneId ?? null,
+      arenaMode: arenaBiomeKey
+    },
+    cam.x,
+    cam.y,
+    viewW,
+    viewH,
+    zoomScale
+  );
+
   const visibleBounds = computeArenaVisibleBounds(
     cam.x,
     cam.y,
@@ -166,20 +167,9 @@ export function renderBattleArena(
   }
   ctx.translate(cam.x, cam.y);
 
-  // 1. Chunk-cached Biome Tilemap Arena Floor
-  assets.tilemapRenderer.renderBiomeBackdrop(
-    ctx,
-    `arena_${arenaBiomeKey}_${world.arenaWidth}x${world.arenaHeight}`,
-    world.arenaWidth,
-    world.arenaHeight,
-    Math.max(0, Math.floor(visibleBounds.minX)),
-    Math.max(0, Math.floor(visibleBounds.minY)),
-    Math.ceil(visibleBounds.maxX - visibleBounds.minX),
-    Math.ceil(visibleBounds.maxY - visibleBounds.minY),
-    arenaBiome,
-    assets,
-    world.tick
-  );
+  // Persistent scorch / ice floor impact decals
+  assets.parallaxBackdrop.recordExplosionDecals(world.vfxEvents);
+  assets.parallaxBackdrop.renderGroundDecals(ctx);
 
   ctx.strokeStyle = 'rgba(250, 204, 21, 0.35)';
   ctx.lineWidth = 2;
@@ -198,10 +188,20 @@ export function renderBattleArena(
     renderUnitOnArena(ctx, unit, world, registry, assets, alpha, settings);
   }
 
-  // 7~9. Clash sparks, VFX events, and floating combat texts
-  renderArenaClashSparksAndFloatingTexts(ctx, world, visibleBounds);
+  // 7~9. Pooled Sprite-Sheet VFX Atlases, clash sparks, and floating combat texts
+  renderArenaClashSparksAndFloatingTexts(ctx, world, visibleBounds, assets);
 
   ctx.restore();
+
+  // Subtle biome particles & time-of-day atmospheric wash
+  assets.ambientParticles.stepAndRender(ctx, arenaBiome.biomeId, viewW, viewH, world.tick);
+  assets.atmosphereLighting.render(
+    ctx,
+    backdropEntry.timeOfDay,
+    backdropEntry.ambientTint,
+    viewW,
+    viewH
+  );
 
   if (settings.flashEffectEnabled && world.screenFlashTimer > 0) {
     ctx.save();

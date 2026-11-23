@@ -1,5 +1,4 @@
 import {
-  clamp,
   distVec,
   lenVec,
   normalizeVec,
@@ -9,12 +8,31 @@ import type { GameDataRegistry } from '../types/dataSchemas';
 import type {
   BattleContext,
   IslandEncounterDefinition,
+  IslandMapMarkerDefinition,
   IslandNpcDefinition,
   IslandPuzzleSwitch,
+  IslandTreasureChestDefinition,
   RpgCampaignState,
-  RpgDataRegistry
+  RpgDataRegistry,
+  SurfaceMaterialId
 } from '../types/rpgSchemas';
 import { computeCrewRoleBonuses, recruitCrewMember } from './crewAndBountyEngine';
+import {
+  claimIslandChest,
+  computeFacingBetween,
+  createInitialNpcStates,
+  findNearbyIslandInteractables,
+  findNearbyUnopenedChest,
+  stepNpcPatrols,
+  type IslandFootstepEvent,
+  type IslandNpcRuntimeState,
+  type OpenedChestEvent
+} from './islandLivingVillage';
+import {
+  getSurfaceMaterialAt,
+  getZoneTriggerAt,
+  moveWithIslandSlide
+} from './islandTileCollision';
 import { validateIslandDocking } from './seaGateValidator';
 
 export interface IslandExplorationRuntime {
@@ -27,6 +45,14 @@ export interface IslandExplorationRuntime {
   activatedSwitchIds: string[];
   activeDialogueNpc: IslandNpcDefinition | null;
   dialogueLineIndex: number;
+  npcStates?: Record<string, IslandNpcRuntimeState>;
+  currentZoneId?: string | null;
+  zoneBannerName?: string | null;
+  zoneBannerSubtitle?: string | null;
+  zoneBannerAccent?: string | null;
+  zoneBannerTimerSec?: number;
+  footstepDistanceAccumPx?: number;
+  currentSurface?: SurfaceMaterialId;
 }
 
 export const ISLAND_BATTLE_TERMINAL_POS: Vec2 = { x: 148, y: 185 };
@@ -36,6 +62,10 @@ export interface IslandStepOutput {
   nearbyNpc: IslandNpcDefinition | null;
   nearbySwitch: IslandPuzzleSwitch | null;
   nearbyEncounter: IslandEncounterDefinition | null;
+  nearbyChest?: IslandTreasureChestDefinition | null;
+  openedChest?: OpenedChestEvent | null;
+  nearbyActivityMarker?: IslandMapMarkerDefinition | null;
+  footstepEvent?: IslandFootstepEvent | null;
   atPortExit: boolean;
   atBattleTerminal: boolean;
   triggeredBattle: BattleContext | null;
@@ -93,18 +123,29 @@ export function enterIslandEpisode(
 
   state.voyageLog.push(`[섬 입항] ${islandMap.name} 에피소드 페이지에 상륙했습니다.`);
 
+  const spawn = { x: islandMap.spawnPoint.x, y: islandMap.spawnPoint.y };
+  const initialZone = getZoneTriggerAt(spawn, islandMap);
+
   return {
     allowed: true,
     missingEpisodeIds: [],
     runtime: {
       islandId,
-      playerPos: { x: islandMap.spawnPoint.x, y: islandMap.spawnPoint.y },
+      playerPos: spawn,
       playerHeadingRad: 0,
       playerRadiusPx: 16,
       deactivatedBarrierIds,
       activatedSwitchIds,
       activeDialogueNpc: null,
-      dialogueLineIndex: 0
+      dialogueLineIndex: 0,
+      npcStates: createInitialNpcStates(islandMap),
+      currentZoneId: initialZone?.zoneId ?? null,
+      zoneBannerName: initialZone?.name ?? null,
+      zoneBannerSubtitle: initialZone?.subtitle ?? null,
+      zoneBannerAccent: initialZone?.accentColor ?? '#facc15',
+      zoneBannerTimerSec: initialZone ? 2.2 : 0,
+      footstepDistanceAccumPx: 0,
+      currentSurface: getSurfaceMaterialAt(spawn, islandMap)
     }
   };
 }
@@ -116,16 +157,6 @@ export function exitIslandToSea(state: RpgCampaignState): void {
   state.ship.pos = { x: port.returnSeaPos.x, y: port.returnSeaPos.y };
   state.ship.vel = { x: 0, y: 0 };
   state.voyageLog.push(`[출항 복귀] 항구를 떠나 바다(${port.zoneId}) 직전 좌표로 복귀했습니다.`);
-}
-
-function circleIntersectsRect(
-  c: Vec2,
-  r: number,
-  rect: { x: number; y: number; width: number; height: number }
-): boolean {
-  const closestX = clamp(c.x, rect.x, rect.x + rect.width);
-  const closestY = clamp(c.y, rect.y, rect.y + rect.height);
-  return Math.hypot(c.x - closestX, c.y - closestY) < r;
 }
 
 export function createBattleContextFromIslandEncounter(
@@ -181,6 +212,10 @@ export function stepIslandExploration(
     nearbyNpc: null,
     nearbySwitch: null,
     nearbyEncounter: null,
+    nearbyChest: null,
+    openedChest: null,
+    nearbyActivityMarker: null,
+    footstepEvent: null,
     atPortExit: false,
     atBattleTerminal: false,
     triggeredBattle: null,
@@ -189,76 +224,81 @@ export function stepIslandExploration(
   };
   if (!islandMap) return emptyOut;
 
+  if (!runtime.npcStates) {
+    runtime.npcStates = createInitialNpcStates(islandMap);
+  }
+
+  let footstepEvent: IslandFootstepEvent | null = null;
   runtime.isMoving = false;
   if (!runtime.activeDialogueNpc && lenVec(moveVec) > 0.05) {
     const dir = normalizeVec(moveVec);
     runtime.playerHeadingRad = Math.atan2(dir.y, dir.x);
     runtime.isMoving = true;
     const walkSpeedPx = 195;
-    const candidatePos = {
-      x: clamp(runtime.playerPos.x + dir.x * walkSpeedPx * dt, 24, islandMap.width - 24),
-      y: clamp(runtime.playerPos.y + dir.y * walkSpeedPx * dt, 24, islandMap.height - 24)
-    };
+    const prevPos = runtime.playerPos;
+    const nextPos = moveWithIslandSlide(
+      prevPos,
+      dir.x * walkSpeedPx * dt,
+      dir.y * walkSpeedPx * dt,
+      runtime.playerRadiusPx,
+      islandMap,
+      runtime.deactivatedBarrierIds
+    );
+    runtime.playerPos = nextPos;
 
-    let blocked = false;
-    for (const obs of islandMap.obstacles) {
-      if (circleIntersectsRect(candidatePos, runtime.playerRadiusPx, obs)) {
-        blocked = true;
-        break;
+    const surface = getSurfaceMaterialAt(nextPos, islandMap);
+    runtime.currentSurface = surface;
+    const movedDist = distVec(prevPos, nextPos);
+    if (movedDist > 0.05) {
+      const accum = (runtime.footstepDistanceAccumPx ?? 0) + movedDist;
+      if (accum >= 42) {
+        runtime.footstepDistanceAccumPx = accum - 42;
+        footstepEvent = {
+          material: surface,
+          x: nextPos.x,
+          y: nextPos.y
+        };
+      } else {
+        runtime.footstepDistanceAccumPx = accum;
       }
     }
-    if (!blocked) {
-      for (const barrier of islandMap.laserBarriers) {
-        const isDeactivated = runtime.deactivatedBarrierIds.includes(barrier.barrierId);
-        if (
-          barrier.activeByDefault &&
-          !isDeactivated &&
-          circleIntersectsRect(candidatePos, runtime.playerRadiusPx, barrier)
-        ) {
-          blocked = true;
-          break;
-        }
-      }
-    }
-
-    if (!blocked) {
-      runtime.playerPos = candidatePos;
-    }
+  } else {
+    runtime.currentSurface = getSurfaceMaterialAt(runtime.playerPos, islandMap);
   }
 
+  if ((runtime.zoneBannerTimerSec ?? 0) > 0) {
+    runtime.zoneBannerTimerSec = Math.max(0, (runtime.zoneBannerTimerSec ?? 0) - dt);
+  }
+  const activeZone = getZoneTriggerAt(runtime.playerPos, islandMap);
+  if (activeZone && activeZone.zoneId !== runtime.currentZoneId) {
+    runtime.currentZoneId = activeZone.zoneId;
+    runtime.zoneBannerName = activeZone.name;
+    runtime.zoneBannerSubtitle = activeZone.subtitle ?? null;
+    runtime.zoneBannerAccent = activeZone.accentColor ?? '#facc15';
+    runtime.zoneBannerTimerSec = 2.2;
+  }
+
+  stepNpcPatrols(
+    islandMap,
+    runtime.npcStates,
+    runtime.playerPos,
+    runtime.activeDialogueNpc?.npcId ?? null,
+    runtime.deactivatedBarrierIds,
+    dt
+  );
+
+  const terminalPos = islandMap.battleTerminalPos ?? ISLAND_BATTLE_TERMINAL_POS;
   const atPortExit =
-    distVec(runtime.playerPos, islandMap.portExitZone.pos) <=
-    islandMap.portExitZone.radiusPx;
+    distVec(runtime.playerPos, islandMap.portExitZone.pos) <= islandMap.portExitZone.radiusPx;
   const atBattleTerminal =
-    distVec(runtime.playerPos, ISLAND_BATTLE_TERMINAL_POS) <=
-    ISLAND_BATTLE_TERMINAL_RADIUS_PX;
+    distVec(runtime.playerPos, terminalPos) <= ISLAND_BATTLE_TERMINAL_RADIUS_PX;
 
-  let nearbySwitch: IslandPuzzleSwitch | null = null;
-  for (const sw of islandMap.puzzleSwitches) {
-    if (distVec(runtime.playerPos, sw.pos) <= sw.radiusPx + 14) {
-      nearbySwitch = sw;
-      break;
-    }
-  }
-
-  let nearbyNpc: IslandNpcDefinition | null = null;
-  for (const npc of islandMap.npcs) {
-    if (distVec(runtime.playerPos, npc.pos) <= npc.interactRadiusPx) {
-      nearbyNpc = npc;
-      break;
-    }
-  }
-
-  let nearbyEncounter: IslandEncounterDefinition | null = null;
-  for (const enc of islandMap.encounters) {
-    if (state.episodeFlags[enc.setsFlagOnVictory]) continue;
-    if (distVec(runtime.playerPos, enc.pos) <= enc.triggerRadiusPx) {
-      nearbyEncounter = enc;
-      break;
-    }
-  }
+  const nearbyChest = findNearbyUnopenedChest(state, islandMap, runtime.playerPos);
+  const { nearbySwitch, nearbyNpc, nearbyEncounter, nearbyActivityMarker } =
+    findNearbyIslandInteractables(state, islandMap, runtime.playerPos, runtime.npcStates);
 
   let triggeredBattle: BattleContext | null = null;
+  let openedChest: OpenedChestEvent | null = null;
   let requestedExitToSea = false;
   let requestedOpenOnlineTerminal = false;
   let requestedEndgameMode: 'IMPEL_DOWN' | 'COLOSSEUM' | 'RAID' | undefined;
@@ -294,9 +334,16 @@ export function stepIslandExploration(
       state.voyageLog.push(
         `[퍼즐 장치 작동] ${nearbySwitch.label} 해제 완료! -> 레이저 배리어 비활성화!`
       );
+    } else if (nearbyChest) {
+      openedChest = claimIslandChest(state, nearbyChest);
     } else if (nearbyNpc) {
       runtime.activeDialogueNpc = nearbyNpc;
       runtime.dialogueLineIndex = 0;
+      const npcState = runtime.npcStates[nearbyNpc.npcId];
+      if (npcState) {
+        npcState.isMoving = false;
+        npcState.facing = computeFacingBetween(npcState.pos, runtime.playerPos);
+      }
       if (nearbyNpc.setsQuestFlagOnTalk) {
         state.episodeFlags[nearbyNpc.setsQuestFlagOnTalk] = true;
       }
@@ -323,6 +370,10 @@ export function stepIslandExploration(
     nearbyNpc,
     nearbySwitch,
     nearbyEncounter,
+    nearbyChest,
+    openedChest,
+    nearbyActivityMarker,
+    footstepEvent,
     atPortExit,
     atBattleTerminal,
     triggeredBattle,

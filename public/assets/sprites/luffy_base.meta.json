@@ -3,17 +3,17 @@
   "unitId": "luffy",
   "formId": "base",
   "rigType": "humanoid_brawler",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "sheetWidth": 768,
+  "sheetHeight": 1408,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "30aa091740fc9b028f8f8f3d4337be9b38761c7449d3b87aae0b7cc12ff1ab83",
-  "bakedAt": "2026-11-21T14:58:14.341Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "331b488d7d50a418c10536b9b1692794ebdc56026e087197051cae7043917c3a",
+  "bakedAt": "2026-11-23T00:57:58.241Z",
   "animations": {
     "IDLE": {
       "row": 0,

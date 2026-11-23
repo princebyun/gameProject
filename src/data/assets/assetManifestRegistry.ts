@@ -1,19 +1,27 @@
 import audioJson from './audio.json';
+import backgroundsJson from './backgrounds.json';
 import spritesJson from './sprites.json';
 import tilesetsJson from './tilesets.json';
+import vfxJson from './vfx.json';
 import {
   assertValidAudioManifestFile,
+  assertValidBattleBackdropsManifestFile,
   assertValidSpriteManifestFile,
-  assertValidTilesetManifestFile
+  assertValidTilesetManifestFile,
+  assertValidVfxManifestFile
 } from '../schemaGuards';
 import type {
   AudioManifestFile,
+  BattleBackdropManifestEntry,
+  BattleBackdropsManifestFile,
   BgmTrackManifestEntry,
   SfxManifestEntry,
   SpriteSheetManifestEntry,
   SpriteSheetManifestFile,
   TilesetManifestEntry,
-  TilesetManifestFile
+  TilesetManifestFile,
+  VfxAtlasManifestEntry,
+  VfxManifestFile
 } from './types';
 
 export interface AssetManifestRegistry {
@@ -28,6 +36,10 @@ export interface AssetManifestRegistry {
   bgmMap: ReadonlyMap<string, BgmTrackManifestEntry>;
   sfxById: Record<string, SfxManifestEntry>;
   sfxMap: ReadonlyMap<string, SfxManifestEntry>;
+  backgroundsFile: BattleBackdropsManifestFile;
+  backdropsMap: ReadonlyMap<string, BattleBackdropManifestEntry>;
+  vfxFile: VfxManifestFile;
+  vfxMap: ReadonlyMap<string, VfxAtlasManifestEntry>;
 }
 
 export function createAssetManifestRegistry(): AssetManifestRegistry {
@@ -61,6 +73,18 @@ export function createAssetManifestRegistry(): AssetManifestRegistry {
     sfxMap.set(sfx.id, sfx);
   }
 
+  const backgroundsFile = assertValidBattleBackdropsManifestFile(backgroundsJson);
+  const backdropsMap = new Map<string, BattleBackdropManifestEntry>();
+  for (const bg of backgroundsFile.backdrops) {
+    backdropsMap.set(bg.id, bg);
+  }
+
+  const vfxFile = assertValidVfxManifestFile(vfxJson);
+  const vfxMap = new Map<string, VfxAtlasManifestEntry>();
+  for (const v of vfxFile.atlases) {
+    vfxMap.set(v.id, v);
+  }
+
   return {
     spritesFile,
     spritesByKey,
@@ -72,7 +96,11 @@ export function createAssetManifestRegistry(): AssetManifestRegistry {
     bgmById,
     bgmMap,
     sfxById,
-    sfxMap
+    sfxMap,
+    backgroundsFile,
+    backdropsMap,
+    vfxFile,
+    vfxMap
   };
 }
 
@@ -86,9 +114,7 @@ export function resolveSpriteSheetEntry(
 ): SpriteSheetManifestEntry | null {
   if (activeFormId) {
     const formEntry = registry.spritesMap.get(`${unitId}_${activeFormId}`);
-    if (formEntry) {
-      return formEntry;
-    }
+    if (formEntry) return formEntry;
   }
   return registry.spritesMap.get(`${unitId}_base`) ?? null;
 }
@@ -109,9 +135,7 @@ function getBiomeOrFirst(
   registry: AssetManifestRegistry
 ): TilesetManifestEntry {
   const entry = registry.biomesMap.get(biomeId) ?? registry.tilesetsFile.biomes[0];
-  if (!entry) {
-    throw new Error(`Missing tileset biome entry for ${biomeId}`);
-  }
+  if (!entry) throw new Error(`Missing tileset biome entry for ${biomeId}`);
   return entry;
 }
 
@@ -139,6 +163,31 @@ export function resolveBiomeForArena(
   return getBiomeOrFirst(biomeId, registry);
 }
 
+export function resolveBattleBackdrop(
+  islandId?: string | null,
+  seaZoneId?: string | null,
+  arenaMode = 'DEFAULT',
+  registry: AssetManifestRegistry = defaultAssetManifestRegistry
+): BattleBackdropManifestEntry {
+  const bf = registry.backgroundsFile;
+  const resolvedId =
+    (arenaMode !== 'DEFAULT' ? bf.arenaModeBackdropMap[arenaMode] : undefined) ??
+    (islandId ? bf.islandBackdropMap[islandId] : undefined) ??
+    (seaZoneId ? bf.seaZoneBackdropMap[seaZoneId] : undefined) ??
+    bf.arenaModeBackdropMap[arenaMode] ??
+    'east_blue_harbor';
+  const entry = registry.backdropsMap.get(resolvedId) ?? bf.backdrops[0];
+  if (!entry) throw new Error(`Missing battle backdrop manifest for ${resolvedId}`);
+  return entry;
+}
+
+export function resolveVfxAtlas(
+  vfxId: string,
+  registry: AssetManifestRegistry = defaultAssetManifestRegistry
+): VfxAtlasManifestEntry | null {
+  return registry.vfxMap.get(vfxId) ?? null;
+}
+
 export function resolveBgmTrack(
   trackId: string,
   registry: AssetManifestRegistry = defaultAssetManifestRegistry
@@ -154,7 +203,9 @@ export function resolveSfxEntry(
 }
 
 export function resolveBgmForSeaZone(zoneId: string): string {
-  if (zoneId === 'grand_line_first_half') return 'sea_grand_line';
+  if (zoneId === 'grand_line' || zoneId === 'grand_line_first_half') {
+    return 'sea_grand_line';
+  }
   if (zoneId === 'new_world') return 'sea_new_world';
   return 'sea_east_blue';
 }

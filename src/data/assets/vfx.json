@@ -1,0 +1,125 @@
+{
+  "version": "1.0.0",
+  "atlases": [
+    {
+      "id": "slash_arc",
+      "src": "assets/vfx/slash_arc.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 5,
+      "fps": 18,
+      "blendMode": "lighter",
+      "scale": 1.5
+    },
+    {
+      "id": "cross_slash",
+      "src": "assets/vfx/cross_slash.png",
+      "frameWidth": 112,
+      "frameHeight": 100,
+      "frameCount": 6,
+      "fps": 18,
+      "blendMode": "lighter",
+      "scale": 1.15
+    },
+    {
+      "id": "fire_explosion",
+      "src": "assets/vfx/fire_explosion.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "frameCount": 10,
+      "fps": 18,
+      "blendMode": "source-over",
+      "scale": 1.1
+    },
+    {
+      "id": "lightning_strike",
+      "src": "assets/vfx/lightning_strike.png",
+      "frameWidth": 102,
+      "frameHeight": 96,
+      "frameCount": 5,
+      "fps": 16,
+      "blendMode": "lighter",
+      "scale": 1.25
+    },
+    {
+      "id": "conqueror_bolt",
+      "src": "assets/vfx/conqueror_bolt.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "frameCount": 5,
+      "fps": 18,
+      "blendMode": "lighter",
+      "scale": 0.72
+    },
+    {
+      "id": "ice_shatter",
+      "src": "assets/vfx/ice_shatter.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "frameCount": 5,
+      "fps": 16,
+      "blendMode": "lighter",
+      "scale": 0.72
+    },
+    {
+      "id": "water_splash",
+      "src": "assets/vfx/water_splash.png",
+      "frameWidth": 117,
+      "frameHeight": 102,
+      "frameCount": 6,
+      "fps": 16,
+      "blendMode": "source-over",
+      "scale": 1.05
+    },
+    {
+      "id": "smoke_puff",
+      "src": "assets/vfx/smoke_puff.png",
+      "frameWidth": 91,
+      "frameHeight": 69,
+      "frameCount": 5,
+      "fps": 14,
+      "blendMode": "source-over",
+      "scale": 1.15
+    },
+    {
+      "id": "hit_spark",
+      "src": "assets/vfx/hit_spark.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 6,
+      "fps": 20,
+      "blendMode": "lighter",
+      "scale": 1.4
+    },
+    {
+      "id": "parry_flash",
+      "src": "assets/vfx/parry_flash.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 5,
+      "fps": 20,
+      "blendMode": "lighter",
+      "scale": 1.6
+    },
+    {
+      "id": "beam_core",
+      "src": "assets/vfx/beam_core.png",
+      "frameWidth": 214,
+      "frameHeight": 96,
+      "frameCount": 5,
+      "fps": 16,
+      "blendMode": "lighter",
+      "scale": 1.2
+    },
+    {
+      "id": "awakening_burst",
+      "src": "assets/vfx/awakening_burst.png",
+      "frameWidth": 55,
+      "frameHeight": 99,
+      "frameCount": 6,
+      "fps": 16,
+      "blendMode": "lighter",
+      "scale": 1.3
+    }
+  ]
+}

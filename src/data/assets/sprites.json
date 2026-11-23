@@ -19,8 +19,8 @@
       "unitId": "luffy",
       "formId": "base",
       "src": "assets/sprites/luffy_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 128,
+      "frameHeight": 128,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -96,15 +96,16 @@
           "loop": true
         }
       },
-      "rigType": "humanoid_brawler"
+      "rigType": "humanoid_brawler",
+      "targetDisplayHeight": 108
     },
     {
       "key": "luffy_form_luffy_gear5",
       "unitId": "luffy",
       "formId": "form_luffy_gear5",
       "src": "assets/sprites/luffy_form_luffy_gear5.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -180,15 +181,16 @@
           "loop": true
         }
       },
-      "rigType": "humanoid_brawler"
+      "rigType": "humanoid_brawler",
+      "targetDisplayHeight": 118
     },
     {
       "key": "zoro_base",
       "unitId": "zoro",
       "formId": "base",
       "src": "assets/sprites/zoro_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -264,15 +266,16 @@
           "loop": true
         }
       },
-      "rigType": "swordsman_weapon"
+      "rigType": "swordsman_weapon",
+      "targetDisplayHeight": 112
     },
     {
       "key": "zoro_form_zoro_king_of_hell",
       "unitId": "zoro",
       "formId": "form_zoro_king_of_hell",
       "src": "assets/sprites/zoro_form_zoro_king_of_hell.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -348,15 +351,16 @@
           "loop": true
         }
       },
-      "rigType": "swordsman_weapon"
+      "rigType": "swordsman_weapon",
+      "targetDisplayHeight": 120
     },
     {
       "key": "lucci_base",
       "unitId": "lucci",
       "formId": "base",
       "src": "assets/sprites/lucci_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 128,
+      "frameHeight": 128,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -432,7 +436,8 @@
           "loop": true
         }
       },
-      "rigType": "humanoid_brawler"
+      "rigType": "humanoid_brawler",
+      "targetDisplayHeight": 118
     },
     {
       "key": "lucci_form_lucci_awakened",
@@ -523,8 +528,8 @@
       "unitId": "lucci",
       "formId": "form_lucci_hybrid",
       "src": "assets/sprites/lucci_form_lucci_hybrid.png",
-      "frameWidth": 64,
-      "frameHeight": 64,
+      "frameWidth": 128,
+      "frameHeight": 128,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -600,7 +605,8 @@
           "loop": true
         }
       },
-      "rigType": "bulky_tall_coat"
+      "rigType": "bulky_tall_coat",
+      "targetDisplayHeight": 128
     },
     {
       "key": "kaido_base",
@@ -943,8 +949,8 @@
       "unitId": "kizaru",
       "formId": "base",
       "src": "assets/sprites/kizaru_base.png",
-      "frameWidth": 64,
-      "frameHeight": 64,
+      "frameWidth": 128,
+      "frameHeight": 128,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -1020,7 +1026,8 @@
           "loop": true
         }
       },
-      "rigType": "bulky_tall_coat"
+      "rigType": "bulky_tall_coat",
+      "targetDisplayHeight": 128
     },
     {
       "key": "kizaru_form_kizaru_light_realm",
@@ -1111,8 +1118,8 @@
       "unitId": "law",
       "formId": "base",
       "src": "assets/sprites/law_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 128,
+      "frameHeight": 128,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -1188,15 +1195,16 @@
           "loop": true
         }
       },
-      "rigType": "swordsman_weapon"
+      "rigType": "swordsman_weapon",
+      "targetDisplayHeight": 114
     },
     {
       "key": "law_form_law_kroom",
       "unitId": "law",
       "formId": "form_law_kroom",
       "src": "assets/sprites/law_form_law_kroom.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -1272,7 +1280,8 @@
           "loop": true
         }
       },
-      "rigType": "swordsman_weapon"
+      "rigType": "swordsman_weapon",
+      "targetDisplayHeight": 120
     },
     {
       "key": "morgan_base",
@@ -1615,8 +1624,8 @@
       "unitId": "kaku",
       "formId": "base",
       "src": "assets/sprites/kaku_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 128,
+      "frameHeight": 128,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -1692,7 +1701,8 @@
           "loop": true
         }
       },
-      "rigType": "swordsman_weapon"
+      "rigType": "swordsman_weapon",
+      "targetDisplayHeight": 114
     },
     {
       "key": "kaku_form_kaku_giraffe",
@@ -1783,8 +1793,8 @@
       "unitId": "franky",
       "formId": "base",
       "src": "assets/sprites/franky_base.png",
-      "frameWidth": 64,
-      "frameHeight": 64,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -1860,7 +1870,8 @@
           "loop": true
         }
       },
-      "rigType": "bulky_tall_coat"
+      "rigType": "bulky_tall_coat",
+      "targetDisplayHeight": 128
     },
     {
       "key": "franky_form_franky_shogun",
@@ -2623,8 +2634,8 @@
       "unitId": "buggy",
       "formId": "base",
       "src": "assets/sprites/buggy_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -2700,7 +2711,8 @@
           "loop": true
         }
       },
-      "rigType": "caster_ranged"
+      "rigType": "caster_ranged",
+      "targetDisplayHeight": 112
     },
     {
       "key": "buggy_form_solar_awakening",
@@ -2791,8 +2803,8 @@
       "unitId": "don_krieg",
       "formId": "base",
       "src": "assets/sprites/don_krieg_base.png",
-      "frameWidth": 64,
-      "frameHeight": 64,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -2868,7 +2880,8 @@
           "loop": true
         }
       },
-      "rigType": "bulky_tall_coat"
+      "rigType": "bulky_tall_coat",
+      "targetDisplayHeight": 128
     },
     {
       "key": "don_krieg_form_colossus_overdrive",
@@ -2959,8 +2972,8 @@
       "unitId": "arlong",
       "formId": "base",
       "src": "assets/sprites/arlong_base.png",
-      "frameWidth": 64,
-      "frameHeight": 64,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -3036,7 +3049,8 @@
           "loop": true
         }
       },
-      "rigType": "swordsman_weapon"
+      "rigType": "swordsman_weapon",
+      "targetDisplayHeight": 128
     },
     {
       "key": "arlong_form_solar_awakening",
@@ -3127,8 +3141,8 @@
       "unitId": "smoker",
       "formId": "base",
       "src": "assets/sprites/smoker_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -3204,7 +3218,8 @@
           "loop": true
         }
       },
-      "rigType": "caster_ranged"
+      "rigType": "caster_ranged",
+      "targetDisplayHeight": 120
     },
     {
       "key": "smoker_form_tempest_awakening",
@@ -3295,8 +3310,8 @@
       "unitId": "sanji",
       "formId": "base",
       "src": "assets/sprites/sanji_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -3372,15 +3387,16 @@
           "loop": true
         }
       },
-      "rigType": "humanoid_brawler"
+      "rigType": "humanoid_brawler",
+      "targetDisplayHeight": 112
     },
     {
       "key": "sanji_form_sanji_diable_jambe",
       "unitId": "sanji",
       "formId": "form_sanji_diable_jambe",
       "src": "assets/sprites/sanji_form_sanji_diable_jambe.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -3456,15 +3472,16 @@
           "loop": true
         }
       },
-      "rigType": "humanoid_brawler"
+      "rigType": "humanoid_brawler",
+      "targetDisplayHeight": 116
     },
     {
       "key": "usopp_base",
       "unitId": "usopp",
       "formId": "base",
       "src": "assets/sprites/usopp_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -3540,7 +3557,8 @@
           "loop": true
         }
       },
-      "rigType": "caster_ranged"
+      "rigType": "caster_ranged",
+      "targetDisplayHeight": 108
     },
     {
       "key": "usopp_form_tempest_awakening",
@@ -3631,8 +3649,8 @@
       "unitId": "nami",
       "formId": "base",
       "src": "assets/sprites/nami_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -3708,7 +3726,8 @@
           "loop": true
         }
       },
-      "rigType": "caster_ranged"
+      "rigType": "caster_ranged",
+      "targetDisplayHeight": 106
     },
     {
       "key": "nami_form_tempest_awakening",
@@ -3799,8 +3818,8 @@
       "unitId": "wapol",
       "formId": "base",
       "src": "assets/sprites/wapol_base.png",
-      "frameWidth": 64,
-      "frameHeight": 64,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -3876,7 +3895,8 @@
           "loop": true
         }
       },
-      "rigType": "bulky_tall_coat"
+      "rigType": "bulky_tall_coat",
+      "targetDisplayHeight": 124
     },
     {
       "key": "wapol_form_colossus_overdrive",
@@ -3967,8 +3987,8 @@
       "unitId": "crocodile",
       "formId": "base",
       "src": "assets/sprites/crocodile_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -4044,7 +4064,8 @@
           "loop": true
         }
       },
-      "rigType": "caster_ranged"
+      "rigType": "caster_ranged",
+      "targetDisplayHeight": 126
     },
     {
       "key": "crocodile_form_solar_awakening",
@@ -4135,90 +4156,6 @@
       "unitId": "enel",
       "formId": "base",
       "src": "assets/sprites/enel_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
-      "anchor": {
-        "x": 0.5,
-        "y": 0.9
-      },
-      "animations": {
-        "IDLE": {
-          "row": 0,
-          "frames": 4,
-          "fps": 5,
-          "loop": true
-        },
-        "MOVE": {
-          "row": 1,
-          "frames": 6,
-          "fps": 12,
-          "loop": true
-        },
-        "WINDUP": {
-          "row": 2,
-          "frames": 3,
-          "fps": 10,
-          "loop": false
-        },
-        "ATTACK_MELEE": {
-          "row": 3,
-          "frames": 4,
-          "fps": 14,
-          "loop": false,
-          "hitFrame": 2
-        },
-        "ATTACK_CAST": {
-          "row": 4,
-          "frames": 4,
-          "fps": 12,
-          "loop": false,
-          "hitFrame": 2
-        },
-        "CLASH": {
-          "row": 5,
-          "frames": 2,
-          "fps": 12,
-          "loop": true
-        },
-        "DODGE": {
-          "row": 6,
-          "frames": 3,
-          "fps": 12,
-          "loop": false
-        },
-        "HIT": {
-          "row": 7,
-          "frames": 2,
-          "fps": 10,
-          "loop": false
-        },
-        "DOWNED": {
-          "row": 8,
-          "frames": 2,
-          "fps": 4,
-          "loop": true
-        },
-        "TRANSFORM": {
-          "row": 9,
-          "frames": 4,
-          "fps": 10,
-          "loop": false,
-          "hitFrame": 2
-        },
-        "VICTORY": {
-          "row": 10,
-          "frames": 3,
-          "fps": 6,
-          "loop": true
-        }
-      },
-      "rigType": "caster_ranged"
-    },
-    {
-      "key": "enel_form_enel_amuru",
-      "unitId": "enel",
-      "formId": "form_enel_amuru",
-      "src": "assets/sprites/enel_form_enel_amuru.png",
       "frameWidth": 96,
       "frameHeight": 96,
       "anchor": {
@@ -4296,15 +4233,16 @@
           "loop": true
         }
       },
-      "rigType": "giant_beast"
+      "rigType": "caster_ranged",
+      "targetDisplayHeight": 122
     },
     {
-      "key": "moria_base",
-      "unitId": "moria",
-      "formId": "base",
-      "src": "assets/sprites/moria_base.png",
-      "frameWidth": 64,
-      "frameHeight": 64,
+      "key": "enel_form_enel_amuru",
+      "unitId": "enel",
+      "formId": "form_enel_amuru",
+      "src": "assets/sprites/enel_form_enel_amuru.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -4380,7 +4318,93 @@
           "loop": true
         }
       },
-      "rigType": "caster_ranged"
+      "rigType": "giant_beast",
+      "targetDisplayHeight": 158
+    },
+    {
+      "key": "moria_base",
+      "unitId": "moria",
+      "formId": "base",
+      "src": "assets/sprites/moria_base.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "animations": {
+        "IDLE": {
+          "row": 0,
+          "frames": 4,
+          "fps": 5,
+          "loop": true
+        },
+        "MOVE": {
+          "row": 1,
+          "frames": 6,
+          "fps": 12,
+          "loop": true
+        },
+        "WINDUP": {
+          "row": 2,
+          "frames": 3,
+          "fps": 10,
+          "loop": false
+        },
+        "ATTACK_MELEE": {
+          "row": 3,
+          "frames": 4,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ATTACK_CAST": {
+          "row": 4,
+          "frames": 4,
+          "fps": 12,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "CLASH": {
+          "row": 5,
+          "frames": 2,
+          "fps": 12,
+          "loop": true
+        },
+        "DODGE": {
+          "row": 6,
+          "frames": 3,
+          "fps": 12,
+          "loop": false
+        },
+        "HIT": {
+          "row": 7,
+          "frames": 2,
+          "fps": 10,
+          "loop": false
+        },
+        "DOWNED": {
+          "row": 8,
+          "frames": 2,
+          "fps": 4,
+          "loop": true
+        },
+        "TRANSFORM": {
+          "row": 9,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "VICTORY": {
+          "row": 10,
+          "frames": 3,
+          "fps": 6,
+          "loop": true
+        }
+      },
+      "rigType": "caster_ranged",
+      "targetDisplayHeight": 146
     },
     {
       "key": "moria_form_moria_shadows_asgard",
@@ -4639,8 +4663,8 @@
       "unitId": "akainu",
       "formId": "base",
       "src": "assets/sprites/akainu_base.png",
-      "frameWidth": 64,
-      "frameHeight": 64,
+      "frameWidth": 128,
+      "frameHeight": 128,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -4716,7 +4740,8 @@
           "loop": true
         }
       },
-      "rigType": "bulky_tall_coat"
+      "rigType": "bulky_tall_coat",
+      "targetDisplayHeight": 128
     },
     {
       "key": "akainu_form_akainu_magma_zone",
@@ -4807,8 +4832,8 @@
       "unitId": "aokiji",
       "formId": "base",
       "src": "assets/sprites/aokiji_base.png",
-      "frameWidth": 64,
-      "frameHeight": 64,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -4884,7 +4909,8 @@
           "loop": true
         }
       },
-      "rigType": "bulky_tall_coat"
+      "rigType": "bulky_tall_coat",
+      "targetDisplayHeight": 128
     },
     {
       "key": "aokiji_form_aokiji_ice_age",
@@ -4975,8 +5001,8 @@
       "unitId": "blackbeard",
       "formId": "base",
       "src": "assets/sprites/blackbeard_base.png",
-      "frameWidth": 64,
-      "frameHeight": 64,
+      "frameWidth": 128,
+      "frameHeight": 128,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -5052,7 +5078,8 @@
           "loop": true
         }
       },
-      "rigType": "bulky_tall_coat"
+      "rigType": "bulky_tall_coat",
+      "targetDisplayHeight": 134
     },
     {
       "key": "blackbeard_form_colossus_overdrive",
@@ -5143,8 +5170,8 @@
       "unitId": "chopper",
       "formId": "base",
       "src": "assets/sprites/chopper_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -5220,7 +5247,8 @@
           "loop": true
         }
       },
-      "rigType": "small_agile"
+      "rigType": "small_agile",
+      "targetDisplayHeight": 92
     },
     {
       "key": "chopper_form_chopper_monster",
@@ -5479,8 +5507,8 @@
       "unitId": "robin",
       "formId": "base",
       "src": "assets/sprites/robin_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -5556,7 +5584,8 @@
           "loop": true
         }
       },
-      "rigType": "caster_ranged"
+      "rigType": "caster_ranged",
+      "targetDisplayHeight": 112
     },
     {
       "key": "robin_form_robin_demonio",
@@ -5647,8 +5676,8 @@
       "unitId": "brook",
       "formId": "base",
       "src": "assets/sprites/brook_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -5724,7 +5753,8 @@
           "loop": true
         }
       },
-      "rigType": "swordsman_weapon"
+      "rigType": "swordsman_weapon",
+      "targetDisplayHeight": 124
     },
     {
       "key": "brook_form_tempest_awakening",
@@ -5815,8 +5845,8 @@
       "unitId": "marco",
       "formId": "base",
       "src": "assets/sprites/marco_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 128,
+      "frameHeight": 128,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -5892,7 +5922,8 @@
           "loop": true
         }
       },
-      "rigType": "humanoid_brawler"
+      "rigType": "humanoid_brawler",
+      "targetDisplayHeight": 116
     },
     {
       "key": "marco_form_marco_phoenix",
@@ -5976,7 +6007,8 @@
           "loop": true
         }
       },
-      "rigType": "giant_beast"
+      "rigType": "giant_beast",
+      "targetDisplayHeight": 136
     },
     {
       "key": "marco_form_marco_hybrid",
@@ -6067,8 +6099,8 @@
       "unitId": "hody_jones",
       "formId": "base",
       "src": "assets/sprites/hody_jones_base.png",
-      "frameWidth": 64,
-      "frameHeight": 64,
+      "frameWidth": 128,
+      "frameHeight": 128,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -6144,7 +6176,8 @@
           "loop": true
         }
       },
-      "rigType": "bulky_tall_coat"
+      "rigType": "bulky_tall_coat",
+      "targetDisplayHeight": 128
     },
     {
       "key": "hody_jones_form_colossus_overdrive",
@@ -6235,8 +6268,8 @@
       "unitId": "doflamingo",
       "formId": "base",
       "src": "assets/sprites/doflamingo_base.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -6312,15 +6345,16 @@
           "loop": true
         }
       },
-      "rigType": "caster_ranged"
+      "rigType": "caster_ranged",
+      "targetDisplayHeight": 124
     },
     {
       "key": "doflamingo_form_doflamingo_awakening",
       "unitId": "doflamingo",
       "formId": "form_doflamingo_awakening",
       "src": "assets/sprites/doflamingo_form_doflamingo_awakening.png",
-      "frameWidth": 48,
-      "frameHeight": 48,
+      "frameWidth": 96,
+      "frameHeight": 96,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -6396,7 +6430,8 @@
           "loop": true
         }
       },
-      "rigType": "caster_ranged"
+      "rigType": "caster_ranged",
+      "targetDisplayHeight": 132
     },
     {
       "key": "katakuri_base",
@@ -6571,8 +6606,8 @@
       "unitId": "jinbe",
       "formId": "base",
       "src": "assets/sprites/jinbe_base.png",
-      "frameWidth": 64,
-      "frameHeight": 64,
+      "frameWidth": 128,
+      "frameHeight": 128,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -6648,7 +6683,8 @@
           "loop": true
         }
       },
-      "rigType": "bulky_tall_coat"
+      "rigType": "bulky_tall_coat",
+      "targetDisplayHeight": 132
     },
     {
       "key": "jinbe_form_colossus_overdrive",
@@ -6739,8 +6775,8 @@
       "unitId": "magellan",
       "formId": "base",
       "src": "assets/sprites/magellan_base.png",
-      "frameWidth": 64,
-      "frameHeight": 64,
+      "frameWidth": 128,
+      "frameHeight": 128,
       "anchor": {
         "x": 0.5,
         "y": 0.9
@@ -6816,7 +6852,8 @@
           "loop": true
         }
       },
-      "rigType": "bulky_tall_coat"
+      "rigType": "bulky_tall_coat",
+      "targetDisplayHeight": 144
     },
     {
       "key": "magellan_form_magellan_venom_demon",

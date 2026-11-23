@@ -29,16 +29,16 @@
     {
       "stepId": "step_egghead_labophase",
       "title": "래보페이즈 돌파: 세라핌 S-호크 & 각성 루치 격파",
-      "description": "배리어 너머의 세라핌 S-호크(루나리아 불꽃)와 각성 루치를 돌파하세요.",
+      "description": "북쪽 펑크 레코드 연구동 앞 세라핌 S-호크(루나리아 불꽃)와 각성 루치를 돌파하세요.",
       "requiredFlag": "flag_egghead_labophase_cleared",
-      "targetPos": { "x": 640, "y": 265 }
+      "targetPos": { "x": 784, "y": 304 }
     },
     {
       "stepId": "step_egghead_boss",
       "title": "해안 탈출 결전: 대장 키자루 & 오로성 새턴 성 격파",
       "description": "패왕색 휘감기 공격으로 새턴 성의 초재생을 6초간 억제하며 키자루와 새턴 성을 물리치세요.",
       "requiredFlag": "flag_egghead_cleared",
-      "targetPos": { "x": 825, "y": 270 }
+      "targetPos": { "x": 1168, "y": 240 }
     }
   ],
   "rewards": {

@@ -3,17 +3,17 @@
   "unitId": "lucci",
   "formId": "base",
   "rigType": "humanoid_brawler",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "sheetWidth": 768,
+  "sheetHeight": 1408,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "9b86868edf7aa565556ce1d99c3705c7f67fbbc9f68a0b3292464916295a9065",
-  "bakedAt": "2026-11-21T14:55:00.140Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "2e8f199f88059959dbf59f3328a296a2b401a9e49242ee7821fdae1ca3b5d403",
+  "bakedAt": "2026-11-23T00:58:03.938Z",
   "animations": {
     "IDLE": {
       "row": 0,

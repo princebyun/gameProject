@@ -3,17 +3,17 @@
   "unitId": "doflamingo",
   "formId": "base",
   "rigType": "caster_ranged",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "b39c6ac14505ff073a2993fe5defa64dccbde16ce596cb4b028c46e3a3feee0d",
-  "bakedAt": "2026-11-21T14:55:00.523Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "8cfe3e003b285a760192c196bc55b4301b9095c6255d3180b06474871f2ad222",
+  "bakedAt": "2026-11-23T00:58:08.197Z",
   "animations": {
     "IDLE": {
       "row": 0,

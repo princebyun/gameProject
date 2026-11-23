@@ -2,31 +2,252 @@
   "islandId": "foosha_shells",
   "name": "후샤 마을 & 쉘즈타운 해군기지",
   "episodeId": "ep_east_blue_start",
-  "width": 960,
-  "height": 540,
+  "width": 1536,
+  "height": 1088,
   "theme": "HARBOR_TOWN",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 688,
+    "y": 912
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 592,
+      "y": 944
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 528,
+    "y": 752
+  },
   "obstacles": [
-    { "x": 240, "y": 80, "width": 140, "height": 90, "label": "마키노의 주점" },
-    { "x": 540, "y": 70, "width": 220, "height": 100, "label": "쉘즈타운 해군 제153지부" }
+    {
+      "x": 992,
+      "y": 448,
+      "width": 224,
+      "height": 64,
+      "label": "파티즈 바"
+    },
+    {
+      "x": 672,
+      "y": 128,
+      "width": 256,
+      "height": 64,
+      "label": "쉘즈타운 해군 제153지부"
+    }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
   "giantProps": [],
+  "zones": [
+    {
+      "zoneId": "zone_foosha_harbor",
+      "name": "후샤 항구 & 목조 부두",
+      "subtitle": "이스트 블루 출항 거점",
+      "tileX": 13,
+      "tileY": 25,
+      "tileW": 16,
+      "tileH": 8,
+      "accentColor": "#38bdf8"
+    },
+    {
+      "zoneId": "zone_foosha_plaza",
+      "name": "중앙 돌길 광장",
+      "subtitle": "마을 주민들과 현상금 게시판",
+      "tileX": 15,
+      "tileY": 14,
+      "tileW": 16,
+      "tileH": 11,
+      "accentColor": "#facc15"
+    },
+    {
+      "zoneId": "zone_foosha_windmill",
+      "name": "풍차 언덕 전망대",
+      "subtitle": "코르보 산 아래 바람의 언덕",
+      "tileX": 1,
+      "tileY": 2,
+      "tileW": 13,
+      "tileH": 13,
+      "accentColor": "#4ade80"
+    },
+    {
+      "zoneId": "zone_partys_bar",
+      "name": "파티즈 바 & 마을 거리",
+      "subtitle": "마키노의 단골 주점",
+      "tileX": 29,
+      "tileY": 11,
+      "tileW": 17,
+      "tileH": 14,
+      "accentColor": "#fb923c"
+    },
+    {
+      "zoneId": "zone_shells_base",
+      "name": "쉘즈타운 해군 제153지부",
+      "subtitle": "모건 대령 & 조로 구출",
+      "tileX": 18,
+      "tileY": 2,
+      "tileW": 13,
+      "tileH": 10,
+      "accentColor": "#ef4444"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_foosha_east_reef",
+      "tileX": 44,
+      "tileY": 24,
+      "rarity": "silver",
+      "hiddenHint": "동쪽 숲 나뭇가지 뒤 해안 암초",
+      "reward": {
+        "berries": 5000,
+        "trainingPoints": 12,
+        "itemLabel": "해안 암초 은화"
+      }
+    },
+    {
+      "chestId": "chest_foosha_windmill_back",
+      "tileX": 4,
+      "tileY": 4,
+      "rarity": "gold",
+      "hiddenHint": "풍차 언덕 북서쪽 뒷길",
+      "reward": {
+        "berries": 8000,
+        "trainingPoints": 18,
+        "healPartyRatio": 0.35,
+        "itemLabel": "샹크스의 보급 도시락"
+      }
+    },
+    {
+      "chestId": "chest_foosha_bar_alley",
+      "tileX": 34,
+      "tileY": 12,
+      "rarity": "wooden",
+      "hiddenHint": "파티즈 바 지붕 뒤편 오크통 골목",
+      "reward": {
+        "berries": 3000,
+        "trainingPoints": 8,
+        "itemLabel": "오래된 럼주 통 보물"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_foosha_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 출항 부두",
+      "tileX": 18,
+      "tileY": 29,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_foosha_makino",
+      "kind": "MAIN",
+      "label": "★ 마키노 (출항 준비)",
+      "tileX": 22,
+      "tileY": 24,
+      "hideWhenFlagSet": "flag_foosha_briefed",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_foosha_zoro",
+      "kind": "SIDE",
+      "label": "◆ 조로 구출",
+      "tileX": 20,
+      "tileY": 9,
+      "hideWhenFlagSet": "flag_zoro_freed",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_foosha_bounty",
+      "kind": "ACTIVITY",
+      "label": "📋 현상금 게시판",
+      "tileX": 18,
+      "tileY": 18,
+      "actionKind": "BOUNTY_BOARD"
+    },
+    {
+      "markerId": "marker_foosha_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 16,
+      "tileY": 23,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_foosha_windmill",
+      "kind": "WINDMILL",
+      "tileX": 6,
+      "tileY": 5,
+      "widthTiles": 2,
+      "heightTiles": 2,
+      "label": "풍차",
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_foosha_boat",
+      "kind": "DOCKED_BOAT",
+      "tileX": 14,
+      "tileY": 28,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_foosha_well",
+      "kind": "WELL",
+      "tileX": 23,
+      "tileY": 18,
+      "widthTiles": 1,
+      "heightTiles": 1
+    },
+    {
+      "landmarkId": "lm_foosha_bounty",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 18,
+      "tileY": 17,
+      "widthTiles": 1,
+      "heightTiles": 1
+    }
+  ],
   "npcs": [
     {
       "npcId": "npc_makino",
       "name": "마키노",
-      "roleLabel": "후샤 마을 주점 주인",
-      "pos": { "x": 310, "y": 210 },
-      "interactRadiusPx": 48,
-      "visualScale": 1.0,
+      "roleLabel": "후샤 마을 파티즈 바 주점 주인",
+      "pos": {
+        "x": 720,
+        "y": 784
+      },
+      "interactRadiusPx": 50,
+      "visualScale": 1,
       "color": "#4ade80",
+      "facing": "down",
+      "ambientBubbleText": "루피, 도시락 챙겼니?",
+      "patrolWaypoints": [
+        {
+          "x": 720,
+          "y": 784
+        },
+        {
+          "x": 848,
+          "y": 784
+        },
+        {
+          "x": 848,
+          "y": 720
+        },
+        {
+          "x": 720,
+          "y": 720
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75,
       "setsQuestFlagOnTalk": "flag_foosha_briefed",
       "dialogueLines": [
         "루피! 드디어 바다로 출항하는구나! 샹크스가 맡긴 밀짚모자, 잘 간직해야 해!",
-        "동쪽 쉘즈타운 해군기지 처형장에 해적사냥꾼 롤로노아 조로가 묶여 있다는 소문이 있어."
+        "동쪽 북부 쉘즈타운 해군 제153지부에 해적사냥꾼 롤로노아 조로가 묶여 있다는 소문이 있어."
       ],
       "choices": [
         {
@@ -40,10 +261,15 @@
       "npcId": "npc_zoro_bound",
       "name": "롤로노아 조로",
       "roleLabel": "삼도류 검사",
-      "pos": { "x": 620, "y": 230 },
+      "pos": {
+        "x": 656,
+        "y": 304
+      },
       "interactRadiusPx": 52,
       "visualScale": 1.05,
       "color": "#22c55e",
+      "facing": "right",
+      "ambientBubbleText": "삼도류... 내 검을 가져와!",
       "setsQuestFlagOnTalk": "flag_zoro_freed",
       "dialogueLines": [
         "내 검 세 자루를 찾아준 건가? 악마의 아들이든 해적이든 상관없다.",
@@ -57,6 +283,176 @@
           "responseLine": "[동료 합류] 롤로노아 조로가 밀짚모자 일당(검사 직책)에 합류했습니다!"
         }
       ]
+    },
+    {
+      "npcId": "npc_woop_slap",
+      "name": "우프 슬랩 촌장",
+      "roleLabel": "후샤 마을 촌장",
+      "pos": {
+        "x": 656,
+        "y": 624
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1,
+      "color": "#eab308",
+      "facing": "down",
+      "ambientBubbleText": "또 해적이 되겠다고?!",
+      "patrolWaypoints": [
+        {
+          "x": 656,
+          "y": 624
+        },
+        {
+          "x": 848,
+          "y": 624
+        },
+        {
+          "x": 848,
+          "y": 528
+        },
+        {
+          "x": 656,
+          "y": 528
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 90,
+      "dialogueLines": [
+        "허허... 루피 녀석, 결국 바다로 나가는 게냐. 마을 명예를 더럽히지 말거라!",
+        "풍차 언덕 뒷길이나 파티즈 바 뒤편도 한번 살펴보고 떠나렴."
+      ]
+    },
+    {
+      "npcId": "npc_foosha_fisherman",
+      "name": "어부 기요",
+      "roleLabel": "후샤 항구 어부",
+      "pos": {
+        "x": 560,
+        "y": 880
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.98,
+      "color": "#38bdf8",
+      "facing": "right",
+      "ambientBubbleText": "오늘 해류는 순풍이야!",
+      "patrolWaypoints": [
+        {
+          "x": 560,
+          "y": 880
+        },
+        {
+          "x": 752,
+          "y": 880
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 65,
+      "dialogueLines": [
+        "동쪽 숲 해안 암초 쪽에 파도에 밀려온 보물상자가 걸려 있다는 소문을 들었어!"
+      ]
+    },
+    {
+      "npcId": "npc_foosha_kid_1",
+      "name": "꼬마 선원 타로",
+      "roleLabel": "마을 아이",
+      "pos": {
+        "x": 816,
+        "y": 656
+      },
+      "interactRadiusPx": 42,
+      "visualScale": 0.85,
+      "color": "#fb7185",
+      "facing": "left",
+      "ambientBubbleText": "고무고무 멋져요!!",
+      "patrolWaypoints": [
+        {
+          "x": 816,
+          "y": 656
+        },
+        {
+          "x": 816,
+          "y": 560
+        },
+        {
+          "x": 688,
+          "y": 560
+        },
+        {
+          "x": 688,
+          "y": 656
+        }
+      ],
+      "patrolSpeedPx": 54,
+      "pauseTicks": 40,
+      "dialogueLines": [
+        "형! 샹크스 형처럼 대단한 해적이 돼서 꼭 돌아와요!"
+      ]
+    },
+    {
+      "npcId": "npc_foosha_kid_2",
+      "name": "언덕 지킴이 미나",
+      "roleLabel": "풍차 언덕 아이",
+      "pos": {
+        "x": 400,
+        "y": 496
+      },
+      "interactRadiusPx": 42,
+      "visualScale": 0.85,
+      "color": "#f472b6",
+      "facing": "left",
+      "ambientBubbleText": "풍차가 힘차게 돌아가네~",
+      "patrolWaypoints": [
+        {
+          "x": 400,
+          "y": 496
+        },
+        {
+          "x": 272,
+          "y": 496
+        },
+        {
+          "x": 272,
+          "y": 304
+        },
+        {
+          "x": 272,
+          "y": 496
+        }
+      ],
+      "patrolSpeedPx": 48,
+      "pauseTicks": 50,
+      "dialogueLines": [
+        "언덕 꼭대기 풍차 뒤편 구석에 반짝이는 금상자가 숨어 있어요!"
+      ]
+    },
+    {
+      "npcId": "npc_foosha_patron",
+      "name": "산적 단골 마르코씨",
+      "roleLabel": "파티즈 바 손님",
+      "pos": {
+        "x": 1008,
+        "y": 592
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 1,
+      "color": "#f59e0b",
+      "facing": "right",
+      "ambientBubbleText": "주점 뒤 골목에 술통이...",
+      "patrolWaypoints": [
+        {
+          "x": 1008,
+          "y": 592
+        },
+        {
+          "x": 1200,
+          "y": 592
+        }
+      ],
+      "patrolSpeedPx": 36,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "파티즈 바 지붕 뒤편 좁은 뒷골목에 누가 오크통과 상자를 숨겨놨던데..."
+      ]
     }
   ],
   "encounters": [
@@ -64,9 +460,14 @@
       "encounterId": "enc_shells_town_boss",
       "name": "해군 제153지부 대령 도끼손 모건",
       "isBoss": true,
-      "pos": { "x": 810, "y": 270 },
+      "pos": {
+        "x": 810,
+        "y": 270
+      },
       "triggerRadiusPx": 56,
-      "enemyUnitIds": ["morgan"],
+      "enemyUnitIds": [
+        "morgan"
+      ],
       "aiLevel": 2,
       "arenaSizeKey": "medium",
       "setsFlagOnVictory": "flag_east_blue_boss_cleared",
@@ -79,5 +480,267 @@
         "내 강철 도끼손의 일격으로 밀짚모자 루피와 롤로노아 조로를 두 동강 내주마!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "GULL",
+      "LEAF",
+      "SPRAY"
+    ],
+    "density": 28
+  },
+  "lightingProfile": {
+    "defaultMood": "DAY",
+    "tintHex": "#fef08a",
+    "tintAlpha": 0.06,
+    "sunbeams": true,
+    "lanterns": [
+      {
+        "tileX": 21,
+        "tileY": 25,
+        "color": "#fde047",
+        "radiusPx": 46
+      },
+      {
+        "tileX": 33,
+        "tileY": 17,
+        "color": "#fb923c",
+        "radiusPx": 48
+      },
+      {
+        "tileX": 24,
+        "tileY": 8,
+        "color": "#f87171",
+        "radiusPx": 44
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 48,
+    "rows": 34,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccccc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGggggggggggggGGGGGGGBBBBBBBBGGGGGGGGGGGGGGGGGGc",
+      "cGggpppppgggggGGGGGGGBBBBBBBBGGGGGGGGGGGGGGGGGGc",
+      "cGggpppppgggggGGGGGGGbwbwDwbwGGGGcGGGGGGGGGGGGGc",
+      "cGggpppppggggcGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGggggggggggggGGGGGpppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGggggggggggggGGGGGpppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGggggggggggggGGGGGpppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGccccggggccccGGGGGpppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGggggggggggggGGGGGpppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGGGGGppppGGGGGGGGGpppppppppppGppppppppBBBBGGGGc",
+      "cGGGGGppppGGGGGGGGGpppppppppppGBBBBBBBGBBBBGGGGc",
+      "cGGGGGppppppppppppGpppppppppppGBBBBBBBGbwDwGGGGc",
+      "cGGGGGGpppppppppppppppppppppppGbwbDbwbGGGGGGGGGc",
+      "cGGGGGGpppppppppppppppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGpppppppppppppppppppppppppGGGGGc",
+      "cGGcGGGGGGGBBBBGGpppppppppppppppppppppppsssssGGc",
+      "cGGGGGGGGGGBBBBGGpppppppppppppppppppppppscsssGGc",
+      "cGGGGGGGGGGbwDwGGpppppppppppppppppppppppssssscGc",
+      "cGGGGGGGGGGGGGGGGpppppppppppppGGGGGGGGGGsssssGGc",
+      "cGGGGGGGGGGGGGGGGpppppppppppppGGGGGGGGGGsscsssss",
+      "cGGGGGGGGGGGGGGGGpppppppppppppGGGGGGGcGGssssssss",
+      "cGGGGGGGGGGGGGGGGpppppppppppppGGGGGGGGGGssssssss",
+      "cGGGGGGGGGGGGGGGGpppppppppppppGGGGGGGGGGGGsss~WW",
+      "cGGGGGGGGGGGGGGGspppppppppppppGGGGGGGGssss~~~~~~",
+      "ssGGGGGGGGGGGsss~dddddddd~~~sssGGGGGss~~~~WWWWWW",
+      "~~ssssGGGssss~~~WddddddddWWW~~~ssssG~~WWWWWWWWWW",
+      "WW~~~~sss~~~~WWWWddddddddWWWWWW~~~~sWWWWWWWWWWWW",
+      "WWWWWW~~~WWWWWWWWddddddddWWWWWWWWWW~WWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+    ],
+    "detailRows": [
+      "................................................",
+      ".....f....f.....FFF.............tF..............",
+      ".....F..F....F....t...tf.......f.....ft.........",
+      "...t....f.f.......t..........f..fF.....f.....f..",
+      "............tf...............t...F...........f..",
+      "..........f........ff.........t.........t...t...",
+      "...........f..tf...tfhhhhhhhh....j...t.......f..",
+      "..tt.F.....f.jf.f...................t...........",
+      ".....t.....t...F...............f......f...f...f.",
+      "...t.t.....f....F.F.................t.t....f....",
+      ".................tt............F..t..........f..",
+      ".....F...........F..............F.ff............",
+      "...FF...........................................",
+      ".............................k........k....t.f..",
+      ".t............................f.................",
+      "..FF..f..........ppppppppppppp.........hhhh.tff.",
+      "..t..............ppppppppppppp.hhhhhhh..........",
+      "....t....F..F....ppppppppppppp..................",
+      ".t......f.t.....Fppppppppppppp..................",
+      ".F.jt............ppppppppppppp...............tf.",
+      ".ffF...........tfppppppppppppp...........j......",
+      ".........F.hhhh..ppppppppppppp...t..F........j..",
+      ".........tf......ppppppppppppp..................",
+      ".t............tFfppppppppppppp......t..F..j.....",
+      "...f.....f.......ppppppppppppp....F..j..........",
+      ".f...t...f.f.fF..ppppppppppppp......f...........",
+      "...tt........F...pppppppppppppf.F.f.............",
+      "..f.f.......t....dddddddd.........tF............",
+      "......f..........dddddddd.......................",
+      ".................dddddddd.......................",
+      ".................dddddddd.......................",
+      "................................................",
+      "................................................",
+      "................................................"
+    ],
+    "solidRows": [
+      "################################################",
+      "#..............................................#",
+      "#..............................................#",
+      "#....................########..................#",
+      "#....................########..................#",
+      "#.....##.............########....#.............#",
+      "#.....##.....#.................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#.####....####.................................#",
+      "#..............................................#",
+      "#......................................####....#",
+      "#............................#.############....#",
+      "#..............................#######.####....#",
+      "#..............................#######.........#",
+      "#..............................................#",
+      "#.................#............................#",
+      "#..#.......####........#.......................#",
+      "#..........####..........................#.....#",
+      "#..........####..............................#.#",
+      "#..............................................#",
+      "#.........................................#....#",
+      "#....................................#.........#",
+      "#..............................................#",
+      "#............................................###",
+      "#.........................................######",
+      "#...............#........###..........##########",
+      "##...........####........######.....############",
+      "######...########........##########.############",
+      "#################........#######################",
+      "################################################",
+      "################################################",
+      "################################################"
+    ],
+    "overheadRows": [
+      "................................................",
+      "................................................",
+      "....................rrrrrrrrrr..................",
+      "....................RRRRRRRRRR..oOo.............",
+      "............oOo.....RRRRRRRRRR..OoO.............",
+      "............OoO.................oOo.............",
+      "............oOo.................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "......................................rrrrrr....",
+      "..............................reeeeeeeRRRRRR....",
+      "..............................RRRRRRRRRRRRRR....",
+      "..............................RRRRRRRRR.........",
+      "................................................",
+      "..oOo...........................................",
+      "..OoO.....rrrrrr........................oOo.....",
+      "..oOo.....RRRRRR........................OoO.oOo.",
+      "..........RRRRRR........................oOo.OoO.",
+      ".........................................OOOOOo.",
+      "....................................oOo..OOOO...",
+      "....................................OoO..OOOO...",
+      "....................................oOo.........",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................"
+    ],
+    "surfaceRows": [
+      "gggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggg",
+      "ggggpppppggggggggggggggggggggggggggggggggggggggg",
+      "ggggpppppggggggggggggggggggggggggggggggggggggggg",
+      "ggggpppppggggggggggggggggggggggggggggggggggggggg",
+      "ggggggppppgggggggggpppppppppppgggggggggggggggggg",
+      "ggggggppppgggggggggpppppppppppgggggggggggggggggg",
+      "ggggggppppgggggggggpppppppppppgggggggggggggggggg",
+      "ggggggppppgggggggggpppppppppppgggggggggggggggggg",
+      "ggggggppppgggggggggpppppppppppgggggggggggggggggg",
+      "ggggggppppgggggggggpppppppppppgppppppppggggggggg",
+      "ggggggppppgggggggggpppppppppppgggggggggggggggggg",
+      "ggggggppppppppppppgpppppppppppgggggggggggggggggg",
+      "gggggggpppppppppppppppppppppppgggggggggggggggggg",
+      "gggggggpppppppppppppppppppppppgggggggggggggggggg",
+      "gggggggggggggggggpppppppppppppppppppppppppgggggg",
+      "gggggggggggggggggpppppppppppppppppppppppsssssggg",
+      "gggggggggggggggggpppppppppppppppppppppppsssssggg",
+      "gggggggggggggggggpppppppppppppppppppppppsssssggg",
+      "gggggggggggggggggpppppppppppppggggggggggsssssggg",
+      "gggggggggggggggggpppppppppppppggggggggggssssssss",
+      "gggggggggggggggggpppppppppppppggggggggggssssssss",
+      "gggggggggggggggggpppppppppppppggggggggggssssssss",
+      "gggggggggggggggggpppppppppppppggggggggggggssssss",
+      "ggggggggggggggggspppppppppppppggggggggssssssssss",
+      "ssgggggggggggssssddddddddssssssgggggssssssssssss",
+      "ssssssgggssssssssddddddddssssssssssgssssssssssss",
+      "sssssssssssssssssddddddddsssssssssssssssssssssss",
+      "sssssssssssssssssddddddddsssssssssssssssssssssss",
+      "ssssssssssssssssssssssssssssssssssssssssssssssss",
+      "ssssssssssssssssssssssssssssssssssssssssssssssss",
+      "ssssssssssssssssssssssssssssssssssssssssssssssss"
+    ]
+  }
 }

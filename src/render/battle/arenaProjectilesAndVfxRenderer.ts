@@ -11,6 +11,7 @@ import {
   drawConquerorLightningBolts,
   getElementColorFast
 } from './arenaVfxPrimitives';
+import type { VfxAtlasProvider, VfxAtlasRenderer } from './vfxAtlasRenderer';
 
 const SCRATCH_PROJ_POS: Vec2 = { x: 0, y: 0 };
 const SCRATCH_BOLT_POS: Vec2 = { x: 0, y: 0 };
@@ -178,11 +179,19 @@ export function renderArenaAttacksAndProjectiles(
   }
 }
 
+export interface ArenaVfxHost extends VfxAtlasProvider {
+  readonly vfxAtlasRenderer: VfxAtlasRenderer;
+}
+
 export function renderArenaClashSparksAndFloatingTexts(
   ctx: CanvasRenderingContext2D,
   world: BattleWorldState,
-  visibleBounds?: ViewportWorldBounds
+  visibleBounds?: ViewportWorldBounds,
+  vfxHost?: ArenaVfxHost
 ): void {
+  if (vfxHost) {
+    vfxHost.vfxAtlasRenderer.syncAndRenderWorldVfx(ctx, world, vfxHost, visibleBounds);
+  }
   for (const bc of world.beamClashes) {
     const cx = Math.round(bc.clashPoint.x);
     const cy = Math.round(bc.clashPoint.y);

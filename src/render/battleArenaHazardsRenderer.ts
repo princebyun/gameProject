@@ -10,6 +10,7 @@ import {
   getElementColorFast
 } from './battle/arenaVfxPrimitives';
 import { renderArenaEnvironmentAndHazards } from './battle/arenaZonesRenderer';
+import type { VfxAtlasProvider } from './battle/vfxAtlasRenderer';
 import type { ViewportWorldBounds } from './viewport/frustumCulling';
 
 export {
@@ -17,6 +18,17 @@ export {
   getElementColorFast,
   renderArenaClashSparksAndFloatingTexts
 };
+
+export interface BattleVfxRendererHost extends VfxAtlasProvider {
+  readonly vfxAtlasRenderer: {
+    syncAndRenderWorldVfx(
+      ctx: CanvasRenderingContext2D,
+      world: BattleWorldState,
+      provider: VfxAtlasProvider,
+      visibleBounds?: ViewportWorldBounds
+    ): void;
+  };
+}
 
 export function renderArenaFloorZonesAndProjectiles(
   ctx: CanvasRenderingContext2D,

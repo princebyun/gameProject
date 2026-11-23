@@ -3,8 +3,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type {
   AudioManifestFile,
+  BattleBackdropsManifestFile,
   SpriteSheetManifestFile,
-  TilesetManifestFile
+  TilesetManifestFile,
+  VfxManifestFile
 } from '../src/data/assets/types';
 import { STANDARD_SPRITE_ANIM_STATES } from '../src/data/assets/types';
 import {
@@ -53,6 +55,16 @@ function readPngDimensions(absPath: string): { width: number; height: number } |
     width: buf.readUInt32BE(16),
     height: buf.readUInt32BE(20)
   };
+}
+
+function hasValidAudioHeader(absPath: string): boolean {
+  const buf = fs.readFileSync(absPath);
+  if (buf.byteLength < 16) return false;
+  if (buf[0] === 0x4f && buf[1] === 0x67 && buf[2] === 0x67 && buf[3] === 0x53) return true; // OggS
+  if (buf[0] === 0x49 && buf[1] === 0x44 && buf[2] === 0x33) return true; // ID3
+  if (buf[0] === 0xff && (buf[1]! & 0xe0) === 0xe0) return true; // MP3 sync
+  if (buf[0] === 0x52 && buf[1] === 0x49 && buf[2] === 0x46 && buf[3] === 0x46) return true; // RIFF
+  return false;
 }
 
 interface UnitJsonEntry {
@@ -116,7 +128,7 @@ const REQUIRED_SHIP_KEYS = [
   'ship_sea_king'
 ];
 
-const VALID_FRAME_SIZES = new Set([32, 48, 64, 96]);
+const VALID_FRAME_SIZES = new Set([32, 48, 64, 96, 128]);
 
 function main(): void {
   const errors: string[] = [];
@@ -136,6 +148,8 @@ function main(): void {
   );
   const tilesets = readJson<TilesetManifestFile>('src/data/assets/tilesets.json');
   const audio = readJson<AudioManifestFile>('src/data/assets/audio.json');
+  const backgrounds = readJson<BattleBackdropsManifestFile>('src/data/assets/backgrounds.json');
+  const vfx = readJson<VfxManifestFile>('src/data/assets/vfx.json');
 
   const formIdSet = new Set(forms.map((f) => f.id));
   const blueprintByKey = new Map(blueprints.entries.map((b) => [b.key, b]));
@@ -152,7 +166,7 @@ function main(): void {
 
     if (!VALID_FRAME_SIZES.has(entry.frameWidth) || !VALID_FRAME_SIZES.has(entry.frameHeight)) {
       errors.push(
-        `[sprites.json] Invalid frame size on "${entry.key}": ${entry.frameWidth}x${entry.frameHeight} (expected 32, 48, 64, or 96)`
+        `[sprites.json] Invalid frame size on "${entry.key}": ${entry.frameWidth}x${entry.frameHeight} (expected 32, 48, 64, 96, or 128)`
       );
     }
 
@@ -176,6 +190,11 @@ function main(): void {
         const dims = readPngDimensions(absSpritePath);
         if (!dims) {
           errors.push(`[sprites.json] Invalid PNG header on "${relPublicPng}"`);
+        } else if (entry.atlasMode === 'VARIABLE_PACK') {
+          if (stat.size >= 1024 * 1024) {
+            errors.push(`[sprites.json] VARIABLE_PACK PNG "${entry.src}" exceeds 1 MiB (${stat.size}B)`);
+          }
+          externalSpriteCount += 1;
         } else {
           if (dims.width < entry.frameWidth * 4) {
             errors.push(
@@ -221,6 +240,36 @@ function main(): void {
             `[sprites.json] "${entry.key}.${state}" must have at least 4 frames (got ${clip.frames})`
           );
         }
+        if (entry.atlasMode === 'VARIABLE_PACK') {
+          const rects = clip.frameRects;
+          const absDims = existsStrictCase(`public/${entry.src}`)
+            ? readPngDimensions(path.join(ROOT, `public/${entry.src}`))
+            : null;
+          if (!rects || rects.length !== clip.frames) {
+            errors.push(
+              `[sprites.json] VARIABLE_PACK "${entry.key}.${state}" requires frameRects matching frames=${clip.frames}`
+            );
+          } else if (absDims) {
+            for (const fr of rects) {
+              if (
+                fr.x < 0 ||
+                fr.y < 0 ||
+                fr.w <= 0 ||
+                fr.h <= 0 ||
+                fr.x + fr.w > absDims.width ||
+                fr.y + fr.h > absDims.height ||
+                fr.pivotX < 0 ||
+                fr.pivotX > fr.w ||
+                fr.pivotY < 0 ||
+                fr.pivotY > fr.h
+              ) {
+                errors.push(
+                  `[sprites.json] Out-of-bounds frameRect on "${entry.key}.${state}": ${JSON.stringify(fr)}`
+                );
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -264,9 +313,9 @@ function main(): void {
         const absPortrait = path.join(ROOT, relPortrait);
         const stat = fs.statSync(absPortrait);
         const dims = readPngDimensions(absPortrait);
-        if (stat.size <= 0 || !dims || dims.width !== 64 || dims.height !== 64) {
+        if (stat.size <= 0 || !dims || dims.width < 64 || dims.width !== dims.height) {
           errors.push(
-            `[portraits] Invalid 64x64 portrait file "${relPortrait}" (size=${stat.size}, dims=${dims?.width}x${dims?.height})`
+            `[portraits] Invalid >=64x64 square portrait file "${relPortrait}" (size=${stat.size}, dims=${dims?.width}x${dims?.height})`
           );
         } else {
           verifiedPortraitsCount += 1;
@@ -301,8 +350,18 @@ function main(): void {
         `[tilesets.json] Biome "${biome.biomeId}" must have at least 4 animated frames`
       );
     }
-    if (existsStrictCase(`public/${biome.src}`)) {
-      externalTilesetCount += 1;
+    const relTileset = `public/${biome.src}`;
+    if (!existsStrictCase(relTileset)) {
+      errors.push(`[tilesets.json] Missing external layered tileset PNG: "${relTileset}"`);
+    } else {
+      const dims = readPngDimensions(path.join(ROOT, relTileset));
+      if (!dims || dims.width < 256 || dims.height < 64) {
+        errors.push(
+          `[tilesets.json] Tileset PNG "${relTileset}" too small (${dims?.width}x${dims?.height}, expected >=256x64)`
+        );
+      } else {
+        externalTilesetCount += 1;
+      }
     }
   }
 
@@ -351,7 +410,12 @@ function main(): void {
     ) {
       errors.push(`[audio.json] Incomplete 4-channel chiptunePreset on BGM "${track.id}"`);
     }
-    if (existsStrictCase(`public/${track.src}`)) {
+    const relTrack = `public/${track.src}`;
+    if (!existsStrictCase(relTrack)) {
+      errors.push(`[audio.json] Missing external BGM audio file: "${relTrack}"`);
+    } else if (!hasValidAudioHeader(path.join(ROOT, relTrack))) {
+      errors.push(`[audio.json] Invalid OGG/MP3 header on BGM "${relTrack}"`);
+    } else {
       externalAudioCount += 1;
     }
   }
@@ -373,7 +437,12 @@ function main(): void {
         `[audio.json] Invalid throttle/polyphony on SFX "${sfx.id}": throttleMs=${sfx.throttleMs}, maxPolyphony=${sfx.maxPolyphony}`
       );
     }
-    if (existsStrictCase(`public/${sfx.src}`)) {
+    const relSfx = `public/${sfx.src}`;
+    if (!existsStrictCase(relSfx)) {
+      errors.push(`[audio.json] Missing external SFX audio file: "${relSfx}"`);
+    } else if (!hasValidAudioHeader(path.join(ROOT, relSfx))) {
+      errors.push(`[audio.json] Invalid OGG/MP3 header on SFX "${relSfx}"`);
+    } else {
       externalAudioCount += 1;
     }
   }
@@ -382,6 +451,88 @@ function main(): void {
     if (!sfxById.has(reqSfx)) {
       errors.push(`[audio.json] Missing required SFX entry "${reqSfx}"`);
     }
+  }
+  if (audio.bgmTracks.length < 10) {
+    errors.push(`[audio.json] Expected >= 10 BGM tracks, got ${audio.bgmTracks.length}`);
+  }
+  if (audio.sfxEntries.length < 20) {
+    errors.push(`[audio.json] Expected >= 20 SFX entries, got ${audio.sfxEntries.length}`);
+  }
+
+  // 4. Validate backgrounds.json (1280x540+ 3-layer battle backdrops)
+  const backdropById = new Map<string, BattleBackdropsManifestFile['backdrops'][number]>();
+  let verifiedBackdropLayers = 0;
+  for (const bd of backgrounds.backdrops) {
+    if (backdropById.has(bd.id)) {
+      errors.push(`[backgrounds.json] Duplicate backdrop id: "${bd.id}"`);
+    }
+    backdropById.set(bd.id, bd);
+    if (bd.width < 1280 || bd.height < 540 || bd.parallaxFactors.length !== 3) {
+      errors.push(`[backgrounds.json] Invalid size or parallax factors on "${bd.id}": ${bd.width}x${bd.height}`);
+    }
+    for (const layerKey of ['sky', 'mid', 'ground'] as const) {
+      const relLayer = `public/${bd.layers[layerKey]}`;
+      if (!existsStrictCase(relLayer)) {
+        errors.push(`[backgrounds.json] Missing backdrop layer: "${relLayer}"`);
+      } else {
+        const dims = readPngDimensions(path.join(ROOT, relLayer));
+        if (!dims || dims.width < 1280 || dims.height < 540) {
+          errors.push(
+            `[backgrounds.json] Backdrop layer "${relLayer}" smaller than 1280x540 (${dims?.width}x${dims?.height})`
+          );
+        } else {
+          verifiedBackdropLayers += 1;
+        }
+      }
+    }
+  }
+  if (backgrounds.backdrops.length < 12) {
+    errors.push(`[backgrounds.json] Expected >= 12 battle backdrops, got ${backgrounds.backdrops.length}`);
+  }
+  for (const z of seaZones) {
+    const mapped = backgrounds.seaZoneBackdropMap[z.id];
+    if (!mapped || !backdropById.has(mapped)) {
+      errors.push(`[backgrounds.json] Sea zone "${z.id}" maps to missing backdrop "${mapped}"`);
+    }
+  }
+  for (const isl of islands) {
+    const mapped = backgrounds.islandBackdropMap[isl.islandId];
+    if (!mapped || !backdropById.has(mapped)) {
+      errors.push(`[backgrounds.json] Island "${isl.islandId}" maps to missing backdrop "${mapped}"`);
+    }
+  }
+
+  // 5. Validate vfx.json (frame-based sprite sheet VFX atlases)
+  const vfxIds = new Set<string>();
+  let verifiedVfxCount = 0;
+  for (const atlas of vfx.atlases) {
+    if (vfxIds.has(atlas.id)) {
+      errors.push(`[vfx.json] Duplicate VFX atlas id: "${atlas.id}"`);
+    }
+    vfxIds.add(atlas.id);
+    if (atlas.frameCount < 1 || atlas.fps <= 0 || atlas.frameWidth < 16 || atlas.frameHeight < 16) {
+      errors.push(`[vfx.json] Invalid metadata on VFX "${atlas.id}"`);
+    }
+    const relVfx = `public/${atlas.src}`;
+    if (!existsStrictCase(relVfx)) {
+      errors.push(`[vfx.json] Missing VFX PNG: "${relVfx}"`);
+    } else {
+      const dims = readPngDimensions(path.join(ROOT, relVfx));
+      if (
+        !dims ||
+        dims.width < atlas.frameWidth * atlas.frameCount ||
+        dims.height < atlas.frameHeight
+      ) {
+        errors.push(
+          `[vfx.json] VFX sheet "${relVfx}" dimensions ${dims?.width}x${dims?.height} smaller than ${atlas.frameWidth * atlas.frameCount}x${atlas.frameHeight}`
+        );
+      } else {
+        verifiedVfxCount += 1;
+      }
+    }
+  }
+  if (vfx.atlases.length < 8) {
+    errors.push(`[vfx.json] Expected >= 8 VFX atlases, got ${vfx.atlases.length}`);
   }
 
   if (errors.length > 0) {
@@ -397,13 +548,17 @@ function main(): void {
     `   • Sprites: ${sprites.entries.length} sheets (${units.length} units + forms + 4 ships) | External PNG: ${externalSpriteCount}, Baked Fallback: ${sprites.entries.length - externalSpriteCount}`
   );
   console.log(
-    `   • Portraits: ${verifiedPortraitsCount} 64x64 PNGs (${units.length} units × ${ALL_PORTRAIT_EMOTIONS.length} emotions) | External PNG: ${verifiedPortraitsCount}`
+    `   • Portraits: ${verifiedPortraitsCount} >=64x64 PNGs (${units.length} units × ${ALL_PORTRAIT_EMOTIONS.length} emotions)`
   );
   console.log(
-    `   • Tilesets: ${tilesets.biomes.length} biomes (${seaZones.length} seas, ${islands.length} islands) | External PNG: ${externalTilesetCount}, Baked Fallback: ${tilesets.biomes.length - externalTilesetCount}`
+    `   • Tilesets: ${tilesets.biomes.length} biomes (${seaZones.length} seas, ${islands.length} islands) | External PNG: ${externalTilesetCount}`
   );
   console.log(
-    `   • Audio: ${audio.bgmTracks.length} BGM tracks, ${audio.sfxEntries.length} SFX entries | External OGG: ${externalAudioCount}, Chiptune Fallback: ${audio.bgmTracks.length + audio.sfxEntries.length - externalAudioCount}`
+    `   • Backdrops: ${backgrounds.backdrops.length} arenas (${verifiedBackdropLayers} 1280x540+ parallax layers)`
+  );
+  console.log(`   • VFX Atlases: ${verifiedVfxCount} frame-based sprite sheets`);
+  console.log(
+    `   • Audio: ${audio.bgmTracks.length} BGM tracks, ${audio.sfxEntries.length} SFX entries | External OGG/MP3: ${externalAudioCount}`
   );
 }
 

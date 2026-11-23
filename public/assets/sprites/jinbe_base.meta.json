@@ -3,17 +3,17 @@
   "unitId": "jinbe",
   "formId": "base",
   "rigType": "bulky_tall_coat",
-  "frameWidth": 64,
-  "frameHeight": 64,
-  "sheetWidth": 384,
-  "sheetHeight": 704,
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "sheetWidth": 768,
+  "sheetHeight": 1408,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "b56484d477c15cb18506f769a4b777e0885c030e582ef3c31638321f6aa0955b",
-  "bakedAt": "2026-11-21T14:54:59.869Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "43c4851d94a2c110f2869dc6ae23d78b16a0f8561be24d5435478623b7ef199b",
+  "bakedAt": "2026-11-23T00:58:02.219Z",
   "animations": {
     "IDLE": {
       "row": 0,

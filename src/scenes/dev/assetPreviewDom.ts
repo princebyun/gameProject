@@ -6,7 +6,7 @@ import {
   type SpriteAnimState
 } from '../../data/assets/types';
 
-export type PreviewTab = 'SPRITE' | 'TILESET' | 'AUDIO';
+export type PreviewTab = 'SPRITE' | 'TILESET' | 'AUDIO' | 'SLICER';
 
 export interface AssetPreviewUiState {
   activeTab: PreviewTab;
@@ -21,6 +21,7 @@ export interface AssetPreviewUiState {
   toggleConqueror: boolean;
   selectedBiomeId: string;
   lastSfxResultText: string;
+  slicerBodyHtml?: string;
 }
 
 export interface AssetPreviewHtmlContext {
@@ -253,14 +254,16 @@ export function buildAssetPreviewHtml(ctx: AssetPreviewHtmlContext): string {
       ? buildSpriteTabHtml(ctx)
       : state.activeTab === 'TILESET'
         ? buildTilesetTabHtml(ctx)
-        : buildAudioTabHtml(ctx);
+        : state.activeTab === 'SLICER'
+          ? (state.slicerBodyHtml ?? '')
+          : buildAudioTabHtml(ctx);
 
   return `
-    <div class="modal-card" style="max-width:920px;width:95%;max-height:92vh;overflow-y:auto;padding:16px;background:#0f172a;border:2px solid #38bdf8;color:#e2e8f0;font-family:monospace;">
+    <div class="modal-card" style="max-width:960px;width:95%;max-height:92vh;overflow-y:auto;padding:16px;background:#0f172a;border:2px solid #38bdf8;color:#e2e8f0;font-family:monospace;">
       <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #334155;padding-bottom:10px;margin-bottom:12px;">
         <div>
-          <h2 style="margin:0;font-size:16px;color:#fde047;">🎨 AssetPreviewScene — 도트 스프라이트 · 바이옴 타일셋 · 레트로 오디오 뷰어</h2>
-          <div style="font-size:11px;color:#94a3b8;margin-top:2px;">외부 에셋(public/assets/) 자동 핫스왑 & 오프스크린 베이킹/칩튠 폴백 실시간 검증</div>
+          <h2 style="margin:0;font-size:16px;color:#fde047;">🎨 AssetPreviewScene — 도트 스프라이트 · 바이옴 타일셋 · 오디오 · 슬라이서</h2>
+          <div style="font-size:11px;color:#94a3b8;margin-top:2px;">외부 에셋(public/assets/) 자동 핫스왑 & 비규격 시트 슬라이서(.recipe.json)</div>
         </div>
         <button id="btn-close-asset-preview" style="padding:6px 12px;background:#dc2626;color:#fff;border:none;border-radius:4px;cursor:pointer;font-weight:bold;">✕ 닫기</button>
       </div>
@@ -274,6 +277,9 @@ export function buildAssetPreviewHtml(ctx: AssetPreviewHtmlContext): string {
         </button>
         <button data-ap-tab="AUDIO" style="padding:6px 12px;cursor:pointer;border-radius:4px;font-weight:bold;border:1px solid #38bdf8;background:${state.activeTab === 'AUDIO' ? '#0284c7' : '#1e293b'};color:#fff;">
           🎵 레트로 BGM(${bgmTracks.length}) · SFX(${sfxEntries.length})
+        </button>
+        <button data-ap-tab="SLICER" style="padding:6px 12px;cursor:pointer;border-radius:4px;font-weight:bold;border:1px solid #14b8a6;background:${state.activeTab === 'SLICER' ? '#0f766e' : '#1e293b'};color:#fff;">
+          ✂ 시트 임포트 / 슬라이서
         </button>
       </div>
 

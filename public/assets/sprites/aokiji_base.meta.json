@@ -3,17 +3,17 @@
   "unitId": "aokiji",
   "formId": "base",
   "rigType": "bulky_tall_coat",
-  "frameWidth": 64,
-  "frameHeight": 64,
-  "sheetWidth": 384,
-  "sheetHeight": 704,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "93bba3468f6fb105313df5e1cc4f63d30e6442c49414cc72d8cf9cb39b8bc7c2",
-  "bakedAt": "2026-11-21T14:55:00.316Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "be3b4c46781d2408e93dd203ab618d63a7134ae7adc3401071a9ba3b2a75ce2c",
+  "bakedAt": "2026-11-23T00:58:06.819Z",
   "animations": {
     "IDLE": {
       "row": 0,

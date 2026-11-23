@@ -1,9 +1,11 @@
+import { getChestWorldCenter } from '../../core/rpg/islandLivingVillage';
 import { handleDialogueOverlayTap } from '../../render/dialogueAndPosterRenderer';
 import { handleMissionTrackerTap } from '../../render/missionTrackerHud';
 import {
-  isPointInBottomSafeBand,
-  logicalToArenaPoint
-} from '../../render/viewport/safeAreaLayout';
+  computeIslandCameraTransform,
+  logicalScreenToIslandWorld
+} from '../../render/rpg/islandCamera';
+import { isPointInBottomSafeBand } from '../../render/viewport/safeAreaLayout';
 import { advanceOpeningNarrationOnTap } from '../openingNarrationScene';
 import type { Disposable } from '../sceneTypes';
 import type { SceneManagerHost } from './controllerContracts';
@@ -11,7 +13,7 @@ import type { SceneManagerHost } from './controllerContracts';
 export class SceneInputRouter implements Disposable {
   private readonly abort = new AbortController();
 
-  constructor(private readonly host: SceneManagerHost) {}
+  constructor(private readonly host: SceneManagerHost) { }
 
   public dispose(): void {
     this.abort.abort();
@@ -200,11 +202,32 @@ export class SceneInputRouter implements Disposable {
           }
 
           if (this.host.activeScene === 'ISLAND_EPISODE' && this.host.islandRuntime) {
-            const localPt = logicalToArenaPoint(vm, pt);
+            const islMap = this.host.rpgRegistry.islands[this.host.islandRuntime.islandId];
+            const cam = islMap
+              ? computeIslandCameraTransform(islMap, this.host.islandRuntime.playerPos, vm)
+              : null;
+            const localPt = cam ? logicalScreenToIslandWorld(pt, cam) : pt;
+            const step = this.host.lastIslandStep;
+            const ts = islMap?.tileMap?.tileSize ?? 32;
+            const nearNpcPos = step.nearbyNpc
+              ? (this.host.islandRuntime.npcStates?.[step.nearbyNpc.npcId]?.pos ??
+                step.nearbyNpc.pos)
+              : null;
+            const nearChestPos = step.nearbyChest
+              ? getChestWorldCenter(step.nearbyChest, ts)
+              : null;
+            const nearActPos = step.nearbyActivityMarker
+              ? {
+                x: step.nearbyActivityMarker.tileX * ts + ts * 0.5,
+                y: step.nearbyActivityMarker.tileY * ts + ts * 0.5
+              }
+              : null;
             const nearObj =
-              this.host.lastIslandStep.nearbySwitch?.pos ??
-              this.host.lastIslandStep.nearbyNpc?.pos ??
-              this.host.lastIslandStep.nearbyEncounter?.pos ??
+              step.nearbySwitch?.pos ??
+              nearChestPos ??
+              nearNpcPos ??
+              step.nearbyEncounter?.pos ??
+              nearActPos ??
               null;
             if (
               nearObj &&

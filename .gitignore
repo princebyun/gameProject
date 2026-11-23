@@ -21,6 +21,11 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Raw downloaded asset caches & user import packs
+raw_assets/
+temp_assets/
+exported_thumbnails/
+
 # IDE Local Settings
 .vscode/
 .idea/

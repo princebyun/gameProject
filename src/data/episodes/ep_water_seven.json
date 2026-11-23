@@ -19,21 +19,21 @@
       "title": "갈레라 1번 도크 조선공 프랑키 접선",
       "description": "프랑키와 대화해 사우전드 써니호 건조를 준비하세요.",
       "requiredFlag": "flag_sunny_blueprint_ready",
-      "targetPos": { "x": 350, "y": 220 }
+      "targetPos": { "x": 656, "y": 368 }
     },
     {
       "stepId": "step_water_seven_blueno",
       "title": "조선소 습격: CP9 블루노 격파",
-      "description": "도크 중앙을 습격한 문문 열매 능력자 블루노를 물리치세요.",
+      "description": "도크 광장을 습격한 문문 열매 능력자 블루노를 물리치세요.",
       "requiredFlag": "flag_water_seven_blueno_cleared",
-      "targetPos": { "x": 580, "y": 240 }
+      "targetPos": { "x": 848, "y": 464 }
     },
     {
       "stepId": "step_water_seven_lucci",
       "title": "사법의 탑 결전: 카쿠 & 로브 루치 격파",
-      "description": "동쪽 결전지에서 기린 인수형 카쿠와 레오파드 로브 루치를 물리치고 프랑키를 영입하세요.",
+      "description": "1번 도크 동쪽 결전지에서 기린 인수형 카쿠와 레오파드 로브 루치를 물리치고 프랑키를 영입하세요.",
       "requiredFlag": "flag_water_seven_boss_cleared",
-      "targetPos": { "x": 810, "y": 265 }
+      "targetPos": { "x": 1168, "y": 304 }
     }
   ],
   "rewards": {

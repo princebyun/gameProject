@@ -3,17 +3,17 @@
   "unitId": "don_krieg",
   "formId": "base",
   "rigType": "bulky_tall_coat",
-  "frameWidth": 64,
-  "frameHeight": 64,
-  "sheetWidth": 384,
-  "sheetHeight": 704,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "672061e635ad21e521ed9d09fe9bbf50a98912817c269986897460b73b5dae50",
-  "bakedAt": "2026-11-21T14:54:59.935Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "d03a797cb7a055f48d03ad4ef8fac32526089e6818d7f7a9490a0421e4e9d939",
+  "bakedAt": "2026-11-23T00:58:02.634Z",
   "animations": {
     "IDLE": {
       "row": 0,

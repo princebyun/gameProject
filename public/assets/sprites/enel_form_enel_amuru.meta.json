@@ -3,17 +3,17 @@
   "unitId": "enel",
   "formId": "form_enel_amuru",
   "rigType": "giant_beast",
-  "frameWidth": 96,
-  "frameHeight": 96,
-  "sheetWidth": 576,
-  "sheetHeight": 1056,
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "sheetWidth": 768,
+  "sheetHeight": 1408,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "8c3cb05c2ac3e3381ad0191d7c9969fe69152a4c10ba015933bc22e19de12d2c",
-  "bakedAt": "2026-11-21T14:55:00.084Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "d6d14425c5ac822cec2fd2f9236eba8a33ef21654c0da885f363eab2db0f043c",
+  "bakedAt": "2026-11-23T00:58:03.827Z",
   "animations": {
     "IDLE": {
       "row": 0,

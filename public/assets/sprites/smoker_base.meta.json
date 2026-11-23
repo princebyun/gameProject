@@ -3,17 +3,17 @@
   "unitId": "smoker",
   "formId": "base",
   "rigType": "caster_ranged",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "9fbc312106bbfdce843366f3d8a01fcce596298e7d5e9da2e8d1a88736a7e8f4",
-  "bakedAt": "2026-11-21T14:54:59.986Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "8056de539fc2fe75982fc5586e4df22ae116a14d2821db4812c7531391703d3b",
+  "bakedAt": "2026-11-23T00:58:02.713Z",
   "animations": {
     "IDLE": {
       "row": 0,

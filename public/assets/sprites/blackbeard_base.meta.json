@@ -3,17 +3,17 @@
   "unitId": "blackbeard",
   "formId": "base",
   "rigType": "bulky_tall_coat",
-  "frameWidth": 64,
-  "frameHeight": 64,
-  "sheetWidth": 384,
-  "sheetHeight": 704,
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "sheetWidth": 768,
+  "sheetHeight": 1408,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "69b683aedea2b0243136ed576d1b3227d1d22a5087cc429c89e23fdc02af1b8e",
-  "bakedAt": "2026-11-21T14:55:00.366Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "08d62de1a9c32a680cecb914556d2f66f39c55c59bad062b9fe8c14b4404aea1",
+  "bakedAt": "2026-11-23T00:58:07.683Z",
   "animations": {
     "IDLE": {
       "row": 0,

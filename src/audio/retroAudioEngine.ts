@@ -295,12 +295,16 @@ export class RetroAudioEngine implements Disposable {
     this.fadeOutActiveBgm(fadeOutSec);
   }
 
-  public playSfxById(sfxId: string, nowMs?: number): SfxPlayResult {
+  public playSfxById(
+    sfxId: string,
+    nowMs?: number,
+    opts?: { volumeScale?: number; pitchScale?: number }
+  ): SfxPlayResult {
     const ctx = this.ensureContext();
     if (ctx && ctx.state === 'suspended') {
       ctx.resume().catch(() => {});
     }
-    return this.sfx.play(sfxId, ctx, this.sfxBusGain, nowMs);
+    return this.sfx.play(sfxId, ctx, this.sfxBusGain, nowMs, opts);
   }
 
   private startExternalBgm(

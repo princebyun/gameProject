@@ -3,17 +3,17 @@
   "unitId": "brook",
   "formId": "base",
   "rigType": "swordsman_weapon",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "9a16b6a4f839cb5ffd3e347f1a5ac7903d5f72cd7ca9a0cb69cd9d481641aa8f",
-  "bakedAt": "2026-11-21T14:54:59.844Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "5ee0390835b38be956cd0f9e53b16849719437df54b3fdfa94edf010e82f8b22",
+  "bakedAt": "2026-11-23T00:58:01.887Z",
   "animations": {
     "IDLE": {
       "row": 0,

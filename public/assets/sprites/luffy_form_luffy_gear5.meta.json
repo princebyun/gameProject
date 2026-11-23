@@ -3,17 +3,17 @@
   "unitId": "luffy",
   "formId": "form_luffy_gear5",
   "rigType": "humanoid_brawler",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "cc6fb09dc0ad44461d9db65932b930fcbe84310f82bf4afb7db709e845551537",
-  "bakedAt": "2026-11-21T14:54:59.607Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "c1697738e2b4d0f89bdfede031f1c593b7db46778ccc4b05566d4e8f9bfe927c",
+  "bakedAt": "2026-11-23T00:57:58.576Z",
   "animations": {
     "IDLE": {
       "row": 0,

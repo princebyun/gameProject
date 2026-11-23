@@ -3,17 +3,17 @@
   "unitId": "lucci",
   "formId": "form_lucci_hybrid",
   "rigType": "bulky_tall_coat",
-  "frameWidth": 64,
-  "frameHeight": 64,
-  "sheetWidth": 384,
-  "sheetHeight": 704,
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "sheetWidth": 768,
+  "sheetHeight": 1408,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "f54ddd6825f2ce8cf5a2477bdf8e77dceb58e836d328980828766dc619512dc3",
-  "bakedAt": "2026-11-21T14:55:00.155Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "dd12fd8cc9cffb1a7d9d56908b8c9c25873d1da8b9227838402a7b1046451aaa",
+  "bakedAt": "2026-11-23T00:58:04.182Z",
   "animations": {
     "IDLE": {
       "row": 0,

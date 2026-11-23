@@ -73,6 +73,26 @@ export function validateSaveLegality(
     messages.push('엘바프 입항 모순: 선행 에피소드(ep_egghead)가 미완료 상태입니다.');
   }
 
+  // 1b. Cross-check opened island treasure chests if present (v5 compatible default [])
+  const openedChests = payload.world?.openedChestIds;
+  if (Array.isArray(openedChests) && openedChests.length > 0) {
+    const validChestIds = new Set<string>();
+    for (const isl of Object.values(rpgRegistry.islands)) {
+      if (!isl.chests) continue;
+      for (const ch of isl.chests) {
+        validChestIds.add(ch.chestId);
+      }
+    }
+    const seenChests = new Set<string>();
+    for (const chestId of openedChests) {
+      if (!validChestIds.has(chestId) || seenChests.has(chestId)) {
+        codeSet.add('ILLEGAL_UNIT_STATE');
+        messages.push(`유효하지 않거나 중복된 보물상자 ID 감지: ${chestId}`);
+      }
+      seenChests.add(chestId);
+    }
+  }
+
   // 2. Check Crew & Ship Rules (ILLEGAL_CREW_OR_SHIP)
   const recruited = payload.crew?.recruitedUnitIds ?? [];
   const party = payload.crew?.activePartyIds ?? [];

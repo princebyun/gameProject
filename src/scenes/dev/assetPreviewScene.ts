@@ -16,6 +16,7 @@ import {
   type AssetPreviewUiState,
   type PreviewTab
 } from './assetPreviewDom';
+import { SlicerTabController } from './slicerTabController';
 
 export interface AssetPreviewCallbacks {
   onClose: () => void;
@@ -42,6 +43,7 @@ export class AssetPreviewScene implements Disposable {
   private previewCanvas: HTMLCanvasElement | null = null;
   private rafId: number | null = null;
   private previewTick = 0;
+  private readonly slicerCtrl: SlicerTabController;
 
   constructor(
     private readonly rootEl: HTMLElement,
@@ -50,6 +52,7 @@ export class AssetPreviewScene implements Disposable {
     private readonly audio: AudioManager,
     private readonly callbacks: AssetPreviewCallbacks
   ) {
+    this.slicerCtrl = new SlicerTabController(gameRegistry);
     this.overlayEl = document.createElement('div');
     this.overlayEl.id = 'asset-preview-modal';
     this.overlayEl.className = 'modal-overlay';
@@ -78,6 +81,7 @@ export class AssetPreviewScene implements Disposable {
   public dispose(): void {
     this.isOpen = false;
     this.stopLoop();
+    this.slicerCtrl.dispose();
     this.previewCanvas = null;
     this.overlayEl.remove();
   }
@@ -173,6 +177,9 @@ export class AssetPreviewScene implements Disposable {
         'BAKED_FALLBACK'
       : 'BAKED_FALLBACK';
 
+    this.uiState.slicerBodyHtml =
+      this.uiState.activeTab === 'SLICER' ? this.slicerCtrl.buildHtml() : undefined;
+
     this.overlayEl.innerHTML = buildAssetPreviewHtml({
       state: this.uiState,
       unitIds,
@@ -192,6 +199,9 @@ export class AssetPreviewScene implements Disposable {
     ) as HTMLCanvasElement | null;
 
     this.bindEvents();
+    if (this.uiState.activeTab === 'SLICER') {
+      this.slicerCtrl.bindEvents(this.overlayEl, () => this.renderUi());
+    }
     this.renderPreviewCanvas();
   }
 
@@ -322,6 +332,11 @@ export class AssetPreviewScene implements Disposable {
   }
 
   private renderPreviewCanvas(): void {
+    if (this.uiState.activeTab === 'SLICER') {
+      this.slicerCtrl.renderCanvases(this.previewTick);
+      return;
+    }
+
     const canvas = this.previewCanvas;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');

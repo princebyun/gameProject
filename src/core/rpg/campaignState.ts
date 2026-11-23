@@ -232,6 +232,7 @@ export function createInitialCampaignState(
 
     completedEpisodes: [],
     episodeFlags: {},
+    openedChestIds: [],
     unlockedShips: ['going_merry'],
 
     seaObjectsByZone: {

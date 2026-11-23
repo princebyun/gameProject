@@ -11,9 +11,9 @@
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "c3eccfa502bdc6baec411ee8efa711c95e4d34e6be1d1b0ac3a50e4e517e987b",
-  "bakedAt": "2026-11-21T14:59:26.545Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "a8002236d144f55cd11d724963180b00e0f32d81f27f89af79847523fe80e105",
+  "bakedAt": "2026-11-23T00:58:05.246Z",
   "animations": {
     "IDLE": {
       "row": 0,

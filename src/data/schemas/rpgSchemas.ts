@@ -123,6 +123,121 @@ export interface TrainingUpgradeRule {
   description: string;
 }
 
+export type SurfaceMaterialId =
+  | 'grass'
+  | 'stone'
+  | 'wood_dock'
+  | 'sand'
+  | 'water_shallow'
+  | 'metal_cyber';
+
+export type NpcFacingDir = 'left' | 'right' | 'up' | 'down';
+
+export interface IslandTileMapData {
+  tileSize: 32;
+  cols: number;
+  rows: number;
+  tileLegend: Record<string, number>;
+  surfaceLegend: Record<string, SurfaceMaterialId>;
+  groundRows: string[];
+  detailRows: string[];
+  solidRows: string[];
+  overheadRows: string[];
+  surfaceRows: string[];
+}
+
+export interface IslandZoneTrigger {
+  zoneId: string;
+  name: string;
+  subtitle?: string;
+  tileX: number;
+  tileY: number;
+  tileW: number;
+  tileH: number;
+  accentColor?: string;
+}
+
+export interface IslandTreasureChestDefinition {
+  chestId: string;
+  tileX: number;
+  tileY: number;
+  rarity: 'wooden' | 'silver' | 'gold';
+  hiddenHint: string;
+  reward: {
+    berries: number;
+    trainingPoints: number;
+    healPartyRatio?: number;
+    itemLabel?: string;
+  };
+}
+
+export interface IslandMapMarkerDefinition {
+  markerId: string;
+  kind: 'PORT_EXIT' | 'MAIN' | 'SIDE' | 'ACTIVITY';
+  label: string;
+  tileX: number;
+  tileY: number;
+  hideWhenFlagSet?: string;
+  actionKind?:
+    | 'PORT_EXIT'
+    | 'BATTLE_TERMINAL'
+    | 'CAMP_TRAINING'
+    | 'BOUNTY_BOARD'
+    | 'STORY';
+}
+
+export interface IslandLandmarkDefinition {
+  landmarkId: string;
+  kind:
+    | 'WINDMILL'
+    | 'DOCKED_BOAT'
+    | 'WATER_FOUNTAIN'
+    | 'GALLEY_CRANE'
+    | 'GALLEY_FLAG'
+    | 'TORII_GATE'
+    | 'RED_LANTERN'
+    | 'SUNNY_DOCK'
+    | 'GLASS_DOME'
+    | 'HOLO_BILLBOARD'
+    | 'ENERGY_TUBE'
+    | 'WELL'
+    | 'BOUNTY_BOARD';
+  tileX: number;
+  tileY: number;
+  widthTiles: number;
+  heightTiles: number;
+  label?: string;
+  hasOverheadPart?: boolean;
+}
+
+export type IslandAmbientParticleKind =
+  | 'GULL'
+  | 'LEAF'
+  | 'SPRAY'
+  | 'DROPLET'
+  | 'PETAL'
+  | 'LANTERN_MOTE'
+  | 'HOLOGRAM'
+  | 'CLOUD_MIST';
+
+export interface IslandAmbientProfile {
+  particles: IslandAmbientParticleKind[];
+  density: number;
+}
+
+export interface IslandLightingProfile {
+  defaultMood: 'MORNING' | 'DAY' | 'DUSK' | 'NIGHT' | 'CYBER';
+  tintHex: string;
+  tintAlpha: number;
+  sunbeams?: boolean;
+  lanterns: {
+    tileX: number;
+    tileY: number;
+    color: string;
+    radiusPx: number;
+  }[];
+}
+
 export interface IslandNpcDefinition {
   npcId: string;
   name: string;
@@ -141,6 +256,12 @@ export interface IslandNpcDefinition {
     responseLine: string;
   }[];
   setsQuestFlagOnTalk?: string;
+  patrolWaypoints?: Vec2[];
+  patrolSpeedPx?: number;
+  pauseTicks?: number;
+  facing?: NpcFacingDir;
+  ambientBubbleText?: string;
+  spriteKey?: string;
 }
 
 export interface IslandPuzzleSwitch {
@@ -212,6 +333,14 @@ export interface IslandMapDefinition {
   giantProps: IslandGiantProp[];
   npcs: IslandNpcDefinition[];
   encounters: IslandEncounterDefinition[];
+  tileMap?: IslandTileMapData;
+  zones?: IslandZoneTrigger[];
+  chests?: IslandTreasureChestDefinition[];
+  markers?: IslandMapMarkerDefinition[];
+  landmarks?: IslandLandmarkDefinition[];
+  battleTerminalPos?: Vec2;
+  ambientProfile?: IslandAmbientProfile;
+  lightingProfile?: IslandLightingProfile;
 }
 
 export interface EpisodeQuestStep {
@@ -375,6 +504,7 @@ export interface RpgCampaignState {
 
   completedEpisodes: string[];
   episodeFlags: Record<string, boolean>;
+  openedChestIds?: string[];
   unlockedShips: ('going_merry' | 'thousand_sunny')[];
 
   seaObjectsByZone: Record<SeaZoneId, SeaDynamicObject[]>;

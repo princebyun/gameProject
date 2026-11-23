@@ -35,13 +35,18 @@ export class SpriteEffectCache implements Disposable {
     fw: number,
     fh: number,
     effect: SpriteEffectKind,
-    tintColor: string = '#ffffff'
+    tintColor: string = '#ffffff',
+    srcRect?: { x: number; y: number; w: number; h: number }
   ): HTMLCanvasElement | null {
     if (typeof document === 'undefined') {
       return null;
     }
 
-    const cacheKey = `${sheetKey}:${row}:${frame}:${effect}:${tintColor}`;
+    const sx = srcRect ? srcRect.x : frame * fw;
+    const sy = srcRect ? srcRect.y : row * fh;
+    const sw = srcRect ? srcRect.w : fw;
+    const sh = srcRect ? srcRect.h : fh;
+    const cacheKey = `${sheetKey}:${row}:${frame}:${sw}x${sh}:${effect}:${tintColor}`;
     const existing = this.cache.get(cacheKey);
     if (existing) {
       // Refresh LRU recency
@@ -51,8 +56,8 @@ export class SpriteEffectCache implements Disposable {
     }
 
     const canvas = document.createElement('canvas');
-    canvas.width = fw;
-    canvas.height = fh;
+    canvas.width = sw;
+    canvas.height = sh;
     const ctx = canvas.getContext('2d');
     if (!ctx) {
       releaseOffscreenCanvas(canvas);
@@ -60,31 +65,31 @@ export class SpriteEffectCache implements Disposable {
     }
 
     ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(sheet, frame * fw, row * fh, fw, fh, 0, 0, fw, fh);
+    ctx.drawImage(sheet, sx, sy, sw, sh, 0, 0, sw, sh);
 
     if (effect === 'WHITE_FLASH') {
       ctx.globalCompositeOperation = 'source-atop';
       ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, fw, fh);
+      ctx.fillRect(0, 0, sw, sh);
     } else if (effect === 'ARMAMENT_BLACK') {
       // Deep obsidian iron tint + purple/crimson metallic rim highlight
       ctx.globalCompositeOperation = 'source-atop';
       ctx.fillStyle = 'rgba(15, 23, 42, 0.72)';
-      ctx.fillRect(0, 0, fw, fh);
+      ctx.fillRect(0, 0, sw, sh);
       ctx.fillStyle = 'rgba(168, 85, 247, 0.28)';
-      ctx.fillRect(0, 0, fw, Math.round(fh * 0.45));
+      ctx.fillRect(0, 0, sw, Math.round(sh * 0.45));
 
-      // Pre-bake 1px #a855f7 pixel aura outline (replaces GPU-costly shadowBlur)
+      // Pre-bake 1px #a855f7 pixel aura outline (replaces GPU-costly blur filter)
       const outlineCanvas = document.createElement('canvas');
-      outlineCanvas.width = fw;
-      outlineCanvas.height = fh;
+      outlineCanvas.width = sw;
+      outlineCanvas.height = sh;
       const octx = outlineCanvas.getContext('2d');
       if (octx) {
         octx.imageSmoothingEnabled = false;
-        octx.drawImage(sheet, frame * fw, row * fh, fw, fh, 0, 0, fw, fh);
+        octx.drawImage(sheet, sx, sy, sw, sh, 0, 0, sw, sh);
         octx.globalCompositeOperation = 'source-atop';
         octx.fillStyle = '#a855f7';
-        octx.fillRect(0, 0, fw, fh);
+        octx.fillRect(0, 0, sw, sh);
 
         ctx.globalCompositeOperation = 'destination-over';
         ctx.globalAlpha = 0.85;
@@ -99,7 +104,7 @@ export class SpriteEffectCache implements Disposable {
     } else if (effect === 'LOGIA_SILHOUETTE' || effect === 'AFTERIMAGE') {
       ctx.globalCompositeOperation = 'source-atop';
       ctx.fillStyle = tintColor;
-      ctx.fillRect(0, 0, fw, fh);
+      ctx.fillRect(0, 0, sw, sh);
     }
 
     ctx.globalCompositeOperation = 'source-over';

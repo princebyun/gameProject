@@ -3,17 +3,17 @@
   "unitId": "moria",
   "formId": "base",
   "rigType": "caster_ranged",
-  "frameWidth": 64,
-  "frameHeight": 64,
-  "sheetWidth": 384,
-  "sheetHeight": 704,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "b7c90457e01e036fb827aaba72fa203d071928b8bec68bfee775cfb12ce5603c",
-  "bakedAt": "2026-11-21T14:55:00.186Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "e4600e73b3f974d2fc0ebe746f201b3a78756117caafda3d729d21c63a75d862",
+  "bakedAt": "2026-11-23T00:58:04.267Z",
   "animations": {
     "IDLE": {
       "row": 0,

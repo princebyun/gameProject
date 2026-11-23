@@ -25,7 +25,11 @@ export type StandardSfxId =
   | 'ui_cancel'
   | 'wanted_poster_slam'
   | 'ship_cannon'
-  | 'coup_de_burst';
+  | 'coup_de_burst'
+  | 'explosion_heavy'
+  | 'parry_clang'
+  | 'water_splash'
+  | 'guard_block';
 
 export interface SfxPlayResult {
   played: boolean;
@@ -102,7 +106,8 @@ export class SfxManager implements Disposable {
     sfxId: string,
     ctx: AudioContext | null,
     destination: AudioNode | null,
-    nowMs?: number
+    nowMs?: number,
+    opts?: { volumeScale?: number; pitchScale?: number }
   ): SfxPlayResult {
     const entry = this.manifestRegistry.sfxById[sfxId];
     if (!entry) {
@@ -150,7 +155,9 @@ export class SfxManager implements Disposable {
 
     // ±pitchJitterRatio (e.g. ±6% -> 0.94..1.06)
     const jitter = (this.rng() * 2 - 1) * entry.pitchJitterRatio;
-    const pitchMultiplier = Number((1 + jitter).toFixed(4));
+    const pitchScale = opts?.pitchScale ?? 1;
+    const volumeScale = opts?.volumeScale ?? 1;
+    const pitchMultiplier = Number(((1 + jitter) * pitchScale).toFixed(4));
 
     // Trigger non-blocking external .ogg probe once if ctx is available
     if (ctx && !this.externalStatus.has(sfxId) && !this.loadingKeys.has(sfxId)) {
@@ -166,7 +173,7 @@ export class SfxManager implements Disposable {
       : 'CHIPTUNE_FALLBACK';
 
     if (ctx && destination && ctx.state !== 'closed') {
-      const effectiveGain = Math.min(1, entry.volume * this.volume * 0.42);
+      const effectiveGain = Math.min(1, entry.volume * this.volume * volumeScale * 0.42);
       if (extBuf) {
         this.playExternalBuffer(ctx, destination, extBuf, effectiveGain, pitchMultiplier);
       } else {
@@ -308,6 +315,19 @@ export class SfxManager implements Disposable {
           this.burstNoise(ctx, destination, t0, 0.3, 1800 * pitch, gainLevel * 0.95);
           this.sweepOsc(ctx, destination, 'sawtooth', 160 * pitch, 640 * pitch, t0, 0.28, gainLevel * 0.8);
           break;
+        case 'explosion_heavy':
+          this.sweepOsc(ctx, destination, 'sawtooth', 120 * pitch, 34 * pitch, t0, 0.26, gainLevel);
+          this.burstNoise(ctx, destination, t0, 0.25, 420 * pitch, gainLevel * 0.95);
+          break;
+        case 'parry_clang':
+          this.sweepOsc(ctx, destination, 'square', 1420 * pitch, 820 * pitch, t0, 0.11, gainLevel * 0.95);
+          break;
+        case 'water_splash':
+          this.burstNoise(ctx, destination, t0, 0.18, 2200 * pitch, gainLevel * 0.8);
+          break;
+        case 'guard_block':
+          this.sweepOsc(ctx, destination, 'triangle', 320 * pitch, 110 * pitch, t0, 0.09, gainLevel * 0.85);
+          break;
         default:
           this.sweepOsc(ctx, destination, 'sine', 560 * pitch, 440 * pitch, t0, 0.06, gainLevel * 0.5);
           break;
@@ -331,15 +351,9 @@ export class SfxManager implements Disposable {
     const gain = ctx.createGain();
     osc.type = type;
     osc.frequency.setValueAtTime(Math.max(20, startFreq), startTime);
-    osc.frequency.exponentialRampToValueAtTime(
-      Math.max(20, endFreq),
-      startTime + Math.max(0.015, duration)
-    );
+    osc.frequency.exponentialRampToValueAtTime(Math.max(20, endFreq), startTime + Math.max(0.015, duration));
     gain.gain.setValueAtTime(Math.max(0.0001, peakGain), startTime);
-    gain.gain.exponentialRampToValueAtTime(
-      0.0001,
-      startTime + Math.max(0.02, duration)
-    );
+    gain.gain.exponentialRampToValueAtTime(0.0001, startTime + Math.max(0.02, duration));
     osc.connect(gain);
     gain.connect(destination);
     attachOnEndedDisconnect(osc, gain);

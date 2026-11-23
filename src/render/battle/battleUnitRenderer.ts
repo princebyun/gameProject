@@ -5,6 +5,8 @@ import type { BattleWorldState, UnitRuntimeState } from '../../core/types/battle
 import type { GameDataRegistry } from '../../core/types/dataSchemas';
 import type { RenderAccessibilitySettings } from '../canvasRenderer';
 import { lerpVecInto } from '../pools/renderScratchPools';
+import { computeNormalizedUnitDrawScale } from '../sprite/spriteFrameRenderer';
+import { drawCompactFootShadow } from '../rpg/islandYSortQueue';
 import {
   drawConquerorLightningBolts,
   getElementColorFast
@@ -215,10 +217,20 @@ export function renderUnitOnArena(
       ctx.drawImage(sheet, sx, sy + halfH, fw, fh - halfH, -size * 0.5, splitGap * 0.5, size, size * 0.5);
       ctx.restore();
     } else if (sheet) {
-      const targetPixelHeight = 42 * unit.entityScale * unit.visualScale;
-      const drawScale = Math.max(0.75, targetPixelHeight / sheetEntry.frameHeight);
-      SCRATCH_FOOT_POS.x = pos.x;
+      const drawScale = computeNormalizedUnitDrawScale(
+        sheetEntry,
+        unit.entityScale,
+        unit.visualScale
+      );
+      SCRATCH_FOOT_POS.x = Math.round(pos.x);
       SCRATCH_FOOT_POS.y = Math.round(pos.y + unit.radiusPx * 0.65);
+      drawCompactFootShadow(
+        ctx,
+        SCRATCH_FOOT_POS.x,
+        SCRATCH_FOOT_POS.y,
+        Math.round(14 * unit.entityScale * unit.visualScale),
+        Math.max(4, Math.round(5 * unit.entityScale))
+      );
 
       assets.spriteController.drawAnimatedUnitFrame(
         ctx,

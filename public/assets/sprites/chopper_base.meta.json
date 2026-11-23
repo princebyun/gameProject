@@ -3,17 +3,17 @@
   "unitId": "chopper",
   "formId": "base",
   "rigType": "small_agile",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "98028a249e4b55660349b3d41379654ce4e31d3a4e5499210daea10735e3d504",
-  "bakedAt": "2026-11-21T14:54:59.706Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "f29c199522a7a7d466b81e56cce534c0faf8d46e18ef685e541eb757ee158346",
+  "bakedAt": "2026-11-23T00:58:01.611Z",
   "animations": {
     "IDLE": {
       "row": 0,

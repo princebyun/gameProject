@@ -3,17 +3,17 @@
   "unitId": "kaku",
   "formId": "base",
   "rigType": "swordsman_weapon",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "sheetWidth": 768,
+  "sheetHeight": 1408,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "100fe718433c09eb1c90b937de89244be1ce9688f1ba35462543f74f99707cd8",
-  "bakedAt": "2026-11-21T14:55:00.116Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "923818486dd050a9ba7237e59816d3fc270999e8e6acab4463a303d1dd3ec037",
+  "bakedAt": "2026-11-23T00:58:03.889Z",
   "animations": {
     "IDLE": {
       "row": 0,

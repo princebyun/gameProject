@@ -54,7 +54,9 @@
         "wall": "#334155",
         "accent": "#bae6fd",
         "waterOrHazard": "#38bdf8"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     },
     {
       "biomeId": "sea_grand_line",
@@ -73,7 +75,9 @@
         "wall": "#7f1d1d",
         "accent": "#f87171",
         "waterOrHazard": "#60a5fa"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     },
     {
       "biomeId": "sea_new_world",
@@ -92,7 +96,9 @@
         "wall": "#4c1d95",
         "accent": "#facc15",
         "waterOrHazard": "#818cf8"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     },
     {
       "biomeId": "port_town",
@@ -111,7 +117,9 @@
         "wall": "#78350f",
         "accent": "#fde047",
         "waterOrHazard": "#0ea5e9"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     },
     {
       "biomeId": "snow_drum",
@@ -130,7 +138,9 @@
         "wall": "#475569",
         "accent": "#f472b6",
         "waterOrHazard": "#38bdf8"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     },
     {
       "biomeId": "desert_alabasta",
@@ -149,7 +159,9 @@
         "wall": "#78350f",
         "accent": "#fbbf24",
         "waterOrHazard": "#0284c7"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     },
     {
       "biomeId": "sky_cloud",
@@ -168,7 +180,9 @@
         "wall": "#ca8a04",
         "accent": "#facc15",
         "waterOrHazard": "#7dd3fc"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     },
     {
       "biomeId": "spooky_fog",
@@ -187,7 +201,9 @@
         "wall": "#334155",
         "accent": "#a855f7",
         "waterOrHazard": "#6b21a8"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     },
     {
       "biomeId": "marine_ice",
@@ -206,7 +222,9 @@
         "wall": "#475569",
         "accent": "#ef4444",
         "waterOrHazard": "#38bdf8"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     },
     {
       "biomeId": "fishman_coral",
@@ -225,7 +243,9 @@
         "wall": "#be185d",
         "accent": "#f472b6",
         "waterOrHazard": "#38bdf8"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     },
     {
       "biomeId": "wano_castle",
@@ -244,7 +264,9 @@
         "wall": "#581c87",
         "accent": "#fda4af",
         "waterOrHazard": "#ef4444"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     },
     {
       "biomeId": "egghead_cyber",
@@ -263,7 +285,9 @@
         "wall": "#312e81",
         "accent": "#c084fc",
         "waterOrHazard": "#22d3ee"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     },
     {
       "biomeId": "elbaf_giant",
@@ -282,7 +306,9 @@
         "wall": "#713f12",
         "accent": "#facc15",
         "waterOrHazard": "#eab308"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     },
     {
       "biomeId": "impel_hell",
@@ -301,7 +327,9 @@
         "wall": "#44403c",
         "accent": "#a855f7",
         "waterOrHazard": "#f97316"
-      }
+      },
+      "layeredAtlas": true,
+      "rows": 16
     }
   ]
 }

@@ -3,17 +3,17 @@
   "unitId": "crocodile",
   "formId": "base",
   "rigType": "caster_ranged",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "0dff93c4adc8b6cd1b14162cae8da8969312aa504773e6caafcb1a8a167e9d2d",
-  "bakedAt": "2026-11-21T14:55:00.033Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "8f01958805a4d0266acc76631bc4e4981c40e5b425acf331c9f97b963f53b153",
+  "bakedAt": "2026-11-23T00:58:03.197Z",
   "animations": {
     "IDLE": {
       "row": 0,

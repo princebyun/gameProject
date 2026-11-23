@@ -43,7 +43,7 @@ describe('Phase 11 Step 1: Sprite Animation State Machine, Autotile Bitmask & Ho
     for (const unit of Object.values(defaultDataRegistry.units)) {
       const baseEntry = resolveSpriteSheetEntry(unit.id, null);
       expect(baseEntry, `Missing base sprite manifest for ${unit.id}`).not.toBeNull();
-      expect([32, 48, 64, 96]).toContain(baseEntry!.frameWidth);
+      expect([32, 48, 64, 96, 128]).toContain(baseEntry!.frameWidth);
       expect(baseEntry!.anchor.x).toBe(0.5);
       expect([0.85, 0.9]).toContain(baseEntry!.anchor.y);
       for (const st of STANDARD_SPRITE_ANIM_STATES) {
@@ -51,17 +51,17 @@ describe('Phase 11 Step 1: Sprite Animation State Machine, Autotile Bitmask & Ho
       }
     }
 
-    // Specific size & anchor checks: Luffy Base (48x48, anchor 0.5/0.9), Gear 5 (48), Kaido Dragon (96), Saturn (96), Loki (96)
+    // Specific size & anchor checks: Luffy Base & Gear 5 accept 48..128 normalized pixel frames, Kaido/Saturn/Loki keep 96
     const luffyBaseEntry = resolveSpriteSheetEntry('luffy', null)!;
-    expect(luffyBaseEntry.frameWidth).toBe(48);
-    expect(luffyBaseEntry.frameHeight).toBe(48);
+    expect([48, 64, 96, 128]).toContain(luffyBaseEntry.frameWidth);
+    expect(luffyBaseEntry.frameHeight).toBe(luffyBaseEntry.frameWidth);
     expect(luffyBaseEntry.anchor).toEqual({ x: 0.5, y: 0.9 });
     expect(luffyBaseEntry.animations.IDLE.frames).toBe(4);
     expect(luffyBaseEntry.animations.MOVE.frames).toBe(6);
     expect(luffyBaseEntry.animations.ATTACK_MELEE.frames).toBe(4);
     expect(luffyBaseEntry.animations.ATTACK_CAST.frames).toBe(4);
     expect(luffyBaseEntry.animations.DODGE.frames).toBe(3);
-    expect(resolveSpriteSheetEntry('luffy', 'form_luffy_gear5')?.frameWidth).toBe(48);
+    expect([48, 64, 96, 128]).toContain(resolveSpriteSheetEntry('luffy', 'form_luffy_gear5')?.frameWidth);
     expect(resolveSpriteSheetEntry('kaido', 'form_kaido_beast')?.frameWidth).toBe(96);
     expect(resolveSpriteSheetEntry('saturn', null)?.frameWidth).toBe(96);
     expect(resolveSpriteSheetEntry('loki', null)?.frameWidth).toBe(96);

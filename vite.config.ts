@@ -57,84 +57,87 @@ export default defineConfig(() => {
     plugins: [
       ...(isWeb
         ? [
-            VitePWA({
-              registerType: 'prompt',
-              includeAssets: ['icon.svg', 'icon-192.svg', 'icon-512.svg'],
-              manifest: {
-                name: 'One Piece Grand Voyage — 2D Pixel Action RPG',
-                short_name: 'OPGrandVoyage',
-                description:
-                  'One Piece 2D Pixel Real-Time Action & Sea-Zone Free Sailing RPG',
-                theme_color: '#0f172a',
-                background_color: '#070b12',
-                display: 'standalone',
-                orientation: 'landscape',
-                icons: [
-                  {
-                    src: 'icon-192.svg',
-                    sizes: '192x192',
-                    type: 'image/svg+xml',
-                    purpose: 'any'
-                  },
-                  {
-                    src: 'icon-512.svg',
-                    sizes: '512x512',
-                    type: 'image/svg+xml',
-                    purpose: 'any maskable'
-                  },
-                  {
-                    src: 'icon.svg',
-                    sizes: 'any',
-                    type: 'image/svg+xml',
-                    purpose: 'any maskable'
-                  }
-                ]
-              },
-              workbox: {
-                // Keep app shell, JSON manifests, UI icons, and core SFX precached
-                globPatterns: ['**/*.{js,css,html,svg,png,json,webmanifest}'],
-                // Offload large external sprite sheets, portraits, biome tilesets, and BGM streams to Runtime CacheFirst
-                globIgnores: [
-                  'assets/sprites/**',
-                  'assets/portraits/**',
-                  'assets/tilesets/**',
-                  'assets/audio/bgm/**',
-                  '**/*.meta.json'
-                ],
-                runtimeCaching: [
-                  {
-                    urlPattern: /\/assets\/(sprites|portraits|tilesets)\/.*\.png$/i,
-                    handler: 'CacheFirst',
-                    options: {
-                      cacheName: 'opgv-pixel-art-cache',
-                      expiration: {
-                        maxEntries: 250,
-                        maxAgeSeconds: 60 * 60 * 24 * 30
-                      },
-                      cacheableResponse: {
-                        statuses: [0, 200]
-                      }
-                    }
-                  },
-                  {
-                    urlPattern: /\/assets\/audio\/bgm\/.*\.(ogg|mp3|wav)$/i,
-                    handler: 'CacheFirst',
-                    options: {
-                      cacheName: 'opgv-bgm-audio-cache',
-                      expiration: {
-                        maxEntries: 30,
-                        maxAgeSeconds: 60 * 60 * 24 * 30
-                      },
-                      cacheableResponse: {
-                        statuses: [0, 200]
-                      }
+          VitePWA({
+            registerType: 'prompt',
+            includeAssets: ['icon.svg', 'icon-192.svg', 'icon-512.svg'],
+            manifest: {
+              name: 'One Piece Grand Voyage — 2D Pixel Action RPG',
+              short_name: 'OPGrandVoyage',
+              description:
+                'One Piece 2D Pixel Real-Time Action & Sea-Zone Free Sailing RPG',
+              theme_color: '#0f172a',
+              background_color: '#070b12',
+              display: 'standalone',
+              orientation: 'landscape',
+              icons: [
+                {
+                  src: 'icon-192.svg',
+                  sizes: '192x192',
+                  type: 'image/svg+xml',
+                  purpose: 'any'
+                },
+                {
+                  src: 'icon-512.svg',
+                  sizes: '512x512',
+                  type: 'image/svg+xml',
+                  purpose: 'any maskable'
+                },
+                {
+                  src: 'icon.svg',
+                  sizes: 'any',
+                  type: 'image/svg+xml',
+                  purpose: 'any maskable'
+                }
+              ]
+            },
+            workbox: {
+              // Keep app shell, JSON manifests, UI icons, and core SFX precached
+              globPatterns: ['**/*.{js,css,html,svg,png,json,webmanifest}'],
+              // Offload large external sprite sheets, portraits, biome tilesets, backdrops, VFX, and audio streams to Runtime CacheFirst
+              globIgnores: [
+                'assets/sprites/**',
+                'assets/portraits/**',
+                'assets/tilesets/**',
+                'assets/backgrounds/**',
+                'assets/vfx/**',
+                'assets/audio/bgm/**',
+                'assets/audio/sfx/**',
+                '**/*.meta.json'
+              ],
+              runtimeCaching: [
+                {
+                  urlPattern: /\/assets\/(sprites|portraits|tilesets|backgrounds|vfx)\/.*\.png$/i,
+                  handler: 'CacheFirst',
+                  options: {
+                    cacheName: 'opgv-pixel-art-cache',
+                    expiration: {
+                      maxEntries: 400,
+                      maxAgeSeconds: 60 * 60 * 24 * 30
+                    },
+                    cacheableResponse: {
+                      statuses: [0, 200]
                     }
                   }
-                ],
-                cleanupOutdatedCaches: true
-              }
-            })
-          ]
+                },
+                {
+                  urlPattern: /\/assets\/audio\/(bgm|sfx)\/.*\.(ogg|mp3|wav)$/i,
+                  handler: 'CacheFirst',
+                  options: {
+                    cacheName: 'opgv-bgm-audio-cache',
+                    expiration: {
+                      maxEntries: 80,
+                      maxAgeSeconds: 60 * 60 * 24 * 30
+                    },
+                    cacheableResponse: {
+                      statuses: [0, 200]
+                    }
+                  }
+                }
+              ],
+              cleanupOutdatedCaches: true
+            }
+          })
+        ]
         : [])
     ],
     server: {

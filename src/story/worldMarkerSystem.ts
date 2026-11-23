@@ -189,16 +189,48 @@ export function collectIslandWorldMarkers(
     }
   }
 
-  // 3. Silver/Red Activity Marker for Battle Terminal
-  markers.push({
-    id: 'island_act_terminal',
-    kind: 'ACTIVITY',
-    label: '🌐 통신 단말기',
-    x: ISLAND_BATTLE_TERMINAL_POS.x,
-    y: ISLAND_BATTLE_TERMINAL_POS.y,
-    color: '#cbd5e1',
-    pulse: false
-  });
+  // 3. Explicit map markers (Port Exit, Side, Activity such as Bounty Board / Camp)
+  const terminalPos = islandMap.battleTerminalPos ?? ISLAND_BATTLE_TERMINAL_POS;
+  let hasTerminalMarker = false;
+  if (islandMap.markers && islandMap.markers.length > 0) {
+    const ts = islandMap.tileMap?.tileSize ?? 32;
+    for (const em of islandMap.markers) {
+      if (em.hideWhenFlagSet && campaign.episodeFlags[em.hideWhenFlagSet]) continue;
+      const mx = em.tileX * ts + ts * 0.5;
+      const my = em.tileY * ts + ts * 0.5;
+      if (em.actionKind === 'BATTLE_TERMINAL') hasTerminalMarker = true;
+      if (markers.some((m) => Math.hypot(m.x - mx, m.y - my) < 28)) continue;
+      const mappedKind: WorldMarkerKind =
+        em.kind === 'MAIN' ? 'MAIN' : em.kind === 'SIDE' ? 'SIDE' : 'ACTIVITY';
+      markers.push({
+        id: `island_map_marker_${em.markerId}`,
+        kind: mappedKind,
+        label: em.label,
+        x: mx,
+        y: my,
+        color:
+          em.kind === 'MAIN'
+            ? MARKER_COLOR_MAP.MAIN
+            : em.kind === 'SIDE' || em.kind === 'PORT_EXIT'
+              ? MARKER_COLOR_MAP.SIDE
+              : '#cbd5e1',
+        pulse: em.kind === 'MAIN' || em.kind === 'SIDE'
+      });
+    }
+  }
+
+  // 4. Silver/Red Activity Marker for Battle Terminal
+  if (!hasTerminalMarker) {
+    markers.push({
+      id: 'island_act_terminal',
+      kind: 'ACTIVITY',
+      label: '🌐 통신 단말기',
+      x: terminalPos.x,
+      y: terminalPos.y,
+      color: '#cbd5e1',
+      pulse: false
+    });
+  }
 
   return markers;
 }

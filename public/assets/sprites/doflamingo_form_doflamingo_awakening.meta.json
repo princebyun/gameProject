@@ -3,17 +3,17 @@
   "unitId": "doflamingo",
   "formId": "form_doflamingo_awakening",
   "rigType": "caster_ranged",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "0d1c6ba384da12823b57aafdb404cccf492e7a416eb9ae1831ce59d9e6e413fb",
-  "bakedAt": "2026-11-21T14:55:00.534Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "6b8c166b0ce672f5247482c7976eeb7460d2e918e0310ced9fa96cf99e33be7f",
+  "bakedAt": "2026-11-23T00:58:08.821Z",
   "animations": {
     "IDLE": {
       "row": 0,

@@ -131,9 +131,11 @@ export function renderActiveSceneFrame(
       const hasIslandInteractable = Boolean(
         host.lastIslandStep.nearbyNpc ||
           host.lastIslandStep.nearbySwitch ||
+          host.lastIslandStep.nearbyChest ||
           host.lastIslandStep.nearbyEncounter ||
           host.lastIslandStep.atBattleTerminal ||
-          host.lastIslandStep.atPortExit
+          host.lastIslandStep.atPortExit ||
+          host.lastIslandStep.nearbyActivityMarker
       );
       renderTouchOverlay(ctx, host.input, 'ISLAND', hasIslandInteractable);
     }
@@ -181,7 +183,11 @@ export function renderActiveSceneFrame(
       alpha,
       host.renderer.settings,
       'ALL',
-      viewport
+      viewport,
+      {
+        islandId: host.islandRuntime?.islandId ?? host.campaign.activeIslandId ?? host.campaign.lastDockedPort.islandId,
+        seaZoneId: host.campaign.currentZoneId
+      }
     );
     renderBattleHud(
       ctx,

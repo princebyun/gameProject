@@ -3,17 +3,17 @@
   "unitId": "zoro",
   "formId": "base",
   "rigType": "swordsman_weapon",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "83a68838cebf0b3bd002f198707e534c04213d4a5179993b834ea93fb09af76a",
-  "bakedAt": "2026-11-21T14:54:59.619Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "1ddb034fb55ece2b51688bbefc63353217fadab0140c6afecb56f380822bb27b",
+  "bakedAt": "2026-11-23T00:57:58.938Z",
   "animations": {
     "IDLE": {
       "row": 0,

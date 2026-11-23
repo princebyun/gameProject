@@ -3,17 +3,17 @@
   "unitId": "arlong",
   "formId": "base",
   "rigType": "swordsman_weapon",
-  "frameWidth": 64,
-  "frameHeight": 64,
-  "sheetWidth": 384,
-  "sheetHeight": 704,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "03512784b21660b6d01903ed801faedd8848065cae4c69a56e6772786d1f7b17",
-  "bakedAt": "2026-11-21T14:54:59.963Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "4597de06e284d61049174f9caa35cff8d7afbf128ca93d991976ecbed302a4ca",
+  "bakedAt": "2026-11-23T00:58:02.669Z",
   "animations": {
     "IDLE": {
       "row": 0,

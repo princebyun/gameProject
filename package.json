@@ -24,6 +24,9 @@
     "check:arch": "node scripts/check-architecture.mjs",
     "validate:assets": "node --import tsx scripts/validate-assets.ts",
     "validate:scripts": "node --import tsx scripts/validate-scripts.ts",
+    "validate:maps": "node scripts/validate-maps.mjs",
+    "fetch:assets": "node scripts/fetch-web-assets.mjs",
+    "import:pack": "node --import tsx scripts/import-sprite-pack.mjs",
     "bake:sprites": "node --import tsx scripts/bake-sprites.mjs",
     "ai:handoff": "node --import tsx scripts/ai-handoff.mjs"
   },

@@ -38,6 +38,7 @@ export {
 export {
   assertValidAssetManifestRegistry,
   assertValidAudioManifestFile,
+  assertValidBattleBackdropsManifestFile,
   assertValidColosseumConfig,
   assertValidCrewRoleDefinition,
   assertValidEndgameRegistry,
@@ -52,7 +53,8 @@ export {
   assertValidSpriteManifestFile,
   assertValidTilesetManifestFile,
   assertValidTrainingRule,
-  assertValidTutorMoveDefinition
+  assertValidTutorMoveDefinition,
+  assertValidVfxManifestFile
 } from './rpgAndAssetSchemaGuards';
 
 export function assertValidBalanceConfig(value: unknown): BalanceConfig {

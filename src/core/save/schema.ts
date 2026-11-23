@@ -98,6 +98,7 @@ export interface SavePayloadV1 {
     decipheredPoneglyphIds?: string[];
     nextBattleMealAtkBuffRatio?: number;
     shipboardCookingCooldownSec?: number;
+    openedChestIds?: string[];
   };
   ship: {
     activeShipId: string;

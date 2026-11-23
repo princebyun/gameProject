@@ -3,17 +3,17 @@
   "unitId": "zoro",
   "formId": "form_zoro_king_of_hell",
   "rigType": "swordsman_weapon",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "8a4a32112c3010ccf0a6a6507ecedb994ff0539a25e6b5565f6afb801d01063f",
-  "bakedAt": "2026-11-21T14:54:59.631Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "4d8a91a89272119db3957e0d95a2dd0c53e2ff88d3990eb17f45611c697a79da",
+  "bakedAt": "2026-11-23T00:57:59.490Z",
   "animations": {
     "IDLE": {
       "row": 0,

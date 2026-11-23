@@ -100,8 +100,11 @@ export class AudioManager implements Disposable {
     return this.engine.playSfxById(LEGACY_SFX_MAP[kind]);
   }
 
-  public playSfxId(sfxId: StandardSfxId | string): SfxPlayResult {
-    return this.engine.playSfxById(sfxId);
+  public playSfxId(
+    sfxId: StandardSfxId | string,
+    opts?: { volumeScale?: number; pitchScale?: number }
+  ): SfxPlayResult {
+    return this.engine.playSfxById(sfxId, undefined, opts);
   }
 
   public dispose(): void {

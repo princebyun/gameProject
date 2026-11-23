@@ -3,17 +3,17 @@
   "unitId": "robin",
   "formId": "base",
   "rigType": "caster_ranged",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "70d114a97dbc493c1af9eafe806691b8dfa501645d8170694264ed0a7a68d8e3",
-  "bakedAt": "2026-11-21T14:54:59.764Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "3ae1717bfc150dd6920e55e7be7294b60f9c4b0de4d4458005cd06c2a87f7399",
+  "bakedAt": "2026-11-23T00:58:01.677Z",
   "animations": {
     "IDLE": {
       "row": 0,

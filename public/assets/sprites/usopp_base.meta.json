@@ -3,17 +3,17 @@
   "unitId": "usopp",
   "formId": "base",
   "rigType": "caster_ranged",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "8479ec282168d89962f5ad5405f72f15bf7219a2baec09954d27347ff245ac62",
-  "bakedAt": "2026-11-21T14:54:59.687Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "af6b411f855bb76fc67ff9fda8ce5c4e78db06e03fb4667e98f0389257e5aedc",
+  "bakedAt": "2026-11-23T00:58:00.142Z",
   "animations": {
     "IDLE": {
       "row": 0,

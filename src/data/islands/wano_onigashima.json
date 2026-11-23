@@ -1,26 +1,273 @@
 {
   "islandId": "wano_onigashima",
-  "name": "와노쿠니 — 오니가시마 해골 돔 옥상",
+  "name": "와노쿠니 — 꽃의 도읍 & 오니가시마",
   "episodeId": "ep_wano",
-  "width": 960,
-  "height": 540,
+  "width": 1664,
+  "height": 1216,
   "theme": "ONIGASHIMA_DOME",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 816,
+    "y": 1040
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 816,
+      "y": 1104
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 688,
+    "y": 1008
+  },
   "obstacles": [
-    { "x": 380, "y": 70, "width": 160, "height": 90, "label": "오니가시마 해골 뿔 제단" }
+    {
+      "x": 576,
+      "y": 576,
+      "width": 128,
+      "height": 64,
+      "label": "꽃의 도읍 찻집"
+    },
+    {
+      "x": 992,
+      "y": 576,
+      "width": 128,
+      "height": 64,
+      "label": "에비스 기와상점"
+    },
+    {
+      "x": 704,
+      "y": 96,
+      "width": 320,
+      "height": 64,
+      "label": "오니가시마 천수각 성문"
+    }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
   "giantProps": [
     {
       "propId": "prop_road_poneglyph_wano",
-      "label": "붉은 로드 포네그리프 (와노쿠니)",
-      "pos": { "x": 420, "y": 240 },
-      "width": 64,
-      "height": 64,
-      "visualScale": 1.6,
+      "label": "붉은 로드 포네그리프",
+      "pos": {
+        "x": 720,
+        "y": 336
+      },
+      "width": 58,
+      "height": 58,
+      "visualScale": 1.5,
       "color": "#dc2626"
+    }
+  ],
+  "zones": [
+    {
+      "zoneId": "zone_wano_ferry",
+      "name": "와노쿠니 나루터 & 붉은 도리이",
+      "subtitle": "꽃의 도읍 관문",
+      "tileX": 18,
+      "tileY": 28,
+      "tileW": 15,
+      "tileH": 9,
+      "accentColor": "#ef4444"
+    },
+    {
+      "zoneId": "zone_wano_capital",
+      "name": "꽃의 도읍 번화가",
+      "subtitle": "등불과 포장마차 거리",
+      "tileX": 16,
+      "tileY": 15,
+      "tileW": 26,
+      "tileH": 13,
+      "accentColor": "#fb7185"
+    },
+    {
+      "zoneId": "zone_wano_bamboo",
+      "name": "잉어 연못 & 대나무 숲",
+      "subtitle": "신비로운 연꽃과 사당",
+      "tileX": 2,
+      "tileY": 10,
+      "tileW": 14,
+      "tileH": 20,
+      "accentColor": "#4ade80"
+    },
+    {
+      "zoneId": "zone_wano_castle",
+      "name": "오니가시마 출정 계단 & 성문",
+      "subtitle": "사황 카이도 옥상 결전지",
+      "tileX": 17,
+      "tileY": 2,
+      "tileW": 33,
+      "tileH": 12,
+      "accentColor": "#facc15"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_wano_bamboo_shrine",
+      "tileX": 4,
+      "tileY": 12,
+      "rarity": "gold",
+      "hiddenHint": "대나무 숲 캐노피 뒤 붉은 사당",
+      "reward": {
+        "berries": 20000,
+        "trainingPoints": 30,
+        "healPartyRatio": 0.5,
+        "itemLabel": "사무라이 비전 두루마리"
+      }
+    },
+    {
+      "chestId": "chest_wano_pond_stones",
+      "tileX": 12,
+      "tileY": 26,
+      "rarity": "silver",
+      "hiddenHint": "연못 목교 옆 돌징검다리 끝",
+      "reward": {
+        "berries": 14000,
+        "trainingPoints": 20,
+        "itemLabel": "잉어 연못 금괴"
+      }
+    },
+    {
+      "chestId": "chest_wano_market_alley",
+      "tileX": 38,
+      "tileY": 19,
+      "rarity": "wooden",
+      "hiddenHint": "번화가 기와지붕 뒷골목",
+      "reward": {
+        "berries": 10000,
+        "trainingPoints": 16,
+        "itemLabel": "오뎅의 특제 보급 도시락"
+      }
+    },
+    {
+      "chestId": "chest_wano_sakura_wall",
+      "tileX": 47,
+      "tileY": 7,
+      "rarity": "gold",
+      "hiddenHint": "성벽 동쪽 거대 벚나무 아래",
+      "reward": {
+        "berries": 22000,
+        "trainingPoints": 32,
+        "itemLabel": "류오 수련 명검 보물"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_wano_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 나루터 출항",
+      "tileX": 25,
+      "tileY": 34,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_wano_robin",
+      "kind": "MAIN",
+      "label": "★ 포네그리프 & 카이도",
+      "tileX": 20,
+      "tileY": 12,
+      "hideWhenFlagSet": "flag_wano_poneglyph_read",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_wano_samurai",
+      "kind": "SIDE",
+      "label": "◆ 붉은 칼집 사무라이 결의",
+      "tileX": 26,
+      "tileY": 14,
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_wano_camp",
+      "kind": "ACTIVITY",
+      "label": "📋 류오 수련 & 현상금",
+      "tileX": 30,
+      "tileY": 23,
+      "actionKind": "CAMP_TRAINING"
+    },
+    {
+      "markerId": "marker_wano_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 21,
+      "tileY": 31,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_wano_torii",
+      "kind": "TORII_GATE",
+      "tileX": 23,
+      "tileY": 27,
+      "widthTiles": 5,
+      "heightTiles": 2,
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_wano_boat",
+      "kind": "DOCKED_BOAT",
+      "tileX": 19,
+      "tileY": 32,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_wano_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 30,
+      "tileY": 22,
+      "widthTiles": 1,
+      "heightTiles": 1
+    },
+    {
+      "landmarkId": "lm_wano_l1",
+      "kind": "RED_LANTERN",
+      "tileX": 22,
+      "tileY": 25,
+      "widthTiles": 1,
+      "heightTiles": 1
+    },
+    {
+      "landmarkId": "lm_wano_l2",
+      "kind": "RED_LANTERN",
+      "tileX": 29,
+      "tileY": 25,
+      "widthTiles": 1,
+      "heightTiles": 1
+    },
+    {
+      "landmarkId": "lm_wano_l3",
+      "kind": "RED_LANTERN",
+      "tileX": 22,
+      "tileY": 19,
+      "widthTiles": 1,
+      "heightTiles": 1
+    },
+    {
+      "landmarkId": "lm_wano_l4",
+      "kind": "RED_LANTERN",
+      "tileX": 29,
+      "tileY": 19,
+      "widthTiles": 1,
+      "heightTiles": 1
+    },
+    {
+      "landmarkId": "lm_wano_l5",
+      "kind": "RED_LANTERN",
+      "tileX": 18,
+      "tileY": 12,
+      "widthTiles": 1,
+      "heightTiles": 1
+    },
+    {
+      "landmarkId": "lm_wano_l6",
+      "kind": "RED_LANTERN",
+      "tileX": 35,
+      "tileY": 11,
+      "widthTiles": 1,
+      "heightTiles": 1
     }
   ],
   "npcs": [
@@ -28,10 +275,15 @@
       "npcId": "npc_robin_poneglyph",
       "name": "니코 로빈 & 효고로",
       "roleLabel": "고고학자 & 류오 스승",
-      "pos": { "x": 360, "y": 250 },
+      "pos": {
+        "x": 656,
+        "y": 400
+      },
       "interactRadiusPx": 54,
       "visualScale": 1.05,
       "color": "#c084fc",
+      "facing": "right",
+      "ambientBubbleText": "붉은 로드 포네그리프 탁본 완료!",
       "setsQuestFlagOnTalk": "flag_wano_poneglyph_read",
       "dialogueLines": [
         "이 붉은 돌이 라프텔의 좌표를 가리키는 네 개의 [로드 포네그리프] 중 하나야. 탁본을 완료했어!",
@@ -44,6 +296,196 @@
           "responseLine": "[포네그리프 해독] 로드 포네그리프 1/4 확보 및 고고학자 직책 보너스가 활성화되었습니다!"
         }
       ]
+    },
+    {
+      "npcId": "npc_wano_samurai_ally",
+      "name": "킨에몬",
+      "roleLabel": "붉은 칼집 구인남 (동료 결의)",
+      "pos": {
+        "x": 848,
+        "y": 464
+      },
+      "interactRadiusPx": 48,
+      "visualScale": 1.04,
+      "color": "#f97316",
+      "facing": "down",
+      "ambientBubbleText": "와노쿠니 개국의 때가 왔소!!",
+      "patrolWaypoints": [
+        {
+          "x": 848,
+          "y": 464
+        },
+        {
+          "x": 848,
+          "y": 528
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 85,
+      "dialogueLines": [
+        "루피 공! 북쪽 계단 위로 올라가면 화재의 킹과 사황 카이도가 기다리고 있소. 전력으로 지원하겠소!"
+      ]
+    },
+    {
+      "npcId": "npc_wano_samurai_1",
+      "name": "대로 순찰 사무라이 겐조",
+      "roleLabel": "꽃의 도읍 경비",
+      "pos": {
+        "x": 784,
+        "y": 784
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 1,
+      "color": "#ef4444",
+      "facing": "down",
+      "ambientBubbleText": "도리이를 지나 천수각으로!",
+      "patrolWaypoints": [
+        {
+          "x": 784,
+          "y": 784
+        },
+        {
+          "x": 784,
+          "y": 560
+        },
+        {
+          "x": 880,
+          "y": 560
+        },
+        {
+          "x": 880,
+          "y": 784
+        }
+      ],
+      "patrolSpeedPx": 46,
+      "pauseTicks": 65,
+      "dialogueLines": [
+        "서쪽 연못 징검다리와 대나무 숲 너머에도 붉은 사당 보물이 놓여 있다는 전설이 있소."
+      ]
+    },
+    {
+      "npcId": "npc_wano_samurai_2",
+      "name": "성벽 수비대 토라지",
+      "roleLabel": "동쪽 벚나무 수호자",
+      "pos": {
+        "x": 1360,
+        "y": 368
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 1,
+      "color": "#f43f5e",
+      "facing": "right",
+      "ambientBubbleText": "동쪽 벚꽃 아래 길이 숨어 있지.",
+      "patrolWaypoints": [
+        {
+          "x": 1360,
+          "y": 368
+        },
+        {
+          "x": 1456,
+          "y": 368
+        },
+        {
+          "x": 1456,
+          "y": 272
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "동쪽 성벽 너머 거대한 벚나무 아래에 황금 보물상자가 떨어져 있었소!"
+      ]
+    },
+    {
+      "npcId": "npc_wano_kimono_1",
+      "name": "꽃의 도읍 주민 오츠루",
+      "roleLabel": "찻집 주인",
+      "pos": {
+        "x": 560,
+        "y": 688
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.96,
+      "color": "#fda4af",
+      "facing": "right",
+      "ambientBubbleText": "뜨끈한 차 드시고 가세요~",
+      "patrolWaypoints": [
+        {
+          "x": 560,
+          "y": 688
+        },
+        {
+          "x": 720,
+          "y": 688
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "서쪽 대나무 숲 캐노피 안쪽에는 조용히 쉬어갈 수 있는 작은 사당이 있어요."
+      ]
+    },
+    {
+      "npcId": "npc_wano_kimono_2",
+      "name": "기모노 여행객 유키",
+      "roleLabel": "번화가 행인",
+      "pos": {
+        "x": 1136,
+        "y": 592
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.96,
+      "color": "#c084fc",
+      "facing": "down",
+      "ambientBubbleText": "기와지붕 뒷골목이 아늑하네요!",
+      "patrolWaypoints": [
+        {
+          "x": 1136,
+          "y": 592
+        },
+        {
+          "x": 1136,
+          "y": 784
+        },
+        {
+          "x": 1040,
+          "y": 784
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 70,
+      "dialogueLines": [
+        "에비스 상점 기와지붕 뒤편 19번가 골목을 걸으면 지붕 처마 아래로 몸을 숨길 수 있어요!"
+      ]
+    },
+    {
+      "npcId": "npc_wano_soba_vendor",
+      "name": "소바 포장마차 사부로",
+      "roleLabel": "야시장 상인",
+      "pos": {
+        "x": 880,
+        "y": 720
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.98,
+      "color": "#fbbf24",
+      "facing": "left",
+      "ambientBubbleText": "따끈한 와노쿠니 소바 한 그릇!",
+      "patrolWaypoints": [
+        {
+          "x": 880,
+          "y": 720
+        },
+        {
+          "x": 976,
+          "y": 784
+        }
+      ],
+      "patrolSpeedPx": 36,
+      "pauseTicks": 85,
+      "dialogueLines": [
+        "노을빛 아래 붉은 등불이 켜지는 밤이면 꽃의 도읍이 황금빛으로 빛나지!"
+      ]
     }
   ],
   "encounters": [
@@ -51,9 +493,14 @@
       "encounterId": "enc_wano_king_gate",
       "name": "백수 해적단 대간판 화재의 킹 (루나리아 불꽃 결전)",
       "isBoss": true,
-      "pos": { "x": 600, "y": 265 },
+      "pos": {
+        "x": 944,
+        "y": 336
+      },
       "triggerRadiusPx": 56,
-      "enemyUnitIds": ["king"],
+      "enemyUnitIds": [
+        "king"
+      ],
       "aiLevel": 4,
       "arenaSizeKey": "medium",
       "setsFlagOnVictory": "flag_wano_king_cleared",
@@ -70,9 +517,14 @@
       "encounterId": "enc_wano_kaido_boss",
       "name": "사황 백수 카이도 (최강의 생물)",
       "isBoss": true,
-      "pos": { "x": 810, "y": 270 },
+      "pos": {
+        "x": 1168,
+        "y": 240
+      },
       "triggerRadiusPx": 64,
-      "enemyUnitIds": ["kaido"],
+      "enemyUnitIds": [
+        "kaido"
+      ],
       "aiLevel": 4,
       "arenaSizeKey": "large",
       "setsFlagOnVictory": "flag_wano_kaido_cleared",
@@ -85,5 +537,304 @@
         "내 [보로 브레스]와 패왕색 [뇌명팔괘]를 정면으로 받아쳐보아라!!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "PETAL",
+      "LANTERN_MOTE"
+    ],
+    "density": 34
+  },
+  "lightingProfile": {
+    "defaultMood": "DUSK",
+    "tintHex": "#fb7185",
+    "tintAlpha": 0.14,
+    "sunbeams": false,
+    "lanterns": [
+      {
+        "tileX": 22,
+        "tileY": 25,
+        "color": "#fb923c",
+        "radiusPx": 54
+      },
+      {
+        "tileX": 29,
+        "tileY": 25,
+        "color": "#fb923c",
+        "radiusPx": 54
+      },
+      {
+        "tileX": 22,
+        "tileY": 19,
+        "color": "#facc15",
+        "radiusPx": 52
+      },
+      {
+        "tileX": 29,
+        "tileY": 19,
+        "color": "#facc15",
+        "radiusPx": 52
+      },
+      {
+        "tileX": 18,
+        "tileY": 12,
+        "color": "#f43f5e",
+        "radiusPx": 56
+      },
+      {
+        "tileX": 35,
+        "tileY": 11,
+        "color": "#f43f5e",
+        "radiusPx": 58
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 52,
+    "rows": 38,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGBBBBBBBBBBGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGBBBBBBBBBBGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGqqqqbwbwDwbwbwqqqqqqqqqqGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGqqqqqqqqqqqqqqqqqqqqqqqqGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGqqqqqqqqqqqqqqqqqqqqqqqqGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGqqqqqqqqqqqqqqqqqqqqqqqqGGGppppGGc",
+      "cGGGGGGGGGGGGGGGGGqqqqqqqqqqqqqqqqqqqqqqqqGGGppppGGc",
+      "cGGGGGGGGGGGGGGGGGqqqqqqqqqqqqqqqqqqqqqqqqGGGpcppGGc",
+      "cGGGGGGGGGGGGGGGGGqqqqqqqqqqqqqqqqqqqqqqqqGGGppppGGc",
+      "cGGGggcggcggGGGGGGqqqqqqqqqqqqqqqqqqqqqqqqGGGpppcGGc",
+      "cGGGpgggggggGGGGGGqqqqqqqqqqqqqqqqqqqqqqqqGGGppppGGc",
+      "cGGGggcggcggGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGppppGGc",
+      "cGGGggggggggGGGGcccccccppppppccccccccccccccccppppGGc",
+      "cGGcggcggcggGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGppppGGc",
+      "cGGGggggggggGGGGGppppppppppppppppppppppppGGGGppppGGc",
+      "cGGcggcggcggGGGGGpBBBBpppppppppBBBBppppppGGGGGGGGGGc",
+      "cGGGggggggggppppppBBBBpppppppppBBBBppppppGGGGGGGGGGc",
+      "cGGGggggggggppppppbwDwpppppppppbwDwppppppGGGGGGGGGGc",
+      "cGGGGGGGddGpppppppppppppppppppppppppBBBBBGGGGGGGGGGc",
+      "cGGGGWWWddWWWGGGGpppppppppppppppppppBBBBBGGGGGGGGGGc",
+      "cGGGWWWWddWWWWGGGpppppppppppppppppppbwDwbGGGGGGGGGGc",
+      "cGGGWWWWddWWWWGGGpBBBBpppppppppppppppppppGGGGGGGGGGc",
+      "cGGGWWWWddWWWWGGGpBBBBpppppppppppppppppppGGGGGGGGGGc",
+      "cGGGWWWWddWWWWGGGpbwDwpppppppppppppppppppGGGGGGGGGGc",
+      "cGGGGWWWddLLLGGGGppppppppppppppppppppppppGGGGGGGGGGc",
+      "cGGGGGGGddGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGddGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGdddddGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGG~~~ddddd~~~~~GGGGGGGGGGGGGGGGGGc",
+      "~~~GGGGGGGGGGGGG~~~~WWWdddddWWWWW~~~~GGGGGGGGGGGGGG~",
+      "WWW~~~~~~~~~~~~~WWWWWWWdddddWWWWWWWWW~~~~~~~~~~~~~~W",
+      "WWWWWWWWWWWWWWWWWWWWWWWdddddWWWWWWWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+    ],
+    "detailRows": [
+      "....................................................",
+      "..ft..f......f...f........f.......f...t.............",
+      "...f...ft....f...F.f.............f.....ff.....f.fF..",
+      ".......................................f...t..f...F.",
+      ".t..t..tt..f....t...........................f.....f.",
+      ".t.....f.......f.F....hhhhhhhhhh...........tf.....f.",
+      "......ft........t...........................tt......",
+      "......t...ttt..tt...................................",
+      "...t.......t..t..t..................................",
+      ".t..FF....F....f............................t.......",
+      ".......f.....f..t.............................j..F..",
+      ".............F.ft..........................ft.....t.",
+      "..FF........f.............................f.....j...",
+      "..............F.....f.F...........F...f.....t.......",
+      "..................................................t.",
+      ".tF....ft.f...ft...........................F......F.",
+      ".t.....t............................................",
+      "..f.....t.f..............................t....F.t.F.",
+      "...tt.t...f....................................FF...",
+      "....F.t....................................FF.......",
+      "...tf..f..........hhhh.........hhhh.......t.f.....f.",
+      "...f............................................F...",
+      ".t.............t...............................t....",
+      "....................................hhhhhF.....f....",
+      "..f............F.........................t.f.....f..",
+      "..............................................f...f.",
+      "..f...........f...hhhh.......................f......",
+      "..fF...f..Ft.......F...........f....tF..ftt....F....",
+      "..F.Fff....t.....t.f......................tf........",
+      "....Ftt............F...........FF....f.F.f.F...f..t.",
+      "...f.ttt.....f..F..t...........tF.F..F...f.f.F......",
+      "..tf...f.....f.F....t.F..............t.tff..t.......",
+      ".f.....F....F.tt.t.................f...f..t.......f.",
+      "...........................................f..F..f..",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "...................................................."
+    ],
+    "solidRows": [
+      "####################################################",
+      "#..................................................#",
+      "#.....................##########...................#",
+      "#.....................##########...................#",
+      "#.....................##########...................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#.....................##...........................#",
+      "#.....#..#............##........................#..#",
+      "#..................................................#",
+      "#.....#..#.........................................#",
+      "#...............#######......#################.....#",
+      "#..#..#..#.........................................#",
+      "#..................................................#",
+      "#..#..#..#........####.........####................#",
+      "#.................####.........####................#",
+      "#.................####.........####................#",
+      "#...................................#####..........#",
+      "#....###..###.......................#####..........#",
+      "#...####..####................#.....#####..........#",
+      "#...####..####....####.............................#",
+      "#...####..####....####.............................#",
+      "#...####..####....####.............................#",
+      "#....###...........................................#",
+      "#..................................................#",
+      "#......................#...#.......................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................####.....#####..................#",
+      "###.............#######.....#########..............#",
+      "#######################.....########################",
+      "#######################.....########################",
+      "####################################################",
+      "####################################################"
+    ],
+    "overheadRows": [
+      "....................................................",
+      ".....................rrrrrrrrrrrr...................",
+      ".....................RRRRRRRRRRRR...................",
+      ".....................RRRRRRRRRRRR...................",
+      "....................................................",
+      "....................................................",
+      ".............................................OOOO...",
+      "............................................OoOOO...",
+      "............................................oOOOO...",
+      "............................................OoOOOo..",
+      "...oOoOoOoO....................................OoO..",
+      "...OoOoOoOo....................................oOo..",
+      "...oOoOoOoO.........................................",
+      "...OoOoOoOo.........................................",
+      "...oOoOoOoO.........................................",
+      "...OoOoOoOo.........................................",
+      "...oOoOoOoO......rrrrrr.......rrrrrr................",
+      "...OoOoOoOo......RRRRRR.......RRRRRR................",
+      ".................RRRRRR.......RRRRRR................",
+      "...................................reeeeer..........",
+      "...................................RRRRRRR..........",
+      "...................................RRRRRRR..........",
+      ".................rrrrrr.............................",
+      ".................RRRRRR.............................",
+      ".................RRRRRR.............................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "...................................................."
+    ],
+    "surfaceRows": [
+      "gggggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "ggggggggggggggggggppppppppppppppppppppppppgggggggggg",
+      "ggggggggggggggggggppppppppppppppppppppppppgggggggggg",
+      "ggggggggggggggggggppppppppppppppppppppppppgggggggggg",
+      "ggggggggggggggggggppppppppppppppppppppppppgggppppggg",
+      "ggggggggggggggggggppppppppppppppppppppppppgggppppggg",
+      "ggggggggggggggggggppppppppppppppppppppppppgggppppggg",
+      "ggggggggggggggggggppppppppppppppppppppppppgggppppggg",
+      "ggggggggggggggggggppppppppppppppppppppppppgggppppggg",
+      "ggggpgggggggggggggppppppppppppppppppppppppgggppppggg",
+      "gggggggggggggggggggggggppppppggggggggggggggggppppggg",
+      "gggggggggggggggggggggggppppppggggggggggggggggppppggg",
+      "gggggggggggggggggggggggppppppggggggggggggggggppppggg",
+      "gggggggggggggggggppppppppppppppppppppppppggggppppggg",
+      "gggggggggggggggggppppppppppppppppppppppppggggggggggg",
+      "gggggggggggppppppppppppppppppppppppppppppggggggggggg",
+      "ggggggggddgppppppppppppppppppppppppppppppggggggggggg",
+      "ggggggggddgppppppppppppppppppppppppppppppggggggggggg",
+      "gggggwwwddwwwggggppppppppppppppppppppppppggggggggggg",
+      "ggggwwwwddwwwwgggppppppppppppppppppppppppggggggggggg",
+      "ggggwwwwddwwwwgggppppppppppppppppppppppppggggggggggg",
+      "ggggwwwwddwwwwgggppppppppppppppppppppppppggggggggggg",
+      "ggggwwwwddwwwwgggppppppppppppppppppppppppggggggggggg",
+      "gggggwwwddwwwggggppppppppppppppppppppppppggggggggggg",
+      "ggggggggddgggggggggggggppppppggggggggggggggggggggggg",
+      "ggggggggddgggggggggggggppppppggggggggggggggggggggggg",
+      "gggggggggggggggggggggggppppppggggggggggggggggggggggg",
+      "gggggggggggggggggggggggppppppggggggggggggggggggggggg",
+      "gggggggggggggggggggggggdddddgggggggggggggggggggggggg",
+      "ggggggggggggggggggggwwwdddddwwwwwggggggggggggggggggg",
+      "wwwgggggggggggggwwwwwwwdddddwwwwwwwwwggggggggggggggw",
+      "wwwwwwwwwwwwwwwwwwwwwwwdddddwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwdddddwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    ]
+  }
 }

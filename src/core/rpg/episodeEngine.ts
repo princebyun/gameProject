@@ -17,6 +17,11 @@ export {
   type IslandExplorationRuntime,
   type IslandStepOutput
 } from './islandRuntimeEngine';
+export type {
+  IslandFootstepEvent,
+  IslandNpcRuntimeState,
+  OpenedChestEvent
+} from './islandLivingVillage';
 
 export function completeEpisode(
   state: RpgCampaignState,

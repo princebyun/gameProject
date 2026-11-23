@@ -321,6 +321,7 @@ export class RpgWorldController implements Disposable {
     dt: number
   ): void {
     if (!this.host.islandRuntime) return;
+    const prevZoneId = this.host.islandRuntime.currentZoneId ?? null;
     this.host.lastIslandStep = stepIslandExploration(
       this.host.campaign,
       this.host.islandRuntime,
@@ -331,7 +332,54 @@ export class RpgWorldController implements Disposable {
       this.host.gameRegistry
     );
 
+    const step = this.host.lastIslandStep;
+    if (step.footstepEvent) {
+      const fs = step.footstepEvent;
+      this.host.assets.footstepParticles.spawn(fs.material, fs.x, fs.y);
+      const sfxProfile =
+        fs.material === 'water_shallow'
+          ? { id: 'water_splash', volumeScale: 0.24, pitchScale: 1.25 }
+          : fs.material === 'metal_cyber'
+            ? { id: 'ui_move', volumeScale: 0.22, pitchScale: 1.35 }
+            : fs.material === 'wood_dock'
+              ? { id: 'blunt_hit', volumeScale: 0.18, pitchScale: 1.45 }
+              : fs.material === 'stone'
+                ? { id: 'guard_block', volumeScale: 0.2, pitchScale: 1.55 }
+                : fs.material === 'sand'
+                  ? { id: 'dodge_whoosh', volumeScale: 0.16, pitchScale: 1.15 }
+                  : { id: 'dodge_whoosh', volumeScale: 0.18, pitchScale: 1.45 };
+      this.host.audio.playSfxId(sfxProfile.id, {
+        volumeScale: sfxProfile.volumeScale,
+        pitchScale: sfxProfile.pitchScale
+      });
+    }
+
+    if (
+      this.host.islandRuntime.currentZoneId &&
+      this.host.islandRuntime.currentZoneId !== prevZoneId
+    ) {
+      this.host.audio.playSfxId('ui_move', { volumeScale: 0.35, pitchScale: 1.2 });
+    }
+
+    if (step.openedChest) {
+      const oc = step.openedChest;
+      this.host.audio.playSfxId('just_dodge_chime');
+      this.host.saveIndicatorText = `💎 보물상자: +${oc.berriesAwarded.toLocaleString()}B / +${oc.tpAwarded}TP`;
+      this.host.saveIndicatorTimer = 3.2;
+      void this.host.triggerAutoSave('보물상자 개봉');
+      this.host.refreshSideDrawer();
+      return;
+    }
+
     if (interactPressed) {
+      if (step.nearbyActivityMarker) {
+        if (step.nearbyActivityMarker.actionKind === 'CAMP_TRAINING') {
+          this.host.openCrewCampModal();
+        } else if (step.nearbyActivityMarker.actionKind === 'BOUNTY_BOARD') {
+          this.host.saveIndicatorText = `📜 현상금 ${this.host.campaign.totalCrewBounty.toLocaleString()} 베리 (${this.host.campaign.recruitedUnitIds.length}명)`;
+          this.host.saveIndicatorTimer = 3.0;
+        }
+      }
       this.host.audio.playSfx('UI_CLICK');
       void this.host.triggerAutoSave('에피소드 진행');
       this.host.refreshSideDrawer();

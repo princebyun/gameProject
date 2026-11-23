@@ -3,17 +3,17 @@
   "unitId": "franky",
   "formId": "base",
   "rigType": "bulky_tall_coat",
-  "frameWidth": 64,
-  "frameHeight": 64,
-  "sheetWidth": 384,
-  "sheetHeight": 704,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "1cc13c77b10faaf9712506cbe1948e6a6f86adc35355c67ec525d73976b4f2cb",
-  "bakedAt": "2026-11-21T14:54:59.802Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "b3371b62330e92d9d67835c7cb284f27403ccd204a756930840ea33b0f5132d2",
+  "bakedAt": "2026-11-23T00:58:01.770Z",
   "animations": {
     "IDLE": {
       "row": 0,

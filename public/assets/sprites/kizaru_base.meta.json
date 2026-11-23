@@ -3,17 +3,17 @@
   "unitId": "kizaru",
   "formId": "base",
   "rigType": "bulky_tall_coat",
-  "frameWidth": 64,
-  "frameHeight": 64,
-  "sheetWidth": 384,
-  "sheetHeight": 704,
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "sheetWidth": 768,
+  "sheetHeight": 1408,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "2f2dece6611fb81045b1eb4709aaca4d984785d80bb356958bb4232ad59b06b9",
-  "bakedAt": "2026-11-21T14:55:00.341Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "697d2e8a292fcd203ae81c7e4272fbb7c67896a8a5549cd0d401f7c8ba481a9c",
+  "bakedAt": "2026-11-23T00:58:07.278Z",
   "animations": {
     "IDLE": {
       "row": 0,

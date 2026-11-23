@@ -3,17 +3,17 @@
   "unitId": "akainu",
   "formId": "base",
   "rigType": "bulky_tall_coat",
-  "frameWidth": 64,
-  "frameHeight": 64,
-  "sheetWidth": 384,
-  "sheetHeight": 704,
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "sheetWidth": 768,
+  "sheetHeight": 1408,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "02e576116b4e5ee2da4ff80a6fa0ac3336bf3c81ae7cfd91543487293d87f163",
-  "bakedAt": "2026-11-21T14:55:00.291Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "1b75103a632ab2cb962e7aa78f0b4c76ac00bfa05a3ffa0c9d5feb04e1799d91",
+  "bakedAt": "2026-11-23T00:58:05.973Z",
   "animations": {
     "IDLE": {
       "row": 0,

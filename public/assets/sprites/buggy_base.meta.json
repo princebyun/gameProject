@@ -3,17 +3,17 @@
   "unitId": "buggy",
   "formId": "base",
   "rigType": "caster_ranged",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "81a40e789dbe35d22a8be70d0e22a6f7fa6b344cff2a5d218f91f8f83d79f4ae",
-  "bakedAt": "2026-11-21T14:54:59.912Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "c9ffc239bcc1b7504ec1109afe97c8964ce575a217bfb50cd9a03f1cbd2758ff",
+  "bakedAt": "2026-11-23T00:58:02.567Z",
   "animations": {
     "IDLE": {
       "row": 0,

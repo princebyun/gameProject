@@ -3,6 +3,7 @@ import { createDefaultEndgameState } from '../endgame/types';
 import { createInitialCampaignState } from '../rpg/campaignState';
 import { syncShipHullStatsWithRoles } from '../rpg/crewAndBountyEngine';
 import type { IslandExplorationRuntime } from '../rpg/episodeEngine';
+import { createInitialNpcStates } from '../rpg/islandLivingVillage';
 import type { GameDataRegistry } from '../types/dataSchemas';
 import type { RpgCampaignState, RpgDataRegistry } from '../types/rpgSchemas';
 import { evaluateAndStampAntiCheat } from './antiCheat';
@@ -90,6 +91,9 @@ export function deserializeSaveEnvelopeToCampaign(
   campaign.shipboardCookingCooldownSec = world.shipboardCookingCooldownSec ?? 0;
   campaign.completedEpisodes = [...world.completedEpisodes];
   campaign.episodeFlags = { ...world.episodeStepFlags };
+  campaign.openedChestIds = Array.isArray(world.openedChestIds)
+    ? [...world.openedChestIds]
+    : [];
   campaign.roadPoneglyphCount = world.collectedRoadPoneglyphs?.length ?? 0;
 
   campaign.unlockedShips = ship.ownedShipIds.filter(
@@ -171,7 +175,8 @@ export function deserializeSaveEnvelopeToCampaign(
         deactivatedBarrierIds: [...(world.deactivatedBarrierIds ?? [])],
         activatedSwitchIds: [...(world.activatedSwitchIds ?? [])],
         activeDialogueNpc: null,
-        dialogueLineIndex: 0
+        dialogueLineIndex: 0,
+        npcStates: createInitialNpcStates(islMap)
       };
     }
   }

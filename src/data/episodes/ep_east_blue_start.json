@@ -16,21 +16,21 @@
     {
       "stepId": "step_foosha_talk",
       "title": "마키노에게 출항 정보 듣기",
-      "description": "후샤 마을 주점 앞의 마키노와 대화하세요.",
+      "description": "후샤 항구의 마키노와 대화하세요.",
       "requiredFlag": "flag_foosha_briefed",
-      "targetPos": { "x": 310, "y": 210 }
+      "targetPos": { "x": 720, "y": 784 }
     },
     {
       "stepId": "step_zoro_recruit",
       "title": "롤로노아 조로 구출 및 영입",
-      "description": "쉘즈타운 처형장의 조로와 대화해 동료로 영입하세요.",
+      "description": "북쪽 쉘즈타운 처형장의 조로와 대화해 동료로 영입하세요.",
       "requiredFlag": "flag_zoro_freed",
-      "targetPos": { "x": 620, "y": 230 }
+      "targetPos": { "x": 656, "y": 304 }
     },
     {
       "stepId": "step_shells_boss",
       "title": "도끼손 모건 대령 격파",
-      "description": "쉘즈타운 해군기지 동쪽의 도끼손 모건 대령을 격파하고 조로와 함께 바다로 출항하세요.",
+      "description": "쉘즈타운 해군기지 앞마당의 도끼손 모건 대령을 격파하고 조로와 함께 바다로 출항하세요.",
       "requiredFlag": "flag_east_blue_boss_cleared",
       "targetPos": { "x": 810, "y": 270 }
     }

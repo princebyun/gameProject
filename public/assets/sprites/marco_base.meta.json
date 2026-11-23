@@ -3,17 +3,17 @@
   "unitId": "marco",
   "formId": "base",
   "rigType": "humanoid_brawler",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "sheetWidth": 768,
+  "sheetHeight": 1408,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "fdc2e0121f028f09f7e17b82f1384b54b9841ad834adf9732a5a64639ea5a10c",
-  "bakedAt": "2026-11-21T14:59:26.480Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "01b700115239c40dae211c9174051e1fc51b17c2fa42e90c1132ccdebe703d9c",
+  "bakedAt": "2026-11-23T00:58:04.717Z",
   "animations": {
     "IDLE": {
       "row": 0,

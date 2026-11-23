@@ -53,13 +53,16 @@ export function renderSpritePreviewCanvas(
   const clip = entry.animations[state.selectedAnim];
   const frameIdx =
     Math.floor((previewTick / 60) * clip.fps) % Math.max(1, clip.frames);
+  const rect = clip.frameRects?.[frameIdx];
+  const fw = rect ? rect.w : entry.frameWidth;
+  const fh = rect ? rect.h : entry.frameHeight;
 
   const cx = Math.round(w * 0.5);
   const cy = Math.round(h * 0.48);
-  const drawW = entry.frameWidth * state.zoomScale;
-  const drawH = entry.frameHeight * state.zoomScale;
-  const drawX = Math.round(cx - drawW * entry.anchor.x);
-  const drawY = Math.round(cy - drawH * entry.anchor.y);
+  const drawW = fw * state.zoomScale;
+  const drawH = fh * state.zoomScale;
+  const drawX = rect ? Math.round(cx - rect.pivotX * state.zoomScale) : Math.round(cx - drawW * entry.anchor.x);
+  const drawY = rect ? Math.round(cy - rect.pivotY * state.zoomScale) : Math.round(cy - drawH * entry.anchor.y);
 
   if (state.toggleLunarian) {
     ctx.save();
@@ -103,7 +106,9 @@ export function renderSpritePreviewCanvas(
       frameIdx,
       entry.frameWidth,
       entry.frameHeight,
-      effectKind
+      effectKind,
+      '#ffffff',
+      rect
     );
     if (tinted) {
       ctx.drawImage(tinted, drawX, drawY, drawW, drawH);
@@ -111,10 +116,10 @@ export function renderSpritePreviewCanvas(
   } else {
     ctx.drawImage(
       sheetImg,
-      frameIdx * entry.frameWidth,
-      clip.row * entry.frameHeight,
-      entry.frameWidth,
-      entry.frameHeight,
+      rect ? rect.x : frameIdx * entry.frameWidth,
+      rect ? rect.y : clip.row * entry.frameHeight,
+      fw,
+      fh,
       drawX,
       drawY,
       drawW,
@@ -168,6 +173,7 @@ export function renderSpritePreviewCanvas(
 
   const thumbSize = 56;
   for (let f = 0; f < clip.frames; f++) {
+    const fRect = clip.frameRects?.[f];
     const tx = 14 + f * (thumbSize + 10);
     const ty = stripY + 8;
     ctx.strokeStyle = f === frameIdx ? '#fde047' : '#334155';
@@ -175,10 +181,10 @@ export function renderSpritePreviewCanvas(
     ctx.strokeRect(tx, ty, thumbSize, thumbSize);
     ctx.drawImage(
       sheetImg,
-      f * entry.frameWidth,
-      clip.row * entry.frameHeight,
-      entry.frameWidth,
-      entry.frameHeight,
+      fRect ? fRect.x : f * entry.frameWidth,
+      fRect ? fRect.y : clip.row * entry.frameHeight,
+      fRect ? fRect.w : entry.frameWidth,
+      fRect ? fRect.h : entry.frameHeight,
       tx,
       ty,
       thumbSize,

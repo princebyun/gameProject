@@ -2,51 +2,269 @@
   "islandId": "water_seven",
   "name": "물의 도시 워터 세븐 & 갈레라 1번 도크",
   "episodeId": "ep_water_seven",
-  "width": 960,
-  "height": 540,
+  "width": 1664,
+  "height": 1152,
   "theme": "CANAL_DOCKYARD",
   "spawnPoint": {
-    "x": 110,
-    "y": 270
+    "x": 816,
+    "y": 944
   },
   "portExitZone": {
     "pos": {
-      "x": 58,
-      "y": 270
+      "x": 816,
+      "y": 1008
     },
-    "radiusPx": 42
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 688,
+    "y": 944
   },
   "obstacles": [
     {
-      "x": 260,
-      "y": 75,
-      "width": 180,
-      "height": 95,
-      "label": "갈레라 컴퍼니 1번 도크"
+      "x": 992,
+      "y": 192,
+      "width": 224,
+      "height": 64,
+      "label": "갈레라 1번 도크 자재창고"
     },
     {
-      "x": 560,
-      "y": 370,
-      "width": 190,
-      "height": 90,
-      "label": "워터 세븐 수로 조선소"
+      "x": 128,
+      "y": 800,
+      "width": 160,
+      "height": 64,
+      "label": "워터 세븐 상점가"
     }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
   "giantProps": [],
+  "zones": [
+    {
+      "zoneId": "zone_w7_blue_station",
+      "name": "블루 스테이션 & 야가라 선착장",
+      "subtitle": "해상열차 종착역 부두",
+      "tileX": 17,
+      "tileY": 25,
+      "tileW": 17,
+      "tileH": 10,
+      "accentColor": "#38bdf8"
+    },
+    {
+      "zoneId": "zone_w7_canal",
+      "name": "중앙 대운하 & 석조 아치교",
+      "subtitle": "물의 도시 수로 광장",
+      "tileX": 11,
+      "tileY": 14,
+      "tileW": 30,
+      "tileH": 10,
+      "accentColor": "#0ea5e9"
+    },
+    {
+      "zoneId": "zone_w7_fountain",
+      "name": "서쪽 분수 광장 & 상점가",
+      "subtitle": "지중해풍 석조 거리",
+      "tileX": 2,
+      "tileY": 12,
+      "tileW": 12,
+      "tileH": 17,
+      "accentColor": "#facc15"
+    },
+    {
+      "zoneId": "zone_w7_dock1",
+      "name": "갈레라 컴퍼니 1번 도크",
+      "subtitle": "사우전드 써니호 건조소",
+      "tileX": 15,
+      "tileY": 2,
+      "tileW": 26,
+      "tileH": 12,
+      "accentColor": "#fb923c"
+    },
+    {
+      "zoneId": "zone_w7_east_terrace",
+      "name": "동쪽 운하 전망 테라스",
+      "subtitle": "아쿠아 라구나 전망대",
+      "tileX": 40,
+      "tileY": 9,
+      "tileW": 11,
+      "tileH": 16,
+      "accentColor": "#4ade80"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_w7_canal_alley",
+      "tileX": 24,
+      "tileY": 21,
+      "rarity": "silver",
+      "hiddenHint": "수로 아치 기둥 뒤 수변 뒷골목",
+      "reward": {
+        "berries": 9000,
+        "trainingPoints": 16,
+        "itemLabel": "갈레라 설계도 부록"
+      }
+    },
+    {
+      "chestId": "chest_w7_dock1_warehouse",
+      "tileX": 35,
+      "tileY": 4,
+      "rarity": "gold",
+      "hiddenHint": "1번 도크 자재 창고 지붕 뒤편",
+      "reward": {
+        "berries": 14000,
+        "trainingPoints": 24,
+        "healPartyRatio": 0.4,
+        "itemLabel": "보배 아담 목재 보너스"
+      }
+    },
+    {
+      "chestId": "chest_w7_fountain_stairs",
+      "tileX": 5,
+      "tileY": 22,
+      "rarity": "wooden",
+      "hiddenHint": "서쪽 분수 광장 상점가 뒤편",
+      "reward": {
+        "berries": 6000,
+        "trainingPoints": 12,
+        "itemLabel": "물의 도시 주화 주머니"
+      }
+    },
+    {
+      "chestId": "chest_w7_east_terrace",
+      "tileX": 48,
+      "tileY": 13,
+      "rarity": "silver",
+      "hiddenHint": "동쪽 운하 전망 테라스 끝",
+      "reward": {
+        "berries": 11000,
+        "trainingPoints": 18,
+        "itemLabel": "야가라 보급 금화"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_w7_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 야가라 출항 도크",
+      "tileX": 25,
+      "tileY": 31,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_w7_franky",
+      "kind": "MAIN",
+      "label": "★ 프랑키 (써니호)",
+      "tileX": 20,
+      "tileY": 11,
+      "hideWhenFlagSet": "flag_sunny_blueprint_ready",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_w7_law",
+      "kind": "SIDE",
+      "label": "◆ 트라팔가 로 동맹",
+      "tileX": 11,
+      "tileY": 24,
+      "hideWhenFlagSet": "flag_law_allied",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_w7_bounty",
+      "kind": "ACTIVITY",
+      "label": "📋 도크 수배 & 정비",
+      "tileX": 6,
+      "tileY": 21,
+      "actionKind": "BOUNTY_BOARD"
+    },
+    {
+      "markerId": "marker_w7_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 21,
+      "tileY": 29,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_w7_fountain",
+      "kind": "WATER_FOUNTAIN",
+      "tileX": 9,
+      "tileY": 21,
+      "widthTiles": 2,
+      "heightTiles": 2,
+      "label": "분수대"
+    },
+    {
+      "landmarkId": "lm_w7_crane",
+      "kind": "GALLEY_CRANE",
+      "tileX": 22,
+      "tileY": 4,
+      "widthTiles": 3,
+      "heightTiles": 2,
+      "label": "1번 도크 크레인",
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_w7_flag1",
+      "kind": "GALLEY_FLAG",
+      "tileX": 18,
+      "tileY": 8,
+      "widthTiles": 1,
+      "heightTiles": 1
+    },
+    {
+      "landmarkId": "lm_w7_flag2",
+      "kind": "GALLEY_FLAG",
+      "tileX": 39,
+      "tileY": 8,
+      "widthTiles": 1,
+      "heightTiles": 1
+    },
+    {
+      "landmarkId": "lm_w7_boat",
+      "kind": "DOCKED_BOAT",
+      "tileX": 19,
+      "tileY": 30,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_w7_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 6,
+      "tileY": 20,
+      "widthTiles": 1,
+      "heightTiles": 1
+    }
+  ],
   "npcs": [
     {
       "npcId": "npc_franky_shipwright",
       "name": "프랑키 & 아이스버그",
       "roleLabel": "워터 세븐 최강 조선공",
       "pos": {
-        "x": 350,
-        "y": 220
+        "x": 656,
+        "y": 368
       },
-      "interactRadiusPx": 50,
+      "interactRadiusPx": 52,
       "visualScale": 1.15,
       "color": "#38bdf8",
+      "facing": "right",
+      "ambientBubbleText": "SUUUUPER!! 아담으로 만든 꿈의 배!",
+      "patrolWaypoints": [
+        {
+          "x": 656,
+          "y": 368
+        },
+        {
+          "x": 784,
+          "y": 368
+        }
+      ],
+      "patrolSpeedPx": 44,
+      "pauseTicks": 80,
       "setsQuestFlagOnTalk": "flag_sunny_blueprint_ready",
       "dialogueLines": [
         "SUUUUPER!! 고잉 메리호는 여기까지 정말 잘 버텨줬다...!",
@@ -65,12 +283,26 @@
       "name": "트라팔가 로",
       "roleLabel": "하트 해적단 선장 (선의/동맹)",
       "pos": {
-        "x": 510,
-        "y": 320
+        "x": 368,
+        "y": 784
       },
       "interactRadiusPx": 50,
       "visualScale": 1.05,
       "color": "#0284c7",
+      "facing": "right",
+      "ambientBubbleText": "카이도를 끌어내릴 동맹을 맺자.",
+      "patrolWaypoints": [
+        {
+          "x": 368,
+          "y": 784
+        },
+        {
+          "x": 368,
+          "y": 688
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 95,
       "setsQuestFlagOnTalk": "flag_law_talked",
       "dialogueLines": [
         "밀짚모자 당번, 신세계의 사황 카이도를 끌어내릴 계획이 있다.",
@@ -84,6 +316,167 @@
           "responseLine": "[동맹 체결] 트라팔가 로(초인계 ROOM / 선의 직책)가 파티에 합류했습니다!"
         }
       ]
+    },
+    {
+      "npcId": "npc_w7_carpenter_1",
+      "name": "파울리",
+      "roleLabel": "갈레라 1번 도크 직공장",
+      "pos": {
+        "x": 624,
+        "y": 432
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1.02,
+      "color": "#f59e0b",
+      "facing": "right",
+      "ambientBubbleText": "자재 창고 뒤까지 꼼꼼히 점검해!",
+      "patrolWaypoints": [
+        {
+          "x": 624,
+          "y": 432
+        },
+        {
+          "x": 912,
+          "y": 432
+        },
+        {
+          "x": 912,
+          "y": 336
+        },
+        {
+          "x": 624,
+          "y": 336
+        }
+      ],
+      "patrolSpeedPx": 46,
+      "pauseTicks": 60,
+      "dialogueLines": [
+        "조선소 자재 창고 뒤편에 프랑키 녀석이 꿍쳐둔 비상금 상자가 있을지도 몰라."
+      ]
+    },
+    {
+      "npcId": "npc_w7_carpenter_2",
+      "name": "틸스톤 직공",
+      "roleLabel": "동쪽 아치교 순찰",
+      "pos": {
+        "x": 1168,
+        "y": 496
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 1.05,
+      "color": "#ef4444",
+      "facing": "down",
+      "ambientBubbleText": "동쪽 다리로 넘어가 보라고!",
+      "patrolWaypoints": [
+        {
+          "x": 1168,
+          "y": 496
+        },
+        {
+          "x": 1168,
+          "y": 720
+        }
+      ],
+      "patrolSpeedPx": 44,
+      "pauseTicks": 70,
+      "dialogueLines": [
+        "아쿠아 라구나가 오기 전에 동쪽 전망 테라스 끝도 확인해 둬!"
+      ]
+    },
+    {
+      "npcId": "npc_w7_merchant_1",
+      "name": "물시장 상인 루카",
+      "roleLabel": "서쪽 아치교 상인",
+      "pos": {
+        "x": 496,
+        "y": 496
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.96,
+      "color": "#a855f7",
+      "facing": "down",
+      "ambientBubbleText": "신선한 아쿠아 소금 사가세요!",
+      "patrolWaypoints": [
+        {
+          "x": 496,
+          "y": 496
+        },
+        {
+          "x": 496,
+          "y": 720
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "서쪽 다리 너머 분수대 뒤쪽 상점가 골목에서도 가끔 보물이 나온대요."
+      ]
+    },
+    {
+      "npcId": "npc_w7_yagara_guide",
+      "name": "야가라 안내원 페코",
+      "roleLabel": "블루 스테이션 안내",
+      "pos": {
+        "x": 752,
+        "y": 880
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.95,
+      "color": "#22d3ee",
+      "facing": "right",
+      "ambientBubbleText": "부릉~ 야가라 불 정박장입니다!",
+      "patrolWaypoints": [
+        {
+          "x": 752,
+          "y": 880
+        },
+        {
+          "x": 944,
+          "y": 880
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 70,
+      "dialogueLines": [
+        "수변 산책로 아치 기둥 뒤쪽 좁은 샛길로도 걸어갈 수 있어요!"
+      ]
+    },
+    {
+      "npcId": "npc_w7_citizen",
+      "name": "워터 세븐 시민 미아",
+      "roleLabel": "분수 광장 주민",
+      "pos": {
+        "x": 240,
+        "y": 656
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.95,
+      "color": "#4ade80",
+      "facing": "down",
+      "ambientBubbleText": "분수 물보라가 정말 시원해!",
+      "patrolWaypoints": [
+        {
+          "x": 240,
+          "y": 656
+        },
+        {
+          "x": 240,
+          "y": 752
+        },
+        {
+          "x": 400,
+          "y": 752
+        },
+        {
+          "x": 400,
+          "y": 656
+        }
+      ],
+      "patrolSpeedPx": 44,
+      "pauseTicks": 65,
+      "dialogueLines": [
+        "물의 도시 워터 세븐에 어서 오세요! 갈레라 1번 도크는 두 아치 다리를 건너 북쪽에 있어요."
+      ]
     }
   ],
   "encounters": [
@@ -92,8 +485,8 @@
       "name": "CP9 첩보원 블루노 (문문 열매 기습전)",
       "isBoss": true,
       "pos": {
-        "x": 580,
-        "y": 240
+        "x": 848,
+        "y": 464
       },
       "triggerRadiusPx": 52,
       "enemyUnitIds": [
@@ -116,8 +509,8 @@
       "name": "CP9 사법의 탑 결전: 카쿠 & 로브 루치",
       "isBoss": true,
       "pos": {
-        "x": 810,
-        "y": 265
+        "x": 1168,
+        "y": 304
       },
       "triggerRadiusPx": 58,
       "enemyUnitIds": [
@@ -136,5 +529,277 @@
         "로브 루치: 어둠의 정의 이름으로... 고양고양 열매 모델 레오파드의 [육왕건]으로 끝내주마!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "GULL",
+      "SPRAY",
+      "DROPLET"
+    ],
+    "density": 30
+  },
+  "lightingProfile": {
+    "defaultMood": "DAY",
+    "tintHex": "#bae6fd",
+    "tintAlpha": 0.05,
+    "sunbeams": true,
+    "lanterns": [
+      {
+        "tileX": 15,
+        "tileY": 18,
+        "color": "#38bdf8",
+        "radiusPx": 44
+      },
+      {
+        "tileX": 36,
+        "tileY": 18,
+        "color": "#38bdf8",
+        "radiusPx": 44
+      },
+      {
+        "tileX": 9,
+        "tileY": 21,
+        "color": "#7dd3fc",
+        "radiusPx": 48
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 52,
+    "rows": 36,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppBBBBBBBpppppppppppppc",
+      "cpppppppppppppppdddddddddddddddBBBBBBBddddpppppppppc",
+      "cpppppppppppppppdddddddddddddddbwbDbwbddddpppppppppc",
+      "cpppppppppppppppddddddddddddddddddddddddddpppppppppc",
+      "cpppppppppppppppddddddddddddddddddddddddddpppppppppc",
+      "cpppppppppppppppddddddddddddddddddddddddddpppppppppc",
+      "cpppppppppppppppdddddddddddddddddddddddddqqqqqqqqppc",
+      "cpppBBBBBBppppppdddddddddddddddddddddddddqqqqqqqqppc",
+      "cpppBBBBBBppppppdddddddddddddddddddddddddqqBBBBqqppc",
+      "cpppbwbDbwppppppdddddddddddddddddddddddddqqBBBBqqppc",
+      "cppppppppppppppppppppppppppppppppppppppppqqbwDwqqppc",
+      "cpppppppppppppdddppppppppppppppppppdddpppqqqqqqqqppc",
+      "c~~~~~~~~~~~~~ddd~~~~~~~~~~~~~~~~~~ddd~~~qqqqqqqq~~c",
+      "cWWWWWWWWWWWWWdddWWWWWWWWWWWWWWWWWWdddWWWqqqqqqqqWWc",
+      "cWWWWWWWWWWWWWdddWWWWWWWWWWWWWWWWWWdddWWWqqqqqqqqWWc",
+      "cppqqqqqqqqqqpdddpppqqqqqqqppppppppdddpppqqqqqqqqppc",
+      "cppqqqqqqqqqqpppppppqqqqqqqppppppppppppppqqqqqqqqppc",
+      "cppqqqqqqqqqqppppppppppppppppppppppppppppqqqqqqqqppc",
+      "cppqqqqqqqqqqpppppppppppppppppppppppppppggggggggpppc",
+      "cppqBBBBBqqqqpppppppppppppppppppppppppppgggcggggpppc",
+      "cppqBBBBBqqqqpppppppppppppppppppppppppppggggggggpppc",
+      "cppqbwDwbqqqqpppppppppppppppppppppppppppggggggggpppc",
+      "cppqqqqqqqqqqcppppppppppppppppppppppppppggggggggpppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppddddddppppppppppppppppppppppc",
+      "cppppppppp~~~~~~~~~~~~pddddddppppppppppppp~~~~~~~~~~",
+      "cpppppp~~~WWWWWWWWWWWW~ddddddppppppppp~~~~WWWWWWWWWW",
+      "~~~~~~~WWWWWWWWWWWWWWWWdddddd~~~~~~~~~WWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+    ],
+    "detailRows": [
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "ttttttttttttttttttttttttttttttthhhhhhhtttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttthhhhhhtttttttttttttttttttttttttttttttttttttttttt",
+      "ttttttttttttttttttttttttttttttttttttttttttthhhhttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttjtttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttthhhhhttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttjtttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttt"
+    ],
+    "solidRows": [
+      "####################################################",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#.....................###..........................#",
+      "#.....................###......#######.............#",
+      "#..............................#######.............#",
+      "#..............................#######.............#",
+      "#.................#....................#...........#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#...######.........................................#",
+      "#...######.................................####....#",
+      "#...######.................................####....#",
+      "#..........................................####....#",
+      "#..................................................#",
+      "##############...##################...##############",
+      "##############...##################...##############",
+      "##############...##################...##############",
+      "#.....#............................................#",
+      "#........##........................................#",
+      "#........##........................................#",
+      "#..................................................#",
+      "#...#####..................................#.......#",
+      "#...#####..........................................#",
+      "#...#####..........................................#",
+      "#............#.....................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#.........############....................##########",
+      "#......################...............##############",
+      "#######################......#######################",
+      "####################################################",
+      "####################################################",
+      "####################################################"
+    ],
+    "overheadRows": [
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "..............................rrrrrrrrr.............",
+      "..............................RRRRRRRRR.............",
+      "..............................RRRRRRRRR.............",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "...rrrrrrrr.........................................",
+      "...RRRRRRRR...............................rrrrrr....",
+      "...RRRRRRRR...............................RRRRRR....",
+      "..........................................RRRRRR....",
+      "....................................................",
+      "....................................................",
+      "..............A.A..................A.A..............",
+      "..............A.A..................A.A..............",
+      "..............A.A..................A.A..............",
+      ".....................AAAA...........................",
+      "....................................................",
+      "..........................................oOo.......",
+      "...rrrrrrr................................OoO.......",
+      "...RRRRRRR................................oOo.......",
+      "...RRRRRRR..oOo.....................................",
+      "............OoO.....................................",
+      "............oOo.....................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "...................................................."
+    ],
+    "surfaceRows": [
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "ppppppppppppppppddddddddddddddddddddddddddpppppppppp",
+      "ppppppppppppppppddddddddddddddddddddddddddpppppppppp",
+      "ppppppppppppppppddddddddddddddddddddddddddpppppppppp",
+      "ppppppppppppppppddddddddddddddddddddddddddpppppppppp",
+      "ppppppppppppppppddddddddddddddddddddddddddpppppppppp",
+      "ppppppppppppppppdddddddddddddddddddddddddppppppppppp",
+      "ppppppppppppppppdddddddddddddddddddddddddppppppppppp",
+      "ppppppppppppppppdddddddddddddddddddddddddppppppppppp",
+      "ppppppppppppppppdddddddddddddddddddddddddppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "ppppppppppppppppppppppppppppppppppppppppggggggggpppp",
+      "ppppppppppppppppppppppppppppppppppppppppggggggggpppp",
+      "ppppppppppppppppppppppppppppppppppppppppggggggggpppp",
+      "ppppppppppppppppppppppppppppppppppppppppggggggggpppp",
+      "ppppppppppppppppppppppppppppppppppppppppggggggggpppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppddddddppppppppppppppppppppppp",
+      "ppppppppppddddddddddddpddddddpppppppppppppdddddddddd",
+      "pppppppddddddddddddddddddddddpppppppppdddddddddddddd",
+      "dddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "dddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "dddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "dddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    ]
+  }
 }

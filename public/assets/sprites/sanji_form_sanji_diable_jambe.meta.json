@@ -3,17 +3,17 @@
   "unitId": "sanji",
   "formId": "form_sanji_diable_jambe",
   "rigType": "humanoid_brawler",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "510db3b9328029d205cb1b4bcd517055efebc492846deae733713878db5f72ba",
-  "bakedAt": "2026-11-21T14:54:59.652Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "14087bbf32f6a5f4008f3bc325cb6933ea9012e88171ea8b2bfdaa8095d16f41",
+  "bakedAt": "2026-11-23T00:58:01.379Z",
   "animations": {
     "IDLE": {
       "row": 0,

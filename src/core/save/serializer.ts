@@ -179,7 +179,8 @@ export function serializeCampaignToSaveEnvelope(
         ? [...state.decipheredPoneglyphIds]
         : [],
       nextBattleMealAtkBuffRatio: state.nextBattleMealAtkBuffRatio || 0,
-      shipboardCookingCooldownSec: state.shipboardCookingCooldownSec || 0
+      shipboardCookingCooldownSec: state.shipboardCookingCooldownSec || 0,
+      openedChestIds: state.openedChestIds ? [...state.openedChestIds] : []
     },
     ship: {
       activeShipId: state.ship.shipId,

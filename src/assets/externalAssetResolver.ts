@@ -115,7 +115,7 @@ export class ExternalAssetResolver implements Disposable {
   constructor(
     private readonly imageLoader: ExternalImageLoaderFn = defaultBrowserImageLoader,
     private readonly audioLoader: ExternalAudioLoaderFn = defaultBrowserAudioLoader,
-    private readonly maxImageEntries: number = 192
+    private readonly maxImageEntries: number = 256
   ) {}
 
   private putImageCache(key: string, asset: ResolvedImageAsset): void {

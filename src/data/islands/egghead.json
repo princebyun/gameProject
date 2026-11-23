@@ -1,15 +1,40 @@
 {
   "islandId": "egghead",
-  "name": "미래섬 에그헤드 — 라보페이즈 연구층",
+  "name": "미래섬 에그헤드 — 라보페이즈 & 파비리오페이즈",
   "episodeId": "ep_egghead",
-  "width": 960,
-  "height": 540,
+  "width": 1792,
+  "height": 1280,
   "theme": "FUTURE_LAB",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 880,
+    "y": 1104
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 880,
+      "y": 1168
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 720,
+    "y": 1072
+  },
   "obstacles": [
-    { "x": 280, "y": 60, "width": 150, "height": 85, "label": "펑크 레코드 중앙 서버" },
-    { "x": 280, "y": 395, "width": 150, "height": 85, "label": "베가포스-01 격납고" }
+    {
+      "x": 704,
+      "y": 96,
+      "width": 192,
+      "height": 64,
+      "label": "펑크 레코드 중앙 서버"
+    },
+    {
+      "x": 1120,
+      "y": 96,
+      "width": 192,
+      "height": 64,
+      "label": "베가포스-01 격납고"
+    }
   ],
   "laserBarriers": [
     {
@@ -33,7 +58,10 @@
     {
       "switchId": "sw_frontier_alpha",
       "label": "프론티어 돔 제어 스위치 A",
-      "pos": { "x": 450, "y": 135 },
+      "pos": {
+        "x": 450,
+        "y": 135
+      },
       "radiusPx": 34,
       "deactivatesBarrierId": "barrier_frontier_dome_1",
       "setsFlag": "flag_egghead_sw1"
@@ -41,32 +69,260 @@
     {
       "switchId": "sw_frontier_beta",
       "label": "프론티어 돔 제어 스위치 B",
-      "pos": { "x": 450, "y": 405 },
+      "pos": {
+        "x": 450,
+        "y": 405
+      },
       "radiusPx": 34,
       "deactivatesBarrierId": "barrier_frontier_dome_2",
       "setsFlag": "flag_egghead_sw2"
     }
   ],
   "giantProps": [],
+  "zones": [
+    {
+      "zoneId": "zone_egghead_dock",
+      "name": "파비리오페이즈 미래 도킹 베이",
+      "subtitle": "사우전드 써니호 계류 도크",
+      "tileX": 18,
+      "tileY": 28,
+      "tileW": 31,
+      "tileH": 10,
+      "accentColor": "#38bdf8"
+    },
+    {
+      "zoneId": "zone_egghead_plaza",
+      "name": "중앙 육각형 네온 플라자 & 유리 돔",
+      "subtitle": "베가펑크 스텔라 연구 중앙홀",
+      "tileX": 21,
+      "tileY": 13,
+      "tileW": 19,
+      "tileH": 15,
+      "accentColor": "#22d3ee"
+    },
+    {
+      "zoneId": "zone_egghead_security",
+      "name": "서쪽 프론티어 보안 회랑",
+      "subtitle": "레이저 방어막 제어 구역",
+      "tileX": 2,
+      "tileY": 2,
+      "tileW": 19,
+      "tileH": 17,
+      "accentColor": "#ef4444"
+    },
+    {
+      "zoneId": "zone_egghead_skywalk",
+      "name": "동쪽 스카이워크 & 클라우드 데크",
+      "subtitle": "섬 구름 공중 파이프 통로",
+      "tileX": 39,
+      "tileY": 11,
+      "tileW": 15,
+      "tileH": 19,
+      "accentColor": "#c084fc"
+    },
+    {
+      "zoneId": "zone_egghead_punk_records",
+      "name": "북쪽 펑크 레코드 연구동 게이트",
+      "subtitle": "최후 결전: 대장 키자루 & 새턴 성",
+      "tileX": 20,
+      "tileY": 2,
+      "tileW": 24,
+      "tileH": 11,
+      "accentColor": "#facc15"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_egghead_server_bypass",
+      "tileX": 6,
+      "tileY": 6,
+      "rarity": "gold",
+      "hiddenHint": "서쪽 보안 벽 우회 파이프 뒤 서버실",
+      "reward": {
+        "berries": 25000,
+        "trainingPoints": 35,
+        "healPartyRatio": 0.5,
+        "itemLabel": "베가펑크 프로토타입 배터리"
+      }
+    },
+    {
+      "chestId": "chest_egghead_cloud_pillar",
+      "tileX": 51,
+      "tileY": 20,
+      "rarity": "silver",
+      "hiddenHint": "동쪽 클라우드 데크 구름 기둥 뒤",
+      "reward": {
+        "berries": 18000,
+        "trainingPoints": 25,
+        "itemLabel": "섬 구름 에너지 캡슐"
+      }
+    },
+    {
+      "chestId": "chest_egghead_dome_maint",
+      "tileX": 29,
+      "tileY": 13,
+      "rarity": "silver",
+      "hiddenHint": "중앙 유리 돔 뒤편 유지보수 통로",
+      "reward": {
+        "berries": 16000,
+        "trainingPoints": 22,
+        "itemLabel": "홀로그램 데이터 칩"
+      }
+    },
+    {
+      "chestId": "chest_egghead_dock_container",
+      "tileX": 46,
+      "tileY": 34,
+      "rarity": "wooden",
+      "hiddenHint": "도킹 베이 컨테이너 뒤편",
+      "reward": {
+        "berries": 12000,
+        "trainingPoints": 18,
+        "itemLabel": "예비 콜라 압축 탱크"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_egghead_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 써니호 출항 도크",
+      "tileX": 27,
+      "tileY": 36,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_egghead_vegapunk",
+      "kind": "MAIN",
+      "label": "★ Dr. 베가펑크 (스위치 해킹)",
+      "tileX": 26,
+      "tileY": 22,
+      "hideWhenFlagSet": "flag_vegapunk_met",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_egghead_lilith",
+      "kind": "SIDE",
+      "label": "◆ 새틀라이트 릴리스·보니",
+      "tileX": 34,
+      "tileY": 21,
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_egghead_raid",
+      "kind": "ACTIVITY",
+      "label": "🔥 거대 보스 협동 레이드",
+      "tileX": 33,
+      "tileY": 33,
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_egghead_camp",
+      "kind": "ACTIVITY",
+      "label": "📋 패기·폼 세팅 단말",
+      "tileX": 29,
+      "tileY": 28,
+      "actionKind": "CAMP_TRAINING"
+    },
+    {
+      "markerId": "marker_egghead_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 통신 대전 단말기",
+      "tileX": 22,
+      "tileY": 33,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_egg_sunny",
+      "kind": "SUNNY_DOCK",
+      "tileX": 19,
+      "tileY": 34,
+      "widthTiles": 4,
+      "heightTiles": 2,
+      "label": "써니호 정박"
+    },
+    {
+      "landmarkId": "lm_egg_dome",
+      "kind": "GLASS_DOME",
+      "tileX": 27,
+      "tileY": 14,
+      "widthTiles": 5,
+      "heightTiles": 3,
+      "label": "중앙 유리 돔",
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_egg_holo1",
+      "kind": "HOLO_BILLBOARD",
+      "tileX": 23,
+      "tileY": 19,
+      "widthTiles": 2,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_egg_holo2",
+      "kind": "HOLO_BILLBOARD",
+      "tileX": 35,
+      "tileY": 19,
+      "widthTiles": 2,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_egg_tube1",
+      "kind": "ENERGY_TUBE",
+      "tileX": 42,
+      "tileY": 17,
+      "widthTiles": 6,
+      "heightTiles": 2,
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_egg_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 26,
+      "tileY": 29,
+      "widthTiles": 1,
+      "heightTiles": 1
+    }
+  ],
   "npcs": [
     {
       "npcId": "npc_vegapunk",
       "name": "Dr. 베가펑크 (스텔라)",
       "roleLabel": "세계 최고의 천재 과학자",
-      "pos": { "x": 250, "y": 270 },
+      "pos": {
+        "x": 848,
+        "y": 720
+      },
       "interactRadiusPx": 50,
       "visualScale": 1.1,
       "color": "#38bdf8",
+      "facing": "down",
+      "ambientBubbleText": "니카의 하얀 형태... 멋지구나!",
+      "patrolWaypoints": [
+        {
+          "x": 848,
+          "y": 720
+        },
+        {
+          "x": 976,
+          "y": 720
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 85,
       "setsQuestFlagOnTalk": "flag_vegapunk_met",
       "dialogueLines": [
         "밀짚모자 루피! 그 하얀 구름 띠 모습은 역사 속에서만 전해지던 [태양의 신 니카]로군!",
-        "CP0 각성 루치와 해군대장 키자루가 연구층을 포위했다! 상·하단 2개의 [프론티어 돔 제어 스위치]를 작동시켜 레이저 배리어를 해제하고 탈출구를 뚫어다오!"
+        "CP0 각성 루치와 해군대장 키자루가 연구층을 포위했다! 서쪽 프론티어 돔 제어 스위치 2개를 눌러 레이저 배리어를 해제하고 탈출구를 뚫어다오!"
       ],
       "choices": [
         {
           "label": "프론티어 돔 스위치 2개를 눌러 레이저 배리어를 해제하자!",
           "setsFlag": "flag_vegapunk_met",
-          "responseLine": "스위치 A(상단)와 스위치 B(하단)에 다가가 [E / 상호작용]을 누르면 레이저 방어막이 내려간다!"
+          "responseLine": "서쪽 보안 회랑의 스위치 A와 스위치 B에 다가가 [E / 상호작용]을 누르면 레이저 방어막이 내려간다!"
         }
       ]
     },
@@ -74,10 +330,15 @@
       "npcId": "npc_egghead_raid_terminal",
       "name": "에그헤드 거대 보스 레이드 단말기",
       "roleLabel": "엔드게임 협동 레이드 · 오로성·사황 토벌",
-      "pos": { "x": 195, "y": 385 },
+      "pos": {
+        "x": 1072,
+        "y": 1072
+      },
       "interactRadiusPx": 54,
-      "visualScale": 1.0,
+      "visualScale": 1,
       "color": "#ef4444",
+      "facing": "left",
+      "ambientBubbleText": "ORO-SAMA RAID READY!",
       "dialogueLines": [
         "레이드 단말기: 오로성 새턴 성·화룡대거 카이도·종말의 철뇌 로키 거대 보스 협동 레이드 신호가 포착되었습니다!",
         "오프라인 3인 스쿼드 또는 온라인 2~3인 협동 레이드로 출격하여 레이드 유물을 획득할 수 있습니다."
@@ -89,6 +350,155 @@
           "responseLine": "[레이드 단말기 접속] 오로성·사황 거대 보스 협동 레이드 로비를 엽니다!"
         }
       ]
+    },
+    {
+      "npcId": "npc_egghead_lilith",
+      "name": "PUNK-02 릴리스",
+      "roleLabel": "베가펑크 새틀라이트 [악]",
+      "pos": {
+        "x": 1104,
+        "y": 688
+      },
+      "interactRadiusPx": 48,
+      "visualScale": 1,
+      "color": "#c084fc",
+      "facing": "left",
+      "ambientBubbleText": "유리 돔 뒤 유지보수 통로 봤나?!",
+      "patrolWaypoints": [
+        {
+          "x": 1104,
+          "y": 688
+        },
+        {
+          "x": 1104,
+          "y": 784
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "이봐 해적들! 유리 돔 뒤편 13번 유지보수 통로랑 서쪽 외곽 우회 파이프 뒤에 예비 물자가 숨겨져 있어!"
+      ]
+    },
+    {
+      "npcId": "npc_egghead_researcher_1",
+      "name": "연구원 세타",
+      "roleLabel": "네온 플라자 엔지니어",
+      "pos": {
+        "x": 784,
+        "y": 816
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.95,
+      "color": "#22d3ee",
+      "facing": "right",
+      "ambientBubbleText": "펑크 레코드 동기화 99.8%...",
+      "patrolWaypoints": [
+        {
+          "x": 784,
+          "y": 816
+        },
+        {
+          "x": 1072,
+          "y": 816
+        },
+        {
+          "x": 1072,
+          "y": 752
+        }
+      ],
+      "patrolSpeedPx": 48,
+      "pauseTicks": 60,
+      "dialogueLines": [
+        "세라핌 S-호크와 대장 키자루는 북쪽 펑크 레코드 연구동 게이트에서 대기 중입니다!"
+      ]
+    },
+    {
+      "npcId": "npc_egghead_researcher_2",
+      "name": "연구원 카파",
+      "roleLabel": "스카이워크 관리인",
+      "pos": {
+        "x": 1392,
+        "y": 592
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.95,
+      "color": "#38bdf8",
+      "facing": "right",
+      "ambientBubbleText": "구름 위 투명 파이프를 건너세요!",
+      "patrolWaypoints": [
+        {
+          "x": 1392,
+          "y": 592
+        },
+        {
+          "x": 1552,
+          "y": 592
+        }
+      ],
+      "patrolSpeedPx": 44,
+      "pauseTicks": 70,
+      "dialogueLines": [
+        "동쪽 클라우드 데크 끝 기둥 뒤에도 에너지 캡슐 상자가 하나 떠 있어요!"
+      ]
+    },
+    {
+      "npcId": "npc_egghead_drone",
+      "name": "홀로그램 드론 MK-3",
+      "roleLabel": "연구동 경비 유닛",
+      "pos": {
+        "x": 912,
+        "y": 368
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.92,
+      "color": "#facc15",
+      "facing": "right",
+      "ambientBubbleText": "패왕색 레벨 점검 권장!",
+      "patrolWaypoints": [
+        {
+          "x": 912,
+          "y": 368
+        },
+        {
+          "x": 1104,
+          "y": 368
+        }
+      ],
+      "patrolSpeedPx": 50,
+      "pauseTicks": 50,
+      "dialogueLines": [
+        "경고: 오로성 제이가르시아 새턴 성의 초재생 능력을 6초간 봉쇄하려면 패왕색 휘감기 공격이 유효합니다."
+      ]
+    },
+    {
+      "npcId": "npc_egghead_pacifista",
+      "name": "마크-III 정찰병",
+      "roleLabel": "도킹 베이 방어 유닛",
+      "pos": {
+        "x": 816,
+        "y": 1008
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 1.04,
+      "color": "#60a5fa",
+      "facing": "right",
+      "ambientBubbleText": "도킹 베이 안전 확인 완료.",
+      "patrolWaypoints": [
+        {
+          "x": 816,
+          "y": 1008
+        },
+        {
+          "x": 1104,
+          "y": 1008
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "도킹 베이 동쪽 컨테이너 뒤편에 압축 콜라 보물상자가 보관되어 있습니다."
+      ]
     }
   ],
   "encounters": [
@@ -96,9 +506,15 @@
       "encounterId": "enc_egghead_shawk_lucci",
       "name": "래보페이즈 방어막 돌파: 세라핌 S-호크 & 각성 루치",
       "isBoss": true,
-      "pos": { "x": 640, "y": 265 },
+      "pos": {
+        "x": 784,
+        "y": 304
+      },
       "triggerRadiusPx": 56,
-      "enemyUnitIds": ["s_hawk", "lucci"],
+      "enemyUnitIds": [
+        "s_hawk",
+        "lucci"
+      ],
       "aiLevel": 4,
       "arenaSizeKey": "large",
       "setsFlagOnVictory": "flag_egghead_labophase_cleared",
@@ -115,9 +531,15 @@
       "encounterId": "enc_egghead_kizaru_saturn",
       "name": "에그헤드 해안 탈출전: 대장 키자루 & 오로성 제이가르시아 새턴 성",
       "isBoss": true,
-      "pos": { "x": 825, "y": 270 },
+      "pos": {
+        "x": 1168,
+        "y": 240
+      },
       "triggerRadiusPx": 62,
-      "enemyUnitIds": ["kizaru", "saturn"],
+      "enemyUnitIds": [
+        "kizaru",
+        "saturn"
+      ],
       "aiLevel": 5,
       "arenaSizeKey": "large",
       "setsFlagOnVictory": "flag_egghead_cleared",
@@ -130,5 +552,308 @@
         "Dr. 베가펑크(힌트): 루피! 새턴 성의 초재생을 멈추려면 [패왕색 휘감기(Conqueror Lv.3)] 공격을 적중시켜야 한다! 6초간 재생이 억제될 거야!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "HOLOGRAM",
+      "CLOUD_MIST"
+    ],
+    "density": 32
+  },
+  "lightingProfile": {
+    "defaultMood": "CYBER",
+    "tintHex": "#0ea5e9",
+    "tintAlpha": 0.1,
+    "sunbeams": false,
+    "lanterns": [
+      {
+        "tileX": 27,
+        "tileY": 22,
+        "color": "#22d3ee",
+        "radiusPx": 56
+      },
+      {
+        "tileX": 29,
+        "tileY": 16,
+        "color": "#38bdf8",
+        "radiusPx": 62
+      },
+      {
+        "tileX": 44,
+        "tileY": 18,
+        "color": "#c084fc",
+        "radiusPx": 54
+      },
+      {
+        "tileX": 25,
+        "tileY": 9,
+        "color": "#ef4444",
+        "radiusPx": 50
+      },
+      {
+        "tileX": 36,
+        "tileY": 7,
+        "color": "#facc15",
+        "radiusPx": 54
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 56,
+    "rows": 40,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCc",
+      "cCCppppppppppppppppppCBBBBBBCCCCCCCBBBBBBCCCCCCCCCCCCCCc",
+      "cCCBBBBBBBppppppppppppBBBBBBpppppppBBBBBBppCCCCCCCCCCCCc",
+      "cCCppppppBppppppppppppbwbDbwpppppppbwbDbwppCCCCCCCCCCCCc",
+      "cCCppppppBpppppppppppppppppppppppppppppppppCCCCCCCCCCCCc",
+      "cCCppppppBpppppppppppppppppppppppppppppppppCCCCCCCCCCCCc",
+      "cCCppppppBpppppppppppppppppppppppppppppppppCCCCCCCCCCCCc",
+      "cCCppppppBpppppppppppppppppppppppppppppppppCCCCCCCCCCCCc",
+      "cCCppppppBpppppppppppppppppppppppppppppppppCCCCCCCCCCCCc",
+      "cCCppppppBpppppppppppppppppppppppppppppppppCCCCCCCCCCCCc",
+      "cCCppppppBpppppppppppppppppppppppppppppppppCCCCCCCCCCCCc",
+      "cCCppppppBpppppppppppppppppppppppppppppppppLLLLLLLLLLCCc",
+      "cCCppppppBpppppppppppCCCCCCCCCCCCCCCCCCCCLLLLLLLLLLLLCCc",
+      "cCCppppppBpppppppppppCCCCCCCCCCCCCCCCCCCCLLLLLLLLLLLLCCc",
+      "cCCppppppppppppppppppCCCCCCCCCCCCCCCCCCCCLLLLLLLLLLLLCCc",
+      "cCCppppppppppppppppppCCCCCCCCCCCCCCCCCCCCLLLLLLLLLLLLCCc",
+      "cCCppppppppppppppppppCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLLLLLLLLCCCLCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLLLLLLLLCCCLCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLLLLLLLLCCCLCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLLLLLLLLLLLLCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLLLLLLLLLLLLCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLLLLLLLLLLLLCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLLLLLLLLLLLLCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLLLLLLLLLLLLCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLLLLLLLLLLLLCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCLLLLLLLLLLLLCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCppppppppppppppppppCCCCCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCppppppppppppBBBBBpCCCCCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCdddddddppppppppppppbwDwbpCCCCCCc",
+      "cCCCCCCCCCCCCCCCCCCCCCCCdddddddppppppppppppppppppCCCCCCc",
+      "cCCCCCCCCCCCC~~~~~~~~~~~dddddddppppppppppppppppppCCC~~~~",
+      "cCCCCCCC~~~~~WWWWWWWWWWWdddddddpppppppppppppppppp~~~WWWW",
+      "~~~~~~~~WWWWWWWWWWWWWWWWdddddddW~~~~~~~~~~~~~~~WWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+    ],
+    "detailRows": [
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttthhhhhhttttttthhhhhhttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "ttttttttttttttttttttttttttttttttttttttttttthhhhhtttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+      "tttttttttttttttttttttttttttttttttttttttttttttttttttttttt"
+    ],
+    "solidRows": [
+      "########################################################",
+      "#......................................................#",
+      "#.....................######.......######..............#",
+      "#..#######............######.......######..............#",
+      "#........#............######.......######..............#",
+      "#........#.............................................#",
+      "#........#.............................................#",
+      "#........#.............................................#",
+      "#........#.............................................#",
+      "#........#.............................................#",
+      "#........#.............................................#",
+      "#........#.............................................#",
+      "#........#.............................................#",
+      "#........#...............................######........#",
+      "#........#...............................######........#",
+      "#..........................#####.........######........#",
+      "#..........................#####.......................#",
+      "#......................................................#",
+      "#......................................................#",
+      "#......................................................#",
+      "#......................#............#..................#",
+      "#......................................................#",
+      "#......................................................#",
+      "#......................................................#",
+      "#......................................................#",
+      "#......................................................#",
+      "#......................................................#",
+      "#......................................................#",
+      "#......................................................#",
+      "#.........................#............................#",
+      "#......................................................#",
+      "#..........................................#####.......#",
+      "#..........................................#####.......#",
+      "#......................................................#",
+      "#............###########............................####",
+      "#.......################.......#...............#########",
+      "########################.......#########################",
+      "########################################################",
+      "########################################################",
+      "########################################################"
+    ],
+    "overheadRows": [
+      "........................................................",
+      ".....................rrrrrrrr.....rrrrrrrr..............",
+      ".....................RRRRRRRR.....RRRRRRRR..............",
+      ".....................RRRRRRRR.....RRRRRRRR..............",
+      "........................................................",
+      "..AAAAA.................................................",
+      "..AAAAA.................................................",
+      "..AAAAA.................................................",
+      "..AAAAA.................................................",
+      "..AAAAA.................................................",
+      "..AAAAA.................................................",
+      "........................................................",
+      "........................................................",
+      "...........................AAAAA........................",
+      "...........................AAAAA........................",
+      "...........................AAAAA........................",
+      "...........................AAAAA........................",
+      "..........................................HHHHHHHHHH....",
+      "..........................................HHHHHHHHHH....",
+      "..........................................HHHHHHHHHH....",
+      "..........................................HHHHHHHHHH....",
+      "........................................................",
+      "........................................................",
+      "........................................................",
+      "........................................................",
+      "........................................................",
+      "........................................................",
+      "........................................................",
+      "........................................................",
+      "........................................................",
+      "..........................................rrrrrrr.......",
+      "..........................................RRRRRRR.......",
+      "........................................................",
+      "........................................................",
+      "........................................................",
+      "........................................................",
+      "........................................................",
+      "........................................................",
+      "........................................................",
+      "........................................................"
+    ],
+    "surfaceRows": [
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwwwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwwwwwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwwwwwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwwwwwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwwwwwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwmmmwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwmmmwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwmmmwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwwwwwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwwwwwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwwwwwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwwwwwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwwwwwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwwwwwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmwwwwwwwwwwwwmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+      "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+    ]
+  }
 }

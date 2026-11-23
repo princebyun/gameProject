@@ -3,17 +3,17 @@
   "unitId": "nami",
   "formId": "base",
   "rigType": "caster_ranged",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "0129412f8dc435b11037196126d2c1908339a381704cdf76212b98ed26599a24",
-  "bakedAt": "2026-11-21T14:54:59.664Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "fb3f35a04b4adb52e67b7136446306917a9ad4a3fb5c5464e0262907598cc5f8",
+  "bakedAt": "2026-11-23T00:57:59.763Z",
   "animations": {
     "IDLE": {
       "row": 0,

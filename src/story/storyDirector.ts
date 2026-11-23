@@ -190,7 +190,7 @@ export class StoryDirector {
         objectiveText: '후샤 마을의 골드 마커 [마키노]와 대화해 출항 준비를 마치세요.',
         targetZoneId: 'east_blue',
         targetIslandId: 'foosha_shells',
-        targetIslandPos: { x: 310, y: 210 },
+        targetIslandPos: { x: 720, y: 784 },
         isPrologue: true,
         freeRoamUnlocked: false
       };
@@ -203,10 +203,10 @@ export class StoryDirector {
         chapterLabel: '제1장: 모험의 여명',
         title: '이스트 블루 첫 출항',
         objectiveText:
-          '서쪽 [항구 출구]로 출항해 근해의 알비다 해적단을 격퇴하고 자유 항해를 여세요.',
+          '남쪽 [항구 출구]로 출항해 근해의 알비다 해적단을 격퇴하고 자유 항해를 여세요.',
         targetZoneId: 'east_blue',
         targetIslandId: 'foosha_shells',
-        targetIslandPos: { x: 58, y: 270 },
+        targetIslandPos: { x: 592, y: 944 },
         isPrologue: true,
         freeRoamUnlocked: false
       };
@@ -220,11 +220,11 @@ export class StoryDirector {
         chapterLabel: '제1장: 해적사냥꾼 조로',
         title: '쉘즈타운 해군기지 돌파',
         objectiveText: zoroFreed
-          ? '쉘즈타운 동쪽 골드 마커 [도끼손 모건]을 격파하고 조로와 출항하세요.'
+          ? '쉘즈타운 북쪽 골드 마커 [도끼손 모건]을 격파하고 조로와 출항하세요.'
           : '골드 마커 [후샤/쉘즈타운]에서 묶인 롤로노아 조로를 구출하세요.',
         targetZoneId: 'east_blue',
         targetIslandId: 'foosha_shells',
-        targetIslandPos: zoroFreed ? { x: 810, y: 270 } : { x: 620, y: 230 },
+        targetIslandPos: zoroFreed ? { x: 810, y: 270 } : { x: 656, y: 304 },
         isPrologue: false,
         freeRoamUnlocked: true
       };

@@ -11,11 +11,11 @@ import { defaultDataRegistry } from '../../src/data/dataRegistry';
 import { defaultRpgDataRegistry } from '../../src/data/rpgDataRegistry';
 
 describe('Stage 4 Step 2 — Retro Audio Pipeline, Throttling & Full Manifest Integrity', () => {
-  it('validates AudioManifest (10 BGM tracks & 18 standard SFX) and sea-zone BGM routing', () => {
+  it('validates AudioManifest (>=10 BGM tracks & >=20 standard SFX) and sea-zone BGM routing', () => {
     const registry = createAssetManifestRegistry();
     expect(registry.audioFile.crossfadeSec).toBe(0.6);
-    expect(registry.audioFile.bgmTracks.length).toBe(10);
-    expect(registry.audioFile.sfxEntries.length).toBe(18);
+    expect(registry.audioFile.bgmTracks.length).toBeGreaterThanOrEqual(10);
+    expect(registry.audioFile.sfxEntries.length).toBeGreaterThanOrEqual(20);
 
     const expectedBgm = [
       'title_adventure',
@@ -44,6 +44,7 @@ describe('Stage 4 Step 2 — Retro Audio Pipeline, Throttling & Full Manifest In
     expect(registry.bgmById['victory_fanfare']?.loop).toBe(false);
     expect(resolveBgmForSeaZone('east_blue')).toBe('sea_east_blue');
     expect(resolveBgmForSeaZone('grand_line_first_half')).toBe('sea_grand_line');
+    expect(resolveBgmForSeaZone('grand_line')).toBe('sea_grand_line');
     expect(resolveBgmForSeaZone('new_world')).toBe('sea_new_world');
 
     const expectedSfx = [

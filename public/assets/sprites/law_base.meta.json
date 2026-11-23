@@ -3,17 +3,17 @@
   "unitId": "law",
   "formId": "base",
   "rigType": "swordsman_weapon",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "sheetWidth": 768,
+  "sheetHeight": 1408,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "605a260447ef6d56d86b886c672cb53f97156a5847d115a18ce5d8c34a93ab5a",
-  "bakedAt": "2026-11-21T14:55:00.478Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "4e0d6698efba695cd1437cfdd381ab60906e7bde584e80dbd73871827f5323e5",
+  "bakedAt": "2026-11-23T00:58:08.904Z",
   "animations": {
     "IDLE": {
       "row": 0,

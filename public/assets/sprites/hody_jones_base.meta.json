@@ -3,17 +3,17 @@
   "unitId": "hody_jones",
   "formId": "base",
   "rigType": "bulky_tall_coat",
-  "frameWidth": 64,
-  "frameHeight": 64,
-  "sheetWidth": 384,
-  "sheetHeight": 704,
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "sheetWidth": 768,
+  "sheetHeight": 1408,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "8d9fa126a5c8b8d2cd7ab1d8071148c6c6ee3b2027578c529b2715b13dff9775",
-  "bakedAt": "2026-11-21T14:55:00.501Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "c57e67bbc9ec4835b2c70efff47ceb80ca81d4857c7c3cfcc30f1136c5e4e82c",
+  "bakedAt": "2026-11-23T00:58:08.112Z",
   "animations": {
     "IDLE": {
       "row": 0,

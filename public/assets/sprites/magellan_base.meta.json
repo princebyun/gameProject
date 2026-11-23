@@ -3,17 +3,17 @@
   "unitId": "magellan",
   "formId": "base",
   "rigType": "bulky_tall_coat",
-  "frameWidth": 64,
-  "frameHeight": 64,
-  "sheetWidth": 384,
-  "sheetHeight": 704,
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "sheetWidth": 768,
+  "sheetHeight": 1408,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "a4aff51b4406fd724b59ff404ac042ad3679b72a3b4f15552c7d1ba2e574ce43",
-  "bakedAt": "2026-11-21T14:55:00.251Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "7766432b38155b715373deb96ff917cf7678548782c4cb0448b0131e82649af2",
+  "bakedAt": "2026-11-23T00:58:04.619Z",
   "animations": {
     "IDLE": {
       "row": 0,

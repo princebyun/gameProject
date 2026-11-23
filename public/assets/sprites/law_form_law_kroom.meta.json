@@ -3,17 +3,17 @@
   "unitId": "law",
   "formId": "form_law_kroom",
   "rigType": "swordsman_weapon",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "34d92afdc494febee3975d61fcbe346a25dfada25569ef060c2e4fe0e0219444",
-  "bakedAt": "2026-11-21T14:55:00.489Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "3a1b16d6608112e327f9f19973815dcd62a731ec3535beb6b12a59a06a83048c",
+  "bakedAt": "2026-11-23T00:58:09.224Z",
   "animations": {
     "IDLE": {
       "row": 0,

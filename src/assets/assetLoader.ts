@@ -12,8 +12,11 @@ import {
   type AssetManifestRegistry
 } from '../data/assets/assetManifestRegistry';
 import type {
+  BackdropLayerKey,
+  BattleBackdropManifestEntry,
   SpriteSheetManifestEntry,
-  TilesetManifestEntry
+  TilesetManifestEntry,
+  VfxAtlasManifestEntry
 } from '../data/assets/types';
 import { getBaseCharacterBlueprintForUnit } from '../render/sprite/rig/blueprintLibrary';
 import { bakeCharacterPortraitCanvas } from '../render/sprite/rig/portraitPixelBaker';
@@ -22,7 +25,13 @@ import {
   type PortraitEmotion
 } from '../render/sprite/rig/rigTypes';
 import { SpriteAnimationController } from '../render/sprite/spriteAnimationController';
+import { LayeredTilemapRenderer } from '../render/tileset/layeredTilemapRenderer';
 import { TilemapLayerRenderer } from '../render/tileset/tilemapLayerRenderer';
+import { ParallaxBattleBackdrop } from '../render/battle/parallaxBattleBackdrop';
+import { VfxAtlasRenderer } from '../render/battle/vfxAtlasRenderer';
+import { AmbientParticleSystem } from '../render/rpg/ambientParticleSystem';
+import { AtmosphereLightingOverlay } from '../render/rpg/atmosphereLightingOverlay';
+import { FootstepEffectPool } from '../render/rpg/footstepEffectPool';
 import { ExternalAssetResolver } from './externalAssetResolver';
 import {
   bakeLuffyPortraitCanvas,
@@ -44,6 +53,12 @@ export class AssetLoader implements Disposable {
     defaultAssetManifestRegistry;
   public readonly spriteController = new SpriteAnimationController();
   public readonly tilemapRenderer = new TilemapLayerRenderer();
+  public readonly layeredTilemap = new LayeredTilemapRenderer();
+  public readonly parallaxBackdrop = new ParallaxBattleBackdrop();
+  public readonly vfxAtlasRenderer = new VfxAtlasRenderer();
+  public readonly ambientParticles = new AmbientParticleSystem();
+  public readonly footstepParticles = new FootstepEffectPool();
+  public readonly atmosphereLighting = new AtmosphereLightingOverlay();
 
   public getOrCreateUnitSpriteSheet(
     unit: UnitDefinition,
@@ -72,7 +87,7 @@ export class AssetLoader implements Disposable {
       () => bakeProceduralUnitSpriteSheet(entry, unit, formDef, null),
       {
         frameWidth: entry.frameWidth,
-        minHorizontalFrames: 4
+        minHorizontalFrames: entry.atlasMode === 'VARIABLE_PACK' ? 1 : 4
       }
     );
 
@@ -138,6 +153,31 @@ export class AssetLoader implements Disposable {
       `tileset_${biome.biomeId}`,
       biome.src,
       () => bakeProceduralBiomeTileset(biome)
+    );
+    return resolved.image;
+  }
+
+  public getOrCreateBattleBackdropLayer(
+    backdrop: BattleBackdropManifestEntry,
+    layer: BackdropLayerKey
+  ): HTMLImageElement | HTMLCanvasElement | null {
+    const resolved = this.resolver.resolveImageSyncOrBake(
+      `bg_${backdrop.id}_${layer}`,
+      backdrop.layers[layer],
+      () => null,
+      { minHorizontalFrames: 1, frameWidth: backdrop.width }
+    );
+    return resolved.image;
+  }
+
+  public getOrCreateVfxAtlas(
+    vfx: VfxAtlasManifestEntry
+  ): HTMLImageElement | HTMLCanvasElement | null {
+    const resolved = this.resolver.resolveImageSyncOrBake(
+      `vfx_${vfx.id}`,
+      vfx.src,
+      () => null,
+      { minHorizontalFrames: 1, frameWidth: vfx.frameWidth }
     );
     return resolved.image;
   }
@@ -260,6 +300,12 @@ export class AssetLoader implements Disposable {
     this.tileCache.clear();
     this.spriteController.dispose();
     this.tilemapRenderer.dispose();
+    this.layeredTilemap.dispose();
+    this.atmosphereLighting.dispose();
+    this.vfxAtlasRenderer.clear();
+    this.ambientParticles.clear();
+    this.footstepParticles.clear();
+    this.parallaxBackdrop.clearDecals();
     this.resolver.dispose();
   }
 }

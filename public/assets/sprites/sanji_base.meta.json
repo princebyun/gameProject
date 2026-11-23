@@ -3,17 +3,17 @@
   "unitId": "sanji",
   "formId": "base",
   "rigType": "humanoid_brawler",
-  "frameWidth": 48,
-  "frameHeight": 48,
-  "sheetWidth": 288,
-  "sheetHeight": 528,
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "sheetWidth": 576,
+  "sheetHeight": 1056,
   "anchor": {
     "x": 0.5,
     "y": 0.9
   },
-  "source": "PROCEDURAL_RIG_BAKED",
-  "sha256": "3a2bae944f035891af04ba08753ed48edc37218d01fea2bbe4dba721e37ce445",
-  "bakedAt": "2026-11-21T14:54:59.641Z",
+  "source": "EXTERNAL_WEB_SHEET",
+  "sha256": "85b10fb443eee3f69d8697110fa0d4c358bc704ee5e84b55709a37ddcfec58cb",
+  "bakedAt": "2026-11-23T00:58:00.578Z",
   "animations": {
     "IDLE": {
       "row": 0,

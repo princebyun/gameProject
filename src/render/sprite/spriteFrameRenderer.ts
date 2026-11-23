@@ -1,5 +1,8 @@
 import type { Vec2 } from '../../core/math/vector2';
-import type { SpriteSheetManifestEntry } from '../../data/assets/types';
+import {
+  STANDARD_SPRITE_ANIM_STATES,
+  type SpriteSheetManifestEntry
+} from '../../data/assets/types';
 import type { AfterimageSample } from './spriteAnimationStateMachine';
 import type { SpriteEffectCache } from './spriteEffectCache';
 
@@ -11,6 +14,20 @@ export interface DrawUnitFrameOptions {
   elementColor: string;
   afterimages: AfterimageSample[];
   tick: number;
+}
+
+/**
+ * Normalizes variable 48px-128px external sprite sheets to consistent viewport proportions
+ * (~16-20% viewport height for standard units, ~31-36% for giant bosses) anchored on footY.
+ */
+export function computeNormalizedUnitDrawScale(
+  entry: SpriteSheetManifestEntry,
+  entityScale: number,
+  visualScale: number
+): number {
+  const baseTargetH = entry.targetDisplayHeight ?? Math.max(68, Math.round(entry.frameHeight * 1.45));
+  const scaledHeight = baseTargetH * entityScale * visualScale;
+  return Math.max(0.65, scaledHeight / Math.max(32, entry.frameHeight));
 }
 
 /**
@@ -29,32 +46,43 @@ export function drawAnimatedUnitFrameToCanvas(
   effectCache: SpriteEffectCache,
   opts: DrawUnitFrameOptions
 ): void {
-  const fw = entry.frameWidth;
-  const fh = entry.frameHeight;
+  const stateName = STANDARD_SPRITE_ANIM_STATES[row];
+  const rect = stateName ? entry.animations[stateName]?.frameRects?.[frameIndex] : undefined;
+  const fw = rect ? rect.w : entry.frameWidth;
+  const fh = rect ? rect.h : entry.frameHeight;
   const drawW = Math.round(fw * drawScale);
   const drawH = Math.round(fh * drawScale);
-  const anchorOffX = Math.round(drawW * entry.anchor.x);
-  const anchorOffY = Math.round(drawH * entry.anchor.y);
+  const anchorOffX = rect ? Math.round(rect.pivotX * drawScale) : Math.round(drawW * entry.anchor.x);
+  const anchorOffY = rect ? Math.round(rect.pivotY * drawScale) : Math.round(drawH * entry.anchor.y);
 
   // 1. Afterimage Trail (behind main sprite)
   for (const ai of opts.afterimages) {
+    const aiState = STANDARD_SPRITE_ANIM_STATES[ai.row];
+    const aiRect = aiState ? entry.animations[aiState]?.frameRects?.[ai.frame] : undefined;
+    const afw = aiRect ? aiRect.w : entry.frameWidth;
+    const afh = aiRect ? aiRect.h : entry.frameHeight;
+    const aDrawW = Math.round(afw * drawScale);
+    const aDrawH = Math.round(afh * drawScale);
+    const aOffX = aiRect ? Math.round(aiRect.pivotX * drawScale) : Math.round(aDrawW * entry.anchor.x);
+    const aOffY = aiRect ? Math.round(aiRect.pivotY * drawScale) : Math.round(aDrawH * entry.anchor.y);
     const alpha = Math.max(0.08, (ai.remainingSec / ai.totalSec) * 0.45);
     const tinted = effectCache.getOrCreateEffectFrame(
       entry.key,
       sheet,
       ai.row,
       ai.frame,
-      fw,
-      fh,
+      entry.frameWidth,
+      entry.frameHeight,
       'AFTERIMAGE',
-      ai.color
+      ai.color,
+      aiRect
     );
     if (!tinted) continue;
     ctx.save();
     ctx.globalAlpha = alpha;
     ctx.translate(Math.round(ai.x), Math.round(ai.y));
     ctx.scale(ai.facingX, 1);
-    ctx.drawImage(tinted, -anchorOffX, -anchorOffY, drawW, drawH);
+    ctx.drawImage(tinted, -aOffX, -aOffY, aDrawW, aDrawH);
     ctx.restore();
   }
 
@@ -66,10 +94,11 @@ export function drawAnimatedUnitFrameToCanvas(
       sheet,
       row,
       frameIndex,
-      fw,
-      fh,
+      entry.frameWidth,
+      entry.frameHeight,
       'LOGIA_SILHOUETTE',
-      opts.elementColor
+      opts.elementColor,
+      rect
     );
     ctx.save();
     ctx.globalAlpha = 0.42;
@@ -102,8 +131,8 @@ export function drawAnimatedUnitFrameToCanvas(
 
   // 3. Main Sprite Frame (cached White Hit Flash or Armament Blackening)
   let sourceImg: HTMLImageElement | HTMLCanvasElement = sheet;
-  let srcX = frameIndex * fw;
-  let srcY = row * fh;
+  let srcX = rect ? rect.x : frameIndex * entry.frameWidth;
+  let srcY = rect ? rect.y : row * entry.frameHeight;
 
   if (opts.hitFlashActive && opts.flashEffectEnabled) {
     const flashCanvas = effectCache.getOrCreateEffectFrame(
@@ -111,10 +140,11 @@ export function drawAnimatedUnitFrameToCanvas(
       sheet,
       row,
       frameIndex,
-      fw,
-      fh,
+      entry.frameWidth,
+      entry.frameHeight,
       'WHITE_FLASH',
-      '#ffffff'
+      '#ffffff',
+      rect
     );
     if (flashCanvas) {
       sourceImg = flashCanvas;
@@ -127,10 +157,11 @@ export function drawAnimatedUnitFrameToCanvas(
       sheet,
       row,
       frameIndex,
-      fw,
-      fh,
+      entry.frameWidth,
+      entry.frameHeight,
       'ARMAMENT_BLACK',
-      '#111827'
+      '#111827',
+      rect
     );
     if (armCanvas) {
       sourceImg = armCanvas;
