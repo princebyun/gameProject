@@ -91,6 +91,20 @@ function drawSurfaceMicroDetail(
     bctx.fillRect(dx + 5, dy + 6, 22, 18);
     bctx.fillStyle = '#94a3b8';
     bctx.fillRect(dx + 7, dy + 8, 18, 12);
+  } else if (surface === 'snow') {
+    if (biomeId === 'marine_ice') {
+      if (h % 2 === 0) {
+        bctx.fillStyle = 'rgba(186, 230, 253, 0.52)';
+        bctx.fillRect(dx + 4 + (h % 7), dy + 8, 8, 1);
+        bctx.fillRect(dx + 14, dy + 22, 6, 1);
+      }
+    } else if (h % 2 === 0) {
+      bctx.fillStyle = '#f8fafc';
+      bctx.fillRect(dx + 5 + (h % 5), dy + 6 + (h % 4), 3, 2);
+      bctx.fillRect(dx + 20, dy + 21, 2, 2);
+      bctx.fillStyle = '#cbd5e1';
+      bctx.fillRect(dx + 14, dy + 14, 3, 1);
+    }
   } else if (surface === 'metal_cyber' && h % 2 === 0) {
     bctx.strokeStyle = 'rgba(56, 189, 248, 0.28)';
     bctx.lineWidth = 1;
@@ -185,7 +199,12 @@ export function bakeExplicitTilemapChunks(
           bctx.fillRect(dx, dy, drawTs, drawTs);
           drawAtlasTile(bctx, atlas, gId, srcTs, dx, dy, drawTs);
 
-          if (surface === 'wood_dock' || surface === 'sand' || surface === 'water_shallow') {
+          if (
+            surface === 'wood_dock' ||
+            surface === 'sand' ||
+            surface === 'water_shallow' ||
+            surface === 'snow'
+          ) {
             drawSurfaceMicroDetail(bctx, surface, biome.biomeId, dx, dy, drawTs, c, r);
           }
 

@@ -2,26 +2,214 @@
   "islandId": "drum_kingdom",
   "name": "드럼 왕국 (설산 드럼 록 성)",
   "episodeId": "ep_drum_kingdom",
-  "width": 960,
-  "height": 540,
+  "width": 1472,
+  "height": 1152,
   "theme": "HARBOR_TOWN",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 752,
+    "y": 944
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 752,
+      "y": 1008
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 592,
+    "y": 944
+  },
   "obstacles": [
-    { "x": 270, "y": 80, "width": 170, "height": 85, "label": "설산 빙벽" },
-    { "x": 520, "y": 395, "width": 200, "height": 85, "label": "드럼 록 성벽" }
+    {
+      "x": 320,
+      "y": 704,
+      "width": 160,
+      "height": 64,
+      "label": "빅혼 마을 오두막"
+    },
+    {
+      "x": 928,
+      "y": 704,
+      "width": 160,
+      "height": 64,
+      "label": "도르돈 수비대 초소"
+    },
+    {
+      "x": 608,
+      "y": 128,
+      "width": 256,
+      "height": 64,
+      "label": "드럼 록 성"
+    }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
   "giantProps": [],
+  "zones": [
+    {
+      "zoneId": "zone_drum_harbor",
+      "name": "얼어붙은 드럼 항구",
+      "subtitle": "겨울 섬 상륙 부두",
+      "tileX": 16,
+      "tileY": 27,
+      "tileW": 14,
+      "tileH": 6,
+      "accentColor": "#38bdf8"
+    },
+    {
+      "zoneId": "zone_drum_bighorn",
+      "name": "눈 덮인 빅혼 마을",
+      "subtitle": "소나무 숲과 얼음 호수",
+      "tileX": 3,
+      "tileY": 18,
+      "tileW": 39,
+      "tileH": 10,
+      "accentColor": "#e2e8f0"
+    },
+    {
+      "zoneId": "zone_drum_ropeway",
+      "name": "설산 로프웨이 & 돌계단",
+      "subtitle": "드럼 록 절벽 등반로",
+      "tileX": 13,
+      "tileY": 9,
+      "tileW": 16,
+      "tileH": 9,
+      "accentColor": "#facc15"
+    },
+    {
+      "zoneId": "zone_drum_castle",
+      "name": "드럼 록 성 앞마당",
+      "subtitle": "히루루크의 신념 & 와포루 결전",
+      "tileX": 14,
+      "tileY": 2,
+      "tileW": 18,
+      "tileH": 7,
+      "accentColor": "#f472b6"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_drum_pine_crevice",
+      "tileX": 4,
+      "tileY": 18,
+      "rarity": "silver",
+      "hiddenHint": "소나무 숲 캐노피 뒤 설산 바위 틈",
+      "reward": {
+        "berries": 8000,
+        "trainingPoints": 16,
+        "itemLabel": "설산 약초 비상 상자"
+      }
+    },
+    {
+      "chestId": "chest_drum_frozen_lake",
+      "tileX": 42,
+      "tileY": 26,
+      "rarity": "wooden",
+      "hiddenHint": "빅혼 마을 동쪽 얼음 호수 끝",
+      "reward": {
+        "berries": 6500,
+        "trainingPoints": 14,
+        "itemLabel": "얼어붙은 호수 보급품"
+      }
+    },
+    {
+      "chestId": "chest_drum_castle_snowdrift",
+      "tileX": 23,
+      "tileY": 2,
+      "rarity": "gold",
+      "hiddenHint": "드럼 록 성벽 뒤 눈더미 골목",
+      "reward": {
+        "berries": 13000,
+        "trainingPoints": 22,
+        "healPartyRatio": 0.45,
+        "itemLabel": "히루루크의 벚꽃 약통"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_drum_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 얼음 항구 출항",
+      "tileX": 23,
+      "tileY": 31,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_drum_chopper",
+      "kind": "SIDE",
+      "label": "◆ 쿠레하 & 쵸파",
+      "tileX": 19,
+      "tileY": 14,
+      "hideWhenFlagSet": "flag_drum_met_chopper",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_drum_wapol",
+      "kind": "MAIN",
+      "label": "★ 폭군 와포루 결전",
+      "tileX": 23,
+      "tileY": 7,
+      "hideWhenFlagSet": "flag_drum_kingdom_cleared",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_drum_camp",
+      "kind": "ACTIVITY",
+      "label": "🏕 설산 수련 캠프",
+      "tileX": 28,
+      "tileY": 26,
+      "actionKind": "CAMP_TRAINING"
+    },
+    {
+      "markerId": "marker_drum_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 18,
+      "tileY": 29,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_drum_ropeway",
+      "kind": "ROPEWAY_TOWER",
+      "tileX": 21,
+      "tileY": 16,
+      "widthTiles": 4,
+      "heightTiles": 2,
+      "label": "설산 로프웨이",
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_drum_boat",
+      "kind": "DOCKED_BOAT",
+      "tileX": 16,
+      "tileY": 30,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_drum_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 28,
+      "tileY": 25,
+      "widthTiles": 1,
+      "heightTiles": 1
+    }
+  ],
   "npcs": [
     {
       "npcId": "npc_kureha_chopper",
       "name": "닥터 쿠레하 & 쵸파",
       "roleLabel": "드럼 성 의술 스승",
-      "pos": { "x": 360, "y": 255 },
+      "pos": {
+        "x": 624,
+        "y": 464
+      },
       "interactRadiusPx": 56,
-      "visualScale": 1.0,
+      "visualScale": 1,
       "color": "#ec4899",
       "setsQuestFlagOnTalk": "flag_drum_met_chopper",
       "dialogueLines": [
@@ -34,6 +222,137 @@
           "setsFlag": "flag_drum_met_chopper",
           "responseLine": "[결의] 벚꽃이 피어날 드럼 성 정상에서 폭군 와포루와 결전을 시작합니다!"
         }
+      ],
+      "facing": "right",
+      "ambientBubbleText": "해적 깃발은 꺾이지 않는 신념이다!",
+      "patrolWaypoints": [
+        {
+          "x": 560,
+          "y": 464
+        },
+        {
+          "x": 688,
+          "y": 464
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 85
+    },
+    {
+      "npcId": "npc_dalton",
+      "name": "도르돈 수비대장",
+      "roleLabel": "빅혼 마을 수호자",
+      "pos": {
+        "x": 784,
+        "y": 816
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1.05,
+      "color": "#facc15",
+      "facing": "up",
+      "ambientBubbleText": "로프웨이를 타고 드럼 성으로 향하시오!",
+      "patrolWaypoints": [
+        {
+          "x": 656,
+          "y": 816
+        },
+        {
+          "x": 880,
+          "y": 816
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "도르돈: 빅혼 마을 사람들은 폭군 와포루가 돌아온 뒤로도 포기하지 않았소!",
+        "서쪽 소나무 숲 뒤 설산 틈과 동쪽 얼음 호수 끝에도 보급품이 있소."
+      ]
+    },
+    {
+      "npcId": "npc_bighorn_villager",
+      "name": "빅혼 마을 주민",
+      "roleLabel": "설산 목축민",
+      "pos": {
+        "x": 432,
+        "y": 816
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.95,
+      "color": "#cbd5e1",
+      "facing": "right",
+      "ambientBubbleText": "히루루크의 벚꽃이 언젠가 필 거야!",
+      "patrolWaypoints": [
+        {
+          "x": 368,
+          "y": 848
+        },
+        {
+          "x": 560,
+          "y": 848
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "주민: 와포루를 몰아내면 이 하얀 설산에 기적의 분홍 벚꽃 눈이 날릴 거라는 전설이 있어!"
+      ]
+    },
+    {
+      "npcId": "npc_ropeway_eng",
+      "name": "로프웨이 정비사",
+      "roleLabel": "설산 케이블카 기술자",
+      "pos": {
+        "x": 848,
+        "y": 496
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.98,
+      "color": "#38bdf8",
+      "facing": "left",
+      "ambientBubbleText": "지그재그 돌계단도 안전하게 정비했어!",
+      "patrolWaypoints": [
+        {
+          "x": 816,
+          "y": 496
+        },
+        {
+          "x": 848,
+          "y": 592
+        }
+      ],
+      "patrolSpeedPx": 36,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "정비사: 케이블카 위쪽 계단을 따라 지그재그로 오르면 드럼 성 정문이 나옵니다."
+      ]
+    },
+    {
+      "npcId": "npc_drum_herbalist",
+      "name": "설산 약초꾼",
+      "roleLabel": "잇시-20 출신 약초학자",
+      "pos": {
+        "x": 496,
+        "y": 368
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.96,
+      "color": "#ec4899",
+      "facing": "right",
+      "ambientBubbleText": "성벽 아래 눈더미도 살펴보게!",
+      "patrolWaypoints": [
+        {
+          "x": 496,
+          "y": 368
+        },
+        {
+          "x": 784,
+          "y": 368
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "약초꾼: 닥터 쿠레하와 쵸파가 기다리고 있으니 어서 성 앞마당으로 가보게!"
       ]
     }
   ],
@@ -42,9 +361,14 @@
       "encounterId": "enc_drum_wapol_boss",
       "name": "폭군 와포루 (우걱우걱 열매 · 드럼 성 정상 결전)",
       "isBoss": true,
-      "pos": { "x": 790, "y": 270 },
+      "pos": {
+        "x": 752,
+        "y": 240
+      },
       "triggerRadiusPx": 60,
-      "enemyUnitIds": ["wapol"],
+      "enemyUnitIds": [
+        "wapol"
+      ],
       "aiLevel": 3,
       "arenaSizeKey": "medium",
       "setsFlagOnVictory": "flag_drum_kingdom_cleared",
@@ -57,5 +381,274 @@
         "루피: 남의 해적 깃발을 함부로 건드리지 마!! 날려버려 주마!!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "SNOW"
+    ],
+    "postClearParticles": [
+      "PETAL",
+      "SNOW"
+    ],
+    "density": 34
+  },
+  "lightingProfile": {
+    "defaultMood": "DAY",
+    "tintHex": "#bae6fd",
+    "tintAlpha": 0.1,
+    "sunbeams": false,
+    "lanterns": [
+      {
+        "tileX": 22,
+        "tileY": 15,
+        "color": "#fde047",
+        "radiusPx": 44
+      },
+      {
+        "tileX": 23,
+        "tileY": 6,
+        "color": "#f472b6",
+        "radiusPx": 48
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 46,
+    "rows": 36,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber",
+      "n": "snow"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGppppppppppppppppppGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGppppppppppppppppppGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGpppppBBBBBBBBpppppGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGpppppbwbwDwbwpppppGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGppppppppppppppppppGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGppppppppppppppppppGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGpppppGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGppppppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGppppppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGppppppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGpppGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGpppGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGpppppppppppppGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGpppppppppppppGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGpppppppppppppGGGGGGGGGGGGGGGGGGc",
+      "cGccGGGGGGGGGGGGGGGGGppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGccGGGGGGGGGGGGGGGGGppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppGGGGGGGGGG~~~~~~~GGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppGGGGGGGGGG~~WWWW~GGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppGGGGGGGGGG~~WWWW~GGGc",
+      "cGGGGGGGGGBBBBBGGGGGGppppGGGGBBBBBG~~WWWW~GGGc",
+      "cGGGGGGGGGbwDwbGGGGGGppppGGGGbwDwbG~~~~~~~GGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGpppppppppppppppppppppppppGGGGGGGGGGc",
+      "cGGGGGGGGGpppppppppppppppppppppppppGGGGGGGGGGc",
+      "cGGGGGGGGGpppppppppppppppppppppppppGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGc",
+      "~~~~~~~~~~~~~~~~~~~~dddddd~~~~~~~~~~~~~~~~~~~~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    ],
+    "detailRows": [
+      "..............................................",
+      ".hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh.",
+      "....f...f...f.ppppppppppppppppppf.............",
+      ".....f........pppppppppppppppppp..............",
+      "......f.......ppppp........ppppp..............",
+      "..............ppppp........ppppp......f.......",
+      "....f.f.ff....pppppppppppppppppp.....f........",
+      ".......f...c..pppppppppppppppppp.f............",
+      "..f....f...h.........ppppp.f.f.....cf.........",
+      "..........f...pppppppppppppp....f..h..........",
+      "..........f..fpppppppppppppp.f....f...........",
+      "....f.......f.ppppppppppppppf.f............f..",
+      "........ff....ppp.f...........ff..............",
+      "..........f...pppf...............f.........f..",
+      "...f.......ff.ppppppppppppp...................",
+      ".......fff....ppppppppppppp....f.......f..f...",
+      "..............ppppppppppppp................f..",
+      "........f.........k..pppp..k.....f.......f....",
+      "...GGGGGGG........hf.pppp..h..................",
+      "..hGGGGGGG...........pppp....f.....q..........",
+      "...GGGGGGGff.f....ff.pppp..........q..........",
+      "...GGcGGcG...f..f....pppp....f.....q..........",
+      "...GGGGGGG..........fpppp..........q..........",
+      "...GGGGGGG.....f.f...pppp..........q..........",
+      "...GcGGGGGhhhhh...f..pppp...fhhhhh..hhhhhh....",
+      "...GGGGcGGpppppppppppppppppppppppppGGGGGGGG...",
+      "..f....h..pppppppppppppppppppppppppGGGGGGGG...",
+      ".......f..pppppppppppppppppppppppppGGGGGGGG...",
+      "..........f...fk.f..dddddd....k.......f.......",
+      "...............h..f.dddddd....h...............",
+      "....................dddddd....................",
+      "....................dddddd....................",
+      "....................dddddd....................",
+      "..............................................",
+      "..............................................",
+      ".............................................."
+    ],
+    "solidRows": [
+      "##############################################",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "#..................########..................#",
+      "#..................########..................#",
+      "#............................................#",
+      "#..........#.................................#",
+      "#..................................#.........#",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "#.##..............#........#.................#",
+      "#.##.........................................#",
+      "#...................................######...#",
+      "#...................................######...#",
+      "#....#..#...........................######...#",
+      "#.........#####..............#####..######...#",
+      "#.........#####..............#####..######...#",
+      "#...#........................................#",
+      "#......#.....................................#",
+      "#............................................#",
+      "#............................................#",
+      "#..............#..............#..............#",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "####################......####################",
+      "##############################################",
+      "##############################################",
+      "##############################################"
+    ],
+    "overheadRows": [
+      "..............................................",
+      "..............................................",
+      "..................errrrrrrre..................",
+      "..................eRRRRRRRRe..................",
+      "...................RRRRRRRR...................",
+      "..........ooo.................................",
+      "..........oOo.....................ooo.........",
+      "..........ooo.....................oOo.........",
+      "..................................ooo.........",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "....oooooo....................................",
+      "....oOooOorrrrre............errrrre...........",
+      "....ooooooRRRRRe............eRRRRRe...........",
+      "...ooo....RRRRR..............RRRRR............",
+      "...oOoooo.....................................",
+      "...ooooOo.....................................",
+      "......ooo.....................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      ".............................................."
+    ],
+    "surfaceRows": [
+      "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnpppppnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnppppppppppppppnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnppppppppppppppnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnppppppppppppppnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnpppnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnpppnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnpppppppppppppnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnpppppppppppppnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnpppppppppppppnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnppppnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnppppnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnppppnnnnnnnnnnwwwwwwwnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnppppnnnnnnnnnnwwwwwwwnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnppppnnnnnnnnnnwwwwwwwnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnppppnnnnnnnnnnwwwwwwwnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnppppnnnnnnnnnnwwwwwwwnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnppppnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnppppnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnppppnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnppppnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnddddddnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnddddddnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnddddddnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnddddddnnnnnnnnnnnnnnnnnnnn",
+      "wwwwwwwwwwwwwwwwwwwwddddddwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    ]
+  }
 }

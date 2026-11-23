@@ -2,19 +2,50 @@
   "islandId": "elbaf",
   "name": "거인족의 나라 엘바프 — 세계수 위그드라실 대지",
   "episodeId": "ep_elbaf",
-  "width": 960,
-  "height": 540,
+  "width": 1728,
+  "height": 1216,
   "theme": "GIANT_ELBAF",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
-  "obstacles": [],
+  "spawnPoint": {
+    "x": 880,
+    "y": 976
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 880,
+      "y": 1072
+    },
+    "radiusPx": 48
+  },
+  "battleTerminalPos": {
+    "x": 720,
+    "y": 976
+  },
+  "obstacles": [
+    {
+      "x": 1184,
+      "y": 512,
+      "width": 224,
+      "height": 64,
+      "label": "거인족 석조 장옥"
+    },
+    {
+      "x": 704,
+      "y": 96,
+      "width": 320,
+      "height": 64,
+      "label": "명계 절벽 아레나 제단"
+    }
+  ],
   "laserBarriers": [],
   "puzzleSwitches": [],
   "giantProps": [
     {
       "propId": "prop_yggdrasil_trunk",
       "label": "세계수 위그드라실 거대 뿌리 (Giant Scale)",
-      "pos": { "x": 480, "y": 110 },
+      "pos": {
+        "x": 592,
+        "y": 560
+      },
       "width": 260,
       "height": 110,
       "visualScale": 2.4,
@@ -23,11 +54,205 @@
     {
       "propId": "prop_giant_viking_sword",
       "label": "고대 거인족의 대검 유적 (Giant Scale)",
-      "pos": { "x": 470, "y": 410 },
+      "pos": {
+        "x": 1168,
+        "y": 784
+      },
       "width": 200,
       "height": 85,
       "visualScale": 2.2,
       "color": "#64748b"
+    }
+  ],
+  "zones": [
+    {
+      "zoneId": "zone_elbaf_dock",
+      "name": "거병 해적단 거대 목조 부두",
+      "subtitle": "최종장 엘바프 대선착장",
+      "tileX": 16,
+      "tileY": 25,
+      "tileW": 22,
+      "tileH": 10,
+      "accentColor": "#eab308"
+    },
+    {
+      "zoneId": "zone_elbaf_adam_bridge",
+      "name": "세계수 아담 거대 뿌리 다리",
+      "subtitle": "하늘을 가르는 신목 오버헤드 아치",
+      "tileX": 13,
+      "tileY": 16,
+      "tileW": 20,
+      "tileH": 9,
+      "accentColor": "#a3e635"
+    },
+    {
+      "zoneId": "zone_elbaf_longhouse",
+      "name": "룬 석비 & 거인족 장옥 마을",
+      "subtitle": "고대 전사들의 맹세와 오하라의 기록",
+      "tileX": 4,
+      "tileY": 12,
+      "tileW": 44,
+      "tileH": 13,
+      "accentColor": "#38bdf8"
+    },
+    {
+      "zoneId": "zone_elbaf_underworld",
+      "name": "명계 절벽 아레나 입구",
+      "subtitle": "왕자 로키 최종 결전지",
+      "tileX": 15,
+      "tileY": 3,
+      "tileW": 30,
+      "tileH": 8,
+      "accentColor": "#facc15"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_elbaf_adam_root",
+      "tileX": 15,
+      "tileY": 20,
+      "rarity": "silver",
+      "hiddenHint": "세계수 거대 뿌리 오버헤드 아래 비밀 통로",
+      "reward": {
+        "berries": 28000,
+        "trainingPoints": 34,
+        "itemLabel": "보배 아담의 황금 수액"
+      }
+    },
+    {
+      "chestId": "chest_elbaf_rune_monolith",
+      "tileX": 8,
+      "tileY": 13,
+      "rarity": "silver",
+      "hiddenHint": "북유럽 룬 석비 군락 뒤편",
+      "reward": {
+        "berries": 26000,
+        "trainingPoints": 32,
+        "itemLabel": "고대 엘바프 룬 석판"
+      }
+    },
+    {
+      "chestId": "chest_elbaf_longhouse_hearth",
+      "tileX": 41,
+      "tileY": 14,
+      "rarity": "wooden",
+      "hiddenHint": "거인족 석조 장옥 뒤편 화로 옆",
+      "reward": {
+        "berries": 22000,
+        "trainingPoints": 28,
+        "itemLabel": "거인의 만찬 보급 통"
+      }
+    },
+    {
+      "chestId": "chest_elbaf_cliff_overlook",
+      "tileX": 42,
+      "tileY": 6,
+      "rarity": "gold",
+      "hiddenHint": "명계 절벽 동쪽 전망 바위 끝",
+      "reward": {
+        "berries": 40000,
+        "trainingPoints": 45,
+        "healPartyRatio": 0.6,
+        "itemLabel": "태양신 니카 전설의 뿔잔"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_elbaf_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 거병 부두 출항",
+      "tileX": 27,
+      "tileY": 33,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_elbaf_dorry",
+      "kind": "SIDE",
+      "label": "◆ 도리 & 브로기",
+      "tileX": 25,
+      "tileY": 25,
+      "hideWhenFlagSet": "flag_elbaf_giants_greeted",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_elbaf_loki",
+      "kind": "MAIN",
+      "label": "★ 저주받은 왕자 로키",
+      "tileX": 27,
+      "tileY": 7,
+      "hideWhenFlagSet": "flag_elbaf_trial_cleared",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_elbaf_raid",
+      "kind": "ACTIVITY",
+      "label": "🔥 거대 보스 레이드 제단",
+      "tileX": 17,
+      "tileY": 27,
+      "actionKind": "BOUNTY_BOARD"
+    },
+    {
+      "markerId": "marker_elbaf_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 22,
+      "tileY": 30,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_elbaf_root_center",
+      "kind": "WORLD_TREE_ROOT",
+      "tileX": 24,
+      "tileY": 20,
+      "widthTiles": 6,
+      "heightTiles": 3,
+      "label": "세계수 아담 뿌리 다리",
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_elbaf_root_west",
+      "kind": "WORLD_TREE_ROOT",
+      "tileX": 13,
+      "tileY": 21,
+      "widthTiles": 5,
+      "heightTiles": 2,
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_elbaf_rune_1",
+      "kind": "RUNE_MONOLITH",
+      "tileX": 7,
+      "tileY": 14,
+      "widthTiles": 2,
+      "heightTiles": 2,
+      "label": "룬 석비"
+    },
+    {
+      "landmarkId": "lm_elbaf_rune_2",
+      "kind": "RUNE_MONOLITH",
+      "tileX": 11,
+      "tileY": 14,
+      "widthTiles": 2,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_elbaf_sunny",
+      "kind": "SUNNY_DOCK",
+      "tileX": 18,
+      "tileY": 32,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_elbaf_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 35,
+      "tileY": 27,
+      "widthTiles": 1,
+      "heightTiles": 1
     }
   ],
   "npcs": [
@@ -35,7 +260,10 @@
       "npcId": "npc_dorry_brogy",
       "name": "거병 해적단 도리 & 브로기",
       "roleLabel": "엘바프의 거인 전사 두목 (Giant NPC)",
-      "pos": { "x": 380, "y": 265 },
+      "pos": {
+        "x": 816,
+        "y": 816
+      },
       "interactRadiusPx": 68,
       "visualScale": 2.35,
       "color": "#facc15",
@@ -51,13 +279,30 @@
           "setsFlag": "flag_elbaf_giants_greeted",
           "responseLine": "[엘바프 환영] 거인족의 축복으로 로드 포네그리프 최종 단서와 패기 수련장이 개방되었습니다!"
         }
-      ]
+      ],
+      "facing": "right",
+      "ambientBubbleText": "기가가가가! 태양의 신을 환영한다!",
+      "patrolWaypoints": [
+        {
+          "x": 752,
+          "y": 816
+        },
+        {
+          "x": 912,
+          "y": 816
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 85
     },
     {
       "npcId": "npc_elbaf_raid_terminal",
       "name": "엘바프 거대 보스 레이드 제단",
       "roleLabel": "엔드게임 협동 레이드 · 종말의 철뇌 로키",
-      "pos": { "x": 210, "y": 390 },
+      "pos": {
+        "x": 560,
+        "y": 880
+      },
       "interactRadiusPx": 58,
       "visualScale": 1.15,
       "color": "#facc15",
@@ -70,6 +315,136 @@
           "triggersEndgameMode": "RAID",
           "responseLine": "[엘바프 레이드 제단] 오로성·사황 거대 보스 협동 레이드 로비를 엽니다!"
         }
+      ],
+      "facing": "up",
+      "ambientBubbleText": "종말의 철뇌 로키 거대 레이드 도전!",
+      "patrolWaypoints": [
+        {
+          "x": 528,
+          "y": 880
+        },
+        {
+          "x": 624,
+          "y": 880
+        }
+      ],
+      "patrolSpeedPx": 34,
+      "pauseTicks": 90
+    },
+    {
+      "npcId": "npc_hajrudin",
+      "name": "거병 하이루딘",
+      "roleLabel": "신 거병 해적단 선장",
+      "pos": {
+        "x": 1072,
+        "y": 688
+      },
+      "interactRadiusPx": 50,
+      "visualScale": 1.55,
+      "color": "#fb923c",
+      "facing": "left",
+      "ambientBubbleText": "동쪽 거인 장옥 뒤편 화로가 따뜻해!",
+      "patrolWaypoints": [
+        {
+          "x": 1072,
+          "y": 688
+        },
+        {
+          "x": 1232,
+          "y": 688
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "하이루딘: 밀짚모자 대선장! 엘바프의 거인 장옥과 세계수 뿌리 다리 아래 비밀 통로도 살펴보시오!"
+      ]
+    },
+    {
+      "npcId": "npc_saul",
+      "name": "재규어 D. 사우로",
+      "roleLabel": "전사의 나라 역사의 전승자",
+      "pos": {
+        "x": 368,
+        "y": 592
+      },
+      "interactRadiusPx": 50,
+      "visualScale": 1.5,
+      "color": "#38bdf8",
+      "facing": "down",
+      "ambientBubbleText": "데레시시시! 오하라의 책들이 여기에!",
+      "patrolWaypoints": [
+        {
+          "x": 336,
+          "y": 592
+        },
+        {
+          "x": 464,
+          "y": 592
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 85,
+      "dialogueLines": [
+        "사우로: 북유럽 룬 석비 뒤와 세계수 아담의 거대한 뿌리 아래엔 수백 년 된 지혜가 깃들어 있다네!"
+      ]
+    },
+    {
+      "npcId": "npc_elbaf_smith",
+      "name": "거인 대장장이 브로크",
+      "roleLabel": "아다만트 병기 장인",
+      "pos": {
+        "x": 1136,
+        "y": 496
+      },
+      "interactRadiusPx": 48,
+      "visualScale": 1.35,
+      "color": "#ef4444",
+      "facing": "right",
+      "ambientBubbleText": "명계 절벽 끝에 전사의 비보가 있어!",
+      "patrolWaypoints": [
+        {
+          "x": 1136,
+          "y": 496
+        },
+        {
+          "x": 1136,
+          "y": 624
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "대장장이: 왕자 로키의 철뇌 라그니르가 벼락을 부르고 있으니 패기 극의를 단련하고 올라가게!"
+      ]
+    },
+    {
+      "npcId": "npc_elbaf_warrior",
+      "name": "엘바프 전사 견습생",
+      "roleLabel": "세계수 수비대",
+      "pos": {
+        "x": 944,
+        "y": 400
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1.25,
+      "color": "#a3e635",
+      "facing": "up",
+      "ambientBubbleText": "세계수 아담의 황금 낙엽이 내린다!",
+      "patrolWaypoints": [
+        {
+          "x": 848,
+          "y": 400
+        },
+        {
+          "x": 1008,
+          "y": 400
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "전사: 북쪽 명계 절벽 아레나로 오르면 저주받은 왕자 로키가 기다립니다!"
       ]
     }
   ],
@@ -78,9 +453,14 @@
       "encounterId": "enc_elbaf_sun_god_trial",
       "name": "엘바프의 저주받은 왕자 로키 (거대 보스 · 철뇌 라그니르)",
       "isBoss": true,
-      "pos": { "x": 790, "y": 270 },
+      "pos": {
+        "x": 880,
+        "y": 240
+      },
       "triggerRadiusPx": 68,
-      "enemyUnitIds": ["loki"],
+      "enemyUnitIds": [
+        "loki"
+      ],
       "aiLevel": 5,
       "arenaSizeKey": "large",
       "setsFlagOnVictory": "flag_elbaf_trial_cleared",
@@ -93,5 +473,287 @@
         "세계수 위그드라실을 뒤흔드는 신화 무기 [철뇌 라그니르]와 거인왕의 패왕색을 버텨보아라, 밀짚모자!!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "GOLDEN_LEAF",
+      "LIGHTNING_SPARK"
+    ],
+    "density": 38
+  },
+  "lightingProfile": {
+    "defaultMood": "DUSK",
+    "tintHex": "#eab308",
+    "tintAlpha": 0.1,
+    "sunbeams": true,
+    "lanterns": [
+      {
+        "tileX": 8,
+        "tileY": 15,
+        "color": "#38bdf8",
+        "radiusPx": 52
+      },
+      {
+        "tileX": 27,
+        "tileY": 21,
+        "color": "#facc15",
+        "radiusPx": 56
+      },
+      {
+        "tileX": 27,
+        "tileY": 7,
+        "color": "#a855f7",
+        "radiusPx": 60
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 54,
+    "rows": 38,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber",
+      "n": "snow"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGpppppppBBBBBBBBBBpppppppppppppGGGGGGGGc",
+      "cGGGGGGGGGGGGGGpppppppbwbwbDbwbwpppppppppppppGGGGGGGGc",
+      "cGGGGGGGGGGGGGGppppppppppppppppppppppppppppppGGGGGGGGc",
+      "cGGGGGGGGGGGGGGppppppppppppppppppppppppppppppGGGGGGGGc",
+      "cGGGGGGGGGGGGGGppppppppppppppppppppppppppppppGGGGGGGGc",
+      "cGGGGGGGGGGGGGGppppppppppppppppppppppppppppppGGGGGGGGc",
+      "cGGGGGGGGGGGGGGppppppppppppppppppppppppppppppGGGGGGGGc",
+      "cGGGGGGGGGGGGGGppppppppppppppppppppppppppppppGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGpppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGpppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGpppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGpppBBBBBBBpppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGpppbwbDbwbpppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGpppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGpppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGpppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGpppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGpppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGpppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddddddGGpppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGpppppppddddddddddpppppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGppppppppppppppppppppppppGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGppppppppppppppppppppppppGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGppppppppppppppppppppppppGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGppppppppppppppppppppppppGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGddddddddGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGddddddddGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGddddddddGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGddddddddGGGGGGGGGGGGGGGGGGGGGGc",
+      "~~~~~~~~~~~~~~~~~~~~~~~dddddddd~~~~~~~~~~~~~~~~~~~~~~~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    ],
+    "detailRows": [
+      "......................................................",
+      ".hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh.",
+      "...............T.....t.t........T.....fFF.tt.....t....",
+      "...F.....F...Ffppppppp..........ppppppppppppp...T.....",
+      "...f......F....ppppppp..........ppppppppppppp....t....",
+      "......F.f....T.ppppppppppppppppppppppppppCppC...F.....",
+      "...f........t.Fpppppppppppppppppppppppppppppp...T.....",
+      "...............pppppppppppppppppppppppppppppp.f.......",
+      ".........Tt..F.pppppppppppppppppppppppppppppC..T..F...",
+      "......T........pppppppppppppppppppppppppppppp.T.F.....",
+      "..F............pppppppppppppppppppppppppppppp.T.......",
+      "...FF..F..........F...dddddddddd....f..............f..",
+      "....GGGGGGGGGGGGGG....dddddddddd......f.f.............",
+      "....GGGGGGGGGGGGGGF.f.dddddddddd..ppppppppppppppp.....",
+      "..t.GGGGGGGGGGGGGG..Ftdddddddddd..ppppppppppppppp.....",
+      "....GGCGGGCGGGGGGGT...dddddddddd..pppppppppppkppp.....",
+      "..F.GGGGGGGGGGGGGG.f..dddddddddd..ppp.......ppppp..F..",
+      "...tGGGGGGGGGGGGGG....dddddddddd..ppp.......ppcpp.....",
+      "....GGGGGGGGGGGGGGGGGGdddddddddd..ppppppppppppppp..F..",
+      "....GcGGGcGGGGGGGGGGGGdddddddddd..pppppppppppkpppF....",
+      "....GGGGGGGGGGGGGGGGGGddCddddCdd..ppppppppppppppp.....",
+      "...TGGGGGGGGGGGGGGGGGGddCddddCdd..ppppppppppppppp.....",
+      "....GGGGGGGGGGGGGGTT.TddCddddCdd..ppppppppppppppp.....",
+      "...tGGGGGGGGGGGGGG....dddddddddd..ppppppppppppppp.....",
+      "...tf.................dddddddddd..ppppppppppppppp.....",
+      "..f............pppppppddddddddddppppppppppppppppp.....",
+      ".......t..F....pppppppppppppppppppppppp......T.T......",
+      ".........T..f..pppppppppppppppppppppppp...t...........",
+      "..f.......FT...ppppppppppppppppppppppppt........t.F...",
+      "..F........t.T.pppppppppppppppppppppppp.f....T....F...",
+      "...........F...f...FT..ddddddddT...t.........T........",
+      "...................FFt.dddddddd...................t...",
+      ".......................dddddddd.......................",
+      ".......................dddddddd.......................",
+      ".......................dddddddd.......................",
+      "......................................................",
+      "......................................................",
+      "......................................................"
+    ],
+    "solidRows": [
+      "######################################################",
+      "#....................................................#",
+      "#....................................................#",
+      "#.....................##########.....................#",
+      "#.....................##########.....................#",
+      "#........................................#..#........#",
+      "#....................................................#",
+      "#....................................................#",
+      "#...........................................#........#",
+      "#....................................................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#.....#...#..................................#.......#",
+      "#....................................#######.........#",
+      "#....................................#######..#......#",
+      "#....................................................#",
+      "#....#...#...................................#.......#",
+      "#.......................#....#.......................#",
+      "#.......................#....#.......................#",
+      "#.......................#....#.......................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#....................................................#",
+      "#######################........#######################",
+      "######################################################",
+      "######################################################",
+      "######################################################"
+    ],
+    "overheadRows": [
+      "......................................................",
+      ".....................errrrrrrrrre.....................",
+      ".....................eRRRRRRRRRRe.....................",
+      "......................RRRRRRRRRR......................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "....................................errrrrrre.........",
+      "....................................eRRRRRRReooo......",
+      ".....................................RRRRRRR.oOo......",
+      "....ooo.ooo..................................ooo......",
+      "....oOo.oOo...........................................",
+      "....ooo.ooo...........................................",
+      "........................rrrrrr........................",
+      ".............rrrrr....................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................",
+      "......................................................"
+    ],
+    "surfaceRows": [
+      "gggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggppppppppppppppppppppppppppppppggggggggg",
+      "gggggggggggggggppppppppppppppppppppppppppppppggggggggg",
+      "gggggggggggggggppppppppppppppppppppppppppppppggggggggg",
+      "gggggggggggggggppppppppppppppppppppppppppppppggggggggg",
+      "gggggggggggggggppppppppppppppppppppppppppppppggggggggg",
+      "gggggggggggggggppppppppppppppppppppppppppppppggggggggg",
+      "gggggggggggggggppppppppppppppppppppppppppppppggggggggg",
+      "gggggggggggggggppppppppppppppppppppppppppppppggggggggg",
+      "ggggggggggggggggggggggddddddddddgggggggggggggggggggggg",
+      "ggggggggggggggggggggggddddddddddgggggggggggggggggggggg",
+      "ggggggggggggggggggggggddddddddddggpppppppppppppppggggg",
+      "ggggggggggggggggggggggddddddddddggpppppppppppppppggggg",
+      "ggggggggggggggggggggggddddddddddggpppppppppppppppggggg",
+      "ggggggggggggggggggggggddddddddddggpppppppppppppppggggg",
+      "ggggggggggggggggggggggddddddddddggpppppppppppppppggggg",
+      "ggggggggggggggggggggggddddddddddggpppppppppppppppggggg",
+      "ggggggggggggggggggggggddddddddddggpppppppppppppppggggg",
+      "ggggggggggggggggggggggddddddddddggpppppppppppppppggggg",
+      "ggggggggggggggggggggggddddddddddggpppppppppppppppggggg",
+      "ggggggggggggggggggggggddddddddddggpppppppppppppppggggg",
+      "ggggggggggggggggggggggddddddddddggpppppppppppppppggggg",
+      "ggggggggggggggggggggggddddddddddggpppppppppppppppggggg",
+      "gggggggggggggggpppppppddddddddddpppppppppppppppppggggg",
+      "gggggggggggggggppppppppppppppppppppppppggggggggggggggg",
+      "gggggggggggggggppppppppppppppppppppppppggggggggggggggg",
+      "gggggggggggggggppppppppppppppppppppppppggggggggggggggg",
+      "gggggggggggggggppppppppppppppppppppppppggggggggggggggg",
+      "gggggggggggggggggggggggddddddddggggggggggggggggggggggg",
+      "gggggggggggggggggggggggddddddddggggggggggggggggggggggg",
+      "gggggggggggggggggggggggddddddddggggggggggggggggggggggg",
+      "gggggggggggggggggggggggddddddddggggggggggggggggggggggg",
+      "wwwwwwwwwwwwwwwwwwwwwwwddddddddwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    ]
+  }
 }

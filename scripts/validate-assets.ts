@@ -6,7 +6,8 @@ import type {
   BattleBackdropsManifestFile,
   SpriteSheetManifestFile,
   TilesetManifestFile,
-  VfxManifestFile
+  VfxManifestFile,
+  WorldLandmarkManifestFile
 } from '../src/data/assets/types';
 import { STANDARD_SPRITE_ANIM_STATES } from '../src/data/assets/types';
 import {
@@ -81,6 +82,8 @@ interface FormJsonEntry {
 
 interface SeaZoneJsonEntry {
   id: string;
+  islands?: { islandId: string }[];
+  seaGate?: { gateId: string } | null;
 }
 
 interface IslandJsonEntry {
@@ -150,6 +153,7 @@ function main(): void {
   const audio = readJson<AudioManifestFile>('src/data/assets/audio.json');
   const backgrounds = readJson<BattleBackdropsManifestFile>('src/data/assets/backgrounds.json');
   const vfx = readJson<VfxManifestFile>('src/data/assets/vfx.json');
+  const worldLandmarks = readJson<WorldLandmarkManifestFile>('src/data/assets/landmarks.json');
 
   const formIdSet = new Set(forms.map((f) => f.id));
   const blueprintByKey = new Map(blueprints.entries.map((b) => [b.key, b]));
@@ -535,6 +539,51 @@ function main(): void {
     errors.push(`[vfx.json] Expected >= 8 VFX atlases, got ${vfx.atlases.length}`);
   }
 
+  // 6. Validate landmarks.json (world landmark animated pixel sheets)
+  const landmarkById = new Map<string, WorldLandmarkManifestFile['landmarks'][number]>();
+  let verifiedLandmarkCount = 0;
+  for (const lm of worldLandmarks.landmarks) {
+    if (landmarkById.has(lm.id)) {
+      errors.push(`[landmarks.json] Duplicate landmark id: "${lm.id}"`);
+    }
+    landmarkById.set(lm.id, lm);
+    if (lm.frameWidth < 32 || lm.frameHeight < 32 || lm.frameCount < 2 || lm.fps <= 0) {
+      errors.push(`[landmarks.json] Invalid dimensions/fps on "${lm.id}"`);
+    }
+    const relLm = `public/${lm.path}`;
+    if (!existsStrictCase(relLm)) {
+      errors.push(`[landmarks.json] Missing or case-mismatched landmark PNG: "${relLm}"`);
+    } else {
+      const dims = readPngDimensions(path.join(ROOT, relLm));
+      const expectedW = lm.frameWidth * lm.frameCount;
+      if (!dims || dims.width !== expectedW || dims.height !== lm.frameHeight) {
+        errors.push(
+          `[landmarks.json] Landmark "${relLm}" dimensions ${dims?.width}x${dims?.height} != expected ${expectedW}x${lm.frameHeight}`
+        );
+      } else {
+        verifiedLandmarkCount += 1;
+      }
+    }
+  }
+  for (const z of seaZones) {
+    for (const isl of z.islands ?? []) {
+      const lm = landmarkById.get(isl.islandId);
+      if (!lm) {
+        errors.push(`[landmarks.json] Missing landmark entry for island "${isl.islandId}"`);
+      } else if (lm.seaZoneId !== z.id || lm.kind !== 'ISLAND') {
+        errors.push(`[landmarks.json] Landmark "${isl.islandId}" seaZoneId/kind mismatch`);
+      }
+    }
+    if (z.seaGate) {
+      const gateLm = landmarkById.get(z.seaGate.gateId);
+      if (!gateLm) {
+        errors.push(`[landmarks.json] Missing landmark entry for seaGate "${z.seaGate.gateId}"`);
+      } else if (gateLm.seaZoneId !== z.id || gateLm.kind !== 'SEA_GATE') {
+        errors.push(`[landmarks.json] Landmark "${z.seaGate.gateId}" seaZoneId/kind mismatch`);
+      }
+    }
+  }
+
   if (errors.length > 0) {
     console.error(`\n❌ Asset manifest validation FAILED (${errors.length} error(s)):\n`);
     for (const err of errors) {
@@ -557,6 +606,7 @@ function main(): void {
     `   • Backdrops: ${backgrounds.backdrops.length} arenas (${verifiedBackdropLayers} 1280x540+ parallax layers)`
   );
   console.log(`   • VFX Atlases: ${verifiedVfxCount} frame-based sprite sheets`);
+  console.log(`   • World Landmarks: ${verifiedLandmarkCount}/${worldLandmarks.landmarks.length} animated 4-frame sheets`);
   console.log(
     `   • Audio: ${audio.bgmTracks.length} BGM tracks, ${audio.sfxEntries.length} SFX entries | External OGG/MP3: ${externalAudioCount}`
   );

@@ -33,6 +33,7 @@ import {
   getZoneTriggerAt,
   moveWithIslandSlide
 } from './islandTileCollision';
+import { markIslandVisited } from './seaChartLogic';
 import { validateIslandDocking } from './seaGateValidator';
 
 export interface IslandExplorationRuntime {
@@ -111,6 +112,7 @@ export function enterIslandEpisode(
     returnSeaPos: { x: state.ship.pos.x, y: state.ship.pos.y }
   };
   state.activeIslandId = islandId;
+  markIslandVisited(state, islandId);
 
   const deactivatedBarrierIds: string[] = [];
   const activatedSwitchIds: string[] = [];

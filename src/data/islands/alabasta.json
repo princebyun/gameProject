@@ -2,26 +2,225 @@
   "islandId": "alabasta",
   "name": "알라바스타 왕국 (알루바르나 궁전 & 지하 신전)",
   "episodeId": "ep_alabasta",
-  "width": 960,
-  "height": 540,
+  "width": 1600,
+  "height": 1152,
   "theme": "HARBOR_TOWN",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 816,
+    "y": 944
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 816,
+      "y": 1008
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 656,
+    "y": 944
+  },
   "obstacles": [
-    { "x": 290, "y": 75, "width": 170, "height": 80, "label": "알루바르나 시계탑" },
-    { "x": 540, "y": 395, "width": 180, "height": 80, "label": "왕가의 무덤 석주" }
+    {
+      "x": 192,
+      "y": 608,
+      "width": 160,
+      "height": 64,
+      "label": "나노하나 바자르 천막"
+    },
+    {
+      "x": 416,
+      "y": 608,
+      "width": 160,
+      "height": 64,
+      "label": "향신료 상점 천막"
+    },
+    {
+      "x": 672,
+      "y": 128,
+      "width": 288,
+      "height": 64,
+      "label": "알루바르나 사암 궁전"
+    }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
   "giantProps": [],
+  "zones": [
+    {
+      "zoneId": "zone_alabasta_nanohana",
+      "name": "나노하나 사막 항구",
+      "subtitle": "알라바스타 출입 관문",
+      "tileX": 18,
+      "tileY": 26,
+      "tileW": 15,
+      "tileH": 6,
+      "accentColor": "#f59e0b"
+    },
+    {
+      "zoneId": "zone_alabasta_bazaar",
+      "name": "바자르 천막 시장",
+      "subtitle": "향신료와 사막 상점가",
+      "tileX": 4,
+      "tileY": 16,
+      "tileW": 16,
+      "tileH": 9,
+      "accentColor": "#fb923c"
+    },
+    {
+      "zoneId": "zone_alabasta_oasis",
+      "name": "야자수 오아시스 & 유적",
+      "subtitle": "사막 속 생명의 샘",
+      "tileX": 31,
+      "tileY": 16,
+      "tileW": 16,
+      "tileH": 15,
+      "accentColor": "#22c55e"
+    },
+    {
+      "zoneId": "zone_alabasta_alubarna",
+      "name": "알루바르나 사암 궁전 & 시계탑",
+      "subtitle": "칠무해 크로커다일 결전지",
+      "tileX": 13,
+      "tileY": 3,
+      "tileW": 25,
+      "tileH": 12,
+      "accentColor": "#facc15"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_alabasta_oasis_palm",
+      "tileX": 43,
+      "tileY": 16,
+      "rarity": "silver",
+      "hiddenHint": "오아시스 야자수 캐노피 뒤편 그늘",
+      "reward": {
+        "berries": 10000,
+        "trainingPoints": 18,
+        "itemLabel": "오아시스 정화수 보물"
+      }
+    },
+    {
+      "chestId": "chest_alabasta_bazaar_alley",
+      "tileX": 9,
+      "tileY": 17,
+      "rarity": "wooden",
+      "hiddenHint": "바자르 천막 오버헤드 뒤 뒷골목",
+      "reward": {
+        "berries": 8500,
+        "trainingPoints": 15,
+        "itemLabel": "나노하나 향신료 금고"
+      }
+    },
+    {
+      "chestId": "chest_alabasta_clock_tower",
+      "tileX": 16,
+      "tileY": 6,
+      "rarity": "gold",
+      "hiddenHint": "알루바르나 시계탑 기둥 뒤",
+      "reward": {
+        "berries": 15000,
+        "trainingPoints": 24,
+        "healPartyRatio": 0.45,
+        "itemLabel": "네펠타리 왕실 성배"
+      }
+    },
+    {
+      "chestId": "chest_alabasta_se_ruins",
+      "tileX": 41,
+      "tileY": 28,
+      "rarity": "silver",
+      "hiddenHint": "사막 남동쪽 사암 유적 기둥 사이",
+      "reward": {
+        "berries": 11000,
+        "trainingPoints": 20,
+        "itemLabel": "고대 플루톤 탐사 유물"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_alabasta_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 나노하나 출항 부두",
+      "tileX": 25,
+      "tileY": 31,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_alabasta_vivi",
+      "kind": "SIDE",
+      "label": "◆ 왕녀 비비 & 석비",
+      "tileX": 23,
+      "tileY": 13,
+      "hideWhenFlagSet": "flag_alabasta_water_hint",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_alabasta_croc",
+      "kind": "MAIN",
+      "label": "★ 크로커다일 결전",
+      "tileX": 25,
+      "tileY": 8,
+      "hideWhenFlagSet": "flag_alabasta_cleared",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_alabasta_bounty",
+      "kind": "ACTIVITY",
+      "label": "📋 왕국 현상금 게시판",
+      "tileX": 21,
+      "tileY": 24,
+      "actionKind": "BOUNTY_BOARD"
+    },
+    {
+      "markerId": "marker_alabasta_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 20,
+      "tileY": 29,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_alabasta_clock",
+      "kind": "CLOCK_TOWER",
+      "tileX": 16,
+      "tileY": 7,
+      "widthTiles": 2,
+      "heightTiles": 3,
+      "label": "시계탑"
+    },
+    {
+      "landmarkId": "lm_alabasta_boat",
+      "kind": "DOCKED_BOAT",
+      "tileX": 18,
+      "tileY": 30,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_alabasta_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 21,
+      "tileY": 23,
+      "widthTiles": 1,
+      "heightTiles": 1
+    }
+  ],
   "npcs": [
     {
       "npcId": "npc_vivi_alabasta",
       "name": "네펠타리 비비 & 포네그리프 석비",
       "roleLabel": "알라바스타 왕녀 · 젖음 공략 힌트",
-      "pos": { "x": 360, "y": 255 },
+      "pos": {
+        "x": 752,
+        "y": 432
+      },
       "interactRadiusPx": 58,
-      "visualScale": 1.0,
+      "visualScale": 1,
       "color": "#38bdf8",
       "setsQuestFlagOnTalk": "flag_alabasta_water_hint",
       "dialogueLines": [
@@ -35,6 +234,165 @@
           "setsFlag": "flag_alabasta_water_hint",
           "responseLine": "[전술 확보] 아레나 물통 3개를 활용해 모래 자연계 크로커다일을 공략합니다!"
         }
+      ],
+      "facing": "right",
+      "ambientBubbleText": "크로커다일은 물통 젖음 상태로 공략해!",
+      "patrolWaypoints": [
+        {
+          "x": 688,
+          "y": 432
+        },
+        {
+          "x": 880,
+          "y": 432
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 85
+    },
+    {
+      "npcId": "npc_cobra",
+      "name": "네펠타리 코브라 국왕",
+      "roleLabel": "알라바스타 제12대 국왕",
+      "pos": {
+        "x": 912,
+        "y": 368
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1.04,
+      "color": "#eab308",
+      "facing": "left",
+      "ambientBubbleText": "이 나라의 백성들과 비를 지켜주게!",
+      "patrolWaypoints": [
+        {
+          "x": 912,
+          "y": 368
+        },
+        {
+          "x": 1072,
+          "y": 368
+        }
+      ],
+      "patrolSpeedPx": 36,
+      "pauseTicks": 90,
+      "dialogueLines": [
+        "코브라: 나라라는 건 사람이다! 왕가의 무덤과 오아시스를 지키는 건 바로 우리 백성들이네."
+      ]
+    },
+    {
+      "npcId": "npc_pell",
+      "name": "수호신 펠",
+      "roleLabel": "알라바스타 왕국 경비부대장",
+      "pos": {
+        "x": 624,
+        "y": 336
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1.02,
+      "color": "#38bdf8",
+      "facing": "down",
+      "ambientBubbleText": "시계탑 뒤쪽까지 경계 이상 무!",
+      "patrolWaypoints": [
+        {
+          "x": 624,
+          "y": 304
+        },
+        {
+          "x": 624,
+          "y": 400
+        }
+      ],
+      "patrolSpeedPx": 44,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "펠: 알루바르나 시계탑 기둥 뒤와 궁전 계단에 숨겨진 왕실 비상 보급품도 확인해 주시오!"
+      ]
+    },
+    {
+      "npcId": "npc_chaka",
+      "name": "호위대장 차카",
+      "roleLabel": "알루바르나 성문 경비대",
+      "pos": {
+        "x": 848,
+        "y": 752
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 1,
+      "color": "#a855f7",
+      "facing": "left",
+      "ambientBubbleText": "동쪽 오아시스에서 갈증을 풀 수 있어.",
+      "patrolWaypoints": [
+        {
+          "x": 816,
+          "y": 752
+        },
+        {
+          "x": 1008,
+          "y": 752
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "차카: 바로크 워크스의 음모를 부수고 궁전 광장을 되찾읍시다!"
+      ]
+    },
+    {
+      "npcId": "npc_bazaar_trader",
+      "name": "바자르 향신료 상인",
+      "roleLabel": "나노하나 시장 상인",
+      "pos": {
+        "x": 336,
+        "y": 752
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.96,
+      "color": "#f97316",
+      "facing": "up",
+      "ambientBubbleText": "천막 뒷골목 그늘이 시원하지!",
+      "patrolWaypoints": [
+        {
+          "x": 272,
+          "y": 752
+        },
+        {
+          "x": 496,
+          "y": 752
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "상인: 천막 뒤쪽 그늘 골목으로 들어가면 밀수꾼들이 숨겨둔 상자를 찾을지도 몰라!"
+      ]
+    },
+    {
+      "npcId": "npc_alabasta_guard",
+      "name": "사막 순찰병",
+      "roleLabel": "오아시스 정찰대",
+      "pos": {
+        "x": 1168,
+        "y": 848
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.98,
+      "color": "#fbbf24",
+      "facing": "left",
+      "ambientBubbleText": "남동쪽 사암 유적 기둥 사이를 조심해.",
+      "patrolWaypoints": [
+        {
+          "x": 1136,
+          "y": 848
+        },
+        {
+          "x": 1232,
+          "y": 848
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "순찰병: 모래폭풍이 몰아치고 있으니 오아시스 야자수 옆에서 숨을 고르게!"
       ]
     }
   ],
@@ -43,9 +401,14 @@
       "encounterId": "enc_alabasta_crocodile_boss",
       "name": "왕하 칠무해 크로커다일 (모래 자연계 · 물통 젖음 기믹전)",
       "isBoss": true,
-      "pos": { "x": 800, "y": 270 },
+      "pos": {
+        "x": 816,
+        "y": 272
+      },
       "triggerRadiusPx": 62,
-      "enemyUnitIds": ["crocodile"],
+      "enemyUnitIds": [
+        "crocodile"
+      ],
       "aiLevel": 3,
       "arenaSizeKey": "large",
       "setsFlagOnVictory": "flag_alabasta_cleared",
@@ -58,32 +421,41 @@
           {
             "id": "alabasta_water_barrel_1",
             "kind": "WATER_BARREL",
-            "pos": { "x": 420, "y": 190 },
+            "pos": {
+              "x": 420,
+              "y": 190
+            },
             "radiusPx": 22,
             "hp": 35,
             "maxHp": 35,
             "wetRadiusPx": 165,
-            "wetDurationSec": 8.0
+            "wetDurationSec": 8
           },
           {
             "id": "alabasta_water_barrel_2",
             "kind": "WATER_BARREL",
-            "pos": { "x": 580, "y": 350 },
+            "pos": {
+              "x": 580,
+              "y": 350
+            },
             "radiusPx": 22,
             "hp": 35,
             "maxHp": 35,
             "wetRadiusPx": 165,
-            "wetDurationSec": 8.0
+            "wetDurationSec": 8
           },
           {
             "id": "alabasta_water_barrel_3",
             "kind": "WATER_BARREL",
-            "pos": { "x": 740, "y": 210 },
+            "pos": {
+              "x": 740,
+              "y": 210
+            },
             "radiusPx": 22,
             "hp": 35,
             "maxHp": 35,
             "wetRadiusPx": 165,
-            "wetDurationSec": 8.0
+            "wetDurationSec": 8
           }
         ]
       },
@@ -92,5 +464,270 @@
         "힌트: 아레나 내 [💧 물통] 3개를 파괴해 크로커다일을 젖음(WET) 상태로 만든 뒤 타격하세요!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "SAND"
+    ],
+    "density": 36
+  },
+  "lightingProfile": {
+    "defaultMood": "DAY",
+    "tintHex": "#f59e0b",
+    "tintAlpha": 0.1,
+    "sunbeams": true,
+    "lanterns": [
+      {
+        "tileX": 17,
+        "tileY": 11,
+        "color": "#fbbf24",
+        "radiusPx": 44
+      },
+      {
+        "tileX": 37,
+        "tileY": 18,
+        "color": "#38bdf8",
+        "radiusPx": 42
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 50,
+    "rows": 36,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber",
+      "n": "snow"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "cssssssssssssssssssssssssssssssssssssssssssssssssc",
+      "cssssssssssssssssssssssssssssssssssssssssssssssssc",
+      "cssssssssssssssssssssssssssssssssssssssssssssssssc",
+      "cssssssssssssppppppppBBBBBBBBBppppppppsssssssssssc",
+      "cssssssssssssppppppppbwbwDwbwbppppppppsssssssssssc",
+      "csssssssssssspppppppppppppppppppppppppsssssssssssc",
+      "csssssssssssspppppppppppppppppppppppppsssssssssssc",
+      "csssssssssssspppppppppppppppppppppppppsssssssssssc",
+      "csssssssssssspppppppppppppppppppppppppsssssssssssc",
+      "csssssssssssspppppppppppppppppppppppppsssssssssssc",
+      "csssssssssssspppppppppppppppppppppppppsssssssssssc",
+      "csssssssssssspppppppppppppppppppppppppsssssssssssc",
+      "csssssssssssspppppppppppppppppppppppppsssssssssssc",
+      "csssssssssssssssssssssspppppsssssssssssssssssssssc",
+      "csssssssssssssssssssssspppppsssssssssssssssssssssc",
+      "csssssssssssssssssssssspppppssssGGGGGGGGGGGGGssssc",
+      "csssssssssssssssssssssspppppssssGGGGGGGGGGGGGssssc",
+      "csssssssssssssssssssssspppppssssGGGGGGGGGGGGGssssc",
+      "csssssBBBBBssBBBBBssssspppppsssss~~~~~~~~~sssssssc",
+      "csssssbwDwbssbwDwbssssspppppsssss~~WWWWWW~sssssssc",
+      "csssssssssssssssssssssspppppsssss~~WWWWWW~sssssssc",
+      "csssssspppppppppppppppppppppppppp~~~~~~~~~sssssssc",
+      "cssssssppppppppppppppppppppppppppppppppppssssssssc",
+      "cssssssppppppppppppppppppppppppppppppppppssssssssc",
+      "csssssssssssssssssssssspppppsssssssssssssssssssssc",
+      "csssssssssssssssssssssspppppsssssssssssssssssssssc",
+      "csssssssssssssssssssssspppppsssssssssssssssssssssc",
+      "csssssssssssssssssssssddddddsssssssssssssssssssssc",
+      "csssssssssssssssssssssddddddsssssssssssssssssssssc",
+      "csssssssssssssssssssssddddddsssssssssssssssssssssc",
+      "csssssssssssssssssssssddddddsssssssssssssssssssssc",
+      "~~~~~~~~~~~~~~~~~~~~~~dddddd~~~~~~~~~~~~~~~~~~~~~~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    ],
+    "detailRows": [
+      "..................................................",
+      ".hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh.",
+      "...f..........ft....f..f......t.....f.f..f...h....",
+      "........t.......................f...f.............",
+      ".............pppppppp.........pppppppp..t....hh...",
+      ".............pppppppp.........pppppppp............",
+      "..........f.hppppppppppppppppppppppppp............",
+      "..........f..ppppppppppppppppppppppcpph...........",
+      "......f.....hppCpppppppppppppppppppppp........f...",
+      ".....f.h..th.ppCpppppppppppppppppppppp...h.hhhf...",
+      "........h...fppppppppppppppppppppppppp............",
+      "...t...t.....pppppppppppppppppppppppppf...........",
+      "......t......ppppppppppppppppppppppppp............",
+      "......t......ppppppppppppppppppppppppp...h........",
+      "..ft...fftf............ppppp.....h.........h......",
+      ".....h.................ppppp..t...f..h............",
+      ".....ssssssssssssss..h.ppppp....GGGGGGGGGGGGG.f...",
+      ".....ssssssssssssss....ppppp.tttGGGGGGGGGGGGG.....",
+      ".....ssssssssssssss....ppppp.h..GGcGGGGGGGcGG.....",
+      ".....................h.ppppp.....q........h.......",
+      ".....................h.pppppt....q.........h......",
+      "......hhhfh..hfhhh.....ppppp..h..q........t.......",
+      ".......ppppppppppppppppppppppppppq..........c.....",
+      ".......pppppppppppppppppppppppppppppppppph..h.....",
+      ".......pppppppppppppppppppppppppppppppppp.........",
+      ".......................pppppf........h............",
+      ".......................ppppp.tf...................",
+      "...........f.....t..t..ppppp......t....C...C......",
+      "................h.th..dddddd......f....h...h.f....",
+      "...........h..........ddddddh.....................",
+      ".........h.h..f.......dddddd......f....C...C...f..",
+      "......................dddddd...........h...h......",
+      "......................dddddd......................",
+      "..................................................",
+      "..................................................",
+      ".................................................."
+    ],
+    "solidRows": [
+      "##################################################",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#....................#########...................#",
+      "#....................#########...................#",
+      "#................................................#",
+      "#..................................#.............#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#.................................#.......#......#",
+      "#.....#####..#####................########.......#",
+      "#.....#####..#####................########.......#",
+      "#.................................########.......#",
+      "#.................................########..#....#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#......................................#...#.....#",
+      "#................................................#",
+      "#................................................#",
+      "#......................................#...#.....#",
+      "#................................................#",
+      "######################......######################",
+      "##################################################",
+      "##################################################",
+      "##################################################"
+    ],
+    "overheadRows": [
+      "..................................................",
+      "..................................................",
+      "....................errrrrrrrre...................",
+      "....................eRRRRRRRRRe...................",
+      ".....................RRRRRRRRR....................",
+      "..................................ooo.............",
+      "..................................oOo.............",
+      "..................................ooo.............",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      ".................................ooo.....ooo......",
+      ".....errrrreerrrrre..............oOo.....oOo......",
+      ".....eRRRRReeRRRRRe..............ooo.....ooo......",
+      "......RRRRR..RRRRR................................",
+      "...........................................ooo....",
+      "...........................................oOo....",
+      "...........................................ooo....",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      ".................................................."
+    ],
+    "surfaceRows": [
+      "ssssssssssssssssssssssssssssssssssssssssssssssssss",
+      "ssssssssssssssssssssssssssssssssssssssssssssssssss",
+      "ssssssssssssssssssssssssssssssssssssssssssssssssss",
+      "ssssssssssssssssssssssssssssssssssssssssssssssssss",
+      "ssssssssssssspppppppppppppppppppppppppssssssssssss",
+      "ssssssssssssspppppppppppppppppppppppppssssssssssss",
+      "ssssssssssssspppppppppppppppppppppppppssssssssssss",
+      "ssssssssssssspppppppppppppppppppppppppssssssssssss",
+      "ssssssssssssspppppppppppppppppppppppppssssssssssss",
+      "ssssssssssssspppppppppppppppppppppppppssssssssssss",
+      "ssssssssssssspppppppppppppppppppppppppssssssssssss",
+      "ssssssssssssspppppppppppppppppppppppppssssssssssss",
+      "ssssssssssssspppppppppppppppppppppppppssssssssssss",
+      "ssssssssssssspppppppppppppppppppppppppssssssssssss",
+      "ssssssssssssssssssssssspppppssssssssssssssssssssss",
+      "ssssssssssssssssssssssspppppssssssssssssssssssssss",
+      "ssssssssssssssssssssssspppppssssgggggggggggggsssss",
+      "ssssssssssssssssssssssspppppssssgggggggggggggsssss",
+      "ssssssssssssssssssssssspppppssssgggggggggggggsssss",
+      "ssssssssssssssssssssssspppppssssswwwwwwwwwssssssss",
+      "ssssssssssssssssssssssspppppssssswwwwwwwwwssssssss",
+      "ssssssssssssssssssssssspppppssssswwwwwwwwwssssssss",
+      "ssssssssssssssssssssssssssssssssswwwwwwwwwssssssss",
+      "ssssssssssssssssssssssssssssssssssssssssssssssssss",
+      "ssssssssssssssssssssssssssssssssssssssssssssssssss",
+      "ssssssssssssssssssssssspppppssssssssssssssssssssss",
+      "ssssssssssssssssssssssspppppssssssssssssssssssssss",
+      "ssssssssssssssssssssssspppppssssssssssssssssssssss",
+      "ssssssssssssssssssssssddddddssssssssssssssssssssss",
+      "ssssssssssssssssssssssddddddssssssssssssssssssssss",
+      "ssssssssssssssssssssssddddddssssssssssssssssssssss",
+      "ssssssssssssssssssssssddddddssssssssssssssssssssss",
+      "wwwwwwwwwwwwwwwwwwwwwwddddddwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    ]
+  }
 }

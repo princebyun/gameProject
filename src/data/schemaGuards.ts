@@ -54,7 +54,8 @@ export {
   assertValidTilesetManifestFile,
   assertValidTrainingRule,
   assertValidTutorMoveDefinition,
-  assertValidVfxManifestFile
+  assertValidVfxManifestFile,
+  assertValidWorldLandmarkManifestFile
 } from './rpgAndAssetSchemaGuards';
 
 export function assertValidBalanceConfig(value: unknown): BalanceConfig {

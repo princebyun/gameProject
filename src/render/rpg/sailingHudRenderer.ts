@@ -51,6 +51,18 @@ export function renderSailingStatusHud(
   );
 }
 
+export function computeLogPoseHudRect(
+  zoneStyle: 'SINGLE_NEEDLE' | 'TRIPLE_NEEDLE_NEW_WORLD',
+  safe: SafeHudBounds
+): { x: number; y: number; w: number; h: number } {
+  const w = 216;
+  const h = zoneStyle === 'TRIPLE_NEEDLE_NEW_WORLD' ? 92 : 64;
+  // Positioned left of top-right SeaMinimapHUD (148px @ safe.right - 158) with 8px gap
+  const x = Math.round(safe.right - 158 - 8 - w);
+  const y = Math.round(10 + safe.top);
+  return { x, y, w, h };
+}
+
 export function renderLogPoseHud(
   ctx: CanvasRenderingContext2D,
   state: RpgCampaignState,
@@ -60,10 +72,7 @@ export function renderLogPoseHud(
 ): void {
   const zone = rpgRegistry.seaZones[state.currentZoneId];
   const needles = computeLogPoseNeedles(state, rpgRegistry);
-  const w = 230;
-  const h = zone.logPoseStyle === 'TRIPLE_NEEDLE_NEW_WORLD' ? 92 : 64;
-  const x = safe.right - w - 10;
-  const y = 10 + safe.top;
+  const { x, y, w, h } = computeLogPoseHudRect(zone.logPoseStyle, safe);
 
   ctx.fillStyle = 'rgba(15, 23, 42, 0.90)';
   ctx.fillRect(x, y, w, h);
@@ -77,8 +86,8 @@ export function renderLogPoseHud(
   ctx.fillStyle = '#fde047';
   const title =
     zone.logPoseStyle === 'TRIPLE_NEEDLE_NEW_WORLD'
-      ? '🧭 신세계 삼침 로그 포스 (3 Needles)'
-      : '🧭 그랜드 라인 기록지침 (Log Pose)';
+      ? '🧭 신세계 삼침 로그 포스'
+      : '🧭 그랜드 라인 기록지침';
   ctx.fillText(title, x + 8, y + 15);
 
   needles.forEach((nd, idx) => {

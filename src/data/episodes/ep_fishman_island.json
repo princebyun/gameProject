@@ -18,21 +18,31 @@
       "title": "징베와 작전 회의",
       "description": "바다의 숲 광장의 징베와 대화하세요.",
       "requiredFlag": "flag_fishman_met_jinbe",
-      "targetPos": { "x": 360, "y": 260 }
+      "targetPos": {
+        "x": 720,
+        "y": 624
+      }
     },
     {
       "stepId": "step_fishman_boss",
       "title": "호디 존스 격파 (E.S 백발 폭주전)",
       "description": "수변 지형과 50% 백발 폭주 탄막을 돌파하고 호디 존스를 쓰러뜨리세요.",
       "requiredFlag": "flag_fishman_island_cleared",
-      "targetPos": { "x": 800, "y": 270 }
+      "targetPos": {
+        "x": 816,
+        "y": 432
+      }
     }
   ],
   "rewards": {
     "berries": 110000,
     "trainingPoints": 90,
     "bountyIncrease": 100000000,
-    "recruitsUnitIds": ["jinbe"],
-    "unlocksCrewRoles": ["HELMSMAN"]
+    "recruitsUnitIds": [
+      "jinbe"
+    ],
+    "unlocksCrewRoles": [
+      "HELMSMAN"
+    ]
   }
 }

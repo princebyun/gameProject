@@ -18,21 +18,31 @@
       "title": "브룩과 대화",
       "description": "안개 묘지 앞의 브룩과 대화하세요.",
       "requiredFlag": "flag_thriller_met_brook",
-      "targetPos": { "x": 355, "y": 260 }
+      "targetPos": {
+        "x": 752,
+        "y": 656
+      }
     },
     {
       "stepId": "step_thriller_boss",
       "title": "칠무해 겟코 모리아 격파",
       "description": "도펠맨 분신 스왑과 섀도즈 아스가르드를 돌파하고 모리아를 쓰러뜨리세요.",
       "requiredFlag": "flag_thriller_bark_cleared",
-      "targetPos": { "x": 800, "y": 270 }
+      "targetPos": {
+        "x": 784,
+        "y": 272
+      }
     }
   ],
   "rewards": {
     "berries": 80000,
     "trainingPoints": 75,
     "bountyIncrease": 100000000,
-    "recruitsUnitIds": ["brook"],
-    "unlocksCrewRoles": ["MUSICIAN"]
+    "recruitsUnitIds": [
+      "brook"
+    ],
+    "unlocksCrewRoles": [
+      "MUSICIAN"
+    ]
   }
 }

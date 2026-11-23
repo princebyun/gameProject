@@ -6,7 +6,9 @@ import {
   renderWantedPosterOverlay
 } from '../../render/dialogueAndPosterRenderer';
 import { renderBattleHud } from '../../render/hudRenderer';
+import { renderBattleSpeedAndPauseHud } from '../../render/hud/battleSpeedHud';
 import { renderIslandEpisodeCanvas } from '../../render/islandRenderer';
+import { renderIslandHeaderAndPromptHud } from '../../render/rpg/islandHudRenderer';
 import { renderMissionTrackerHud } from '../../render/missionTrackerHud';
 import { renderSeaSailingCanvas } from '../../render/sailingRenderer';
 import { renderOnlineAndSpectatorHud } from '../../render/spectatorHudRenderer';
@@ -26,6 +28,17 @@ export function renderActiveSceneFrame(
 ): void {
   const viewport = host.renderer.beginFrame();
   const ctx = host.renderer.ctx;
+
+  const isLegacyOnlyScene =
+    host.activeScene === 'BOOT' ||
+    host.activeScene === 'TITLE' ||
+    host.activeScene === 'OPENING_NARRATION' ||
+    host.activeScene === 'SEA_SAILING' ||
+    host.activeScene === 'ONLINE_BATTLE';
+
+  if (isLegacyOnlyScene && host.verticalSliceController?.getActiveKind() !== 'NONE') {
+    host.verticalSliceController?.releaseActiveSlice(host);
+  }
 
   if (host.activeScene === 'BOOT') {
     renderBootScene(ctx, host.bootState, host.tickCount, viewport);
@@ -50,7 +63,12 @@ export function renderActiveSceneFrame(
       host.assets,
       viewport,
       seaMarkers,
-      host.storyDirector.isGoldMarkerHighlighted()
+      host.storyDirector.isGoldMarkerHighlighted(),
+      {
+        flashEffectEnabled: host.renderer.settings.flashEffectEnabled,
+        wakePool: host.seaWakePool,
+        weatherRenderer: host.seaWeatherRenderer
+      }
     );
     renderMissionTrackerHud(
       ctx,
@@ -77,26 +95,48 @@ export function renderActiveSceneFrame(
     const hasSeaInteractable = Boolean(
       host.lastSailingStep.nearbyIsland || host.lastSailingStep.nearbySeaGate
     );
-    renderTouchOverlay(ctx, host.input, 'SEA', hasSeaInteractable);
+    if (host.seaChartController?.state.isOpen) {
+      host.seaChartController.renderOverlay(ctx, host, viewport);
+    } else {
+      renderTouchOverlay(ctx, host.input, 'SEA', hasSeaInteractable);
+    }
   } else if (host.activeScene === 'ISLAND_EPISODE' && host.islandRuntime) {
     const storyNode = host.storyDirector.getCurrentNode(host.campaign);
     const islandMap = host.rpgRegistry.islands[host.islandRuntime.islandId];
     const islandMarkers = islandMap
       ? collectIslandWorldMarkers(host.campaign, islandMap, storyNode)
       : [];
-    renderIslandEpisodeCanvas(
-      ctx,
-      host.campaign,
-      host.islandRuntime,
-      host.lastIslandStep,
-      host.rpgRegistry,
-      host.gameRegistry,
-      host.assets,
-      host.tickCount,
-      viewport,
-      islandMarkers,
-      host.storyDirector.isGoldMarkerHighlighted()
-    );
+    const renderedByPixi =
+      host.verticalSliceController?.renderFrameIfVerticalSlice(
+        host,
+        viewport,
+        alpha
+      ) ?? false;
+    if (!renderedByPixi) {
+      renderIslandEpisodeCanvas(
+        ctx,
+        host.campaign,
+        host.islandRuntime,
+        host.lastIslandStep,
+        host.rpgRegistry,
+        host.gameRegistry,
+        host.assets,
+        host.tickCount,
+        viewport,
+        islandMarkers,
+        host.storyDirector.isGoldMarkerHighlighted()
+      );
+    } else if (islandMap) {
+      renderIslandHeaderAndPromptHud(
+        ctx,
+        host.campaign,
+        islandMap,
+        host.rpgRegistry.episodes[islandMap.episodeId],
+        host.lastIslandStep,
+        viewport,
+        host.islandRuntime
+      );
+    }
     renderMissionTrackerHud(
       ctx,
       storyNode,
@@ -175,20 +215,28 @@ export function renderActiveSceneFrame(
       viewport
     );
   } else {
-    renderBattleArena(
-      ctx,
-      host.battleWorld,
-      host.gameRegistry,
-      host.assets,
-      alpha,
-      host.renderer.settings,
-      'ALL',
-      viewport,
-      {
-        islandId: host.islandRuntime?.islandId ?? host.campaign.activeIslandId ?? host.campaign.lastDockedPort.islandId,
-        seaZoneId: host.campaign.currentZoneId
-      }
-    );
+    const renderedByPixi =
+      host.verticalSliceController?.renderFrameIfVerticalSlice(
+        host,
+        viewport,
+        alpha
+      ) ?? false;
+    if (!renderedByPixi) {
+      renderBattleArena(
+        ctx,
+        host.battleWorld,
+        host.gameRegistry,
+        host.assets,
+        alpha,
+        host.renderer.settings,
+        'ALL',
+        viewport,
+        {
+          islandId: host.islandRuntime?.islandId ?? host.campaign.activeIslandId ?? host.campaign.lastDockedPort.islandId,
+          seaZoneId: host.campaign.currentZoneId
+        }
+      );
+    }
     renderBattleHud(
       ctx,
       host.battleWorld,
@@ -196,6 +244,12 @@ export function renderActiveSceneFrame(
       host.input.getBindings(),
       host.fps,
       host.input.isTouchViewport(),
+      viewport
+    );
+    renderBattleSpeedAndPauseHud(
+      ctx,
+      host.battleSpeedScale,
+      host.isBattlePaused,
       viewport
     );
     renderTouchOverlay(ctx, host.input);

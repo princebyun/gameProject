@@ -2,6 +2,7 @@ import type { TouchButtonSizePreset } from '../../input/inputManager';
 import type { KeyBindingConfig } from '../../input/keyBindings';
 import type { WindowDisplayMode } from '../../platform/deviceAdapter';
 import type { Disposable } from '../sceneTypes';
+import { normalizeBattleSpeedScale } from './battleSpeedControl';
 import type { SceneManagerHost } from './controllerContracts';
 import type { SceneAudioDirector } from './sceneAudioDirector';
 
@@ -192,11 +193,32 @@ export class SceneTopBarController implements Disposable {
       { signal }
     );
 
+    topBar.querySelector('#btn-visual-polish')?.addEventListener(
+      'click',
+      () => {
+        closeTopMenu();
+        this.host.visualPolishDrawer?.toggle();
+      },
+      { signal }
+    );
+
     this.bindSettingsModalEvents(signal);
   }
 
   private bindSettingsModalEvents(signal: AbortSignal): void {
     const sm = this.host.settingsModalEl;
+    const selBattleSpeed = sm.querySelector('#sel-battle-speed') as HTMLSelectElement | null;
+    if (selBattleSpeed) {
+      selBattleSpeed.value = String(this.host.battleSpeedScale);
+      selBattleSpeed.addEventListener(
+        'change',
+        () => {
+          this.host.setBattleSpeedScale(normalizeBattleSpeedScale(selBattleSpeed.value));
+          this.host.audio.playSfxId('ui_move');
+        },
+        { signal }
+      );
+    }
     sm.querySelector('#btn-close-settings')?.addEventListener(
       'click',
       () => {
@@ -211,7 +233,19 @@ export class SceneTopBarController implements Disposable {
       'change',
       () => {
         this.host.renderer.settings.flashEffectEnabled = chkFlash.checked;
+        this.host.pixiHost?.updatePolishConfig({ flashEffectEnabled: chkFlash.checked });
         void this.host.storage.saveGlobalSettings(this.audioDirector.getCurrentGlobalSettings());
+      },
+      { signal }
+    );
+
+    const selGraphicsQuality = sm.querySelector('#sel-graphics-quality') as HTMLSelectElement | null;
+    selGraphicsQuality?.addEventListener(
+      'change',
+      () => {
+        const q = selGraphicsQuality.value as 'HIGH' | 'MEDIUM' | 'LOW';
+        this.host.pixiHost?.updatePolishConfig({ quality: q });
+        this.host.visualPolishDrawer?.syncFromHost();
       },
       { signal }
     );
@@ -249,6 +283,7 @@ export class SceneTopBarController implements Disposable {
       'input',
       () => {
         this.host.renderer.settings.shakeIntensity = Number(rngShake.value) / 100;
+        this.host.pixiHost?.updatePolishConfig({ shakeIntensity: this.host.renderer.settings.shakeIntensity });
         void this.host.storage.saveGlobalSettings(this.audioDirector.getCurrentGlobalSettings());
       },
       { signal }

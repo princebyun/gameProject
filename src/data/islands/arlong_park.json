@@ -2,26 +2,207 @@
   "islandId": "arlong_park",
   "name": "아론 파크 (코코야시 마을 수변 정원)",
   "episodeId": "ep_arlong_park",
-  "width": 960,
-  "height": 540,
+  "width": 1472,
+  "height": 1088,
   "theme": "CANAL_DOCKYARD",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 752,
+    "y": 912
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 752,
+      "y": 976
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 624,
+    "y": 912
+  },
   "obstacles": [
-    { "x": 300, "y": 70, "width": 160, "height": 85, "label": "아론 파크 톱상어 성문" },
-    { "x": 560, "y": 395, "width": 180, "height": 80, "label": "측량실 탑" }
+    {
+      "x": 608,
+      "y": 128,
+      "width": 256,
+      "height": 64,
+      "label": "아론 파크 본관"
+    },
+    {
+      "x": 1056,
+      "y": 384,
+      "width": 128,
+      "height": 64,
+      "label": "측량실 탑"
+    }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
   "giantProps": [],
+  "zones": [
+    {
+      "zoneId": "zone_arlong_entrance",
+      "name": "코코야시 마을 입구 부두",
+      "subtitle": "나미를 구하기 위한 집결지",
+      "tileX": 16,
+      "tileY": 25,
+      "tileW": 16,
+      "tileH": 7,
+      "accentColor": "#38bdf8"
+    },
+    {
+      "zoneId": "zone_arlong_tangerine",
+      "name": "벨메일의 귤나무 숲길",
+      "subtitle": "초록 수관 오버헤드 캐노피",
+      "tileX": 2,
+      "tileY": 17,
+      "tileW": 15,
+      "tileH": 10,
+      "accentColor": "#fb923c"
+    },
+    {
+      "zoneId": "zone_arlong_gate",
+      "name": "톱상어 성문 광장",
+      "subtitle": "아론 파크 정문 돌파구",
+      "tileX": 17,
+      "tileY": 15,
+      "tileW": 13,
+      "tileH": 10,
+      "accentColor": "#facc15"
+    },
+    {
+      "zoneId": "zone_arlong_pool",
+      "name": "아론 파크 수영장 & 본관",
+      "subtitle": "어인 해적단 수변 결전지",
+      "tileX": 8,
+      "tileY": 2,
+      "tileW": 31,
+      "tileH": 13,
+      "accentColor": "#0284c7"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_arlong_tangerine_secret",
+      "tileX": 4,
+      "tileY": 18,
+      "rarity": "gold",
+      "hiddenHint": "귤나무 숲 캐노피 오버헤드 뒤 비밀 오솔길",
+      "reward": {
+        "berries": 11000,
+        "trainingPoints": 20,
+        "healPartyRatio": 0.4,
+        "itemLabel": "벨메일의 귤나무 유품 상자"
+      }
+    },
+    {
+      "chestId": "chest_arlong_west_palms",
+      "tileX": 10,
+      "tileY": 6,
+      "rarity": "silver",
+      "hiddenHint": "성벽 서쪽 야자수 뒤편",
+      "reward": {
+        "berries": 7500,
+        "trainingPoints": 15,
+        "itemLabel": "어인 보물 창고 금화"
+      }
+    },
+    {
+      "chestId": "chest_arlong_pool_pillar",
+      "tileX": 31,
+      "tileY": 6,
+      "rarity": "wooden",
+      "hiddenHint": "수영장 북동쪽 기둥 뒤편",
+      "reward": {
+        "berries": 6000,
+        "trainingPoints": 12,
+        "itemLabel": "탈환한 해도 궤짝"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_arlong_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 출항 부두",
+      "tileX": 23,
+      "tileY": 30,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_arlong_nami",
+      "kind": "SIDE",
+      "label": "◆ 나미와 결의",
+      "tileX": 14,
+      "tileY": 22,
+      "hideWhenFlagSet": "flag_arlong_nami_helped",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_arlong_boss",
+      "kind": "MAIN",
+      "label": "★ 톱상어 아론 결전",
+      "tileX": 23,
+      "tileY": 7,
+      "hideWhenFlagSet": "flag_arlong_park_cleared",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_arlong_bounty",
+      "kind": "ACTIVITY",
+      "label": "📋 수배 & 정비 캠프",
+      "tileX": 30,
+      "tileY": 24,
+      "actionKind": "CAMP_TRAINING"
+    },
+    {
+      "markerId": "marker_arlong_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 19,
+      "tileY": 28,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_arlong_shark_gate",
+      "kind": "SHARK_GATE",
+      "tileX": 21,
+      "tileY": 15,
+      "widthTiles": 4,
+      "heightTiles": 2,
+      "label": "톱상어 성문",
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_arlong_boat",
+      "kind": "DOCKED_BOAT",
+      "tileX": 16,
+      "tileY": 29,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_arlong_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 30,
+      "tileY": 23,
+      "widthTiles": 1,
+      "heightTiles": 1
+    }
+  ],
   "npcs": [
     {
       "npcId": "npc_nami_arlong",
       "name": "나미 (코코야시 마을)",
       "roleLabel": "눈물의 부탁 · 항해사",
-      "pos": { "x": 350, "y": 260 },
+      "pos": {
+        "x": 464,
+        "y": 720
+      },
       "interactRadiusPx": 56,
-      "visualScale": 1.0,
+      "visualScale": 1,
       "color": "#f97316",
       "setsQuestFlagOnTalk": "flag_arlong_nami_helped",
       "dialogueLines": [
@@ -34,6 +215,136 @@
           "setsFlag": "flag_arlong_nami_helped",
           "responseLine": "[결의] 동료의 눈물을 닦기 위해 아론 파크 수변 아레나로 돌격합니다!"
         }
+      ],
+      "facing": "right",
+      "ambientBubbleText": "루피... 도와줘...",
+      "patrolWaypoints": [
+        {
+          "x": 432,
+          "y": 720
+        },
+        {
+          "x": 560,
+          "y": 720
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 85
+    },
+    {
+      "npcId": "npc_nojiko",
+      "name": "노지코",
+      "roleLabel": "코코야시 마을 언니",
+      "pos": {
+        "x": 272,
+        "y": 656
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 0.98,
+      "color": "#38bdf8",
+      "facing": "down",
+      "ambientBubbleText": "벨메일 씨의 귤나무 숲길에 비밀 길이 있어.",
+      "patrolWaypoints": [
+        {
+          "x": 208,
+          "y": 656
+        },
+        {
+          "x": 368,
+          "y": 656
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "노지코: 나미를 구해줘! 벨메일 씨의 귤밭 뒤편 오솔길에 숨겨둔 보물도 챙겨가렴!"
+      ]
+    },
+    {
+      "npcId": "npc_genzo",
+      "name": "겐조 보안관",
+      "roleLabel": "코코야시 마을 보안관",
+      "pos": {
+        "x": 752,
+        "y": 656
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1,
+      "color": "#facc15",
+      "facing": "up",
+      "ambientBubbleText": "저 톱상어 성문 너머가 아론 파크다!",
+      "patrolWaypoints": [
+        {
+          "x": 624,
+          "y": 656
+        },
+        {
+          "x": 880,
+          "y": 656
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "겐조: 아론 파크 안쪽 수영장 물가에 빠지면 어인족이 강해지니 디딤돌과 육지에서 싸우게!"
+      ]
+    },
+    {
+      "npcId": "npc_nako",
+      "name": "의사 나코",
+      "roleLabel": "코코야시 마을 의사",
+      "pos": {
+        "x": 944,
+        "y": 784
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.95,
+      "color": "#e2e8f0",
+      "facing": "left",
+      "ambientBubbleText": "다친 곳이 있으면 바로 치료해 주지.",
+      "patrolWaypoints": [
+        {
+          "x": 912,
+          "y": 784
+        },
+        {
+          "x": 1072,
+          "y": 784
+        }
+      ],
+      "patrolSpeedPx": 36,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "나코: 마을 사람들의 8년간의 서러움을 오늘 끝내주게!"
+      ]
+    },
+    {
+      "npcId": "npc_cocoyashi_villager",
+      "name": "코코야시 청년",
+      "roleLabel": "풍차 바람개비 마을 주민",
+      "pos": {
+        "x": 400,
+        "y": 400
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.96,
+      "color": "#4ade80",
+      "facing": "right",
+      "ambientBubbleText": "수영장 양옆 회랑으로 우회할 수 있어!",
+      "patrolWaypoints": [
+        {
+          "x": 400,
+          "y": 336
+        },
+        {
+          "x": 400,
+          "y": 464
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 70,
+      "dialogueLines": [
+        "청년: 아론 파크 수영장 양옆 징검다리를 따라 북쪽 본관까지 돌격하자!"
       ]
     }
   ],
@@ -42,9 +353,14 @@
       "encounterId": "enc_arlong_park_boss",
       "name": "톱상어 아론 (수변 지형 어인 버프 & SEA 격수)",
       "isBoss": true,
-      "pos": { "x": 800, "y": 270 },
+      "pos": {
+        "x": 752,
+        "y": 240
+      },
       "triggerRadiusPx": 60,
-      "enemyUnitIds": ["arlong"],
+      "enemyUnitIds": [
+        "arlong"
+      ],
       "aiLevel": 3,
       "arenaSizeKey": "large",
       "setsFlagOnVictory": "flag_arlong_park_cleared",
@@ -54,8 +370,16 @@
       "trainingPointReward": 40,
       "arenaTerrain": {
         "waterZones": [
-          { "x": 420, "y": 210, "radiusPx": 110 },
-          { "x": 700, "y": 430, "radiusPx": 115 }
+          {
+            "x": 420,
+            "y": 210,
+            "radiusPx": 110
+          },
+          {
+            "x": 700,
+            "y": 430,
+            "radiusPx": 115
+          }
         ]
       },
       "dialogueBeforeBattle": [
@@ -63,5 +387,261 @@
         "열매 능력자 주제에 물가에 발을 들인 순간 네놈의 발은 묶인다!!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "LEAF",
+      "DROPLET"
+    ],
+    "density": 30
+  },
+  "lightingProfile": {
+    "defaultMood": "DAY",
+    "tintHex": "#0284c7",
+    "tintAlpha": 0.05,
+    "sunbeams": true,
+    "lanterns": [
+      {
+        "tileX": 20,
+        "tileY": 14,
+        "color": "#38bdf8",
+        "radiusPx": 44
+      },
+      {
+        "tileX": 26,
+        "tileY": 14,
+        "color": "#38bdf8",
+        "radiusPx": 44
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 46,
+    "rows": 34,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber",
+      "n": "snow"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGCGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGCGGGGGc",
+      "cGGGGGGCGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGCGGGGGc",
+      "cGGGGGGCGGGGGGGGGGGBBBBBBBBGGGGGGGGGGGGCGGGGGc",
+      "cGGGGGGCpppppppppppbwbwDwbwppppppppppppCGGGGGc",
+      "cGGGGGGCpppppppppppppppppppppppppppppppCGGGGGc",
+      "cGGGGGGCpppppppppppppppppppppppppppppppCGGGGGc",
+      "cGGGGGGCpppppppppppppppppppppppppppppppCGGGGGc",
+      "cGGGGGGCpppppppp~~~~~~~~~~~~~~pppppppppCGGGGGc",
+      "cGGGGGGCpppppppp~~WWWWWWWWWW~~pppppppppCGGGGGc",
+      "cGGGGGGCpppppppp~~WWWWWWWWWW~~pppppppppCGGGGGc",
+      "cGGGGGGCpppppppp~~~~~~~~~~~~~~pppBBBBppCGGGGGc",
+      "cGGGGGGCpppppppppppppppppppppppppbwDwppCGGGGGc",
+      "cGGGGGGCpppppppppppppppppppppppppppppppCGGGGGc",
+      "cGGGGGGCpppppppppppppppppppppppppppppppCGGGGGc",
+      "cGGGGGGCCCCCCCCCCCCCCppppCCCCCCCCCCCCCCCGGGGGc",
+      "cGgggggggggggggGGGGGGppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGgggggggggggggGGGGGGppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGgggggggggggggGGGGGGppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGgggggggggggggGGGGGGppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGgggggggggggggGGGGGGppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGgggggggggggggpppppppppppppppppGGGGGGGGGGGGGc",
+      "cGgggggggggggggpppppppppppppppppGGGGGGGGGGGGGc",
+      "cGgggggggggggggpppppppppppppppppGGGGGGGGGGGGGc",
+      "cGgggggggggggggpppppppppppppppppGGGGGGGGGGGGGc",
+      "cGgggggggggggggpppppppppppppppppGGGGGGGGGGGGGc",
+      "cGgggggggggggggGGGGGddddddGGGGGGGGGGGGGGGGGGGc",
+      "csssssssssssssssssssddddddsssssssssssssssssssc",
+      "csssssssssssssssssssddddddsssssssssssssssssssc",
+      "csssssssssssssssssssddddddsssssssssssssssssssc",
+      "csssssssssssssssssssddddddsssssssssssssssssssc",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    ],
+    "detailRows": [
+      "..............................................",
+      ".hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh.",
+      "........f............t.t......t.....tt........",
+      "....................................t.........",
+      "....t........f...............f..........f.....",
+      "........ppppppppppp........pppppppppppp...f...",
+      "......t.ppppppppppppppppppppppppppppppp.......",
+      "........ppppppppppppppppppppppkpkpppppp...ft..",
+      "........pcpppppkppppppppppppppppppppppp.......",
+      "........ppppppppq............qppppppppp.t.....",
+      "...t..t.ppppppppq............qppppppppp.......",
+      "........ppppppppq............qppppppppp.t.....",
+      ".....t..pcppppppq............qppp....pp.......",
+      "........pppppppkppppppppppppppppp....pp....t..",
+      "....t...ppppppppppppppppppppppppppppppp.......",
+      "..t.....ppppppppppppppppppppppppppppppp..f.t..",
+      "..t.t.f..............pppp...............t.....",
+      ".....f.hhhhhhhhhhhhhhpppphhhfhtfhhffhhfh......",
+      "...ggggggggg...f.....pppp.f.ft.......t........",
+      "...ggggggggg..t......pppp......fftt...........",
+      ".....................pppp....tft.ft.....f.....",
+      "....c..c..c..........pppp......t...t......f...",
+      "....h..h..h.pppppppppppppppppppp...ct.f.f.t...",
+      ".........t..pppppppppppppppppppp...h..f.......",
+      ".....c..c...pppppppppppppppppppp.......tff.f..",
+      ".....h..h...pppppppppppppppppppp......c.......",
+      "......ff....pppppppppppppppppppp.ft...h.......",
+      "..................f.dddddd....................",
+      "....................dddddd....................",
+      "....................dddddd....................",
+      "....................dddddd....................",
+      "....................dddddd....................",
+      "..............................................",
+      ".............................................."
+    ],
+    "solidRows": [
+      "##############################################",
+      "#............................................#",
+      "#......#...............................#.....#",
+      "#......#...............................#.....#",
+      "#......#...........########............#.....#",
+      "#......#...........########............#.....#",
+      "#......#...............................#.....#",
+      "#......#......................#.#......#.....#",
+      "#......#.#.....#.......................#.....#",
+      "#......#.........############..........#.....#",
+      "#......#.........############..........#.....#",
+      "#......#.........############..........#.....#",
+      "#......#.#.......############....####..#.....#",
+      "#......#.......#.................####..#.....#",
+      "#......#...............................#.....#",
+      "#......#...............................#.....#",
+      "#......##############....###############.....#",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "#...#..#..#..................................#",
+      "#..................................#.........#",
+      "#............................................#",
+      "#....#..#....................................#",
+      "#.....................................#......#",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "#............................................#",
+      "##############################################",
+      "##############################################"
+    ],
+    "overheadRows": [
+      "..............................................",
+      "..............................................",
+      "..................errrrrrrre..................",
+      "..................eRRRRRRRRe..................",
+      "...................RRRRRRRR...................",
+      "..............................................",
+      "........ooo...................................",
+      "........oOo...................................",
+      "........ooo...................................",
+      "..............................................",
+      "........ooo.....................errrre........",
+      "........oOo.....................eRRRRe........",
+      "........ooo......................RRRR.........",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "...ooooooooo..................................",
+      "...oOooOooOo......................ooo.........",
+      "...ooooooooo......................oOo.........",
+      "....oooooo........................ooo.........",
+      "....oOooOo...........................ooo......",
+      "....oooooo...........................oOo......",
+      ".....................................ooo......",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      ".............................................."
+    ],
+    "surfaceRows": [
+      "gggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggg",
+      "ggggggggpppppppppppppppppppppppppppppppggggggg",
+      "ggggggggpppppppppppppppppppppppppppppppggggggg",
+      "ggggggggpppppppppppppppppppppppppppppppggggggg",
+      "ggggggggpppppppppppppppppppppppppppppppggggggg",
+      "ggggggggppppppppwwwwwwwwwwwwwwpppppppppggggggg",
+      "ggggggggppppppppwwwwwwwwwwwwwwpppppppppggggggg",
+      "ggggggggppppppppwwwwwwwwwwwwwwpppppppppggggggg",
+      "ggggggggppppppppwwwwwwwwwwwwwwpppppppppggggggg",
+      "ggggggggpppppppppppppppppppppppppppppppggggggg",
+      "ggggggggpppppppppppppppppppppppppppppppggggggg",
+      "ggggggggpppppppppppppppppppppppppppppppggggggg",
+      "gggggggggggggggggggggppppggggggggggggggggggggg",
+      "gggggggggggggggggggggppppggggggggggggggggggggg",
+      "gggggggggggggggggggggppppggggggggggggggggggggg",
+      "gggggggggggggggggggggppppggggggggggggggggggggg",
+      "gggggggggggggggggggggppppggggggggggggggggggggg",
+      "gggggggggggggggggggggppppggggggggggggggggggggg",
+      "gggggggggggggggpppppppppppppppppgggggggggggggg",
+      "gggggggggggggggpppppppppppppppppgggggggggggggg",
+      "gggggggggggggggpppppppppppppppppgggggggggggggg",
+      "gggggggggggggggpppppppppppppppppgggggggggggggg",
+      "gggggggggggggggpppppppppppppppppgggggggggggggg",
+      "ggggggggggggggggggggddddddgggggggggggggggggggg",
+      "gsssssssssssssssssssddddddsssssssssssssssssssg",
+      "gsssssssssssssssssssddddddsssssssssssssssssssg",
+      "gsssssssssssssssssssddddddsssssssssssssssssssg",
+      "gsssssssssssssssssssddddddsssssssssssssssssssg",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    ]
+  }
 }

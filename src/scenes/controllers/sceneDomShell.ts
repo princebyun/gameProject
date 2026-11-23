@@ -9,6 +9,7 @@ import {
   createMobileVirtualControllerDockElement,
   createSettingsModalElement
 } from '../modals/settingsModal';
+import type { BattleSpeedScale } from './battleSpeedControl';
 import { injectSceneManagerStyles } from './sceneDomStyles';
 
 export interface SceneDomShellParams {
@@ -16,6 +17,7 @@ export interface SceneDomShellParams {
   storage: SaveStorageAdapter;
   input: UnifiedInputManager;
   platformBridge: PlatformBridge;
+  initialBattleSpeed?: BattleSpeedScale;
   isRpgActive: () => boolean;
   onRpgInteract: () => void;
   onCoupDeBurst: () => void;
@@ -23,6 +25,7 @@ export interface SceneDomShellParams {
 
 export interface BuiltSceneDomShell {
   topBar: HTMLElement;
+  canvasWrapper: HTMLElement;
   renderer: CanvasRenderer;
   sideDrawerEl: HTMLElement;
   showcaseBarEl: HTMLElement;
@@ -54,6 +57,7 @@ export function buildSceneDomShell(params: SceneDomShellParams): BuiltSceneDomSh
       <button id="btn-save-menu">💾 저장 / 불러오기</button>
       <button id="btn-toggle-journal">📜 항해 일지</button>
       <button id="btn-settings">⚙ 설정</button>
+      <button id="btn-visual-polish" style="background:#312e81;border-color:#818cf8;color:#e0e7ff;">✨ 비주얼 튜닝</button>
       <button id="btn-return-title" style="background:#334155;border-color:#94a3b8;color:#f8fafc;">🏠 타이틀</button>
     </div>
     <div class="top-bar-group">
@@ -173,7 +177,11 @@ export function buildSceneDomShell(params: SceneDomShellParams): BuiltSceneDomSh
   rootEl.appendChild(saveModalEl);
   const onlineModalEl = createOnlineLobbyModalElement();
   rootEl.appendChild(onlineModalEl);
-  const settingsModalEl = createSettingsModalElement(input, platformBridge);
+  const settingsModalEl = createSettingsModalElement(
+    input,
+    platformBridge,
+    params.initialBattleSpeed
+  );
   rootEl.appendChild(settingsModalEl);
 
   const endgameModalEl = document.createElement('div');
@@ -183,6 +191,7 @@ export function buildSceneDomShell(params: SceneDomShellParams): BuiltSceneDomSh
 
   return {
     topBar,
+    canvasWrapper,
     renderer,
     sideDrawerEl,
     showcaseBarEl,

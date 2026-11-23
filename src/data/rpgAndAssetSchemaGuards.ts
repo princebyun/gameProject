@@ -3,7 +3,8 @@ import type {
   BattleBackdropsManifestFile,
   SpriteSheetManifestFile,
   TilesetManifestFile,
-  VfxManifestFile
+  VfxManifestFile,
+  WorldLandmarkManifestFile
 } from './assets/types';
 import {
   assertArray,
@@ -41,6 +42,49 @@ export function assertValidSeaZoneDefinition(
   assertNumber(obj['width'], `${ctx}.width`);
   assertNumber(obj['height'], `${ctx}.height`);
   assertArray(obj['islands'], `${ctx}.islands`);
+  if (obj['currents'] !== undefined) {
+    const currents = assertArray(obj['currents'], `${ctx}.currents`);
+    for (let i = 0; i < currents.length; i++) {
+      const c = assertRecord(currents[i], `${ctx}.currents[${i}]`);
+      assertNonEmptyString(c['id'], `${ctx}.currents[${i}].id`);
+      assertNonEmptyString(c['name'], `${ctx}.currents[${i}].name`);
+      const pts = assertArray(c['points'], `${ctx}.currents[${i}].points`);
+      if (pts.length < 2) {
+        throw new Error(`${ctx}.currents[${i}].points requires at least 2 waypoints`);
+      }
+      for (let j = 0; j < pts.length; j++) {
+        const pt = assertRecord(pts[j], `${ctx}.currents[${i}].points[${j}]`);
+        assertNumber(pt['x'], `${ctx}.currents[${i}].points[${j}].x`);
+        assertNumber(pt['y'], `${ctx}.currents[${i}].points[${j}].y`);
+      }
+      const widthPx = assertNumber(c['widthPx'], `${ctx}.currents[${i}].widthPx`);
+      const speedPx = assertNumber(c['speedPx'], `${ctx}.currents[${i}].speedPx`);
+      if (widthPx <= 0 || speedPx <= 0) {
+        throw new Error(`${ctx}.currents[${i}] widthPx and speedPx must be > 0`);
+      }
+    }
+  }
+  if (obj['whirlpools'] !== undefined) {
+    const whirlpools = assertArray(obj['whirlpools'], `${ctx}.whirlpools`);
+    for (let i = 0; i < whirlpools.length; i++) {
+      const w = assertRecord(whirlpools[i], `${ctx}.whirlpools[${i}]`);
+      assertNonEmptyString(w['id'], `${ctx}.whirlpools[${i}].id`);
+      const pos = assertRecord(w['pos'], `${ctx}.whirlpools[${i}].pos`);
+      assertNumber(pos['x'], `${ctx}.whirlpools[${i}].pos.x`);
+      assertNumber(pos['y'], `${ctx}.whirlpools[${i}].pos.y`);
+      const outer = assertNumber(w['outerRadiusPx'], `${ctx}.whirlpools[${i}].outerRadiusPx`);
+      const core = assertNumber(w['coreRadiusPx'], `${ctx}.whirlpools[${i}].coreRadiusPx`);
+      if (outer <= core || core <= 0) {
+        throw new Error(`${ctx}.whirlpools[${i}] requires outerRadiusPx > coreRadiusPx > 0`);
+      }
+      assertBoolean(w['clockwise'], `${ctx}.whirlpools[${i}].clockwise`);
+      const swirl = assertNumber(w['swirlStrengthPx'], `${ctx}.whirlpools[${i}].swirlStrengthPx`);
+      const pull = assertNumber(w['pullStrengthPx'], `${ctx}.whirlpools[${i}].pullStrengthPx`);
+      if (swirl <= 0 || pull <= 0) {
+        throw new Error(`${ctx}.whirlpools[${i}] swirlStrengthPx and pullStrengthPx must be > 0`);
+      }
+    }
+  }
   return obj as unknown as SeaZoneDefinition;
 }
 
@@ -308,12 +352,34 @@ export function assertValidVfxManifestFile(value: unknown): VfxManifestFile {
   return obj as unknown as VfxManifestFile;
 }
 
+export function assertValidWorldLandmarkManifestFile(
+  value: unknown
+): WorldLandmarkManifestFile {
+  const obj = assertRecord(value, 'assets.landmarksFile');
+  assertNumber(obj['version'], 'assets.landmarksFile.version');
+  const landmarks = assertArray(obj['landmarks'], 'assets.landmarksFile.landmarks');
+  for (let i = 0; i < landmarks.length; i++) {
+    const lm = assertRecord(landmarks[i], `landmarks[${i}]`);
+    assertNonEmptyString(lm['id'], `landmarks[${i}].id`);
+    assertNonEmptyString(lm['seaZoneId'], `landmarks[${i}].seaZoneId`);
+    assertNonEmptyString(lm['kind'], `landmarks[${i}].kind`);
+    assertNonEmptyString(lm['label'], `landmarks[${i}].label`);
+    assertNumber(lm['frameWidth'], `landmarks[${i}].frameWidth`);
+    assertNumber(lm['frameHeight'], `landmarks[${i}].frameHeight`);
+    assertNumber(lm['frameCount'], `landmarks[${i}].frameCount`);
+    assertNumber(lm['fps'], `landmarks[${i}].fps`);
+    assertNonEmptyString(lm['path'], `landmarks[${i}].path`);
+  }
+  return obj as unknown as WorldLandmarkManifestFile;
+}
+
 export function assertValidAssetManifestRegistry(value: {
   spritesFile: SpriteSheetManifestFile;
   tilesetsFile: TilesetManifestFile;
   audioFile: AudioManifestFile;
   backgroundsFile?: BattleBackdropsManifestFile;
   vfxFile?: VfxManifestFile;
+  landmarksFile?: WorldLandmarkManifestFile;
 }): void {
   assertValidSpriteManifestFile(value.spritesFile);
   assertValidTilesetManifestFile(value.tilesetsFile);
@@ -323,5 +389,8 @@ export function assertValidAssetManifestRegistry(value: {
   }
   if (value.vfxFile) {
     assertValidVfxManifestFile(value.vfxFile);
+  }
+  if (value.landmarksFile) {
+    assertValidWorldLandmarkManifestFile(value.landmarksFile);
   }
 }

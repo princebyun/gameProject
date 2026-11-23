@@ -91,6 +91,13 @@ export class FootstepEffectPool {
       p.maxLife = 18;
       p.size = 3;
       p.color = '#86efac';
+    } else if (material === 'snow') {
+      p.kind = 'DUST';
+      p.vx = ((this.active.length % 2) * 2 - 1) * 0.35;
+      p.vy = -0.3;
+      p.maxLife = 18;
+      p.size = 4;
+      p.color = '#f8fafc';
     } else if (material === 'wood_dock') {
       p.kind = 'DUST';
       p.vx = 0;

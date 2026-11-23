@@ -2,26 +2,214 @@
   "islandId": "orange_town",
   "name": "오렌지 마을 (버기 해적단 점령지)",
   "episodeId": "ep_orange_town",
-  "width": 960,
-  "height": 540,
+  "width": 1408,
+  "height": 960,
   "theme": "HARBOR_TOWN",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 688,
+    "y": 816
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 656,
+      "y": 880
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 560,
+    "y": 784
+  },
   "obstacles": [
-    { "x": 270, "y": 85, "width": 150, "height": 85, "label": "슈슈의 애완동물 가게" },
-    { "x": 520, "y": 380, "width": 170, "height": 85, "label": "버기 탄 포격 잔해" }
+    {
+      "x": 224,
+      "y": 224,
+      "width": 160,
+      "height": 64,
+      "label": "슈슈의 애완동물 가게"
+    },
+    {
+      "x": 448,
+      "y": 288,
+      "width": 160,
+      "height": 64,
+      "label": "버기 탄 반파 민가"
+    },
+    {
+      "x": 928,
+      "y": 704,
+      "width": 192,
+      "height": 64,
+      "label": "항구 자재 창고"
+    }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
   "giantProps": [],
+  "zones": [
+    {
+      "zoneId": "zone_orange_harbor",
+      "name": "오렌지 항구 부두",
+      "subtitle": "이스트 블루 작은 항구",
+      "tileX": 14,
+      "tileY": 23,
+      "tileW": 16,
+      "tileH": 6,
+      "accentColor": "#38bdf8"
+    },
+    {
+      "zoneId": "zone_orange_ruins",
+      "name": "버기 탄 포격 거리",
+      "subtitle": "반파된 벽돌 민가 골목",
+      "tileX": 13,
+      "tileY": 11,
+      "tileW": 16,
+      "tileH": 12,
+      "accentColor": "#fb923c"
+    },
+    {
+      "zoneId": "zone_orange_petshop",
+      "name": "슈슈의 애완동물 가게",
+      "subtitle": "나미와의 조우 & 충견의 수호",
+      "tileX": 2,
+      "tileY": 3,
+      "tileW": 13,
+      "tileH": 10,
+      "accentColor": "#4ade80"
+    },
+    {
+      "zoneId": "zone_orange_circus",
+      "name": "버기 서커스 대광장",
+      "subtitle": "광대 버기 결전지",
+      "tileX": 27,
+      "tileY": 3,
+      "tileW": 15,
+      "tileH": 13,
+      "accentColor": "#ef4444"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_orange_ruined_roof",
+      "tileX": 16,
+      "tileY": 8,
+      "rarity": "silver",
+      "hiddenHint": "반파된 건물 지붕 오버헤드 뒤편 골목",
+      "reward": {
+        "berries": 6000,
+        "trainingPoints": 14,
+        "itemLabel": "벽돌 민가 비상 금고"
+      }
+    },
+    {
+      "chestId": "chest_orange_dock_warehouse",
+      "tileX": 32,
+      "tileY": 21,
+      "rarity": "wooden",
+      "hiddenHint": "항구 남동쪽 창고 지붕 오버헤드 뒤편",
+      "reward": {
+        "berries": 4500,
+        "trainingPoints": 10,
+        "itemLabel": "상인의 비상 식량"
+      }
+    },
+    {
+      "chestId": "chest_orange_nw_rubble",
+      "tileX": 3,
+      "tileY": 5,
+      "rarity": "gold",
+      "hiddenHint": "북서쪽 포격 잔해 막다른 뒷골목",
+      "reward": {
+        "berries": 9500,
+        "trainingPoints": 18,
+        "healPartyRatio": 0.35,
+        "itemLabel": "슈슈가 지켜낸 보물 상자"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_orange_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 출항 부두",
+      "tileX": 20,
+      "tileY": 27,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_orange_nami",
+      "kind": "SIDE",
+      "label": "◆ 나미 (버기 약점 정보)",
+      "tileX": 11,
+      "tileY": 11,
+      "hideWhenFlagSet": "flag_orange_nami_met",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_orange_buggy",
+      "kind": "MAIN",
+      "label": "★ 광대 버기 결전",
+      "tileX": 35,
+      "tileY": 11,
+      "hideWhenFlagSet": "flag_orange_town_cleared",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_orange_bounty",
+      "kind": "ACTIVITY",
+      "label": "📋 마을 수배 게시판",
+      "tileX": 22,
+      "tileY": 15,
+      "actionKind": "BOUNTY_BOARD"
+    },
+    {
+      "markerId": "marker_orange_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 17,
+      "tileY": 24,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_orange_circus",
+      "kind": "CIRCUS_TENT",
+      "tileX": 33,
+      "tileY": 6,
+      "widthTiles": 4,
+      "heightTiles": 3,
+      "label": "버기 서커스 천막",
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_orange_boat",
+      "kind": "DOCKED_BOAT",
+      "tileX": 15,
+      "tileY": 26,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_orange_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 22,
+      "tileY": 14,
+      "widthTiles": 1,
+      "heightTiles": 1
+    }
+  ],
   "npcs": [
     {
       "npcId": "npc_nami_orange",
       "name": "나미 (임시 동행 항해사)",
       "roleLabel": "해적 전문 도둑 · 항해사",
-      "pos": { "x": 330, "y": 240 },
+      "pos": {
+        "x": 368,
+        "y": 368
+      },
       "interactRadiusPx": 52,
-      "visualScale": 1.0,
+      "visualScale": 1,
       "color": "#f97316",
       "setsQuestFlagOnTalk": "flag_orange_nami_met",
       "dialogueLines": [
@@ -34,6 +222,145 @@
           "setsFlag": "flag_orange_nami_met",
           "responseLine": "[임시 동행] 나미가 버기의 참격 면역 약점을 알려주며 일시 동행합니다!"
         }
+      ],
+      "facing": "right",
+      "ambientBubbleText": "버기의 동강동강 열매는 참격 면역이야!",
+      "patrolWaypoints": [
+        {
+          "x": 368,
+          "y": 368
+        },
+        {
+          "x": 528,
+          "y": 368
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 80
+    },
+    {
+      "npcId": "npc_chouchou",
+      "name": "슈슈",
+      "roleLabel": "애완동물 가게의 충견",
+      "pos": {
+        "x": 304,
+        "y": 336
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.85,
+      "color": "#f8fafc",
+      "facing": "down",
+      "ambientBubbleText": "멍! 주인의 가게는 내가 지킨다!",
+      "patrolWaypoints": [
+        {
+          "x": 272,
+          "y": 336
+        },
+        {
+          "x": 400,
+          "y": 336
+        }
+      ],
+      "patrolSpeedPx": 36,
+      "pauseTicks": 70,
+      "dialogueLines": [
+        "슈슈가 가게 앞을 지키며 늠름하게 짖는다. 루피가 챙겨준 사료 냄새에 꼬리를 흔든다!"
+      ]
+    },
+    {
+      "npcId": "npc_boodle",
+      "name": "부들 촌장",
+      "roleLabel": "오렌지 마을 촌장",
+      "pos": {
+        "x": 656,
+        "y": 528
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1,
+      "color": "#eab308",
+      "facing": "left",
+      "ambientBubbleText": "우리 마을을 포격하다니 용서 못 해!",
+      "patrolWaypoints": [
+        {
+          "x": 656,
+          "y": 528
+        },
+        {
+          "x": 784,
+          "y": 528
+        },
+        {
+          "x": 784,
+          "y": 656
+        },
+        {
+          "x": 656,
+          "y": 656
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 85,
+      "dialogueLines": [
+        "부들 촌장: 갑작스러운 버기 해적단의 침공으로 마을 절반이 반파되고 말았네!",
+        "반파된 건물 지붕 뒤편이나 항구 창고 쪽에도 아직 보급품이 남아 있을 거야."
+      ]
+    },
+    {
+      "npcId": "npc_orange_merchant",
+      "name": "피난 상인",
+      "roleLabel": "오렌지 상점가 주민",
+      "pos": {
+        "x": 912,
+        "y": 560
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.96,
+      "color": "#fb923c",
+      "facing": "down",
+      "ambientBubbleText": "서커스 천막 아래가 광대 본거지야!",
+      "patrolWaypoints": [
+        {
+          "x": 880,
+          "y": 560
+        },
+        {
+          "x": 1072,
+          "y": 560
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "상인: 동북쪽 서커스 천막 광장에서 버기가 부하들과 잔치를 벌이고 있더군."
+      ]
+    },
+    {
+      "npcId": "npc_orange_sailor",
+      "name": "항구 선원",
+      "roleLabel": "오렌지 항구 부두지기",
+      "pos": {
+        "x": 816,
+        "y": 816
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.98,
+      "color": "#38bdf8",
+      "facing": "up",
+      "ambientBubbleText": "버기 탄 연기 냄새가 자욱하네!",
+      "patrolWaypoints": [
+        {
+          "x": 816,
+          "y": 816
+        },
+        {
+          "x": 976,
+          "y": 816
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "선원: 동쪽 창고 뒤 모래사장 쪽으로 굴러간 상자를 본 것 같은데..."
       ]
     }
   ],
@@ -42,9 +369,14 @@
       "encounterId": "enc_orange_buggy_boss",
       "name": "광대 버기 (동강동강 열매 · 참격 면역)",
       "isBoss": true,
-      "pos": { "x": 790, "y": 270 },
+      "pos": {
+        "x": 1136,
+        "y": 368
+      },
       "triggerRadiusPx": 58,
-      "enemyUnitIds": ["buggy"],
+      "enemyUnitIds": [
+        "buggy"
+      ],
       "aiLevel": 2,
       "arenaSizeKey": "medium",
       "setsFlagOnVictory": "flag_orange_town_cleared",
@@ -57,5 +389,241 @@
         "특제 [버기 탄]과 동강동강 페스티벌로 마을째 날려주마!!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "SMOKE",
+      "LEAF"
+    ],
+    "density": 28
+  },
+  "lightingProfile": {
+    "defaultMood": "DAY",
+    "tintHex": "#f59e0b",
+    "tintAlpha": 0.06,
+    "sunbeams": true,
+    "lanterns": [
+      {
+        "tileX": 21,
+        "tileY": 18,
+        "color": "#fbbf24",
+        "radiusPx": 44
+      },
+      {
+        "tileX": 34,
+        "tileY": 9,
+        "color": "#ef4444",
+        "radiusPx": 48
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 44,
+    "rows": 30,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber",
+      "n": "snow"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGccccccGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGccccccGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGssssccGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGssssgggggggGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGssssgggggggGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGssssGBBBBBGpppppppGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGbwDwbppppppppGGGGGGGGpppppppppppGGGGc",
+      "cGGGGGGGppppppBBBBBGGGGGGGGGpppppppppppGGGGc",
+      "cGGGGGGGppppppbwDwbGGGGGGGGGpppppppppppGGGGc",
+      "cGGGGGGGppppppppGGGGGGGGGGGGpppppppppppGGGGc",
+      "cGGGGGGGpppppppppppppppppppppppppppppppGGGGc",
+      "cGGGGGGGpppppppppppppppppppppppppppppppGGGGc",
+      "cGGGGGGGpppppppppppppppppppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGppppppGGGGssssssGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGppppppGGGGssssssGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGppppppGGGGBBBBBBGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGppppppGGGGbwbDbwGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGc",
+      "csssssssssssssssssddddddsssssssssssssssssssc",
+      "csssssssssssssssssddddddsssssssssssssssssssc",
+      "c~~~~~~sssssssssssddddddsssssssssssssssssssc",
+      "~~~~~~~~~~~~~~~~~~dddddd~~~~~~~~~~~~~~~~~~~~",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    ],
+    "detailRows": [
+      "............................................",
+      ".hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh.",
+      "..............f..t..f.........ftf.f.........",
+      ".........f.....f........ff.....f...f....f...",
+      "..ssss...........f.f............t.t.........",
+      "..ssssggggggg......f.....f.t...f..t..f.t....",
+      "..ssssggggggg...................t.....t.t...",
+      "..scss.......ppppppp........t......t........",
+      "..fht.......pppppppp.tt.....ppppppppppp.....",
+      "......ttpppppp.......t..f.t.ppppppppppptf...",
+      "........pppppp.....t........ppppppppppp.....",
+      ".....f..pppppppphhht........ppppppppppp.....",
+      "...f....ppppppppppppppppppppppppppppppp.....",
+      ".....f..ppppppppppppppppppppppppppppppp.....",
+      "..f.....ppppppppppppppppppppppppppppkpp.....",
+      "..f....t.........ftpppppp...........f..f....",
+      "...tt....t..t......pppppp.....t.ff......tt..",
+      "...f...............pppppp..t....tt..t.......",
+      "....c....f...kkf..fppppppt..t.....t..f.c....",
+      "...fh.f....f.hh.t..pppppp..kk.t...f....f....",
+      ".......f...........pppppp..hhssssss.f...f...",
+      ".......fftt..f.....pppppp..t.ssssssf.t......",
+      "....fc.....f.f....tpppppp............t......",
+      ".....hff...f....f..pppppp...t...........c...",
+      "....f..t..t..f.....pppppp....hhhhhh.....t...",
+      ".....ff...........dddddd...f...sssssff......",
+      "..................dddddd....................",
+      ".~~~~~~...........dddddd....................",
+      "..................dddddd....................",
+      "............................................"
+    ],
+    "solidRows": [
+      "############################################",
+      "#..........................................#",
+      "#.######...................................#",
+      "#.######...................................#",
+      "#.....##...................................#",
+      "#..........................................#",
+      "#..........................................#",
+      "#..#...#####...............................#",
+      "#......#####...............................#",
+      "#.............#####........................#",
+      "#.............#####........................#",
+      "#..........................................#",
+      "#..........................................#",
+      "#..........................................#",
+      "#...................................#......#",
+      "#..........................................#",
+      "#..........................................#",
+      "#..........................................#",
+      "#...#........##........................#...#",
+      "#..........................##..............#",
+      "#..........................................#",
+      "#..........................................#",
+      "#....#.......................######........#",
+      "#............................######.....#..#",
+      "#..........................................#",
+      "#..........................................#",
+      "#..........................................#",
+      "#..........................................#",
+      "##################......####################",
+      "############################################"
+    ],
+    "overheadRows": [
+      "............................................",
+      "............................................",
+      "............................................",
+      "............................................",
+      "............................................",
+      "..ooo.errrrre...............................",
+      "..oOo.eRRRRRe...............................",
+      "..ooo..RRRRR.errrrre........................",
+      ".............eRRRRRe........................",
+      "..............RRRRR.........................",
+      "............................................",
+      "............................................",
+      "............................................",
+      "............................................",
+      "............................................",
+      "............................................",
+      "...ooo................................ooo...",
+      "...oOo................................oOo...",
+      "...ooo................................ooo...",
+      "............................................",
+      "....ooo.....................errrrrre........",
+      "....oOo.....................eRRRRRRe...ooo..",
+      "....ooo......................RRRRRR....oOo..",
+      ".......................................ooo..",
+      "............................................",
+      "............................................",
+      "............................................",
+      "............................................",
+      "............................................",
+      "............................................"
+    ],
+    "surfaceRows": [
+      "gggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggg",
+      "ggssssgggggggggggggggggggggggggggggggggggggg",
+      "ggssssgggggggggggggggggggggggggggggggggggggg",
+      "ggssssgggggggggggggggggggggggggggggggggggggg",
+      "ggssssgggggggpppppppgggggggggggggggggggggggg",
+      "ggggggggppppppppppppggggggggpppppppppppggggg",
+      "ggggggggppppppppggggggggggggpppppppppppggggg",
+      "ggggggggppppppppggggggggggggpppppppppppggggg",
+      "ggggggggppppppppggggggggggggpppppppppppggggg",
+      "ggggggggpppppppppppppppppppppppppppppppggggg",
+      "ggggggggpppppppppppppppppppppppppppppppggggg",
+      "ggggggggpppppppppppppppppppppppppppppppggggg",
+      "gggggggggggggggggggppppppggggggggggggggggggg",
+      "gggggggggggggggggggppppppggggggggggggggggggg",
+      "gggggggggggggggggggppppppggggggggggggggggggg",
+      "gggggggggggggggggggppppppggggggggggggggggggg",
+      "gggggggggggggggggggppppppggggggggggggggggggg",
+      "gggggggggggggggggggppppppggggssssssggggggggg",
+      "gggggggggggggggggggppppppggggssssssggggggggg",
+      "gggggggggggggggggggppppppggggggggggggggggggg",
+      "gggggggggggggggggggppppppggggggggggggggggggg",
+      "gggggggggggggggggggppppppggggggggggggggggggg",
+      "gsssssssssssssssssddddddsssssssssssssssssssg",
+      "gsssssssssssssssssddddddsssssssssssssssssssg",
+      "gwwwwwwsssssssssssddddddsssssssssssssssssssg",
+      "wwwwwwwwwwwwwwwwwwddddddwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    ]
+  }
 }

@@ -89,7 +89,34 @@
       "triggerRadiusPx": 95,
       "requiredZoneIds": ["east_blue"],
       "description": "4개의 바다 해류가 산 정상으로 역류해 위대한 항로로 쏟아지는 관문입니다."
-    }
+    },
+    "currents": [
+      {
+        "id": "eb_north_trade",
+        "name": "이스트 블루 북부 순풍 해류",
+        "points": [
+          { "x": 420, "y": 175 },
+          { "x": 740, "y": 165 },
+          { "x": 1060, "y": 195 },
+          { "x": 1330, "y": 270 }
+        ],
+        "widthPx": 96,
+        "speedPx": 38
+      },
+      {
+        "id": "eb_south_jet",
+        "name": "코노미 · 오렌지 남부 조류",
+        "points": [
+          { "x": 460, "y": 785 },
+          { "x": 780, "y": 815 },
+          { "x": 1120, "y": 795 },
+          { "x": 1370, "y": 605 }
+        ],
+        "widthPx": 96,
+        "speedPx": 42
+      }
+    ],
+    "whirlpools": []
   },
   {
     "id": "grand_line",
@@ -210,7 +237,72 @@
       "triggerRadiusPx": 100,
       "requiredZoneIds": ["east_blue", "grand_line"],
       "description": "코팅 선박으로 해저 1만 미터를 통과해 사황이 군림하는 신세계로 진입하는 관문입니다."
-    }
+    },
+    "currents": [
+      {
+        "id": "gl_paradise_stream",
+        "name": "낙원 중앙 해류",
+        "points": [
+          { "x": 340, "y": 490 },
+          { "x": 680, "y": 500 },
+          { "x": 940, "y": 490 }
+        ],
+        "widthPx": 92,
+        "speedPx": 48
+      },
+      {
+        "id": "gl_aqua_current",
+        "name": "남부 아쿠아 조류",
+        "points": [
+          { "x": 700, "y": 885 },
+          { "x": 1040, "y": 905 },
+          { "x": 1340, "y": 885 },
+          { "x": 1560, "y": 690 }
+        ],
+        "widthPx": 94,
+        "speedPx": 52
+      },
+      {
+        "id": "gl_marine_rush",
+        "name": "타라이 해류 (해군 급류)",
+        "points": [
+          { "x": 1030, "y": 175 },
+          { "x": 1320, "y": 175 },
+          { "x": 1560, "y": 340 }
+        ],
+        "widthPx": 90,
+        "speedPx": 50
+      }
+    ],
+    "whirlpools": [
+      {
+        "id": "gl_whirl_1",
+        "pos": { "x": 470, "y": 460 },
+        "outerRadiusPx": 95,
+        "coreRadiusPx": 26,
+        "clockwise": true,
+        "swirlStrengthPx": 145,
+        "pullStrengthPx": 48
+      },
+      {
+        "id": "gl_whirl_2",
+        "pos": { "x": 1040, "y": 740 },
+        "outerRadiusPx": 100,
+        "coreRadiusPx": 28,
+        "clockwise": false,
+        "swirlStrengthPx": 155,
+        "pullStrengthPx": 52
+      },
+      {
+        "id": "gl_whirl_3",
+        "pos": { "x": 1480, "y": 540 },
+        "outerRadiusPx": 90,
+        "coreRadiusPx": 26,
+        "clockwise": true,
+        "swirlStrengthPx": 160,
+        "pullStrengthPx": 54
+      }
+    ]
   },
   {
     "id": "new_world",
@@ -307,6 +399,81 @@
         "color": "#facc15"
       }
     ],
-    "seaGate": null
+    "seaGate": null,
+    "currents": [
+      {
+        "id": "nw_ryugu_updraft",
+        "name": "신세계 용궁 해저 해류",
+        "points": [
+          { "x": 280, "y": 480 },
+          { "x": 520, "y": 350 },
+          { "x": 920, "y": 210 },
+          { "x": 1280, "y": 230 }
+        ],
+        "widthPx": 100,
+        "speedPx": 58
+      },
+      {
+        "id": "nw_emperor_jet",
+        "name": "사황 남부 대격류",
+        "points": [
+          { "x": 620, "y": 890 },
+          { "x": 920, "y": 990 },
+          { "x": 1380, "y": 970 },
+          { "x": 1620, "y": 920 }
+        ],
+        "widthPx": 102,
+        "speedPx": 60
+      },
+      {
+        "id": "nw_yggdrasil_stream",
+        "name": "위그드라실 북동 해류",
+        "points": [
+          { "x": 1540, "y": 560 },
+          { "x": 1760, "y": 410 },
+          { "x": 1960, "y": 260 }
+        ],
+        "widthPx": 98,
+        "speedPx": 62
+      }
+    ],
+    "whirlpools": [
+      {
+        "id": "nw_whirl_1",
+        "pos": { "x": 620, "y": 580 },
+        "outerRadiusPx": 105,
+        "coreRadiusPx": 28,
+        "clockwise": true,
+        "swirlStrengthPx": 165,
+        "pullStrengthPx": 56
+      },
+      {
+        "id": "nw_whirl_2",
+        "pos": { "x": 1080, "y": 480 },
+        "outerRadiusPx": 108,
+        "coreRadiusPx": 30,
+        "clockwise": false,
+        "swirlStrengthPx": 175,
+        "pullStrengthPx": 60
+      },
+      {
+        "id": "nw_whirl_3",
+        "pos": { "x": 1400, "y": 740 },
+        "outerRadiusPx": 110,
+        "coreRadiusPx": 30,
+        "clockwise": true,
+        "swirlStrengthPx": 180,
+        "pullStrengthPx": 62
+      },
+      {
+        "id": "nw_whirl_4",
+        "pos": { "x": 1820, "y": 610 },
+        "outerRadiusPx": 104,
+        "coreRadiusPx": 28,
+        "clockwise": false,
+        "swirlStrengthPx": 178,
+        "pullStrengthPx": 60
+      }
+    ]
   }
 ]

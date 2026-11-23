@@ -2,26 +2,200 @@
   "islandId": "thriller_bark",
   "name": "스릴러 바크 (마의 삼각지대 안개 유령선)",
   "episodeId": "ep_thriller_bark",
-  "width": 960,
-  "height": 540,
+  "width": 1536,
+  "height": 1152,
   "theme": "ONIGASHIMA_DOME",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 784,
+    "y": 944
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 784,
+      "y": 1008
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 624,
+    "y": 944
+  },
   "obstacles": [
-    { "x": 280, "y": 75, "width": 160, "height": 85, "label": "안개 묘지 석관" },
-    { "x": 540, "y": 395, "width": 190, "height": 85, "label": "호그백 저택 첨탑" }
+    {
+      "x": 608,
+      "y": 128,
+      "width": 320,
+      "height": 64,
+      "label": "호그백 고딕 대저택"
+    }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
   "giantProps": [],
+  "zones": [
+    {
+      "zoneId": "zone_tb_dock",
+      "name": "유령선 거대 입구 부두",
+      "subtitle": "플로리안 트라이앵글 선착장",
+      "tileX": 17,
+      "tileY": 26,
+      "tileW": 14,
+      "tileH": 6,
+      "accentColor": "#a855f7"
+    },
+    {
+      "zoneId": "zone_tb_graveyard",
+      "name": "안개 낀 묘지 숲",
+      "subtitle": "좀비와 비석의 음산한 숲길",
+      "tileX": 3,
+      "tileY": 16,
+      "tileW": 41,
+      "tileH": 10,
+      "accentColor": "#94a3b8"
+    },
+    {
+      "zoneId": "zone_tb_bridge",
+      "name": "성벽 해자 돌다리",
+      "subtitle": "고딕 저택 진입 관문",
+      "tileX": 19,
+      "tileY": 12,
+      "tileW": 10,
+      "tileH": 4,
+      "accentColor": "#38bdf8"
+    },
+    {
+      "zoneId": "zone_tb_mansion",
+      "name": "고딕 대저택 & 마스트 광장",
+      "subtitle": "겟코 모리아 결전지",
+      "tileX": 12,
+      "tileY": 3,
+      "tileW": 27,
+      "tileH": 9,
+      "accentColor": "#c084fc"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_thriller_west_graves",
+      "tileX": 4,
+      "tileY": 19,
+      "rarity": "silver",
+      "hiddenHint": "묘지 서쪽 비석과 뒤틀린 나무 사이 길",
+      "reward": {
+        "berries": 12000,
+        "trainingPoints": 20,
+        "itemLabel": "소금 탄환 비상 주머니"
+      }
+    },
+    {
+      "chestId": "chest_thriller_twisted_trees",
+      "tileX": 39,
+      "tileY": 18,
+      "rarity": "wooden",
+      "hiddenHint": "동쪽 뒤틀린 나무 숲 캐노피 뒤편",
+      "reward": {
+        "berries": 9500,
+        "trainingPoints": 16,
+        "itemLabel": "유령선 은화 상자"
+      }
+    },
+    {
+      "chestId": "chest_thriller_east_arch",
+      "tileX": 36,
+      "tileY": 4,
+      "rarity": "gold",
+      "hiddenHint": "고딕 대저택 동쪽 폐허 아치 오버헤드 뒤편",
+      "reward": {
+        "berries": 18000,
+        "trainingPoints": 26,
+        "healPartyRatio": 0.45,
+        "itemLabel": "페로나의 보물 창고 열쇠"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_tb_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 유령선 입구 출항",
+      "tileX": 24,
+      "tileY": 31,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_tb_brook",
+      "kind": "SIDE",
+      "label": "◆ 콧노래의 브룩",
+      "tileX": 23,
+      "tileY": 20,
+      "hideWhenFlagSet": "flag_thriller_met_brook",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_tb_moria",
+      "kind": "MAIN",
+      "label": "★ 겟코 모리아 결전",
+      "tileX": 24,
+      "tileY": 8,
+      "hideWhenFlagSet": "flag_thriller_bark_cleared",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_tb_camp",
+      "kind": "ACTIVITY",
+      "label": "📋 롤링 해적단 캠프",
+      "tileX": 31,
+      "tileY": 26,
+      "actionKind": "CAMP_TRAINING"
+    },
+    {
+      "markerId": "marker_tb_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 19,
+      "tileY": 29,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_tb_mast",
+      "kind": "GOTHIC_MAST",
+      "tileX": 13,
+      "tileY": 5,
+      "widthTiles": 3,
+      "heightTiles": 3,
+      "label": "고딕 대마스트",
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_tb_boat",
+      "kind": "DOCKED_BOAT",
+      "tileX": 17,
+      "tileY": 30,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_tb_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 31,
+      "tileY": 25,
+      "widthTiles": 1,
+      "heightTiles": 1
+    }
+  ],
   "npcs": [
     {
       "npcId": "npc_brook_thriller",
       "name": "콧노래의 브룩",
       "roleLabel": "유령선 음악가 · 그림자 탈환",
-      "pos": { "x": 355, "y": 260 },
+      "pos": {
+        "x": 752,
+        "y": 656
+      },
       "interactRadiusPx": 56,
-      "visualScale": 1.0,
+      "visualScale": 1,
       "color": "#f8fafc",
       "setsQuestFlagOnTalk": "flag_thriller_met_brook",
       "dialogueLines": [
@@ -34,6 +208,136 @@
           "setsFlag": "flag_thriller_met_brook",
           "responseLine": "[결의] 새벽이 오기 전에 칠무해 겟코 모리아를 쓰러뜨립니다!"
         }
+      ],
+      "facing": "down",
+      "ambientBubbleText": "요호호호! 내 그림자를 되찾아 주세요!",
+      "patrolWaypoints": [
+        {
+          "x": 720,
+          "y": 656
+        },
+        {
+          "x": 848,
+          "y": 656
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 80
+    },
+    {
+      "npcId": "npc_lola",
+      "name": "구혼자 로라",
+      "roleLabel": "롤링 해적단 선장",
+      "pos": {
+        "x": 464,
+        "y": 720
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1.02,
+      "color": "#f472b6",
+      "facing": "right",
+      "ambientBubbleText": "저와 결혼해 주시겠어요?!",
+      "patrolWaypoints": [
+        {
+          "x": 400,
+          "y": 720
+        },
+        {
+          "x": 592,
+          "y": 720
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "로라: 햇빛이 들기 전에 모리아를 쓰러뜨리지 않으면 그림자를 빼앗긴 자들이 재가 되어버려!"
+      ]
+    },
+    {
+      "npcId": "npc_thriller_victim",
+      "name": "그림자 잃은 선장",
+      "roleLabel": "안개 묘지 생존자",
+      "pos": {
+        "x": 1008,
+        "y": 720
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.96,
+      "color": "#94a3b8",
+      "facing": "left",
+      "ambientBubbleText": "동쪽 뒤틀린 숲 뒤에 숨을 데가 있어.",
+      "patrolWaypoints": [
+        {
+          "x": 944,
+          "y": 720
+        },
+        {
+          "x": 1136,
+          "y": 720
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "선장: 묘지 서쪽 비석 사이 길과 동쪽 나무 뒤편에도 아직 건지지 못한 유령선 보물이 남아 있네."
+      ]
+    },
+    {
+      "npcId": "npc_grave_watcher",
+      "name": "묘지 안내인",
+      "roleLabel": "마의 삼각지대 목격자",
+      "pos": {
+        "x": 784,
+        "y": 496
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.95,
+      "color": "#a855f7",
+      "facing": "up",
+      "ambientBubbleText": "돌다리를 건너면 모리아의 저택이야.",
+      "patrolWaypoints": [
+        {
+          "x": 720,
+          "y": 496
+        },
+        {
+          "x": 848,
+          "y": 496
+        }
+      ],
+      "patrolSpeedPx": 36,
+      "pauseTicks": 85,
+      "dialogueLines": [
+        "안내인: 해자를 가로지르는 돌다리 너머 거대한 마스트 광장에 칠무해 겟코 모리아가 기다립니다!"
+      ]
+    },
+    {
+      "npcId": "npc_thriller_scout",
+      "name": "유령선 정찰대",
+      "roleLabel": "롤링 해적단 동료",
+      "pos": {
+        "x": 528,
+        "y": 336
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.98,
+      "color": "#38bdf8",
+      "facing": "right",
+      "ambientBubbleText": "저택 동쪽 폐허 아치 뒤도 확인해 봐!",
+      "patrolWaypoints": [
+        {
+          "x": 464,
+          "y": 336
+        },
+        {
+          "x": 592,
+          "y": 336
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "정찰대: 모리아의 도펠맨과 섀도즈 아스가르드는 정면 화력으로 밀어붙여 해제해야 합니다!"
       ]
     }
   ],
@@ -42,9 +346,14 @@
       "encounterId": "enc_thriller_moria_boss",
       "name": "왕하 칠무해 겟코 모리아 (도펠맨 분신 & 섀도즈 아스가르드)",
       "isBoss": true,
-      "pos": { "x": 800, "y": 270 },
+      "pos": {
+        "x": 784,
+        "y": 272
+      },
       "triggerRadiusPx": 60,
-      "enemyUnitIds": ["moria"],
+      "enemyUnitIds": [
+        "moria"
+      ],
       "aiLevel": 4,
       "arenaSizeKey": "large",
       "setsFlagOnVictory": "flag_thriller_bark_cleared",
@@ -57,5 +366,277 @@
         "힌트: 섀도즈 아스가르드 변신 중 집중 피해를 입히면 그림자를 토출하며 변신이 강제 해제됩니다!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "CLOUD_MIST",
+      "BAT"
+    ],
+    "density": 36
+  },
+  "lightingProfile": {
+    "defaultMood": "NIGHT",
+    "tintHex": "#1e1b4b",
+    "tintAlpha": 0.3,
+    "sunbeams": false,
+    "lanterns": [
+      {
+        "tileX": 22,
+        "tileY": 14,
+        "color": "#c084fc",
+        "radiusPx": 50
+      },
+      {
+        "tileX": 26,
+        "tileY": 14,
+        "color": "#c084fc",
+        "radiusPx": 50
+      },
+      {
+        "tileX": 24,
+        "tileY": 7,
+        "color": "#a855f7",
+        "radiusPx": 58
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 48,
+    "rows": 36,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber",
+      "n": "snow"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccccc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGc",
+      "cGGGGGGGGGGGpppppppBBBBBBBBBBpppppppppGGGGGGGGGc",
+      "cGGGGGGGGGGGpppppppbwbwbDbwbwpppppppppGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGc",
+      "c~~~~~~~~~~~~~~~~~~~~pppppp~~~~~~~~~~~~~~~~~~~~c",
+      "c~~~~~~~~~~~~~~~~~~~~pppppp~~~~~~~~~~~~~~~~~~~~c",
+      "cGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGppppppppppppppppppppppppppppppppGGGGGGc",
+      "cGGGGGGGGppppppppppppppppppppppppppppppppGGGGGGc",
+      "cGGGGGGGGppppppppppppppppppppppppppppppppGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGc",
+      "~~~~~~~~~~~~~~~~~~~~~dddddd~~~~~~~~~~~~~~~~~~~~~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    ],
+    "detailRows": [
+      "................................................",
+      ".hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh.",
+      "..t.............................t.t.............",
+      "......t.....pppppppppppppppppppppppppp..........",
+      "..t..t......ppppppp..........pppppppppt.t.......",
+      ".....t..t...ppppppp..........ppppppppp..........",
+      ".........t..ppppppppppppppppppppppCpppCt........",
+      "....t......tppppppppppppppppppppppCpppC.....t...",
+      "............pppppppppppppppppppppppppph.........",
+      "........t...pppppppppppppppppppppppppp......t...",
+      ".....t......pppppppppppppppppppppppppp..t.......",
+      "...tt.......pppppppppppppppppppppppppp..t.......",
+      ".....................pppppp.t....t..............",
+      ".....................pppppp.....................",
+      ".....................pppppp.....................",
+      ".hhthhhhhhhhhhhhhhhhhpppppphthhhhhhhhthhhhhhthh.",
+      ".....................pppppp............t........",
+      "...tt......t......t..pppppp....t.....tt.....tt..",
+      "...GGGGGG............pppppp.......tt............",
+      "..tGGGGGG....k..k....pppppp.....k..kt.......t...",
+      "...GGGcGG.c..h..h....pppppptt...h..h..c..c......",
+      "...GGGGGGpppppppppppppppppppppppppppppppph......",
+      "...GGGGGGpppppppppppppppppppppppppppppppp.......",
+      "...GkGGGGpppppppppppppppppppppppppppppppp...t...",
+      "....tt..t.tt......tt.pppppp.....................",
+      ".....t.c.....k.......ppppppt..t........c........",
+      ".......t.....h.......pppppp...........th........",
+      "........t.......t.t..pppppp......t..............",
+      "......t...tt...t....tdddddd.......tt...t........",
+      "......t...........t..dddddd........t...t........",
+      "......t..t...........dddddd...tt.............t..",
+      ".....................dddddd.....................",
+      ".....................dddddd.....................",
+      "................................................",
+      "................................................",
+      "................................................"
+    ],
+    "solidRows": [
+      "################################################",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..................##########..................#",
+      "#..................##########..................#",
+      "#.................................#...#........#",
+      "#.................................#...#........#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#####################......#####################",
+      "#####################......#####################",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#............#..#...............#..#...........#",
+      "#.....#...#...........................#..#.....#",
+      "#..............................................#",
+      "#..............................................#",
+      "#...#..........................................#",
+      "#..............................................#",
+      "#......#.....#.........................#.......#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#####################......#####################",
+      "################################################",
+      "################################################",
+      "################################################"
+    ],
+    "overheadRows": [
+      "................................................",
+      "................................................",
+      "..................errrrrrrrrre..................",
+      "..................eRRRRRRRRRRe..................",
+      "...................RRRRRRRRRR...................",
+      "................................................",
+      "..................................rrrrr.........",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      ".....ooo.ooo.........................oooooo.....",
+      ".....oOo.oOo.........................oOooOo.....",
+      ".....ooo.ooo.........................oooooo.....",
+      "................................................",
+      "................................................",
+      "......ooo.............................ooo.......",
+      "......oOo.............................oOo.......",
+      "......ooo.............................ooo.......",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................"
+    ],
+    "surfaceRows": [
+      "gggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggg",
+      "gggggggggggggggggggggppppppggggggggggggggggggggg",
+      "gwwwwwwwwwwwwwwwwwwwwppppppwwwwwwwwwwwwwwwwwwwwg",
+      "gwwwwwwwwwwwwwwwwwwwwppppppwwwwwwwwwwwwwwwwwwwwg",
+      "gggggggggggggggggggggppppppggggggggggggggggggggg",
+      "gggggggggggggggggggggppppppggggggggggggggggggggg",
+      "gggggggggggggggggggggppppppggggggggggggggggggggg",
+      "gggggggggggggggggggggppppppggggggggggggggggggggg",
+      "gggggggggggggggggggggppppppggggggggggggggggggggg",
+      "gggggggggggggggggggggppppppggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggppppppggggggggggggggggggggg",
+      "gggggggggggggggggggggppppppggggggggggggggggggggg",
+      "gggggggggggggggggggggppppppggggggggggggggggggggg",
+      "gggggggggggggggggggggppppppggggggggggggggggggggg",
+      "gggggggggggggggggggggddddddggggggggggggggggggggg",
+      "gggggggggggggggggggggddddddggggggggggggggggggggg",
+      "gggggggggggggggggggggddddddggggggggggggggggggggg",
+      "gggggggggggggggggggggddddddggggggggggggggggggggg",
+      "wwwwwwwwwwwwwwwwwwwwwddddddwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    ]
+  }
 }

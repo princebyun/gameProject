@@ -226,13 +226,18 @@ export function renderIslandEpisodeCanvas(
   ctx.restore();
 
   // Layer 5: Pooled Biome Ambient Particles
+  const usePostClearParticles = Boolean(
+    islandMap.ambientProfile?.postClearParticles &&
+      state.completedEpisodes.includes(islandMap.episodeId)
+  );
   assets.ambientParticles.stepAndRender(
     ctx,
     islandBiome.biomeId,
     viewW,
     viewH,
     tick,
-    islandMap.ambientProfile
+    islandMap.ambientProfile,
+    usePostClearParticles
   );
 
   // Layer 6: Atmospheric Time-of-Day Tint, Pre-Baked Glow Pools & Vignette (0 blur)

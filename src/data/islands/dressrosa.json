@@ -2,26 +2,233 @@
   "islandId": "dressrosa",
   "name": "드레스로자 (코리다 콜로세움 & 왕궁 대지)",
   "episodeId": "ep_dressrosa",
-  "width": 960,
-  "height": 540,
+  "width": 1664,
+  "height": 1152,
   "theme": "HARBOR_TOWN",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 848,
+    "y": 944
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 848,
+      "y": 1008
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 688,
+    "y": 944
+  },
   "obstacles": [
-    { "x": 280, "y": 75, "width": 170, "height": 85, "label": "코리다 콜로세움 외벽" },
-    { "x": 540, "y": 395, "width": 190, "height": 85, "label": "해바라기 언덕 왕궁 계단" }
+    {
+      "x": 640,
+      "y": 576,
+      "width": 160,
+      "height": 64,
+      "label": "아카시아 붉은 지붕 민가"
+    },
+    {
+      "x": 864,
+      "y": 576,
+      "width": 160,
+      "height": 64,
+      "label": "장난감 공방 거리가옥"
+    },
+    {
+      "x": 192,
+      "y": 608,
+      "width": 224,
+      "height": 64,
+      "label": "코리다 콜로세움 외곽"
+    },
+    {
+      "x": 832,
+      "y": 128,
+      "width": 256,
+      "height": 64,
+      "label": "드레스로자 왕궁 대지"
+    }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
   "giantProps": [],
+  "zones": [
+    {
+      "zoneId": "zone_dressrosa_acacia",
+      "name": "아카시아 항구 & 붉은 지붕 거리",
+      "subtitle": "정열과 장난감의 지중해 도시",
+      "tileX": 16,
+      "tileY": 16,
+      "tileW": 20,
+      "tileH": 15,
+      "accentColor": "#fb923c"
+    },
+    {
+      "zoneId": "zone_dressrosa_colosseum",
+      "name": "코리다 콜로세움 외곽 광장",
+      "subtitle": "신세계 검투사 토너먼트 아레나",
+      "tileX": 4,
+      "tileY": 12,
+      "tileW": 15,
+      "tileH": 12,
+      "accentColor": "#facc15"
+    },
+    {
+      "zoneId": "zone_dressrosa_sunflower",
+      "name": "해바라기 언덕",
+      "subtitle": "스칼렛과 큐로스의 꽃밭",
+      "tileX": 35,
+      "tileY": 14,
+      "tileW": 14,
+      "tileH": 13,
+      "accentColor": "#4ade80"
+    },
+    {
+      "zoneId": "zone_dressrosa_palace",
+      "name": "왕궁 대지 입구",
+      "subtitle": "칠무해 도플라밍고 새장 결전지",
+      "tileX": 21,
+      "tileY": 3,
+      "tileW": 20,
+      "tileH": 9,
+      "accentColor": "#ec4899"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_dressrosa_colosseum_alley",
+      "tileX": 9,
+      "tileY": 17,
+      "rarity": "silver",
+      "hiddenHint": "코리다 콜로세움 외곽 뒷골목",
+      "reward": {
+        "berries": 20000,
+        "trainingPoints": 28,
+        "itemLabel": "검투사 챔피언 기념 주화"
+      }
+    },
+    {
+      "chestId": "chest_dressrosa_sunflower_trees",
+      "tileX": 42,
+      "tileY": 16,
+      "rarity": "wooden",
+      "hiddenHint": "해바라기 언덕 오버헤드 나무 뒤편",
+      "reward": {
+        "berries": 16000,
+        "trainingPoints": 22,
+        "itemLabel": "톤타타 꽃밭 비상 식량"
+      }
+    },
+    {
+      "chestId": "chest_dressrosa_roof_passage",
+      "tileX": 26,
+      "tileY": 17,
+      "rarity": "silver",
+      "hiddenHint": "붉은 지붕 민가 사이 좁은 통로 뒤편",
+      "reward": {
+        "berries": 22000,
+        "trainingPoints": 30,
+        "itemLabel": "아카시아 요정 보석함"
+      }
+    },
+    {
+      "chestId": "chest_dressrosa_palace_terrace",
+      "tileX": 38,
+      "tileY": 7,
+      "rarity": "gold",
+      "hiddenHint": "왕궁 대지 계단 아래 동쪽 테라스",
+      "reward": {
+        "berries": 30000,
+        "trainingPoints": 38,
+        "healPartyRatio": 0.5,
+        "itemLabel": "리쿠 왕가 해방의 훈장"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_dress_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 아카시아 출항 부두",
+      "tileX": 26,
+      "tileY": 31,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_dress_law",
+      "kind": "SIDE",
+      "label": "◆ 동맹 트라팔가 로",
+      "tileX": 24,
+      "tileY": 12,
+      "hideWhenFlagSet": "flag_dressrosa_law_alliance",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_dress_doffy",
+      "kind": "MAIN",
+      "label": "★ 도플라밍고 결전",
+      "tileX": 30,
+      "tileY": 8,
+      "hideWhenFlagSet": "flag_dressrosa_cleared",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_dress_colosseum",
+      "kind": "ACTIVITY",
+      "label": "🏆 코리다 콜로세움",
+      "tileX": 14,
+      "tileY": 15,
+      "actionKind": "BOUNTY_BOARD"
+    },
+    {
+      "markerId": "marker_dress_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 21,
+      "tileY": 29,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_dress_colosseum",
+      "kind": "COLOSSEUM_ARCH",
+      "tileX": 6,
+      "tileY": 14,
+      "widthTiles": 6,
+      "heightTiles": 2,
+      "label": "코리다 콜로세움 아치",
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_dress_boat",
+      "kind": "SUNNY_DOCK",
+      "tileX": 18,
+      "tileY": 30,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_dress_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 31,
+      "tileY": 26,
+      "widthTiles": 1,
+      "heightTiles": 1
+    }
+  ],
   "npcs": [
     {
       "npcId": "npc_law_dressrosa",
       "name": "트라팔가 로 (해적 동맹)",
       "roleLabel": "드레스로자 공동전선 · 새장 경고",
-      "pos": { "x": 360, "y": 260 },
+      "pos": {
+        "x": 784,
+        "y": 400
+      },
       "interactRadiusPx": 56,
-      "visualScale": 1.0,
+      "visualScale": 1,
       "color": "#38bdf8",
       "setsQuestFlagOnTalk": "flag_dressrosa_law_alliance",
       "dialogueLines": [
@@ -34,13 +241,30 @@
           "setsFlag": "flag_dressrosa_law_alliance",
           "responseLine": "[동맹 돌격] 드레스로자 왕궁 정상에서 칠무해 도플라밍고와 결전합니다!"
         }
-      ]
+      ],
+      "facing": "right",
+      "ambientBubbleText": "도플라밍고의 새장을 부순다!",
+      "patrolWaypoints": [
+        {
+          "x": 752,
+          "y": 400
+        },
+        {
+          "x": 880,
+          "y": 400
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 80
     },
     {
       "npcId": "npc_corrida_colosseum",
       "name": "코리다 콜로세움 안내원 · 기술 전수 교관",
       "roleLabel": "엔드게임 토너먼트 & CP 기술 전수",
-      "pos": { "x": 365, "y": 195 },
+      "pos": {
+        "x": 464,
+        "y": 496
+      },
       "interactRadiusPx": 58,
       "visualScale": 1.05,
       "color": "#facc15",
@@ -54,6 +278,136 @@
           "triggersEndgameMode": "COLOSSEUM",
           "responseLine": "[코리다 콜로세움] 8강 토너먼트 대진표와 기술 전수 교관 메뉴를 엽니다!"
         }
+      ],
+      "facing": "right",
+      "ambientBubbleText": "코리다 콜로세움 토너먼트 참가 접수!",
+      "patrolWaypoints": [
+        {
+          "x": 432,
+          "y": 496
+        },
+        {
+          "x": 528,
+          "y": 496
+        }
+      ],
+      "patrolSpeedPx": 36,
+      "pauseTicks": 90
+    },
+    {
+      "npcId": "npc_rebecca",
+      "name": "검투사 레베카",
+      "roleLabel": "콜로세움 D블록 무패 검투사",
+      "pos": {
+        "x": 304,
+        "y": 432
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 0.98,
+      "color": "#f472b6",
+      "facing": "down",
+      "ambientBubbleText": "루시! 콜로세움에서 꼭 승리해요!",
+      "patrolWaypoints": [
+        {
+          "x": 240,
+          "y": 432
+        },
+        {
+          "x": 400,
+          "y": 432
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "레베카: 병정 아저씨와 해바라기 밭에서 함께 살 수 있게 도플라밍고를 쓰러뜨려 주세요!"
+      ]
+    },
+    {
+      "npcId": "npc_kyros",
+      "name": "외다리 병정 큐로스",
+      "roleLabel": "전설의 검투사 · 톤타타 반군",
+      "pos": {
+        "x": 1200,
+        "y": 656
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1.04,
+      "color": "#fb923c",
+      "facing": "left",
+      "ambientBubbleText": "해바라기 언덕 너머가 왕궁 대지다!",
+      "patrolWaypoints": [
+        {
+          "x": 1168,
+          "y": 656
+        },
+        {
+          "x": 1264,
+          "y": 784
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "큐로스: 10년간 장난감 병정으로 버텨왔소! 동쪽 해바라기 숲 뒤와 왕궁 테라스도 확인해 주시오."
+      ]
+    },
+    {
+      "npcId": "npc_leo",
+      "name": "톤타타 족 레오",
+      "roleLabel": "소인족 톤타타 용사",
+      "pos": {
+        "x": 1072,
+        "y": 432
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.85,
+      "color": "#4ade80",
+      "facing": "left",
+      "ambientBubbleText": "실실 열매 각성 공격을 조심해란말야!",
+      "patrolWaypoints": [
+        {
+          "x": 1040,
+          "y": 432
+        },
+        {
+          "x": 1168,
+          "y": 432
+        }
+      ],
+      "patrolSpeedPx": 48,
+      "pauseTicks": 65,
+      "dialogueLines": [
+        "레오: SOP 작전으로 장난감들이 전부 원래 모습으로 돌아오기 시작했어란말야!"
+      ]
+    },
+    {
+      "npcId": "npc_dressrosa_toy",
+      "name": "아카시아 장난감 주민",
+      "roleLabel": "사랑과 정열의 나라 시민",
+      "pos": {
+        "x": 688,
+        "y": 784
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.94,
+      "color": "#facc15",
+      "facing": "up",
+      "ambientBubbleText": "붉은 지붕 사이 좁은 통로가 지름길!",
+      "patrolWaypoints": [
+        {
+          "x": 624,
+          "y": 784
+        },
+        {
+          "x": 944,
+          "y": 784
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "장난감 주민: 붉은 지붕 거리 사이 좁은 돌길에 숨겨진 보물 상자가 하나 놓여 있더군!"
       ]
     }
   ],
@@ -62,9 +416,14 @@
       "encounterId": "enc_dressrosa_doffy_boss",
       "name": "돈키호테 도플라밍고 (새장 점진 축소 & 실 각성 갓 스레드)",
       "isBoss": true,
-      "pos": { "x": 800, "y": 270 },
+      "pos": {
+        "x": 976,
+        "y": 272
+      },
       "triggerRadiusPx": 62,
-      "enemyUnitIds": ["doflamingo"],
+      "enemyUnitIds": [
+        "doflamingo"
+      ],
       "aiLevel": 4,
       "arenaSizeKey": "large",
       "setsFlagOnVictory": "flag_dressrosa_cleared",
@@ -77,5 +436,271 @@
         "힌트: 새장 경계에 닿지 않게 중앙에서 싸우며 도플라밍고를 격파하면 새장이 즉시 붕괴됩니다!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "PETAL",
+      "LEAF"
+    ],
+    "density": 34
+  },
+  "lightingProfile": {
+    "defaultMood": "DAY",
+    "tintHex": "#fde047",
+    "tintAlpha": 0.06,
+    "sunbeams": true,
+    "lanterns": [
+      {
+        "tileX": 25,
+        "tileY": 21,
+        "color": "#fde047",
+        "radiusPx": 44
+      },
+      {
+        "tileX": 30,
+        "tileY": 7,
+        "color": "#ec4899",
+        "radiusPx": 48
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 52,
+    "rows": 36,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber",
+      "n": "snow"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppppppppppppppppGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGpppppBBBBBBBBpppppppGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGpppppbwbwDwbwpppppppGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppppppppppppppppGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppppppppppppppppGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppppppppppppppppGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppppppppppppppppGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppppppppppppppppGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGppppppppppppppppppppGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGppppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGppppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGGGGpppppppppppppppGGppppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGGGGpppppppppppppppGGppppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGGGGpppppppppppppppppppppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGGGGpppppppppppppppppppppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGGGGpppppppppppppppBBBBBppBBBBBppGGGGGGGGGGGGGGGGGc",
+      "cGGGGpBBBBBBBpppppppbwDwbppbwDwbppGGGGGGGGGGGGGGGGGc",
+      "cGGGGpbwbDbwbpppppppGGppppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGGGGpppppppppppppppGGppppppppppppGGGGGGGGGGGGGGGGGc",
+      "cGGGGpppppppppppppppppppppppppppppppGGGGGGGGGGGGGGGc",
+      "cGGGGpppppppppppppppppppppppppppppppGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGpppppppppppppppppppppGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGpppppppppppppppppppppGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGpppppppppppppppppppppGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGpppppppppppppppppppppGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGGGc",
+      "~~~~~~~~~~~~~~~~~~~~~~~dddddd~~~~~~~~~~~~~~~~~~~~~~~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    ],
+    "detailRows": [
+      "....................................................",
+      ".hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh.",
+      ".....t...................................tf.........",
+      "..........t...f......pppppppppppppppppppp......t....",
+      "..........t.......t..ppppp........pppppppt.t........",
+      "...tt................ppppp........ppppppp..f....t...",
+      ".....f....t......f...pppppppppppppppppppp.f..f......",
+      "...f.f.....f......t..pppppppppppppppppppp..f..ft....",
+      "..t.....t..t.....f...pppppppppppppppppppp...........",
+      "............t........pppppppppppppppppppp.t..tftt...",
+      "..........t..f...f...pppppppppppppppppppp...f.......",
+      "..t.t.f.....f.....f..ppppppppppppppppppppt..tt...t..",
+      "...........f.......f..pppppppppppp.......f...f......",
+      "........t.....f.t..f..ppppppppppppt.................",
+      ".....ppppppppppppppp..pppppppppppp......f...........",
+      ".....ppppppppppppppp..pppppppppppp..GGGGGGGGGGGG....",
+      "...t.ppppppppppppppppppppppppppppp..GGGGGGGGGGGG....",
+      ".....ppppppppppppppppppppppppppppp..GGGGGGGGGGGG....",
+      "....fppppppppppppppp.....pp.....pp..GGGGcGGGcGGG....",
+      ".....p.......ppppppp.....pp.....ppt.GGGGGGGGGGGG....",
+      ".....p.......ppppppphfpppppppppppp..GGGGGGGGGGGG....",
+      ".....ppppppppppppppp..ppppppppppppf.GGGGGGGGGGGG....",
+      "...t.pppppppppppppppppppppppppppppppGGGGGGGGGGGG....",
+      "..t..pppppppppppppppppppppppppppppppGGGGGGcGGGGGf...",
+      "..tf.........f.pppppppppppppppppppppGGGGGGGGGGGG....",
+      "..f......tt....pppppppppppppppppppppGGGGGGGGGGGG....",
+      ".....t.........pppppppppppppppppppppGGGGGGGGGGGG....",
+      "...............ppppppppppppppppppppp.........t......",
+      "...........t...........dddddd.........t....t.f......",
+      ".........t...........t.dddddd........t....f.f.......",
+      ".......................dddddd.......................",
+      ".......................dddddd.......................",
+      ".......................dddddd.......................",
+      "....................................................",
+      "....................................................",
+      "...................................................."
+    ],
+    "solidRows": [
+      "####################################################",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#.........................########.................#",
+      "#.........................########.................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#...................#####..#####........#...#......#",
+      "#.....#######.......#####..#####...................#",
+      "#.....#######......................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#.........................................#........#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#######################......#######################",
+      "####################################################",
+      "####################################################",
+      "####################################################"
+    ],
+    "overheadRows": [
+      "....................................................",
+      "....................................................",
+      ".........................errrrrrrre.................",
+      ".........................eRRRRRRRRe.................",
+      "..........................RRRRRRRR..................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "...................errrrreerrrrre......ooo.ooo......",
+      ".....errrrrrre.....eRRRRReeRRRRRe......oOo.oOo......",
+      ".....eRRRRRRRe......RRRRR..RRRRR.......ooo.ooo......",
+      "......RRRRRRR.......................................",
+      "....................................................",
+      ".........................................ooo........",
+      ".........................................oOo........",
+      ".........................................ooo........",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "...................................................."
+    ],
+    "surfaceRows": [
+      "gggggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggppppppppppppppppppppggggggggggg",
+      "gggggggggggggggggggggppppppppppppppppppppggggggggggg",
+      "gggggggggggggggggggggppppppppppppppppppppggggggggggg",
+      "gggggggggggggggggggggppppppppppppppppppppggggggggggg",
+      "gggggggggggggggggggggppppppppppppppppppppggggggggggg",
+      "gggggggggggggggggggggppppppppppppppppppppggggggggggg",
+      "gggggggggggggggggggggppppppppppppppppppppggggggggggg",
+      "gggggggggggggggggggggppppppppppppppppppppggggggggggg",
+      "gggggggggggggggggggggppppppppppppppppppppggggggggggg",
+      "ggggggggggggggggggggggppppppppppppgggggggggggggggggg",
+      "ggggggggggggggggggggggppppppppppppgggggggggggggggggg",
+      "gggggpppppppppppppppggppppppppppppgggggggggggggggggg",
+      "gggggpppppppppppppppggppppppppppppgggggggggggggggggg",
+      "gggggpppppppppppppppppppppppppppppgggggggggggggggggg",
+      "gggggpppppppppppppppppppppppppppppgggggggggggggggggg",
+      "gggggpppppppppppppppggppppppppppppgggggggggggggggggg",
+      "gggggpppppppppppppppggppppppppppppgggggggggggggggggg",
+      "gggggpppppppppppppppggppppppppppppgggggggggggggggggg",
+      "gggggpppppppppppppppggppppppppppppgggggggggggggggggg",
+      "gggggpppppppppppppppppppppppppppppppgggggggggggggggg",
+      "gggggpppppppppppppppppppppppppppppppgggggggggggggggg",
+      "gggggggggggggggpppppppppppppppppppppgggggggggggggggg",
+      "gggggggggggggggpppppppppppppppppppppgggggggggggggggg",
+      "gggggggggggggggpppppppppppppppppppppgggggggggggggggg",
+      "gggggggggggggggpppppppppppppppppppppgggggggggggggggg",
+      "gggggggggggggggggggggggddddddggggggggggggggggggggggg",
+      "gggggggggggggggggggggggddddddggggggggggggggggggggggg",
+      "gggggggggggggggggggggggddddddggggggggggggggggggggggg",
+      "gggggggggggggggggggggggddddddggggggggggggggggggggggg",
+      "wwwwwwwwwwwwwwwwwwwwwwwddddddwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    ]
+  }
 }

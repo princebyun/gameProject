@@ -9,6 +9,7 @@ import {
   defaultAssetManifestRegistry,
   resolveShipSpriteEntry,
   resolveSpriteSheetEntry,
+  resolveWorldLandmark,
   type AssetManifestRegistry
 } from '../data/assets/assetManifestRegistry';
 import type {
@@ -16,7 +17,8 @@ import type {
   BattleBackdropManifestEntry,
   SpriteSheetManifestEntry,
   TilesetManifestEntry,
-  VfxAtlasManifestEntry
+  VfxAtlasManifestEntry,
+  WorldLandmarkManifestEntry
 } from '../data/assets/types';
 import { getBaseCharacterBlueprintForUnit } from '../render/sprite/rig/blueprintLibrary';
 import { bakeCharacterPortraitCanvas } from '../render/sprite/rig/portraitPixelBaker';
@@ -182,12 +184,36 @@ export class AssetLoader implements Disposable {
     return resolved.image;
   }
 
+  public getWorldLandmarkSheet(landmarkId: string): {
+    entry: WorldLandmarkManifestEntry | null;
+    sheet: HTMLImageElement | HTMLCanvasElement | null;
+    source: 'EXTERNAL_PNG' | 'BAKED_FALLBACK';
+  } {
+    const entry = resolveWorldLandmark(landmarkId, this.manifestRegistry);
+    if (!entry) {
+      return { entry: null, sheet: null, source: 'BAKED_FALLBACK' };
+    }
+    const resolved = this.resolver.resolveImageSyncOrBake(
+      `world_landmark_${entry.id}`,
+      entry.path,
+      () => null,
+      {
+        minHorizontalFrames: entry.frameCount,
+        frameWidth: entry.frameWidth
+      }
+    );
+    return { entry, sheet: resolved.image, source: resolved.source };
+  }
+
   public async preloadCoreAssets(units: Record<string, UnitDefinition>): Promise<void> {
     if (typeof document === 'undefined') {
       return;
     }
     for (const unit of Object.values(units)) {
       this.getOrCreateUnitSpriteSheet(unit, null, null);
+    }
+    for (const lm of this.manifestRegistry.landmarksFile.landmarks) {
+      this.getWorldLandmarkSheet(lm.id);
     }
     this.getOrCreateArenaTile('default');
   }

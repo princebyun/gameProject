@@ -18,21 +18,31 @@
       "title": "닥터 쿠레하 & 쵸파와 대화",
       "description": "설산 성 입구의 닥터 쿠레하와 쵸파에게 말을 거세요.",
       "requiredFlag": "flag_drum_met_chopper",
-      "targetPos": { "x": 360, "y": 255 }
+      "targetPos": {
+        "x": 624,
+        "y": 464
+      }
     },
     {
       "stepId": "step_drum_boss",
       "title": "폭군 와포루 격파",
       "description": "우걱우걱 하우스 방어 돌진을 돌파하고 와포루를 날려버리세요.",
       "requiredFlag": "flag_drum_kingdom_cleared",
-      "targetPos": { "x": 790, "y": 270 }
+      "targetPos": {
+        "x": 752,
+        "y": 240
+      }
     }
   ],
   "rewards": {
     "berries": 38000,
     "trainingPoints": 45,
     "bountyIncrease": 15000000,
-    "recruitsUnitIds": ["chopper"],
-    "unlocksCrewRoles": ["DOCTOR"]
+    "recruitsUnitIds": [
+      "chopper"
+    ],
+    "unlocksCrewRoles": [
+      "DOCTOR"
+    ]
   }
 }

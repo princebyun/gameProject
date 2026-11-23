@@ -1,4 +1,5 @@
 import { AssetPreviewScene } from '../dev/assetPreviewScene';
+import { VisualPolishDrawer } from '../dev/visualPolishDrawer';
 import { TitleSceneController } from '../titleScene';
 import type { SceneManagerHost } from './controllerContracts';
 import { buildSceneDomShell } from './sceneDomShell';
@@ -11,7 +12,12 @@ export function createInitialSailingStepState() {
     nearbyIsland: null,
     nearbySeaGate: null,
     triggeredBattle: null,
-    collectedNotice: null
+    collectedNotice: null,
+    currentSpeedMult: 1,
+    currentTailwindRatio: 0,
+    inWhirlpool: false,
+    whirlpoolIntensity: 0,
+    activeShipId: 'going_merry' as const
   };
 }
 
@@ -33,7 +39,7 @@ export function initializeSceneDomAndSubScenes(
   topBarController: SceneTopBarController,
   showcaseController: SceneShowcaseToolbarController,
   inputRouter: SceneInputRouter
-): () => void {
+): { canvasWrapper: HTMLElement; cleanupViewport: () => void } {
   host.platformBridge.device.onHardwareBack(
     () => inputRouter.handleHardwareBackButton(),
     (toastMsg) => {
@@ -48,6 +54,7 @@ export function initializeSceneDomAndSubScenes(
     storage: host.storage,
     input: host.input,
     platformBridge: host.platformBridge,
+    initialBattleSpeed: host.battleSpeedScale,
     isRpgActive: () =>
       host.activeScene === 'SEA_SAILING' || host.activeScene === 'ISLAND_EPISODE',
     onRpgInteract: () => {
@@ -58,6 +65,17 @@ export function initializeSceneDomAndSubScenes(
     }
   });
   host.renderer = shell.renderer;
+  const unsubPixiResize = host.pixiHost
+    ? shell.renderer.viewport.onChange((m) => host.pixiHost?.resize(m))
+    : null;
+  if (host.pixiHost) {
+    host.visualPolishDrawer = new VisualPolishDrawer(host.rootEl, host.pixiHost, {
+      onConfigChanged: (cfg) => {
+        const selQuality = host.settingsModalEl?.querySelector('#sel-graphics-quality') as HTMLSelectElement | null;
+        if (selQuality) selQuality.value = cfg.quality;
+      }
+    });
+  }
   host.sideDrawerEl = shell.sideDrawerEl;
   host.showcaseBarEl = shell.showcaseBarEl;
   host.mobileDockEl = shell.mobileDockEl;
@@ -119,5 +137,11 @@ export function initializeSceneDomAndSubScenes(
     { onClose: () => host.syncSceneBgm() }
   );
 
-  return shell.viewportListenerCleanup;
+  return {
+    canvasWrapper: shell.canvasWrapper,
+    cleanupViewport: () => {
+      unsubPixiResize?.();
+      shell.viewportListenerCleanup();
+    }
+  };
 }

@@ -18,21 +18,32 @@
       "title": "발라티에 부주방장 상디 & 우솝 접선",
       "description": "갑판 중앙의 상디·우솝과 대화해 방어전을 준비하세요.",
       "requiredFlag": "flag_baratie_sanji_met",
-      "targetPos": { "x": 360, "y": 255 }
+      "targetPos": {
+        "x": 496,
+        "y": 528
+      }
     },
     {
       "stepId": "step_baratie_krieg",
       "title": "클리크 함대 제독 돈 클리크 격파",
       "description": "확장되는 맹독 가스탄 MH5를 회피하며 돈 클리크를 격파하세요.",
       "requiredFlag": "flag_baratie_cleared",
-      "targetPos": { "x": 800, "y": 270 }
+      "targetPos": {
+        "x": 1200,
+        "y": 560
+      }
     }
   ],
   "rewards": {
     "berries": 28000,
     "trainingPoints": 35,
     "bountyIncrease": 0,
-    "recruitsUnitIds": ["usopp", "sanji"],
-    "unlocksCrewRoles": ["COOK"]
+    "recruitsUnitIds": [
+      "usopp",
+      "sanji"
+    ],
+    "unlocksCrewRoles": [
+      "COOK"
+    ]
   }
 }

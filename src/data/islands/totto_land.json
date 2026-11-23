@@ -2,26 +2,244 @@
   "islandId": "totto_land",
   "name": "토트랜드 (만국 홀케이크 아일랜드 · 미러 월드)",
   "episodeId": "ep_totto_land",
-  "width": 960,
-  "height": 540,
+  "width": 1600,
+  "height": 1152,
   "theme": "FUTURE_LAB",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 816,
+    "y": 944
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 816,
+      "y": 1008
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 656,
+    "y": 944
+  },
   "obstacles": [
-    { "x": 280, "y": 75, "width": 170, "height": 85, "label": "거울 회랑 기둥" },
-    { "x": 540, "y": 395, "width": 190, "height": 85, "label": "미러 월드 차원문" }
+    {
+      "x": 320,
+      "y": 640,
+      "width": 160,
+      "height": 64,
+      "label": "카카오 초콜릿 과자 집"
+    },
+    {
+      "x": 1056,
+      "y": 640,
+      "width": 160,
+      "height": 64,
+      "label": "스위트 마카롱 베이커리"
+    },
+    {
+      "x": 640,
+      "y": 128,
+      "width": 320,
+      "height": 64,
+      "label": "홀케이크 샤토 정문"
+    }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
   "giantProps": [],
+  "zones": [
+    {
+      "zoneId": "zone_totto_port",
+      "name": "스위트 시티 항구",
+      "subtitle": "만국 홀케이크 아일랜드 관문",
+      "tileX": 18,
+      "tileY": 26,
+      "tileW": 14,
+      "tileH": 6,
+      "accentColor": "#f472b6"
+    },
+    {
+      "zoneId": "zone_totto_chocolate",
+      "name": "초콜릿 타운 & 와플 아치",
+      "subtitle": "과자 집과 초콜릿 분수 거리",
+      "tileX": 4,
+      "tileY": 16,
+      "tileW": 40,
+      "tileH": 10,
+      "accentColor": "#fb923c"
+    },
+    {
+      "zoneId": "zone_totto_cream_bridge",
+      "name": "생크림 운하 다리",
+      "subtitle": "샤토 광장으로 이어지는 달콤한 다리",
+      "tileX": 20,
+      "tileY": 12,
+      "tileW": 10,
+      "tileH": 4,
+      "accentColor": "#fef08a"
+    },
+    {
+      "zoneId": "zone_totto_mirror",
+      "name": "거울 광장 & 홀케이크 샤토",
+      "subtitle": "카타쿠리 1:1 미래 예지 결투장",
+      "tileX": 13,
+      "tileY": 3,
+      "tileW": 31,
+      "tileH": 9,
+      "accentColor": "#be185d"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_totto_waffle_arch",
+      "tileX": 19,
+      "tileY": 18,
+      "rarity": "silver",
+      "hiddenHint": "와플 아치 오버헤드 뒤 비밀 길",
+      "reward": {
+        "berries": 22000,
+        "trainingPoints": 30,
+        "itemLabel": "스위트 시티 황금 캔디"
+      }
+    },
+    {
+      "chestId": "chest_totto_fountain",
+      "tileX": 25,
+      "tileY": 20,
+      "rarity": "wooden",
+      "hiddenHint": "초콜릿 분수 뒤편 석조 구역",
+      "reward": {
+        "berries": 18000,
+        "trainingPoints": 24,
+        "itemLabel": "특제 다크 초코 보급"
+      }
+    },
+    {
+      "chestId": "chest_totto_candy_forest",
+      "tileX": 5,
+      "tileY": 17,
+      "rarity": "silver",
+      "hiddenHint": "과자 숲 캐노피 뒤편 숨은 오솔길",
+      "reward": {
+        "berries": 24000,
+        "trainingPoints": 32,
+        "itemLabel": "거울 조각 비전 상자"
+      }
+    },
+    {
+      "chestId": "chest_totto_chateau_garden",
+      "tileX": 42,
+      "tileY": 6,
+      "rarity": "gold",
+      "hiddenHint": "홀케이크 샤토 외곽 정원 구석",
+      "reward": {
+        "berries": 32000,
+        "trainingPoints": 40,
+        "healPartyRatio": 0.5,
+        "itemLabel": "로드 포네그리프 탁본 수호 보물"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_totto_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 스위트 시티 출항",
+      "tileX": 25,
+      "tileY": 31,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_totto_pedro",
+      "kind": "SIDE",
+      "label": "◆ 페드로 & 브룩",
+      "tileX": 21,
+      "tileY": 11,
+      "hideWhenFlagSet": "flag_totto_foresight_hint",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_totto_katakuri",
+      "kind": "MAIN",
+      "label": "★ 카타쿠리 1:1 결투",
+      "tileX": 25,
+      "tileY": 7,
+      "hideWhenFlagSet": "flag_totto_land_cleared",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_totto_camp",
+      "kind": "ACTIVITY",
+      "label": "🏕 수련 캠프 & 정비",
+      "tileX": 35,
+      "tileY": 25,
+      "actionKind": "CAMP_TRAINING"
+    },
+    {
+      "markerId": "marker_totto_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 20,
+      "tileY": 29,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_totto_waffle_w",
+      "kind": "WAFFLE_ARCH",
+      "tileX": 17,
+      "tileY": 19,
+      "widthTiles": 5,
+      "heightTiles": 2,
+      "label": "와플 아치",
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_totto_waffle_e",
+      "kind": "WAFFLE_ARCH",
+      "tileX": 27,
+      "tileY": 19,
+      "widthTiles": 5,
+      "heightTiles": 2,
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_totto_fountain",
+      "kind": "WATER_FOUNTAIN",
+      "tileX": 24,
+      "tileY": 22,
+      "widthTiles": 2,
+      "heightTiles": 2,
+      "label": "초콜릿 분수"
+    },
+    {
+      "landmarkId": "lm_totto_boat",
+      "kind": "SUNNY_DOCK",
+      "tileX": 18,
+      "tileY": 30,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_totto_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 35,
+      "tileY": 24,
+      "widthTiles": 1,
+      "heightTiles": 1
+    }
+  ],
   "npcs": [
     {
       "npcId": "npc_pedro_totto_land",
       "name": "페드로 & 브룩 (로드 포네그리프 탁본 팀)",
       "roleLabel": "거울 세계 공략 · 미래 예지 파훼 힌트",
-      "pos": { "x": 360, "y": 260 },
+      "pos": {
+        "x": 688,
+        "y": 368
+      },
       "interactRadiusPx": 56,
-      "visualScale": 1.0,
+      "visualScale": 1,
       "color": "#e879f9",
       "setsQuestFlagOnTalk": "flag_totto_foresight_hint",
       "dialogueLines": [
@@ -34,6 +252,165 @@
           "setsFlag": "flag_totto_foresight_hint",
           "responseLine": "[1:1 결투 개시] 현상금 10억 5,700만 베리, 스위트 3장성 샬롯 카타쿠리와 정면 승부합니다!"
         }
+      ],
+      "facing": "right",
+      "ambientBubbleText": "완벽 회피와 맞대결로 미래 예지를 깨부수자!",
+      "patrolWaypoints": [
+        {
+          "x": 624,
+          "y": 368
+        },
+        {
+          "x": 784,
+          "y": 368
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 80
+    },
+    {
+      "npcId": "npc_pudding",
+      "name": "샬롯 푸딩",
+      "roleLabel": "카카오 섬 쇼콜라티에",
+      "pos": {
+        "x": 464,
+        "y": 784
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 0.96,
+      "color": "#f472b6",
+      "facing": "up",
+      "ambientBubbleText": "크림 다리를 건너면 거울 광장이에요!",
+      "patrolWaypoints": [
+        {
+          "x": 400,
+          "y": 784
+        },
+        {
+          "x": 560,
+          "y": 784
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "푸딩: 초콜릿 분수 뒤와 와플 아치 뒤편 비밀 길에 숨겨둔 특제 설탕 상자가 있을 거예요."
+      ]
+    },
+    {
+      "npcId": "npc_chiffon",
+      "name": "샬롯 시폰",
+      "roleLabel": "파이어 탱크 해적단 조력자",
+      "pos": {
+        "x": 1072,
+        "y": 784
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1,
+      "color": "#fb923c",
+      "facing": "left",
+      "ambientBubbleText": "웨딩 케이크 탈출 준비 완료!",
+      "patrolWaypoints": [
+        {
+          "x": 976,
+          "y": 784
+        },
+        {
+          "x": 1168,
+          "y": 784
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "시폰: 상디와 함께 만든 케이크 덕분에 선창 탈출로도 무사히 열렸습니다!"
+      ]
+    },
+    {
+      "npcId": "npc_homie_baker",
+      "name": "비스킷 호미즈 제과사",
+      "roleLabel": "스위트 시티 주민",
+      "pos": {
+        "x": 784,
+        "y": 848
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.92,
+      "color": "#fde047",
+      "facing": "up",
+      "ambientBubbleText": "과자 숲 뒤편에도 달콤한 보물이!",
+      "patrolWaypoints": [
+        {
+          "x": 688,
+          "y": 848
+        },
+        {
+          "x": 912,
+          "y": 848
+        }
+      ],
+      "patrolSpeedPx": 36,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "호미즈: 이 마을 집들은 전부 진짜 비스킷과 초콜릿으로 지어졌답니다!"
+      ]
+    },
+    {
+      "npcId": "npc_chess_soldier",
+      "name": "스위트 체스병",
+      "roleLabel": "홀케이크 샤토 경비병",
+      "pos": {
+        "x": 944,
+        "y": 336
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 1.02,
+      "color": "#e2e8f0",
+      "facing": "left",
+      "ambientBubbleText": "카타쿠리 님이 거울 광장에서 대기 중!",
+      "patrolWaypoints": [
+        {
+          "x": 912,
+          "y": 336
+        },
+        {
+          "x": 1072,
+          "y": 336
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "체스병: 10억 베리의 스위트 장성 카타쿠리 님에게 도전하려는 자는 각오해야 할 것이다!"
+      ]
+    },
+    {
+      "npcId": "npc_carrot",
+      "name": "밍크족 캐럿",
+      "roleLabel": "토트랜드 거울 세계 정찰대",
+      "pos": {
+        "x": 528,
+        "y": 304
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 0.95,
+      "color": "#facc15",
+      "facing": "right",
+      "ambientBubbleText": "가르츄! 샤토 정원 구석도 확인했어!",
+      "patrolWaypoints": [
+        {
+          "x": 464,
+          "y": 304
+        },
+        {
+          "x": 592,
+          "y": 304
+        }
+      ],
+      "patrolSpeedPx": 48,
+      "pauseTicks": 65,
+      "dialogueLines": [
+        "캐럿: 페드로 씨와 브룩 씨가 로드 포네그리프 탁본을 챙길 수 있게 시선을 끌어주자!"
       ]
     }
   ],
@@ -42,9 +419,14 @@
       "encounterId": "enc_totto_katakuri_boss",
       "name": "샬롯 카타쿠리 (미러 월드 1:1 · 미래 예지 & 무쌍 도넛)",
       "isBoss": true,
-      "pos": { "x": 800, "y": 270 },
+      "pos": {
+        "x": 816,
+        "y": 240
+      },
       "triggerRadiusPx": 62,
-      "enemyUnitIds": ["katakuri"],
+      "enemyUnitIds": [
+        "katakuri"
+      ],
       "aiLevel": 5,
       "arenaSizeKey": "large",
       "setsFlagOnVictory": "flag_totto_land_cleared",
@@ -57,5 +439,277 @@
         "힌트: 완벽 회피 반격 · 맞대결 승리 · 연타/광역기 · 견문색 Lv.3 공격으로 카타쿠리의 집중도를 붕괴시키세요!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "SUGAR_SPARKLE",
+      "PETAL"
+    ],
+    "density": 36
+  },
+  "lightingProfile": {
+    "defaultMood": "DUSK",
+    "tintHex": "#db2777",
+    "tintAlpha": 0.14,
+    "sunbeams": false,
+    "lanterns": [
+      {
+        "tileX": 25,
+        "tileY": 21,
+        "color": "#f9a8d4",
+        "radiusPx": 50
+      },
+      {
+        "tileX": 25,
+        "tileY": 9,
+        "color": "#e879f9",
+        "radiusPx": 54
+      },
+      {
+        "tileX": 16,
+        "tileY": 20,
+        "color": "#fde047",
+        "radiusPx": 44
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 50,
+    "rows": 36,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber",
+      "n": "snow"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGGGGGGGGpppppppBBBBBBBBBBppppppppppppppGGGGGc",
+      "cGGGGGGGGGGGGpppppppbwbwbDbwbwppppppppppppppGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGddddddddGGGGGGGGGGGGGGGGGGGGc",
+      "c~~~~~~~~~~~~~~~~~~~~dddddddd~~~~~~~~~~~~~~~~~~~~c",
+      "c~~~~~~~~~~~~~~~~~~~~dddddddd~~~~~~~~~~~~~~~~~~~~c",
+      "cGGGGGGGGGGGGGGGGGGGGddddddddGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGBBBppppppppppppppppppBBBBBGGGGGGGGGGGc",
+      "cGGGGGGGGGGGDwbppppppppppppppppppbwDwbGGGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGGc",
+      "~~~~~~~~~~~~~~~~~~~~~~dddddd~~~~~~~~~~~~~~~~~~~~~~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    ],
+    "detailRows": [
+      "..................................................",
+      ".hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh.",
+      "................T......tF.....T...........t..f....",
+      "...F.......t.ppppppppppppppppppppppppppppppp......",
+      "..........F.Fppppppp..........pppppppppppppp......",
+      "..........F..ppppppp..........pppppppppppppkf.....",
+      "...T....t....ppppppppppppppppppppppppppppppp.t....",
+      ".....ff......pppppppppppppppppppppppppppcppp......",
+      "......T......ppppppppppppppppppppppppppppppk.t....",
+      ".....f.......ppppppppppppppppppppppppppppppp......",
+      "..T......T..tppppppppppppppppppppppppppppppp..f...",
+      ".............pppppppppppppppppppppppppppppppt.....",
+      "................F....dddddddd...............t.....",
+      ".....................dddddddd.....................",
+      ".....................dddddddd.....................",
+      ".hhhGGGGGGGGhhhhhhhfhddddddddhhhThhhhhhthhTfhhhhh.",
+      "....GGGGGGGGpppppppppppppppppppppppppp.......t....",
+      "....GGGGGGGGpppppppppppppppppppppppppp............",
+      "....GGGGGGGGpppppppppppppppppppppppppp............",
+      "...fGcGGGGGGpppppCpppCpppppCpppCpppppp............",
+      "....GGGGGGGG...ppCpppCpppppCpppCp.......T.........",
+      "....GGGGGGGG...pppppppppppppppppp...........T.f...",
+      "..t.GGGGcGGGpppppppppppppppppppppppppp....c.......",
+      "....GGGGGGGGpppppppppppppppppppppppppp.Tf.F.T.....",
+      "....GGGGGGGGpppppppppppppppppppppppppp.....F......",
+      ".........f.tpppppppppppppppppppppppppp.F....t..T..",
+      "......t.f...pppppppppppppppppppppppppp..t.........",
+      ".......t.F..pppppppppppppppppppppppppp..ft....t...",
+      "............f.........dddddd.ft.......F...........",
+      "...T...F..............dddddd.T............F.......",
+      "......................dddddd......................",
+      "......................dddddd......................",
+      "......................dddddd......................",
+      "..................................................",
+      "..................................................",
+      ".................................................."
+    ],
+    "solidRows": [
+      "##################################################",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#...................##########...................#",
+      "#...................##########.............#.....#",
+      "#................................................#",
+      "#.......................................#........#",
+      "#..........................................#.....#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#####################........#####################",
+      "#####################........#####################",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#....#...........#...#.....#...#.................#",
+      "#...........###..#...#.....#...#.#####...........#",
+      "#...........###..................#####...........#",
+      "#.......#.................................#......#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "######################......######################",
+      "##################################################",
+      "##################################################",
+      "##################################################"
+    ],
+    "overheadRows": [
+      "..................................................",
+      "..................................................",
+      "...................errrrrrrrrre...................",
+      "...................eRRRRRRRRRRe...................",
+      "....................RRRRRRRRRR....................",
+      ".......................................ooo........",
+      ".......................................oOo........",
+      ".......................................ooo........",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "....ooo...........................................",
+      "....oOo..errrrre................errrrre...........",
+      "....ooo..eRRRRRe.rrrrr.....rrrrreRRRRRe...........",
+      ".......oooRRRRR..................RRRRR...ooo......",
+      ".......oOo...............................oOo......",
+      ".......ooo...............................ooo......",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      ".................................................."
+    ],
+    "surfaceRows": [
+      "gggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggpppppppppppppppppppppppppppppppgggggg",
+      "gggggggggggggpppppppppppppppppppppppppppppppgggggg",
+      "gggggggggggggpppppppppppppppppppppppppppppppgggggg",
+      "gggggggggggggpppppppppppppppppppppppppppppppgggggg",
+      "gggggggggggggpppppppppppppppppppppppppppppppgggggg",
+      "gggggggggggggpppppppppppppppppppppppppppppppgggggg",
+      "gggggggggggggpppppppppppppppppppppppppppppppgggggg",
+      "gggggggggggggpppppppppppppppppppppppppppppppgggggg",
+      "gggggggggggggpppppppppppppppppppppppppppppppgggggg",
+      "gggggggggggggggggggggddddddddggggggggggggggggggggg",
+      "gwwwwwwwwwwwwwwwwwwwwddddddddwwwwwwwwwwwwwwwwwwwwg",
+      "gwwwwwwwwwwwwwwwwwwwwddddddddwwwwwwwwwwwwwwwwwwwwg",
+      "gggggggggggggggggggggddddddddggggggggggggggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggggg",
+      "ggggggggggggppppppppppppppppppppppppppgggggggggggg",
+      "ggggggggggggggggggggggddddddgggggggggggggggggggggg",
+      "ggggggggggggggggggggggddddddgggggggggggggggggggggg",
+      "ggggggggggggggggggggggddddddgggggggggggggggggggggg",
+      "ggggggggggggggggggggggddddddgggggggggggggggggggggg",
+      "wwwwwwwwwwwwwwwwwwwwwwddddddwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    ]
+  }
 }

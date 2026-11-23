@@ -2,14 +2,46 @@
   "islandId": "marineford",
   "name": "마린포드 (해군본부 오리스 광장 얼음만)",
   "episodeId": "ep_marineford",
-  "width": 960,
-  "height": 540,
+  "width": 1664,
+  "height": 1152,
   "theme": "CANAL_DOCKYARD",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 848,
+    "y": 880
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 848,
+      "y": 976
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 688,
+    "y": 880
+  },
   "obstacles": [
-    { "x": 280, "y": 75, "width": 170, "height": 80, "label": "모비 딕 호 빙결 갑판" },
-    { "x": 540, "y": 395, "width": 200, "height": 80, "label": "해군본부 포위 철벽" }
+    {
+      "x": 192,
+      "y": 576,
+      "width": 384,
+      "height": 64,
+      "label": "서쪽 포대 방벽"
+    },
+    {
+      "x": 1088,
+      "y": 576,
+      "width": 384,
+      "height": 64,
+      "label": "동쪽 포대 방벽"
+    },
+    {
+      "x": 448,
+      "y": 128,
+      "width": 224,
+      "height": 64,
+      "label": "해군본부 서부 요새"
+    }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
@@ -17,11 +49,175 @@
     {
       "propId": "prop_marineford_hq",
       "label": "해군본부 마린포드 요새",
-      "pos": { "x": 800, "y": 110 },
+      "pos": {
+        "x": 1104,
+        "y": 176
+      },
       "width": 110,
       "height": 85,
-      "visualScale": 2.0,
+      "visualScale": 2,
       "color": "#e2e8f0"
+    }
+  ],
+  "zones": [
+    {
+      "zoneId": "zone_mf_ice_bay",
+      "name": "초승달 얼음만 & 군함 정박지",
+      "subtitle": "아오키지가 얼린 만의 격전 입구",
+      "tileX": 3,
+      "tileY": 22,
+      "tileW": 46,
+      "tileH": 9,
+      "accentColor": "#7dd3fc"
+    },
+    {
+      "zoneId": "zone_mf_rampart",
+      "name": "해군 포대 방벽 & 돌파구",
+      "subtitle": "포화가 쏟아지는 1차 저지선",
+      "tileX": 5,
+      "tileY": 16,
+      "tileW": 42,
+      "tileH": 5,
+      "accentColor": "#fb923c"
+    },
+    {
+      "zoneId": "zone_mf_oris_plaza",
+      "name": "오리스 광장 격전지",
+      "subtitle": "칠무해와 대장들이 격돌한 중심지",
+      "tileX": 13,
+      "tileY": 9,
+      "tileW": 33,
+      "tileH": 7,
+      "accentColor": "#facc15"
+    },
+    {
+      "zoneId": "zone_mf_hq",
+      "name": "해군본부 요새 & 처형대 계단",
+      "subtitle": "정상전쟁 3연전 최종 결전",
+      "tileX": 14,
+      "tileY": 3,
+      "tileW": 25,
+      "tileH": 6,
+      "accentColor": "#ef4444"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_marineford_warship_deck",
+      "tileX": 4,
+      "tileY": 23,
+      "rarity": "silver",
+      "hiddenHint": "서쪽 정박 해군 군함 갑판 끝",
+      "reward": {
+        "berries": 15000,
+        "trainingPoints": 24,
+        "itemLabel": "해군 군함 탄약고 보급"
+      }
+    },
+    {
+      "chestId": "chest_marineford_cannon_rampart",
+      "tileX": 11,
+      "tileY": 17,
+      "rarity": "wooden",
+      "hiddenHint": "서쪽 포대 방벽 오버헤드 뒤 보급 구역",
+      "reward": {
+        "berries": 12000,
+        "trainingPoints": 20,
+        "itemLabel": "흰 수염 해적단 군량 상자"
+      }
+    },
+    {
+      "chestId": "chest_marineford_ice_pillar",
+      "tileX": 42,
+      "tileY": 12,
+      "rarity": "gold",
+      "hiddenHint": "오리스 광장 동쪽 부서진 얼음 기둥 뒤",
+      "reward": {
+        "berries": 22000,
+        "trainingPoints": 30,
+        "healPartyRatio": 0.5,
+        "itemLabel": "불사조 마르코의 비약"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_mf_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 신세계 출항 부두",
+      "tileX": 26,
+      "tileY": 30,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_mf_marco",
+      "kind": "SIDE",
+      "label": "◆ 불사조 마르코 동맹",
+      "tileX": 23,
+      "tileY": 21,
+      "hideWhenFlagSet": "flag_marineford_marco_alliance",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_mf_gauntlet",
+      "kind": "MAIN",
+      "label": "★ 정상전쟁 3연전",
+      "tileX": 26,
+      "tileY": 10,
+      "hideWhenFlagSet": "flag_marineford_cleared",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_mf_camp",
+      "kind": "ACTIVITY",
+      "label": "🏕 전선 정비 캠프",
+      "tileX": 34,
+      "tileY": 26,
+      "actionKind": "CAMP_TRAINING"
+    },
+    {
+      "markerId": "marker_mf_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 21,
+      "tileY": 27,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_mf_platform",
+      "kind": "EXECUTION_PLATFORM",
+      "tileX": 24,
+      "tileY": 5,
+      "widthTiles": 4,
+      "heightTiles": 3,
+      "label": "정상전쟁 처형대"
+    },
+    {
+      "landmarkId": "lm_mf_warship_w",
+      "kind": "WARSHIP_HULL",
+      "tileX": 5,
+      "tileY": 25,
+      "widthTiles": 4,
+      "heightTiles": 2,
+      "label": "모비 딕 / 군함"
+    },
+    {
+      "landmarkId": "lm_mf_warship_e",
+      "kind": "WARSHIP_HULL",
+      "tileX": 41,
+      "tileY": 25,
+      "widthTiles": 4,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_mf_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 34,
+      "tileY": 25,
+      "widthTiles": 1,
+      "heightTiles": 1
     }
   ],
   "npcs": [
@@ -29,9 +225,12 @@
       "npcId": "npc_marco_marineford",
       "name": "불사조 마르코 (흰 수염 해적단 1번대 대장)",
       "roleLabel": "정상전쟁 공동전선 동맹",
-      "pos": { "x": 360, "y": 260 },
+      "pos": {
+        "x": 752,
+        "y": 688
+      },
       "interactRadiusPx": 58,
-      "visualScale": 1.0,
+      "visualScale": 1,
       "color": "#0ea5e9",
       "setsQuestFlagOnTalk": "flag_marineford_marco_alliance",
       "dialogueLines": [
@@ -44,6 +243,165 @@
           "setsFlag": "flag_marineford_marco_alliance",
           "responseLine": "[정상전쟁 동맹] 불사조 마르코가 2:2 아군 슬롯으로 참전합니다!"
         }
+      ],
+      "facing": "up",
+      "ambientBubbleText": "정상전쟁 3연전, 내가 함께 싸운다 요이!",
+      "patrolWaypoints": [
+        {
+          "x": 688,
+          "y": 688
+        },
+        {
+          "x": 848,
+          "y": 688
+        }
+      ],
+      "patrolSpeedPx": 44,
+      "pauseTicks": 80
+    },
+    {
+      "npcId": "npc_jozu",
+      "name": "다이아몬드 죠즈",
+      "roleLabel": "흰 수염 해적단 3번대 대장",
+      "pos": {
+        "x": 592,
+        "y": 464
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1.12,
+      "color": "#38bdf8",
+      "facing": "right",
+      "ambientBubbleText": "빙산이든 포격이든 내가 막아낸다!",
+      "patrolWaypoints": [
+        {
+          "x": 528,
+          "y": 464
+        },
+        {
+          "x": 688,
+          "y": 464
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 85,
+      "dialogueLines": [
+        "죠즈: 광장 동쪽 부서진 얼음 기둥 뒤와 서쪽 포대 방벽 뒤 보급고도 확보해 두었네!"
+      ]
+    },
+    {
+      "npcId": "npc_vista",
+      "name": "화검의 비스타",
+      "roleLabel": "흰 수염 해적단 5번대 대장",
+      "pos": {
+        "x": 1008,
+        "y": 464
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1.04,
+      "color": "#fb7185",
+      "facing": "left",
+      "ambientBubbleText": "오리스 광장 돌파구를 확보했다!",
+      "patrolWaypoints": [
+        {
+          "x": 912,
+          "y": 464
+        },
+        {
+          "x": 1104,
+          "y": 464
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "비스타: 앞에는 해군 삼대장과 검은 수염 티치까지 버티고 있네. 각오를 다지고 처형대 계단으로!"
+      ]
+    },
+    {
+      "npcId": "npc_ivankov",
+      "name": "엠포리오 이반코프",
+      "roleLabel": "혁명군 간부 · 임펠 다운 탈옥 동맹",
+      "pos": {
+        "x": 464,
+        "y": 784
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1.05,
+      "color": "#ec4899",
+      "facing": "right",
+      "ambientBubbleText": "히~하!! 기적은 포기하지 않는 녀석 머리 위에!",
+      "patrolWaypoints": [
+        {
+          "x": 336,
+          "y": 784
+        },
+        {
+          "x": 592,
+          "y": 784
+        }
+      ],
+      "patrolSpeedPx": 44,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "이반코프: 서쪽 정박 군함 갑판 끝에도 우리가 챙긴 텐션 호르몬 보급 상자가 있어!"
+      ]
+    },
+    {
+      "npcId": "npc_wb_captain",
+      "name": "스쿼드 함대 선장",
+      "roleLabel": "신세계 산하 해적단",
+      "pos": {
+        "x": 1136,
+        "y": 784
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 1,
+      "color": "#facc15",
+      "facing": "left",
+      "ambientBubbleText": "포대 방벽 돌파구를 뚫어라!",
+      "patrolWaypoints": [
+        {
+          "x": 1040,
+          "y": 784
+        },
+        {
+          "x": 1264,
+          "y": 784
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "선장: 포연과 얼음 파편이 쏟아지지만 절대 물러서지 않겠다!"
+      ]
+    },
+    {
+      "npcId": "npc_mf_medic",
+      "name": "흰 수염 선의 팀",
+      "roleLabel": "전선 야전 지원반",
+      "pos": {
+        "x": 944,
+        "y": 848
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.96,
+      "color": "#e2e8f0",
+      "facing": "up",
+      "ambientBubbleText": "출전 전에 야영과 패기 정비를 잊지 마!",
+      "patrolWaypoints": [
+        {
+          "x": 912,
+          "y": 848
+        },
+        {
+          "x": 1040,
+          "y": 848
+        }
+      ],
+      "patrolSpeedPx": 36,
+      "pauseTicks": 85,
+      "dialogueLines": [
+        "지원반: 3연전 도중 마르코의 푸른 불꽃이 큰 도움이 될 겁니다!"
       ]
     }
   ],
@@ -52,9 +410,14 @@
       "encounterId": "enc_marineford_gauntlet",
       "name": "마린포드 정상전쟁 3연전 (아오키지 → 아카이누 → 검은 수염)",
       "isBoss": true,
-      "pos": { "x": 805, "y": 270 },
+      "pos": {
+        "x": 848,
+        "y": 336
+      },
       "triggerRadiusPx": 64,
-      "enemyUnitIds": ["aokiji"],
+      "enemyUnitIds": [
+        "aokiji"
+      ],
       "aiLevel": 4,
       "arenaSizeKey": "large",
       "setsFlagOnVictory": "flag_marineford_cleared",
@@ -62,23 +425,31 @@
       "bountyReward": 100000000,
       "berryReward": 120000,
       "trainingPointReward": 150,
-      "guestAllyUnitIds": ["marco"],
+      "guestAllyUnitIds": [
+        "marco"
+      ],
       "gauntletWaves": [
         {
           "waveName": "해군본부 대장 아오키지 (아이스 에이지)",
-          "enemyUnitIds": ["aokiji"],
+          "enemyUnitIds": [
+            "aokiji"
+          ],
           "aiLevel": 4,
           "introText": "WAVE 1/3 — 쿠잔: 아라라... 얼음만에서 빠져나갈 생각은 마라."
         },
         {
           "waveName": "해군본부 대장 아카이누 (대분화 지대)",
-          "enemyUnitIds": ["akainu"],
+          "enemyUnitIds": [
+            "akainu"
+          ],
           "aiLevel": 4,
           "introText": "WAVE 2/3 — 사카즈키: 악의 씨앗은 이 자리에서 마그마로 녹여버리겠다!!"
         },
         {
           "waveName": "검은 수염 티치 (어둠 봉인 & 흔들흔들 진동)",
-          "enemyUnitIds": ["blackbeard"],
+          "enemyUnitIds": [
+            "blackbeard"
+          ],
           "aiLevel": 5,
           "introText": "FINAL WAVE 3/3 — 티치: 제하하하하!! 지금부터는 내 시대다!!"
         }
@@ -88,5 +459,278 @@
         "Wave 1 아오키지 → Wave 2 아카이누(마그마·빙결 분할 주의) → Wave 3 검은 수염(쿠로우즈 5초 열매 봉인 주의)!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "SMOKE",
+      "SNOW",
+      "EMBER"
+    ],
+    "density": 38
+  },
+  "lightingProfile": {
+    "defaultMood": "DUSK",
+    "tintHex": "#7c2d12",
+    "tintAlpha": 0.16,
+    "sunbeams": false,
+    "lanterns": [
+      {
+        "tileX": 26,
+        "tileY": 8,
+        "color": "#f97316",
+        "radiusPx": 54
+      },
+      {
+        "tileX": 16,
+        "tileY": 16,
+        "color": "#ef4444",
+        "radiusPx": 46
+      },
+      {
+        "tileX": 36,
+        "tileY": 16,
+        "color": "#38bdf8",
+        "radiusPx": 46
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 52,
+    "rows": 36,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber",
+      "n": "snow"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGppppppppppppppppppppppppGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGBBBBBBBpppppppppppppppppGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGbwbDbwbpppppppppppppppppGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGppppppppppppppppppppppppGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGppppppppppppppppppppppppGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGppppppppppppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGppppppppppppppppppppppppppppppppppppppppGGGGGc",
+      "cGGGGGBBBBBBBppppppppppppppppppppppppppBBBBBBBGGGGGc",
+      "cGGGGGbwbwbwDppppppppppppppppppppppppppwDwbwbwGGGGGc",
+      "cGGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGppppppppppppppppppppppppppGGGGGGGGGGGGc",
+      "cGGdddddddddppppppppppppppppppppppppppppdddddddddGGc",
+      "cGGdddddddddppppppppppppppppppppppppppppdddddddddGGc",
+      "cGGdddddddddppppppppppppppppppppppppppppdddddddddGGc",
+      "cGGppppppppppppppppppppppppppppppppppppppppppppppGGc",
+      "cGGppppppppppppppppppppppppppppppppppppppppppppppGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGGGc",
+      "~~~~~~~~~~~~~~GGGGGGGGGddddddGGGGGGGGG~~~~~~~~~~~~~~",
+      "~WWWWWWWWWWWW~GGGGGGGGGddddddGGGGGGGGG~WWWWWWWWWWWW~",
+      "~WWWWWWWWWWWW~GGGGGGGGGddddddGGGGGGGGG~WWWWWWWWWWWW~",
+      "~WWWWWWWWWWWW~~~~~~~~~~~~~~~~~~~~~~~~~~WWWWWWWWWWWW~",
+      "~WWWWWWWWWWWW~~WWWWWWWWWWWWWWWWWWWWWW~~WWWWWWWWWWWW~",
+      "~WWWWWWWWWWWW~~WWWWWWWWWWWWWWWWWWWWWW~~WWWWWWWWWWWW~",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    ],
+    "detailRows": [
+      "....................................................",
+      ".hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh.",
+      "......................h...................h.........",
+      "...hh.........pppppppppppppppppppppppp...h..........",
+      ".....................ppppppppppppppppp..............",
+      ".....................ppppppppppppppppp...h....h.....",
+      "....h.........pppppppppppppppppppppppp.......h..h...",
+      ".........h....pppppppppppppppppppppppp..............",
+      ".............pppppppppppppppppppppppppph............",
+      ".............pppppppppppppppppppppppppp.............",
+      ".............pppppppppppppppppppppppppp....h.h.h....",
+      "...........hhppkppppppppppppppppppppkpppCpppCp......",
+      "...........h.ppppppppppppppppppppppppppppppppp......",
+      "...h.........ppppppppppppppppppppppppppppppppp......",
+      "..h..........ppppppppppppppppppppppppppppppppp..hh..",
+      ".............pppppppppppppppppppppppppppCppppp......",
+      "......pppppppppppppppppppppppppppppppppppppppp.h....",
+      "......pppppppppppppppppppppppppppppppppppppppp......",
+      ".............pppppppppppppppppppppppppp..........h..",
+      "...hh........pppppppppppppppppppppppppp.............",
+      "......hhhhhhhpppppppppppppppppppppppppphhhhhhh......",
+      ".....h.......pppppppppppppppppppppppppp.............",
+      ".......h.....pppkppppppppppppppppppkppph..h.........",
+      "...dddddddddppppppppppppppppppppppppppppddddddddd...",
+      "...dddddddddppppppppppppppppppppppppppppddddddddd...",
+      "...dddddddddppppppppppppppppppppppppppppddddddddd...",
+      "...pppppppppppppppppppppppppppppppppppppppppppppp...",
+      "...pppppppppppppppppppppppppppppppppppppppppppppp...",
+      "........hh......h......dddddd...................h...",
+      ".......................dddddd.......................",
+      ".......................dddddd.......................",
+      ".......................dddddd.......................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "...................................................."
+    ],
+    "solidRows": [
+      "####################################################",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#.............#######..............................#",
+      "#.............#######..............................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..............#....................#...#...#......#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#.......................................#..........#",
+      "#..................................................#",
+      "#..................................................#",
+      "#.....#######..........................#######.....#",
+      "#.....#######..........................#######.....#",
+      "#..................................................#",
+      "#..................................................#",
+      "#...............#..................#...............#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "#..................................................#",
+      "##############........................##############",
+      "##############........................##############",
+      "##############........................##############",
+      "####################################################",
+      "####################################################",
+      "####################################################",
+      "####################################################"
+    ],
+    "overheadRows": [
+      "....................................................",
+      "....................................................",
+      ".............errrrrrre..............................",
+      ".............eRRRRRRRe..............................",
+      "..............RRRRRRR...............................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      ".....errrrrrrrrrrre..............errrrrrrrrrrre.....",
+      ".....eRRRRRRRRRRRRe..............eRRRRRRRRRRRRe.....",
+      "......RRRRRRRRRRRR................RRRRRRRRRRRR......",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "....................................................",
+      "...................................................."
+    ],
+    "surfaceRows": [
+      "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnppppppppppppppppppppppppnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnppppppppppppppppppppppppnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnppppppppppppppppppppppppnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnppppppppppppppppppppppppnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnppppppppppppppppppppppppnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnppppppppppppppppppppppppppnnnnnnnnnnnnn",
+      "nnndddddddddnnnnnnnnnnnnnnnnnnnnnnnnnnnndddddddddnnn",
+      "nnndddddddddnnnnnnnnnnnnnnnnnnnnnnnnnnnndddddddddnnn",
+      "nnndddddddddnnnnnnnnnnnnnnnnnnnnnnnnnnnndddddddddnnn",
+      "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "nnnnnnnnnnnnnnnnnnnnnnnddddddnnnnnnnnnnnnnnnnnnnnnnn",
+      "wwwwwwwwwwwwwwnnnnnnnnnddddddnnnnnnnnnwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwnnnnnnnnnddddddnnnnnnnnnwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwnnnnnnnnnddddddnnnnnnnnnwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    ]
+  }
 }

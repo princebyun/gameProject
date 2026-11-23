@@ -1,5 +1,9 @@
 import type { UnifiedInputManager } from '../../input/inputManager';
 import type { PlatformBridge } from '../../platform/platformBridge';
+import {
+  DEFAULT_BATTLE_SPEED_SCALE,
+  type BattleSpeedScale
+} from '../controllers/battleSpeedControl';
 
 export function createMobileVirtualControllerDockElement(
   input: UnifiedInputManager,
@@ -77,7 +81,8 @@ export function createMobileVirtualControllerDockElement(
 
 export function createSettingsModalElement(
   input: UnifiedInputManager,
-  platformBridge: PlatformBridge
+  platformBridge: PlatformBridge,
+  initialBattleSpeed: BattleSpeedScale = DEFAULT_BATTLE_SPEED_SCALE
 ): HTMLElement {
   const modal = document.createElement('div');
   modal.className = 'modal-backdrop';
@@ -87,6 +92,15 @@ export function createSettingsModalElement(
   modal.innerHTML = `
     <div class="modal-box" role="dialog" aria-label="접근성 및 조작 설정">
       <h3 style="color:#38bdf8;font-size:15px;">⚙ 접근성, 화면 모드 및 키 바인딩 설정 (${platformBridge.runtimeTarget.toUpperCase()})</h3>
+      <div class="field-row">
+        <label for="sel-battle-speed">전투 진행 속도 (단축키 [ / ] · P 일시정지):</label>
+        <select id="sel-battle-speed">
+          <option value="0.5" ${initialBattleSpeed === 0.5 ? 'selected' : ''}>0.5x 매우 느림 (전략/조작 집중)</option>
+          <option value="0.75" ${initialBattleSpeed === 0.75 ? 'selected' : ''}>0.75x 여유롭게 (권장 기본값)</option>
+          <option value="1" ${initialBattleSpeed === 1 ? 'selected' : ''}>1.0x 표준 속도 (원래 속도)</option>
+          <option value="1.25" ${initialBattleSpeed === 1.25 ? 'selected' : ''}>1.25x 빠름</option>
+        </select>
+      </div>
       <div class="field-row">
         <label for="sel-window-mode">화면 표시 모드 (F11 / Alt+Enter):</label>
         <select id="sel-window-mode">
@@ -98,6 +112,14 @@ export function createSettingsModalElement(
       <div class="field-row">
         <label for="chk-haptics">패기 상쇄/완벽 회피/각성 진동 피드백 (Haptics):</label>
         <input type="checkbox" id="chk-haptics" checked />
+      </div>
+      <div class="field-row">
+        <label for="sel-graphics-quality">그래픽 셰이더 품질 (PixiJS WebGL2):</label>
+        <select id="sel-graphics-quality">
+          <option value="HIGH" selected>고품질 (동적 광원·블룸·수면 반사)</option>
+          <option value="MEDIUM">표준 (모바일 균형)</option>
+          <option value="LOW">절전 (고프레임 경량 모드)</option>
+        </select>
       </div>
       <div class="field-row">
         <label for="chk-flash">화면 번쩍임 효과 (Flash Effect):</label>

@@ -22,12 +22,24 @@ import type { PlatformAdapter } from '../platform/platformAdapter';
 import { createPlatformBridge, type PlatformBridge } from '../platform/platformBridge';
 import type { SaveStorageAdapter } from '../platform/storage/storageAdapter';
 import type { CanvasRenderer } from '../render/canvasRenderer';
+import { PixiStageHost } from '../render/pixi/PixiStageHost';
 import { createDialogueOverlayUiState, type DialogueOverlayUiState } from '../render/dialogueAndPosterRenderer';
 import { createInitialMissionTrackerState, type MissionTrackerState } from '../render/missionTrackerHud';
+import { SeaWakeParticlePool } from '../render/sea/seaWakeParticlePool';
+import { SeaWeatherRenderer } from '../render/sea/seaWeatherRenderer';
 import type { SpectatorCameraTarget } from '../render/spectatorHudRenderer';
 import { StoryDirector } from '../story/storyDirector';
 import { createBootSceneState, type BootSceneState } from './bootScene';
 import { BattleLoopRenderer } from './controllers/battleLoopRenderer';
+import {
+  computeEffectiveLoopDt,
+  DEFAULT_BATTLE_SPEED_SCALE,
+  formatBattleSpeedLabel,
+  loadBattleSpeedScale,
+  normalizeBattleSpeedScale,
+  saveBattleSpeedScale,
+  type BattleSpeedScale
+} from './controllers/battleSpeedControl';
 import type { SceneManagerHost } from './controllers/controllerContracts';
 import { runDebugStoryJump, runSandboxShowcaseScenario, type SandboxShowcaseKind } from './controllers/debugShowcaseController';
 import { EndgameModalController } from './controllers/endgameModalController';
@@ -45,9 +57,12 @@ import { SceneShowcaseToolbarController } from './controllers/sceneShowcaseToolb
 import { SceneSideDrawerController } from './controllers/sceneSideDrawerController';
 import { SceneTopBarController } from './controllers/sceneTopBarController';
 import type { AssetPreviewScene } from './dev/assetPreviewScene';
+import type { VisualPolishDrawer } from './dev/visualPolishDrawer';
+import { PixiVerticalSliceController } from './controllers/pixiVerticalSliceController';
 import { renderCrewCampModal } from './modals/crewCampModal';
 import { createOpeningNarrationState, type OpeningNarrationState } from './openingNarrationScene';
 import type { ActiveAppScene, Disposable } from './sceneTypes';
+import { SeaChartController } from './sea/seaChartController';
 import type { TitleSceneController } from './titleScene';
 
 export type { ActiveAppScene, Disposable };
@@ -90,9 +105,15 @@ export class SceneManager implements Disposable, SceneManagerHost {
   public forfeitConfirmArmed = false;
 
   public renderer!: CanvasRenderer;
+  public readonly pixiHost = new PixiStageHost();
+  public readonly verticalSliceController = new PixiVerticalSliceController(this.pixiHost);
+  public visualPolishDrawer?: VisualPolishDrawer;
   public readonly input: UnifiedInputManager;
   public readonly assets: AssetLoader;
   public readonly audio: AudioManager;
+  public readonly seaWakePool = new SeaWakeParticlePool();
+  public readonly seaWeatherRenderer = new SeaWeatherRenderer();
+  public readonly seaChartController = new SeaChartController();
   public prng: SeededPRNG;
 
   public sandboxConfig: BattleWorldConfig;
@@ -104,6 +125,8 @@ export class SceneManager implements Disposable, SceneManagerHost {
   public pendingCoupDeBurst = false;
   public tickCount = 0;
   public fps = 60;
+  public battleSpeedScale: BattleSpeedScale = DEFAULT_BATTLE_SPEED_SCALE;
+  public isBattlePaused = false;
   private accumulator = 0;
   private lastTimeMs = 0;
   private frameCounter = 0;
@@ -163,6 +186,7 @@ export class SceneManager implements Disposable, SceneManagerHost {
     this.battleLoop = new BattleLoopRenderer(this, this.rpgController);
 
     this.campaign = createInitialCampaignState(rpgRegistry, gameRegistry);
+    this.battleSpeedScale = loadBattleSpeedScale(platform);
     this.sandboxConfig = this.battleLoop.createDefaultSandboxConfig();
     this.battleWorld = createBattleWorld(this.sandboxConfig, gameRegistry);
   }
@@ -171,12 +195,13 @@ export class SceneManager implements Disposable, SceneManagerHost {
     await this.platformBridge.init();
     if (this.storage !== this.platformBridge.storage) await this.storage.init();
 
-    this.viewportListenerCleanup = initializeSceneDomAndSubScenes(
+    const domInit = initializeSceneDomAndSubScenes(
       this,
       this.topBarController,
       this.showcaseController,
       this.inputRouter
     );
+    this.viewportListenerCleanup = domInit.cleanupViewport;
 
     this.activeScene = 'BOOT';
     this.bootState = createBootSceneState();
@@ -190,6 +215,9 @@ export class SceneManager implements Disposable, SceneManagerHost {
     this.fpsTimerMs = this.lastTimeMs;
     this.rafId = requestAnimationFrame((t) => this.loop(t));
 
+    await this.pixiHost.init(domInit.canvasWrapper, this.renderer.getMetrics());
+    void this.pixiHost.loader.preloadVerticalSliceCore();
+    this.visualPolishDrawer?.refreshTelemetry();
     await this.assets.preloadCoreAssets(this.gameRegistry.units);
     await this.scanLatestSaveOnBoot();
     this.bootAssetsReady = true;
@@ -215,9 +243,14 @@ export class SceneManager implements Disposable, SceneManagerHost {
     this.input.dispose();
     this.titleScene?.dispose();
     this.assetPreviewScene?.dispose();
+    this.visualPolishDrawer?.dispose();
+    this.verticalSliceController.dispose();
     this.activeTransport?.disconnect();
     this.activeTransport = null;
     this.renderer?.dispose();
+    this.seaChartController.dispose();
+    this.seaWakePool.dispose();
+    this.seaWeatherRenderer.dispose();
     this.assets.dispose();
     this.audio.dispose();
     this.platformBridge.device.dispose?.();
@@ -245,8 +278,11 @@ export class SceneManager implements Disposable, SceneManagerHost {
 
   public switchToScene(scene: ActiveAppScene): void {
     this.activeScene = scene;
+    this.isBattlePaused = false;
     this.gateBlockedPopup = null;
     this.forfeitConfirmArmed = false;
+    this.verticalSliceController.releaseActiveSlice(this);
+    if (scene !== 'SEA_SAILING') this.seaChartController.close();
     this.clearTransientFocusAndInput();
     if (scene !== 'TITLE') this.titleScene?.hide();
     this.updateFloatingHudToggleVisibility();
@@ -264,6 +300,28 @@ export class SceneManager implements Disposable, SceneManagerHost {
     this.syncSceneBgm();
     this.updateShowcaseToolbar();
     this.refreshSideDrawer();
+  }
+
+  public setBattleSpeedScale(scale: BattleSpeedScale): void {
+    this.battleSpeedScale = normalizeBattleSpeedScale(scale);
+    saveBattleSpeedScale(this.platform, this.battleSpeedScale);
+    const sel = this.settingsModalEl?.querySelector('#sel-battle-speed') as HTMLSelectElement | null;
+    if (sel) {
+      sel.value = String(this.battleSpeedScale);
+    }
+    this.saveIndicatorText = `⏱ 전투 속도: ${formatBattleSpeedLabel(this.battleSpeedScale)}`;
+    this.saveIndicatorTimer = 1.8;
+  }
+
+  public toggleBattlePause(force?: boolean): void {
+    if (this.activeScene !== 'STORY_BATTLE' && this.activeScene !== 'SANDBOX') {
+      this.isBattlePaused = false;
+      return;
+    }
+    this.isBattlePaused = force !== undefined ? force : !this.isBattlePaused;
+    this.clearTransientFocusAndInput();
+    this.saveIndicatorText = this.isBattlePaused ? '⏸ 전투 일시정지' : '▶ 전투 재개';
+    this.saveIndicatorTimer = 1.4;
   }
 
   public syncSceneBgm(activeWorld?: BattleWorldState): void {
@@ -374,7 +432,18 @@ export class SceneManager implements Disposable, SceneManagerHost {
       this.fpsTimerMs = nowMs;
     }
 
-    this.accumulator += frameDtSec;
+    const isModalPause = Boolean(
+      this.settingsModalEl?.classList.contains('open') ||
+        this.rootEl.querySelector('.top-bar.open')
+    );
+    const effectiveDt = computeEffectiveLoopDt(
+      frameDtSec,
+      this.activeScene,
+      this.battleSpeedScale,
+      this.isBattlePaused || isModalPause
+    );
+
+    this.accumulator += effectiveDt;
     let steps = 0;
     while (this.accumulator >= FIXED_DT && steps < 6) {
       this.tickCount += 1;

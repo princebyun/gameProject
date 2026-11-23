@@ -1,5 +1,6 @@
 import audioJson from './audio.json';
 import backgroundsJson from './backgrounds.json';
+import landmarksJson from './landmarks.json';
 import spritesJson from './sprites.json';
 import tilesetsJson from './tilesets.json';
 import vfxJson from './vfx.json';
@@ -8,7 +9,8 @@ import {
   assertValidBattleBackdropsManifestFile,
   assertValidSpriteManifestFile,
   assertValidTilesetManifestFile,
-  assertValidVfxManifestFile
+  assertValidVfxManifestFile,
+  assertValidWorldLandmarkManifestFile
 } from '../schemaGuards';
 import type {
   AudioManifestFile,
@@ -21,7 +23,9 @@ import type {
   TilesetManifestEntry,
   TilesetManifestFile,
   VfxAtlasManifestEntry,
-  VfxManifestFile
+  VfxManifestFile,
+  WorldLandmarkManifestEntry,
+  WorldLandmarkManifestFile
 } from './types';
 
 export interface AssetManifestRegistry {
@@ -40,6 +44,9 @@ export interface AssetManifestRegistry {
   backdropsMap: ReadonlyMap<string, BattleBackdropManifestEntry>;
   vfxFile: VfxManifestFile;
   vfxMap: ReadonlyMap<string, VfxAtlasManifestEntry>;
+  landmarksFile: WorldLandmarkManifestFile;
+  landmarksById: Record<string, WorldLandmarkManifestEntry>;
+  landmarksMap: ReadonlyMap<string, WorldLandmarkManifestEntry>;
 }
 
 export function createAssetManifestRegistry(): AssetManifestRegistry {
@@ -85,6 +92,14 @@ export function createAssetManifestRegistry(): AssetManifestRegistry {
     vfxMap.set(v.id, v);
   }
 
+  const landmarksFile = assertValidWorldLandmarkManifestFile(landmarksJson);
+  const landmarksById: Record<string, WorldLandmarkManifestEntry> = {};
+  const landmarksMap = new Map<string, WorldLandmarkManifestEntry>();
+  for (const lm of landmarksFile.landmarks) {
+    landmarksById[lm.id] = lm;
+    landmarksMap.set(lm.id, lm);
+  }
+
   return {
     spritesFile,
     spritesByKey,
@@ -100,7 +115,10 @@ export function createAssetManifestRegistry(): AssetManifestRegistry {
     backgroundsFile,
     backdropsMap,
     vfxFile,
-    vfxMap
+    vfxMap,
+    landmarksFile,
+    landmarksById,
+    landmarksMap
   };
 }
 
@@ -186,6 +204,13 @@ export function resolveVfxAtlas(
   registry: AssetManifestRegistry = defaultAssetManifestRegistry
 ): VfxAtlasManifestEntry | null {
   return registry.vfxMap.get(vfxId) ?? null;
+}
+
+export function resolveWorldLandmark(
+  landmarkId: string,
+  registry: AssetManifestRegistry = defaultAssetManifestRegistry
+): WorldLandmarkManifestEntry | null {
+  return registry.landmarksMap.get(landmarkId) ?? null;
 }
 
 export function resolveBgmTrack(

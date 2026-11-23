@@ -51,6 +51,10 @@ export class SceneAudioDirector implements Disposable {
       this.host.renderer.settings.flashEffectEnabled = settings.flashEffect;
       this.host.renderer.settings.shakeIntensity = settings.shakeIntensity;
     }
+    this.host.pixiHost?.updatePolishConfig({
+      flashEffectEnabled: settings.flashEffect,
+      shakeIntensity: settings.shakeIntensity
+    });
     if (typeof settings.bgmVolume === 'number') {
       this.host.audio.setBgmVolume(settings.bgmVolume);
     }

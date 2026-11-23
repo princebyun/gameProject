@@ -30,16 +30,23 @@ import type { PlatformAdapter } from '../../platform/platformAdapter';
 import type { PlatformBridge } from '../../platform/platformBridge';
 import type { SaveStorageAdapter } from '../../platform/storage/storageAdapter';
 import type { CanvasRenderer } from '../../render/canvasRenderer';
+import type { PixiStageHost } from '../../render/pixi/PixiStageHost';
 import type { DialogueOverlayUiState } from '../../render/dialogueAndPosterRenderer';
 import type { MissionTrackerState } from '../../render/missionTrackerHud';
+import type { SeaWakeParticlePool } from '../../render/sea/seaWakeParticlePool';
+import type { SeaWeatherRenderer } from '../../render/sea/seaWeatherRenderer';
 import type { SpectatorCameraTarget } from '../../render/spectatorHudRenderer';
 import type { StoryDirector } from '../../story/storyDirector';
 import type { BootSceneState } from '../bootScene';
 import type { AssetPreviewScene } from '../dev/assetPreviewScene';
+import type { VisualPolishDrawer } from '../dev/visualPolishDrawer';
 import type { OpeningNarrationState } from '../openingNarrationScene';
 import type { ActiveAppScene } from '../sceneTypes';
+import type { SeaChartController } from '../sea/seaChartController';
 import type { TitleSceneController } from '../titleScene';
+import type { BattleSpeedScale } from './battleSpeedControl';
 import type { SandboxShowcaseKind } from './debugShowcaseController';
+import type { PixiVerticalSliceController } from './pixiVerticalSliceController';
 
 export const EV_PRESETS: Record<string, { label: string; evs: StatBlock }> = {
   balanced: {
@@ -88,6 +95,8 @@ export interface SceneManagerHost {
   saveIndicatorText: string;
   tickCount: number;
   fps: number;
+  battleSpeedScale: BattleSpeedScale;
+  isBattlePaused: boolean;
 
   // Online & spectator state
   activeTransport: NetworkTransport | null;
@@ -115,9 +124,15 @@ export interface SceneManagerHost {
   readonly platformBridge: PlatformBridge;
   readonly storage: SaveStorageAdapter;
   renderer: CanvasRenderer;
+  readonly pixiHost?: PixiStageHost;
+  readonly verticalSliceController?: PixiVerticalSliceController;
+  visualPolishDrawer?: VisualPolishDrawer;
   readonly input: UnifiedInputManager;
   readonly assets: AssetLoader;
   readonly audio: AudioManager;
+  readonly seaWakePool?: SeaWakeParticlePool;
+  readonly seaWeatherRenderer?: SeaWeatherRenderer;
+  readonly seaChartController?: SeaChartController;
   prng: SeededPRNG;
   readonly storyDirector: StoryDirector;
   assetPreviewScene: AssetPreviewScene;
@@ -136,6 +151,8 @@ export interface SceneManagerHost {
 
   // Orchestration methods
   switchToScene(scene: ActiveAppScene): void;
+  setBattleSpeedScale(scale: BattleSpeedScale): void;
+  toggleBattlePause(force?: boolean): void;
   clearTransientFocusAndInput(): void;
   syncSceneBgm(activeWorld?: BattleWorldState): void;
   getActiveEndgameBattleKind(): 'IMPEL_DOWN' | 'COLOSSEUM' | 'RAID' | null;

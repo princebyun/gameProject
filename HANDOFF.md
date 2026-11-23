@@ -1,14 +1,15 @@
 # HANDOFF.md — One Piece Grand Voyage 프로젝트 인수인계 및 현재 상태 문서
 
-> **최종 업데이트 기준:** Stage 12 4대 핵심 거점 섬(후샤 마을·워터 세븐·와노쿠니·에그헤드) 7계층 리디자인 & 살아 있는 마을 시스템 · `npm run validate:maps` BFS 도달성 검증기 구축 · 프로덕션 웹 빌드(`dist-web/`) 검증 완료  
-> **현재 프로젝트 상태:** **APK 패키징 직전 리팩토링 · 고밀도 에셋 · 비규격 시트 슬라이서 · 4대 거점 7계층 맵 리디자인 및 정적/BFS/유닛/S25 울트라 E2E 게이트 통과 완료 (`npm run preview` 실행 시 즉시 로컬 플레이 가능; 네이티브 APK 빌드 및 git commit/push 제외)**  
+> **최종 업데이트 기준:** Stage 15 PixiJS v8 (WebGL2) HD-2D 수직 슬라이스 전환 · 전투 속도 제어 · Android Debug APK 빌드 완료 (`src/core/` Stage 15 무변경 · 코드 도트 베이커 `legacy/` 단절 · `foosha_village.tmj` 48×34 · WebGL2 동적 광원/블룸/수면 반사/색보정/갓레이/패링 충격파 셰이더 · `F9` 비주얼 튜닝 드로어 · `dist-web/` 및 `app-debug.apk` 생성 완료)  
+> **현재 프로젝트 상태:** **전 세계 17/17 섬 7계층 맵 + 3대 해역 월드맵(20종 랜드마크·해류·소용돌이·날씨·미니맵/확대 해도) + 전투 속도 제어 + 루피/후샤 마을(`.tmj`)/첫 전투 PixiJS v8 WebGL2 수직 슬라이스 구현 및 웹(`dist-web/` `728`파일)·Android Debug APK(`app-debug.apk` `28.83 MB`) 패키징 완료 (`check:arch` `251`파일 `0 issues` · Vitest `37`스위트 / `151`테스트 전원 통과)**  
 > **버전 현황:**  
-> - **앱 패키지 버전:** `0.1.0` (`package.json`)  
+> - **앱 패키지 버전:** `0.1.0` (`package.json`) | **Android 버전:** `versionCode 1` / `versionName "1.0"` (`android/app/build.gradle`)  
 > - **전투 계산 버전 (`BATTLE_CALC_VERSION`):** `"0.6.0"` (`src/core/constants.ts` — 결정론 `stateHash` 3종 100% 동일 유지)  
-> - **세이브 스키마 버전 (`CURRENT_SAVE_VERSION`):** `5` (`v0 → v1 → v2 → v3 → v4 → v5` 무손실 순차 마이그레이션 & `openedChestIds` 하위 호환 · `HMAC-SHA256-DERIVED` 2단계 안티치트 호환)  
-> - **TypeScript & 아키텍처 규격:** `strict: true` + `noUncheckedIndexedAccess: true` + `noUnusedLocals/Parameters: true` + `noImplicitReturns: true` (`check:arch` `216`개 파일 순환 참조 `0건`, 계층 위반 `0건`, `any`/`@ts-ignore` `0건`, `shadowBlur` `0건`, 400줄 이상 로직 파일 `0건`)  
-> - **에셋 매니페스트:** 스프라이트 시트 `98/98종` (`External PNG: 98, Baked Fallback: 0`) | 표정 초상화 `352/352종` (`64×64 PNG`) | 바이옴 타일셋 `14종` | 오디오 `BGM 10곡 / SFX 22종`  
-> **자동화 검증 현황:** `npm run validate:maps` 통과 (`17섬 / 15보물상자 0 errors`) | `npm run validate:assets` 통과 (`0 errors`) | `npm run validate:scripts` 통과 (`0 errors`) | `npm run check:arch` 통과 (`0 issues`) | `npm run typecheck` & Electron `tsc` 통과 (`0 errors`) | `npm run build:web` 통과 (`dist-web/` `672`개 파일, `24,770,372 bytes`, `23.62 MiB`) | Vitest **30개 스위트 / 123개 테스트 전원 통과**
+> - **세이브 스키마 버전 (`CURRENT_SAVE_VERSION`):** `5` (`v0 → v1 → v2 → v3 → v4 → v5` 무손실 순차 마이그레이션 & `openedChestIds` / `episodeFlags['visited_island_*']` 하위 호환 · `HMAC-SHA256-DERIVED` 2단계 안티치트 호환)  
+> - **렌더링 엔진 / 프로 매니페스트 버전:** `pixi.js@^8.23.0` (WebGL2) | `pro_manifest.json` `v1.0.0` (루피/조로/버기 Aseprite JSON + `foosha_village.tmj` + 3종 CC0 타일셋 + 4레이어 `east_blue_harbor` + 7종 VFX + 컷인 2종)  
+> - **TypeScript & 아키텍처 규격:** `strict: true` + `noUncheckedIndexedAccess: true` + `noUnusedLocals/Parameters: true` + `noImplicitReturns: true` (`check:arch` `251`개 파일 순환 참조 `0건`, 계층 위반 `0건`, `any`/`@ts-ignore` `0건`, `shadowBlur` `0건`)  
+> - **레거시 호환 에셋 매니페스트:** 스프라이트 `98/98종` · 초상화 `352/352종` · 바이옴 타일셋 `14종` · 월드 랜드마크 `20/20종` · 오디오 `BGM 10곡 / SFX 22종`  
+> **자동화 검증 현황:** `npm run validate:maps` 통과 (`17/17` + `foosha_village.tmj` BFS `0 errors`) | `npm run validate:assets` 통과 (`0 errors`) | `npm run validate:scripts` 통과 (`0 errors`) | `npm run check:arch` 통과 (`0 issues`, `251` files) | `npm run typecheck` 통과 (`0 errors`) | `npm run build:web` 통과 (`dist-web/` `728`개 파일, `26,207,007 bytes`, Workbox `36 entries`) | `npm run package:android:sync` + `.\gradlew.bat assembleDebug` 통과 (`app-debug.apk` `28,831,149 bytes`) | Vitest **37개 스위트 / 151개 테스트 전원 통과**
 
 ---
 
@@ -94,10 +95,10 @@
 ## 2. 남은 이슈 (Remaining Issues)
 
 - **치명적/기능적/아키텍처 버그:** **0건**
-  - 전투 코어 결정론(`BATTLE_CALC_VERSION = "0.6.0"`, 기준선 `stateHash` 3종 100% 일치), 세이브 호환성(`CURRENT_SAVE_VERSION = 5`, `world.openedChestIds` 하위 호환), `validate:maps`(17개 섬·15개 상자 BFS 0 에러), 순환 참조 `0건`, 계층 침범 `0건`, `any`/`@ts-ignore` `0건`, `ctx.shadowBlur` `0건`, 400줄 이상 로직 파일 `0건`, 오프스크린 캔버스 GPU 메모리(`width=0, height=0`) 및 `AbortController`·WebAudio 해제 모두 검증 완료.
+  - 전투 코어 결정론(`BATTLE_CALC_VERSION = "0.6.0"`, 기준선 `stateHash` 3종 100% 일치), 세이브 호환성(`CURRENT_SAVE_VERSION = 5`, `world.openedChestIds` 동적 60종 하위 호환), `validate:maps`(17/17 7계층 섬·60개 상자·71개 구역·102명 NPC BFS 0 에러), 순환 참조 `0건`, 계층 침범 `0건`, `any`/`@ts-ignore` `0건`, `ctx.shadowBlur` `0건`, 오프스크린 캔버스 GPU 메모리(`width=0, height=0`) 및 `AbortController`·WebAudio 해제 모두 검증 완료.
 - **라이브 Chrome DevTools(CDP) 원격 디버깅 미연결 (자동화 E2E로 대체 검증 완료):**
-  - 프로덕션 번들(`dist-web/` `672`파일, `23.62 MiB`) 무결성, 갤럭시 S25 울트라(`19.5:9`, `915×412 → 1199×540`) 스크롤링·청크 컬링·오버헤드·Y-정렬·`<16.6ms` 60FPS 예산·GPU 메모리 해제 회귀는 자동화 테스트(`hubMapLivingVillageAndChests.test.ts`, `productionDistGalaxyS25E2E.test.ts`, `phase3OptimizationAndLeak.test.ts`)로 검증 완료.
-  - 사용자 요청에 따라 호스트 Chrome 원격 디버깅이 비활성화된 상태이므로, 실브라우저 시각 확인이 필요할 때 `npm run preview`로 로컬에서 바로 확인할 수 있습니다.
+  - 프로덕션 번들(`dist-web/` `692`파일, `25,055,826 bytes`, `landmarks` `20/20 PNG`) 무결성, 갤럭시 S25 울트라(`19.5:9`, `915×412 → 1199×540`)·데스크톱(`1280×720`) Safe Area 비충돌, 해류·소용돌이 물리, `flashEffect === false` 번개 차단, 60개 보물상자 동적 집계, 빠른 항해, GPU 메모리 해제 회귀는 자동화 테스트(33 suites / 136 tests)로 검증 완료.
+  - 호스트 Chrome에서 `chrome://inspect/#remote-debugging`(`DevToolsActivePort`)이 비활성화되어 있어 라이브 CDP 브라우저 조작은 차단되었으며, 실브라우저 시각 확인이 필요할 때 `npm run preview`로 로컬에서 바로 확인할 수 있습니다.
 - **선택적 외부 커스텀 스프라이트 교체 대상 (`MISSING_SPRITES.md`):**
   - 다층 바이옴 타일셋(`14종`), 패럴랙스 전투 배경(`42장`), VFX 아틀라스(`12종`), 실제 `.ogg` 오디오(`BGM 10곡 / SFX 22종`), NDS 스프라이트(`37종`)·머그샷 초상화(`352장+`)는 모두 외부 파일 확보 완료.
   - 나머지 `57종` 캐릭터·변신 폼은 관절 도트 리그 PNG로 정상 동작 중이며, 추후 외부 NDS/JUS/MUGEN 시트를 확보하면 `raw_assets/packs/` 투입 후 `npm run import:pack` 또는 `AssetPreviewScene` 슬라이서 탭으로 무중단 교체 가능합니다.
@@ -171,41 +172,110 @@
 
 ---
 
-## 6. 다음 할 일 (Next Steps)
+## 6. Stage 13 완료 요약 (전 세계 13개 미개편 섬 7계층 일괄 리디자인 · 17/17 전 섬 통일)
 
-1. **커스텀 비규격 캐릭터 시트 테스트 및 보정 워크플로우 (`raw_assets/packs/` → `npm run import:pack`)**
-   - NDS·JUS·MUGEN PNG 시트를 `raw_assets/packs/{spriteKey}.png`에 두고 `npm run import:pack -- --file={spriteKey}.png --preview-only`로 `exported_thumbnails/import_debug/{spriteKey}_debug.png`를 먼저 점검하거나, `npm run preview` → `개발자 도구 / AssetPreviewScene` → `✂ 시트 임포트 / 슬라이서` 탭에서 피벗/행 상태를 미세 조정해 `.recipe.json`을 저장한 뒤 `npm run import:pack` 실행.
-2. **로컬 브라우저 실플레이 확인 (`npm run preview`) 및 최종 Android APK 재패키징 (`npm run package:android:apk`)**
-   - 필요 시 `npm run preview`로 거점 4개 맵 탐험·보물상자·존 배너를 직접 확인하고, 최종 배포 시 `npm run build:android` → `npx cap sync android` → Gradle APK 빌드 실행.
+1. **결정론적 7계층 맵 빌더 구축 (`scripts/build-island-maps.mjs`, `scripts/maps/`)**
+   - `mapCanvasBuilder.mjs` + 해역별 블루프린트(`eastBlueBlueprints.mjs`, `grandLineBlueprints.mjs`, `newWorldBlueprints.mjs`)로 13개 미개편 섬을 `44×30 ~ 54×38` 규격의 7계층 맵으로 컴파일하고, 기존 스토리 NPC·보스 기믹(`waterZones`, `WATER_BARREL`, `SURVIVE_TIME`, 마르코 2:2 3연전, `COLOSSEUM`, `RAID`, 엘바프 거대 스케일)·에피소드 `steps[].targetPos`를 100% 무손실 동기화 (`foosha_shells`·`water_seven`·`wano_onigashima`·`egghead` 4대 거점 원형 보존).
+2. **스키마 · 동적 안티치트 · 7계층 렌더러 확장 (`src/core/` 결정론 & `<400줄` 유지)**
+   - [`rpgSchemas.ts`](src/data/schemas/rpgSchemas.ts): `'snow'` 발소리 재질, 15종 고유 랜드마크(`CIRCUS_TENT`, `FISH_PROW`, `SHARK_GATE`, `EXECUTION_PLATFORM`, `ROPEWAY_TOWER`, `CLOCK_TOWER`, `BEANSTALK_ARCH`, `GOLDEN_BELL`, `GOTHIC_MAST`, `WARSHIP_HULL`, `CORAL_ARCH`, `COLOSSEUM_ARCH`, `WAFFLE_ARCH`, `WORLD_TREE_ROOT`, `RUNE_MONOLITH`), 10종 환경 파티클(`SMOKE`, `RAIN`, `SNOW`, `SAND`, `BAT`, `EMBER`, `BUBBLE`, `SUGAR_SPARKLE`, `GOLDEN_LEAF`, `LIGHTNING_SPARK`), `postClearParticles` 추가.
+   - [`worldLandmarkDrawers.ts`](src/render/rpg/worldLandmarkDrawers.ts) & [`ambientParticlePresets.ts`](src/render/rpg/ambientParticlePresets.ts): 제로 GC · `shadowBlur` 0건 픽셀 랜드마크(오버헤드 가림 포함) 및 드럼 왕국 클리어 후 눈송이→벚꽃 눈 자동 전환 지원.
+   - [`legalityValidator.ts`](src/core/save/legalityValidator.ts) & [`saveDeserialization.ts`](src/core/save/saveDeserialization.ts): `collectDynamicChestRegistry`로 전체 17개 섬 60개 보물상자를 동적 교차 검증하고, 구 `960×540` 세이브의 차단 좌표 진입 시 `spawnPoint` 안전 스냅 적용.
+3. **13개 신규 리디자인 섬 요약 (`45`개 신규 상자 · `52`개 구역 · `74`명 NPC 추가)**
+   - **이스트 블루 (4):** `orange_town`(`44×30`, 상자 3), `baratie`(`46×32`, 사방 해수면+거대 물고기 뱃머리+전투 지느러미 갑판, 상자 3), `arlong_park`(`46×34`, 귤나무 숲 캐노피+톱상어 성문+중앙 수영장, 상자 3), `loguetown`(`48×34`, 로저 처형대 광장+빗방울/파문, 상자 3).
+   - **위대한 항로 (5):** `drum_kingdom`(`46×36`, 로프웨이+설산 계단+클리어 후 벚꽃 눈 전환, 상자 3), `alabasta`(`50×36`, 바자르 천막+오아시스+시계탑, 상자 4), `skypiea`(`50×36`, 거대 콩줄기 아치+샨도라 황금종, 상자 4), `thriller_bark`(`48×36`, 안개 묘지+돌다리+밤 조명+박쥐, 상자 3), `marineford`(`52×36`, 초승달 얼음만 군함+포대 방벽+오리스 광장, 상자 3).
+   - **신세계 (4):** `fishman_island`(`50×36`, 산호 아치+인어 만+상승 공기방울+해저 빛줄기, 상자 4), `dressrosa`(`52×36`, 붉은 지붕 골목+콜로세움 아치+해바라기 언덕, 상자 4), `totto_land`(`50×36`, 와플 아치+초콜릿 분수+설탕 가루, 상자 4), `elbaf`(`54×38`, 세계수 아담 거대 뿌리 다리+룬 석비+명계 절벽, 상자 4).
+4. **전수 검증 결과:**
+   - `npm run validate:maps` (`17/17` 7계층 섬, `60` 고유 상자, `71` 구역, `102` NPC, `0 errors`), `npm run validate:assets` (`0 errors`), `npm run validate:scripts` (`102 NPCs / 130 lines`, `0 errors`), `npm run check:arch` (`218 TS files`, `0 issues`), `npm run typecheck` (`0 errors`), Vitest **31개 스위트 / 127개 테스트 전원 통과**([`allIslands7LayerAndChests.test.ts`](tests/core/allIslands7LayerAndChests.test.ts) 포함), `npm run build:web` (`2.42s`, `dist-web/` `672 files`, `24,970,482 bytes`, `23.81 MiB`).
 
 ---
 
-## 7. 빠른 검증 및 실행 방법
+## 7. Stage 14 완료 요약 (`SeaSailingScene` 2D 픽셀 RPG 월드맵 전면 개편)
+
+1. **20종 고유 픽셀 랜드마크 베이킹 CLI (`npm run bake:landmarks`, `public/assets/world/landmarks/`)**
+   - [`bake-landmarks.mjs`](scripts/bake-landmarks.mjs) + [`landmarkPixelPrimitives.mjs`](scripts/lib/landmarkPixelPrimitives.mjs) · [`landmarkPaintersEastAndGrand.mjs`](scripts/lib/landmarkPaintersEastAndGrand.mjs) · [`landmarkPaintersNewWorld.mjs`](scripts/lib/landmarkPaintersNewWorld.mjs): `sea_zones.json`의 전 **18개 섬 노드**(`foosha_shells`·`impel_down` 포함) + **2개 해역 관문**(`gate_reverse_mountain`, `gate_red_line`) = **총 20종**의 4프레임 애니메이션 픽셀 PNG 시트(`96×96 ~ 144×144`, 1px 유채색 외곽선, 3단계 색조 명암, 해안 포말 파도 링)를 디스크에 베이킹하고 [`landmarks.json`](src/data/assets/landmarks.json), [`AssetLoader`](src/assets/assetLoader.ts), [`validate-assets.ts`](scripts/validate-assets.ts)에 완전 연동.
+   - [`seaLandmarkRenderer.ts`](src/render/sea/seaLandmarkRenderer.ts) & [`sailingEntityRenderer.ts`](src/render/rpg/sailingEntityRenderer.ts) & [`seaWakeParticlePool.ts`](src/render/sea/seaWakeParticlePool.ts): 입항 근접 시 컴팩트 정보 배너(섬 이름·클리어 배지·골드/블루 마커·보물상자 `X/Y`·`[입항]`), `ep_water_seven` 완료 후 `going_merry ↔ thousand_sunny` 자동 전환, 8방향 기울임·돛 부풀림, 96슬롯 제로 할당 `SeaWakeParticlePool` 포말 항적 구현.
+2. **해역별 해류·소용돌이 물리 및 동적 날씨·접근성 가드**
+   - [`seaCurrentPhysics.ts`](src/core/rpg/seaCurrentPhysics.ts) & [`sailingPhysics.ts`](src/core/rpg/sailingPhysics.ts) & [`seaCurrentsRenderer.ts`](src/render/sea/seaCurrentsRenderer.ts): `currents[]` 폴리라인 항로(순류 **+35%** 가속, 역류 **-20%** 완화 감속, 흐르는 픽셀 리본·방향 화살표) 및 `whirlpools[]`(접선 회전 + 완만한 중심 흡인 + `coreRadiusPx` 안전 반발 코어로 고립/즉사 원천 차단 + 쿠 드 버스트 즉시 탈출).
+   - [`seaWeatherRenderer.ts`](src/render/sea/seaWeatherRenderer.ts): 이스트 블루(따뜻한 햇살·갈매기 비행), 위대한 항로(드럼 왕국 눈/클리어 시 벚꽃 눈 · 알라바스타 모래바람 · 스릴러 바크 보라 안개 · 마린포드 표류 유빙 `300px` 근접 크로스페이드), 신세계(폭풍 구름·사선 빗줄기·해왕류 수중 그림자·엘바프 황금 오로라) 구현 및 **`flashEffectEnabled === false` 시 번개·섬광 100% 차단** 준수.
+3. **우상단 9-슬라이스 양피지 미니맵 · 확대 해도(`M`/탭) · 동적 보물 집계 · 빠른 항해**
+   - [`seaMinimapHud.ts`](src/render/sea/seaMinimapHud.ts) & [`sailingHudRenderer.ts`](src/render/rpg/sailingHudRenderer.ts): 좌하단 조이스틱과 겹치던 구형 미니맵을 제거하고 우상단(`☰ 메뉴` 아래 `148×98px`)에 9-슬라이스 양피지+나침반 미니맵(해역 보물 `X/Y · Z%`, 골드 마커 핑, 해류·방향성 선박) 배치 및 `LogPoseHUD` 좌측 이동으로 `915×412`·`1280×720` Safe Area 0충돌 확보.
+   - [`seaChartLogic.ts`](src/core/rpg/seaChartLogic.ts), [`seaChartOverlay.ts`](src/render/sea/seaChartOverlay.ts), [`seaChartDetailCard.ts`](src/render/sea/seaChartDetailCard.ts), [`seaChartController.ts`](src/scenes/sea/seaChartController.ts): `M` 키 또는 미니맵 탭으로 여는 3해역 탭 확대 해도, `DataRegistry` 기반 섬/해역/전체 60보물상자 실시간 집계 및 `100% ★` 금색 왕관 배지, `episodeFlags['visited_island_*']` 기반 Save v5 호환 `[빠른 항해]` 구현.
+4. **전수 검증 결과 (`2026-11-23`):**
+   - `npm run bake:landmarks` (20/20 PNG), `npm run validate:assets` (0 errors), `npm run validate:maps` (17/17 7-layer, 60 chests, 0 errors), `npm run validate:scripts` (0 errors), `npm run check:arch` (`228` TS files, 0 issues, `0 shadowBlur`, `0 circular deps`), `npm run typecheck` (0 errors), Vitest **33 suites / 136 tests ALL PASSED**([`seaWorldmapPhysicsAndLandmarks.test.ts`](tests/core/seaWorldmapPhysicsAndLandmarks.test.ts) + [`seaChartAndSafeArea.test.ts`](tests/core/seaChartAndSafeArea.test.ts) 포함), `npm run build:web` (`dist-web/` `692` files, `25,055,826 bytes`, `landmarks` `20/20`).
+
+---
+
+## 8. Stage 15 완료 요약 (PixiJS v8 WebGL2 HD-2D 수직 슬라이스 전환 · 코드 도트 생성 단절 · 전투 속도 제어)
+
+1. **전투 속도 조절 & 일시정지 시스템 (`battleSpeedControl.ts` · `battleSpeedHud.ts` · `settingsModal.ts`)**
+   - `0.5x` / `0.75x` / `1.0x` 전투 배속 프리셋(기본값 또는 사용자 조정 유지) 및 일시정지 토글을 추가하고, Top Bar / 캔버스 HUD([`battleSpeedHud.ts`](src/render/hud/battleSpeedHud.ts)) / 환경설정 모달([`settingsModal.ts`](src/scenes/modals/settingsModal.ts))과 동기화 ([`battleSpeedControl.test.ts`](tests/core/battleSpeedControl.test.ts) 3/3 통과).
+2. **코드 기반 프로시저럴 도트 베이커 `legacy/` 격리 및 PixiJS v8 WebGL2 코어 구축**
+   - `src/core/` 60Hz 결정론·전투 공식·세이브 마이그레이터는 **단 1줄도 변경하지 않고 보존**하며, 기존 절차적 도트 베이커(`proceduralPixelSheetBaker`, `proceduralTilesetBaker`, `luffyArticulatedPixelSheet`, `scripts/bake-sprites.mjs`, `scripts/bake-landmarks.mjs`)는 [`src/assets/legacy/`](src/assets/legacy/proceduralPixelSheetBaker.ts) 및 [`scripts/legacy/`](scripts/legacy/bake-sprites.mjs)로 격리하고 기존 경로에는 `@deprecated` 얇은 재수출 스텁만 유지.
+   - [`renderBackend.ts`](src/render/backend/renderBackend.ts), [`PixiStageHost.ts`](src/render/pixi/PixiStageHost.ts), [`ProAssetLoader.ts`](src/render/pixi/ProAssetLoader.ts), [`proAssetManifest.ts`](src/data/assets/proAssetManifest.ts): WebGL2 렌더링(`TextureStyle.defaultOptions.scaleMode = 'nearest'`, `antialias: false`, `roundPixels: true`), Aseprite JSON Hash/Array · TexturePacker · `.meta.json` 자동 파서, 누락 아트는 중립 실루엣 폴백(`createMissingProArtPlaceholder`)만 사용하며 `src/render/pixi/` 및 `src/render/backend/` 내 레거시 베이커 import **0건** 강제([`pixiCoreAndProLoader.test.ts`](tests/render/pixiCoreAndProLoader.test.ts) 5/5 통과).
+3. **Tiled 1.10(`.tmj`) 로더 & WebGL2 셰이더 파이프라인 (`src/render/pixi/tiled/`, `shaders/`)**
+   - [`tiledSchema.ts`](src/render/pixi/tiled/tiledSchema.ts) & [`TiledMapLoader.ts`](src/render/pixi/tiled/TiledMapLoader.ts): H/V/D 타일 플립 디코딩, 다중 타일 레이어(`water`/`ground`/`walls`/`overhead`), 애니메이션 타일, `16×16` 청크 뷰포트 컬링(`19.5:9` 가변 폭 대응), 지붕 근접 투명화, Y-정렬 지원 및 [`validate-maps.mjs`](scripts/validate-maps.mjs)의 `.tmj` BFS 도달성 검증 통과.
+   - [`DynamicLightingLayer.ts`](src/render/pixi/shaders/DynamicLightingLayer.ts), [`SelectiveBloomFilter.ts`](src/render/pixi/shaders/SelectiveBloomFilter.ts), [`WaterReflectionPipeline.ts`](src/render/pixi/shaders/WaterReflectionPipeline.ts), [`AtmosphereColorGradingFilter.ts`](src/render/pixi/shaders/AtmosphereColorGradingFilter.ts), [`GodRaysAndParticlesLayer.ts`](src/render/pixi/shaders/GodRaysAndParticlesLayer.ts), [`ShockwaveDistortionFilter.ts`](src/render/pixi/shaders/ShockwaveDistortionFilter.ts): GLSL 300 es `Filter` 기반 1/2 해상도 RT 동적 2D 라이트맵, 선택적 블룸(`flashEffectEnabled === false` 시 `<= 0.45` 제한), 실시간 수면 반사·물결 왜곡, 아침/낮/노을/밤 색보정, 갓레이·풀링 GPU 파티클, 무장색 패링 방사형 충격파 왜곡 구현([`tiledLoaderAndShaders.test.ts`](tests/render/tiledLoaderAndShaders.test.ts) 3/3 통과).
+4. **수직 슬라이스(루피 + 후샤 마을 `.tmj` + 첫 전투) & 외부 에셋 파이프라인 & 비주얼 튜닝(`F9`)**
+   - `npm run import:pro` ([`import-pro-assets.mjs`](scripts/import-pro-assets.mjs)) & [`build-foosha-tmj.mjs`](scripts/build-foosha-tmj.mjs) & [`PRO_ART_DROP_GUIDE.md`](PRO_ART_DROP_GUIDE.md): 외부 CC0 타일셋 3종 + 48×34 [`foosha_village.tmj`](public/assets/pro/maps/foosha_village.tmj) (`lights=9`, `chests=3`, `npcs=7`) + 루피/조로/버기 Aseprite 시트 + 4레이어 `east_blue_harbor` + 7종 VFX + 컷인 에셋을 `public/assets/pro/`에 구축.
+   - [`PixiFooshaIslandScene.ts`](src/render/pixi/scenes/PixiFooshaIslandScene.ts), [`PixiBattleVerticalSliceScene.ts`](src/render/pixi/scenes/PixiBattleVerticalSliceScene.ts), [`PixiBattleEffectsHelper.ts`](src/render/pixi/scenes/PixiBattleEffectsHelper.ts), [`pixiVerticalSliceController.ts`](src/scenes/controllers/pixiVerticalSliceController.ts), [`visualPolishDrawer.ts`](src/scenes/dev/visualPolishDrawer.ts): PixiJS WebGL2 캔버스(`zIndex: 1`) + 투명 2D HUD 오버레이(`zIndex: 2`) 합성, 5회 연속 `Title → Foosha → Battle → Title` 왕복 시 `RenderTexture` 누수 **0건** 확인([`pixiVerticalSliceAndMemoryLeak.test.ts`](tests/render/pixiVerticalSliceAndMemoryLeak.test.ts) 4/4 통과).
+5. **전수 검증 & Android Debug APK 빌드 결과 (`2026-11-23`):**
+   - `npm run check:arch` (`251` TS files, `0 issues`, `0 shadowBlur`, `0 circular deps`), `npm run typecheck` (`0 errors`), `npm run validate:maps` (`17/17` + `foosha_village.tmj` BFS `0 errors`), `npm run validate:assets` (`0 errors`), `npm run validate:scripts` (`0 errors`), `npm run build:web` (`vite` 5.07s, `dist-web/` `728` files, `26,207,007 bytes`, `pixi-webgl` chunk `549.34 kB`, Workbox `36 entries` / `2124.26 KiB`), Vitest **37 suites / 151 tests ALL PASSED**.
+   - **Android Debug APK 패키징 완료:** `npm run package:android:sync` (`dist-android/` `1079`모듈 `4.26s`, Capacitor 7종 플러그인 동기화 `0.638s`, `sw.js` 제외 및 `foosha_village.tmj`·`luffy_base.png` 동기화 확인) + `android\gradlew.bat assembleDebug` (JDK 17 / Gradle 8.14.3, `BUILD SUCCESSFUL in 25s`) → `android/app/build/outputs/apk/debug/app-debug.apk` (`28,831,149 bytes`, 약 `27.50 MiB`).
+
+---
+
+## 9. 남은 이슈 (Known / Remaining Issues)
+
+1. **호스트 Chrome DevTools 원격 디버깅 미활성으로 인한 자동 실브라우저 WebGL2 육안 점검 보류**
+   - `npx vite preview --outDir dist-web --port 4173` 기반 브라우저 에이전트 점검 시 `C:\Users\plani\AppData\Local\Google\Chrome\User Data\DevToolsActivePort` 부재로 `BLOCKED` 상태입니다.
+   - 실제 WebGL2 셰이더(수면 반사·동적 광원·선택적 블룸·패링 충격파) 및 `915×412` Safe Area 시각 확인은 로컬에서 `npm run preview` 실행 또는 생성된 `app-debug.apk`를 실기기에 설치해 확인해야 합니다.
+2. **Windows `cmd.exe` 환경에서 `npm run package:android:apk`의 `./gradlew` 경로 호환성**
+   - [`package.json`](package.json)의 `"package:android:apk"` 스크립트가 `./gradlew assembleDebug`를 사용해 Windows 기본 `cmd.exe`에서는 실패할 수 있습니다(현재는 PowerShell에서 `npm run package:android:sync` 후 `Push-Location android; .\gradlew.bat assembleDebug; Pop-Location`으로 정상 빌드 확인).
+3. **수직 슬라이스 외 16개 섬 및 나머지 캐릭터의 PixiJS 프로 아트 확장 대기**
+   - 현재 PixiJS v8 WebGL2 HD-2D 수직 슬라이스는 **후샤 마을(`foosha_village.tmj`) + 루피/조로/버기 + 이스트 블루/후샤/샌드박스 전투**에 적용되어 있으며, 나머지 16개 섬은 기존 7계층 2D 캔버스 렌더러로, 프로 시트가 없는 캐릭터는 중립 실루엣 폴백(`createMissingProArtPlaceholder`)으로 동작합니다.
+4. **프로덕션 번들 청크 크기 경고 (`> 500 kB`)**
+   - `vite build` 시 `pixi-webgl` (`549.34 kB`), `index` (`554.18 kB`), `game-data` (`558.26 kB`) 청크가 500 kB 경고를 출력합니다(정상 동작 및 gzip 125~170 kB 수준이나 초기 로딩 추가 최적화 여지 존재).
+5. **Android Release 서명(Keystore / Signed AAB·APK) 미구성**
+   - 현재 빌드된 산출물은 테스트·실기기 설치용 `app-debug.apk`이며, 배포용 Release APK/AAB 추출 시 서명 키스토어 및 `signingConfigs` 구성이 필요합니다.
+
+---
+
+## 10. 다음 할 일 (Next Steps)
+
+1. **갤럭시 S25 울트라 실기기 APK 플레이 테스트 & `npm run preview` WebGL2 육안 확인**
+   - `android/app/build/outputs/apk/debug/app-debug.apk`를 기기에 설치하거나 로컬 `npm run preview`로 접속해 `F9` 비주얼 튜닝 드로어(아침/낮/노을/밤 · 5종 셰이더 토글 · 품질 프리셋), 후샤 마을 수면 반사/지붕 투과, 첫 전투 패링 충격파·컷인, 전투 속도(`0.5x`/`0.75x`/`1.0x`) 및 60FPS 체감 품질을 확인하세요.
+2. **프로 아트 & Tiled `.tmj` 거점 순차 확장 (`PRO_ART_DROP_GUIDE.md`)**
+   - [`PRO_ART_DROP_GUIDE.md`](PRO_ART_DROP_GUIDE.md) 절차에 따라 주력 캐릭터 Aseprite 시트(나미·상디·우솝·초파·모건 등)와 핵심 거점(워터 세븐·와노쿠니·에그헤드) `.tmj` 맵을 `public/assets/pro/`에 추가하고 `npm run import:pro` + `npm run validate:maps`로 검증하세요.
+3. **크로스플랫폼 빌드·번들 최적화 및 Release 서명 구성**
+   - `package.json`의 `package:android:apk`를 Windows/macOS/Linux 공용 Node 래퍼로 개선하고, `game-data` / 비핵심 씬에 `dynamic import()` 분할을 적용한 뒤 배포 시 Android Release Keystore 서명을 구성하세요.
+
+---
+
+## 11. 빠른 검증 및 실행 방법
 
 ```powershell
-# 1. 아키텍처·순환참조·any·shadowBlur 자동 감사
+# 1. 아키텍처·순환참조·any·shadowBlur 자동 감사 (251 TS files)
 npm run check:arch
 
-# 2. 17개 섬 맵 타일 ID·BFS 도달성·NPC 순찰·보물상자 무결성 검사
+# 2. 프로 에셋/Tiled 맵(.tmj) 빌드 및 전 섬 BFS 도달성·보물상자 무결성 검사
+npm run import:pro
 npm run validate:maps
 
-# 3. 스프라이트(GRID + VARIABLE_PACK)·초상화·타일셋·배경·VFX·오디오 무결성 검사
+# 3. 스프라이트·초상화·타일셋·배경·VFX·월드 랜드마크(20종)·오디오 & 스크립트 검증
 npm run validate:assets
-
-# 4. 캠페인·섬·대사·유닛·폼·스킬 데이터 교차 참조 무결성 검사
 npm run validate:scripts
 
-# 5. 정적 타입 검사 (strict + noUncheckedIndexedAccess)
+# 4. 정적 타입 검사 (strict + noUncheckedIndexedAccess)
 npm run typecheck
 
-# 6. 전체 단위/슬라이서/UI/살아있는마을/결정론/E2E 테스트 (30개 스위트 / 123개 테스트)
+# 5. 프로덕션 웹 빌드 & 전체 Vitest 스위트 (37 suites / 151 tests)
+npm run build:web
 npm run test
 
-# 7. 비규격 시트 프리뷰 디버그 & 원클릭 임포트
-npm run import:pack -- --file=kaido_base.png --preview-only
-npm run import:pack
+# 6. Android Debug APK 빌드 (Windows PowerShell)
+npm run package:android:sync
+Push-Location android; .\gradlew.bat assembleDebug; Pop-Location
 
-# 8. 프로덕션 웹 빌드 및 AI 핸드오프 번들 갱신
-npm run build:web
+# 7. AI 핸드오프 번들 갱신
 npm run ai:handoff
 ```

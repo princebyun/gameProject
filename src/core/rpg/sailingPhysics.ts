@@ -18,8 +18,14 @@ import type {
 } from '../types/rpgSchemas';
 import {
   computeBountyTier,
-  computeCrewRoleBonuses
+  computeCrewRoleBonuses,
+  syncShipHullStatsWithRoles
 } from './crewAndBountyEngine';
+import {
+  resolveActiveShipId,
+  sampleSeaCurrentAt,
+  sampleWhirlpoolAt
+} from './seaCurrentPhysics';
 
 const TIME_ORDER: TimeOfDayId[] = ['MORNING', 'DAY', 'EVENING', 'NIGHT'];
 const WEATHER_ORDER: SeaWeatherId[] = ['CLEAR', 'STORM', 'FOG'];
@@ -45,6 +51,11 @@ export interface SailingStepOutput {
   nearbySeaGate: SeaGateDefinition | null;
   triggeredBattle: BattleContext | null;
   collectedNotice: string | null;
+  currentSpeedMult?: number;
+  currentTailwindRatio?: number;
+  inWhirlpool?: boolean;
+  whirlpoolIntensity?: number;
+  activeShipId?: 'going_merry' | 'thousand_sunny';
 }
 
 export function tryActivateCoupDeBurst(
@@ -85,6 +96,17 @@ export function stepSeaSailing(
   rpgRegistry: RpgDataRegistry
 ): SailingStepOutput {
   const zone = rpgRegistry.seaZones[state.currentZoneId];
+  const syncedShipId = resolveActiveShipId(state);
+  if (state.ship.shipId !== syncedShipId) {
+    const prevRatio =
+      state.ship.maxHullHp > 0 ? state.ship.hullHp / state.ship.maxHullHp : 1;
+    state.ship.shipId = syncedShipId;
+    syncShipHullStatsWithRoles(state, rpgRegistry);
+    state.ship.hullHp = Math.min(
+      state.ship.maxHullHp,
+      Math.max(1, Math.round(state.ship.maxHullHp * prevRatio))
+    );
+  }
   const shipDef =
     rpgRegistry.ships[state.ship.shipId] ??
     rpgRegistry.ships['going_merry'] ??
@@ -167,23 +189,44 @@ export function stepSeaSailing(
   const effectiveCurrentResist = Math.min(
     0.95,
     shipDef.currentResistance +
-      (1 - shipDef.currentResistance) * roleBonuses.currentAndStormDriftResist
+    (1 - shipDef.currentResistance) * roleBonuses.currentAndStormDriftResist
   );
   const currentFactor = Math.max(0.05, 1 - effectiveCurrentResist);
   const combinedStormResist = Math.min(
     0.92,
     roleBonuses.stormResistanceRatio +
-      (1 - roleBonuses.stormResistanceRatio) * roleBonuses.currentAndStormDriftResist
+    (1 - roleBonuses.stormResistanceRatio) * roleBonuses.currentAndStormDriftResist
   );
   let stormDragMult = 1.0;
   if (state.seaWeather === 'STORM') {
     stormDragMult = 1 - 0.25 * (1 - combinedStormResist);
   }
 
+  const moveHeadingVec =
+    moveLen > 0.05
+      ? input.moveVec
+      : {
+        x: Math.cos(state.ship.headingRad),
+        y: Math.sin(state.ship.headingRad)
+      };
+  const currentSample = sampleSeaCurrentAt(
+    state.ship.pos,
+    moveHeadingVec,
+    zone.currents,
+    effectiveCurrentResist
+  );
+  const whirlpoolSample = sampleWhirlpoolAt(
+    state.ship.pos,
+    zone.whirlpools,
+    effectiveCurrentResist,
+    state.ship.coupDeBurstActiveTimer > 0
+  );
+
   const maxAllowedSpeed =
     shipDef.maxSpeedPx *
     roleBonuses.sailingSpeedMult *
     stormDragMult *
+    currentSample.speedMultiplier *
     (state.ship.coupDeBurstActiveTimer > 0 ? shipDef.coupDeBurstSpeedMult : 1.0);
 
   const curSpeed = lenVec(state.ship.vel);
@@ -191,15 +234,33 @@ export function stepSeaSailing(
     state.ship.vel = scaleVec(normalizeVec(state.ship.vel), maxAllowedSpeed);
   }
 
+  if (whirlpoolSample.escapedCore && whirlpoolSample.pushOutPos) {
+    state.ship.pos.x = clamp(whirlpoolSample.pushOutPos.x, 36, zone.width - 36);
+    state.ship.pos.y = clamp(whirlpoolSample.pushOutPos.y, 36, zone.height - 36);
+  }
+
+  const totalVelX =
+    state.ship.vel.x +
+    zone.baseCurrentVec.x * currentFactor +
+    currentSample.driftVec.x +
+    whirlpoolSample.swirlVec.x +
+    whirlpoolSample.pullVec.x +
+    whirlpoolSample.coreBounceVec.x;
+  const totalVelY =
+    state.ship.vel.y +
+    zone.baseCurrentVec.y * currentFactor +
+    currentSample.driftVec.y +
+    whirlpoolSample.swirlVec.y +
+    whirlpoolSample.pullVec.y +
+    whirlpoolSample.coreBounceVec.y;
+
   state.ship.pos.x = clamp(
-    state.ship.pos.x +
-      (state.ship.vel.x + zone.baseCurrentVec.x * currentFactor) * dt,
+    state.ship.pos.x + totalVelX * dt,
     36,
     zone.width - 36
   );
   state.ship.pos.y = clamp(
-    state.ship.pos.y +
-      (state.ship.vel.y + zone.baseCurrentVec.y * currentFactor) * dt,
+    state.ship.pos.y + totalVelY * dt,
     36,
     zone.height - 36
   );
@@ -297,7 +358,12 @@ export function stepSeaSailing(
     nearbyIsland,
     nearbySeaGate,
     triggeredBattle,
-    collectedNotice
+    collectedNotice,
+    currentSpeedMult: currentSample.speedMultiplier,
+    currentTailwindRatio: currentSample.tailwindRatio,
+    inWhirlpool: whirlpoolSample.inWhirlpool,
+    whirlpoolIntensity: whirlpoolSample.intensity,
+    activeShipId: syncedShipId
   };
 }
 
@@ -317,11 +383,11 @@ export function computeLogPoseNeedles(
       incomplete.length >= 3
         ? incomplete.slice(0, 3)
         : [
-            ...incomplete,
-            ...zone.islands
-              .filter((isl) => state.completedEpisodes.includes(isl.episodeId))
-              .slice(0, Math.max(0, 3 - incomplete.length))
-          ];
+          ...incomplete,
+          ...zone.islands
+            .filter((isl) => state.completedEpisodes.includes(isl.episodeId))
+            .slice(0, Math.max(0, 3 - incomplete.length))
+        ];
     return chosen.map((isl) => {
       const delta = subVec(isl.pos, state.ship.pos);
       const completed = state.completedEpisodes.includes(isl.episodeId);

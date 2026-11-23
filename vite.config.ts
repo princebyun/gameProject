@@ -33,6 +33,13 @@ export default defineConfig(() => {
       rollupOptions: {
         output: {
           manualChunks(id) {
+            if (
+              id.includes('node_modules/pixi.js') ||
+              id.includes('node_modules\\pixi.js') ||
+              id.includes('node_modules/@pixi')
+            ) {
+              return 'pixi-webgl';
+            }
             if (id.includes('node_modules')) {
               return 'vendor';
             }
@@ -100,11 +107,26 @@ export default defineConfig(() => {
                 'assets/tilesets/**',
                 'assets/backgrounds/**',
                 'assets/vfx/**',
+                'assets/pro/**',
                 'assets/audio/bgm/**',
                 'assets/audio/sfx/**',
                 '**/*.meta.json'
               ],
               runtimeCaching: [
+                {
+                  urlPattern: /\/assets\/pro\/.*\.(png|json|tmj|tsj)$/i,
+                  handler: 'CacheFirst',
+                  options: {
+                    cacheName: 'opgv-pro-art-cache',
+                    expiration: {
+                      maxEntries: 250,
+                      maxAgeSeconds: 60 * 60 * 24 * 30
+                    },
+                    cacheableResponse: {
+                      statuses: [0, 200]
+                    }
+                  }
+                },
                 {
                   urlPattern: /\/assets\/(sprites|portraits|tilesets|backgrounds|vfx)\/.*\.png$/i,
                   handler: 'CacheFirst',

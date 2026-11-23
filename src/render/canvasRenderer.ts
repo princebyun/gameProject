@@ -29,6 +29,8 @@ export class CanvasRenderer implements Disposable {
     this.canvas.height = LOGICAL_HEIGHT;
     this.canvas.style.imageRendering = 'pixelated';
     this.canvas.style.display = 'block';
+    this.canvas.style.position = 'relative';
+    this.canvas.style.zIndex = '2';
     this.canvas.style.width = '100%';
     this.canvas.style.height = '100%';
     this.canvas.style.background = '#090d16';
@@ -48,6 +50,10 @@ export class CanvasRenderer implements Disposable {
 
   public getMetrics(): ViewportMetrics {
     return this.viewport.getMetrics();
+  }
+
+  public setBackgroundTransparent(transparent: boolean): void {
+    this.canvas.style.background = transparent ? 'transparent' : '#090d16';
   }
 
   public beginFrame(): ViewportMetrics {

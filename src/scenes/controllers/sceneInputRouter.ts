@@ -1,5 +1,6 @@
 import { getChestWorldCenter } from '../../core/rpg/islandLivingVillage';
 import { handleDialogueOverlayTap } from '../../render/dialogueAndPosterRenderer';
+import { hitTestBattleSpeedHud } from '../../render/hud/battleSpeedHud';
 import { handleMissionTrackerTap } from '../../render/missionTrackerHud';
 import {
   computeIslandCameraTransform,
@@ -8,6 +9,10 @@ import {
 import { isPointInBottomSafeBand } from '../../render/viewport/safeAreaLayout';
 import { advanceOpeningNarrationOnTap } from '../openingNarrationScene';
 import type { Disposable } from '../sceneTypes';
+import {
+  cycleBattleSpeedScale,
+  stepBattleSpeedScale
+} from './battleSpeedControl';
 import type { SceneManagerHost } from './controllerContracts';
 
 export class SceneInputRouter implements Disposable {
@@ -22,6 +27,10 @@ export class SceneInputRouter implements Disposable {
   public handleHardwareBackButton(): { handledByScene: boolean } {
     if (this.host.assetPreviewScene?.getIsOpen()) {
       this.host.assetPreviewScene.close();
+      return { handledByScene: true };
+    }
+    if (this.host.seaChartController?.state.isOpen) {
+      this.host.seaChartController.close();
       return { handledByScene: true };
     }
     if (this.host.saveModalEl?.classList.contains('open')) {
@@ -119,6 +128,12 @@ export class SceneInputRouter implements Disposable {
         if (this.host.gateBlockedPopup) {
           this.host.gateBlockedPopup = null;
           return;
+        }
+        if (this.host.activeScene === 'SEA_SAILING') {
+          const vmSea = this.host.renderer.getMetrics();
+          if (this.host.seaChartController?.handlePointerDown(pt, vmSea, this.host)) {
+            return;
+          }
         }
         if (
           this.host.activeScene === 'ONLINE_BATTLE' &&
@@ -242,6 +257,26 @@ export class SceneInputRouter implements Disposable {
 
         if (
           this.host.activeScene === 'STORY_BATTLE' ||
+          this.host.activeScene === 'SANDBOX'
+        ) {
+          const speedHit = hitTestBattleSpeedHud(pt, this.host.renderer.getMetrics());
+          if (speedHit === 'SPEED') {
+            this.host.setBattleSpeedScale(cycleBattleSpeedScale(this.host.battleSpeedScale));
+            this.host.audio.playSfxId('ui_move');
+            return;
+          }
+          if (speedHit === 'PAUSE') {
+            this.host.toggleBattlePause();
+            this.host.audio.playSfxId('ui_confirm');
+            return;
+          }
+          if (this.host.isBattlePaused) {
+            return;
+          }
+        }
+
+        if (
+          this.host.activeScene === 'STORY_BATTLE' ||
           this.host.activeScene === 'ONLINE_BATTLE' ||
           this.host.activeScene === 'SANDBOX'
         ) {
@@ -297,6 +332,11 @@ export class SceneInputRouter implements Disposable {
         const targetEl = e.target as HTMLElement | null;
         const tag = targetEl?.tagName;
         if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+        if (e.code === 'F9') {
+          e.preventDefault();
+          this.host.visualPolishDrawer?.toggle();
+          return;
+        }
         if (tag === 'SELECT') {
           targetEl?.blur();
         }
@@ -325,6 +365,11 @@ export class SceneInputRouter implements Disposable {
         }
 
         if (e.code === 'Escape') {
+          if (this.host.seaChartController?.state.isOpen) {
+            this.host.seaChartController.close();
+            this.host.audio.playSfxId('ui_cancel');
+            return;
+          }
           if (this.host.showWantedPosterOverlay) {
             this.host.showWantedPosterOverlay = false;
             return;
@@ -332,6 +377,54 @@ export class SceneInputRouter implements Disposable {
           if (this.host.gateBlockedPopup) {
             this.host.gateBlockedPopup = null;
             return;
+          }
+        }
+
+        if (e.code === 'KeyM' && this.host.activeScene === 'SEA_SAILING') {
+          const hasDomModalOpen =
+            this.host.saveModalEl?.classList.contains('open') ||
+            this.host.campModalEl?.classList.contains('open') ||
+            this.host.onlineModalEl?.classList.contains('open') ||
+            this.host.settingsModalEl?.classList.contains('open') ||
+            this.host.endgameModalEl?.classList.contains('open');
+          if (!hasDomModalOpen && this.host.seaChartController) {
+            const opened = this.host.seaChartController.toggle(this.host.campaign);
+            this.host.audio.playSfxId(opened ? 'ui_confirm' : 'ui_cancel');
+            this.host.clearTransientFocusAndInput();
+            return;
+          }
+        }
+
+        if (this.host.seaChartController?.state.isOpen) {
+          return;
+        }
+
+        if (
+          this.host.activeScene === 'STORY_BATTLE' ||
+          this.host.activeScene === 'SANDBOX'
+        ) {
+          const hasDomModalOpen =
+            this.host.saveModalEl?.classList.contains('open') ||
+            this.host.campModalEl?.classList.contains('open') ||
+            this.host.onlineModalEl?.classList.contains('open') ||
+            this.host.settingsModalEl?.classList.contains('open') ||
+            this.host.endgameModalEl?.classList.contains('open');
+          if (!hasDomModalOpen) {
+            if (e.code === 'KeyP') {
+              this.host.toggleBattlePause();
+              this.host.audio.playSfxId('ui_confirm');
+              return;
+            }
+            if (e.code === 'BracketLeft') {
+              this.host.setBattleSpeedScale(stepBattleSpeedScale(this.host.battleSpeedScale, -1));
+              this.host.audio.playSfxId('ui_move');
+              return;
+            }
+            if (e.code === 'BracketRight') {
+              this.host.setBattleSpeedScale(stepBattleSpeedScale(this.host.battleSpeedScale, 1));
+              this.host.audio.playSfxId('ui_move');
+              return;
+            }
           }
         }
 

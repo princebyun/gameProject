@@ -4,6 +4,7 @@ import { createInitialCampaignState } from '../rpg/campaignState';
 import { syncShipHullStatsWithRoles } from '../rpg/crewAndBountyEngine';
 import type { IslandExplorationRuntime } from '../rpg/episodeEngine';
 import { createInitialNpcStates } from '../rpg/islandLivingVillage';
+import { isCircleBlockedOnIsland } from '../rpg/islandTileCollision';
 import type { GameDataRegistry } from '../types/dataSchemas';
 import type { RpgCampaignState, RpgDataRegistry } from '../types/rpgSchemas';
 import { evaluateAndStampAntiCheat } from './antiCheat';
@@ -165,14 +166,24 @@ export function deserializeSaveEnvelopeToCampaign(
   if (world.currentScene === 'island' && world.currentIslandId) {
     const islMap = rpgRegistry.islands[world.currentIslandId];
     if (islMap) {
+      const deactivated = [...(world.deactivatedBarrierIds ?? [])];
+      const candidatePos = world.playerIslandPos
+        ? { ...world.playerIslandPos }
+        : { ...islMap.spawnPoint };
+      const safePlayerPos = isCircleBlockedOnIsland(
+        candidatePos,
+        16,
+        islMap,
+        deactivated
+      )
+        ? { ...islMap.spawnPoint }
+        : candidatePos;
       islandRuntime = {
         islandId: world.currentIslandId,
-        playerPos: world.playerIslandPos
-          ? { ...world.playerIslandPos }
-          : { ...islMap.spawnPoint },
+        playerPos: safePlayerPos,
         playerHeadingRad: 0,
         playerRadiusPx: 16,
-        deactivatedBarrierIds: [...(world.deactivatedBarrierIds ?? [])],
+        deactivatedBarrierIds: deactivated,
         activatedSwitchIds: [...(world.activatedSwitchIds ?? [])],
         activeDialogueNpc: null,
         dialogueLineIndex: 0,

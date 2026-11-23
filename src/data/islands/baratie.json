@@ -2,24 +2,211 @@
   "islandId": "baratie",
   "name": "해상 레스토랑 발라티에 (갑판 결전)",
   "episodeId": "ep_baratie",
-  "width": 960,
-  "height": 540,
+  "width": 1472,
+  "height": 1024,
   "theme": "CANAL_DOCKYARD",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 752,
+    "y": 816
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 752,
+      "y": 912
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 656,
+    "y": 816
+  },
   "obstacles": [
-    { "x": 280, "y": 75, "width": 170, "height": 90, "label": "발라티에 메인 다이닝 홀" },
-    { "x": 280, "y": 375, "width": 170, "height": 90, "label": "전투 갑판 물고기 머리" }
+    {
+      "x": 608,
+      "y": 416,
+      "width": 256,
+      "height": 64,
+      "label": "발라티에 메인 다이닝 홀"
+    },
+    {
+      "x": 448,
+      "y": 416,
+      "width": 96,
+      "height": 64,
+      "label": "식자재 창고"
+    },
+    {
+      "x": 928,
+      "y": 416,
+      "width": 96,
+      "height": 64,
+      "label": "와인 저장고"
+    }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
   "giantProps": [],
+  "zones": [
+    {
+      "zoneId": "zone_baratie_dock",
+      "name": "발라티에 정박 부두",
+      "subtitle": "고잉 메리호 계류 선착장",
+      "tileX": 18,
+      "tileY": 23,
+      "tileW": 10,
+      "tileH": 7,
+      "accentColor": "#38bdf8"
+    },
+    {
+      "zoneId": "zone_baratie_dining",
+      "name": "중앙 목조 다이닝 갑판",
+      "subtitle": "바다 위 일류 해상 레스토랑",
+      "tileX": 13,
+      "tileY": 11,
+      "tileW": 20,
+      "tileH": 12,
+      "accentColor": "#facc15"
+    },
+    {
+      "zoneId": "zone_baratie_prow",
+      "name": "거대 물고기 뱃머리 전망대",
+      "subtitle": "발라티에 상징 선수상",
+      "tileX": 18,
+      "tileY": 3,
+      "tileW": 10,
+      "tileH": 8,
+      "accentColor": "#4ade80"
+    },
+    {
+      "zoneId": "zone_baratie_fins",
+      "name": "전투용 지느러미 갑판",
+      "subtitle": "돈 클리크 함대 격전지",
+      "tileX": 32,
+      "tileY": 13,
+      "tileW": 11,
+      "tileH": 10,
+      "accentColor": "#ef4444"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_baratie_kitchen_deck",
+      "tileX": 23,
+      "tileY": 11,
+      "rarity": "silver",
+      "hiddenHint": "다이닝 홀 지붕 오버헤드 뒤 식자재 갑판",
+      "reward": {
+        "berries": 7000,
+        "trainingPoints": 14,
+        "itemLabel": "상디의 최고급 식자재 상자"
+      }
+    },
+    {
+      "chestId": "chest_baratie_fish_prow",
+      "tileX": 23,
+      "tileY": 4,
+      "rarity": "gold",
+      "hiddenHint": "거대 물고기 뱃머리 전망대 끝",
+      "reward": {
+        "berries": 10000,
+        "trainingPoints": 20,
+        "healPartyRatio": 0.4,
+        "itemLabel": "붉은 다리 제프의 비장 도시락"
+      }
+    },
+    {
+      "chestId": "chest_baratie_east_fin",
+      "tileX": 40,
+      "tileY": 20,
+      "rarity": "wooden",
+      "hiddenHint": "동쪽 전투용 지느러미 갑판 구석",
+      "reward": {
+        "berries": 5500,
+        "trainingPoints": 12,
+        "itemLabel": "해적선 노획 보급품"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_baratie_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 출항 부두",
+      "tileX": 23,
+      "tileY": 28,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_baratie_sanji",
+      "kind": "SIDE",
+      "label": "◆ 상디 & 우솝 합류 준비",
+      "tileX": 15,
+      "tileY": 16,
+      "hideWhenFlagSet": "flag_baratie_sanji_met",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_baratie_krieg",
+      "kind": "MAIN",
+      "label": "★ 돈 클리크 함대 결전",
+      "tileX": 37,
+      "tileY": 17,
+      "hideWhenFlagSet": "flag_baratie_cleared",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_baratie_bounty",
+      "kind": "ACTIVITY",
+      "label": "📋 수배 & 요리 정비",
+      "tileX": 8,
+      "tileY": 18,
+      "actionKind": "BOUNTY_BOARD"
+    },
+    {
+      "markerId": "marker_baratie_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 20,
+      "tileY": 25,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_baratie_prow",
+      "kind": "FISH_PROW",
+      "tileX": 21,
+      "tileY": 5,
+      "widthTiles": 4,
+      "heightTiles": 3,
+      "label": "물고기 뱃머리"
+    },
+    {
+      "landmarkId": "lm_baratie_boat",
+      "kind": "DOCKED_BOAT",
+      "tileX": 17,
+      "tileY": 26,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_baratie_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 8,
+      "tileY": 17,
+      "widthTiles": 1,
+      "heightTiles": 1
+    }
+  ],
   "npcs": [
     {
       "npcId": "npc_sanji_baratie",
       "name": "상디 & 우솝",
       "roleLabel": "발라티에 부주방장 · 저격수",
-      "pos": { "x": 360, "y": 255 },
+      "pos": {
+        "x": 496,
+        "y": 528
+      },
       "interactRadiusPx": 54,
       "visualScale": 1.05,
       "color": "#facc15",
@@ -34,6 +221,182 @@
           "setsFlag": "flag_baratie_sanji_met",
           "responseLine": "[전투 준비 완료] 돈 클리크를 격파하면 상디(요리사 직책 해금)와 우솝이 정식 동료로 합류합니다!"
         }
+      ],
+      "facing": "right",
+      "ambientBubbleText": "음식을 버리는 놈은 용서 못 해!",
+      "patrolWaypoints": [
+        {
+          "x": 496,
+          "y": 528
+        },
+        {
+          "x": 560,
+          "y": 528
+        },
+        {
+          "x": 560,
+          "y": 624
+        },
+        {
+          "x": 496,
+          "y": 624
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75
+    },
+    {
+      "npcId": "npc_zeff",
+      "name": "오너 제프",
+      "roleLabel": "발라티에 주방장 (붉은 다리)",
+      "pos": {
+        "x": 688,
+        "y": 560
+      },
+      "interactRadiusPx": 48,
+      "visualScale": 1.08,
+      "color": "#facc15",
+      "facing": "down",
+      "ambientBubbleText": "꼬맹이, 주방 뒤쪽은 훔쳐보지 마라!",
+      "patrolWaypoints": [
+        {
+          "x": 656,
+          "y": 560
+        },
+        {
+          "x": 848,
+          "y": 560
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 90,
+      "dialogueLines": [
+        "제프: 여기는 바다 한가운데 떠 있는 해상 레스토랑 발라티에다!",
+        "배고픈 녀석에겐 누구든 밥을 내주지만, 해적 행패는 전투 지느러미 갑판에서 끝낸다!"
+      ]
+    },
+    {
+      "npcId": "npc_patty",
+      "name": "요리사 파티",
+      "roleLabel": "발라티에 디저트 셰프",
+      "pos": {
+        "x": 656,
+        "y": 688
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 1,
+      "color": "#f97316",
+      "facing": "up",
+      "ambientBubbleText": "어서 오십쇼! 특제 수프 대령입니다!",
+      "patrolWaypoints": [
+        {
+          "x": 624,
+          "y": 688
+        },
+        {
+          "x": 848,
+          "y": 688
+        }
+      ],
+      "patrolSpeedPx": 44,
+      "pauseTicks": 70,
+      "dialogueLines": [
+        "파티: 양쪽 지느러미 갑판을 펼치면 여긴 그대로 해상 요새로 변합니다!"
+      ]
+    },
+    {
+      "npcId": "npc_carne",
+      "name": "요리사 카르네",
+      "roleLabel": "발라티에 육류 셰프",
+      "pos": {
+        "x": 912,
+        "y": 528
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.98,
+      "color": "#ef4444",
+      "facing": "left",
+      "ambientBubbleText": "동쪽 지느러미에 클리크 녀석이 나타났다!",
+      "patrolWaypoints": [
+        {
+          "x": 912,
+          "y": 528
+        },
+        {
+          "x": 1008,
+          "y": 528
+        },
+        {
+          "x": 1008,
+          "y": 624
+        },
+        {
+          "x": 912,
+          "y": 624
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "카르네: 돈 클리크 함대의 MH5 독가스를 조심해! 주방 뒤 식자재 갑판에 비상약이 있을 거야."
+      ]
+    },
+    {
+      "npcId": "npc_baratie_guest",
+      "name": "귀족 미식가",
+      "roleLabel": "발라티에 단골 손님",
+      "pos": {
+        "x": 688,
+        "y": 304
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.95,
+      "color": "#a855f7",
+      "facing": "up",
+      "ambientBubbleText": "물고기 뱃머리 전망이 예술이군!",
+      "patrolWaypoints": [
+        {
+          "x": 656,
+          "y": 304
+        },
+        {
+          "x": 816,
+          "y": 304
+        }
+      ],
+      "patrolSpeedPx": 36,
+      "pauseTicks": 85,
+      "dialogueLines": [
+        "손님: 거대한 물고기 뱃머리 끝 전망대까지 올라가면 바다 바람이 최고입니다!"
+      ]
+    },
+    {
+      "npcId": "npc_baratie_marine",
+      "name": "해군 소위 풀보디",
+      "roleLabel": "정찰 해군",
+      "pos": {
+        "x": 240,
+        "y": 560
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.98,
+      "color": "#38bdf8",
+      "facing": "right",
+      "ambientBubbleText": "서쪽 전투 지느러미 갑판 안전 확보!",
+      "patrolWaypoints": [
+        {
+          "x": 208,
+          "y": 528
+        },
+        {
+          "x": 368,
+          "y": 528
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "해군: 클리크 해적단의 기함 드레드노트 사브르가 근처까지 들이닥쳤단 말인가!"
       ]
     }
   ],
@@ -42,9 +405,14 @@
       "encounterId": "enc_baratie_krieg_boss",
       "name": "이스트 블루 패자 돈 클리크 (우츠 갑옷 & MH5 독가스)",
       "isBoss": true,
-      "pos": { "x": 800, "y": 270 },
+      "pos": {
+        "x": 1200,
+        "y": 560
+      },
       "triggerRadiusPx": 60,
-      "enemyUnitIds": ["don_krieg"],
+      "enemyUnitIds": [
+        "don_krieg"
+      ],
       "aiLevel": 2,
       "arenaSizeKey": "medium",
       "setsFlagOnVictory": "flag_baratie_cleared",
@@ -57,5 +425,251 @@
         "이 해상 레스토랑 발라티에는 내 클리크 함대의 새로운 기함이 될 것이다!!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "SPRAY",
+      "GULL"
+    ],
+    "density": 32
+  },
+  "lightingProfile": {
+    "defaultMood": "DAY",
+    "tintHex": "#fbbf24",
+    "tintAlpha": 0.04,
+    "sunbeams": true,
+    "lanterns": [
+      {
+        "tileX": 19,
+        "tileY": 16,
+        "color": "#fde047",
+        "radiusPx": 44
+      },
+      {
+        "tileX": 27,
+        "tileY": 16,
+        "color": "#fde047",
+        "radiusPx": 44
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 46,
+    "rows": 32,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber",
+      "n": "snow"
+    },
+    "groundRows": [
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWW~~~~~~~~WWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWW~dddddddd~WWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWW~dddddddd~WWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWW~dddddddd~WWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWW~dddddddd~WWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWW~dddddddd~WWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWW~~~~~~dddddddd~~~~~~WWWWWWWWWWWWW",
+      "WWWWWWWWWWWW~dddddddddddddddddddd~WWWWWWWWWWWW",
+      "WWWWWWWWWWWWWddddddddddddddddddddWWWWWWWWWWWWW",
+      "WWWWWWWWWWWW~dddddddddddddddddddd~WWWWWWWWWWWW",
+      "WWWW~~~~~~~~~dBBBddBBBBBBBBddBBBd~~~~~~~~~WWWW",
+      "WWW~ddddddddddbDbddbwbwDwbwddbDbdddddddddd~WWW",
+      "WWW~dddddddddddddddddddddddddddddddddddddd~WWW",
+      "WWW~dddddddddddddddddddddddddddddddddddddd~WWW",
+      "WWW~dddddddddddddddddddddddddddddddddddddd~WWW",
+      "WWW~dddddddddddddddddddddddddddddddddddddd~WWW",
+      "WWW~dddddddddddddddddddddddddddddddddddddd~WWW",
+      "WWW~dddddddddddddddddddddddddddddddddddddd~WWW",
+      "WWW~dddddddddddddddddddddddddddddddddddddd~WWW",
+      "WWWW~~~~~~~~~dddddddddddddddddddd~~~~~~~~~WWWW",
+      "WWWWWWWWWWWW~dddddddddddddddddddd~WWWWWWWWWWWW",
+      "WWWWWWWWWWWWW~~~~~~~dddddd~~~~~~~WWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWW~dddddd~WWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWW~dddddd~WWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWW~dddddd~WWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWW~dddddd~WWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWW~~~~~~WWWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+    ],
+    "detailRows": [
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "...................dddddddd...................",
+      "...................dddddddd...................",
+      "...................dddddddd...................",
+      "...................dddddddd...................",
+      "...................dddddddd...................",
+      "...................dddddddd...................",
+      ".............dddddddddddddddddddd.............",
+      ".............kddddddddddddddddddk.............",
+      ".............dddddddddddddddddddd.............",
+      ".............d...dd........dd...d.............",
+      "....dddddddddd...dd........dd...dddddddddd....",
+      "....dddddddddddddddddddddddddddddddddddddd....",
+      "....dddddddddddddddddddddddddddddddddddddd....",
+      "....dddddddddddddddddddddddddddddddddddddd....",
+      "....dddddddddddddddddddddddddddddddddddddd....",
+      "....dddddddddddddddddddddddddddddddddddddd....",
+      "....dddddddddddddddddddddddddddddddddddddd....",
+      "....ddddddddddkddddddddddddddddkdddddddddd....",
+      ".............dddddddddddddddddddd.............",
+      ".............dddddddddddddddddddd.............",
+      "....................dddddd....................",
+      "....................dddddd....................",
+      "....................dddddd....................",
+      "....................dddddd....................",
+      "....................dddddd....................",
+      "..............................................",
+      "..............................................",
+      ".............................................."
+    ],
+    "solidRows": [
+      "##############################################",
+      "##############################################",
+      "##############################################",
+      "##############################################",
+      "###################........###################",
+      "###################........###################",
+      "###################........###################",
+      "###################........###################",
+      "###################........###################",
+      "###################........###################",
+      "#############....................#############",
+      "##############..................##############",
+      "#############....................#############",
+      "#############.###..########..###.#############",
+      "####..........###..########..###..........####",
+      "####......................................####",
+      "####......................................####",
+      "####......................................####",
+      "####......................................####",
+      "####......................................####",
+      "####......................................####",
+      "####..........#................#..........####",
+      "#############....................#############",
+      "#############....................#############",
+      "####################......####################",
+      "####################......####################",
+      "####################......####################",
+      "####################......####################",
+      "####################......####################",
+      "##############################################",
+      "##############################################",
+      "##############################################"
+    ],
+    "overheadRows": [
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      ".............errreerrrrrrrreerrre.............",
+      ".............eRRReeRRRRRRRReeRRRe.............",
+      "..............RRR..RRRRRRRR..RRR..............",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      "..............................................",
+      ".............................................."
+    ],
+    "surfaceRows": [
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwddddddddwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwddddddddwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwddddddddwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwddddddddwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwddddddddwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwddddddddwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwddddddddddddddddddddwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwddddddddddddddddddddwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwddddddddddddddddddddwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwddddddddddddddddddddwwwwwwwwwwwww",
+      "wwwwddddddddddddddddddddddddddddddddddddddwwww",
+      "wwwwddddddddddddddddddddddddddddddddddddddwwww",
+      "wwwwddddddddddddddddddddddddddddddddddddddwwww",
+      "wwwwddddddddddddddddddddddddddddddddddddddwwww",
+      "wwwwddddddddddddddddddddddddddddddddddddddwwww",
+      "wwwwddddddddddddddddddddddddddddddddddddddwwww",
+      "wwwwddddddddddddddddddddddddddddddddddddddwwww",
+      "wwwwddddddddddddddddddddddddddddddddddddddwwww",
+      "wwwwwwwwwwwwwddddddddddddddddddddwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwddddddddddddddddddddwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwddddddwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwddddddwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwddddddwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwddddddwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwddddddwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    ]
+  }
 }

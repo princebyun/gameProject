@@ -18,14 +18,20 @@
       "title": "와이퍼와 대화 & 천적 전술 확인",
       "description": "어퍼 야드 입구의 와이퍼에게 말을 거세요.",
       "requiredFlag": "flag_skypiea_bell_oath",
-      "targetPos": { "x": 360, "y": 260 }
+      "targetPos": {
+        "x": 688,
+        "y": 688
+      }
     },
     {
       "stepId": "step_skypiea_boss",
       "title": "갓 에넬 격파 & 황금종 울리기",
       "description": "루피의 고무 천적으로 에넬의 엘 토르와 2억 볼트 아말을 돌파하세요.",
       "requiredFlag": "flag_skypiea_cleared",
-      "targetPos": { "x": 795, "y": 270 }
+      "targetPos": {
+        "x": 816,
+        "y": 272
+      }
     }
   ],
   "rewards": {

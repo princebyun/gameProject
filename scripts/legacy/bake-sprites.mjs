@@ -6,22 +6,24 @@ import zlib from 'node:zlib';
 import {
   bakeCharacterSpriteSheetPixels,
   bakeShipSpriteSheetPixels
-} from '../src/render/sprite/rig/articulatedPixelRigBaker.ts';
+} from '../../src/render/sprite/rig/articulatedPixelRigBaker.ts';
 import {
   CHARACTER_BLUEPRINT_ENTRIES,
   buildCharacterBlueprintsFile,
   getBaseCharacterBlueprintForUnit,
   getCharacterBlueprintByKey
-} from '../src/render/sprite/rig/blueprintLibrary.ts';
-import { bakeCharacterPortraitPixels } from '../src/render/sprite/rig/portraitPixelBaker.ts';
+} from '../../src/render/sprite/rig/blueprintLibrary.ts';
+import { bakeCharacterPortraitPixels } from '../../src/render/sprite/rig/portraitPixelBaker.ts';
 import {
   ALL_PORTRAIT_EMOTIONS,
   createStandardRigAnimations
-} from '../src/render/sprite/rig/rigTypes.ts';
+} from '../../src/render/sprite/rig/rigTypes.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const ROOT = path.resolve(__dirname, '..');
+const ROOT = path.resolve(__dirname, '../..');
+
+console.warn('⚠️ [LEGACY] bake-sprites.mjs is deprecated. Use `npm run import:pro` for the PixiJS v8 pipeline.');
 
 function makeCrcTable() {
   const table = new Uint32Array(256);

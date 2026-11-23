@@ -2,24 +2,211 @@
   "islandId": "loguetown",
   "name": "로그타운 (시작과 끝의 마을 · 처형대 광장)",
   "episodeId": "ep_loguetown",
-  "width": 960,
-  "height": 540,
+  "width": 1536,
+  "height": 1088,
   "theme": "HARBOR_TOWN",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 336,
+    "y": 848
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 240,
+      "y": 880
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 432,
+    "y": 816
+  },
   "obstacles": [
-    { "x": 310, "y": 80, "width": 160, "height": 95, "label": "골 D. 로저 처형대 광장" },
-    { "x": 520, "y": 380, "width": 170, "height": 85, "label": "로그타운 해군 지부 검문소" }
+    {
+      "x": 160,
+      "y": 704,
+      "width": 96,
+      "height": 64,
+      "label": "항구 세관 창고"
+    },
+    {
+      "x": 352,
+      "y": 544,
+      "width": 160,
+      "height": 64,
+      "label": "잇폰마츠 무기점"
+    },
+    {
+      "x": 1056,
+      "y": 416,
+      "width": 224,
+      "height": 64,
+      "label": "해군 검문소 본부"
+    }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
   "giantProps": [],
+  "zones": [
+    {
+      "zoneId": "zone_logue_harbor",
+      "name": "서쪽 탈출 항구 부두",
+      "subtitle": "위대한 항로 출항 관문",
+      "tileX": 4,
+      "tileY": 22,
+      "tileW": 11,
+      "tileH": 8,
+      "accentColor": "#38bdf8"
+    },
+    {
+      "zoneId": "zone_logue_market",
+      "name": "무기점 & 상점가 거리",
+      "subtitle": "명검 유바시리와 뒷골목",
+      "tileX": 10,
+      "tileY": 14,
+      "tileW": 18,
+      "tileH": 11,
+      "accentColor": "#facc15"
+    },
+    {
+      "zoneId": "zone_logue_plaza",
+      "name": "골 D. 로저 처형대 광장",
+      "subtitle": "해적왕의 전설이 시작된 곳",
+      "tileX": 17,
+      "tileY": 3,
+      "tileW": 14,
+      "tileH": 11,
+      "accentColor": "#e2e8f0"
+    },
+    {
+      "zoneId": "zone_logue_checkpoint",
+      "name": "동북 해군 지부 검문소",
+      "subtitle": "하얀 사냥꾼 스모커 포위망",
+      "tileX": 30,
+      "tileY": 12,
+      "tileW": 15,
+      "tileH": 13,
+      "accentColor": "#ef4444"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_loguetown_weapon_alley",
+      "tileX": 13,
+      "tileY": 15,
+      "rarity": "gold",
+      "hiddenHint": "무기점 지붕 오버헤드 뒤 좁은 석조 골목",
+      "reward": {
+        "berries": 12000,
+        "trainingPoints": 22,
+        "healPartyRatio": 0.4,
+        "itemLabel": "잇폰마츠의 명검 손질 키트"
+      }
+    },
+    {
+      "chestId": "chest_loguetown_scaffold_arch",
+      "tileX": 24,
+      "tileY": 4,
+      "rarity": "silver",
+      "hiddenHint": "처형대 북쪽 석조 아치 오버헤드 뒤편",
+      "reward": {
+        "berries": 8500,
+        "trainingPoints": 16,
+        "itemLabel": "해적왕 시대의 옛 주화"
+      }
+    },
+    {
+      "chestId": "chest_loguetown_port_shadow",
+      "tileX": 6,
+      "tileY": 20,
+      "rarity": "wooden",
+      "hiddenHint": "항구 세관 창고 뒤 그림자 구역",
+      "reward": {
+        "berries": 6500,
+        "trainingPoints": 14,
+        "itemLabel": "위대한 항로 비상 보급품"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_logue_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 스모커 탈출 부두",
+      "tileX": 7,
+      "tileY": 27,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_logue_dragon",
+      "kind": "SIDE",
+      "label": "◆ 녹색 망토의 사나이",
+      "tileX": 17,
+      "tileY": 21,
+      "hideWhenFlagSet": "flag_loguetown_plaza_visited",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_logue_smoker",
+      "kind": "MAIN",
+      "label": "★ 스모커 45초 생존전",
+      "tileX": 37,
+      "tileY": 19,
+      "hideWhenFlagSet": "flag_loguetown_cleared",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_logue_bounty",
+      "kind": "ACTIVITY",
+      "label": "📋 수배 & 수련 캠프",
+      "tileX": 26,
+      "tileY": 25,
+      "actionKind": "BOUNTY_BOARD"
+    },
+    {
+      "markerId": "marker_logue_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 13,
+      "tileY": 25,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_logue_platform",
+      "kind": "EXECUTION_PLATFORM",
+      "tileX": 22,
+      "tileY": 8,
+      "widthTiles": 4,
+      "heightTiles": 3,
+      "label": "로저 처형대"
+    },
+    {
+      "landmarkId": "lm_logue_boat",
+      "kind": "DOCKED_BOAT",
+      "tileX": 4,
+      "tileY": 27,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_logue_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 26,
+      "tileY": 24,
+      "widthTiles": 1,
+      "heightTiles": 1
+    }
+  ],
   "npcs": [
     {
       "npcId": "npc_dragon_shadow",
       "name": "정체불명의 녹색 망토 사나이",
       "roleLabel": "바람을 부르는 자 (로그타운)",
-      "pos": { "x": 360, "y": 255 },
+      "pos": {
+        "x": 560,
+        "y": 688
+      },
       "interactRadiusPx": 52,
       "visualScale": 1.08,
       "color": "#16a34a",
@@ -34,6 +221,166 @@
           "setsFlag": "flag_loguetown_plaza_visited",
           "responseLine": "[특수 미션 예고] 스모커전은 [45초 생존 탈출(SURVIVE_TIME)] 미션으로 진행됩니다!"
         }
+      ],
+      "facing": "right",
+      "ambientBubbleText": "폭풍이 곧 이 마을을 덮친다...",
+      "patrolWaypoints": [
+        {
+          "x": 560,
+          "y": 688
+        },
+        {
+          "x": 688,
+          "y": 688
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 90
+    },
+    {
+      "npcId": "npc_ipponmatsu",
+      "name": "무기점 주인 잇폰마츠",
+      "roleLabel": "로그타운 명검 감정사",
+      "pos": {
+        "x": 432,
+        "y": 656
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 0.96,
+      "color": "#eab308",
+      "facing": "down",
+      "ambientBubbleText": "요도 산다이 키테츠를 감당할 수 있나?",
+      "patrolWaypoints": [
+        {
+          "x": 368,
+          "y": 656
+        },
+        {
+          "x": 496,
+          "y": 656
+        }
+      ],
+      "patrolSpeedPx": 36,
+      "pauseTicks": 85,
+      "dialogueLines": [
+        "잇폰마츠: 그 검이 선택한 사내라면 가게의 가보 유바시리까지 맡겨주마!",
+        "무기점 뒤쪽 좁은 돌골목도 한번 들러보게나."
+      ]
+    },
+    {
+      "npcId": "npc_tashigi",
+      "name": "해군 소위 타시기",
+      "roleLabel": "스모커 직속 부관",
+      "pos": {
+        "x": 848,
+        "y": 496
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 0.98,
+      "color": "#38bdf8",
+      "facing": "left",
+      "ambientBubbleText": "명검을 해적 손에 넘길 순 없어요!",
+      "patrolWaypoints": [
+        {
+          "x": 752,
+          "y": 496
+        },
+        {
+          "x": 944,
+          "y": 496
+        }
+      ],
+      "patrolSpeedPx": 44,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "타시기: 스모커 대령님이 검문소 앞을 봉쇄하셨습니다! 폭풍이 불어오기 전까진 한 발짝도 못 나갑니다!"
+      ]
+    },
+    {
+      "npcId": "npc_raoul",
+      "name": "바텐더 라울",
+      "roleLabel": "골드 로저의 단골 주점",
+      "pos": {
+        "x": 656,
+        "y": 400
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.96,
+      "color": "#94a3b8",
+      "facing": "up",
+      "ambientBubbleText": "그 사나이도 저 처형대에서 웃었지.",
+      "patrolWaypoints": [
+        {
+          "x": 624,
+          "y": 400
+        },
+        {
+          "x": 784,
+          "y": 400
+        }
+      ],
+      "patrolSpeedPx": 34,
+      "pauseTicks": 90,
+      "dialogueLines": [
+        "라울: 22년 전 골 D. 로저가 저 처형대에서 위대한 항로의 시대를 열었어."
+      ]
+    },
+    {
+      "npcId": "npc_logue_marine",
+      "name": "해군 검문병",
+      "roleLabel": "로그타운 경비대",
+      "pos": {
+        "x": 1072,
+        "y": 592
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.98,
+      "color": "#60a5fa",
+      "facing": "left",
+      "ambientBubbleText": "항구 탈출로는 전면 봉쇄 중이다!",
+      "patrolWaypoints": [
+        {
+          "x": 1072,
+          "y": 560
+        },
+        {
+          "x": 1072,
+          "y": 720
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 70,
+      "dialogueLines": [
+        "해군: 검은 먹구름이 몰려오고 있어! 저 녹색 번개 바람은 도대체 뭐지?!"
+      ]
+    },
+    {
+      "npcId": "npc_logue_citizen",
+      "name": "광장 시민",
+      "roleLabel": "시작과 끝의 마을 주민",
+      "pos": {
+        "x": 880,
+        "y": 720
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.95,
+      "color": "#cbd5e1",
+      "facing": "right",
+      "ambientBubbleText": "곧 큰 소나기가 쏟아질 거야!",
+      "patrolWaypoints": [
+        {
+          "x": 784,
+          "y": 720
+        },
+        {
+          "x": 912,
+          "y": 720
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "시민: 비가 쏟아지기 시작하면 서쪽 항구 창고 뒤로 피신하는 게 좋아."
       ]
     }
   ],
@@ -42,9 +389,14 @@
       "encounterId": "enc_loguetown_smoker_escape",
       "name": "하얀 사냥꾼 스모커 (45초 생존 탈출전 · 자연계)",
       "isBoss": true,
-      "pos": { "x": 790, "y": 270 },
+      "pos": {
+        "x": 1200,
+        "y": 624
+      },
       "triggerRadiusPx": 60,
-      "enemyUnitIds": ["smoker"],
+      "enemyUnitIds": [
+        "smoker"
+      ],
       "aiLevel": 3,
       "arenaSizeKey": "large",
       "setsFlagOnVictory": "flag_loguetown_cleared",
@@ -62,5 +414,266 @@
         "[특수 승리 조건] 무장색 없이 45초간 생존하면 거대한 돌풍(드래곤 컷신)과 함께 항구 탈출에 성공합니다!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "RAIN"
+    ],
+    "density": 40
+  },
+  "lightingProfile": {
+    "defaultMood": "DUSK",
+    "tintHex": "#1e293b",
+    "tintAlpha": 0.22,
+    "sunbeams": false,
+    "lanterns": [
+      {
+        "tileX": 14,
+        "tileY": 20,
+        "color": "#fde047",
+        "radiusPx": 50
+      },
+      {
+        "tileX": 22,
+        "tileY": 11,
+        "color": "#fde047",
+        "radiusPx": 56
+      },
+      {
+        "tileX": 35,
+        "tileY": 18,
+        "color": "#38bdf8",
+        "radiusPx": 48
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 48,
+    "rows": 34,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber",
+      "n": "snow"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccccc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppBBBBBBBpppppppc",
+      "cppppppppppppppppppppppppppppppppbwbDbwbpppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppppppppppppppppppppppppppppppppppppppc",
+      "cppppppppppBBBBBpppppppppppppppppppppppppppppppc",
+      "~~~~pppppppbwDwbpppppppppppppppppppppppppppppppc",
+      "~WW~pppppppppppppppppppppppppppppppppppppppppppc",
+      "~WW~pppppppppppppppppppppppppppppppppppppppppppc",
+      "~WW~pppppppppppppppppppppppppppppppppppppppppppc",
+      "~WW~pBBBpppppppppppppppppppppppppppppppppppppppc",
+      "~WW~pbDbpppppppppppppppppppppppppppppppppppppppc",
+      "~WW~ddddddddpppppppppppppppppppppppppppppppppppc",
+      "~WW~ddddddddpppppppppppppppppppppppppppppppppppc",
+      "~WW~ddddddddpppppppppppppppppppppppppppppppppppc",
+      "~WW~ddddddddddpppppppppppppppppppppppppppppppppc",
+      "~WW~ddddddddddpppppppppppppppppppppppppppppppppc",
+      "~WW~pppppppppppppppppppppppppppppppppppppppppppc",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    ],
+    "detailRows": [
+      "................................................",
+      ".hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh.",
+      "................................................",
+      ".................pppppppppppppp.................",
+      "...............h.ppppppppppppppf................",
+      ".................ppppCppppCpppph....f...........",
+      ".................ppppCppppCpppp...h.............",
+      "................hppppppppppppppf.....f....c.....",
+      "...c.............pppppppppppppp...........h.....",
+      "...h.............pppppppppppppp.h...............",
+      ".................pppppppppppppp.....f...........",
+      ".................pppppppppppppp.....t...........",
+      "..............t..pppppppppppppp.................",
+      "............ppppppppppppppppppppp...............",
+      "............ppppppppppppppppppppp...............",
+      "..........pppppppppppppppppppppppppphhhh........",
+      "..........pppppppppppppppppppppppppppppppppp....",
+      "................ppppppppppppppkppppppppppppp....",
+      "................ppppppppppppppkppppppppppppp....",
+      ".....ppppp.hpppppppppppppppppppppppppppppppp....",
+      ".....ppppp..pppppppppppppppppppppppppppppppp....",
+      ".....ppppp..pppppppppppppppppppppppppppppppp....",
+      "........pp..pppppkkpppppppppppkppppppppppppp....",
+      "........pp..ppppppppppppppppppkppppppppppppp....",
+      "....ddddddddpppppppppppppppppppppppppppppppp....",
+      "....ddddddddpppppppppppppppppppppppp.......c....",
+      "....ddddddddpppppppppppppppppppppppp.......h....",
+      "....dddddddddd..................................",
+      "....dddddddddd..................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................"
+    ],
+    "solidRows": [
+      "################################################",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#....................#....#....................#",
+      "#....................#....#....................#",
+      "#.........................................#....#",
+      "#..#...........................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..............................................#",
+      "#................................#######.......#",
+      "#................................#######.......#",
+      "#..............................................#",
+      "#..............................................#",
+      "#..........#####..............#................#",
+      "####.......#####..............#................#",
+      "####...........................................#",
+      "####...........................................#",
+      "####...........................................#",
+      "####.###.........##...........#................#",
+      "####.###......................#................#",
+      "####...........................................#",
+      "####.......................................#...#",
+      "####...........................................#",
+      "####...........................................#",
+      "####...........................................#",
+      "####...........................................#",
+      "################################################",
+      "################################################",
+      "################################################",
+      "################################################"
+    ],
+    "overheadRows": [
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      ".....................AAAAAA..............ooo....",
+      "..ooo....................................oOo....",
+      "..oOo....................................ooo....",
+      "..ooo...........................................",
+      "................................................",
+      "................................................",
+      "................................errrrrrre.......",
+      "................................eRRRRRRRe.......",
+      ".................................RRRRRRR........",
+      "................................................",
+      "..........errrrre...............................",
+      "..........eRRRRRe...............................",
+      "...........RRRRR................................",
+      "................................................",
+      "................................................",
+      "....errre.......................................",
+      "....eRRRe.......................................",
+      ".....RRR........................................",
+      "..........................................ooo...",
+      "..........................................oOo...",
+      "..........................................ooo...",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................",
+      "................................................"
+    ],
+    "surfaceRows": [
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "pppppppppppppppppppppppppppppppppppppppppppppppp",
+      "wwwwpppppppppppppppppppppppppppppppppppppppppppp",
+      "wwwwpppppppppppppppppppppppppppppppppppppppppppp",
+      "wwwwpppppppppppppppppppppppppppppppppppppppppppp",
+      "wwwwpppppppppppppppppppppppppppppppppppppppppppp",
+      "wwwwpppppppppppppppppppppppppppppppppppppppppppp",
+      "wwwwpppppppppppppppppppppppppppppppppppppppppppp",
+      "wwwwddddddddpppppppppppppppppppppppppppppppppppp",
+      "wwwwddddddddpppppppppppppppppppppppppppppppppppp",
+      "wwwwddddddddpppppppppppppppppppppppppppppppppppp",
+      "wwwwddddddddddpppppppppppppppppppppppppppppppppp",
+      "wwwwddddddddddpppppppppppppppppppppppppppppppppp",
+      "wwwwpppppppppppppppppppppppppppppppppppppppppppp",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    ]
+  }
 }

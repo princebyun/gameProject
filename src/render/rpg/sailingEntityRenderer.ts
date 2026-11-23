@@ -1,4 +1,5 @@
 import type { AssetLoader } from '../../assets/assetLoader';
+import { resolveActiveShipId } from '../../core/rpg/seaCurrentPhysics';
 import { validateSeaGateAccess } from '../../core/rpg/seaGateValidator';
 import type { RpgCampaignState, RpgDataRegistry } from '../../core/types/rpgSchemas';
 import {
@@ -206,27 +207,48 @@ export function renderPlayerShip(
   ctx: CanvasRenderingContext2D,
   state: RpgCampaignState,
   tick: number,
-  assets?: AssetLoader
+  assets?: AssetLoader,
+  tailwindRatio: number = 0
 ): void {
-  const { pos, headingRad, shipId, coupDeBurstActiveTimer } = state.ship;
+  const { pos, headingRad, coupDeBurstActiveTimer } = state.ship;
+  const activeShipId = resolveActiveShipId(state);
+  const speed = Math.hypot(state.ship.vel.x, state.ship.vel.y);
+  // Quantized 8-direction tilt & bob for crisp 2D pixel ship feel
+  const sector = Math.round(headingRad / (Math.PI / 4)) * (Math.PI / 4);
+  const tiltRad = Math.sin(sector) * 0.14;
+  const bobY = speed > 10 ? Math.round(Math.sin(tick * 0.18) * 1.5) : 0;
+
   if (assets) {
-    const { entry, sheet } = assets.getOrCreateShipSpriteSheet(shipId);
+    const { entry, sheet } = assets.getOrCreateShipSpriteSheet(activeShipId);
     if (entry && sheet) {
       const animState =
         coupDeBurstActiveTimer > 0
           ? 'DODGE'
-          : Math.hypot(state.ship.vel.x, state.ship.vel.y) > 12
+          : speed > 12 || tailwindRatio > 0.15
             ? 'MOVE'
             : 'IDLE';
       const clip = entry.animations[animState];
       const frame = Math.floor((tick / 60) * clip.fps) % Math.max(1, clip.frames);
-      const facingX = Math.cos(headingRad) < -0.05 ? -1 : 1;
+      const facingX = Math.cos(sector) < -0.05 ? -1 : 1;
       const drawW = entry.frameWidth;
       const drawH = entry.frameHeight;
 
       ctx.save();
-      ctx.translate(Math.round(pos.x), Math.round(pos.y));
+      ctx.translate(Math.round(pos.x), Math.round(pos.y + bobY));
+      ctx.rotate(tiltRad * facingX);
       ctx.scale(facingX, 1);
+
+      // Sail tailwind sheen / Coup de Burst cola jet trail behind ship
+      if (coupDeBurstActiveTimer > 0) {
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.72)';
+        ctx.fillRect(-34, -10, 14, 12);
+        ctx.fillStyle = '#e0f2fe';
+        ctx.fillRect(-28, -7, 8, 6);
+      } else if (tailwindRatio > 0.15) {
+        ctx.fillStyle = 'rgba(224, 242, 254, 0.55)';
+        ctx.fillRect(-22, -18, 6, 10);
+      }
+
       ctx.drawImage(
         sheet,
         frame * entry.frameWidth,
@@ -243,20 +265,23 @@ export function renderPlayerShip(
     }
   }
   ctx.save();
-  ctx.translate(Math.round(pos.x), Math.round(pos.y));
-  ctx.rotate(headingRad);
+  ctx.translate(Math.round(pos.x), Math.round(pos.y + bobY));
+  ctx.rotate(sector);
 
   if (coupDeBurstActiveTimer > 0) {
     ctx.fillStyle = '#38bdf8';
     ctx.fillRect(-38, -8, 20, 16);
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(-32, -4, 14, 8);
+  } else if (tailwindRatio > 0.15) {
+    ctx.fillStyle = 'rgba(186, 230, 253, 0.58)';
+    ctx.fillRect(-28, -9, 14, 18);
   } else {
     ctx.fillStyle = 'rgba(224, 242, 254, 0.35)';
     ctx.fillRect(-26, -6, 10, 12);
   }
 
-  const isSunny = shipId === 'thousand_sunny';
+  const isSunny = activeShipId === 'thousand_sunny';
   ctx.fillStyle = isSunny ? '#b91c1c' : '#92400e';
   ctx.beginPath();
   ctx.moveTo(22, 0);

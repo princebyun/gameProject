@@ -2,6 +2,7 @@ import type { AssetLoader } from '../assets/assetLoader';
 import { clamp } from '../core/math/vector2';
 import { computeCrewRoleBonuses } from '../core/rpg/crewAndBountyEngine';
 import type { SailingStepOutput } from '../core/rpg/sailingPhysics';
+import { resolveActiveShipId } from '../core/rpg/seaCurrentPhysics';
 import type {
   RpgCampaignState,
   RpgDataRegistry
@@ -13,16 +14,32 @@ import {
 } from '../story/worldMarkerSystem';
 import {
   renderDynamicSeaObjects,
-  renderPlayerShip,
-  renderSeaGateAndIslands
+  renderPlayerShip
 } from './rpg/sailingEntityRenderer';
-import { renderLogPoseHud, renderSailingInteractionPrompt, renderSailingStatusHud, renderSeaMinimapHud } from './rpg/sailingHudRenderer';
+import {
+  renderLogPoseHud,
+  renderSailingInteractionPrompt,
+  renderSailingStatusHud
+} from './rpg/sailingHudRenderer';
+import { renderSeaCurrentsAndWhirlpools } from './sea/seaCurrentsRenderer';
+import { renderWorldLandmarksAndGate } from './sea/seaLandmarkRenderer';
+import { renderTopRightSeaMinimapHud } from './sea/seaMinimapHud';
+import type { SeaWakeParticlePool } from './sea/seaWakeParticlePool';
+import { SeaWeatherRenderer } from './sea/seaWeatherRenderer';
 import { computeCameraWorldBounds } from './viewport/frustumCulling';
 import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
 } from './viewport/responsiveViewportManager';
 import { getSafeHudBounds } from './viewport/safeAreaLayout';
+
+export interface SeaSailingRenderOptions {
+  flashEffectEnabled?: boolean;
+  wakePool?: SeaWakeParticlePool;
+  weatherRenderer?: SeaWeatherRenderer;
+}
+
+const defaultWeatherRenderer = new SeaWeatherRenderer();
 
 export function renderSeaSailingCanvas(
   ctx: CanvasRenderingContext2D,
@@ -34,15 +51,19 @@ export function renderSeaSailingCanvas(
   assets?: AssetLoader,
   viewport: ViewportMetrics = DEFAULT_VIEWPORT_METRICS,
   worldMarkers?: WorldMarker[],
-  highlightGoldMarker: boolean = false
+  highlightGoldMarker: boolean = false,
+  options?: SeaSailingRenderOptions
 ): void {
   const safe = getSafeHudBounds(viewport);
   const viewW = safe.viewWidth;
   const viewH = safe.viewHeight;
   const zone = rpgRegistry.seaZones[state.currentZoneId];
+  const activeShipId = resolveActiveShipId(state);
   const shipDef =
-    rpgRegistry.ships[state.ship.shipId] ?? rpgRegistry.ships['going_merry'];
+    rpgRegistry.ships[activeShipId] ?? rpgRegistry.ships['going_merry'];
   const roleBonuses = computeCrewRoleBonuses(state, rpgRegistry);
+  const flashEnabled = options?.flashEffectEnabled ?? true;
+  const weatherFx = options?.weatherRenderer ?? defaultWeatherRenderer;
 
   // 1. Ocean background color by Sea Zone & Time-of-Day
   let seaColor = '#0c4a6e';
@@ -113,10 +134,27 @@ export function renderSeaSailingCanvas(
     }
   }
 
-  const visibleBounds = computeCameraWorldBounds(camX, camY, viewW, viewH, 96);
+  const visibleBounds = computeCameraWorldBounds(camX, camY, viewW, viewH, 112);
 
-  // 3-4. SeaGate & Islands (Frustum culled)
-  renderSeaGateAndIslands(ctx, state, rpgRegistry, zone, visibleBounds);
+  // 2.5 Deep Sea King silhouettes & Marineford drifting ice floes (world space)
+  weatherFx.renderUnderwaterSeaKingShadows(ctx, zone, tick, visibleBounds);
+  weatherFx.renderWorldSpaceIceFloes(ctx, zone, tick, visibleBounds);
+
+  // 3. Directional Sea Currents & Whirlpools (Frustum culled)
+  renderSeaCurrentsAndWhirlpools(ctx, zone, tick, visibleBounds);
+
+  // 4. 20 Unique Animated Pixel Landmarks & SeaGate (Frustum culled)
+  renderWorldLandmarksAndGate(
+    ctx,
+    state,
+    rpgRegistry,
+    zone,
+    stepInfo.nearbyIsland,
+    tick,
+    assets,
+    visibleBounds,
+    worldMarkers
+  );
 
   // 5. Dynamic Sea Objects (Frustum culled)
   renderDynamicSeaObjects(
@@ -134,29 +172,39 @@ export function renderSeaSailingCanvas(
     renderWorldMarkerBeacons(ctx, worldMarkers, tick, highlightGoldMarker);
   }
 
-  // 6. Player Ship
-  renderPlayerShip(ctx, state, tick, assets);
+  // 6. Pooled Wake Foam & Upgraded Player Ship
+  const shipSpeed = Math.hypot(state.ship.vel.x, state.ship.vel.y);
+  options?.wakePool?.stepAndRender(
+    ctx,
+    state.ship.pos.x,
+    state.ship.pos.y,
+    state.ship.headingRad,
+    shipSpeed,
+    stepInfo.currentTailwindRatio ?? 0,
+    state.ship.coupDeBurstActiveTimer > 0,
+    tick,
+    visibleBounds
+  );
+  renderPlayerShip(
+    ctx,
+    state,
+    tick,
+    assets,
+    stepInfo.currentTailwindRatio ?? 0
+  );
 
   ctx.restore();
 
-  // 7. Weather visual overlay (STORM rain / FOG mist)
-  if (state.seaWeather === 'STORM') {
-    ctx.save();
-    ctx.strokeStyle = 'rgba(186, 230, 253, 0.25)';
-    ctx.lineWidth = 1.5;
-    for (let i = 0; i < 28; i++) {
-      const rx = (i * 73 + tick * 9) % viewW;
-      const ry = (i * 59 + tick * 14) % viewH;
-      ctx.beginPath();
-      ctx.moveTo(rx, ry);
-      ctx.lineTo(rx - 8, ry + 18);
-      ctx.stroke();
-    }
-    ctx.restore();
-  } else if (state.seaWeather === 'FOG') {
-    ctx.fillStyle = 'rgba(226, 232, 240, 0.10)';
-    ctx.fillRect(0, 0, viewW, viewH);
-  }
+  // 7. Zone-Specific Dynamic Weather & Accessibility Lightning Guard
+  weatherFx.renderZoneWeatherOverlay(
+    ctx,
+    state,
+    zone,
+    viewW,
+    viewH,
+    tick,
+    flashEnabled
+  );
 
   // 8-11. Safe Area HUDs
   renderSailingStatusHud(
@@ -167,12 +215,14 @@ export function renderSeaSailingCanvas(
     safe
   );
   renderLogPoseHud(ctx, state, rpgRegistry, tick, safe);
-  renderSeaMinimapHud(
+  renderTopRightSeaMinimapHud(
     ctx,
     state,
     rpgRegistry,
     roleBonuses.revealsHiddenChests,
-    safe
+    tick,
+    safe,
+    worldMarkers
   );
   renderSailingInteractionPrompt(ctx, state, rpgRegistry, stepInfo, safe);
 }

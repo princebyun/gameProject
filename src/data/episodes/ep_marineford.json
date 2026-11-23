@@ -18,20 +18,28 @@
       "title": "불사조 마르코와 공동전선 결성",
       "description": "얼음만 광장의 마르코와 대화해 2:2 동맹을 결성하세요.",
       "requiredFlag": "flag_marineford_marco_alliance",
-      "targetPos": { "x": 360, "y": 260 }
+      "targetPos": {
+        "x": 752,
+        "y": 688
+      }
     },
     {
       "stepId": "step_marineford_gauntlet",
       "title": "마린포드 3연전 돌파 (아오키지 → 아카이누 → 검은 수염)",
       "description": "마르코와 협력해 정상전쟁 3연전을 돌파하고 레드라인 신세계 관문을 해금하세요.",
       "requiredFlag": "flag_marineford_cleared",
-      "targetPos": { "x": 805, "y": 270 }
+      "targetPos": {
+        "x": 848,
+        "y": 336
+      }
     }
   ],
   "rewards": {
     "berries": 140000,
     "trainingPoints": 150,
     "bountyIncrease": 100000000,
-    "recruitsUnitIds": ["marco"]
+    "recruitsUnitIds": [
+      "marco"
+    ]
   }
 }

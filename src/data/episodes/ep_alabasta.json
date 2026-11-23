@@ -18,21 +18,31 @@
       "title": "비비와 대화 & 물통 공략 힌트 확인",
       "description": "알루바르나 궁전 광장의 비비와 대화하세요.",
       "requiredFlag": "flag_alabasta_water_hint",
-      "targetPos": { "x": 360, "y": 255 }
+      "targetPos": {
+        "x": 752,
+        "y": 432
+      }
     },
     {
       "stepId": "step_alabasta_boss",
       "title": "칠무해 크로커다일 격파",
       "description": "물통을 파괴해 젖음(WET)을 부여하고 크로커다일을 격파하세요.",
       "requiredFlag": "flag_alabasta_cleared",
-      "targetPos": { "x": 800, "y": 270 }
+      "targetPos": {
+        "x": 816,
+        "y": 272
+      }
     }
   ],
   "rewards": {
     "berries": 60000,
     "trainingPoints": 60,
     "bountyIncrease": 70000000,
-    "recruitsUnitIds": ["robin"],
-    "unlocksCrewRoles": ["ARCHAEOLOGIST"]
+    "recruitsUnitIds": [
+      "robin"
+    ],
+    "unlocksCrewRoles": [
+      "ARCHAEOLOGIST"
+    ]
   }
 }

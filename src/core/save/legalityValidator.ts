@@ -1,9 +1,42 @@
 import { defaultEndgameRegistry } from '../../data/endgame/endgameRegistry';
 import type { EndgameDataRegistry } from '../endgame/types';
 import type { GameDataRegistry } from '../types/dataSchemas';
-import type { RpgDataRegistry, SeaZoneId } from '../types/rpgSchemas';
+import type {
+  IslandTreasureChestDefinition,
+  RpgDataRegistry,
+  SeaZoneId
+} from '../types/rpgSchemas';
 import { validateEndgameLegality } from './endgameLegalityValidator';
 import type { AntiCheatViolationCode, SavePayloadV1 } from './schema';
+
+export interface DynamicChestRegistry {
+  byId: Map<string, IslandTreasureChestDefinition>;
+  totalCount: number;
+  maxTotalBerries: number;
+  maxTotalTp: number;
+}
+
+export function collectDynamicChestRegistry(
+  rpgRegistry: RpgDataRegistry
+): DynamicChestRegistry {
+  const byId = new Map<string, IslandTreasureChestDefinition>();
+  let maxTotalBerries = 0;
+  let maxTotalTp = 0;
+  for (const isl of Object.values(rpgRegistry.islands)) {
+    if (!isl.chests) continue;
+    for (const ch of isl.chests) {
+      byId.set(ch.chestId, ch);
+      maxTotalBerries += Math.max(0, ch.reward.berries);
+      maxTotalTp += Math.max(0, ch.reward.trainingPoints);
+    }
+  }
+  return {
+    byId,
+    totalCount: byId.size,
+    maxTotalBerries,
+    maxTotalTp
+  };
+}
 
 /**
  * Stage 2: LegalityValidator
@@ -73,21 +106,32 @@ export function validateSaveLegality(
     messages.push('엘바프 입항 모순: 선행 에피소드(ep_egghead)가 미완료 상태입니다.');
   }
 
-  // 1b. Cross-check opened island treasure chests if present (v5 compatible default [])
+  // 1b. Cross-check opened island treasure chests dynamically against DataRegistry (v5 compatible)
   const openedChests = payload.world?.openedChestIds;
   if (Array.isArray(openedChests) && openedChests.length > 0) {
-    const validChestIds = new Set<string>();
-    for (const isl of Object.values(rpgRegistry.islands)) {
-      if (!isl.chests) continue;
-      for (const ch of isl.chests) {
-        validChestIds.add(ch.chestId);
-      }
+    const chestReg = collectDynamicChestRegistry(rpgRegistry);
+    if (openedChests.length > chestReg.totalCount) {
+      codeSet.add('ILLEGAL_UNIT_STATE');
+      messages.push(
+        `보물상자 개봉 개수 초과: ${openedChests.length} > 허용 상한 ${chestReg.totalCount}`
+      );
     }
     const seenChests = new Set<string>();
     for (const chestId of openedChests) {
-      if (!validChestIds.has(chestId) || seenChests.has(chestId)) {
+      const def = chestReg.byId.get(chestId);
+      if (!def || seenChests.has(chestId)) {
         codeSet.add('ILLEGAL_UNIT_STATE');
         messages.push(`유효하지 않거나 중복된 보물상자 ID 감지: ${chestId}`);
+        continue;
+      }
+      if (
+        def.reward.berries < 0 ||
+        def.reward.berries > 1_000_000 ||
+        def.reward.trainingPoints < 0 ||
+        def.reward.trainingPoints > 10_000
+      ) {
+        codeSet.add('ILLEGAL_UNIT_STATE');
+        messages.push(`보물상자 보상 범위 위반 감지: ${chestId}`);
       }
       seenChests.add(chestId);
     }

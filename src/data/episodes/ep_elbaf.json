@@ -17,14 +17,20 @@
       "title": "거병 해적단 도리 & 브로기와 해후",
       "description": "거대 스케일의 거인 전사 도리 & 브로기와 대화하세요.",
       "requiredFlag": "flag_elbaf_giants_greeted",
-      "targetPos": { "x": 380, "y": 265 }
+      "targetPos": {
+        "x": 816,
+        "y": 816
+      }
     },
     {
       "stepId": "step_elbaf_trial",
       "title": "명계 거목 아레나 결전: 저주받은 왕자 로키 격파",
       "description": "세계수 하층 아레나에서 거대 보스 로키(Scale 2.1x · 철뇌 라그니르)를 격파하세요.",
       "requiredFlag": "flag_elbaf_trial_cleared",
-      "targetPos": { "x": 790, "y": 270 }
+      "targetPos": {
+        "x": 880,
+        "y": 240
+      }
     }
   ],
   "rewards": {

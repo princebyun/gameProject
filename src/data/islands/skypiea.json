@@ -2,14 +2,39 @@
   "islandId": "skypiea",
   "name": "하늘섬 스카이피아 (구름 바다 & 샨도라 황금종)",
   "episodeId": "ep_skypiea",
-  "width": 960,
-  "height": 540,
+  "width": 1600,
+  "height": 1152,
   "theme": "GIANT_ELBAF",
-  "spawnPoint": { "x": 110, "y": 270 },
-  "portExitZone": { "pos": { "x": 58, "y": 270 }, "radiusPx": 42 },
+  "spawnPoint": {
+    "x": 816,
+    "y": 944
+  },
+  "portExitZone": {
+    "pos": {
+      "x": 816,
+      "y": 1008
+    },
+    "radiusPx": 44
+  },
+  "battleTerminalPos": {
+    "x": 656,
+    "y": 944
+  },
   "obstacles": [
-    { "x": 280, "y": 80, "width": 160, "height": 80, "label": "어퍼 야드 백해 구름 절벽" },
-    { "x": 550, "y": 395, "width": 190, "height": 80, "label": "방주 맥심 잔해" }
+    {
+      "x": 992,
+      "y": 704,
+      "width": 128,
+      "height": 64,
+      "label": "엔젤 비치 오두막"
+    },
+    {
+      "x": 448,
+      "y": 160,
+      "width": 192,
+      "height": 64,
+      "label": "샨도라 황금 유적 신전"
+    }
   ],
   "laserBarriers": [],
   "puzzleSwitches": [],
@@ -17,11 +42,188 @@
     {
       "propId": "prop_golden_bell",
       "label": "샨도라 황금종 (Golden Belfry)",
-      "pos": { "x": 790, "y": 115 },
+      "pos": {
+        "x": 1040,
+        "y": 176
+      },
       "width": 96,
       "height": 84,
-      "visualScale": 2.0,
+      "visualScale": 2,
       "color": "#facc15"
+    }
+  ],
+  "zones": [
+    {
+      "zoneId": "zone_sky_dock",
+      "name": "백백해 구름 부두",
+      "subtitle": "하늘섬 1만 미터 상륙 지점",
+      "tileX": 18,
+      "tileY": 26,
+      "tileW": 14,
+      "tileH": 6,
+      "accentColor": "#bae6fd"
+    },
+    {
+      "zoneId": "zone_sky_angel_beach",
+      "name": "엔젤 비치 & 구름 숲",
+      "subtitle": "하얀 구름 해변과 다이얼 마을",
+      "tileX": 29,
+      "tileY": 20,
+      "tileW": 19,
+      "tileH": 11,
+      "accentColor": "#38bdf8"
+    },
+    {
+      "zoneId": "zone_sky_beanstalk",
+      "name": "어퍼 야드 거대 콩줄기 아치",
+      "subtitle": "신역으로 이어지는 거목 통로",
+      "tileX": 16,
+      "tileY": 13,
+      "tileW": 16,
+      "tileH": 9,
+      "accentColor": "#4ade80"
+    },
+    {
+      "zoneId": "zone_sky_shandora",
+      "name": "샨도라 황금 유적 & 황금종",
+      "subtitle": "갓 에넬 최종 결전지",
+      "tileX": 13,
+      "tileY": 3,
+      "tileW": 26,
+      "tileH": 10,
+      "accentColor": "#facc15"
+    }
+  ],
+  "chests": [
+    {
+      "chestId": "chest_skypiea_beanstalk_root",
+      "tileX": 18,
+      "tileY": 14,
+      "rarity": "gold",
+      "hiddenHint": "거대 콩줄기 뿌리 오버헤드 뒤 비밀 길",
+      "reward": {
+        "berries": 15000,
+        "trainingPoints": 24,
+        "healPartyRatio": 0.45,
+        "itemLabel": "샨도라 순금 다이얼 보물"
+      }
+    },
+    {
+      "chestId": "chest_skypiea_cloud_forest",
+      "tileX": 6,
+      "tileY": 17,
+      "rarity": "silver",
+      "hiddenHint": "서쪽 구름 숲 캐노피 뒤편",
+      "reward": {
+        "berries": 11000,
+        "trainingPoints": 18,
+        "itemLabel": "어퍼 야드 비술 상자"
+      }
+    },
+    {
+      "chestId": "chest_skypiea_ruin_pillars",
+      "tileX": 35,
+      "tileY": 6,
+      "rarity": "silver",
+      "hiddenHint": "샨도라 유적 석조 기둥 뒤",
+      "reward": {
+        "berries": 12000,
+        "trainingPoints": 20,
+        "itemLabel": "황금 도시의 촛대 유물"
+      }
+    },
+    {
+      "chestId": "chest_skypiea_angel_cape",
+      "tileX": 45,
+      "tileY": 27,
+      "rarity": "wooden",
+      "hiddenHint": "엔젤 비치 동쪽 끝 구름 곶",
+      "reward": {
+        "berries": 8000,
+        "trainingPoints": 15,
+        "itemLabel": "구름 조개 비상 보급"
+      }
+    }
+  ],
+  "markers": [
+    {
+      "markerId": "marker_sky_port",
+      "kind": "PORT_EXIT",
+      "label": "⚓ 구름 부두 출항",
+      "tileX": 25,
+      "tileY": 31,
+      "actionKind": "PORT_EXIT"
+    },
+    {
+      "markerId": "marker_sky_wyper",
+      "kind": "SIDE",
+      "label": "◆ 전사 와이퍼",
+      "tileX": 21,
+      "tileY": 21,
+      "hideWhenFlagSet": "flag_skypiea_bell_oath",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_sky_enel",
+      "kind": "MAIN",
+      "label": "★ 갓 에넬 결전",
+      "tileX": 25,
+      "tileY": 8,
+      "hideWhenFlagSet": "flag_skypiea_cleared",
+      "actionKind": "STORY"
+    },
+    {
+      "markerId": "marker_sky_camp",
+      "kind": "ACTIVITY",
+      "label": "🏕 구름 수련 캠프",
+      "tileX": 11,
+      "tileY": 22,
+      "actionKind": "CAMP_TRAINING"
+    },
+    {
+      "markerId": "marker_sky_terminal",
+      "kind": "ACTIVITY",
+      "label": "🌐 대전 단말기",
+      "tileX": 20,
+      "tileY": 29,
+      "actionKind": "BATTLE_TERMINAL"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "lm_sky_beanstalk",
+      "kind": "BEANSTALK_ARCH",
+      "tileX": 22,
+      "tileY": 16,
+      "widthTiles": 6,
+      "heightTiles": 3,
+      "label": "거대 콩줄기 아치",
+      "hasOverheadPart": true
+    },
+    {
+      "landmarkId": "lm_sky_bell",
+      "kind": "GOLDEN_BELL",
+      "tileX": 24,
+      "tileY": 4,
+      "widthTiles": 3,
+      "heightTiles": 3,
+      "label": "샨도라 황금종"
+    },
+    {
+      "landmarkId": "lm_sky_boat",
+      "kind": "DOCKED_BOAT",
+      "tileX": 17,
+      "tileY": 30,
+      "widthTiles": 3,
+      "heightTiles": 2
+    },
+    {
+      "landmarkId": "lm_sky_board",
+      "kind": "BOUNTY_BOARD",
+      "tileX": 11,
+      "tileY": 21,
+      "widthTiles": 1,
+      "heightTiles": 1
     }
   ],
   "npcs": [
@@ -29,9 +231,12 @@
       "npcId": "npc_wyper_skypiea",
       "name": "와이퍼 & 샨도라 전사",
       "roleLabel": "황금종의 수호자 · 고무 천적 힌트",
-      "pos": { "x": 360, "y": 260 },
+      "pos": {
+        "x": 688,
+        "y": 688
+      },
       "interactRadiusPx": 56,
-      "visualScale": 1.0,
+      "visualScale": 1,
       "color": "#facc15",
       "setsQuestFlagOnTalk": "flag_skypiea_bell_oath",
       "dialogueLines": [
@@ -44,6 +249,165 @@
           "setsFlag": "flag_skypiea_bell_oath",
           "responseLine": "[서약] 400년 전 노랜드의 약속을 위해 샨도라 황금종으로 진격합니다!"
         }
+      ],
+      "facing": "right",
+      "ambientBubbleText": "고무 신체라면 번개를 이길 수 있어!",
+      "patrolWaypoints": [
+        {
+          "x": 624,
+          "y": 688
+        },
+        {
+          "x": 752,
+          "y": 688
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 80
+    },
+    {
+      "npcId": "npc_conis",
+      "name": "엔젤 아일랜드 코니스",
+      "roleLabel": "하늘섬 안내인 (헤소!)",
+      "pos": {
+        "x": 880,
+        "y": 848
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 0.96,
+      "color": "#bae6fd",
+      "facing": "left",
+      "ambientBubbleText": "헤소! 백백해에 오신 걸 환영해요!",
+      "patrolWaypoints": [
+        {
+          "x": 880,
+          "y": 848
+        },
+        {
+          "x": 1072,
+          "y": 848
+        }
+      ],
+      "patrolSpeedPx": 40,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "코니스: 엔젤 비치 끝 곶과 구름 숲 캐노피 뒤에도 고대 하늘섬 유물이 잠들어 있답니다!"
+      ]
+    },
+    {
+      "npcId": "npc_pagaya",
+      "name": "발명가 파가야",
+      "roleLabel": "다이얼 장인",
+      "pos": {
+        "x": 1168,
+        "y": 880
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.95,
+      "color": "#94a3b8",
+      "facing": "up",
+      "ambientBubbleText": "웨이버와 다이얼을 정비 중입니다!",
+      "patrolWaypoints": [
+        {
+          "x": 1168,
+          "y": 880
+        },
+        {
+          "x": 1360,
+          "y": 880
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 80,
+      "dialogueLines": [
+        "파가야: 어퍼 야드의 거대 콩줄기 아치를 지나 북쪽으로 오르면 샨도라 황금 유적이 나옵니다."
+      ]
+    },
+    {
+      "npcId": "npc_gan_fall",
+      "name": "하늘의 기사 간 폴",
+      "roleLabel": "전(前) 스카이피아 신",
+      "pos": {
+        "x": 656,
+        "y": 400
+      },
+      "interactRadiusPx": 46,
+      "visualScale": 1.04,
+      "color": "#e2e8f0",
+      "facing": "right",
+      "ambientBubbleText": "황금종을 울려 400년의 약속을 끝내다오!",
+      "patrolWaypoints": [
+        {
+          "x": 624,
+          "y": 400
+        },
+        {
+          "x": 784,
+          "y": 400
+        }
+      ],
+      "patrolSpeedPx": 38,
+      "pauseTicks": 85,
+      "dialogueLines": [
+        "간 폴: 갓 에넬의 만트라는 막강하지만 청해인의 고무 몸은 하늘의 번개조차 뚫을 걸세!"
+      ]
+    },
+    {
+      "npcId": "npc_shandia_warrior",
+      "name": "샨디아 전사 브라함",
+      "roleLabel": "어퍼 야드 수호전사",
+      "pos": {
+        "x": 400,
+        "y": 688
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 1,
+      "color": "#f97316",
+      "facing": "left",
+      "ambientBubbleText": "콩줄기 뿌리 뒤쪽 비밀 길을 알아?",
+      "patrolWaypoints": [
+        {
+          "x": 368,
+          "y": 688
+        },
+        {
+          "x": 528,
+          "y": 688
+        }
+      ],
+      "patrolSpeedPx": 42,
+      "pauseTicks": 75,
+      "dialogueLines": [
+        "전사: 조상 칼가라의 자존심이 담긴 황금종이 드디어 울릴 날이 왔군!"
+      ]
+    },
+    {
+      "npcId": "npc_sky_angler",
+      "name": "구름 낚시꾼",
+      "roleLabel": "백해 어부",
+      "pos": {
+        "x": 944,
+        "y": 304
+      },
+      "interactRadiusPx": 44,
+      "visualScale": 0.96,
+      "color": "#facc15",
+      "facing": "down",
+      "ambientBubbleText": "황금종 아래 빛이 너무 눈부셔!",
+      "patrolWaypoints": [
+        {
+          "x": 912,
+          "y": 304
+        },
+        {
+          "x": 1072,
+          "y": 304
+        }
+      ],
+      "patrolSpeedPx": 36,
+      "pauseTicks": 85,
+      "dialogueLines": [
+        "낚시꾼: 동쪽 유적 석조 기둥 뒤편에도 반짝이는 황금 상자가 보였어!"
       ]
     }
   ],
@@ -52,9 +416,14 @@
       "encounterId": "enc_skypiea_enel_boss",
       "name": "갓 에넬 (번개번개 자연계 · 2억 볼트 아말 뇌신 결전)",
       "isBoss": true,
-      "pos": { "x": 795, "y": 270 },
+      "pos": {
+        "x": 816,
+        "y": 272
+      },
       "triggerRadiusPx": 60,
-      "enemyUnitIds": ["enel"],
+      "enemyUnitIds": [
+        "enel"
+      ],
       "aiLevel": 4,
       "arenaSizeKey": "large",
       "setsFlagOnVictory": "flag_skypiea_cleared",
@@ -67,5 +436,271 @@
         "루피: 난 고무 인간이니까 번개 따위 안 통해!! 황금종은 내가 울린다!!"
       ]
     }
-  ]
+  ],
+  "ambientProfile": {
+    "particles": [
+      "CLOUD_MIST",
+      "LANTERN_MOTE"
+    ],
+    "density": 34
+  },
+  "lightingProfile": {
+    "defaultMood": "DAY",
+    "tintHex": "#e0f2fe",
+    "tintAlpha": 0.07,
+    "sunbeams": true,
+    "lanterns": [
+      {
+        "tileX": 25,
+        "tileY": 6,
+        "color": "#facc15",
+        "radiusPx": 54
+      },
+      {
+        "tileX": 25,
+        "tileY": 17,
+        "color": "#4ade80",
+        "radiusPx": 44
+      }
+    ]
+  },
+  "tileMap": {
+    "tileSize": 32,
+    "cols": 50,
+    "rows": 36,
+    "tileLegend": {
+      ".": -1,
+      "g": 14,
+      "G": 15,
+      "W": 16,
+      "~": 20,
+      "s": 3,
+      "p": 44,
+      "q": 45,
+      "d": 46,
+      "b": 65,
+      "B": 66,
+      "w": 68,
+      "D": 69,
+      "c": 32,
+      "C": 47,
+      "L": 28,
+      "f": 56,
+      "F": 57,
+      "t": 58,
+      "T": 59,
+      "h": 60,
+      "j": 63,
+      "k": 194,
+      "l": 196,
+      "m": 48,
+      "R": 128,
+      "r": 130,
+      "e": 132,
+      "O": 136,
+      "o": 138,
+      "A": 134,
+      "H": 140
+    },
+    "surfaceLegend": {
+      ".": "stone",
+      "g": "grass",
+      "p": "stone",
+      "d": "wood_dock",
+      "s": "sand",
+      "w": "water_shallow",
+      "m": "metal_cyber",
+      "n": "snow"
+    },
+    "groundRows": [
+      "cccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGpBBBBBBppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGpbwbDbwppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGpppppppppppppppppppppppppGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGgggggGGGGGGGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGgggggppppppGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGgggggppppppGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGgggggppppppGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGppppppppppppppppppppppGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGppppppppppppppppppppppGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGppppppppppppppppppppppGGGBBBBGGGGGGGGGGGGGGc",
+      "cGGGGGppppppppppppppppppppppGGGbwDwGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGppppppGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGpppppppppppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGpppppppppppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGpppppppppppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddpppppppppppppppppGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGGc",
+      "cGGGGGGGGGGGGGGGGGGGGGddddddGGGGGGGGGGGGGGGGGGGGGc",
+      "~~~~~~~~~~~~~~~~~~~~~~dddddd~~~~~~~~~~~~~~~~~~~~~~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW~",
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    ],
+    "detailRows": [
+      "..................................................",
+      ".hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh.",
+      "..F...........f..tt........................T......",
+      "...F.t..tF..................F....F.....T...F...f..",
+      "..f.f.t......ppppppppppppppppppppppppptF..........",
+      "...........f.p......ppppppppppppppCppC.....T.fT...",
+      "..fT....F....p......pppppppppppppppppptT.....F.t..",
+      "....T......tFppppppppppppppppppppppppp...T.t.T....",
+      ".....t.......pppppppppppppppppppppCppC...t........",
+      ".....t.......ppppppppppppppppppppppppp....T...T...",
+      "..T....f.....ppppppppppppppppppppppppp.......f....",
+      "....FT.......ppppppppppppppppppppppppp......T..f..",
+      "........T..F.ppppppppppppppppppppppppp.......f....",
+      "....T..........F.ggggg..Ft..tTT..F..T.............",
+      "...ttT.T.........gggggpppppp.......F.......f...t..",
+      "....t............ggcggpppppp...........t.f..T.....",
+      "...TGGGGGGGGGGGG.gggggcppppc..............f.......",
+      "....GGGGGGGGGGGG......cppppc................f.....",
+      "....GGGGGGGGGGGG......cppppc.F..............T.t...",
+      "....GGcGGGcGGGGG......pppppp............t.tf...T..",
+      ".....fppppppppppppppppppppppf.......tt...F........",
+      "......pppppppppppppppppppppp.....Tf......F........",
+      "..f...ppppppppppppppppppppppf.........T...........",
+      "......pppppppppppppppppppppp..T.....F....t........",
+      "........c....c..T...Ffpppppp..thTTcT....c....T....",
+      "........h....h.......tppppppppppppppppppppppp.....",
+      ".......F...F.F.......Fppppppppppppppppppppppp.....",
+      ".........T...T.f......ppppppppppppppppppppppp..t..",
+      ".......F..............ddddddppppppppppppppppp.....",
+      "...F....t...........F.dddddd...t..................",
+      ".......t.........f....dddddd......T.....F......F..",
+      "......................dddddd......................",
+      "......................dddddd......................",
+      "..................................................",
+      "..................................................",
+      ".................................................."
+    ],
+    "solidRows": [
+      "##################################################",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#.............######..............#..#...........#",
+      "#.............######.............................#",
+      "#................................................#",
+      "#.................................#..#...........#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#..................#.............................#",
+      "#.....................#....#.....................#",
+      "#.....................#....#.....................#",
+      "#.....................#....#.....................#",
+      "#.....#...#......................................#",
+      "#................................................#",
+      "#................................................#",
+      "#..............................####..............#",
+      "#..............................####..............#",
+      "#.......#....#....................#.....#........#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "#................................................#",
+      "######################......######################",
+      "##################################################",
+      "##################################################",
+      "##################################################"
+    ],
+    "overheadRows": [
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      ".............errrrrre.............................",
+      ".............eRRRRRRe.............................",
+      "..............RRRRRR..............................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................ooo.............................",
+      "..................oOo.............................",
+      "..................ooo.............................",
+      "......................OOOOOO......................",
+      ".....ooo.ooo......................................",
+      ".....oOo.oOo......................................",
+      ".....ooo.ooo......................................",
+      "..............................errrre..............",
+      "..............................eRRRRe..............",
+      ".......ooo..ooo................RRRRo...ooo........",
+      ".......oOo..oOo..................oOo...oOo........",
+      ".......ooo..ooo..................ooo...ooo........",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      "..................................................",
+      ".................................................."
+    ],
+    "surfaceRows": [
+      "gggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "gggggggggggggpppppppppppppppppppppppppgggggggggggg",
+      "gggggggggggggpppppppppppppppppppppppppgggggggggggg",
+      "gggggggggggggpppppppppppppppppppppppppgggggggggggg",
+      "gggggggggggggpppppppppppppppppppppppppgggggggggggg",
+      "gggggggggggggpppppppppppppppppppppppppgggggggggggg",
+      "gggggggggggggpppppppppppppppppppppppppgggggggggggg",
+      "gggggggggggggpppppppppppppppppppppppppgggggggggggg",
+      "gggggggggggggpppppppppppppppppppppppppgggggggggggg",
+      "gggggggggggggpppppppppppppppppppppppppgggggggggggg",
+      "gggggggggggggggggggggggggggggggggggggggggggggggggg",
+      "ggggggggggggggggggggggppppppgggggggggggggggggggggg",
+      "ggggggggggggggggggggggppppppgggggggggggggggggggggg",
+      "ggggggggggggggggggggggppppppgggggggggggggggggggggg",
+      "ggggggggggggggggggggggppppppgggggggggggggggggggggg",
+      "ggggggggggggggggggggggppppppgggggggggggggggggggggg",
+      "ggggggggggggggggggggggppppppgggggggggggggggggggggg",
+      "ggggggppppppppppppppppppppppgggggggggggggggggggggg",
+      "ggggggppppppppppppppppppppppgggggggggggggggggggggg",
+      "ggggggppppppppppppppppppppppgggggggggggggggggggggg",
+      "ggggggppppppppppppppppppppppgggggggggggggggggggggg",
+      "ggggggggggggggggggggggppppppgggggggggggggggggggggg",
+      "ggggggggggggggggggggggpppppppppppppppppppppppggggg",
+      "ggggggggggggggggggggggpppppppppppppppppppppppggggg",
+      "ggggggggggggggggggggggpppppppppppppppppppppppggggg",
+      "ggggggggggggggggggggggddddddpppppppppppppppppggggg",
+      "ggggggggggggggggggggggddddddgggggggggggggggggggggg",
+      "ggggggggggggggggggggggddddddgggggggggggggggggggggg",
+      "ggggggggggggggggggggggddddddgggggggggggggggggggggg",
+      "wwwwwwwwwwwwwwwwwwwwwwddddddwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    ]
+  }
 }

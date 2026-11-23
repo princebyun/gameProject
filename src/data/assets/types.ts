@@ -200,3 +200,20 @@ export interface VfxManifestFile {
   version: string;
   atlases: VfxAtlasManifestEntry[];
 }
+
+export interface WorldLandmarkManifestEntry {
+  id: string;
+  seaZoneId: 'east_blue' | 'grand_line' | 'new_world';
+  kind: 'ISLAND' | 'SEA_GATE';
+  label: string;
+  frameWidth: number;
+  frameHeight: number;
+  frameCount: number;
+  fps: number;
+  path: string;
+}
+
+export interface WorldLandmarkManifestFile {
+  version: number;
+  landmarks: WorldLandmarkManifestEntry[];
+}

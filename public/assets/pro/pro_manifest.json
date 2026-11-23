@@ -1,0 +1,205 @@
+{
+  "version": "1.0.0",
+  "sprites": {
+    "luffy_base": {
+      "key": "luffy_base",
+      "unitId": "luffy",
+      "formId": "base",
+      "image": "assets/pro/sprites/luffy_base.png",
+      "atlasJson": "assets/pro/sprites/luffy_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 108,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "zoro_base": {
+      "key": "zoro_base",
+      "unitId": "zoro",
+      "formId": "base",
+      "image": "assets/pro/sprites/zoro_base.png",
+      "atlasJson": "assets/pro/sprites/zoro_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 112,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "buggy_base": {
+      "key": "buggy_base",
+      "unitId": "buggy",
+      "formId": "base",
+      "image": "assets/pro/sprites/buggy_base.png",
+      "atlasJson": "assets/pro/sprites/buggy_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 112,
+      "formatHint": "ASEPRITE_HASH"
+    }
+  },
+  "portraits": {
+    "luffy_normal": {
+      "image": "assets/pro/portraits/luffy_normal.png",
+      "width": 64,
+      "height": 64
+    },
+    "luffy_angry": {
+      "image": "assets/pro/portraits/luffy_angry.png",
+      "width": 64,
+      "height": 64
+    },
+    "luffy_determined": {
+      "image": "assets/pro/portraits/luffy_determined.png",
+      "width": 64,
+      "height": 64
+    },
+    "luffy_battle_cry": {
+      "image": "assets/pro/portraits/luffy_battle_cry.png",
+      "width": 64,
+      "height": 64
+    },
+    "luffy_shocked": {
+      "image": "assets/pro/portraits/luffy_shocked.png",
+      "width": 64,
+      "height": 64
+    },
+    "zoro_normal": {
+      "image": "assets/pro/portraits/zoro_normal.png",
+      "width": 64,
+      "height": 64
+    },
+    "zoro_determined": {
+      "image": "assets/pro/portraits/zoro_determined.png",
+      "width": 64,
+      "height": 64
+    },
+    "zoro_battle_cry": {
+      "image": "assets/pro/portraits/zoro_battle_cry.png",
+      "width": 64,
+      "height": 64
+    },
+    "buggy_normal": {
+      "image": "assets/pro/portraits/buggy_normal.png",
+      "width": 64,
+      "height": 64
+    },
+    "buggy_angry": {
+      "image": "assets/pro/portraits/buggy_angry.png",
+      "width": 64,
+      "height": 64
+    }
+  },
+  "cutins": {
+    "luffy": {
+      "image": "assets/pro/portraits/luffy_cutin.png"
+    },
+    "zoro": {
+      "image": "assets/pro/portraits/zoro_cutin.png"
+    }
+  },
+  "maps": {
+    "foosha_shells": {
+      "mapId": "foosha_shells",
+      "tmj": "assets/pro/maps/foosha_village.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/ninja_adventure_village.png",
+        "assets/pro/tilesets/medieval_windmill_extras.png",
+        "assets/pro/tilesets/ninja_animated_water.png"
+      ]
+    }
+  },
+  "backgrounds": {
+    "east_blue_harbor": {
+      "bgId": "east_blue_harbor",
+      "layers": [
+        "assets/pro/backgrounds/east_blue_harbor_layer0.png",
+        "assets/pro/backgrounds/east_blue_harbor_layer1.png",
+        "assets/pro/backgrounds/east_blue_harbor_layer2.png",
+        "assets/pro/backgrounds/east_blue_harbor_layer3.png"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    }
+  },
+  "vfx": {
+    "slash_arc": {
+      "id": "slash_arc",
+      "image": "assets/pro/vfx/slash_arc.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 5,
+      "fps": 18,
+      "blendMode": "add",
+      "scale": 1.6
+    },
+    "hit_spark": {
+      "id": "hit_spark",
+      "image": "assets/pro/vfx/hit_spark.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 6,
+      "fps": 22,
+      "blendMode": "add",
+      "scale": 1.5
+    },
+    "parry_flash": {
+      "id": "parry_flash",
+      "image": "assets/pro/vfx/parry_flash.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 5,
+      "fps": 20,
+      "blendMode": "add",
+      "scale": 1.8
+    },
+    "conqueror_bolt": {
+      "id": "conqueror_bolt",
+      "image": "assets/pro/vfx/conqueror_bolt.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "frameCount": 5,
+      "fps": 18,
+      "blendMode": "add",
+      "scale": 0.9
+    },
+    "fire_explosion": {
+      "id": "fire_explosion",
+      "image": "assets/pro/vfx/fire_explosion.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "frameCount": 10,
+      "fps": 18,
+      "blendMode": "normal",
+      "scale": 1.1
+    },
+    "beam_core": {
+      "id": "beam_core",
+      "image": "assets/pro/vfx/beam_core.png",
+      "frameWidth": 214,
+      "frameHeight": 96,
+      "frameCount": 5,
+      "fps": 16,
+      "blendMode": "add",
+      "scale": 1.2
+    },
+    "awakening_burst": {
+      "id": "awakening_burst",
+      "image": "assets/pro/vfx/awakening_burst.png",
+      "frameWidth": 55,
+      "frameHeight": 99,
+      "frameCount": 6,
+      "fps": 16,
+      "blendMode": "add",
+      "scale": 1.4
+    }
+  }
+}

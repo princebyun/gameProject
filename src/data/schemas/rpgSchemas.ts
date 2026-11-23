@@ -45,6 +45,24 @@ export interface SeaGateDefinition {
   description: string;
 }
 
+export interface SeaCurrentRoute {
+  id: string;
+  name: string;
+  points: Vec2[];
+  widthPx: number;
+  speedPx: number;
+}
+
+export interface SeaWhirlpoolNode {
+  id: string;
+  pos: Vec2;
+  outerRadiusPx: number;
+  coreRadiusPx: number;
+  clockwise: boolean;
+  swirlStrengthPx: number;
+  pullStrengthPx: number;
+}
+
 export interface SeaZoneDefinition {
   id: SeaZoneId;
   name: string;
@@ -56,6 +74,8 @@ export interface SeaZoneDefinition {
   spawnPoint: Vec2;
   islands: SeaIslandNode[];
   seaGate: SeaGateDefinition | null;
+  currents?: SeaCurrentRoute[];
+  whirlpools?: SeaWhirlpoolNode[];
 }
 
 export interface ShipDefinition {
@@ -129,7 +149,8 @@ export type SurfaceMaterialId =
   | 'wood_dock'
   | 'sand'
   | 'water_shallow'
-  | 'metal_cyber';
+  | 'metal_cyber'
+  | 'snow';
 
 export type NpcFacingDir = 'left' | 'right' | 'up' | 'down';
 
@@ -201,7 +222,22 @@ export interface IslandLandmarkDefinition {
     | 'HOLO_BILLBOARD'
     | 'ENERGY_TUBE'
     | 'WELL'
-    | 'BOUNTY_BOARD';
+    | 'BOUNTY_BOARD'
+    | 'CIRCUS_TENT'
+    | 'FISH_PROW'
+    | 'SHARK_GATE'
+    | 'EXECUTION_PLATFORM'
+    | 'ROPEWAY_TOWER'
+    | 'CLOCK_TOWER'
+    | 'BEANSTALK_ARCH'
+    | 'GOLDEN_BELL'
+    | 'GOTHIC_MAST'
+    | 'WARSHIP_HULL'
+    | 'CORAL_ARCH'
+    | 'COLOSSEUM_ARCH'
+    | 'WAFFLE_ARCH'
+    | 'WORLD_TREE_ROOT'
+    | 'RUNE_MONOLITH';
   tileX: number;
   tileY: number;
   widthTiles: number;
@@ -218,10 +254,21 @@ export type IslandAmbientParticleKind =
   | 'PETAL'
   | 'LANTERN_MOTE'
   | 'HOLOGRAM'
-  | 'CLOUD_MIST';
+  | 'CLOUD_MIST'
+  | 'SMOKE'
+  | 'RAIN'
+  | 'SNOW'
+  | 'SAND'
+  | 'BAT'
+  | 'EMBER'
+  | 'BUBBLE'
+  | 'SUGAR_SPARKLE'
+  | 'GOLDEN_LEAF'
+  | 'LIGHTNING_SPARK';
 
 export interface IslandAmbientProfile {
   particles: IslandAmbientParticleKind[];
+  postClearParticles?: IslandAmbientParticleKind[];
   density: number;
 }
 

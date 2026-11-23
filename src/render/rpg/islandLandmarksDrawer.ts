@@ -5,6 +5,11 @@ import type {
 } from '../../core/types/rpgSchemas';
 import { isRectInBounds, type ViewportWorldBounds } from '../viewport/frustumCulling';
 import { drawCompactFootShadow, type IslandYSortQueue } from './islandYSortQueue';
+import {
+  ARCH_LANDMARK_KINDS,
+  drawExtendedLandmarkBase,
+  drawExtendedLandmarkOverhead
+} from './worldLandmarkDrawers';
 
 export function drawIslandTreasureChest(
   ctx: CanvasRenderingContext2D,
@@ -191,6 +196,8 @@ function drawLandmarkBase(
     ctx.fillStyle = '#fef3c7';
     ctx.fillRect(x + 7, y + 10, 8, 10);
     ctx.fillRect(x + w - 15, y + 10, 8, 10);
+  } else {
+    drawExtendedLandmarkBase(ctx, lm, ts, tick);
   }
 }
 
@@ -212,7 +219,7 @@ export function enqueueIslandLandmarksLayer3(
     const w = lm.widthTiles * ts;
     const h = lm.heightTiles * ts;
     if (!isRectInBounds(bounds, x - 16, y - 16, w + 32, h + 32)) continue;
-    const sortY = lm.kind === 'TORII_GATE' ? y + 16 : y + h;
+    const sortY = ARCH_LANDMARK_KINDS.has(lm.kind) ? y + 16 : y + h;
     queue.push(sortY, (ctx) => {
       drawLandmarkBase(ctx, lm, ts, tick);
     });
@@ -284,6 +291,8 @@ export function renderIslandLandmarksOverhead(
       ctx.fillRect(x - 4, y + 4, w + 8, 8);
       ctx.fillStyle = '#eab308';
       ctx.fillRect(cx - 2, y + 12, 4, 14);
+    } else {
+      drawExtendedLandmarkOverhead(ctx, lm, ts, tick);
     }
   }
 }

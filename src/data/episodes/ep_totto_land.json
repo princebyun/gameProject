@@ -18,14 +18,20 @@
       "title": "페드로·브룩에게 미래 예지 파훼법 청취",
       "description": "거울 회랑 입구의 브룩과 페드로에게 말을 거세요.",
       "requiredFlag": "flag_totto_foresight_hint",
-      "targetPos": { "x": 360, "y": 260 }
+      "targetPos": {
+        "x": 688,
+        "y": 368
+      }
     },
     {
       "stepId": "step_totto_boss",
       "title": "샬롯 카타쿠리 격파 (1:1 미래 예지 결투)",
       "description": "완벽 회피 반격·맞대결·광역기로 집중을 붕괴시키고 카타쿠리를 격파하세요.",
       "requiredFlag": "flag_totto_land_cleared",
-      "targetPos": { "x": 800, "y": 270 }
+      "targetPos": {
+        "x": 816,
+        "y": 240
+      }
     }
   ],
   "rewards": {
@@ -35,7 +41,11 @@
     "recruitsUnitIds": [],
     "awardsRoadPoneglyph": true,
     "unlocksHakiTraining": [
-      { "unitId": "luffy", "hakiKey": "observation", "tier": 3 }
+      {
+        "unitId": "luffy",
+        "hakiKey": "observation",
+        "tier": 3
+      }
     ]
   }
 }

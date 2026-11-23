@@ -21,6 +21,19 @@ import type { Disposable } from '../sceneTypes';
 import type { SceneManagerHost } from './controllerContracts';
 import type { ScenePersistenceController } from './scenePersistenceController';
 
+const FOOTSTEP_SFX_BY_SURFACE: Record<
+  string,
+  { id: string; volumeScale: number; pitchScale: number }
+> = {
+  water_shallow: { id: 'water_splash', volumeScale: 0.24, pitchScale: 1.25 },
+  metal_cyber: { id: 'ui_move', volumeScale: 0.22, pitchScale: 1.35 },
+  wood_dock: { id: 'blunt_hit', volumeScale: 0.18, pitchScale: 1.45 },
+  stone: { id: 'guard_block', volumeScale: 0.2, pitchScale: 1.55 },
+  sand: { id: 'dodge_whoosh', volumeScale: 0.16, pitchScale: 1.15 },
+  snow: { id: 'dodge_whoosh', volumeScale: 0.17, pitchScale: 0.92 },
+  grass: { id: 'dodge_whoosh', volumeScale: 0.18, pitchScale: 1.45 }
+};
+
 export class RpgWorldController implements Disposable {
   private wantedPosterOpenTimer = 0;
   private typewriterSfxCounter = 0;
@@ -101,6 +114,7 @@ export class RpgWorldController implements Disposable {
 
   public startStoryBattle(ctx: BattleContext): void {
     this.host.activeBattleContext = ctx;
+    this.host.isBattlePaused = false;
     this.host.activeScene = 'STORY_BATTLE';
     this.host.clearTransientFocusAndInput();
     this.host.titleScene?.hide();
@@ -249,6 +263,10 @@ export class RpgWorldController implements Disposable {
     interactPressed: boolean,
     dt: number
   ): void {
+    this.host.seaChartController?.step(dt);
+    if (this.host.seaChartController?.state.isOpen) {
+      return;
+    }
     if (coupPressed) {
       this.host.audio.playSfxId('coup_de_burst');
     }
@@ -336,18 +354,11 @@ export class RpgWorldController implements Disposable {
     if (step.footstepEvent) {
       const fs = step.footstepEvent;
       this.host.assets.footstepParticles.spawn(fs.material, fs.x, fs.y);
-      const sfxProfile =
-        fs.material === 'water_shallow'
-          ? { id: 'water_splash', volumeScale: 0.24, pitchScale: 1.25 }
-          : fs.material === 'metal_cyber'
-            ? { id: 'ui_move', volumeScale: 0.22, pitchScale: 1.35 }
-            : fs.material === 'wood_dock'
-              ? { id: 'blunt_hit', volumeScale: 0.18, pitchScale: 1.45 }
-              : fs.material === 'stone'
-                ? { id: 'guard_block', volumeScale: 0.2, pitchScale: 1.55 }
-                : fs.material === 'sand'
-                  ? { id: 'dodge_whoosh', volumeScale: 0.16, pitchScale: 1.15 }
-                  : { id: 'dodge_whoosh', volumeScale: 0.18, pitchScale: 1.45 };
+      const sfxProfile = FOOTSTEP_SFX_BY_SURFACE[fs.material] ?? {
+        id: 'dodge_whoosh',
+        volumeScale: 0.18,
+        pitchScale: 1.45
+      };
       this.host.audio.playSfxId(sfxProfile.id, {
         volumeScale: sfxProfile.volumeScale,
         pitchScale: sfxProfile.pitchScale

@@ -1,0 +1,225 @@
+{
+  "version": 1,
+  "landmarks": [
+    {
+      "id": "foosha_shells",
+      "seaZoneId": "east_blue",
+      "kind": "ISLAND",
+      "label": "후샤 마을 & 쉘즈타운",
+      "frameWidth": 112,
+      "frameHeight": 112,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/foosha_shells.png"
+    },
+    {
+      "id": "orange_town",
+      "seaZoneId": "east_blue",
+      "kind": "ISLAND",
+      "label": "오렌지 마을",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/orange_town.png"
+    },
+    {
+      "id": "baratie",
+      "seaZoneId": "east_blue",
+      "kind": "ISLAND",
+      "label": "해상 레스토랑 발라티에",
+      "frameWidth": 112,
+      "frameHeight": 96,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/baratie.png"
+    },
+    {
+      "id": "arlong_park",
+      "seaZoneId": "east_blue",
+      "kind": "ISLAND",
+      "label": "아론 파크",
+      "frameWidth": 112,
+      "frameHeight": 112,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/arlong_park.png"
+    },
+    {
+      "id": "loguetown",
+      "seaZoneId": "east_blue",
+      "kind": "ISLAND",
+      "label": "로그타운 (시작과 끝의 마을)",
+      "frameWidth": 112,
+      "frameHeight": 112,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/loguetown.png"
+    },
+    {
+      "id": "gate_reverse_mountain",
+      "seaZoneId": "east_blue",
+      "kind": "SEA_GATE",
+      "label": "리버스 마운틴",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 4,
+      "fps": 5,
+      "path": "assets/world/landmarks/gate_reverse_mountain.png"
+    },
+    {
+      "id": "drum_kingdom",
+      "seaZoneId": "grand_line",
+      "kind": "ISLAND",
+      "label": "드럼 왕국 (설산 성)",
+      "frameWidth": 112,
+      "frameHeight": 112,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/drum_kingdom.png"
+    },
+    {
+      "id": "alabasta",
+      "seaZoneId": "grand_line",
+      "kind": "ISLAND",
+      "label": "알라바스타 사막 왕국",
+      "frameWidth": 112,
+      "frameHeight": 112,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/alabasta.png"
+    },
+    {
+      "id": "skypiea",
+      "seaZoneId": "grand_line",
+      "kind": "ISLAND",
+      "label": "하늘섬 스카이피아",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/skypiea.png"
+    },
+    {
+      "id": "water_seven",
+      "seaZoneId": "grand_line",
+      "kind": "ISLAND",
+      "label": "물의 도시 워터 세븐",
+      "frameWidth": 128,
+      "frameHeight": 112,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/water_seven.png"
+    },
+    {
+      "id": "thriller_bark",
+      "seaZoneId": "grand_line",
+      "kind": "ISLAND",
+      "label": "스릴러 바크 (유령선 섬)",
+      "frameWidth": 128,
+      "frameHeight": 112,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/thriller_bark.png"
+    },
+    {
+      "id": "marineford",
+      "seaZoneId": "grand_line",
+      "kind": "ISLAND",
+      "label": "마린포드 (정상전쟁)",
+      "frameWidth": 144,
+      "frameHeight": 128,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/marineford.png"
+    },
+    {
+      "id": "impel_down",
+      "seaZoneId": "grand_line",
+      "kind": "ISLAND",
+      "label": "대감옥 임펠 다운",
+      "frameWidth": 112,
+      "frameHeight": 112,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/impel_down.png"
+    },
+    {
+      "id": "gate_red_line",
+      "seaZoneId": "grand_line",
+      "kind": "SEA_GATE",
+      "label": "레드라인 & 어인섬 해저 항로",
+      "frameWidth": 144,
+      "frameHeight": 128,
+      "frameCount": 4,
+      "fps": 5,
+      "path": "assets/world/landmarks/gate_red_line.png"
+    },
+    {
+      "id": "fishman_island",
+      "seaZoneId": "new_world",
+      "kind": "ISLAND",
+      "label": "어인섬 (해저 용궁 왕국)",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/fishman_island.png"
+    },
+    {
+      "id": "dressrosa",
+      "seaZoneId": "new_world",
+      "kind": "ISLAND",
+      "label": "드레스로자 (사랑과 정열의 나라)",
+      "frameWidth": 128,
+      "frameHeight": 112,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/dressrosa.png"
+    },
+    {
+      "id": "totto_land",
+      "seaZoneId": "new_world",
+      "kind": "ISLAND",
+      "label": "토트랜드 (만국 거울 세계)",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/totto_land.png"
+    },
+    {
+      "id": "wano_onigashima",
+      "seaZoneId": "new_world",
+      "kind": "ISLAND",
+      "label": "와노쿠니 - 오니가시마",
+      "frameWidth": 144,
+      "frameHeight": 128,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/wano_onigashima.png"
+    },
+    {
+      "id": "egghead",
+      "seaZoneId": "new_world",
+      "kind": "ISLAND",
+      "label": "미래섬 에그헤드",
+      "frameWidth": 144,
+      "frameHeight": 128,
+      "frameCount": 4,
+      "fps": 5,
+      "path": "assets/world/landmarks/egghead.png"
+    },
+    {
+      "id": "elbaf",
+      "seaZoneId": "new_world",
+      "kind": "ISLAND",
+      "label": "거인족의 나라 엘바프",
+      "frameWidth": 144,
+      "frameHeight": 144,
+      "frameCount": 4,
+      "fps": 4,
+      "path": "assets/world/landmarks/elbaf.png"
+    }
+  ]
+}

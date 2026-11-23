@@ -18,14 +18,20 @@
       "title": "트라팔가 로와 공동전선 확인",
       "description": "왕궁 입구의 로와 대화해 새장 공략법을 확인하세요.",
       "requiredFlag": "flag_dressrosa_law_alliance",
-      "targetPos": { "x": 360, "y": 260 }
+      "targetPos": {
+        "x": 784,
+        "y": 400
+      }
     },
     {
       "stepId": "step_dressrosa_boss",
       "title": "칠무해 도플라밍고 격파 (새장 & 실 각성)",
       "description": "축소되는 새장 경계와 갓 스레드를 돌파하고 도플라밍고를 격파하세요.",
       "requiredFlag": "flag_dressrosa_cleared",
-      "targetPos": { "x": 800, "y": 270 }
+      "targetPos": {
+        "x": 976,
+        "y": 272
+      }
     }
   ],
   "rewards": {
