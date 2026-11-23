@@ -1,10 +1,13 @@
-import { Container, Graphics, Sprite, Text, Texture } from 'pixi.js';
+import { Container, Sprite, Texture } from 'pixi.js';
 import type { BattleWorldState } from '../../../core/types/battleState';
 import type { GameDataRegistry } from '../../../core/types/dataSchemas';
 import type { Disposable } from '../../../core/types/disposable';
+import { findWaveComboForPair } from '../../../data/combosRegistry';
 import type { VisualPolishConfig } from '../../backend/renderBackend';
 import type { ViewportMetrics } from '../../viewport/responsiveViewportManager';
 import type { PixiStageHost } from '../PixiStageHost';
+import type { DynamicPointLightInput } from '../shaders/DynamicLightingLayer';
+import { PixelCutinOverlay } from './PixelCutinOverlay';
 
 interface ActiveVfxSpriteInstance {
   sprite: Sprite;
@@ -14,43 +17,37 @@ interface ActiveVfxSpriteInstance {
 }
 
 export class PixiBattleEffectsHelper implements Disposable {
-  public readonly cutinOverlay = new Container();
-  private readonly cutinScrim = new Graphics();
-  private readonly cutinSpeedlines = new Graphics();
-  private readonly cutinPortraitSprite = new Sprite(Texture.EMPTY);
-  private readonly cutinTitleText: Text;
+  public readonly pixelCutin: PixelCutinOverlay;
+  public readonly cutinOverlay: Container;
+  public readonly worldAssistRoot: Container;
 
   private readonly activeVfxPool: ActiveVfxSpriteInstance[] = [];
   private readonly seenVfxIds = new Set<string>();
-  private cutinTimerSec = 0;
-  private cutinDurationSec = 0.95;
-  private cutinUnitId = 'luffy';
-  private cutinCaption = '';
   private lastCutinTriggerKey = '';
+  private lastCutinLights: DynamicPointLightInput[] = [];
+  private lastCutinBloomBoost = 0;
   private disposed = false;
 
   constructor(private readonly host: PixiStageHost) {
-    this.cutinOverlay.label = 'battle_cutin_overlay';
-    this.cutinOverlay.visible = false;
+    this.pixelCutin = new PixelCutinOverlay(host);
+    this.cutinOverlay = this.pixelCutin.overlayRoot;
+    this.worldAssistRoot = this.pixelCutin.worldAssistRoot;
+  }
 
-    this.cutinSpeedlines.blendMode = 'add';
-    this.cutinPortraitSprite.anchor.set(0.5, 0.5);
-    this.cutinTitleText = new Text({
-      text: '',
-      style: {
-        fontFamily: 'sans-serif',
-        fontSize: 18,
-        fontWeight: 'bold',
-        fill: 0xfef08a,
-        stroke: { color: 0x090d16, width: 4 }
-      }
-    });
-    this.cutinTitleText.anchor.set(0, 0.5);
+  public getCutinDynamicLights(): readonly DynamicPointLightInput[] {
+    return this.lastCutinLights;
+  }
 
-    this.cutinOverlay.addChild(this.cutinScrim);
-    this.cutinOverlay.addChild(this.cutinSpeedlines);
-    this.cutinOverlay.addChild(this.cutinPortraitSprite);
-    this.cutinOverlay.addChild(this.cutinTitleText);
+  public getCutinBloomBoost(): number {
+    return this.lastCutinBloomBoost;
+  }
+
+  public triggerWaveCombo(
+    comboId: string,
+    anchorWorldPos = { x: 320, y: 270 },
+    targetWorldPos = { x: 640, y: 270 }
+  ): boolean {
+    return this.pixelCutin.triggerWaveCombo(comboId, anchorWorldPos, targetWorldPos);
   }
 
   public syncVfxEvents(
@@ -120,15 +117,31 @@ export class PixiBattleEffectsHelper implements Disposable {
       }
     }
 
-    // Also trigger 2:2 dual-team combo cut-in if 2 allies cast simultaneously
+    // Trigger Wave 1 2:2 dual-split combo cut-in when 2 ALPHA allies cast simultaneously
     const activeAllyCasts = world.units.filter(
-      (u) => u.team === 'ALPHA' && u.isOnField && u.isAlive && (u.windupMoveId !== null || u.activeBeamId !== null)
+      (u) =>
+        u.team === 'ALPHA' &&
+        u.isOnField &&
+        u.isAlive &&
+        (u.windupMoveId !== null || u.activeBeamId !== null)
     );
     if (world.mode === '2V2' && activeAllyCasts.length >= 2) {
       const key = `combo_${Math.floor(world.tick / 120)}`;
       if (this.lastCutinTriggerKey !== key) {
         this.lastCutinTriggerKey = key;
-        this.triggerCutin(activeAllyCasts[0]?.speciesId ?? 'luffy', '2:2 밀짚모자 합동기 발동!');
+        const unitA = activeAllyCasts[0]!;
+        const unitB = activeAllyCasts[1]!;
+        const enemyTarget = world.units.find((u) => u.team === 'OMEGA' && u.isOnField && u.isAlive);
+        const combo = findWaveComboForPair(unitA.speciesId, unitB.speciesId);
+        if (combo) {
+          this.pixelCutin.triggerWaveCombo(
+            combo.id,
+            unitB.pos,
+            enemyTarget?.pos ?? unitA.pos
+          );
+        } else {
+          this.triggerCutin(unitA.speciesId, '2:2 밀짚모자 합동기 발동!');
+        }
       }
     } else if (world.bossIntroTimer > 1.25 && world.bossIntroName) {
       const bossKey = `boss_${world.bossIntroName}`;
@@ -158,80 +171,20 @@ export class PixiBattleEffectsHelper implements Disposable {
   }
 
   public triggerCutin(unitId: string, caption: string, durationSec = 0.95): void {
-    this.cutinUnitId = unitId;
-    this.cutinCaption = caption;
-    this.cutinDurationSec = Math.max(0.4, durationSec);
-    this.cutinTimerSec = this.cutinDurationSec;
+    this.pixelCutin.triggerSingle(unitId, caption, durationSec);
   }
 
   public updateCutinOverlay(
     dtSec: number,
     viewport: ViewportMetrics,
     polish: VisualPolishConfig,
-    registry: GameDataRegistry
+    registry: GameDataRegistry,
+    camOffset: { x: number; y: number } = { x: 0, y: 0 }
   ): void {
-    if (this.cutinTimerSec <= 0) {
-      this.cutinOverlay.visible = false;
-      return;
-    }
-
-    this.cutinTimerSec = Math.max(0, this.cutinTimerSec - dtSec);
-    this.cutinOverlay.visible = true;
-
-    const progress = 1 - this.cutinTimerSec / this.cutinDurationSec;
-    const ease = progress < 0.18 ? progress / 0.18 : progress > 0.82 ? (1 - progress) / 0.18 : 1;
-    const vw = viewport.viewWidth;
-    const vh = viewport.viewHeight;
-    const bandH = 104;
-    const bandY = Math.round(vh * 0.5 - bandH * 0.5);
-
-    this.cutinScrim.clear();
-    this.cutinScrim.rect(0, 0, vw, vh);
-    this.cutinScrim.fill({ color: 0x050814, alpha: 0.62 * ease });
-    this.cutinScrim.rect(0, bandY, vw, bandH);
-    this.cutinScrim.fill({ color: 0x0f172a, alpha: 0.92 * ease });
-    this.cutinScrim.rect(0, bandY, vw, 3);
-    this.cutinScrim.fill({ color: 0xfacc15, alpha: 0.95 * ease });
-    this.cutinScrim.rect(0, bandY + bandH - 3, vw, 3);
-    this.cutinScrim.fill({ color: 0xfacc15, alpha: 0.95 * ease });
-
-    this.cutinSpeedlines.clear();
-    if (polish.flashEffectEnabled) {
-      for (let i = 0; i < 8; i++) {
-        const ly = bandY + 10 + i * 12;
-        const lx = ((progress * 900 + i * 140) % (vw + 220)) - 220;
-        this.cutinSpeedlines.rect(lx, ly, 160, 2);
-        this.cutinSpeedlines.fill({ color: 0x38bdf8, alpha: 0.48 * ease });
-      }
-    }
-
-    const tex =
-      this.host.loader.getLoadedTextureSync(`cutin_${this.cutinUnitId}`) ??
-      this.host.loader.getLoadedTextureSync(`portrait_${this.cutinUnitId}_battle_cry`) ??
-      this.host.loader.getLoadedTextureSync(`portrait_${this.cutinUnitId}_normal`);
-
-    if (tex) {
-      this.cutinPortraitSprite.visible = true;
-      this.cutinPortraitSprite.texture = tex;
-      const scale = (bandH - 8) / Math.max(32, tex.height);
-      this.cutinPortraitSprite.scale.set(scale, scale);
-      const slideOffset = (1 - ease) * 90;
-      const anchorX = Math.round(viewport.safeRect.left + tex.width * scale * 0.5 + 24 - slideOffset);
-      this.cutinPortraitSprite.position.set(anchorX, Math.round(vh * 0.5));
-      this.cutinPortraitSprite.alpha = ease;
-
-      this.cutinTitleText.position.set(
-        Math.round(anchorX + tex.width * scale * 0.5 + 18),
-        Math.round(vh * 0.5)
-      );
-    } else {
-      this.cutinPortraitSprite.visible = false;
-      this.cutinTitleText.position.set(Math.round(viewport.safeRect.left + 32), Math.round(vh * 0.5));
-    }
-
-    const uName = registry.units[this.cutinUnitId]?.name ?? this.cutinUnitId.toUpperCase();
-    this.cutinTitleText.text = this.cutinCaption || `${uName} 필살기!!`;
-    this.cutinTitleText.alpha = ease;
+    void registry;
+    const res = this.pixelCutin.update(dtSec, viewport, polish, camOffset);
+    this.lastCutinBloomBoost = res.bloomBoost;
+    this.lastCutinLights = res.lights;
   }
 
   public dispose(): void {
@@ -242,6 +195,7 @@ export class PixiBattleEffectsHelper implements Disposable {
     }
     this.activeVfxPool.length = 0;
     this.seenVfxIds.clear();
-    this.cutinOverlay.destroy({ children: true, texture: false });
+    this.lastCutinLights = [];
+    this.pixelCutin.dispose();
   }
 }

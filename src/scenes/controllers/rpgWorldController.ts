@@ -50,6 +50,7 @@ export class RpgWorldController implements Disposable {
 
   public enterTitleScene(): void {
     this.host.activeScene = 'TITLE';
+    this.host.syncSceneBundles?.();
     this.host.updateFloatingHudToggleVisibility();
     const preview = this.host.latestBootSaveEnvelope
       ? this.persistence.buildTitleSavePreview(this.host.latestBootSaveEnvelope)
@@ -130,6 +131,7 @@ export class RpgWorldController implements Disposable {
     );
     this.host.audio.playSfx('CLASH');
     this.host.syncSceneBgm(this.host.battleWorld);
+    this.host.syncSceneBundles?.();
     this.host.updateShowcaseToolbar();
     this.host.refreshSideDrawer();
   }
@@ -186,11 +188,13 @@ export class RpgWorldController implements Disposable {
         forceRestart: true,
         crossfadeSec: 0.2
       });
+      this.host.syncActivePartyBundles?.();
     } else {
       this.host.storyDirector.abortStoryMissionToFreeRoam();
       this.host.syncSceneBgm();
     }
 
+    this.host.syncSceneBundles?.();
     this.host.audio.playSfx('FORM_SHIFT');
     this.host.updateShowcaseToolbar();
     this.host.refreshSideDrawer();
@@ -328,6 +332,7 @@ export class RpgWorldController implements Disposable {
         void this.host.triggerAutoSave('해역 관문 통과');
         this.host.audio.playSfx('FORM_SHIFT');
         this.host.syncSceneBgm();
+        this.host.syncSceneBundles?.();
         this.host.refreshSideDrawer();
       }
     }

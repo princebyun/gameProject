@@ -30,6 +30,7 @@ export interface TiledObjectJson {
   name?: string;
   type?: string;
   class?: string;
+  template?: string;
   x: number;
   y: number;
   width?: number;
@@ -38,7 +39,15 @@ export interface TiledObjectJson {
   visible?: boolean;
   point?: boolean;
   polygon?: TiledPointJson[];
+  polyline?: TiledPointJson[];
   properties?: TiledPropertyJson[];
+}
+
+export interface ParsedTiledTileMetadata {
+  surface?: string;
+  solid?: boolean;
+  isWater?: boolean;
+  emissive?: boolean;
 }
 
 export interface TiledLayerJson {
@@ -70,7 +79,24 @@ export interface TiledTileMetadataJson {
 
 export interface TiledTilesetJson {
   firstgid: number;
+  name?: string;
+  source?: string;
+  tilewidth?: number;
+  tileheight?: number;
+  tilecount?: number;
+  columns?: number;
+  spacing?: number;
+  margin?: number;
+  image?: string;
+  imagewidth?: number;
+  imageheight?: number;
+  tiles?: TiledTileMetadataJson[];
+}
+
+export interface NormalizedTiledTileset {
+  firstgid: number;
   name: string;
+  source?: string;
   tilewidth: number;
   tileheight: number;
   tilecount: number;
@@ -141,6 +167,8 @@ export interface ParsedTiledLightObject {
   intensity: number;
   flickerSpeed: number;
   flickerAmp: number;
+  activeTimeMask: string;
+  bloomCore: boolean;
 }
 
 export interface ParsedTiledGenericObject {
@@ -151,6 +179,7 @@ export interface ParsedTiledGenericObject {
   y: number;
   width: number;
   height: number;
+  polyline?: TiledPointJson[];
   properties: Record<string, string | number | boolean>;
 }
 
@@ -164,7 +193,8 @@ export interface ParsedTiledMapData {
   scaledTileHeight: number;
   worldWidth: number;
   worldHeight: number;
-  tilesets: TiledTilesetJson[];
+  tilesets: NormalizedTiledTileset[];
+  tileMetadataByGid: Map<number, ParsedTiledTileMetadata>;
   animatedTiles: Map<number, ParsedTiledAnimation>;
   waterLayers: ParsedTiledTileLayer[];
   groundLayers: ParsedTiledTileLayer[];
@@ -174,6 +204,7 @@ export interface ParsedTiledMapData {
   collisions: ParsedTiledCollisionObject[];
   lights: ParsedTiledLightObject[];
   spawns: ParsedTiledGenericObject[];
+  docks: ParsedTiledGenericObject[];
   markers: ParsedTiledGenericObject[];
   npcs: ParsedTiledGenericObject[];
   chests: ParsedTiledGenericObject[];
@@ -292,6 +323,193 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
+function parseXmlAttr(attrs: string, name: string): string | null {
+  const m = attrs.match(new RegExp(`\\b${name}\\s*=\\s*"([^"]*)"`, 'i'));
+  return m?.[1] ?? null;
+}
+
+function parseXmlNumAttr(attrs: string, name: string, fallback: number): number {
+  const raw = parseXmlAttr(attrs, name);
+  if (!raw) return fallback;
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+function parseXmlPropertiesBlock(xmlFragment: string): TiledPropertyJson[] {
+  const out: TiledPropertyJson[] = [];
+  const propRx = /<property\b([^>]*?)(?:\/>|>([\s\S]*?)<\/property>)/gi;
+  let m: RegExpExecArray | null;
+  while ((m = propRx.exec(xmlFragment)) !== null) {
+    const attrs = m[1] ?? '';
+    const name = parseXmlAttr(attrs, 'name');
+    if (!name) continue;
+    const type = parseXmlAttr(attrs, 'type') ?? 'string';
+    const rawVal = parseXmlAttr(attrs, 'value') ?? (m[2] ?? '').trim();
+    let value: unknown = rawVal;
+    if (type === 'int' || type === 'float') {
+      const n = Number(rawVal);
+      value = Number.isFinite(n) ? n : 0;
+    } else if (type === 'bool') {
+      value = rawVal.toLowerCase() === 'true';
+    }
+    out.push({ name, type, value });
+  }
+  return out;
+}
+
+function parseXmlPointsAttr(rawPoints: string | null): TiledPointJson[] | undefined {
+  if (!rawPoints) return undefined;
+  const pts: TiledPointJson[] = [];
+  for (const token of rawPoints.trim().split(/\s+/)) {
+    const [sx, sy] = token.split(',');
+    const x = Number(sx);
+    const y = Number(sy);
+    if (Number.isFinite(x) && Number.isFinite(y)) {
+      pts.push({ x, y });
+    }
+  }
+  return pts.length > 0 ? pts : undefined;
+}
+
+export function parseTiledTxTemplateXml(xmlText: string): TiledObjectJson | null {
+  const tplMatch = xmlText.match(/<template\b[^>]*>([\s\S]*?)<\/template>/i);
+  const scope = tplMatch ? (tplMatch[1] ?? '') : xmlText;
+  const objSelfOrBody = scope.match(/<object\b([^>]*?)(?:\/>|>([\s\S]*?)<\/object>)/i);
+  if (!objSelfOrBody) return null;
+
+  const attrs = objSelfOrBody[1] ?? '';
+  const body = objSelfOrBody[2] ?? '';
+  const properties = parseXmlPropertiesBlock(body);
+  const point = /<point\s*\/>/i.test(body);
+  const polygonMatch = body.match(/<polygon\b[^>]*\bpoints\s*=\s*"([^"]*)"/i);
+  const polylineMatch = body.match(/<polyline\b[^>]*\bpoints\s*=\s*"([^"]*)"/i);
+
+  const name = parseXmlAttr(attrs, 'name') ?? undefined;
+  const type = parseXmlAttr(attrs, 'type') ?? undefined;
+  const cls = parseXmlAttr(attrs, 'class') ?? undefined;
+
+  return {
+    id: 0,
+    ...(name ? { name } : {}),
+    ...(type ? { type } : {}),
+    ...(cls ? { class: cls } : {}),
+    x: parseXmlNumAttr(attrs, 'x', 0),
+    y: parseXmlNumAttr(attrs, 'y', 0),
+    width: parseXmlNumAttr(attrs, 'width', 0),
+    height: parseXmlNumAttr(attrs, 'height', 0),
+    ...(point ? { point: true } : {}),
+    ...(polygonMatch ? { polygon: parseXmlPointsAttr(polygonMatch[1] ?? null) } : {}),
+    ...(polylineMatch ? { polyline: parseXmlPointsAttr(polylineMatch[1] ?? null) } : {}),
+    ...(properties.length > 0 ? { properties } : {})
+  };
+}
+
+export function mergeTiledTemplateObject(
+  templateObj: TiledObjectJson,
+  instanceObj: TiledObjectJson
+): TiledObjectJson {
+  const mergedPropsMap = new Map<string, TiledPropertyJson>();
+  for (const p of templateObj.properties ?? []) {
+    mergedPropsMap.set(p.name.toLowerCase(), { ...p });
+  }
+  for (const p of instanceObj.properties ?? []) {
+    mergedPropsMap.set(p.name.toLowerCase(), { ...p });
+  }
+
+  const instType = instanceObj.type && instanceObj.type.length > 0 ? instanceObj.type : templateObj.type;
+  const instClass = instanceObj.class && instanceObj.class.length > 0 ? instanceObj.class : templateObj.class;
+  const instName = instanceObj.name && instanceObj.name.length > 0 ? instanceObj.name : templateObj.name;
+  const mergedW =
+    typeof instanceObj.width === 'number' && instanceObj.width > 0
+      ? instanceObj.width
+      : (templateObj.width ?? instanceObj.width);
+  const mergedH =
+    typeof instanceObj.height === 'number' && instanceObj.height > 0
+      ? instanceObj.height
+      : (templateObj.height ?? instanceObj.height);
+
+  return {
+    ...templateObj,
+    ...instanceObj,
+    ...(instName !== undefined ? { name: instName } : {}),
+    ...(instType !== undefined ? { type: instType } : {}),
+    ...(instClass !== undefined ? { class: instClass } : {}),
+    ...(mergedW !== undefined ? { width: mergedW } : {}),
+    ...(mergedH !== undefined ? { height: mergedH } : {}),
+    ...(instanceObj.point !== undefined || templateObj.point !== undefined
+      ? { point: instanceObj.point ?? templateObj.point }
+      : {}),
+    ...(instanceObj.polygon || templateObj.polygon
+      ? { polygon: instanceObj.polygon ?? templateObj.polygon }
+      : {}),
+    ...(instanceObj.polyline || templateObj.polyline
+      ? { polyline: instanceObj.polyline ?? templateObj.polyline }
+      : {}),
+    properties: Array.from(mergedPropsMap.values())
+  };
+}
+
+export function parseTiledTsxXml(
+  xmlText: string,
+  firstgid: number,
+  tsxRelPath: string
+): NormalizedTiledTileset | null {
+  const tsMatch = xmlText.match(/<tileset\b([^>]*)>/i);
+  const imgMatch = xmlText.match(/<image\b([^>]*)>/i);
+  if (!tsMatch || !imgMatch) return null;
+
+  const tsAttrs = tsMatch[1] ?? '';
+  const imgAttrs = imgMatch[1] ?? '';
+  const rawImgSrc = parseXmlAttr(imgAttrs, 'source');
+  if (!rawImgSrc) return null;
+
+  const tsxDirParts = tsxRelPath.replace(/\\/g, '/').split('/');
+  tsxDirParts.pop();
+  for (const seg of rawImgSrc.replace(/\\/g, '/').split('/')) {
+    if (seg === '..') tsxDirParts.pop();
+    else if (seg && seg !== '.') tsxDirParts.push(seg);
+  }
+  const resolvedImage = tsxDirParts.join('/');
+
+  const tiles: TiledTileMetadataJson[] = [];
+  const tileRx = /<tile\b[^>]*\bid\s*=\s*"(\d+)"[^>]*>([\s\S]*?)<\/tile>/gi;
+  let tileHit: RegExpExecArray | null;
+  while ((tileHit = tileRx.exec(xmlText)) !== null) {
+    const id = Number(tileHit[1]);
+    const body = tileHit[2] ?? '';
+    const frames: TiledTileAnimationFrameJson[] = [];
+    const frameRx = /<frame\b[^>]*\btileid\s*=\s*"(\d+)"[^>]*\bduration\s*=\s*"(\d+)"[^>]*\/?>/gi;
+    let frameHit: RegExpExecArray | null;
+    while ((frameHit = frameRx.exec(body)) !== null) {
+      frames.push({ tileid: Number(frameHit[1]), duration: Number(frameHit[2]) });
+    }
+    const props = parseXmlPropertiesBlock(body);
+    if (frames.length > 0 || props.length > 0) {
+      tiles.push({
+        id,
+        ...(frames.length > 0 ? { animation: frames } : {}),
+        ...(props.length > 0 ? { properties: props } : {})
+      });
+    }
+  }
+
+  return {
+    firstgid,
+    name: parseXmlAttr(tsAttrs, 'name') ?? `tsx_${firstgid}`,
+    source: tsxRelPath,
+    tilewidth: parseXmlNumAttr(tsAttrs, 'tilewidth', 16),
+    tileheight: parseXmlNumAttr(tsAttrs, 'tileheight', 16),
+    tilecount: parseXmlNumAttr(tsAttrs, 'tilecount', 1),
+    columns: parseXmlNumAttr(tsAttrs, 'columns', 1),
+    spacing: parseXmlNumAttr(tsAttrs, 'spacing', 0),
+    margin: parseXmlNumAttr(tsAttrs, 'margin', 0),
+    image: resolvedImage,
+    imagewidth: parseXmlNumAttr(imgAttrs, 'width', 16),
+    imageheight: parseXmlNumAttr(imgAttrs, 'height', 16),
+    ...(tiles.length > 0 ? { tiles } : {})
+  };
+}
+
 export function parseTiledMapData(
   raw: unknown,
   defaultPixelScale = 2
@@ -300,6 +518,23 @@ export function parseTiledMapData(
     throw new Error('Invalid Tiled .tmj map: missing layers or tilesets');
   }
   const map = raw as unknown as TiledMapJson;
+  const normalizedTilesets: NormalizedTiledTileset[] = map.tilesets
+    .filter((ts) => typeof ts.image === 'string' && ts.image.length > 0)
+    .map((ts) => ({
+      firstgid: ts.firstgid,
+      name: ts.name ?? `ts_${ts.firstgid}`,
+      ...(ts.source ? { source: ts.source } : {}),
+      tilewidth: ts.tilewidth ?? 16,
+      tileheight: ts.tileheight ?? 16,
+      tilecount: ts.tilecount ?? 1,
+      columns: ts.columns ?? 1,
+      ...(ts.spacing !== undefined ? { spacing: ts.spacing } : {}),
+      ...(ts.margin !== undefined ? { margin: ts.margin } : {}),
+      image: ts.image ?? '',
+      imagewidth: ts.imagewidth ?? 16,
+      imageheight: ts.imageheight ?? 16,
+      ...(ts.tiles ? { tiles: ts.tiles } : {})
+    }));
   const cols = Math.max(1, Math.round(map.width));
   const rows = Math.max(1, Math.round(map.height));
   const tileWidth = Math.max(8, Math.round(map.tilewidth));
@@ -311,11 +546,24 @@ export function parseTiledMapData(
   const scaledTileHeight = tileHeight * pixelScale;
 
   const animatedTiles = new Map<number, ParsedTiledAnimation>();
-  for (const ts of map.tilesets) {
+  const tileMetadataByGid = new Map<number, ParsedTiledTileMetadata>();
+  for (const ts of normalizedTilesets) {
     if (!ts.tiles) continue;
     for (const tileMeta of ts.tiles) {
-      if (!tileMeta.animation || tileMeta.animation.length === 0) continue;
       const baseGid = ts.firstgid + tileMeta.id;
+      if (tileMeta.properties && tileMeta.properties.length > 0) {
+        const surf = getTiledProperty(tileMeta.properties, 'surface');
+        const solid = getTiledProperty(tileMeta.properties, 'solid');
+        const isWater = getTiledProperty(tileMeta.properties, 'isWater');
+        const emissive = getTiledProperty(tileMeta.properties, 'emissive');
+        tileMetadataByGid.set(baseGid, {
+          ...(typeof surf === 'string' && surf ? { surface: surf } : {}),
+          ...(typeof solid === 'boolean' ? { solid } : {}),
+          ...(typeof isWater === 'boolean' ? { isWater } : {}),
+          ...(typeof emissive === 'boolean' ? { emissive } : {})
+        });
+      }
+      if (!tileMeta.animation || tileMeta.animation.length === 0) continue;
       const frames = tileMeta.animation.map((f) => ({
         gid: ts.firstgid + f.tileid,
         durationMs: Math.max(30, f.duration)
@@ -337,6 +585,7 @@ export function parseTiledMapData(
   const collisions: ParsedTiledCollisionObject[] = [];
   const lights: ParsedTiledLightObject[] = [];
   const spawns: ParsedTiledGenericObject[] = [];
+  const docks: ParsedTiledGenericObject[] = [];
   const markers: ParsedTiledGenericObject[] = [];
   const npcs: ParsedTiledGenericObject[] = [];
   const chests: ParsedTiledGenericObject[] = [];
@@ -406,7 +655,12 @@ export function parseTiledMapData(
               intensity: typeof props.intensity === 'number' ? props.intensity : 0.9,
               flickerSpeed:
                 typeof props.flickerSpeed === 'number' ? props.flickerSpeed : 3.2,
-              flickerAmp: typeof props.flickerAmp === 'number' ? props.flickerAmp : 0.08
+              flickerAmp: typeof props.flickerAmp === 'number' ? props.flickerAmp : 0.08,
+              activeTimeMask:
+                typeof props.activeTimeMask === 'string' && props.activeTimeMask
+                  ? props.activeTimeMask
+                  : 'ALL',
+              bloomCore: typeof props.bloomCore === 'boolean' ? props.bloomCore : true
             });
           } else {
             const generic: ParsedTiledGenericObject = {
@@ -417,9 +671,23 @@ export function parseTiledMapData(
               y: oy,
               width: ow,
               height: oh,
+              ...(obj.polyline
+                ? {
+                    polyline: obj.polyline.map((pt) => ({
+                      x: pt.x * pixelScale,
+                      y: pt.y * pixelScale
+                    }))
+                  }
+                : {}),
               properties: props
             };
-            if (role === 'spawns' || objType.includes('spawn')) spawns.push(generic);
+            if (role === 'spawns' || objType.includes('spawn')) {
+              if (objType === 'port_exit' || obj.name === 'dock_departure') {
+                docks.push(generic);
+              } else {
+                spawns.push(generic);
+              }
+            }
             else if (role === 'markers' || objType.includes('marker')) markers.push(generic);
             else if (role === 'npcs' || objType.includes('npc')) npcs.push(generic);
             else if (role === 'chests' || objType.includes('chest')) chests.push(generic);
@@ -442,7 +710,8 @@ export function parseTiledMapData(
     scaledTileHeight,
     worldWidth: cols * scaledTileWidth,
     worldHeight: rows * scaledTileHeight,
-    tilesets: map.tilesets,
+    tilesets: normalizedTilesets,
+    tileMetadataByGid,
     animatedTiles,
     waterLayers,
     groundLayers,
@@ -452,6 +721,7 @@ export function parseTiledMapData(
     collisions,
     lights,
     spawns,
+    docks,
     markers,
     npcs,
     chests,

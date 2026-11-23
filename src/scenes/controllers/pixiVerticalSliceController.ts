@@ -7,8 +7,10 @@ import type { AssetLoader } from '../../assets/assetLoader';
 import type { CanvasRenderer } from '../../render/canvasRenderer';
 import type { ViewportMetrics } from '../../render/viewport/responsiveViewportManager';
 import { PixiStageHost } from '../../render/pixi/PixiStageHost';
+import { resolveBattleBundleName } from '../../render/pixi/pixiBundleHelpers';
 import { PixiBattleVerticalSliceScene } from '../../render/pixi/scenes/PixiBattleVerticalSliceScene';
 import { PixiFooshaIslandScene } from '../../render/pixi/scenes/PixiFooshaIslandScene';
+import { PixiProIslandScene } from '../../render/pixi/scenes/PixiProIslandScene';
 import type { StoryDirector } from '../../story/storyDirector';
 import { collectIslandWorldMarkers } from '../../story/worldMarkerSystem';
 import type { ActiveAppScene } from '../sceneTypes';
@@ -29,12 +31,14 @@ export interface VerticalSliceSceneHost {
   fps: number;
 }
 
-export type VerticalSliceKind = 'NONE' | 'FOOSHA' | 'BATTLE';
+export type VerticalSliceKind = 'NONE' | 'FOOSHA' | 'PRO_ISLAND' | 'BATTLE';
 
 export class PixiVerticalSliceController implements Disposable {
-  private fooshaScene: PixiFooshaIslandScene | null = null;
+  private islandScene: PixiProIslandScene | null = null;
   private battleScene: PixiBattleVerticalSliceScene | null = null;
   private activeKind: VerticalSliceKind = 'NONE';
+  private activeIslandId: string | null = null;
+  private activeBattleBundle: string | null = null;
   private disposed = false;
 
   constructor(public readonly pixiHost: PixiStageHost) {}
@@ -43,13 +47,16 @@ export class PixiVerticalSliceController implements Disposable {
     return this.activeKind;
   }
 
+  public getActiveIslandId(): string | null {
+    return this.activeIslandId;
+  }
+
   public resolveTargetSlice(host: VerticalSliceSceneHost): VerticalSliceKind {
     if (!this.pixiHost.isWebGLActive) return 'NONE';
-    if (
-      host.activeScene === 'ISLAND_EPISODE' &&
-      host.islandRuntime?.islandId === 'foosha_shells'
-    ) {
-      return 'FOOSHA';
+    if (host.activeScene === 'ISLAND_EPISODE' && host.islandRuntime) {
+      const id = host.islandRuntime.islandId;
+      if (id === 'foosha_shells') return 'FOOSHA';
+      if (Boolean(this.pixiHost.loader.manifest.maps[id])) return 'PRO_ISLAND';
     }
     if (host.activeScene === 'SANDBOX') {
       return 'BATTLE';
@@ -69,10 +76,10 @@ export class PixiVerticalSliceController implements Disposable {
   }
 
   public releaseActiveSlice(host?: VerticalSliceSceneHost): void {
-    if (this.fooshaScene) {
-      this.fooshaScene.root.removeFromParent();
-      this.fooshaScene.dispose();
-      this.fooshaScene = null;
+    if (this.islandScene) {
+      this.islandScene.root.removeFromParent();
+      this.islandScene.dispose();
+      this.islandScene = null;
     }
     if (this.battleScene) {
       this.battleScene.root.removeFromParent();
@@ -80,6 +87,8 @@ export class PixiVerticalSliceController implements Disposable {
       this.battleScene = null;
     }
     this.activeKind = 'NONE';
+    this.activeIslandId = null;
+    this.activeBattleBundle = null;
     this.pixiHost.releaseActiveScene();
     this.pixiHost.setVisible(false);
     host?.renderer?.setBackgroundTransparent(false);
@@ -101,15 +110,20 @@ export class PixiVerticalSliceController implements Disposable {
 
     this.pixiHost.updateFpsSample(host.fps);
 
-    if (target === 'FOOSHA' && host.islandRuntime) {
-      if (this.activeKind !== 'FOOSHA') {
+    if ((target === 'FOOSHA' || target === 'PRO_ISLAND') && host.islandRuntime) {
+      const desiredIslandId = host.islandRuntime.islandId;
+      if (this.activeKind !== target || this.activeIslandId !== desiredIslandId) {
         this.releaseActiveSlice(host);
-        this.fooshaScene = new PixiFooshaIslandScene(this.pixiHost);
-        this.pixiHost.worldRoot.addChild(this.fooshaScene.root);
-        void this.fooshaScene.preload();
-        this.activeKind = 'FOOSHA';
+        this.islandScene =
+          target === 'FOOSHA'
+            ? new PixiFooshaIslandScene(this.pixiHost)
+            : new PixiProIslandScene(this.pixiHost, desiredIslandId);
+        this.pixiHost.worldRoot.addChild(this.islandScene.root);
+        void this.islandScene.preload();
+        this.activeKind = target;
+        this.activeIslandId = desiredIslandId;
       }
-      if (this.fooshaScene) {
+      if (this.islandScene) {
         const storyNode = host.storyDirector.getCurrentNode(host.campaign);
         const islandMap = host.rpgRegistry.islands[host.islandRuntime.islandId];
         const markers = islandMap
@@ -117,7 +131,7 @@ export class PixiVerticalSliceController implements Disposable {
           : [];
         this.pixiHost.setVisible(true);
         host.renderer.setBackgroundTransparent(true);
-        this.fooshaScene.render(
+        this.islandScene.render(
           host.campaign,
           host.islandRuntime,
           host.lastIslandStep,
@@ -137,12 +151,17 @@ export class PixiVerticalSliceController implements Disposable {
     }
 
     if (target === 'BATTLE') {
-      if (this.activeKind !== 'BATTLE') {
+      const desiredBattleBundle = resolveBattleBundleName(
+        host.activeBattleContext,
+        host.battleWorld
+      );
+      if (this.activeKind !== 'BATTLE' || this.activeBattleBundle !== desiredBattleBundle) {
         this.releaseActiveSlice(host);
         this.battleScene = new PixiBattleVerticalSliceScene(this.pixiHost);
         this.pixiHost.worldRoot.addChild(this.battleScene.root);
-        void this.battleScene.preload();
+        void this.battleScene.preload(desiredBattleBundle);
         this.activeKind = 'BATTLE';
+        this.activeBattleBundle = desiredBattleBundle;
       }
       if (this.battleScene) {
         this.pixiHost.setVisible(true);

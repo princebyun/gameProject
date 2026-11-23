@@ -6,6 +6,11 @@ import type {
   UnitDefinition
 } from '../../core/types/dataSchemas';
 import type { SpriteAnimState } from '../../data/assets/types';
+import {
+  findProMapManifestStatus,
+  findProSpriteManifestStatus,
+  findProTilesetManifestStatus
+} from '../../data/assets/proAssetManifest';
 import type { Disposable } from '../sceneTypes';
 import {
   renderSpritePreviewCanvas,
@@ -148,6 +153,7 @@ export class AssetPreviewScene implements Disposable {
 
     let spriteSourceBadge = 'BAKED_FALLBACK';
     let spriteMetaText = '';
+    let proSpriteEntry = null;
     if (isShip) {
       const shipId = this.uiState.selectedTargetKey.replace('ship:', '');
       const resolved = this.assets.getOrCreateShipSpriteSheet(shipId);
@@ -163,6 +169,10 @@ export class AssetPreviewScene implements Disposable {
       );
       spriteSourceBadge = resolved.source;
       spriteMetaText = `${resolved.entry.key} · ${resolved.entry.frameWidth}x${resolved.entry.frameHeight} · anchor(${resolved.entry.anchor.x}, ${resolved.entry.anchor.y}) · public/${resolved.entry.src}`;
+      proSpriteEntry = findProSpriteManifestStatus(
+        unitDef.id,
+        this.uiState.selectedFormId === 'base' ? 'base' : this.uiState.selectedFormId
+      );
     }
 
     const biomeEntries = this.assets.manifestRegistry.tilesetsFile.biomes;
@@ -176,6 +186,11 @@ export class AssetPreviewScene implements Disposable {
       ? this.assets.resolver.getSourceStatus(`tileset_${selectedBiome.biomeId}`) ??
         'BAKED_FALLBACK'
       : 'BAKED_FALLBACK';
+    const proBiomeEntry = selectedBiome
+      ? findProTilesetManifestStatus(selectedBiome.biomeId) ??
+        findProMapManifestStatus(selectedBiome.biomeId) ??
+        (selectedBiome.biomeId === 'port_town' ? findProTilesetManifestStatus('master_port_village') : null)
+      : null;
 
     this.uiState.slicerBodyHtml =
       this.uiState.activeTab === 'SLICER' ? this.slicerCtrl.buildHtml() : undefined;
@@ -189,6 +204,8 @@ export class AssetPreviewScene implements Disposable {
       spriteMetaText,
       spriteSourceBadge,
       biomeSourceBadge,
+      proSpriteEntry,
+      proBiomeEntry,
       gameRegistry: this.gameRegistry,
       assets: this.assets,
       audio: this.audio

@@ -151,6 +151,8 @@ export interface SceneManagerHost {
 
   // Orchestration methods
   switchToScene(scene: ActiveAppScene): void;
+  syncSceneBundles?: () => void;
+  syncActivePartyBundles?: () => void;
   setBattleSpeedScale(scale: BattleSpeedScale): void;
   toggleBattlePause(force?: boolean): void;
   clearTransientFocusAndInput(): void;

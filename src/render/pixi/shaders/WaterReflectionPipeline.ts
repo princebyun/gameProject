@@ -138,7 +138,13 @@ export class WaterReflectionPipeline {
     timeSec: number,
     waterlineWorldY: number,
     entries: readonly ReflectedWorldEntry[],
-    polish: VisualPolishConfig
+    polish: VisualPolishConfig,
+    options?: {
+      tintRgbOverride?: [number, number, number];
+      maxDistAboveWater?: number;
+      alphaMult?: number;
+      specularMult?: number;
+    }
   ): void {
     if (this.disposed) return;
     if (!polish.waterReflection || polish.quality === 'LOW') {
@@ -152,20 +158,25 @@ export class WaterReflectionPipeline {
 
     this.filter.enabled = true;
     const profile = TIME_OF_DAY_PROFILES[polish.timeOfDay];
+    const specMult = options?.specularMult ?? 1.0;
     this.uniforms.uniforms.uTime = timeSec;
     this.uniforms.uniforms.uWaveAmp = polish.quality === 'HIGH' ? 0.0048 : 0.0032;
     this.uniforms.uniforms.uPixelRows = Math.max(64, Math.round(viewH * 0.25));
-    this.uniforms.uniforms.uSpecularStrength = polish.flashEffectEnabled
-      ? profile.sunSpecularStrength
-      : profile.sunSpecularStrength * 0.55;
+    this.uniforms.uniforms.uSpecularStrength =
+      (polish.flashEffectEnabled
+        ? profile.sunSpecularStrength
+        : profile.sunSpecularStrength * 0.55) * specMult;
     const tint = this.uniforms.uniforms.uWaterTint;
-    tint[0] = profile.waterTintRgb[0];
-    tint[1] = profile.waterTintRgb[1];
-    tint[2] = profile.waterTintRgb[2];
+    const activeTintRgb = options?.tintRgbOverride ?? profile.waterTintRgb;
+    tint[0] = activeTintRgb[0];
+    tint[1] = activeTintRgb[1];
+    tint[2] = activeTintRgb[2];
 
     this.mirroredRoot.position.set(worldTransX, worldTransY);
 
     let used = 0;
+    const maxDist = options?.maxDistAboveWater ?? 240;
+    const alphaMult = options?.alphaMult ?? 1.0;
     const count = Math.min(MAX_REFLECTED_SPRITES, entries.length);
     for (let i = 0; i < count; i++) {
       const e = entries[i];
@@ -175,14 +186,17 @@ export class WaterReflectionPipeline {
       const clampedPivotY = Math.min(e.worldY, waterlineWorldY);
       const distAboveWater = Math.max(0, waterlineWorldY - clampedPivotY);
       // Skip items too far inland from casting long reflections into the bay
-      if (distAboveWater > 240) continue;
+      if (distAboveWater > maxDist) continue;
 
       const reflectedY = waterlineWorldY + distAboveWater * 0.55 + 6;
       sp.texture = e.texture;
       sp.position.set(Math.round(e.worldX), Math.round(reflectedY));
       sp.scale.set(e.scaleX, -Math.abs(e.scaleY) * 0.82);
       sp.tint = e.tint ?? 0xe0f2fe;
-      sp.alpha = (e.alpha ?? 0.85) * Math.max(0.25, 1 - distAboveWater / 260);
+      sp.alpha =
+        (e.alpha ?? 0.85) *
+        alphaMult *
+        Math.max(0.25, 1 - distAboveWater / Math.max(100, maxDist + 20));
       sp.visible = true;
       used += 1;
     }

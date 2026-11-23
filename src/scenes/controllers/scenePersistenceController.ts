@@ -104,6 +104,8 @@ export class ScenePersistenceController implements Disposable {
 
     this.host.updateFloatingHudToggleVisibility();
     this.host.syncSceneBgm();
+    this.host.syncActivePartyBundles?.();
+    this.host.syncSceneBundles?.();
     this.host.updateShowcaseToolbar();
     this.host.refreshSideDrawer();
   }

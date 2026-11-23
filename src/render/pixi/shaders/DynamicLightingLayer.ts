@@ -120,7 +120,8 @@ export class DynamicLightingLayer {
     viewH: number,
     timeSec: number,
     lights: readonly DynamicPointLightInput[],
-    polish: VisualPolishConfig
+    polish: VisualPolishConfig,
+    ambientHexOverride?: number
   ): void {
     if (this.disposed) return;
     if (!polish.dynamicLighting || polish.quality === 'LOW') {
@@ -137,7 +138,7 @@ export class DynamicLightingLayer {
 
     this.ambientQuad.clear();
     this.ambientQuad.rect(0, 0, rtW, rtH);
-    this.ambientQuad.fill({ color: profile.ambientHex, alpha: 1 });
+    this.ambientQuad.fill({ color: ambientHexOverride ?? profile.ambientHex, alpha: 1 });
 
     let used = 0;
     const maxLights = polish.quality === 'MEDIUM' ? Math.min(12, lights.length) : Math.min(MAX_POOLED_LIGHTS, lights.length);
@@ -146,10 +147,11 @@ export class DynamicLightingLayer {
       const sp = this.lightPool[used];
       if (!l || !sp) continue;
 
+      const safeFlickerAmp = polish.flashEffectEnabled ? l.flickerAmp : l.flickerAmp * 0.2;
       const flicker =
         1 +
         Math.sin(timeSec * l.flickerSpeed + (l.phaseOffset ?? i * 1.7)) *
-          l.flickerAmp;
+          safeFlickerAmp;
       const radiusHalf = Math.max(8, l.radiusPx * 0.5 * flicker);
       const effIntensity = Math.min(
         1,

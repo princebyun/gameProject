@@ -1,0 +1,53 @@
+{
+  "version": "1.0.0",
+  "combos": [
+    {
+      "id": "rubber_three_sword_cannon",
+      "name": "고무고무 300파운드 공성포",
+      "members": ["luffy", "zoro"],
+      "cutinFreezeTicks": 39,
+      "leftUnitId": "luffy",
+      "leftPortraitEmotion": "battle_cry",
+      "leftThemeColors": ["#dc2626", "#facc15"],
+      "rightUnitId": "zoro",
+      "rightPortraitEmotion": "battle_cry",
+      "rightThemeColors": ["#10b981", "#991b1b"],
+      "assistPattern": "CANNON_SHOCKWAVE",
+      "bloomColor": "#facc15",
+      "pointLightColor": "#fb923c",
+      "hasWhiteFlash": false
+    },
+    {
+      "id": "demon_flame_cross",
+      "name": "아수라·디아블 교차 베기",
+      "members": ["zoro", "sanji"],
+      "cutinFreezeTicks": 39,
+      "leftUnitId": "zoro",
+      "leftPortraitEmotion": "determined",
+      "leftThemeColors": ["#10b981", "#065f46"],
+      "rightUnitId": "sanji",
+      "rightPortraitEmotion": "battle_cry",
+      "rightThemeColors": ["#f97316", "#2563eb"],
+      "assistPattern": "X_CROSS_DASH",
+      "bloomColor": "#f97316",
+      "pointLightColor": "#fb923c",
+      "hasWhiteFlash": false
+    },
+    {
+      "id": "thunder_gear_storm",
+      "name": "제우스 선더 스매시",
+      "members": ["luffy", "nami"],
+      "cutinFreezeTicks": 39,
+      "leftUnitId": "luffy",
+      "leftPortraitEmotion": "battle_cry",
+      "leftThemeColors": ["#dc2626", "#facc15"],
+      "rightUnitId": "nami",
+      "rightPortraitEmotion": "battle_cry",
+      "rightThemeColors": ["#06b6d4", "#facc15"],
+      "assistPattern": "THUNDER_STRIKE_SLAM",
+      "bloomColor": "#38bdf8",
+      "pointLightColor": "#bae6fd",
+      "hasWhiteFlash": true
+    }
+  ]
+}

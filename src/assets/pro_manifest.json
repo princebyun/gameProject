@@ -1,0 +1,4343 @@
+{
+  "version": "2.0.0",
+  "entries": [
+    {
+      "id": "sprite:luffy_base",
+      "category": "sprite",
+      "wave": 0,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "VERIFIED",
+      "assetPath": "assets/pro/sprites/luffy_base.webp",
+      "metaPath": "assets/pro/sprites/luffy_base.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 130
+      },
+      "fileSizeBytes": 11292,
+      "estimatedVramBytes": 532480,
+      "updatedAt": "2026-11-23T13:56:59.965Z",
+      "unitId": "luffy",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:luffy_normal",
+      "category": "portrait",
+      "wave": 0,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/luffy_normal.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 724,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "luffy"
+    },
+    {
+      "id": "portrait:luffy_angry",
+      "category": "portrait",
+      "wave": 0,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/luffy_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 786,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "luffy"
+    },
+    {
+      "id": "portrait:luffy_determined",
+      "category": "portrait",
+      "wave": 0,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/luffy_determined.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 826,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "luffy"
+    },
+    {
+      "id": "portrait:luffy_battle_cry",
+      "category": "portrait",
+      "wave": 0,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/luffy_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 786,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "luffy"
+    },
+    {
+      "id": "portrait:luffy_shocked",
+      "category": "portrait",
+      "wave": 0,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/luffy_shocked.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 768,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "luffy"
+    },
+    {
+      "id": "portrait:luffy_cutin",
+      "category": "portrait",
+      "wave": 0,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/luffy_cutin.webp",
+      "dimensions": {
+        "width": 192,
+        "height": 80
+      },
+      "fileSizeBytes": 4020,
+      "estimatedVramBytes": 61440,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "luffy"
+    },
+    {
+      "id": "tileset:master_port_village",
+      "category": "tileset",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "island_foosha_village",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/tilesets/ninja_adventure_village.webp",
+      "metaPath": "assets/pro/tilesets/master_port_village.tsx",
+      "dimensions": {
+        "width": 448,
+        "height": 640
+      },
+      "fileSizeBytes": 37188,
+      "estimatedVramBytes": 1146880,
+      "updatedAt": "2026-11-23T13:56:59.965Z"
+    },
+    {
+      "id": "tileset:medieval_windmill_extras",
+      "category": "tileset",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "island_foosha_village",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/tilesets/medieval_windmill_extras.webp",
+      "metaPath": "assets/pro/tilesets/medieval_windmill_extras.tsx",
+      "dimensions": {
+        "width": 320,
+        "height": 192
+      },
+      "fileSizeBytes": 7028,
+      "estimatedVramBytes": 245760,
+      "updatedAt": "2026-11-23T13:56:59.965Z"
+    },
+    {
+      "id": "tileset:ninja_animated_water",
+      "category": "tileset",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "island_foosha_village",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/tilesets/ninja_animated_water.webp",
+      "metaPath": "assets/pro/tilesets/master_animated_water.tsx",
+      "dimensions": {
+        "width": 64,
+        "height": 16
+      },
+      "fileSizeBytes": 364,
+      "estimatedVramBytes": 4096,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "map:foosha_village",
+      "category": "map",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "island_foosha_village",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/maps/foosha_village.tmj",
+      "metaPath": "assets/pro/maps/foosha_village.tmj",
+      "dimensions": {
+        "width": 1536,
+        "height": 1088
+      },
+      "fileSizeBytes": 141389,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T15:19:53.419Z",
+      "islandId": "foosha_shells",
+      "sharedTilesetIds": [
+        "tileset:master_port_village",
+        "tileset:medieval_windmill_extras",
+        "tileset:ninja_animated_water"
+      ],
+      "sharedAssetIds": [
+        "sprite:zoro_base"
+      ]
+    },
+    {
+      "id": "bg:east_blue_harbor_layer0",
+      "category": "background",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "battle_east_blue_harbor",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/east_blue_harbor_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3154,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "bg:east_blue_harbor_layer1",
+      "category": "background",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "battle_east_blue_harbor",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/east_blue_harbor_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "bg:east_blue_harbor_layer2",
+      "category": "background",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "battle_east_blue_harbor",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/east_blue_harbor_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 19452,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "bg:east_blue_harbor_layer3",
+      "category": "background",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "battle_east_blue_harbor",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/east_blue_harbor_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 6776,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "vfx:slash_arc",
+      "category": "vfx",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/vfx/slash_arc.webp",
+      "dimensions": {
+        "width": 160,
+        "height": 32
+      },
+      "fileSizeBytes": 170,
+      "estimatedVramBytes": 20480,
+      "updatedAt": "2026-11-23T13:50:47.757Z"
+    },
+    {
+      "id": "vfx:hit_spark",
+      "category": "vfx",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/vfx/hit_spark.webp",
+      "dimensions": {
+        "width": 192,
+        "height": 32
+      },
+      "fileSizeBytes": 142,
+      "estimatedVramBytes": 24576,
+      "updatedAt": "2026-11-23T13:50:47.757Z"
+    },
+    {
+      "id": "vfx:parry_flash",
+      "category": "vfx",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/vfx/parry_flash.webp",
+      "dimensions": {
+        "width": 160,
+        "height": 32
+      },
+      "fileSizeBytes": 296,
+      "estimatedVramBytes": 20480,
+      "updatedAt": "2026-11-23T13:50:47.757Z"
+    },
+    {
+      "id": "vfx:conqueror_bolt",
+      "category": "vfx",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/vfx/conqueror_bolt.webp",
+      "dimensions": {
+        "width": 480,
+        "height": 96
+      },
+      "fileSizeBytes": 4392,
+      "estimatedVramBytes": 184320,
+      "updatedAt": "2026-11-23T13:50:47.757Z"
+    },
+    {
+      "id": "vfx:fire_explosion",
+      "category": "vfx",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/vfx/fire_explosion.webp",
+      "dimensions": {
+        "width": 960,
+        "height": 96
+      },
+      "fileSizeBytes": 6208,
+      "estimatedVramBytes": 368640,
+      "updatedAt": "2026-11-23T13:50:47.757Z"
+    },
+    {
+      "id": "vfx:beam_core",
+      "category": "vfx",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/vfx/beam_core.webp",
+      "dimensions": {
+        "width": 856,
+        "height": 192
+      },
+      "fileSizeBytes": 4738,
+      "estimatedVramBytes": 657408,
+      "updatedAt": "2026-11-23T13:50:47.757Z"
+    },
+    {
+      "id": "vfx:awakening_burst",
+      "category": "vfx",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/vfx/awakening_burst.webp",
+      "dimensions": {
+        "width": 330,
+        "height": 99
+      },
+      "fileSizeBytes": 1510,
+      "estimatedVramBytes": 130680,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:bgm_title_adventure",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/bgm/title_adventure.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 4395595,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:bgm_sea_east_blue",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/bgm/sea_east_blue.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 2535388,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:bgm_sea_grand_line",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/bgm/sea_grand_line.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 2198522,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:bgm_sea_new_world",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/bgm/sea_new_world.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 2106037,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:bgm_island_peaceful",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/bgm/island_peaceful.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 2844728,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:bgm_battle_normal",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/bgm/battle_normal.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 736097,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:bgm_battle_boss",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/bgm/battle_boss.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 2780676,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:bgm_battle_yonko_awakening",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/bgm/battle_yonko_awakening.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 1251470,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:bgm_battle_raid_giant",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/bgm/battle_raid_giant.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 1297738,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:bgm_victory_fanfare",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/bgm/victory_fanfare.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 39948,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_slash_light",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/slash_light.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 15532,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_slash_heavy",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/slash_heavy.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 15099,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_blunt_hit",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/blunt_hit.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 9370,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_beam_fire",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/beam_fire.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 25537,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_beam_clash_loop",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/beam_clash_loop.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 16349,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_melee_clash_clang",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/melee_clash_clang.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 31619,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_dodge_whoosh",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/dodge_whoosh.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 11946,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_just_dodge_chime",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/just_dodge_chime.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 8992,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_haki_lightning",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/haki_lightning.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 10775,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_logia_dissolve",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/logia_dissolve.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 10118,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_transform_burst",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/transform_burst.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 14190,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_awakening_drums",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/awakening_drums.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 11031,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_ui_move",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/ui_move.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 5838,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_ui_confirm",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/ui_confirm.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 6952,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_ui_cancel",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/ui_cancel.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 11630,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_wanted_poster_slam",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/wanted_poster_slam.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 9901,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_ship_cannon",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/ship_cannon.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 10312,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_coup_de_burst",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/coup_de_burst.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 36298,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_explosion_heavy",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/explosion_heavy.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 7739,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_parry_clang",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/parry_clang.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 13615,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_water_splash",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/water_splash.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 11974,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "audio:sfx_guard_block",
+      "category": "audio",
+      "wave": 0,
+      "tier": "env",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/audio/sfx/guard_block.ogg",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 10208,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "sea:landmark_foosha_shells",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_east_blue",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/foosha_shells.png",
+      "dimensions": {
+        "width": 448,
+        "height": 112
+      },
+      "fileSizeBytes": 2339,
+      "estimatedVramBytes": 200704,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "east_blue"
+    },
+    {
+      "id": "sea:landmark_orange_town",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_east_blue",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/orange_town.png",
+      "dimensions": {
+        "width": 384,
+        "height": 96
+      },
+      "fileSizeBytes": 1928,
+      "estimatedVramBytes": 147456,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "east_blue"
+    },
+    {
+      "id": "sea:landmark_baratie",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_east_blue",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/baratie.png",
+      "dimensions": {
+        "width": 448,
+        "height": 96
+      },
+      "fileSizeBytes": 1726,
+      "estimatedVramBytes": 172032,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "east_blue"
+    },
+    {
+      "id": "sea:landmark_arlong_park",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_east_blue",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/arlong_park.png",
+      "dimensions": {
+        "width": 448,
+        "height": 112
+      },
+      "fileSizeBytes": 2146,
+      "estimatedVramBytes": 200704,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "east_blue"
+    },
+    {
+      "id": "sea:landmark_loguetown",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_east_blue",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/loguetown.png",
+      "dimensions": {
+        "width": 448,
+        "height": 112
+      },
+      "fileSizeBytes": 2124,
+      "estimatedVramBytes": 200704,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "east_blue"
+    },
+    {
+      "id": "sea:landmark_gate_reverse_mountain",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_east_blue",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/gate_reverse_mountain.png",
+      "dimensions": {
+        "width": 512,
+        "height": 128
+      },
+      "fileSizeBytes": 2433,
+      "estimatedVramBytes": 262144,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "east_blue"
+    },
+    {
+      "id": "sea:landmark_drum_kingdom",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_grand_line",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/drum_kingdom.png",
+      "dimensions": {
+        "width": 448,
+        "height": 112
+      },
+      "fileSizeBytes": 1961,
+      "estimatedVramBytes": 200704,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "grand_line"
+    },
+    {
+      "id": "sea:landmark_alabasta",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_grand_line",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/alabasta.png",
+      "dimensions": {
+        "width": 448,
+        "height": 112
+      },
+      "fileSizeBytes": 2040,
+      "estimatedVramBytes": 200704,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "grand_line"
+    },
+    {
+      "id": "sea:landmark_skypiea",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_grand_line",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/skypiea.png",
+      "dimensions": {
+        "width": 512,
+        "height": 128
+      },
+      "fileSizeBytes": 2093,
+      "estimatedVramBytes": 262144,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "grand_line"
+    },
+    {
+      "id": "sea:landmark_water_seven",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_grand_line",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/water_seven.png",
+      "dimensions": {
+        "width": 512,
+        "height": 112
+      },
+      "fileSizeBytes": 2243,
+      "estimatedVramBytes": 229376,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "grand_line"
+    },
+    {
+      "id": "sea:landmark_thriller_bark",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_grand_line",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/thriller_bark.png",
+      "dimensions": {
+        "width": 512,
+        "height": 112
+      },
+      "fileSizeBytes": 2086,
+      "estimatedVramBytes": 229376,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "grand_line"
+    },
+    {
+      "id": "sea:landmark_marineford",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_grand_line",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/marineford.png",
+      "dimensions": {
+        "width": 576,
+        "height": 128
+      },
+      "fileSizeBytes": 2026,
+      "estimatedVramBytes": 294912,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "grand_line"
+    },
+    {
+      "id": "sea:landmark_impel_down",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_grand_line",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/impel_down.png",
+      "dimensions": {
+        "width": 448,
+        "height": 112
+      },
+      "fileSizeBytes": 1972,
+      "estimatedVramBytes": 200704,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "grand_line"
+    },
+    {
+      "id": "sea:landmark_gate_red_line",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_grand_line",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/gate_red_line.png",
+      "dimensions": {
+        "width": 576,
+        "height": 128
+      },
+      "fileSizeBytes": 2102,
+      "estimatedVramBytes": 294912,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "grand_line"
+    },
+    {
+      "id": "sea:landmark_fishman_island",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_new_world",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/fishman_island.png",
+      "dimensions": {
+        "width": 512,
+        "height": 128
+      },
+      "fileSizeBytes": 2511,
+      "estimatedVramBytes": 262144,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "new_world"
+    },
+    {
+      "id": "sea:landmark_dressrosa",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_new_world",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/dressrosa.png",
+      "dimensions": {
+        "width": 512,
+        "height": 112
+      },
+      "fileSizeBytes": 2175,
+      "estimatedVramBytes": 229376,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "new_world"
+    },
+    {
+      "id": "sea:landmark_totto_land",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_new_world",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/totto_land.png",
+      "dimensions": {
+        "width": 512,
+        "height": 128
+      },
+      "fileSizeBytes": 2246,
+      "estimatedVramBytes": 262144,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "new_world"
+    },
+    {
+      "id": "sea:landmark_wano_onigashima",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_new_world",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/wano_onigashima.png",
+      "dimensions": {
+        "width": 576,
+        "height": 128
+      },
+      "fileSizeBytes": 2818,
+      "estimatedVramBytes": 294912,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "new_world"
+    },
+    {
+      "id": "sea:landmark_egghead",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_new_world",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/egghead.png",
+      "dimensions": {
+        "width": 576,
+        "height": 128
+      },
+      "fileSizeBytes": 2588,
+      "estimatedVramBytes": 294912,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "new_world"
+    },
+    {
+      "id": "sea:landmark_elbaf",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_new_world",
+      "status": "IMPORTED",
+      "assetPath": "assets/world/landmarks/elbaf.png",
+      "dimensions": {
+        "width": 576,
+        "height": 144
+      },
+      "fileSizeBytes": 2782,
+      "estimatedVramBytes": 331776,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "seaZoneId": "new_world"
+    },
+    {
+      "id": "sprite:zoro_base",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_zoro",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/zoro_base.webp",
+      "metaPath": "assets/pro/sprites/zoro_base.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 150
+      },
+      "fileSizeBytes": 13382,
+      "estimatedVramBytes": 614400,
+      "updatedAt": "2026-11-23T13:56:59.965Z",
+      "unitId": "zoro",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:zoro_normal",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_zoro",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/zoro_normal.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 630,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "zoro"
+    },
+    {
+      "id": "portrait:zoro_angry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_zoro",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/zoro_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 732,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "zoro"
+    },
+    {
+      "id": "portrait:zoro_determined",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_zoro",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/zoro_determined.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 632,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "zoro"
+    },
+    {
+      "id": "portrait:zoro_shocked",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_zoro",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/zoro_shocked.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 630,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "zoro"
+    },
+    {
+      "id": "portrait:zoro_smirk",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_zoro",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/zoro_smirk.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 632,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "zoro"
+    },
+    {
+      "id": "portrait:zoro_sad",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_zoro",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/zoro_sad.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 630,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "zoro"
+    },
+    {
+      "id": "portrait:zoro_excited",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_zoro",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/zoro_excited.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 632,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "zoro"
+    },
+    {
+      "id": "portrait:zoro_battle_cry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_zoro",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/zoro_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 732,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "zoro"
+    },
+    {
+      "id": "portrait:zoro_cutin",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_zoro",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/zoro_cutin.webp",
+      "dimensions": {
+        "width": 253,
+        "height": 96
+      },
+      "fileSizeBytes": 6466,
+      "estimatedVramBytes": 97152,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "zoro"
+    },
+    {
+      "id": "sprite:sanji_base",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_sanji",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/sanji_base.webp",
+      "metaPath": "assets/pro/sprites/sanji_base.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 145
+      },
+      "fileSizeBytes": 9060,
+      "estimatedVramBytes": 593920,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "sanji",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:sanji_normal",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_sanji",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/sanji_normal.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 730,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "sanji"
+    },
+    {
+      "id": "portrait:sanji_angry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_sanji",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/sanji_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 754,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "sanji"
+    },
+    {
+      "id": "portrait:sanji_determined",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_sanji",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/sanji_determined.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 730,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "sanji"
+    },
+    {
+      "id": "portrait:sanji_shocked",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_sanji",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/sanji_shocked.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 854,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "sanji"
+    },
+    {
+      "id": "portrait:sanji_smirk",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_sanji",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/sanji_smirk.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 730,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "sanji"
+    },
+    {
+      "id": "portrait:sanji_sad",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_sanji",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/sanji_sad.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 854,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "sanji"
+    },
+    {
+      "id": "portrait:sanji_excited",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_sanji",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/sanji_excited.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 790,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "sanji"
+    },
+    {
+      "id": "portrait:sanji_battle_cry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_sanji",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/sanji_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 754,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "sanji"
+    },
+    {
+      "id": "sprite:nami_base",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_nami",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/nami_base.webp",
+      "metaPath": "assets/pro/sprites/nami_base.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 150
+      },
+      "fileSizeBytes": 12702,
+      "estimatedVramBytes": 614400,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "nami",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:nami_normal",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_nami",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/nami_normal.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 794,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "nami"
+    },
+    {
+      "id": "portrait:nami_angry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_nami",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/nami_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 878,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "nami"
+    },
+    {
+      "id": "portrait:nami_determined",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_nami",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/nami_determined.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 854,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "nami"
+    },
+    {
+      "id": "portrait:nami_shocked",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_nami",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/nami_shocked.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 878,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "nami"
+    },
+    {
+      "id": "portrait:nami_smirk",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_nami",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/nami_smirk.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 814,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "nami"
+    },
+    {
+      "id": "portrait:nami_sad",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_nami",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/nami_sad.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 854,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "nami"
+    },
+    {
+      "id": "portrait:nami_excited",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_nami",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/nami_excited.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 814,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "nami"
+    },
+    {
+      "id": "portrait:nami_battle_cry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_nami",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/nami_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 878,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "nami"
+    },
+    {
+      "id": "sprite:usopp_base",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_usopp",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/usopp_base.webp",
+      "metaPath": "assets/pro/sprites/usopp_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "usopp",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:usopp_normal",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_usopp",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/usopp_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "usopp"
+    },
+    {
+      "id": "sprite:morgan_base",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_morgan",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/morgan_base.webp",
+      "metaPath": "assets/pro/sprites/morgan_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "morgan",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:morgan_normal",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_morgan",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/morgan_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "morgan"
+    },
+    {
+      "id": "portrait:morgan_angry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_morgan",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/morgan_angry.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "morgan"
+    },
+    {
+      "id": "portrait:morgan_battle_cry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_morgan",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/morgan_battle_cry.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "morgan"
+    },
+    {
+      "id": "bg:battle_morgan_layer0",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_morgan",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_morgan_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 1074,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T14:23:07.538Z"
+    },
+    {
+      "id": "bg:battle_morgan_layer1",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_morgan",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_morgan_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T14:23:07.538Z"
+    },
+    {
+      "id": "bg:battle_morgan_layer2",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_morgan",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_morgan_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 780,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T14:23:07.538Z"
+    },
+    {
+      "id": "bg:battle_morgan_layer3",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_morgan",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_morgan_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 6118,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T14:23:07.538Z"
+    },
+    {
+      "id": "sprite:buggy_base",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_buggy",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/buggy_base.webp",
+      "metaPath": "assets/pro/sprites/buggy_base.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 208
+      },
+      "fileSizeBytes": 15162,
+      "estimatedVramBytes": 851968,
+      "updatedAt": "2026-11-23T13:56:59.965Z",
+      "unitId": "buggy",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:buggy_normal",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_buggy",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/buggy_normal.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 904,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "buggy"
+    },
+    {
+      "id": "portrait:buggy_angry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_buggy",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/buggy_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 922,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "buggy"
+    },
+    {
+      "id": "portrait:buggy_battle_cry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_buggy",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/buggy_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 904,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "buggy"
+    },
+    {
+      "id": "bg:battle_buggy_layer0",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_buggy",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_buggy_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3154,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T14:23:07.538Z"
+    },
+    {
+      "id": "bg:battle_buggy_layer1",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_buggy",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_buggy_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T14:23:07.538Z"
+    },
+    {
+      "id": "bg:battle_buggy_layer2",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_buggy",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_buggy_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 6244,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T14:23:07.538Z"
+    },
+    {
+      "id": "bg:battle_buggy_layer3",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_buggy",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_buggy_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 4910,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T14:23:07.538Z"
+    },
+    {
+      "id": "sprite:arlong_base",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_arlong",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/arlong_base.webp",
+      "metaPath": "assets/pro/sprites/arlong_base.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 212
+      },
+      "fileSizeBytes": 7782,
+      "estimatedVramBytes": 868352,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "arlong",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:arlong_normal",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_arlong",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/arlong_normal.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 766,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "arlong"
+    },
+    {
+      "id": "portrait:arlong_angry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_arlong",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/arlong_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 830,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "arlong"
+    },
+    {
+      "id": "portrait:arlong_battle_cry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_arlong",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/arlong_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 830,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T14:23:07.538Z",
+      "unitId": "arlong"
+    },
+    {
+      "id": "bg:battle_arlong_layer0",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_arlong",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_arlong_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 1668,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T14:23:07.538Z"
+    },
+    {
+      "id": "bg:battle_arlong_layer1",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_arlong",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_arlong_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T14:23:07.538Z"
+    },
+    {
+      "id": "bg:battle_arlong_layer2",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_arlong",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_arlong_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 296,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T14:23:07.538Z"
+    },
+    {
+      "id": "bg:battle_arlong_layer3",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_arlong",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_arlong_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 4518,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T14:23:07.538Z"
+    },
+    {
+      "id": "sprite:don_krieg_base",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_don_krieg",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/don_krieg_base.webp",
+      "metaPath": "assets/pro/sprites/don_krieg_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "don_krieg",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:don_krieg_normal",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_don_krieg",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/don_krieg_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "don_krieg"
+    },
+    {
+      "id": "bg:battle_don_krieg_layer0",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_don_krieg",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/backgrounds/battle_don_krieg_layer0.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "sprite:smoker_base",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_smoker",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/smoker_base.webp",
+      "metaPath": "assets/pro/sprites/smoker_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "smoker",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:smoker_normal",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_smoker",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/smoker_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "smoker"
+    },
+    {
+      "id": "bg:battle_smoker_layer0",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_smoker",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/backgrounds/battle_smoker_layer0.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z"
+    },
+    {
+      "id": "tileset:master_stone_canal",
+      "category": "tileset",
+      "wave": 2,
+      "tier": "env",
+      "bundle": "island_water_seven",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/tilesets/master_stone_canal.webp",
+      "metaPath": "assets/pro/tilesets/master_stone_canal.tsx",
+      "dimensions": {
+        "width": 256,
+        "height": 256
+      },
+      "fileSizeBytes": 5930,
+      "estimatedVramBytes": 262144,
+      "updatedAt": "2026-11-23T15:19:53.419Z"
+    },
+    {
+      "id": "tileset:master_desert_palace",
+      "category": "tileset",
+      "wave": 2,
+      "tier": "env",
+      "bundle": "island_alabasta",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/tilesets/master_desert_palace.webp",
+      "metaPath": "assets/pro/tilesets/master_desert_palace.tsx",
+      "dimensions": {
+        "width": 256,
+        "height": 256
+      },
+      "fileSizeBytes": 6596,
+      "estimatedVramBytes": 262144,
+      "updatedAt": "2026-11-23T15:19:53.419Z"
+    },
+    {
+      "id": "tileset:master_eastern_pagoda",
+      "category": "tileset",
+      "wave": 2,
+      "tier": "env",
+      "bundle": "island_wano_country",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/tilesets/master_eastern_pagoda.webp",
+      "metaPath": "assets/pro/tilesets/master_eastern_pagoda.tsx",
+      "dimensions": {
+        "width": 256,
+        "height": 256
+      },
+      "fileSizeBytes": 5940,
+      "estimatedVramBytes": 262144,
+      "updatedAt": "2026-11-23T15:19:53.419Z"
+    },
+    {
+      "id": "tileset:master_scifi_neon",
+      "category": "tileset",
+      "wave": 2,
+      "tier": "env",
+      "bundle": "island_egghead",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/tilesets/master_scifi_neon.webp",
+      "metaPath": "assets/pro/tilesets/master_scifi_neon.tsx",
+      "dimensions": {
+        "width": 256,
+        "height": 256
+      },
+      "fileSizeBytes": 7640,
+      "estimatedVramBytes": 262144,
+      "updatedAt": "2026-11-23T15:19:53.419Z"
+    },
+    {
+      "id": "map:water_seven",
+      "category": "map",
+      "wave": 2,
+      "tier": "env",
+      "bundle": "island_water_seven",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/maps/water_seven.tmj",
+      "metaPath": "assets/pro/maps/water_seven.tmj",
+      "dimensions": {
+        "width": 1664,
+        "height": 1152
+      },
+      "fileSizeBytes": 159633,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T15:19:53.419Z",
+      "islandId": "water_seven",
+      "sharedTilesetIds": [
+        "tileset:master_stone_canal",
+        "tileset:master_port_village"
+      ]
+    },
+    {
+      "id": "map:alabasta",
+      "category": "map",
+      "wave": 2,
+      "tier": "env",
+      "bundle": "island_alabasta",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/maps/alabasta.tmj",
+      "metaPath": "assets/pro/maps/alabasta.tmj",
+      "dimensions": {
+        "width": 1600,
+        "height": 1152
+      },
+      "fileSizeBytes": 149677,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T15:19:53.419Z",
+      "islandId": "alabasta",
+      "sharedTilesetIds": [
+        "tileset:master_desert_palace"
+      ]
+    },
+    {
+      "id": "map:wano_country",
+      "category": "map",
+      "wave": 2,
+      "tier": "env",
+      "bundle": "island_wano_country",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/maps/wano_country.tmj",
+      "metaPath": "assets/pro/maps/wano_country.tmj",
+      "dimensions": {
+        "width": 1664,
+        "height": 1216
+      },
+      "fileSizeBytes": 167469,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T15:19:53.419Z",
+      "islandId": "wano_onigashima",
+      "sharedTilesetIds": [
+        "tileset:master_eastern_pagoda"
+      ]
+    },
+    {
+      "id": "map:egghead",
+      "category": "map",
+      "wave": 2,
+      "tier": "env",
+      "bundle": "island_egghead",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/maps/egghead.tmj",
+      "metaPath": "assets/pro/maps/egghead.tmj",
+      "dimensions": {
+        "width": 1792,
+        "height": 1280
+      },
+      "fileSizeBytes": 185721,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T15:19:53.419Z",
+      "islandId": "egghead",
+      "sharedTilesetIds": [
+        "tileset:master_scifi_neon"
+      ]
+    },
+    {
+      "id": "sprite:lucci_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_lucci",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/lucci_base.webp",
+      "metaPath": "assets/pro/sprites/lucci_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "lucci",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:lucci_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_lucci",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/lucci_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "lucci"
+    },
+    {
+      "id": "sprite:kaido_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_kaido",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/kaido_base.webp",
+      "metaPath": "assets/pro/sprites/kaido_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "kaido",
+      "formId": "base",
+      "isGiant": true
+    },
+    {
+      "id": "portrait:kaido_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_kaido",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/kaido_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "kaido"
+    },
+    {
+      "id": "sprite:kizaru_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_kizaru",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/kizaru_base.webp",
+      "metaPath": "assets/pro/sprites/kizaru_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "kizaru",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:kizaru_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_kizaru",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/kizaru_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "kizaru"
+    },
+    {
+      "id": "sprite:law_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_law",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/law_base.webp",
+      "metaPath": "assets/pro/sprites/law_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "law",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:law_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_law",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/law_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "law"
+    },
+    {
+      "id": "sprite:blueno_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_blueno",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/blueno_base.webp",
+      "metaPath": "assets/pro/sprites/blueno_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "blueno",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:blueno_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_blueno",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/blueno_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "blueno"
+    },
+    {
+      "id": "sprite:kaku_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_kaku",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/kaku_base.webp",
+      "metaPath": "assets/pro/sprites/kaku_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "kaku",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:kaku_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_kaku",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/kaku_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "kaku"
+    },
+    {
+      "id": "sprite:franky_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/franky_base.webp",
+      "metaPath": "assets/pro/sprites/franky_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "franky",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:franky_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/franky_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "franky"
+    },
+    {
+      "id": "sprite:king_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_king",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/king_base.webp",
+      "metaPath": "assets/pro/sprites/king_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "king",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:king_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_king",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/king_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "king"
+    },
+    {
+      "id": "sprite:s_hawk_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_s_hawk",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/s_hawk_base.webp",
+      "metaPath": "assets/pro/sprites/s_hawk_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "s_hawk",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:s_hawk_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_s_hawk",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/s_hawk_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "s_hawk"
+    },
+    {
+      "id": "sprite:saturn_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_saturn",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/saturn_base.webp",
+      "metaPath": "assets/pro/sprites/saturn_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "saturn",
+      "formId": "base",
+      "isGiant": true
+    },
+    {
+      "id": "portrait:saturn_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_saturn",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/saturn_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "saturn"
+    },
+    {
+      "id": "sprite:loki_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_loki",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/loki_base.webp",
+      "metaPath": "assets/pro/sprites/loki_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "loki",
+      "formId": "base",
+      "isGiant": true
+    },
+    {
+      "id": "portrait:loki_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_loki",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/loki_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "loki"
+    },
+    {
+      "id": "sprite:wapol_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_wapol",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/wapol_base.webp",
+      "metaPath": "assets/pro/sprites/wapol_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "wapol",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:wapol_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_wapol",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/wapol_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "wapol"
+    },
+    {
+      "id": "sprite:crocodile_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_crocodile",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/crocodile_base.webp",
+      "metaPath": "assets/pro/sprites/crocodile_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "crocodile",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:crocodile_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_crocodile",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/crocodile_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "crocodile"
+    },
+    {
+      "id": "sprite:enel_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_enel",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/enel_base.webp",
+      "metaPath": "assets/pro/sprites/enel_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "enel",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:enel_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_enel",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/enel_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "enel"
+    },
+    {
+      "id": "sprite:moria_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_moria",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/moria_base.webp",
+      "metaPath": "assets/pro/sprites/moria_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "moria",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:moria_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_moria",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/moria_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "moria"
+    },
+    {
+      "id": "sprite:doppelman_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_doppelman",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/doppelman_base.webp",
+      "metaPath": "assets/pro/sprites/doppelman_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "doppelman",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:doppelman_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_doppelman",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/doppelman_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "doppelman"
+    },
+    {
+      "id": "sprite:akainu_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_akainu",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/akainu_base.webp",
+      "metaPath": "assets/pro/sprites/akainu_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "akainu",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:akainu_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_akainu",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/akainu_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "akainu"
+    },
+    {
+      "id": "sprite:aokiji_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_aokiji",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/aokiji_base.webp",
+      "metaPath": "assets/pro/sprites/aokiji_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "aokiji",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:aokiji_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_aokiji",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/aokiji_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "aokiji"
+    },
+    {
+      "id": "sprite:blackbeard_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_blackbeard",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/blackbeard_base.webp",
+      "metaPath": "assets/pro/sprites/blackbeard_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "blackbeard",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:blackbeard_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_blackbeard",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/blackbeard_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "blackbeard"
+    },
+    {
+      "id": "sprite:chopper_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/chopper_base.webp",
+      "metaPath": "assets/pro/sprites/chopper_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "chopper",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:chopper_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/chopper_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "chopper"
+    },
+    {
+      "id": "sprite:robin_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/robin_base.webp",
+      "metaPath": "assets/pro/sprites/robin_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "robin",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:robin_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/robin_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "robin"
+    },
+    {
+      "id": "sprite:brook_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/brook_base.webp",
+      "metaPath": "assets/pro/sprites/brook_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "brook",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:brook_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/brook_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "brook"
+    },
+    {
+      "id": "sprite:marco_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_marco",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/marco_base.webp",
+      "metaPath": "assets/pro/sprites/marco_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "marco",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:marco_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_marco",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/marco_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "marco"
+    },
+    {
+      "id": "sprite:hody_jones_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_hody_jones",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/hody_jones_base.webp",
+      "metaPath": "assets/pro/sprites/hody_jones_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "hody_jones",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:hody_jones_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_hody_jones",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/hody_jones_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "hody_jones"
+    },
+    {
+      "id": "sprite:doflamingo_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_doflamingo",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/doflamingo_base.webp",
+      "metaPath": "assets/pro/sprites/doflamingo_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "doflamingo",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:doflamingo_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_doflamingo",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/doflamingo_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "doflamingo"
+    },
+    {
+      "id": "sprite:katakuri_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_katakuri",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/katakuri_base.webp",
+      "metaPath": "assets/pro/sprites/katakuri_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "katakuri",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:katakuri_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_katakuri",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/katakuri_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "katakuri"
+    },
+    {
+      "id": "sprite:jinbe_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/jinbe_base.webp",
+      "metaPath": "assets/pro/sprites/jinbe_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "jinbe",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:jinbe_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/jinbe_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "jinbe"
+    },
+    {
+      "id": "sprite:magellan_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_magellan",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/magellan_base.webp",
+      "metaPath": "assets/pro/sprites/magellan_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "magellan",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:magellan_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_magellan",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/magellan_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "magellan"
+    },
+    {
+      "id": "sprite:unit_ignis_vanguard_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier3_npc",
+      "bundle": "battle_unit_ignis_vanguard",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/unit_ignis_vanguard_base.webp",
+      "metaPath": "assets/pro/sprites/unit_ignis_vanguard_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "unit_ignis_vanguard",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:unit_ignis_vanguard_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier3_npc",
+      "bundle": "battle_unit_ignis_vanguard",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/unit_ignis_vanguard_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "unit_ignis_vanguard"
+    },
+    {
+      "id": "sprite:unit_tideweaver_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier3_npc",
+      "bundle": "battle_unit_tideweaver",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/unit_tideweaver_base.webp",
+      "metaPath": "assets/pro/sprites/unit_tideweaver_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "unit_tideweaver",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:unit_tideweaver_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier3_npc",
+      "bundle": "battle_unit_tideweaver",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/unit_tideweaver_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "unit_tideweaver"
+    },
+    {
+      "id": "sprite:unit_volt_strider_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier3_npc",
+      "bundle": "battle_unit_volt_strider",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/unit_volt_strider_base.webp",
+      "metaPath": "assets/pro/sprites/unit_volt_strider_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "unit_volt_strider",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:unit_volt_strider_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier3_npc",
+      "bundle": "battle_unit_volt_strider",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/unit_volt_strider_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "unit_volt_strider"
+    },
+    {
+      "id": "sprite:unit_terra_bastion_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier3_npc",
+      "bundle": "battle_unit_terra_bastion",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/unit_terra_bastion_base.webp",
+      "metaPath": "assets/pro/sprites/unit_terra_bastion_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "unit_terra_bastion",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:unit_terra_bastion_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier3_npc",
+      "bundle": "battle_unit_terra_bastion",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/unit_terra_bastion_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "unit_terra_bastion"
+    },
+    {
+      "id": "sprite:unit_zephyr_blade_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier3_npc",
+      "bundle": "battle_unit_zephyr_blade",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/unit_zephyr_blade_base.webp",
+      "metaPath": "assets/pro/sprites/unit_zephyr_blade_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "unit_zephyr_blade",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:unit_zephyr_blade_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier3_npc",
+      "bundle": "battle_unit_zephyr_blade",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/unit_zephyr_blade_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "unit_zephyr_blade"
+    },
+    {
+      "id": "sprite:unit_void_conduit_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier3_npc",
+      "bundle": "battle_unit_void_conduit",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/unit_void_conduit_base.webp",
+      "metaPath": "assets/pro/sprites/unit_void_conduit_base.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "unit_void_conduit",
+      "formId": "base"
+    },
+    {
+      "id": "portrait:unit_void_conduit_normal",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier3_npc",
+      "bundle": "battle_unit_void_conduit",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/unit_void_conduit_normal.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "unit_void_conduit"
+    },
+    {
+      "id": "map:orange_town",
+      "category": "map",
+      "wave": 4,
+      "tier": "env",
+      "bundle": "island_orange_town",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/maps/orange_town.tmj",
+      "metaPath": "assets/pro/maps/orange_town.tmj",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "islandId": "orange_town",
+      "sharedTilesetIds": [
+        "tileset:master_port_village"
+      ]
+    },
+    {
+      "id": "map:baratie",
+      "category": "map",
+      "wave": 4,
+      "tier": "env",
+      "bundle": "island_baratie",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/maps/baratie.tmj",
+      "metaPath": "assets/pro/maps/baratie.tmj",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "islandId": "baratie",
+      "sharedTilesetIds": [
+        "tileset:master_port_village"
+      ]
+    },
+    {
+      "id": "map:arlong_park",
+      "category": "map",
+      "wave": 4,
+      "tier": "env",
+      "bundle": "island_arlong_park",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/maps/arlong_park.tmj",
+      "metaPath": "assets/pro/maps/arlong_park.tmj",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "islandId": "arlong_park",
+      "sharedTilesetIds": [
+        "tileset:master_port_village"
+      ]
+    },
+    {
+      "id": "map:loguetown",
+      "category": "map",
+      "wave": 4,
+      "tier": "env",
+      "bundle": "island_loguetown",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/maps/loguetown.tmj",
+      "metaPath": "assets/pro/maps/loguetown.tmj",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "islandId": "loguetown",
+      "sharedTilesetIds": [
+        "tileset:master_port_village"
+      ]
+    },
+    {
+      "id": "map:drum_kingdom",
+      "category": "map",
+      "wave": 4,
+      "tier": "env",
+      "bundle": "island_drum_kingdom",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/maps/drum_kingdom.tmj",
+      "metaPath": "assets/pro/maps/drum_kingdom.tmj",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "islandId": "drum_kingdom",
+      "sharedTilesetIds": [
+        "tileset:master_port_village"
+      ]
+    },
+    {
+      "id": "map:skypiea",
+      "category": "map",
+      "wave": 4,
+      "tier": "env",
+      "bundle": "island_skypiea",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/maps/skypiea.tmj",
+      "metaPath": "assets/pro/maps/skypiea.tmj",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "islandId": "skypiea",
+      "sharedTilesetIds": [
+        "tileset:master_port_village"
+      ]
+    },
+    {
+      "id": "map:thriller_bark",
+      "category": "map",
+      "wave": 4,
+      "tier": "env",
+      "bundle": "island_thriller_bark",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/maps/thriller_bark.tmj",
+      "metaPath": "assets/pro/maps/thriller_bark.tmj",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "islandId": "thriller_bark",
+      "sharedTilesetIds": [
+        "tileset:master_eastern_pagoda"
+      ]
+    },
+    {
+      "id": "map:marineford",
+      "category": "map",
+      "wave": 4,
+      "tier": "env",
+      "bundle": "island_marineford",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/maps/marineford.tmj",
+      "metaPath": "assets/pro/maps/marineford.tmj",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "islandId": "marineford",
+      "sharedTilesetIds": [
+        "tileset:master_stone_canal"
+      ]
+    },
+    {
+      "id": "map:fishman_island",
+      "category": "map",
+      "wave": 4,
+      "tier": "env",
+      "bundle": "island_fishman_island",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/maps/fishman_island.tmj",
+      "metaPath": "assets/pro/maps/fishman_island.tmj",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "islandId": "fishman_island",
+      "sharedTilesetIds": [
+        "tileset:master_stone_canal"
+      ]
+    },
+    {
+      "id": "map:dressrosa",
+      "category": "map",
+      "wave": 4,
+      "tier": "env",
+      "bundle": "island_dressrosa",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/maps/dressrosa.tmj",
+      "metaPath": "assets/pro/maps/dressrosa.tmj",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "islandId": "dressrosa",
+      "sharedTilesetIds": [
+        "tileset:master_desert_palace"
+      ]
+    },
+    {
+      "id": "map:totto_land",
+      "category": "map",
+      "wave": 4,
+      "tier": "env",
+      "bundle": "island_totto_land",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/maps/totto_land.tmj",
+      "metaPath": "assets/pro/maps/totto_land.tmj",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "islandId": "totto_land",
+      "sharedTilesetIds": [
+        "tileset:master_stone_canal"
+      ]
+    },
+    {
+      "id": "map:elbaf",
+      "category": "map",
+      "wave": 4,
+      "tier": "env",
+      "bundle": "island_elbaf",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/maps/elbaf.tmj",
+      "metaPath": "assets/pro/maps/elbaf.tmj",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "islandId": "elbaf",
+      "sharedTilesetIds": [
+        "tileset:master_eastern_pagoda"
+      ]
+    }
+  ],
+  "sprites": {
+    "luffy_base": {
+      "key": "luffy_base",
+      "unitId": "luffy",
+      "formId": "base",
+      "image": "assets/pro/sprites/luffy_base.webp",
+      "atlasJson": "assets/pro/sprites/luffy_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 108,
+      "ppuScale": 1,
+      "referenceIdleHeight": 61,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "zoro_base": {
+      "key": "zoro_base",
+      "unitId": "zoro",
+      "formId": "base",
+      "image": "assets/pro/sprites/zoro_base.webp",
+      "atlasJson": "assets/pro/sprites/zoro_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 113,
+      "ppuScale": 1.05,
+      "referenceIdleHeight": 63,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "sanji_base": {
+      "key": "sanji_base",
+      "unitId": "sanji",
+      "formId": "base",
+      "image": "assets/pro/sprites/sanji_base.webp",
+      "atlasJson": "assets/pro/sprites/sanji_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 113,
+      "ppuScale": 1.05,
+      "referenceIdleHeight": 62,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "nami_base": {
+      "key": "nami_base",
+      "unitId": "nami",
+      "formId": "base",
+      "image": "assets/pro/sprites/nami_base.webp",
+      "atlasJson": "assets/pro/sprites/nami_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 103,
+      "ppuScale": 0.95,
+      "referenceIdleHeight": 61,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "buggy_base": {
+      "key": "buggy_base",
+      "unitId": "buggy",
+      "formId": "base",
+      "image": "assets/pro/sprites/buggy_base.webp",
+      "atlasJson": "assets/pro/sprites/buggy_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 113,
+      "ppuScale": 1.05,
+      "referenceIdleHeight": 57,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "arlong_base": {
+      "key": "arlong_base",
+      "unitId": "arlong",
+      "formId": "base",
+      "image": "assets/pro/sprites/arlong_base.webp",
+      "atlasJson": "assets/pro/sprites/arlong_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 138,
+      "ppuScale": 1.28,
+      "referenceIdleHeight": 75,
+      "formatHint": "ASEPRITE_HASH"
+    }
+  },
+  "portraits": {
+    "luffy_normal": {
+      "image": "assets/pro/portraits/luffy_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "luffy_angry": {
+      "image": "assets/pro/portraits/luffy_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "luffy_determined": {
+      "image": "assets/pro/portraits/luffy_determined.webp",
+      "width": 64,
+      "height": 64
+    },
+    "luffy_battle_cry": {
+      "image": "assets/pro/portraits/luffy_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "luffy_shocked": {
+      "image": "assets/pro/portraits/luffy_shocked.webp",
+      "width": 64,
+      "height": 64
+    },
+    "zoro_normal": {
+      "image": "assets/pro/portraits/zoro_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "zoro_angry": {
+      "image": "assets/pro/portraits/zoro_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "zoro_determined": {
+      "image": "assets/pro/portraits/zoro_determined.webp",
+      "width": 64,
+      "height": 64
+    },
+    "zoro_shocked": {
+      "image": "assets/pro/portraits/zoro_shocked.webp",
+      "width": 64,
+      "height": 64
+    },
+    "zoro_smirk": {
+      "image": "assets/pro/portraits/zoro_smirk.webp",
+      "width": 64,
+      "height": 64
+    },
+    "zoro_sad": {
+      "image": "assets/pro/portraits/zoro_sad.webp",
+      "width": 64,
+      "height": 64
+    },
+    "zoro_excited": {
+      "image": "assets/pro/portraits/zoro_excited.webp",
+      "width": 64,
+      "height": 64
+    },
+    "zoro_battle_cry": {
+      "image": "assets/pro/portraits/zoro_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "sanji_normal": {
+      "image": "assets/pro/portraits/sanji_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "sanji_angry": {
+      "image": "assets/pro/portraits/sanji_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "sanji_determined": {
+      "image": "assets/pro/portraits/sanji_determined.webp",
+      "width": 64,
+      "height": 64
+    },
+    "sanji_shocked": {
+      "image": "assets/pro/portraits/sanji_shocked.webp",
+      "width": 64,
+      "height": 64
+    },
+    "sanji_smirk": {
+      "image": "assets/pro/portraits/sanji_smirk.webp",
+      "width": 64,
+      "height": 64
+    },
+    "sanji_sad": {
+      "image": "assets/pro/portraits/sanji_sad.webp",
+      "width": 64,
+      "height": 64
+    },
+    "sanji_excited": {
+      "image": "assets/pro/portraits/sanji_excited.webp",
+      "width": 64,
+      "height": 64
+    },
+    "sanji_battle_cry": {
+      "image": "assets/pro/portraits/sanji_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "nami_normal": {
+      "image": "assets/pro/portraits/nami_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "nami_angry": {
+      "image": "assets/pro/portraits/nami_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "nami_determined": {
+      "image": "assets/pro/portraits/nami_determined.webp",
+      "width": 64,
+      "height": 64
+    },
+    "nami_shocked": {
+      "image": "assets/pro/portraits/nami_shocked.webp",
+      "width": 64,
+      "height": 64
+    },
+    "nami_smirk": {
+      "image": "assets/pro/portraits/nami_smirk.webp",
+      "width": 64,
+      "height": 64
+    },
+    "nami_sad": {
+      "image": "assets/pro/portraits/nami_sad.webp",
+      "width": 64,
+      "height": 64
+    },
+    "nami_excited": {
+      "image": "assets/pro/portraits/nami_excited.webp",
+      "width": 64,
+      "height": 64
+    },
+    "nami_battle_cry": {
+      "image": "assets/pro/portraits/nami_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "buggy_normal": {
+      "image": "assets/pro/portraits/buggy_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "buggy_angry": {
+      "image": "assets/pro/portraits/buggy_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "buggy_battle_cry": {
+      "image": "assets/pro/portraits/buggy_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "arlong_normal": {
+      "image": "assets/pro/portraits/arlong_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "arlong_angry": {
+      "image": "assets/pro/portraits/arlong_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "arlong_battle_cry": {
+      "image": "assets/pro/portraits/arlong_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    }
+  },
+  "cutins": {
+    "luffy": {
+      "image": "assets/pro/portraits/luffy_cutin.webp"
+    },
+    "zoro": {
+      "image": "assets/pro/portraits/zoro_cutin.webp"
+    }
+  },
+  "maps": {
+    "foosha_shells": {
+      "mapId": "foosha_shells",
+      "tmj": "assets/pro/maps/foosha_village.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/ninja_adventure_village.webp",
+        "assets/pro/tilesets/medieval_windmill_extras.webp",
+        "assets/pro/tilesets/ninja_animated_water.webp"
+      ]
+    },
+    "water_seven": {
+      "mapId": "water_seven",
+      "tmj": "assets/pro/maps/water_seven.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_stone_canal.webp",
+        "assets/pro/tilesets/ninja_adventure_village.webp"
+      ]
+    },
+    "alabasta": {
+      "mapId": "alabasta",
+      "tmj": "assets/pro/maps/alabasta.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_desert_palace.webp"
+      ]
+    },
+    "wano_onigashima": {
+      "mapId": "wano_onigashima",
+      "tmj": "assets/pro/maps/wano_country.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_eastern_pagoda.webp"
+      ]
+    },
+    "egghead": {
+      "mapId": "egghead",
+      "tmj": "assets/pro/maps/egghead.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_scifi_neon.webp"
+      ]
+    }
+  },
+  "backgrounds": {
+    "east_blue_harbor": {
+      "bgId": "east_blue_harbor",
+      "layers": [
+        "assets/pro/backgrounds/east_blue_harbor_layer0.webp",
+        "assets/pro/backgrounds/east_blue_harbor_layer1.webp",
+        "assets/pro/backgrounds/east_blue_harbor_layer2.webp",
+        "assets/pro/backgrounds/east_blue_harbor_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "battle_morgan": {
+      "bgId": "battle_morgan",
+      "layers": [
+        "assets/pro/backgrounds/battle_morgan_layer0.webp",
+        "assets/pro/backgrounds/battle_morgan_layer1.webp",
+        "assets/pro/backgrounds/battle_morgan_layer2.webp",
+        "assets/pro/backgrounds/battle_morgan_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "battle_buggy": {
+      "bgId": "battle_buggy",
+      "layers": [
+        "assets/pro/backgrounds/battle_buggy_layer0.webp",
+        "assets/pro/backgrounds/battle_buggy_layer1.webp",
+        "assets/pro/backgrounds/battle_buggy_layer2.webp",
+        "assets/pro/backgrounds/battle_buggy_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "battle_arlong": {
+      "bgId": "battle_arlong",
+      "layers": [
+        "assets/pro/backgrounds/battle_arlong_layer0.webp",
+        "assets/pro/backgrounds/battle_arlong_layer1.webp",
+        "assets/pro/backgrounds/battle_arlong_layer2.webp",
+        "assets/pro/backgrounds/battle_arlong_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    }
+  },
+  "vfx": {
+    "slash_arc": {
+      "id": "slash_arc",
+      "image": "assets/pro/vfx/slash_arc.webp",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 5,
+      "fps": 18,
+      "blendMode": "add",
+      "scale": 1.6
+    },
+    "hit_spark": {
+      "id": "hit_spark",
+      "image": "assets/pro/vfx/hit_spark.webp",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 6,
+      "fps": 22,
+      "blendMode": "add",
+      "scale": 1.5
+    },
+    "parry_flash": {
+      "id": "parry_flash",
+      "image": "assets/pro/vfx/parry_flash.webp",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 5,
+      "fps": 20,
+      "blendMode": "add",
+      "scale": 1.8
+    },
+    "conqueror_bolt": {
+      "id": "conqueror_bolt",
+      "image": "assets/pro/vfx/conqueror_bolt.webp",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "frameCount": 5,
+      "fps": 18,
+      "blendMode": "add",
+      "scale": 0.9
+    },
+    "fire_explosion": {
+      "id": "fire_explosion",
+      "image": "assets/pro/vfx/fire_explosion.webp",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "frameCount": 10,
+      "fps": 18,
+      "blendMode": "normal",
+      "scale": 1.1
+    },
+    "beam_core": {
+      "id": "beam_core",
+      "image": "assets/pro/vfx/beam_core.webp",
+      "frameWidth": 214,
+      "frameHeight": 96,
+      "frameCount": 5,
+      "fps": 16,
+      "blendMode": "add",
+      "scale": 1.2
+    },
+    "awakening_burst": {
+      "id": "awakening_burst",
+      "image": "assets/pro/vfx/awakening_burst.webp",
+      "frameWidth": 55,
+      "frameHeight": 99,
+      "frameCount": 6,
+      "fps": 16,
+      "blendMode": "add",
+      "scale": 1.4
+    }
+  }
+}

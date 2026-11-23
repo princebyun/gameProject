@@ -243,6 +243,7 @@ export function buildFooshaVillageTmj(rootDir = ROOT) {
   ].map((l) => ({
     id: nextObjId++,
     name: l.name,
+    template: '../templates/light_lantern.tx',
     type: 'point_light',
     point: true,
     x: l.c * 16,
@@ -253,7 +254,8 @@ export function buildFooshaVillageTmj(rootDir = ROOT) {
       { name: 'color', type: 'color', value: l.color },
       { name: 'radius', type: 'float', value: l.radius },
       { name: 'intensity', type: 'float', value: l.intensity },
-      { name: 'flickerSpeed', type: 'float', value: l.flickerSpeed }
+      { name: 'flickerSpeed', type: 'float', value: l.flickerSpeed },
+      { name: 'activeTimeMask', type: 'string', value: 'ALL' }
     ]
   }));
 
@@ -268,12 +270,35 @@ export function buildFooshaVillageTmj(rootDir = ROOT) {
       y: foosha.spawnPoint.y / 2,
       width: 0,
       height: 0
+    },
+    {
+      id: nextObjId++,
+      name: 'dock_departure',
+      template: '../templates/dock_departure.tx',
+      type: 'PORT_EXIT',
+      point: true,
+      x: foosha.portExitZone.pos.x / 2,
+      y: foosha.portExitZone.pos.y / 2,
+      width: 0,
+      height: 0,
+      properties: [
+        { name: 'actionKind', type: 'string', value: 'PORT_EXIT' },
+        { name: 'radiusPx', type: 'float', value: foosha.portExitZone.radiusPx ?? 44 }
+      ]
     }
   ];
 
   const markers = (foosha.markers ?? []).map((m) => ({
     id: nextObjId++,
     name: m.markerId,
+    template:
+      m.kind === 'PORT_EXIT'
+        ? '../templates/dock_departure.tx'
+        : m.kind === 'MAIN'
+          ? '../templates/marker_story_gold.tx'
+          : m.kind === 'SIDE'
+            ? '../templates/marker_side_blue.tx'
+            : '../templates/marker_utility_silver.tx',
     type: m.kind,
     point: true,
     x: (m.tileX + 0.5) * 16,
@@ -281,6 +306,8 @@ export function buildFooshaVillageTmj(rootDir = ROOT) {
     width: 0,
     height: 0,
     properties: [
+      { name: 'markerId', type: 'string', value: m.markerId },
+      { name: 'markerKind', type: 'string', value: m.kind },
       { name: 'label', type: 'string', value: m.label },
       { name: 'actionKind', type: 'string', value: m.actionKind }
     ]
@@ -289,25 +316,37 @@ export function buildFooshaVillageTmj(rootDir = ROOT) {
   const npcs = (foosha.npcs ?? []).map((n) => ({
     id: nextObjId++,
     name: n.npcId,
+    template: '../templates/npc_patrol_anchor.tx',
     type: 'npc',
     point: true,
     x: n.pos.x / 2,
     y: n.pos.y / 2,
     width: 0,
     height: 0,
-    properties: [{ name: 'displayName', type: 'string', value: n.name }]
+    properties: [
+      { name: 'npcId', type: 'string', value: n.npcId },
+      { name: 'displayName', type: 'string', value: n.name },
+      { name: 'facing', type: 'string', value: n.facing ?? 'down' }
+    ]
   }));
 
   const chests = (foosha.chests ?? []).map((ch) => ({
     id: nextObjId++,
     name: ch.chestId,
+    template: '../templates/chest_hidden.tx',
     type: ch.rarity,
     point: true,
     x: (ch.tileX + 0.5) * 16,
     y: (ch.tileY + 0.5) * 16,
     width: 0,
     height: 0,
-    properties: [{ name: 'rarity', type: 'string', value: ch.rarity }]
+    properties: [
+      { name: 'chestId', type: 'string', value: ch.chestId },
+      { name: 'rarity', type: 'string', value: ch.rarity },
+      { name: 'berries', type: 'int', value: ch.reward?.berries ?? 0 },
+      { name: 'trainingPoints', type: 'int', value: ch.reward?.trainingPoints ?? 0 },
+      { name: 'hiddenHint', type: 'string', value: ch.hiddenHint ?? '' }
+    ]
   }));
 
   const zones = (foosha.zones ?? []).map((z) => ({
@@ -336,57 +375,22 @@ export function buildFooshaVillageTmj(rootDir = ROOT) {
     type: 'map',
     version: '1.10',
     width: cols,
-    properties: [{ name: 'pixelScale', type: 'int', value: 2 }],
+    properties: [
+      { name: 'pixelScale', type: 'int', value: 2 },
+      { name: 'islandId', type: 'string', value: 'foosha_shells' }
+    ],
     tilesets: [
       {
-        columns: 28,
         firstgid: FIRST_NINJA,
-        image: 'assets/pro/tilesets/ninja_adventure_village.png',
-        imageheight: 640,
-        imagewidth: 448,
-        margin: 0,
-        name: 'ninja_adventure_village',
-        spacing: 0,
-        tilecount: 1120,
-        tileheight: 16,
-        tilewidth: 16
+        source: '../tilesets/master_port_village.tsx'
       },
       {
-        columns: 20,
         firstgid: FIRST_MED,
-        image: 'assets/pro/tilesets/medieval_windmill_extras.png',
-        imageheight: 192,
-        imagewidth: 320,
-        margin: 0,
-        name: 'medieval_windmill_extras',
-        spacing: 0,
-        tilecount: 240,
-        tileheight: 16,
-        tilewidth: 16
+        source: '../tilesets/medieval_windmill_extras.tsx'
       },
       {
-        columns: 4,
         firstgid: FIRST_ANIM_WATER,
-        image: 'assets/pro/tilesets/ninja_animated_water.png',
-        imageheight: 16,
-        imagewidth: 64,
-        margin: 0,
-        name: 'ninja_animated_water',
-        spacing: 0,
-        tilecount: 4,
-        tileheight: 16,
-        tilewidth: 16,
-        tiles: [
-          {
-            id: 0,
-            animation: [
-              { tileid: 0, duration: 280 },
-              { tileid: 1, duration: 280 },
-              { tileid: 2, duration: 280 },
-              { tileid: 3, duration: 280 }
-            ]
-          }
-        ]
+        source: '../tilesets/master_animated_water.tsx'
       }
     ],
     layers: [
@@ -524,6 +528,7 @@ export function buildFooshaVillageTmj(rootDir = ROOT) {
   const outPath = path.join(rootDir, 'public/assets/pro/maps/foosha_village.tmj');
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, `${JSON.stringify(tmj, null, 2)}\n`, 'utf-8');
+
   return { outPath, cols, rows, lightCount: lights.length, collisionCount: collisions.length };
 }
 

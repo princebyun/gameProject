@@ -38,6 +38,8 @@ export interface ParsedProAtlasFrame {
   durationMs: number;
   pivotX: number;
   pivotY: number;
+  anchorX: number;
+  anchorY: number;
 }
 
 export interface ParsedProAnimClip {
@@ -53,6 +55,7 @@ export interface ParsedProSpriteAtlas {
   texWidth: number;
   texHeight: number;
   anchor: { x: number; y: number };
+  referenceIdleHeight: number;
   clips: Record<SpriteAnimState, ParsedProAnimClip>;
 }
 
@@ -141,7 +144,9 @@ function buildClipMapWithFallback(
     h: 32,
     durationMs: 100,
     pivotX: 16,
-    pivotY: 29
+    pivotY: 29,
+    anchorX: 0.5,
+    anchorY: 0.9
   };
   const idleClip: ParsedProAnimClip = partial.IDLE ?? {
     state: 'IDLE',
@@ -179,9 +184,16 @@ function parseFrameObjectEntry(
   const h = Math.max(1, Math.round(readNum(frameObj, 'h', 32)));
   const durationMs = Math.max(16, readNum(entryObj, 'duration', 100));
   const pivotObj = isRecord(entryObj.pivot) ? entryObj.pivot : null;
-  const pivotX = pivotObj ? Math.round(readNum(pivotObj, 'x', 0.5) * w) : Math.round(w * 0.5);
-  const pivotY = pivotObj ? Math.round(readNum(pivotObj, 'y', 0.9) * h) : Math.round(h * 0.9);
-  return { name, x, y, w, h, durationMs, pivotX, pivotY };
+  const anchorX = pivotObj ? readNum(pivotObj, 'x', 0.5) : 0.5;
+  const anchorY = pivotObj ? readNum(pivotObj, 'y', 0.9) : 0.9;
+  const pivotX = Math.round(anchorX * w);
+  const pivotY = Math.round(anchorY * h);
+  return { name, x, y, w, h, durationMs, pivotX, pivotY, anchorX, anchorY };
+}
+
+function computeMedianIdleHeight(clips: Record<SpriteAnimState, ParsedProAnimClip>, fallbackH = 60): number {
+  const heights = clips.IDLE.frames.map((f) => f.h).filter((h) => h > 0).sort((a, b) => a - b);
+  return heights[Math.floor(heights.length * 0.5)] ?? fallbackH;
 }
 
 function parseLegacyMeta(
@@ -221,6 +233,8 @@ function parseLegacyMeta(
         if (!isRecord(fr)) continue;
         const w = Math.max(1, Math.round(readNum(fr, 'w', fw)));
         const h = Math.max(1, Math.round(readNum(fr, 'h', fh)));
+        const pivotX = readNum(fr, 'pivotX', w * anchor.x);
+        const pivotY = readNum(fr, 'pivotY', h * anchor.y);
         const parsed: ParsedProAtlasFrame = {
           name: `${state}_${i}`,
           x: Math.max(0, Math.round(readNum(fr, 'x', 0))),
@@ -228,8 +242,10 @@ function parseLegacyMeta(
           w,
           h,
           durationMs: Math.round(1000 / fps),
-          pivotX: readNum(fr, 'pivotX', w * anchor.x),
-          pivotY: readNum(fr, 'pivotY', h * anchor.y)
+          pivotX,
+          pivotY,
+          anchorX: pivotX / Math.max(1, w),
+          anchorY: pivotY / Math.max(1, h)
         };
         frames.push(parsed);
         allFrames.push(parsed);
@@ -240,6 +256,8 @@ function parseLegacyMeta(
         const fy = row * fh;
         if (fx + fw > texWidth && texWidth >= fw) continue;
         if (fy + fh > texHeight && texHeight >= fh) continue;
+        const pivotX = Math.round(fw * anchor.x);
+        const pivotY = Math.round(fh * anchor.y);
         const parsed: ParsedProAtlasFrame = {
           name: `${state}_${c}`,
           x: fx,
@@ -247,8 +265,10 @@ function parseLegacyMeta(
           w: fw,
           h: fh,
           durationMs: Math.round(1000 / fps),
-          pivotX: Math.round(fw * anchor.x),
-          pivotY: Math.round(fh * anchor.y)
+          pivotX,
+          pivotY,
+          anchorX: anchor.x,
+          anchorY: anchor.y
         };
         frames.push(parsed);
         allFrames.push(parsed);
@@ -266,12 +286,14 @@ function parseLegacyMeta(
     }
   }
 
+  const legacyClips = buildClipMapWithFallback(partial, allFrames);
   return {
     format: isVariablePack ? 'LEGACY_META_VARIABLE' : 'LEGACY_META_GRID',
     texWidth,
     texHeight,
     anchor,
-    clips: buildClipMapWithFallback(partial, allFrames)
+    referenceIdleHeight: readNum(root, 'referenceIdleHeight', computeMedianIdleHeight(legacyClips, fh)),
+    clips: legacyClips
   };
 }
 
@@ -405,12 +427,17 @@ export function parseSpriteAtlasDescriptor(
     }
   }
 
+  const clips = buildClipMapWithFallback(partial, orderedFrames);
+  const referenceIdleHeight = metaObj
+    ? readNum(metaObj, 'referenceIdleHeight', computeMedianIdleHeight(clips))
+    : computeMedianIdleHeight(clips);
   return {
     format,
     texWidth,
     texHeight,
     anchor,
-    clips: buildClipMapWithFallback(partial, orderedFrames)
+    referenceIdleHeight,
+    clips
   };
 }
 
@@ -509,7 +536,11 @@ export function createMissingProArtPlaceholder(
 export class ProAssetLoader implements Disposable {
   public manifest: ProAssetManifestFile = defaultProAssetManifest;
   private readonly baseTextures = new Map<string, Texture>();
+  private readonly ownedBaseKeys = new Set<string>();
+  private readonly relPathByCacheKey = new Map<string, string>();
+  private readonly cacheKeysByRelPath = new Map<string, Set<string>>();
   private readonly subTextures: Texture[] = [];
+  private readonly subTextureOwners = new WeakMap<Texture, Texture>();
   private readonly spriteAtlases = new Map<string, LoadedProSpriteAtlas>();
   private readonly vfxAtlases = new Map<string, LoadedProVfxAtlas>();
   private readonly missingKeys = new Set<string>();
@@ -548,10 +579,82 @@ export class ProAssetLoader implements Disposable {
     this.missingKeys.add(key);
   }
 
+  public registerExternalTexture(cacheKey: string, relPath: string, texture: Texture): void {
+    if (this.disposed) return;
+    if (texture.source) {
+      texture.source.scaleMode = 'nearest';
+    }
+    const norm = relPath.replace(/\\/g, '/').replace(/^\.\//, '');
+    this.baseTextures.set(cacheKey, texture);
+    this.relPathByCacheKey.set(cacheKey, norm);
+    let set = this.cacheKeysByRelPath.get(norm);
+    if (!set) {
+      set = new Set();
+      this.cacheKeysByRelPath.set(norm, set);
+    }
+    set.add(cacheKey);
+    this.missingKeys.delete(cacheKey);
+  }
+
+  public evictByRelPath(relPath: string): void {
+    const norm = relPath.replace(/\\/g, '/').replace(/^\.\//, '');
+    const keys = this.cacheKeysByRelPath.get(norm);
+    if (!keys) return;
+
+    const removedBases = new Set<Texture>();
+    for (const cacheKey of keys) {
+      const tex = this.baseTextures.get(cacheKey);
+      if (tex) {
+        removedBases.add(tex);
+        this.baseTextures.delete(cacheKey);
+        if (this.ownedBaseKeys.has(cacheKey) && !tex.destroyed) {
+          tex.destroy(true);
+        }
+        this.ownedBaseKeys.delete(cacheKey);
+      }
+      this.relPathByCacheKey.delete(cacheKey);
+    }
+    this.cacheKeysByRelPath.delete(norm);
+
+    for (const [sKey, atlas] of this.spriteAtlases.entries()) {
+      if (removedBases.has(atlas.baseTexture)) {
+        this.spriteAtlases.delete(sKey);
+      }
+    }
+    for (const [vKey, atlas] of this.vfxAtlases.entries()) {
+      if (removedBases.has(atlas.baseTexture)) {
+        this.vfxAtlases.delete(vKey);
+      }
+    }
+
+    for (let i = this.subTextures.length - 1; i >= 0; i--) {
+      const sub = this.subTextures[i];
+      if (!sub) continue;
+      const owner = this.subTextureOwners.get(sub);
+      if (owner && removedBases.has(owner)) {
+        if (!sub.destroyed) sub.destroy(false);
+        this.subTextures.splice(i, 1);
+      }
+    }
+  }
+
   public async loadTexture(cacheKey: string, relPath: string): Promise<Texture | null> {
     if (this.disposed) return null;
+    const norm = relPath.replace(/\\/g, '/').replace(/^\.\//, '');
     const existing = this.baseTextures.get(cacheKey);
     if (existing) return existing;
+
+    // Also reuse any already-registered external texture for the same URL
+    const existingKeys = this.cacheKeysByRelPath.get(norm);
+    if (existingKeys) {
+      for (const k of existingKeys) {
+        const hit = this.baseTextures.get(k);
+        if (hit && !hit.destroyed) {
+          this.registerExternalTexture(cacheKey, norm, hit);
+          return hit;
+        }
+      }
+    }
 
     const pendingKey = `tex:${cacheKey}`;
     const existingPending = this.pendingLoads.get(pendingKey);
@@ -570,7 +673,15 @@ export class ProAssetLoader implements Disposable {
         scaleMode: 'nearest'
       });
       const tex = new Texture({ source, label: cacheKey });
+      this.ownedBaseKeys.add(cacheKey);
       this.baseTextures.set(cacheKey, tex);
+      this.relPathByCacheKey.set(cacheKey, norm);
+      let set = this.cacheKeysByRelPath.get(norm);
+      if (!set) {
+        set = new Set();
+        this.cacheKeysByRelPath.set(norm, set);
+      }
+      set.add(cacheKey);
       this.missingKeys.delete(cacheKey);
       return tex;
     })();
@@ -594,6 +705,7 @@ export class ProAssetLoader implements Disposable {
       source: baseTexture.source,
       frame: new Rectangle(x, y, w, h)
     });
+    this.subTextureOwners.set(sub, baseTexture);
     this.subTextures.push(sub);
     return sub;
   }
@@ -693,14 +805,17 @@ export class ProAssetLoader implements Disposable {
     if (!baseTexture || this.disposed) return null;
 
     const cols = Math.max(1, Math.floor(baseTexture.width / Math.max(1, entry.frameWidth)));
-    const count = Math.min(cols, Math.max(1, entry.frameCount));
+    const rows = Math.max(1, Math.floor(baseTexture.height / Math.max(1, entry.frameHeight)));
+    const count = Math.min(cols * rows, Math.max(1, entry.frameCount));
     const frames: Texture[] = [];
     for (let i = 0; i < count; i++) {
+      const col = i % cols;
+      const row = Math.floor(i / cols);
       frames.push(
         this.createSubTexture(
           baseTexture,
-          i * entry.frameWidth,
-          0,
+          col * entry.frameWidth,
+          row * entry.frameHeight,
           Math.min(entry.frameWidth, baseTexture.width),
           Math.min(entry.frameHeight, baseTexture.height)
         )
@@ -762,12 +877,15 @@ export class ProAssetLoader implements Disposable {
   public dispose(): void {
     this.disposed = true;
     this.releaseTransientSubTextures();
-    for (const base of this.baseTextures.values()) {
-      if (!base.destroyed) {
+    for (const [key, base] of this.baseTextures.entries()) {
+      if (this.ownedBaseKeys.has(key) && !base.destroyed) {
         base.destroy(true);
       }
     }
     this.baseTextures.clear();
+    this.ownedBaseKeys.clear();
+    this.relPathByCacheKey.clear();
+    this.cacheKeysByRelPath.clear();
     this.spriteAtlases.clear();
     this.vfxAtlases.clear();
     this.missingKeys.clear();

@@ -10,7 +10,7 @@ import {
 import { createStandardPresetBuild } from '../../src/core/net/terminalArenaRule';
 import type { AssetLoader } from '../../src/assets/assetLoader';
 import { defaultAssetManifestRegistry } from '../../src/data/assets/assetManifestRegistry';
-import proManifestJson from '../../src/data/assets/pro_manifest.json';
+import { defaultProAssetManifest } from '../../src/data/assets/proAssetManifest';
 import { defaultDataRegistry } from '../../src/data/dataRegistry';
 import { defaultRpgDataRegistry } from '../../src/data/rpgDataRegistry';
 import type { CanvasRenderer } from '../../src/render/canvasRenderer';
@@ -119,6 +119,18 @@ function createMockElement(tagName: string): MockDomElement {
         tele.id = 'vp-telemetry';
         el.children.push(tele);
       }
+      if (html.includes('vp-btn-prune-bundles')) {
+        const pruneBtn = createMockElement('button');
+        pruneBtn.id = 'vp-btn-prune-bundles';
+        el.children.push(pruneBtn);
+      }
+      for (const id of ['vp-vram-summary', 'vp-bundle-tags', 'vp-manifest-progress']) {
+        if (html.includes(id)) {
+          const d = createMockElement('div');
+          d.id = id;
+          el.children.push(d);
+        }
+      }
     },
     setAttribute: (k, v) => {
       el.attributes[k] = v;
@@ -186,24 +198,24 @@ describe('Step 3 Vertical Slice: Pro Assets, 5x Round-Trip Leak Audit, Shockwave
       'assets/pro/CREDITS.md'
     ]);
 
-    for (const s of Object.values(proManifestJson.sprites)) {
+    for (const s of Object.values(defaultProAssetManifest.sprites)) {
       expectedFiles.add(s.image);
       expectedFiles.add(s.atlasJson);
     }
-    for (const p of Object.values(proManifestJson.portraits)) {
+    for (const p of Object.values(defaultProAssetManifest.portraits)) {
       expectedFiles.add(p.image);
     }
-    for (const c of Object.values(proManifestJson.cutins)) {
+    for (const c of Object.values(defaultProAssetManifest.cutins)) {
       expectedFiles.add(c.image);
     }
-    for (const m of Object.values(proManifestJson.maps)) {
+    for (const m of Object.values(defaultProAssetManifest.maps)) {
       expectedFiles.add(m.tmj);
       for (const t of m.tilesets) expectedFiles.add(t);
     }
-    for (const bg of Object.values(proManifestJson.backgrounds)) {
+    for (const bg of Object.values(defaultProAssetManifest.backgrounds)) {
       for (const layer of bg.layers) expectedFiles.add(layer);
     }
-    for (const v of Object.values(proManifestJson.vfx)) {
+    for (const v of Object.values(defaultProAssetManifest.vfx)) {
       expectedFiles.add(v.image);
     }
 
@@ -414,7 +426,7 @@ describe('Step 3 Vertical Slice: Pro Assets, 5x Round-Trip Leak Audit, Shockwave
     host.dispose();
   });
 
-  it('manages VisualPolishDrawer F9 time-of-day, shader A/B toggles, quality sync, and interval cleanup on dispose()', () => {
+  it('manages VisualPolishDrawer F9 time-of-day, shader A/B toggles, quality sync, and interval cleanup on dispose()', async () => {
     const prevDoc = (globalThis as { document?: unknown }).document;
     const prevWin = (globalThis as { window?: unknown }).window;
 
@@ -470,6 +482,13 @@ describe('Step 3 Vertical Slice: Pro Assets, 5x Round-Trip Leak Audit, Shockwave
     qualitySel.value = 'MEDIUM';
     qualitySel.dispatch('change');
     expect(host.getPolishConfig().quality).toBe('MEDIUM');
+
+    const pruneBtn = aside.querySelector('#vp-btn-prune-bundles')!;
+    expect(pruneBtn).toBeDefined();
+    pruneBtn.dispatch('click');
+    await Promise.resolve();
+    const vramSummary = aside.querySelector('#vp-vram-summary')!;
+    expect(vramSummary._innerHtml).toContain('128 MB');
 
     drawer.dispose();
     expect(drawer.isOpen()).toBe(false);

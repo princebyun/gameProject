@@ -63,16 +63,26 @@ export class AtmosphereColorGradingEffect {
     });
   }
 
-  public sync(polish: VisualPolishConfig): void {
+  public sync(
+    polish: VisualPolishConfig,
+    tintOverrideRgb?: [number, number, number]
+  ): void {
     this.filter.enabled = polish.colorGrading;
     if (!polish.colorGrading) return;
 
     const p = TIME_OF_DAY_PROFILES[polish.timeOfDay];
     const tint = this.uniforms.uniforms.uTint;
-    tint[0] = p.gradeTintRgb[0];
-    tint[1] = p.gradeTintRgb[1];
-    tint[2] = p.gradeTintRgb[2];
-    this.uniforms.uniforms.uTintMix = p.gradeTintMix;
+    if (tintOverrideRgb) {
+      tint[0] = p.gradeTintRgb[0] * 0.5 + tintOverrideRgb[0] * 0.5;
+      tint[1] = p.gradeTintRgb[1] * 0.5 + tintOverrideRgb[1] * 0.5;
+      tint[2] = p.gradeTintRgb[2] * 0.5 + tintOverrideRgb[2] * 0.5;
+      this.uniforms.uniforms.uTintMix = Math.max(p.gradeTintMix, 0.18);
+    } else {
+      tint[0] = p.gradeTintRgb[0];
+      tint[1] = p.gradeTintRgb[1];
+      tint[2] = p.gradeTintRgb[2];
+      this.uniforms.uniforms.uTintMix = p.gradeTintMix;
+    }
     this.uniforms.uniforms.uContrast = p.gradeContrast;
     this.uniforms.uniforms.uSaturation = p.gradeSaturation;
     this.uniforms.uniforms.uVignetteStrength =

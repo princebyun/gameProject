@@ -26,7 +26,13 @@ import {
 import { GodRaysAndParticlesLayer } from '../shaders/GodRaysAndParticlesLayer';
 import { SelectiveBloomEffect } from '../shaders/SelectiveBloomFilter';
 import { ShockwaveDistortionEffect } from '../shaders/ShockwaveDistortionFilter';
+import {
+  WaterReflectionPipeline,
+  type ReflectedWorldEntry
+} from '../shaders/WaterReflectionPipeline';
+import { BattleBanterOverlay } from './BattleBanterOverlay';
 import { PixiBattleEffectsHelper } from './PixiBattleEffectsHelper';
+import { PixiParryAndGimmickFeedback } from './PixiParryAndGimmickFeedback';
 
 interface BattleFighterVisual {
   root: Container;
@@ -56,12 +62,17 @@ export class PixiBattleVerticalSliceScene implements Disposable {
   private readonly godRays: GodRaysAndParticlesLayer;
   private readonly shockwave: ShockwaveDistortionEffect;
   private readonly fxHelper: PixiBattleEffectsHelper;
+  private readonly parryFeedback: PixiParryAndGimmickFeedback;
+  private readonly banterOverlay: BattleBanterOverlay;
+  private waterReflection: WaterReflectionPipeline | null = null;
 
   private readonly fighterVisuals = new Map<string, BattleFighterVisual>();
   private readonly scratchLights: DynamicPointLightInput[] = [];
+  private readonly scratchReflections: ReflectedWorldEntry[] = [];
   private readonly animController = new SpriteAnimationController();
   private readonly scratchPos = { x: 0, y: 0 };
 
+  private activeBattleBundleName = 'battle_east_blue_harbor';
   private backdropLoaded = false;
   private backdropLoading = false;
   private elapsedSec = 0;
@@ -85,19 +96,24 @@ export class PixiBattleVerticalSliceScene implements Disposable {
     this.godRays = new GodRaysAndParticlesLayer();
     this.shockwave = new ShockwaveDistortionEffect();
     this.fxHelper = new PixiBattleEffectsHelper(host);
+    this.parryFeedback = new PixiParryAndGimmickFeedback();
+    this.banterOverlay = new BattleBanterOverlay(host);
 
     this.emissiveLayer.filters = [this.bloom.filter];
     this.emissiveLayer.addChild(this.emissiveGfx);
+    this.emissiveLayer.addChild(this.fxHelper.worldAssistRoot);
 
     this.arenaWorldContainer.addChild(this.shadowLayer);
     this.arenaWorldContainer.addChild(this.floorHazardsGfx);
     this.arenaWorldContainer.addChild(this.ysortLayer);
     this.arenaWorldContainer.addChild(this.emissiveLayer);
+    this.arenaWorldContainer.addChild(this.parryFeedback.worldOverlayRoot);
 
     this.root.addChild(this.backdropContainer);
     this.root.addChild(this.arenaWorldContainer);
     this.root.addChild(this.lighting.displaySprite);
     this.root.addChild(this.godRays.root);
+    this.root.addChild(this.banterOverlay.root);
     this.root.addChild(this.fxHelper.cutinOverlay);
 
     this.root.filters = [this.shockwave.filter, this.colorGrading.filter];
@@ -107,12 +123,33 @@ export class PixiBattleVerticalSliceScene implements Disposable {
     return this.visualHitstopFrames > 0;
   }
 
-  public async preload(): Promise<void> {
-    if (this.backdropLoaded || this.backdropLoading || this.disposed) return;
-    this.backdropLoading = true;
-    await this.host.loader.preloadVerticalSliceCore();
+  public get effectsHelper(): PixiBattleEffectsHelper {
+    return this.fxHelper;
+  }
 
-    const bgEntry = this.host.loader.manifest.backgrounds['east_blue_harbor'];
+  public get banter(): BattleBanterOverlay {
+    return this.banterOverlay;
+  }
+
+  public async preload(battleBundleName = 'battle_east_blue_harbor'): Promise<void> {
+    if (this.disposed) return;
+    if (this.backdropLoaded && this.activeBattleBundleName === battleBundleName) return;
+    if (this.backdropLoading && this.activeBattleBundleName === battleBundleName) return;
+
+    this.activeBattleBundleName = battleBundleName;
+    this.backdropLoaded = false;
+    this.backdropLoading = true;
+    for (const sp of this.backdropLayerSprites) {
+      sp.removeFromParent();
+      sp.destroy({ texture: false });
+    }
+    this.backdropLayerSprites.length = 0;
+
+    await this.host.bundleManager.loadSceneBundles([battleBundleName]);
+
+    const bgEntry =
+      this.host.loader.manifest.backgrounds[battleBundleName] ??
+      this.host.loader.manifest.backgrounds['east_blue_harbor'];
     if (bgEntry && !this.disposed) {
       const textures = await this.host.loader.loadBackgroundLayers(bgEntry);
       if (textures && !this.disposed) {
@@ -125,6 +162,7 @@ export class PixiBattleVerticalSliceScene implements Disposable {
         this.backdropLoaded = true;
       }
     }
+    this.backdropLoading = false;
   }
 
   private getOrCreateFighterVisual(
@@ -159,8 +197,12 @@ export class PixiBattleVerticalSliceScene implements Disposable {
     if (atlas) {
       const firstTex = atlas.clipTextures.IDLE[0] ?? Texture.EMPTY;
       sprite = new Sprite(firstTex);
-      sprite.anchor.set(atlas.parsed.anchor.x, atlas.parsed.anchor.y);
-      const scale = targetHeightPx / Math.max(24, firstTex.height);
+      const firstFrame = atlas.parsed.clips.IDLE.frames[0];
+      sprite.anchor.set(
+        firstFrame?.anchorX ?? atlas.parsed.anchor.x,
+        firstFrame?.anchorY ?? atlas.parsed.anchor.y
+      );
+      const scale = targetHeightPx / Math.max(24, atlas.parsed.referenceIdleHeight || firstTex.height);
       sprite.scale.set(scale, scale);
       root.addChild(sprite);
     } else {
@@ -196,7 +238,7 @@ export class PixiBattleVerticalSliceScene implements Disposable {
     this.elapsedSec += Math.min(0.05, Math.max(0.001, dtSec));
 
     if (!this.backdropLoaded && !this.backdropLoading) {
-      void this.preload();
+      void this.preload(this.activeBattleBundleName);
     }
 
     const cam = computeArenaCameraOffset(world, alpha, settings, cameraTargetIndex, viewport);
@@ -218,7 +260,24 @@ export class PixiBattleVerticalSliceScene implements Disposable {
       );
     }
 
-    // 2. Arena transform (with optional 3-tick presentation parry hitstop freeze)
+    // 2. Parry / Just-Guard / Gimmick Read-Only Evaluation & Hitstop
+    const parryRes = this.parryFeedback.step(world, dtSec, polish);
+    for (const pt of parryRes.shockwavePoints) {
+      const sx = (pt.x + cam.x) / Math.max(1, viewport.viewWidth);
+      const sy = (pt.y + cam.y) / Math.max(1, viewport.viewHeight);
+      this.shockwave.trigger(sx, sy, 0.42);
+      if (settings.flashEffectEnabled && polish.flashEffectEnabled) {
+        this.bloomSpike = 0.78;
+      }
+    }
+    if (parryRes.parryHitstopFrames > 0) {
+      this.visualHitstopFrames = Math.max(this.visualHitstopFrames, parryRes.parryHitstopFrames);
+    }
+    if (parryRes.buggyBanterTriggerText) {
+      this.banterOverlay.showBanter('buggy', parryRes.buggyBanterTriggerText, 2.8);
+    }
+
+    // 2.5 Arena transform (with optional 3-tick presentation parry hitstop freeze)
     if (this.visualHitstopFrames > 0) {
       this.visualHitstopFrames -= 1;
     } else {
@@ -241,19 +300,21 @@ export class PixiBattleVerticalSliceScene implements Disposable {
 
     this.emissiveGfx.clear();
     this.scratchLights.length = 0;
+    this.scratchReflections.length = 0;
 
     for (const proj of world.projectiles) {
-      const col = proj.team === 'ALPHA' ? 0x38bdf8 : 0xf43f5e;
-      this.emissiveGfx.circle(proj.pos.x, proj.pos.y, Math.max(5, proj.radiusPx));
+      const isReflected = parryRes.reflectedProjectileIds.has(proj.id);
+      const col = isReflected ? 0xfacc15 : proj.team === 'ALPHA' ? 0x38bdf8 : 0xf43f5e;
+      this.emissiveGfx.circle(proj.pos.x, proj.pos.y, Math.max(5, proj.radiusPx + (isReflected ? 2 : 0)));
       this.emissiveGfx.fill({ color: col, alpha: 0.92 });
       this.emissiveGfx.circle(proj.pos.x, proj.pos.y, Math.max(3, proj.radiusPx * 0.5));
       this.emissiveGfx.fill({ color: 0xffffff, alpha: 0.95 });
       this.scratchLights.push({
         x: proj.pos.x + cam.x,
         y: proj.pos.y + cam.y,
-        radiusPx: 68,
+        radiusPx: isReflected ? 92 : 68,
         colorInt: col,
-        intensity: 0.8,
+        intensity: isReflected ? 1.0 : 0.8,
         flickerSpeed: 6,
         flickerAmp: 0.1
       });
@@ -290,8 +351,8 @@ export class PixiBattleVerticalSliceScene implements Disposable {
       const pos = lerpVecInto(unit.prevPos, unit.pos, alpha, this.scratchPos);
       const proEntry = resolveProSpriteManifestEntry(unit.speciesId, unit.activeFormId);
       const atlas = proEntry ? this.host.loader.getLoadedSpriteAtlasSync(proEntry.key) : null;
-      const displayHeight =
-        (proEntry?.targetDisplayHeight ?? 96) * unit.entityScale * unit.visualScale * 0.82;
+      const scaleMult = proEntry?.ppuScale ? unit.visualScale : unit.entityScale * unit.visualScale;
+      const displayHeight = (proEntry?.targetDisplayHeight ?? 96) * scaleMult * 0.82;
       const vis = this.getOrCreateFighterVisual(
         unit,
         proEntry?.key ?? `${unit.speciesId}_base`,
@@ -311,7 +372,9 @@ export class PixiBattleVerticalSliceScene implements Disposable {
 
       const rx = Math.round(pos.x);
       const ry = Math.round(pos.y);
-      vis.root.position.set(rx, ry + Math.round(unit.radiusPx * 0.65));
+      const buggySplitOffsetY =
+        parryRes.buggySplitActive && unit.speciesId === 'buggy' && world.tick % 4 < 2 ? -6 : 0;
+      vis.root.position.set(rx, ry + Math.round(unit.radiusPx * 0.65) + buggySplitOffsetY);
       vis.root.zIndex = ry;
 
       vis.shadow.position.set(
@@ -327,18 +390,41 @@ export class PixiBattleVerticalSliceScene implements Disposable {
           ? anim.step.state
           : 'IDLE';
         const frames = atlas.clipTextures[st];
-        const tex = frames[anim.step.frameIndex % Math.max(1, frames.length)] ?? frames[0];
+        const parsedFrames = atlas.parsed.clips[st].frames;
+        const fIdx = anim.step.frameIndex % Math.max(1, frames.length);
+        const tex = frames[fIdx] ?? frames[0];
+        const frameMeta = parsedFrames[fIdx] ?? parsedFrames[0];
         if (tex) {
           vis.sprite.texture = tex;
-          const sc = displayHeight / Math.max(24, tex.height);
+          const sc = displayHeight / Math.max(24, atlas.parsed.referenceIdleHeight || tex.height);
           vis.sprite.scale.set(anim.visual.facingX < 0 ? -sc : sc, sc);
+          if (frameMeta) {
+            vis.sprite.anchor.set(frameMeta.anchorX, frameMeta.anchorY);
+          }
+          if (world.waterZones.length > 0) {
+            this.scratchReflections.push({
+              texture: tex,
+              worldX: rx,
+              worldY: ry + Math.round(unit.radiusPx * 0.65),
+              scaleX: anim.visual.facingX < 0 ? -sc : sc,
+              scaleY: sc,
+              tint: 0xbae6fd,
+              alpha: 0.72
+            });
+          }
         }
+        const isArmamentParry = parryRes.armamentTintUnitIds.has(unit.instanceId);
+        const isStaggered = parryRes.staggeredUnitIds.has(unit.instanceId);
         vis.sprite.tint =
           anim.step.hitFlashActive && settings.flashEffectEnabled
             ? 0xffffff
-            : anim.hasArmamentActive
-              ? 0xc4b5fd
-              : 0xffffff;
+            : isArmamentParry
+              ? 0x6366f1
+              : isStaggered
+                ? 0xfde68a
+                : anim.hasArmamentActive
+                  ? 0xc4b5fd
+                  : 0xffffff;
         vis.sprite.alpha = unit.iframeTimer > 0 && world.tick % 2 === 0 ? 0.55 : 1;
       }
 
@@ -380,6 +466,33 @@ export class PixiBattleVerticalSliceScene implements Disposable {
       this.bloomSpike = Math.max(0, this.bloomSpike - dtSec * 3.0);
     }
 
+    this.fxHelper.updateCutinOverlay(dtSec, viewport, polish, registry, cam);
+    for (const light of this.fxHelper.getCutinDynamicLights()) {
+      this.scratchLights.push(light);
+    }
+    this.banterOverlay.update(dtSec, viewport);
+
+    // 5.5 Lazy WaterReflectionPipeline pass when fighting on Arlong Park waterZones
+    if (world.waterZones.length > 0) {
+      if (!this.waterReflection) {
+        this.waterReflection = new WaterReflectionPipeline(this.host);
+        this.arenaWorldContainer.addChildAt(this.waterReflection.reflectionSprite, 1);
+      }
+      const primaryWater = world.waterZones[0];
+      this.waterReflection.renderPass(
+        viewport.viewWidth,
+        viewport.viewHeight,
+        Math.round(cam.x),
+        Math.round(cam.y),
+        this.elapsedSec,
+        primaryWater?.y ?? 260,
+        this.scratchReflections,
+        polish
+      );
+    } else if (this.waterReflection) {
+      this.waterReflection.reflectionSprite.visible = false;
+    }
+
     this.shockwave.step(dtSec, viewport.viewWidth, viewport.viewHeight, polish);
     this.lighting.renderPass(
       viewport.viewWidth,
@@ -394,10 +507,11 @@ export class PixiBattleVerticalSliceScene implements Disposable {
       viewport.viewHeight,
       0.16,
       1.15,
-      this.bloomSpike + (triggeredShockwaves > 0 ? 0.4 : 0)
+      this.bloomSpike +
+        this.fxHelper.getCutinBloomBoost() +
+        (triggeredShockwaves > 0 || parryRes.shockwavePoints.length > 0 ? 0.4 : 0)
     );
     this.godRays.update(dtSec, this.elapsedSec, viewport.viewWidth, viewport.viewHeight, polish);
-    this.fxHelper.updateCutinOverlay(dtSec, viewport, polish, registry);
     this.colorGrading.sync(polish);
 
     // unused biome check reference kept clean via resolveBiomeForArena
@@ -413,13 +527,18 @@ export class PixiBattleVerticalSliceScene implements Disposable {
     this.root.removeFromParent();
     this.lighting.displaySprite.removeFromParent();
     this.godRays.root.removeFromParent();
+    this.banterOverlay.root.removeFromParent();
     this.fxHelper.cutinOverlay.removeFromParent();
 
+    this.waterReflection?.dispose();
+    this.waterReflection = null;
     this.lighting.dispose();
     this.bloom.dispose();
     this.colorGrading.dispose();
     this.godRays.dispose();
     this.shockwave.dispose();
+    this.parryFeedback.dispose();
+    this.banterOverlay.dispose();
     this.fxHelper.dispose();
     this.animController.dispose();
 

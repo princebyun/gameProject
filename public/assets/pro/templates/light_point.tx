@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="point_light" type="point_light" width="0" height="0">
+   <properties>
+    <property name="color" type="color" value="#fffde047"/>
+    <property name="radius" type="float" value="64"/>
+    <property name="intensity" type="float" value="0.9"/>
+    <property name="flickerSpeed" type="float" value="2.8"/>
+    <property name="flickerAmp" type="float" value="0.08"/>
+    <property name="activeTimeMask" type="string" value="ALL"/>
+    <property name="bloomCore" type="bool" value="true"/>
+   </properties>
+   <point/>
+  </object>
+</template>

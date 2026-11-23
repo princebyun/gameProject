@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="story_marker" type="MAIN" width="0" height="0">
+   <properties>
+    <property name="markerId" type="string" value=""/>
+    <property name="markerKind" type="string" value="MAIN"/>
+    <property name="label" type="string" value=""/>
+    <property name="actionKind" type="string" value="STORY"/>
+    <property name="beaconColor" type="string" value="#facc15"/>
+   </properties>
+   <point/>
+  </object>
+</template>

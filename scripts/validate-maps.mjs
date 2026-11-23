@@ -335,8 +335,36 @@ function resolveLayerRoleSimple(layer) {
   return raw;
 }
 
-function validateTiledTmjMap(tmjPath, errors) {
+function getTmjPropValue(props, name) {
+  const target = name.toLowerCase();
+  const hit = (props ?? []).find((p) => p.name.toLowerCase() === target);
+  return hit ? hit.value : undefined;
+}
+
+function parseTsxSolidTilesXml(xmlText) {
+  const solidIds = new Set();
+  const waterIds = new Set();
+  const tileRx = /<tile\b[^>]*\bid\s*=\s*"(\d+)"[^>]*>([\s\S]*?)<\/tile>/gi;
+  let m;
+  while ((m = tileRx.exec(xmlText)) !== null) {
+    const id = Number(m[1]);
+    const body = m[2] ?? '';
+    const propRx = /<property\b([^>]*)\/?>/gi;
+    let pm;
+    while ((pm = propRx.exec(body)) !== null) {
+      const attrs = pm[1] ?? '';
+      const pname = attrs.match(/\bname\s*=\s*"([^"]*)"/i)?.[1]?.toLowerCase();
+      const pval = attrs.match(/\bvalue\s*=\s*"([^"]*)"/i)?.[1]?.toLowerCase();
+      if (pname === 'solid' && pval === 'true') solidIds.add(id);
+      if (pname === 'iswater' && pval === 'true') waterIds.add(id);
+    }
+  }
+  return { solidIds, waterIds };
+}
+
+function validateTiledTmjMap(tmjPath, islandJsonById, errors) {
   if (!fs.existsSync(tmjPath)) return null;
+  const tmjName = path.basename(tmjPath);
   const tmj = JSON.parse(fs.readFileSync(tmjPath, 'utf8'));
   const cols = tmj.width;
   const rows = tmj.height;
@@ -347,59 +375,133 @@ function validateTiledTmjMap(tmjPath, errors) {
   const worldTileW = tileW * pixelScale;
   const worldTileH = tileH * pixelScale;
 
+  const tmjDir = path.dirname(tmjPath);
+  const solidGids = new Set();
+  const waterGids = new Set();
+
   for (const ts of tmj.tilesets ?? []) {
-    if (!ts.image) {
-      errors.push(`[foosha_village.tmj] Tileset '${ts.name}' missing image path`);
+    if (typeof ts.image === 'string' && ts.image) {
+      errors.push(`[${tmjName}] Embedded tileset image forbidden in .tmj ('${ts.image}'); use external .tsx only`);
+    }
+    if (!ts.source) {
+      errors.push(`[${tmjName}] Tileset firstgid=${ts.firstgid} missing external .tsx source`);
       continue;
     }
-    const cleanRel = ts.image.replace(/^\.\//, '');
-    const absImg = path.join(ROOT, 'public', cleanRel);
-    if (!fs.existsSync(absImg)) {
-      errors.push(`[foosha_village.tmj] Missing tileset PNG on disk: public/${cleanRel}`);
+    const absTsx = path.resolve(tmjDir, ts.source);
+    if (!fs.existsSync(absTsx)) {
+      errors.push(`[${tmjName}] Missing external tileset source '${ts.source}': ${absTsx}`);
+      continue;
+    }
+    if (absTsx.toLowerCase().endsWith('.tsx')) {
+      const xml = fs.readFileSync(absTsx, 'utf8');
+      const m = xml.match(/<image\b[^>]*\bsource\s*=\s*"([^"]+)"/i);
+      if (!m) {
+        errors.push(`[${tmjName}] External .tsx '${ts.source}' missing <image source="...">`);
+      } else {
+        const absTsxImg = path.resolve(path.dirname(absTsx), m[1]);
+        if (!fs.existsSync(absTsxImg)) {
+          errors.push(`[${tmjName}] Missing .tsx tileset image on disk: ${absTsxImg}`);
+        }
+      }
+      const parsedMeta = parseTsxSolidTilesXml(xml);
+      for (const id of parsedMeta.solidIds) solidGids.add(ts.firstgid + id);
+      for (const id of parsedMeta.waterIds) waterGids.add(ts.firstgid + id);
     }
   }
 
   const layersByRole = new Map();
-  for (const l of tmj.layers ?? []) {
-    layersByRole.set(resolveLayerRoleSimple(l), l);
-  }
+  const collectLayers = (layers) => {
+    for (const l of layers ?? []) {
+      if (l.type === 'group' && Array.isArray(l.layers)) {
+        collectLayers(l.layers);
+        continue;
+      }
+      layersByRole.set(resolveLayerRoleSimple(l), l);
+      if (l.type === 'objectgroup' && Array.isArray(l.objects)) {
+        for (const obj of l.objects) {
+          if (typeof obj.template === 'string' && obj.template) {
+            const absTpl = path.resolve(tmjDir, obj.template);
+            if (!fs.existsSync(absTpl)) {
+              errors.push(`[${tmjName}] Missing .tx template '${obj.template}' on object '${obj.name || obj.id}'`);
+            }
+          }
+        }
+      }
+    }
+  };
+  collectLayers(tmj.layers);
+
   for (const req of ['water', 'ground', 'walls_props', 'overhead', 'collision', 'lights', 'spawns', 'markers', 'npcs', 'chests', 'zones']) {
     if (!layersByRole.has(req)) {
-      errors.push(`[foosha_village.tmj] Missing required layerRole '${req}'`);
+      errors.push(`[${tmjName}] Missing required layerRole '${req}'`);
     }
   }
 
-  const colObjects = (layersByRole.get('collision')?.objects ?? []).map((o) => ({
-    x: o.x * pixelScale,
-    y: o.y * pixelScale,
-    width: (o.width ?? 0) * pixelScale,
-    height: (o.height ?? 0) * pixelScale
-  }));
+  const staticColObjects = [];
+  const barrierColObjects = [];
+  for (const o of layersByRole.get('collision')?.objects ?? []) {
+    const rect = {
+      x: o.x * pixelScale,
+      y: o.y * pixelScale,
+      width: (o.width ?? 0) * pixelScale,
+      height: (o.height ?? 0) * pixelScale
+    };
+    const isBarrier =
+      Boolean(getTmjPropValue(o.properties, 'isLaserBarrier')) &&
+      getTmjPropValue(o.properties, 'activeByDefault') !== false;
+    if (isBarrier) {
+      barrierColObjects.push(rect);
+    } else {
+      staticColObjects.push(rect);
+    }
+  }
 
-  const isBlocked = (tx, ty) => {
+  const waterData = layersByRole.get('water')?.data ?? [];
+  const groundData = layersByRole.get('ground')?.data ?? [];
+  const wallsData = layersByRole.get('walls_props')?.data ?? [];
+  const GID_MASK = 0x1fffffff;
+
+  const isBlockedPass = (tx, ty, includeBarriers) => {
     if (tx < 0 || tx >= cols || ty < 0 || ty >= rows) return true;
     const wx = tx * worldTileW + worldTileW * 0.5;
     const wy = ty * worldTileH + worldTileH * 0.5;
-    for (const r of colObjects) {
+    for (const r of staticColObjects) {
       if (pointInRect(wx, wy, r)) return true;
+    }
+    if (includeBarriers) {
+      for (const r of barrierColObjects) {
+        if (pointInRect(wx, wy, r)) return true;
+      }
+    }
+    const idx = ty * cols + tx;
+    const wallGid = (wallsData[idx] ?? 0) & GID_MASK;
+    if (wallGid > 0 && solidGids.has(wallGid)) return true;
+    const waterGid = (waterData[idx] ?? 0) & GID_MASK;
+    const groundGid = (groundData[idx] ?? 0) & GID_MASK;
+    if (groundGid === 0 && waterGid > 0 && (solidGids.has(waterGid) || waterGids.has(waterGid))) {
+      // Deep solid water (waterGid with solid) without bridge/dock floor blocks movement
+      if (solidGids.has(waterGid)) return true;
     }
     return false;
   };
 
-  const spawnObj = (layersByRole.get('spawns')?.objects ?? [])[0];
+  const spawnObj =
+    (layersByRole.get('spawns')?.objects ?? []).find((o) => o.name === 'player_spawn') ??
+    (layersByRole.get('spawns')?.objects ?? [])[0];
   if (!spawnObj) {
-    errors.push(`[foosha_village.tmj] Missing player_spawn in spawns objectgroup`);
+    errors.push(`[${tmjName}] Missing player_spawn in spawns objectgroup`);
     return null;
   }
 
   const spTx = Math.floor((spawnObj.x * pixelScale) / worldTileW);
   const spTy = Math.floor((spawnObj.y * pixelScale) / worldTileH);
-  if (isBlocked(spTx, spTy)) {
-    errors.push(`[foosha_village.tmj] player_spawn (${spTx},${spTy}) lies inside collision box`);
+  if (isBlockedPass(spTx, spTy, true)) {
+    errors.push(`[${tmjName}] player_spawn (${spTx},${spTy}) lies inside collision box`);
   }
 
-  const visited = runBfs(cols, rows, spTx, spTy, isBlocked);
-  const canReachAdj = (tx, ty) => {
+  const visitPass1 = runBfs(cols, rows, spTx, spTy, (tx, ty) => isBlockedPass(tx, ty, true));
+  const visitPass2 = runBfs(cols, rows, spTx, spTy, (tx, ty) => isBlockedPass(tx, ty, false));
+  const canReachAdj = (visited, tx, ty) => {
     for (const [dx, dy] of [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]]) {
       const nx = tx + dx;
       const ny = ty + dy;
@@ -410,18 +512,52 @@ function validateTiledTmjMap(tmjPath, errors) {
     return false;
   };
 
+  for (const obj of layersByRole.get('spawns')?.objects ?? []) {
+    if (obj.name === 'dock_departure' || (obj.type ?? '').toUpperCase() === 'PORT_EXIT') {
+      const tx = Math.floor((obj.x * pixelScale) / worldTileW);
+      const ty = Math.floor((obj.y * pixelScale) / worldTileH);
+      if (!canReachAdj(visitPass1, tx, ty)) {
+        errors.push(`[${tmjName}] dock_departure (${tx},${ty}) unreachable by BFS!`);
+      }
+    }
+  }
+
   for (const groupName of ['markers', 'chests', 'npcs']) {
     const objs = layersByRole.get(groupName)?.objects ?? [];
     for (const obj of objs) {
       const tx = Math.floor((obj.x * pixelScale) / worldTileW);
       const ty = Math.floor((obj.y * pixelScale) / worldTileH);
-      if (!canReachAdj(tx, ty)) {
-        errors.push(`[foosha_village.tmj] ${groupName} '${obj.name || obj.id}' (${tx},${ty}) unreachable by BFS!`);
+      const isSwitch = (obj.type ?? '').toUpperCase() === 'PUZZLE_SWITCH';
+      const reachGrid = isSwitch ? visitPass1 : visitPass2;
+      if (!canReachAdj(reachGrid, tx, ty)) {
+        errors.push(`[${tmjName}] ${groupName} '${obj.name || obj.id}' (${tx},${ty}) unreachable by BFS!`);
+      }
+    }
+  }
+
+  // Parity check against canonical island JSON chests (LegalityValidator safety)
+  const islandIdProp = getTmjPropValue(tmj.properties, 'islandId');
+  const canonicalIsland = typeof islandIdProp === 'string' ? islandJsonById.get(islandIdProp) : null;
+  if (canonicalIsland) {
+    const jsonChests = canonicalIsland.chests ?? [];
+    const tmjChests = layersByRole.get('chests')?.objects ?? [];
+    if (tmjChests.length !== jsonChests.length) {
+      errors.push(`[${tmjName}] Chest count mismatch vs ${islandIdProp}.json: tmj=${tmjChests.length}, json=${jsonChests.length}`);
+    } else {
+      const byId = new Map(jsonChests.map((c) => [c.chestId, c]));
+      for (const ch of tmjChests) {
+        const cid = String(getTmjPropValue(ch.properties, 'chestId') ?? ch.name ?? '');
+        const match = byId.get(cid);
+        if (!match) {
+          errors.push(`[${tmjName}] Unknown chestId '${cid}' not found in ${islandIdProp}.json`);
+        }
       }
     }
   }
 
   return {
+    tmjName,
+    islandId: typeof islandIdProp === 'string' ? islandIdProp : tmjName,
     cols,
     rows,
     lights: (layersByRole.get('lights')?.objects ?? []).length,
@@ -441,16 +577,23 @@ function main() {
   const errors = [];
   const globalChestIds = new Set();
   const summaries = [];
+  const islandJsonById = new Map();
 
   for (const file of files) {
     const island = JSON.parse(fs.readFileSync(path.join(ISLANDS_DIR, file), 'utf8'));
+    islandJsonById.set(island.islandId, island);
     summaries.push(validateMap(island, tilesetsConfig, globalChestIds, requireAll7Layer, errors));
   }
 
-  const tmjSummary = validateTiledTmjMap(
-    path.join(ROOT, 'public', 'assets', 'pro', 'maps', 'foosha_village.tmj'),
-    errors
-  );
+  const proMapsDir = path.join(ROOT, 'public', 'assets', 'pro', 'maps');
+  const tmjFiles = fs.existsSync(proMapsDir)
+    ? fs.readdirSync(proMapsDir).filter((f) => f.toLowerCase().endsWith('.tmj')).sort()
+    : [];
+  const tmjSummaries = [];
+  for (const tmjFile of tmjFiles) {
+    const res = validateTiledTmjMap(path.join(proMapsDir, tmjFile), islandJsonById, errors);
+    if (res) tmjSummaries.push(res);
+  }
 
   if (errors.length > 0) {
     console.error(`\n❌ Map Integrity & BFS Validation FAILED (${errors.length} error(s)):\n`);
@@ -470,10 +613,11 @@ function main() {
     `   • Islands verified: ${summaries.length} (7-Layer: ${layeredCount}/${summaries.length}) | Unique chests: ${globalChestIds.size} | Zones: ${totalZones} | NPCs: ${totalNpcs}`
   );
   console.log(`   • Core Hubs: ${hubSummaries}`);
-  if (tmjSummary) {
-    console.log(
-      `   • Pro Tiled (.tmj): foosha_village.tmj (${tmjSummary.cols}x${tmjSummary.rows}, lights=${tmjSummary.lights}, chests=${tmjSummary.chests}, npcs=${tmjSummary.npcs}) BFS 100% PASSED`
-    );
+  if (tmjSummaries.length > 0) {
+    const tmjLine = tmjSummaries
+      .map((t) => `${t.tmjName}(${t.cols}x${t.rows}, L=${t.lights}, C=${t.chests}, N=${t.npcs})`)
+      .join(' | ');
+    console.log(`   • Pro Tiled (.tmj x${tmjSummaries.length}): ${tmjLine} — 100% external .tsx & BFS PASSED`);
   }
 }
 

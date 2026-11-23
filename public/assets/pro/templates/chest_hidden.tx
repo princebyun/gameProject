@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="hidden_chest" type="chest" width="0" height="0">
+   <properties>
+    <property name="chestId" type="string" value=""/>
+    <property name="rarity" type="string" value="wooden"/>
+    <property name="berries" type="int" value="1000"/>
+    <property name="trainingPoints" type="int" value="10"/>
+    <property name="hiddenHint" type="string" value=""/>
+   </properties>
+   <point/>
+  </object>
+</template>

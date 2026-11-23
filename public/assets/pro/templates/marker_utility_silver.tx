@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="utility_marker" type="ACTIVITY" width="0" height="0">
+   <properties>
+    <property name="markerId" type="string" value=""/>
+    <property name="markerKind" type="string" value="ACTIVITY"/>
+    <property name="label" type="string" value=""/>
+    <property name="actionKind" type="string" value="CAMP_TRAINING"/>
+    <property name="beaconColor" type="string" value="#cbd5e1"/>
+   </properties>
+   <point/>
+  </object>
+</template>

@@ -106,6 +106,15 @@ export class VisualPolishDrawer implements Disposable {
       <div id="vp-telemetry" style="background:#090d16;border:1px solid #1e293b;border-radius:4px;padding:6px;font-family:monospace;font-size:10px;line-height:1.45;color:#bae6fd;">
         Backend: 대기 중
       </div>
+      <div id="vp-asset-vram-box" style="background:#090d16;border:1px solid #1e293b;border-radius:4px;padding:6px;display:flex;flex-direction:column;gap:5px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <strong style="color:#4ade80;font-size:10px;">📦 [에셋 &amp; VRAM]</strong>
+          <button id="vp-btn-prune-bundles" type="button" style="padding:2px 6px;font-size:10px;background:#1e293b;border:1px solid #38bdf8;color:#bae6fd;border-radius:4px;cursor:pointer;">미사용 번들 정리</button>
+        </div>
+        <div id="vp-vram-summary" style="font-family:monospace;font-size:10px;color:#e2e8f0;">VRAM: 0.00 / 128 MB</div>
+        <div id="vp-bundle-tags" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
+        <div id="vp-manifest-progress" style="font-family:monospace;font-size:10px;color:#cbd5e1;"></div>
+      </div>
     `;
 
     rootEl.appendChild(this.el);
@@ -163,6 +172,16 @@ export class VisualPolishDrawer implements Disposable {
         this.host.updatePolishConfig({ quality: val });
         this.syncFromHost();
         this.callbacks.onConfigChanged?.(this.host.getPolishConfig());
+      },
+      { signal }
+    );
+
+    this.el.querySelector('#vp-btn-prune-bundles')?.addEventListener(
+      'click',
+      () => {
+        void this.host.bundleManager.pruneUnusedBundles().then(() => {
+          this.refreshTelemetry();
+        });
       },
       { signal }
     );
@@ -230,14 +249,62 @@ export class VisualPolishDrawer implements Disposable {
 
   public refreshTelemetry(): void {
     const box = this.el.querySelector('#vp-telemetry');
-    if (!box) return;
-    const t = this.host.getTelemetry();
-    const glLabel = t.isWebGL2 ? 'WebGL2' : t.backend === 'PIXI_WEBGL2' ? 'WebGL' : 'Canvas2D';
-    box.innerHTML = [
-      `Backend: <b>${glLabel}</b> (${t.activeSceneTag})`,
-      `FPS: <b>${t.fps}</b> (${t.frameMs.toFixed(1)} ms/frame) @ ${t.viewWidth}×${t.viewHeight}`,
-      `Draw Calls~: <b>${t.drawCallsEstimate}</b> | Textures: <b>${t.textureCount}</b> | RTs: <b>${t.renderTextureCount}</b>`
-    ].join('<br/>');
+    if (box) {
+      const t = this.host.getTelemetry();
+      const glLabel = t.isWebGL2 ? 'WebGL2' : t.backend === 'PIXI_WEBGL2' ? 'WebGL' : 'Canvas2D';
+      box.innerHTML = [
+        `Backend: <b>${glLabel}</b> (${t.activeSceneTag})`,
+        `FPS: <b>${t.fps}</b> (${t.frameMs.toFixed(1)} ms/frame) @ ${t.viewWidth}×${t.viewHeight}`,
+        `Draw Calls~: <b>${t.drawCallsEstimate}</b> | Textures: <b>${t.textureCount}</b> | RTs: <b>${t.renderTextureCount}</b>`
+      ].join('<br/>');
+    }
+
+    const vram = this.host.bundleManager.getVramTelemetry();
+    const sumEl = this.el.querySelector('#vp-vram-summary');
+    if (sumEl) {
+      const budgetTag = vram.overBudget
+        ? ' <span style="color:#f87171;font-weight:bold;">[예산 초과!]</span>'
+        : '';
+      sumEl.innerHTML = `VRAM~: <b>${vram.estimatedVramMb.toFixed(2)} / ${vram.budgetMb} MB</b> | URLs: <b>${vram.totalLoadedUrls}</b> | Ep: <b>${vram.transitionEpoch}</b>${budgetTag}`;
+    }
+
+    const tagsEl = this.el.querySelector('#vp-bundle-tags');
+    if (tagsEl) {
+      tagsEl.innerHTML =
+        vram.activeBundles.length > 0
+          ? vram.activeBundles
+              .map((b) => {
+                const bg =
+                  b.tier === 'CORE'
+                    ? '#166534'
+                    : b.tier === 'SEA'
+                      ? '#075985'
+                      : b.tier === 'ISLAND'
+                        ? '#854d0e'
+                        : '#7f1d1d';
+                return `<span style="padding:1px 5px;border-radius:4px;font-size:9px;background:${bg};color:#f8fafc;border:1px solid rgba(255,255,255,0.2);">${b.bundle} (${b.estimatedVramMb.toFixed(2)}MB)</span>`;
+              })
+              .join('')
+          : '<span style="font-size:9px;color:#64748b;">활성 번들 없음 (지연 대기)</span>';
+    }
+
+    const progEl = this.el.querySelector('#vp-manifest-progress');
+    if (progEl) {
+      const mp = vram.manifestProgress;
+      const tot = Math.max(1, mp.total);
+      const vPct = ((mp.verified / tot) * 100).toFixed(1);
+      const iPct = ((mp.imported / tot) * 100).toFixed(1);
+      progEl.innerHTML = `
+        <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
+          <span>pro_manifest (${mp.readyPercent}%)</span>
+          <span>V:${mp.verified} I:${mp.imported} P:${mp.placeholder}</span>
+        </div>
+        <div style="display:flex;width:100%;height:5px;background:#1e293b;border-radius:3px;overflow:hidden;">
+          <div style="width:${vPct}%;background:#22c55e;"></div>
+          <div style="width:${iPct}%;background:#38bdf8;"></div>
+        </div>
+      `;
+    }
   }
 
   public dispose(): void {

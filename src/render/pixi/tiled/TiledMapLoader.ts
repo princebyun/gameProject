@@ -3,10 +3,17 @@ import type { Disposable } from '../../../core/types/disposable';
 import type { ProAssetLoader } from '../ProAssetLoader';
 import {
   decodeTiledGid,
+  mergeTiledTemplateObject,
   parseTiledMapData,
+  parseTiledTsxXml,
+  parseTiledTxTemplateXml,
+  type NormalizedTiledTileset,
   type ParsedTiledAnimation,
   type ParsedTiledMapData,
-  type ParsedTiledTileLayer
+  type ParsedTiledTileLayer,
+  type TiledLayerJson,
+  type TiledMapJson,
+  type TiledObjectJson
 } from './tiledSchema';
 
 export const TILED_CHUNK_SIZE = 16;
@@ -151,12 +158,14 @@ export class TiledMapRuntime implements Disposable {
   public readonly wallsContainer = new Container();
   public readonly ysortContainer = new Container();
   public readonly overheadContainer = new Container();
+  public readonly emissiveTileContainer = new Container();
 
   private readonly chunks: TileChunkBucket[] = [];
   private readonly animatedInstances: AnimatedTileInstance[] = [];
   private readonly overheadClusters: OverheadCluster[] = [];
   private readonly gidTextures: Map<number, Texture>;
   private visibleChunkCount = 0;
+  private emissiveSpriteCount = 0;
   private disposed = false;
 
   constructor(
@@ -170,13 +179,14 @@ export class TiledMapRuntime implements Disposable {
     this.ysortContainer.label = 'tiled_ysort_layer';
     this.ysortContainer.sortableChildren = true;
     this.overheadContainer.label = 'tiled_overhead_layer';
+    this.emissiveTileContainer.label = 'tiled_emissive_tiles';
 
     this.gidTextures = buildTilesetGidMap(parsed, tilesetTextures, loader);
 
-    this.buildStaticLayers(parsed.waterLayers, this.waterContainer);
-    this.buildStaticLayers(parsed.groundLayers, this.groundContainer);
-    this.buildStaticLayers(parsed.groundDetailLayers, this.groundContainer);
-    this.buildStaticLayers(parsed.wallsPropsLayers, this.wallsContainer);
+    this.buildStaticLayers(parsed.waterLayers, this.waterContainer, false);
+    this.buildStaticLayers(parsed.groundLayers, this.groundContainer, true);
+    this.buildStaticLayers(parsed.groundDetailLayers, this.groundContainer, true);
+    this.buildStaticLayers(parsed.wallsPropsLayers, this.wallsContainer, true);
     this.buildOverheadLayers(parsed.overheadLayers, this.overheadContainer);
   }
 
@@ -192,9 +202,53 @@ export class TiledMapRuntime implements Disposable {
     return this.animatedInstances.length;
   }
 
+  public get emissiveTileSpriteCount(): number {
+    return this.emissiveSpriteCount;
+  }
+
+  private maybeAttachEmissiveTile(
+    gid: number,
+    tex: Texture,
+    cx: number,
+    cy: number,
+    pixelScale: number,
+    flipH: boolean,
+    flipV: boolean,
+    flipD: boolean,
+    opacity: number,
+    anim: ParsedTiledAnimation | undefined,
+    emissiveBucket: Container
+  ): boolean {
+    const meta = this.parsed.tileMetadataByGid.get(gid);
+    if (!meta?.emissive) return false;
+    const emSp = createChunkSprite(
+      tex,
+      cx,
+      cy,
+      pixelScale,
+      flipH,
+      flipV,
+      flipD,
+      opacity * 0.72
+    );
+    emSp.blendMode = 'add';
+    emissiveBucket.addChild(emSp);
+    this.emissiveSpriteCount += 1;
+    if (anim) {
+      this.animatedInstances.push({
+        sprite: emSp,
+        anim,
+        elapsedMs: 0,
+        frameIndex: 0
+      });
+    }
+    return true;
+  }
+
   private buildStaticLayers(
     layers: readonly ParsedTiledTileLayer[],
-    parent: Container
+    parent: Container,
+    emitEmissive: boolean
   ): void {
     const { cols, rows, scaledTileWidth: tw, scaledTileHeight: th, pixelScale } =
       this.parsed;
@@ -211,7 +265,10 @@ export class TiledMapRuntime implements Disposable {
 
           const chunkContainer = new Container();
           chunkContainer.label = `${layer.name}_c${cx}_${cy}`;
+          const emissiveBucket = new Container();
+          emissiveBucket.label = `${layer.name}_em_c${cx}_${cy}`;
           let hasSprites = false;
+          let hasEmissive = false;
 
           for (let r = startR; r < endR; r++) {
             for (let c = startC; c < endC; c++) {
@@ -222,10 +279,12 @@ export class TiledMapRuntime implements Disposable {
               const tex = this.gidTextures.get(decoded.gid);
               if (!tex) continue;
 
+              const worldX = (c + 0.5) * tw;
+              const worldY = (r + 0.5) * th;
               const sp = createChunkSprite(
                 tex,
-                (c + 0.5) * tw,
-                (r + 0.5) * th,
+                worldX,
+                worldY,
                 pixelScale,
                 decoded.flipH,
                 decoded.flipV,
@@ -244,23 +303,54 @@ export class TiledMapRuntime implements Disposable {
                   frameIndex: 0
                 });
               }
+
+              if (
+                emitEmissive &&
+                this.maybeAttachEmissiveTile(
+                  decoded.gid,
+                  tex,
+                  worldX,
+                  worldY,
+                  pixelScale,
+                  decoded.flipH,
+                  decoded.flipV,
+                  decoded.flipD,
+                  layer.opacity,
+                  anim,
+                  emissiveBucket
+                )
+              ) {
+                hasEmissive = true;
+              }
             }
           }
 
+          const bounds: ChunkWorldBounds = {
+            minX: startC * tw,
+            minY: startR * th,
+            maxX: endC * tw,
+            maxY: endR * th
+          };
           if (hasSprites) {
             parent.addChild(chunkContainer);
             this.chunks.push({
-              bounds: {
-                minX: startC * tw,
-                minY: startR * th,
-                maxX: endC * tw,
-                maxY: endR * th
-              },
+              bounds,
               container: chunkContainer,
               hasSprites: true
             });
           } else {
             chunkContainer.destroy({ children: true, texture: false });
+          }
+
+          if (hasEmissive) {
+            this.emissiveTileContainer.addChild(emissiveBucket);
+            this.chunks.push({
+              bounds,
+              container: emissiveBucket,
+              hasSprites: true
+            });
+          } else {
+            emissiveBucket.destroy({ children: true, texture: false });
           }
         }
       }
@@ -427,6 +517,29 @@ export class TiledMapRuntime implements Disposable {
     this.wallsContainer.destroy({ children: true, texture: false });
     this.ysortContainer.destroy({ children: true, texture: false });
     this.overheadContainer.destroy({ children: true, texture: false });
+    this.emissiveTileContainer.destroy({ children: true, texture: false });
+  }
+}
+
+function resolveRelativeMapAsset(mapRelPath: string, sourceRel: string): string {
+  const parts = mapRelPath.replace(/\\/g, '/').split('/');
+  parts.pop();
+  for (const seg of sourceRel.replace(/\\/g, '/').split('/')) {
+    if (seg === '..') parts.pop();
+    else if (seg && seg !== '.') parts.push(seg);
+  }
+  return parts.join('/');
+}
+
+async function fetchTextBestEffort(relPath: string): Promise<string | null> {
+  if (typeof fetch === 'undefined' || typeof window === 'undefined') return null;
+  const url = relPath.startsWith('./') || relPath.startsWith('/') ? relPath : `./${relPath}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    return await res.text();
+  } catch {
+    return null;
   }
 }
 
@@ -435,16 +548,107 @@ export class TiledMapLoader {
     tmjRelPath: string,
     tilesetPaths: readonly string[],
     loader: ProAssetLoader,
-    pixelScale = 2
+    pixelScale = 2,
+    textLoader: (relPath: string) => Promise<string | null> = fetchTextBestEffort
   ): Promise<TiledMapRuntime | null> {
-    const { tmj, tilesetTextures } = await loader.preloadMapAndTilesets({
+    const rawTmj = await loader.loadJson<TiledMapJson>(tmjRelPath);
+    if (!rawTmj) return null;
+
+    const textCache = new Map<string, Promise<string | null>>();
+    const loadTextCached = (rel: string): Promise<string | null> => {
+      const hit = textCache.get(rel);
+      if (hit) return hit;
+      const p = textLoader(rel);
+      textCache.set(rel, p);
+      return p;
+    };
+
+    const resolvedTilesetPaths = new Set<string>(tilesetPaths);
+    const updatedTs: NormalizedTiledTileset[] = [];
+    if (Array.isArray(rawTmj.tilesets)) {
+      for (const ts of rawTmj.tilesets) {
+        if (ts.source && ts.source.toLowerCase().endsWith('.tsx')) {
+          const tsxRel = resolveRelativeMapAsset(tmjRelPath, ts.source);
+          const xml = await loadTextCached(tsxRel);
+          const parsedTsx = xml ? parseTiledTsxXml(xml, ts.firstgid, tsxRel) : null;
+          if (parsedTsx) {
+            resolvedTilesetPaths.add(parsedTsx.image);
+            updatedTs.push(parsedTsx);
+            continue;
+          }
+        }
+        if (ts.image) {
+          resolvedTilesetPaths.add(ts.image);
+          updatedTs.push({
+            firstgid: ts.firstgid,
+            name: ts.name ?? `ts_${ts.firstgid}`,
+            ...(ts.source ? { source: ts.source } : {}),
+            tilewidth: ts.tilewidth ?? 16,
+            tileheight: ts.tileheight ?? 16,
+            tilecount: ts.tilecount ?? 1,
+            columns: ts.columns ?? 1,
+            ...(ts.spacing !== undefined ? { spacing: ts.spacing } : {}),
+            ...(ts.margin !== undefined ? { margin: ts.margin } : {}),
+            image: ts.image,
+            imagewidth: ts.imagewidth ?? 16,
+            imageheight: ts.imageheight ?? 16,
+            ...(ts.tiles ? { tiles: ts.tiles } : {})
+          });
+        }
+      }
+    }
+
+    const templateCache = new Map<string, TiledObjectJson | null>();
+    const resolveLayerTemplates = async (
+      layers: readonly TiledLayerJson[]
+    ): Promise<TiledLayerJson[]> => {
+      const out: TiledLayerJson[] = [];
+      for (const layer of layers) {
+        if (layer.type === 'group' && Array.isArray(layer.layers)) {
+          out.push({ ...layer, layers: await resolveLayerTemplates(layer.layers) });
+          continue;
+        }
+        if (layer.type === 'objectgroup' && Array.isArray(layer.objects)) {
+          const resolvedObjects: TiledObjectJson[] = [];
+          for (const obj of layer.objects) {
+            if (typeof obj.template === 'string' && obj.template.length > 0) {
+              const tplRel = resolveRelativeMapAsset(tmjRelPath, obj.template);
+              let parsedTpl = templateCache.get(tplRel);
+              if (parsedTpl === undefined) {
+                const xml = await loadTextCached(tplRel);
+                parsedTpl = xml ? parseTiledTxTemplateXml(xml) : null;
+                templateCache.set(tplRel, parsedTpl);
+              }
+              resolvedObjects.push(
+                parsedTpl ? mergeTiledTemplateObject(parsedTpl, obj) : obj
+              );
+            } else {
+              resolvedObjects.push(obj);
+            }
+          }
+          out.push({ ...layer, objects: resolvedObjects });
+          continue;
+        }
+        out.push(layer);
+      }
+      return out;
+    };
+
+    const clonedTmj: TiledMapJson = {
+      ...rawTmj,
+      tilesets: updatedTs.length > 0 ? updatedTs : rawTmj.tilesets,
+      layers: Array.isArray(rawTmj.layers)
+        ? await resolveLayerTemplates(rawTmj.layers)
+        : rawTmj.layers
+    };
+
+    const { tilesetTextures } = await loader.preloadMapAndTilesets({
       mapId: tmjRelPath,
       tmj: tmjRelPath,
       pixelScale,
-      tilesets: [...tilesetPaths]
+      tilesets: Array.from(resolvedTilesetPaths)
     });
-    if (!tmj) return null;
-    const parsed = parseTiledMapData(tmj, pixelScale);
+    const parsed = parseTiledMapData(clonedTmj, pixelScale);
     return new TiledMapRuntime(parsed, tilesetTextures, loader);
   }
 }

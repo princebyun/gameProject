@@ -114,7 +114,7 @@ export default defineConfig(() => {
               ],
               runtimeCaching: [
                 {
-                  urlPattern: /\/assets\/pro\/.*\.(png|json|tmj|tsj)$/i,
+                  urlPattern: /\/assets\/pro\/.*\.(webp|png|json|tmj|tsj|tsx)$/i,
                   handler: 'CacheFirst',
                   options: {
                     cacheName: 'opgv-pro-art-cache',

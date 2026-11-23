@@ -23,6 +23,11 @@ import { createPlatformBridge, type PlatformBridge } from '../platform/platformB
 import type { SaveStorageAdapter } from '../platform/storage/storageAdapter';
 import type { CanvasRenderer } from '../render/canvasRenderer';
 import { PixiStageHost } from '../render/pixi/PixiStageHost';
+import {
+  resolveBattleBundleName,
+  resolveIslandBundleName,
+  resolveSeaBundleName
+} from '../render/pixi/pixiBundleHelpers';
 import { createDialogueOverlayUiState, type DialogueOverlayUiState } from '../render/dialogueAndPosterRenderer';
 import { createInitialMissionTrackerState, type MissionTrackerState } from '../render/missionTrackerHud';
 import { SeaWakeParticlePool } from '../render/sea/seaWakeParticlePool';
@@ -216,7 +221,9 @@ export class SceneManager implements Disposable, SceneManagerHost {
     this.rafId = requestAnimationFrame((t) => this.loop(t));
 
     await this.pixiHost.init(domInit.canvasWrapper, this.renderer.getMetrics());
-    void this.pixiHost.loader.preloadVerticalSliceCore();
+    if (this.pixiHost.isWebGLActive) {
+      await this.pixiHost.bundleManager.loadCoreBundle(this.campaign.activePartyUnitIds);
+    }
     this.visualPolishDrawer?.refreshTelemetry();
     await this.assets.preloadCoreAssets(this.gameRegistry.units);
     await this.scanLatestSaveOnBoot();
@@ -298,8 +305,39 @@ export class SceneManager implements Disposable, SceneManagerHost {
     }
 
     this.syncSceneBgm();
+    this.syncSceneBundles();
     this.updateShowcaseToolbar();
     this.refreshSideDrawer();
+  }
+
+  public syncSceneBundles(): void {
+    if (!this.pixiHost.isWebGLActive) return;
+    let target: string[] = [];
+    if (this.activeScene === 'SEA_SAILING') {
+      target = [resolveSeaBundleName(this.campaign.currentZoneId)];
+    } else if (this.activeScene === 'ISLAND_EPISODE') {
+      const islandId =
+        this.islandRuntime?.islandId ??
+        this.campaign.activeIslandId ??
+        'foosha_shells';
+      target = [resolveIslandBundleName(islandId)];
+    } else if (
+      this.activeScene === 'STORY_BATTLE' ||
+      this.activeScene === 'SANDBOX' ||
+      this.activeScene === 'ONLINE_BATTLE'
+    ) {
+      target = [resolveBattleBundleName(this.activeBattleContext, this.battleWorld)];
+    }
+    void this.pixiHost.bundleManager.loadSceneBundles(target).then(() => {
+      this.visualPolishDrawer?.refreshTelemetry();
+    });
+  }
+
+  public syncActivePartyBundles(): void {
+    if (!this.pixiHost.isWebGLActive) return;
+    void this.pixiHost.bundleManager.syncActivePartyAssets(this.campaign.activePartyUnitIds).then(() => {
+      this.visualPolishDrawer?.refreshTelemetry();
+    });
   }
 
   public setBattleSpeedScale(scale: BattleSpeedScale): void {
@@ -363,7 +401,8 @@ export class SceneManager implements Disposable, SceneManagerHost {
       rpgRegistry: this.rpgRegistry,
       audio: this.audio,
       triggerAutoSave: (reason) => this.triggerAutoSave(reason),
-      refreshSideDrawer: () => this.refreshSideDrawer()
+      refreshSideDrawer: () => this.refreshSideDrawer(),
+      onPartyOrCrewChanged: () => this.syncActivePartyBundles()
     });
   }
 

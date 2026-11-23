@@ -15,70 +15,25 @@
       "name": "pixelScale",
       "type": "int",
       "value": 2
+    },
+    {
+      "name": "islandId",
+      "type": "string",
+      "value": "foosha_shells"
     }
   ],
   "tilesets": [
     {
-      "columns": 28,
       "firstgid": 1,
-      "image": "assets/pro/tilesets/ninja_adventure_village.png",
-      "imageheight": 640,
-      "imagewidth": 448,
-      "margin": 0,
-      "name": "ninja_adventure_village",
-      "spacing": 0,
-      "tilecount": 1120,
-      "tileheight": 16,
-      "tilewidth": 16
+      "source": "../tilesets/master_port_village.tsx"
     },
     {
-      "columns": 20,
       "firstgid": 1121,
-      "image": "assets/pro/tilesets/medieval_windmill_extras.png",
-      "imageheight": 192,
-      "imagewidth": 320,
-      "margin": 0,
-      "name": "medieval_windmill_extras",
-      "spacing": 0,
-      "tilecount": 240,
-      "tileheight": 16,
-      "tilewidth": 16
+      "source": "../tilesets/medieval_windmill_extras.tsx"
     },
     {
-      "columns": 4,
       "firstgid": 1361,
-      "image": "assets/pro/tilesets/ninja_animated_water.png",
-      "imageheight": 16,
-      "imagewidth": 64,
-      "margin": 0,
-      "name": "ninja_animated_water",
-      "spacing": 0,
-      "tilecount": 4,
-      "tileheight": 16,
-      "tilewidth": 16,
-      "tiles": [
-        {
-          "id": 0,
-          "animation": [
-            {
-              "tileid": 0,
-              "duration": 280
-            },
-            {
-              "tileid": 1,
-              "duration": 280
-            },
-            {
-              "tileid": 2,
-              "duration": 280
-            },
-            {
-              "tileid": 3,
-              "duration": 280
-            }
-          ]
-        }
-      ]
+      "source": "../tilesets/master_animated_water.tsx"
     }
   ],
   "layers": [
@@ -9248,6 +9203,7 @@
         {
           "id": 98,
           "name": "pier_lantern_west",
+          "template": "../templates/light_lantern.tx",
           "type": "point_light",
           "point": true,
           "x": 280,
@@ -9274,12 +9230,18 @@
               "name": "flickerSpeed",
               "type": "float",
               "value": 2.8
+            },
+            {
+              "name": "activeTimeMask",
+              "type": "string",
+              "value": "ALL"
             }
           ]
         },
         {
           "id": 99,
           "name": "pier_lantern_east",
+          "template": "../templates/light_lantern.tx",
           "type": "point_light",
           "point": true,
           "x": 344,
@@ -9306,12 +9268,18 @@
               "name": "flickerSpeed",
               "type": "float",
               "value": 3.1
+            },
+            {
+              "name": "activeTimeMask",
+              "type": "string",
+              "value": "ALL"
             }
           ]
         },
         {
           "id": 100,
           "name": "partys_bar_win_left",
+          "template": "../templates/light_lantern.tx",
           "type": "point_light",
           "point": true,
           "x": 520,
@@ -9338,12 +9306,18 @@
               "name": "flickerSpeed",
               "type": "float",
               "value": 3.8
+            },
+            {
+              "name": "activeTimeMask",
+              "type": "string",
+              "value": "ALL"
             }
           ]
         },
         {
           "id": 101,
           "name": "partys_bar_win_right",
+          "template": "../templates/light_lantern.tx",
           "type": "point_light",
           "point": true,
           "x": 568,
@@ -9370,12 +9344,18 @@
               "name": "flickerSpeed",
               "type": "float",
               "value": 4.1
+            },
+            {
+              "name": "activeTimeMask",
+              "type": "string",
+              "value": "ALL"
             }
           ]
         },
         {
           "id": 102,
           "name": "partys_bar_porch",
+          "template": "../templates/light_lantern.tx",
           "type": "point_light",
           "point": true,
           "x": 472,
@@ -9402,12 +9382,18 @@
               "name": "flickerSpeed",
               "type": "float",
               "value": 2.9
+            },
+            {
+              "name": "activeTimeMask",
+              "type": "string",
+              "value": "ALL"
             }
           ]
         },
         {
           "id": 103,
           "name": "plaza_well_lamp",
+          "template": "../templates/light_lantern.tx",
           "type": "point_light",
           "point": true,
           "x": 352,
@@ -9434,12 +9420,18 @@
               "name": "flickerSpeed",
               "type": "float",
               "value": 2.5
+            },
+            {
+              "name": "activeTimeMask",
+              "type": "string",
+              "value": "ALL"
             }
           ]
         },
         {
           "id": 104,
           "name": "windmill_torch",
+          "template": "../templates/light_lantern.tx",
           "type": "point_light",
           "point": true,
           "x": 104,
@@ -9466,12 +9458,18 @@
               "name": "flickerSpeed",
               "type": "float",
               "value": 5
+            },
+            {
+              "name": "activeTimeMask",
+              "type": "string",
+              "value": "ALL"
             }
           ]
         },
         {
           "id": 105,
           "name": "marine_gate_torch_w",
+          "template": "../templates/light_lantern.tx",
           "type": "point_light",
           "point": true,
           "x": 376,
@@ -9498,12 +9496,18 @@
               "name": "flickerSpeed",
               "type": "float",
               "value": 4.4
+            },
+            {
+              "name": "activeTimeMask",
+              "type": "string",
+              "value": "ALL"
             }
           ]
         },
         {
           "id": 106,
           "name": "marine_gate_torch_e",
+          "template": "../templates/light_lantern.tx",
           "type": "point_light",
           "point": true,
           "x": 424,
@@ -9530,6 +9534,11 @@
               "name": "flickerSpeed",
               "type": "float",
               "value": 4.7
+            },
+            {
+              "name": "activeTimeMask",
+              "type": "string",
+              "value": "ALL"
             }
           ]
         }
@@ -9558,6 +9567,29 @@
           "y": 456,
           "width": 0,
           "height": 0
+        },
+        {
+          "id": 108,
+          "name": "dock_departure",
+          "template": "../templates/dock_departure.tx",
+          "type": "PORT_EXIT",
+          "point": true,
+          "x": 296,
+          "y": 472,
+          "width": 0,
+          "height": 0,
+          "properties": [
+            {
+              "name": "actionKind",
+              "type": "string",
+              "value": "PORT_EXIT"
+            },
+            {
+              "name": "radiusPx",
+              "type": "float",
+              "value": 44
+            }
+          ]
         }
       ]
     },
@@ -9576,8 +9608,9 @@
       ],
       "objects": [
         {
-          "id": 108,
+          "id": 109,
           "name": "marker_foosha_port",
+          "template": "../templates/dock_departure.tx",
           "type": "PORT_EXIT",
           "point": true,
           "x": 296,
@@ -9585,6 +9618,16 @@
           "width": 0,
           "height": 0,
           "properties": [
+            {
+              "name": "markerId",
+              "type": "string",
+              "value": "marker_foosha_port"
+            },
+            {
+              "name": "markerKind",
+              "type": "string",
+              "value": "PORT_EXIT"
+            },
             {
               "name": "label",
               "type": "string",
@@ -9598,8 +9641,9 @@
           ]
         },
         {
-          "id": 109,
+          "id": 110,
           "name": "marker_foosha_makino",
+          "template": "../templates/marker_story_gold.tx",
           "type": "MAIN",
           "point": true,
           "x": 360,
@@ -9607,6 +9651,16 @@
           "width": 0,
           "height": 0,
           "properties": [
+            {
+              "name": "markerId",
+              "type": "string",
+              "value": "marker_foosha_makino"
+            },
+            {
+              "name": "markerKind",
+              "type": "string",
+              "value": "MAIN"
+            },
             {
               "name": "label",
               "type": "string",
@@ -9620,8 +9674,9 @@
           ]
         },
         {
-          "id": 110,
+          "id": 111,
           "name": "marker_foosha_zoro",
+          "template": "../templates/marker_side_blue.tx",
           "type": "SIDE",
           "point": true,
           "x": 328,
@@ -9629,6 +9684,16 @@
           "width": 0,
           "height": 0,
           "properties": [
+            {
+              "name": "markerId",
+              "type": "string",
+              "value": "marker_foosha_zoro"
+            },
+            {
+              "name": "markerKind",
+              "type": "string",
+              "value": "SIDE"
+            },
             {
               "name": "label",
               "type": "string",
@@ -9642,8 +9707,9 @@
           ]
         },
         {
-          "id": 111,
+          "id": 112,
           "name": "marker_foosha_bounty",
+          "template": "../templates/marker_utility_silver.tx",
           "type": "ACTIVITY",
           "point": true,
           "x": 296,
@@ -9651,6 +9717,16 @@
           "width": 0,
           "height": 0,
           "properties": [
+            {
+              "name": "markerId",
+              "type": "string",
+              "value": "marker_foosha_bounty"
+            },
+            {
+              "name": "markerKind",
+              "type": "string",
+              "value": "ACTIVITY"
+            },
             {
               "name": "label",
               "type": "string",
@@ -9664,8 +9740,9 @@
           ]
         },
         {
-          "id": 112,
+          "id": 113,
           "name": "marker_foosha_terminal",
+          "template": "../templates/marker_utility_silver.tx",
           "type": "ACTIVITY",
           "point": true,
           "x": 264,
@@ -9673,6 +9750,16 @@
           "width": 0,
           "height": 0,
           "properties": [
+            {
+              "name": "markerId",
+              "type": "string",
+              "value": "marker_foosha_terminal"
+            },
+            {
+              "name": "markerKind",
+              "type": "string",
+              "value": "ACTIVITY"
+            },
             {
               "name": "label",
               "type": "string",
@@ -9702,8 +9789,9 @@
       ],
       "objects": [
         {
-          "id": 113,
+          "id": 114,
           "name": "npc_makino",
+          "template": "../templates/npc_patrol_anchor.tx",
           "type": "npc",
           "point": true,
           "x": 360,
@@ -9712,15 +9800,26 @@
           "height": 0,
           "properties": [
             {
+              "name": "npcId",
+              "type": "string",
+              "value": "npc_makino"
+            },
+            {
               "name": "displayName",
               "type": "string",
               "value": "마키노"
+            },
+            {
+              "name": "facing",
+              "type": "string",
+              "value": "down"
             }
           ]
         },
         {
-          "id": 114,
+          "id": 115,
           "name": "npc_zoro_bound",
+          "template": "../templates/npc_patrol_anchor.tx",
           "type": "npc",
           "point": true,
           "x": 328,
@@ -9729,15 +9828,26 @@
           "height": 0,
           "properties": [
             {
+              "name": "npcId",
+              "type": "string",
+              "value": "npc_zoro_bound"
+            },
+            {
               "name": "displayName",
               "type": "string",
               "value": "롤로노아 조로"
+            },
+            {
+              "name": "facing",
+              "type": "string",
+              "value": "right"
             }
           ]
         },
         {
-          "id": 115,
+          "id": 116,
           "name": "npc_woop_slap",
+          "template": "../templates/npc_patrol_anchor.tx",
           "type": "npc",
           "point": true,
           "x": 328,
@@ -9746,15 +9856,26 @@
           "height": 0,
           "properties": [
             {
+              "name": "npcId",
+              "type": "string",
+              "value": "npc_woop_slap"
+            },
+            {
               "name": "displayName",
               "type": "string",
               "value": "우프 슬랩 촌장"
+            },
+            {
+              "name": "facing",
+              "type": "string",
+              "value": "down"
             }
           ]
         },
         {
-          "id": 116,
+          "id": 117,
           "name": "npc_foosha_fisherman",
+          "template": "../templates/npc_patrol_anchor.tx",
           "type": "npc",
           "point": true,
           "x": 280,
@@ -9763,15 +9884,26 @@
           "height": 0,
           "properties": [
             {
+              "name": "npcId",
+              "type": "string",
+              "value": "npc_foosha_fisherman"
+            },
+            {
               "name": "displayName",
               "type": "string",
               "value": "어부 기요"
+            },
+            {
+              "name": "facing",
+              "type": "string",
+              "value": "right"
             }
           ]
         },
         {
-          "id": 117,
+          "id": 118,
           "name": "npc_foosha_kid_1",
+          "template": "../templates/npc_patrol_anchor.tx",
           "type": "npc",
           "point": true,
           "x": 408,
@@ -9780,15 +9912,26 @@
           "height": 0,
           "properties": [
             {
+              "name": "npcId",
+              "type": "string",
+              "value": "npc_foosha_kid_1"
+            },
+            {
               "name": "displayName",
               "type": "string",
               "value": "꼬마 선원 타로"
+            },
+            {
+              "name": "facing",
+              "type": "string",
+              "value": "left"
             }
           ]
         },
         {
-          "id": 118,
+          "id": 119,
           "name": "npc_foosha_kid_2",
+          "template": "../templates/npc_patrol_anchor.tx",
           "type": "npc",
           "point": true,
           "x": 200,
@@ -9797,15 +9940,26 @@
           "height": 0,
           "properties": [
             {
+              "name": "npcId",
+              "type": "string",
+              "value": "npc_foosha_kid_2"
+            },
+            {
               "name": "displayName",
               "type": "string",
               "value": "언덕 지킴이 미나"
+            },
+            {
+              "name": "facing",
+              "type": "string",
+              "value": "left"
             }
           ]
         },
         {
-          "id": 119,
+          "id": 120,
           "name": "npc_foosha_patron",
+          "template": "../templates/npc_patrol_anchor.tx",
           "type": "npc",
           "point": true,
           "x": 504,
@@ -9814,9 +9968,19 @@
           "height": 0,
           "properties": [
             {
+              "name": "npcId",
+              "type": "string",
+              "value": "npc_foosha_patron"
+            },
+            {
               "name": "displayName",
               "type": "string",
               "value": "산적 단골 마르코씨"
+            },
+            {
+              "name": "facing",
+              "type": "string",
+              "value": "right"
             }
           ]
         }
@@ -9837,8 +10001,9 @@
       ],
       "objects": [
         {
-          "id": 120,
+          "id": 121,
           "name": "chest_foosha_east_reef",
+          "template": "../templates/chest_hidden.tx",
           "type": "silver",
           "point": true,
           "x": 712,
@@ -9847,15 +10012,36 @@
           "height": 0,
           "properties": [
             {
+              "name": "chestId",
+              "type": "string",
+              "value": "chest_foosha_east_reef"
+            },
+            {
               "name": "rarity",
               "type": "string",
               "value": "silver"
+            },
+            {
+              "name": "berries",
+              "type": "int",
+              "value": 5000
+            },
+            {
+              "name": "trainingPoints",
+              "type": "int",
+              "value": 12
+            },
+            {
+              "name": "hiddenHint",
+              "type": "string",
+              "value": "동쪽 숲 나뭇가지 뒤 해안 암초"
             }
           ]
         },
         {
-          "id": 121,
+          "id": 122,
           "name": "chest_foosha_windmill_back",
+          "template": "../templates/chest_hidden.tx",
           "type": "gold",
           "point": true,
           "x": 72,
@@ -9864,15 +10050,36 @@
           "height": 0,
           "properties": [
             {
+              "name": "chestId",
+              "type": "string",
+              "value": "chest_foosha_windmill_back"
+            },
+            {
               "name": "rarity",
               "type": "string",
               "value": "gold"
+            },
+            {
+              "name": "berries",
+              "type": "int",
+              "value": 8000
+            },
+            {
+              "name": "trainingPoints",
+              "type": "int",
+              "value": 18
+            },
+            {
+              "name": "hiddenHint",
+              "type": "string",
+              "value": "풍차 언덕 북서쪽 뒷길"
             }
           ]
         },
         {
-          "id": 122,
+          "id": 123,
           "name": "chest_foosha_bar_alley",
+          "template": "../templates/chest_hidden.tx",
           "type": "wooden",
           "point": true,
           "x": 552,
@@ -9881,9 +10088,29 @@
           "height": 0,
           "properties": [
             {
+              "name": "chestId",
+              "type": "string",
+              "value": "chest_foosha_bar_alley"
+            },
+            {
               "name": "rarity",
               "type": "string",
               "value": "wooden"
+            },
+            {
+              "name": "berries",
+              "type": "int",
+              "value": 3000
+            },
+            {
+              "name": "trainingPoints",
+              "type": "int",
+              "value": 8
+            },
+            {
+              "name": "hiddenHint",
+              "type": "string",
+              "value": "파티즈 바 지붕 뒤편 오크통 골목"
             }
           ]
         }
@@ -9904,7 +10131,7 @@
       ],
       "objects": [
         {
-          "id": 123,
+          "id": 124,
           "name": "zone_foosha_harbor",
           "type": "zone",
           "x": 208,
@@ -9925,7 +10152,7 @@
           ]
         },
         {
-          "id": 124,
+          "id": 125,
           "name": "zone_foosha_plaza",
           "type": "zone",
           "x": 240,
@@ -9946,7 +10173,7 @@
           ]
         },
         {
-          "id": 125,
+          "id": 126,
           "name": "zone_foosha_windmill",
           "type": "zone",
           "x": 16,
@@ -9967,7 +10194,7 @@
           ]
         },
         {
-          "id": 126,
+          "id": 127,
           "name": "zone_partys_bar",
           "type": "zone",
           "x": 464,
@@ -9988,7 +10215,7 @@
           ]
         },
         {
-          "id": 127,
+          "id": 128,
           "name": "zone_shells_base",
           "type": "zone",
           "x": 288,

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object name="npc_patrol" type="npc" width="0" height="0">
+   <properties>
+    <property name="npcId" type="string" value=""/>
+    <property name="displayName" type="string" value=""/>
+    <property name="roleLabel" type="string" value=""/>
+    <property name="facing" type="string" value="down"/>
+    <property name="patrolSpeedPx" type="float" value="40"/>
+    <property name="pauseTicks" type="int" value="75"/>
+    <property name="patrolLoop" type="bool" value="true"/>
+   </properties>
+   <point/>
+  </object>
+</template>

@@ -15,6 +15,8 @@ import {
   DEFAULT_VIEWPORT_METRICS,
   type ViewportMetrics
 } from '../viewport/responsiveViewportManager';
+import { PixiAssetBundleManager } from './PixiAssetBundleManager';
+import { PixiBundleLoadingOverlay } from './PixiBundleLoadingOverlay';
 import { ProAssetLoader } from './ProAssetLoader';
 
 // Enforce crisp nearest-neighbor pixel sampling globally on PixiJS v8 boot
@@ -34,9 +36,11 @@ interface GlobalWithPixiHost {
 
 export class PixiStageHost implements IRenderBackend {
   public readonly loader: ProAssetLoader;
+  public readonly bundleManager: PixiAssetBundleManager;
   public readonly worldRoot: Container = new Container();
 
   private app: Application | null = null;
+  private loadingOverlay: PixiBundleLoadingOverlay | null = null;
   private webglActive = false;
   private webgl2Active = false;
   private visible = false;
@@ -50,8 +54,9 @@ export class PixiStageHost implements IRenderBackend {
   private activeSceneTag = 'NONE';
   private disposed = false;
 
-  constructor(loader?: ProAssetLoader) {
+  constructor(loader?: ProAssetLoader, bundleManager?: PixiAssetBundleManager) {
     this.loader = loader ?? new ProAssetLoader();
+    this.bundleManager = bundleManager ?? new PixiAssetBundleManager(this.loader);
     this.worldRoot.label = 'opgv_world_root';
     this.worldRoot.sortableChildren = false;
   }
@@ -146,6 +151,9 @@ export class PixiStageHost implements IRenderBackend {
         gl instanceof WebGL2RenderingContext;
 
       (window as unknown as GlobalWithPixiHost).__OPGV_PIXI_HOST__ = this;
+      this.loadingOverlay = new PixiBundleLoadingOverlay(container);
+      this.bundleManager.attachLoadingOverlay(this.loadingOverlay);
+      await this.bundleManager.init(this.loader.manifest);
       return true;
     } catch {
       this.webglActive = false;
@@ -287,6 +295,9 @@ export class PixiStageHost implements IRenderBackend {
     this.webglActive = false;
     this.webgl2Active = false;
     this.visible = false;
+    this.bundleManager.dispose();
+    this.loadingOverlay?.dispose();
+    this.loadingOverlay = null;
     this.loader.dispose();
 
     if (this.app) {

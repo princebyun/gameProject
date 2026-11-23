@@ -1,6 +1,7 @@
 import type { AssetLoader } from '../../assets/assetLoader';
 import type { AudioManager } from '../../audio/audioManager';
 import type { FormDefinition, GameDataRegistry } from '../../core/types/dataSchemas';
+import type { ProManifestEntry } from '../../data/assets/proAssetManifest';
 import {
   STANDARD_SPRITE_ANIM_STATES,
   type SpriteAnimState
@@ -33,9 +34,28 @@ export interface AssetPreviewHtmlContext {
   spriteMetaText: string;
   spriteSourceBadge: string;
   biomeSourceBadge: string;
+  proSpriteEntry?: ProManifestEntry | null;
+  proBiomeEntry?: ProManifestEntry | null;
   gameRegistry: GameDataRegistry;
   assets: AssetLoader;
   audio: AudioManager;
+}
+
+function formatProEntryBadgeHtml(entry: ProManifestEntry | null | undefined): string {
+  if (!entry) {
+    return '<span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#1e293b;color:#94a3b8;border:1px solid #334155;">PRO: LEGACY_ONLY</span>';
+  }
+  const statusStyle =
+    entry.status === 'VERIFIED'
+      ? 'background:#166534;color:#bbf7d0;border:1px solid #4ade80;'
+      : entry.status === 'IMPORTED'
+        ? 'background:#075985;color:#bae6fd;border:1px solid #38bdf8;'
+        : 'background:#334155;color:#cbd5e1;border:1px solid #64748b;';
+  const ext = entry.assetPath.split('.').pop()?.toUpperCase() ?? 'N/A';
+  const sizeKb = (entry.fileSizeBytes / 1024).toFixed(1);
+  const dims =
+    entry.dimensions.width > 0 ? `${entry.dimensions.width}×${entry.dimensions.height}` : 'N/A';
+  return `<span id="ap-pro-status-badge" style="font-size:10px;padding:2px 7px;border-radius:4px;font-weight:bold;${statusStyle}">PRO ${entry.status} · .${ext} · ${dims} · ${sizeKb} KB (W${entry.wave}/${entry.bundle})</span>`;
 }
 
 function badgeColor(source: string): string {
@@ -134,7 +154,10 @@ function buildSpriteTabHtml(ctx: AssetPreviewHtmlContext): string {
       <div style="background:#020617;padding:10px;border-radius:6px;border:1px solid #334155;display:flex;flex-direction:column;gap:8px;">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
           <span style="font-size:11px;color:#cbd5e1;">${spriteMetaText}</span>
-          <span id="ap-sprite-source-badge" style="font-size:11px;padding:2px 8px;border-radius:999px;font-weight:bold;${badgeColor(spriteSourceBadge)}">${spriteSourceBadge}</span>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+            ${formatProEntryBadgeHtml(ctx.proSpriteEntry)}
+            <span id="ap-sprite-source-badge" style="font-size:11px;padding:2px 8px;border-radius:999px;font-weight:bold;${badgeColor(spriteSourceBadge)}">${spriteSourceBadge}</span>
+          </div>
         </div>
         <canvas id="ap-preview-canvas" width="560" height="340" style="width:100%;height:auto;background:#0b1120;border:1px solid #1e293b;image-rendering:pixelated;"></canvas>
       </div>
@@ -161,8 +184,9 @@ function buildTilesetTabHtml(ctx: AssetPreviewHtmlContext): string {
               .join('')}
           </select>
         </label>
-        <div style="display:flex;align-items:center;gap:8px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
           <span style="font-size:11px;color:#94a3b8;">${selectedBiome ? `public/${selectedBiome.src} (${selectedBiome.tileSize}px × ${selectedBiome.renderScale}x)` : ''}</span>
+          ${formatProEntryBadgeHtml(ctx.proBiomeEntry)}
           <span id="ap-tileset-source-badge" style="font-size:11px;padding:2px 8px;border-radius:999px;font-weight:bold;${badgeColor(biomeSourceBadge)}">${biomeSourceBadge}</span>
         </div>
       </div>

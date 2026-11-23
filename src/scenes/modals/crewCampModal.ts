@@ -17,6 +17,7 @@ export interface CrewCampModalContext {
   audio: AudioManager;
   triggerAutoSave: (reason: string) => Promise<void>;
   refreshSideDrawer: () => void;
+  onPartyOrCrewChanged?: () => void;
 }
 
 export function createCrewCampModalElement(): HTMLElement {
@@ -77,11 +78,16 @@ export function renderCrewCampModal(ctx: CrewCampModalContext): void {
   const strawHatBadgesHtml = strawHatTen
     .map((m) => {
       const has = campaign.recruitedUnitIds.includes(m.id);
-      return `<span style="padding:2px 6px;border-radius:4px;font-size:10px;border:1px solid ${
-        has ? '#4ade80' : '#334155'
-      };background:${has ? 'rgba(22,163,74,0.22)' : '#0f172a'};color:${
-        has ? '#86efac' : '#64748b'
-      };">${has ? '✓' : '○'} ${m.label}</span>`;
+      const inParty = campaign.activePartyUnitIds.includes(m.id);
+      const actionAttr = has ? `data-toggle-party-unit="${m.id}"` : 'disabled';
+      const statusLabel = !has ? '미영입' : inParty ? '✓ 출전 중' : '+ 대기';
+      return `<button type="button" ${actionAttr} style="padding:3px 7px;border-radius:4px;font-size:10px;border:1px solid ${
+        inParty ? '#38bdf8' : has ? '#4ade80' : '#334155'
+      };background:${
+        inParty ? 'rgba(14,165,233,0.28)' : has ? 'rgba(22,163,74,0.18)' : '#0f172a'
+      };color:${inParty ? '#bae6fd' : has ? '#86efac' : '#64748b'};cursor:${
+        has ? 'pointer' : 'default'
+      };">${m.label} [${statusLabel}]</button>`;
     })
     .join('');
 
@@ -142,7 +148,10 @@ export function renderCrewCampModal(ctx: CrewCampModalContext): void {
       </div>
 
       <div class="slot-card" style="background:#0f172a;border-color:#4ade80;">
-        <strong style="color:#4ade80;font-size:12px;">🏴‍☠️ 합류한 밀짚모자 일당 (${joinedStrawHats.length} / 10명)</strong>
+        <div class="field-row" style="margin-bottom:4px;">
+          <strong style="color:#4ade80;font-size:12px;">🏴‍☠️ 출전 파티 편성 (${campaign.activePartyUnitIds.length} / 4명 · 영입 ${joinedStrawHats.length}명)</strong>
+          <span style="font-size:10px;color:#94a3b8;">클릭 시 동적 GPU 번들 즉시 동기화</span>
+        </div>
         <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;">${strawHatBadgesHtml}</div>
       </div>
 
@@ -213,6 +222,7 @@ export function renderCrewCampModal(ctx: CrewCampModalContext): void {
           rpgRegistry
         );
         void triggerAutoSave('직책 변경');
+        ctx.onPartyOrCrewChanged?.();
         renderCrewCampModal(ctx);
         refreshSideDrawer();
       });
@@ -233,6 +243,30 @@ export function renderCrewCampModal(ctx: CrewCampModalContext): void {
         if (res.success) {
           void triggerAutoSave('패기/각성 수련');
         }
+        renderCrewCampModal(ctx);
+        refreshSideDrawer();
+      });
+    });
+
+  campModalEl
+    .querySelectorAll<HTMLButtonElement>('[data-toggle-party-unit]')
+    .forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const unitId = btn.dataset.togglePartyUnit;
+        if (!unitId) return;
+        const idx = campaign.activePartyUnitIds.indexOf(unitId);
+        if (idx >= 0) {
+          if (campaign.activePartyUnitIds.length <= 1) return;
+          campaign.activePartyUnitIds.splice(idx, 1);
+        } else {
+          if (campaign.activePartyUnitIds.length >= 4) {
+            campaign.activePartyUnitIds.pop();
+          }
+          campaign.activePartyUnitIds.push(unitId);
+        }
+        audio.playSfx('UI_CLICK');
+        void triggerAutoSave('파티 편성 변경');
+        ctx.onPartyOrCrewChanged?.();
         renderCrewCampModal(ctx);
         refreshSideDrawer();
       });
