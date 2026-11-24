@@ -12,6 +12,8 @@ import {
   DEFAULT_GLOBAL_SETTINGS,
   serializeCampaignToSaveEnvelope
 } from './serializer';
+import { STORY_CHAPTERS_LIST } from '../../data/story/storyChaptersRegistry';
+import { deriveStoryProgressFromLegacyEpisodes } from '../story/StoryStateMachine';
 import { verifySaveIntegrity } from './antiCheat';
 import { computeSaveIntegrity } from './sha256';
 
@@ -110,6 +112,11 @@ export function migrateV0ToV1(
   ) {
     baseState.legacyZoneUnlockV2 = true;
   }
+
+  baseState.storyProgress = deriveStoryProgressFromLegacyEpisodes(
+    baseState.completedEpisodes,
+    STORY_CHAPTERS_LIST
+  );
 
   return serializeCampaignToSaveEnvelope(
     baseState,
@@ -225,6 +232,13 @@ export function migrateRawSaveToCurrent(
         colosseum: { ...def.colosseum, ...(oldEnv.payload.endgame.colosseum ?? {}) },
         raids: { ...def.raids, ...(oldEnv.payload.endgame.raids ?? {}) }
       };
+    }
+
+    if (!oldEnv.payload.storyProgress) {
+      oldEnv.payload.storyProgress = deriveStoryProgressFromLegacyEpisodes(
+        completed,
+        STORY_CHAPTERS_LIST
+      );
     }
 
     oldEnv.meta.saveVersion = CURRENT_SAVE_VERSION;

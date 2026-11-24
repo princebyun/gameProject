@@ -1,0 +1,262 @@
+{
+  "version": "1.0.0",
+  "weapons": {
+    "zoro_enma": {
+      "weaponId": "zoro_enma",
+      "label": "염마 (Enma)",
+      "proxyShape": "KATANA",
+      "modelPath": "./assets/3d/weapons/zoro_enma.glb",
+      "combatSocket": {
+        "bone": "mixamorigRightHand",
+        "position": [0.02, 0.04, 0.04],
+        "rotationDeg": [82, 0, -10],
+        "scale": 1.0
+      },
+      "holsterSocket": {
+        "bone": "mixamorigHips",
+        "position": [-0.22, 0.02, 0.04],
+        "rotationDeg": [18, 95, -24],
+        "scale": 0.96
+      },
+      "trailAnchors": {
+        "baseLocal": [0, 0.16, 0],
+        "tipLocal": [0, 1.18, 0]
+      },
+      "trailTheme": {
+        "coreColor": "#ffffff",
+        "midColor": "#22c55e",
+        "edgeColor": "#14532d",
+        "hakiColor": "#a855f7",
+        "widthMultiplier": 1.05,
+        "bloomIntensity": 1.45,
+        "noiseScale": 6.5,
+        "lightningJagged": false
+      }
+    },
+    "zoro_sandai_kitetsu": {
+      "weaponId": "zoro_sandai_kitetsu",
+      "label": "3대 귀철 (Sandai Kitetsu)",
+      "proxyShape": "KATANA",
+      "modelPath": "./assets/3d/weapons/zoro_sandai_kitetsu.glb",
+      "combatSocket": {
+        "bone": "mixamorigLeftHand",
+        "position": [-0.02, 0.04, 0.04],
+        "rotationDeg": [82, 0, 12],
+        "scale": 0.96
+      },
+      "holsterSocket": {
+        "bone": "mixamorigHips",
+        "position": [-0.25, -0.05, 0.0],
+        "rotationDeg": [22, 95, -26],
+        "scale": 0.94
+      },
+      "trailAnchors": {
+        "baseLocal": [0, 0.15, 0],
+        "tipLocal": [0, 1.12, 0]
+      },
+      "trailTheme": {
+        "coreColor": "#ffffff",
+        "midColor": "#ef4444",
+        "edgeColor": "#7f1d1d",
+        "hakiColor": "#18181b",
+        "widthMultiplier": 0.98,
+        "bloomIntensity": 1.35,
+        "noiseScale": 7.0,
+        "lightningJagged": false
+      }
+    },
+    "zoro_wado_ichimonji": {
+      "weaponId": "zoro_wado_ichimonji",
+      "label": "화도일문자 (Wado Ichimonji)",
+      "proxyShape": "KATANA",
+      "modelPath": "./assets/3d/weapons/zoro_wado_ichimonji.glb",
+      "combatSocket": {
+        "bone": "mixamorigHead",
+        "position": [0.0, -0.09, 0.16],
+        "rotationDeg": [0, 0, 90],
+        "scale": 0.95
+      },
+      "holsterSocket": {
+        "bone": "mixamorigHips",
+        "position": [-0.19, 0.08, 0.08],
+        "rotationDeg": [14, 95, -22],
+        "scale": 0.94
+      },
+      "trailAnchors": {
+        "baseLocal": [0, 0.14, 0],
+        "tipLocal": [0, 1.08, 0]
+      },
+      "trailTheme": {
+        "coreColor": "#ffffff",
+        "midColor": "#e2e8f0",
+        "edgeColor": "#10b981",
+        "hakiColor": "#34d399",
+        "widthMultiplier": 0.92,
+        "bloomIntensity": 1.5,
+        "noiseScale": 6.0,
+        "lightningJagged": false
+      }
+    },
+    "law_kikoku": {
+      "weaponId": "law_kikoku",
+      "label": "키코쿠 (Kikoku Nodachi)",
+      "proxyShape": "KATANA",
+      "modelPath": "./assets/3d/weapons/law_kikoku.glb",
+      "combatSocket": {
+        "bone": "mixamorigRightHand",
+        "position": [0.02, 0.05, 0.04],
+        "rotationDeg": [84, 0, -6],
+        "scale": 1.18
+      },
+      "holsterSocket": {
+        "bone": "mixamorigSpine2",
+        "position": [0.18, 0.24, -0.14],
+        "rotationDeg": [-28, 12, -18],
+        "scale": 1.12
+      },
+      "trailAnchors": {
+        "baseLocal": [0, 0.22, 0],
+        "tipLocal": [0, 1.72, 0]
+      },
+      "trailTheme": {
+        "coreColor": "#ffffff",
+        "midColor": "#38bdf8",
+        "edgeColor": "#0369a1",
+        "hakiColor": "#67e8f9",
+        "widthMultiplier": 1.25,
+        "bloomIntensity": 1.55,
+        "noiseScale": 5.5,
+        "lightningJagged": false
+      }
+    },
+    "kaido_hassaikai": {
+      "weaponId": "kaido_hassaikai",
+      "label": "팔재계 (Hassaikai Kanabo)",
+      "proxyShape": "KANABO",
+      "modelPath": "./assets/3d/weapons/kaido_hassaikai.glb",
+      "combatSocket": {
+        "bone": "mixamorigRightHand",
+        "position": [0.04, 0.06, 0.06],
+        "rotationDeg": [78, 0, -14],
+        "scale": 1.35
+      },
+      "holsterSocket": {
+        "bone": "mixamorigSpine2",
+        "position": [0.24, 0.28, -0.22],
+        "rotationDeg": [-32, 18, -22],
+        "scale": 1.28
+      },
+      "trailAnchors": {
+        "baseLocal": [0, 0.45, 0],
+        "tipLocal": [0, 2.05, 0]
+      },
+      "trailTheme": {
+        "coreColor": "#ffffff",
+        "midColor": "#a855f7",
+        "edgeColor": "#7f1d1d",
+        "hakiColor": "#ef4444",
+        "widthMultiplier": 1.48,
+        "bloomIntensity": 1.65,
+        "noiseScale": 8.5,
+        "lightningJagged": true
+      }
+    }
+  },
+  "characterLoadouts": {
+    "zoro_base": {
+      "loadoutId": "zoro_base",
+      "speciesId": "zoro",
+      "enableHolsterSwap": true,
+      "holsterDelaySec": 1.4,
+      "kingOfHellAura": false,
+      "slots": {
+        "right": "zoro_enma",
+        "left": "zoro_sandai_kitetsu",
+        "mouth": "zoro_wado_ichimonji"
+      },
+      "trailWindows": {
+        "COMBO_1": [{ "start": 0.22, "end": 0.68, "weapons": ["right", "left"] }],
+        "COMBO_2": [{ "start": 0.18, "end": 0.72, "weapons": ["right", "left"] }],
+        "COMBO_3": [{ "start": 0.18, "end": 0.78, "weapons": ["right", "left", "mouth"] }],
+        "COMBO_4": [{ "start": 0.14, "end": 0.85, "weapons": ["right", "left", "mouth"] }],
+        "AIR_COMBO": [{ "start": 0.16, "end": 0.8, "weapons": ["right", "left", "mouth"] }],
+        "SPECIAL_1": [{ "start": 0.15, "end": 0.88, "weapons": ["right", "left", "mouth"] }],
+        "SPECIAL_2": [{ "start": 0.15, "end": 0.88, "weapons": ["right", "left", "mouth"] }],
+        "SPECIAL_3": [{ "start": 0.12, "end": 0.9, "weapons": ["right", "left", "mouth"] }],
+        "SPECIAL_4": [{ "start": 0.12, "end": 0.9, "weapons": ["right", "left", "mouth"] }],
+        "BURST_AWAKENING": [{ "start": 0.1, "end": 0.95, "weapons": ["right", "left", "mouth"] }]
+      }
+    },
+    "zoro_king_of_hell": {
+      "loadoutId": "zoro_king_of_hell",
+      "speciesId": "zoro",
+      "formId": "zoro_king_of_hell",
+      "enableHolsterSwap": true,
+      "holsterDelaySec": 1.8,
+      "kingOfHellAura": true,
+      "hakiArcSlot": "right",
+      "slots": {
+        "right": "zoro_enma",
+        "left": "zoro_sandai_kitetsu",
+        "mouth": "zoro_wado_ichimonji"
+      },
+      "trailWindows": {
+        "COMBO_1": [{ "start": 0.18, "end": 0.76, "weapons": ["right", "left", "mouth"] }],
+        "COMBO_2": [{ "start": 0.16, "end": 0.8, "weapons": ["right", "left", "mouth"] }],
+        "COMBO_3": [{ "start": 0.14, "end": 0.84, "weapons": ["right", "left", "mouth"] }],
+        "COMBO_4": [{ "start": 0.1, "end": 0.9, "weapons": ["right", "left", "mouth"] }],
+        "AIR_COMBO": [{ "start": 0.12, "end": 0.86, "weapons": ["right", "left", "mouth"] }],
+        "SPECIAL_1": [{ "start": 0.1, "end": 0.92, "weapons": ["right", "left", "mouth"] }],
+        "SPECIAL_2": [{ "start": 0.1, "end": 0.92, "weapons": ["right", "left", "mouth"] }],
+        "SPECIAL_3": [{ "start": 0.08, "end": 0.95, "weapons": ["right", "left", "mouth"] }],
+        "SPECIAL_4": [{ "start": 0.08, "end": 0.95, "weapons": ["right", "left", "mouth"] }],
+        "BURST_AWAKENING": [{ "start": 0.05, "end": 0.96, "weapons": ["right", "left", "mouth"] }]
+      }
+    },
+    "law_base": {
+      "loadoutId": "law_base",
+      "speciesId": "law",
+      "enableHolsterSwap": true,
+      "holsterDelaySec": 1.6,
+      "kingOfHellAura": false,
+      "slots": {
+        "right": "law_kikoku"
+      },
+      "trailWindows": {
+        "COMBO_1": [{ "start": 0.2, "end": 0.72, "weapons": ["right"] }],
+        "COMBO_2": [{ "start": 0.18, "end": 0.75, "weapons": ["right"] }],
+        "COMBO_3": [{ "start": 0.16, "end": 0.8, "weapons": ["right"] }],
+        "COMBO_4": [{ "start": 0.12, "end": 0.88, "weapons": ["right"] }],
+        "AIR_COMBO": [{ "start": 0.16, "end": 0.82, "weapons": ["right"] }],
+        "SPECIAL_1": [{ "start": 0.14, "end": 0.9, "weapons": ["right"] }],
+        "SPECIAL_2": [{ "start": 0.14, "end": 0.9, "weapons": ["right"] }],
+        "SPECIAL_3": [{ "start": 0.1, "end": 0.92, "weapons": ["right"] }],
+        "SPECIAL_4": [{ "start": 0.1, "end": 0.92, "weapons": ["right"] }],
+        "BURST_AWAKENING": [{ "start": 0.08, "end": 0.94, "weapons": ["right"] }]
+      }
+    },
+    "kaido_base": {
+      "loadoutId": "kaido_base",
+      "speciesId": "kaido",
+      "enableHolsterSwap": false,
+      "holsterDelaySec": 2.5,
+      "kingOfHellAura": false,
+      "hakiArcSlot": "right",
+      "slots": {
+        "right": "kaido_hassaikai"
+      },
+      "trailWindows": {
+        "COMBO_1": [{ "start": 0.24, "end": 0.74, "weapons": ["right"] }],
+        "COMBO_2": [{ "start": 0.2, "end": 0.78, "weapons": ["right"] }],
+        "COMBO_3": [{ "start": 0.18, "end": 0.84, "weapons": ["right"] }],
+        "COMBO_4": [{ "start": 0.15, "end": 0.9, "weapons": ["right"] }],
+        "AIR_COMBO": [{ "start": 0.18, "end": 0.84, "weapons": ["right"] }],
+        "SPECIAL_1": [{ "start": 0.14, "end": 0.92, "weapons": ["right"] }],
+        "SPECIAL_2": [{ "start": 0.14, "end": 0.92, "weapons": ["right"] }],
+        "SPECIAL_3": [{ "start": 0.1, "end": 0.94, "weapons": ["right"] }],
+        "SPECIAL_4": [{ "start": 0.1, "end": 0.94, "weapons": ["right"] }],
+        "BURST_AWAKENING": [{ "start": 0.06, "end": 0.96, "weapons": ["right"] }]
+      }
+    }
+  }
+}

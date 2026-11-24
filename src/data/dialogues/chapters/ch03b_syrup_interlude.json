@@ -1,0 +1,57 @@
+{
+  "chapterId": "ch03b_syrup_interlude",
+  "chapterNo": "Ch.03.5",
+  "act": 1,
+  "title": "시롭 마을 인터루드 — 저격왕의 출항",
+  "subtitle": "고잉 메리호와 용감한 바다의 전사 우솝",
+  "summary2Lines": [
+    "비탈길 언덕에서 음모를 막아내고 카야의 선물 고잉 메리호를 받은 일당.",
+    "허풍쟁이지만 누구보다 뜨거운 저격수 우솝이 정식 합류한다."
+  ],
+  "prerequisiteChapterIds": ["ch03_orange_town"],
+  "arenaId": "east_blue_harbor",
+  "bossUnitId": "buggy",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.03.5", "act": 1, "title": "시롭 마을 인터루드", "subtitle": "저격수 우솝과 고잉 메리호" },
+    { "type": "bgm", "trackId": "island_peaceful", "fadeMs": 300 },
+    {
+      "type": "stage_3d",
+      "arenaId": "east_blue_harbor",
+      "timeOfDay": "morning",
+      "weather": "clear",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.0, 0, 0.2], "rotationYDeg": 90, "animClip": "IDLE" },
+        { "actorId": "usopp", "unitId": "usopp", "position": [1.8, 0, -0.4], "rotationYDeg": -90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "camera_3d", "shot": "wide_establishing", "targetActorId": "usopp", "durationMs": 650, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "usopp", "speakerName": "우솝", "side": "right", "emotion": "determined", "text": "난 8천 명의 부하를 거느린 우솝 선장! 마을과 동료는 내가 지킨다!", "focusActorId": "usopp" }
+  ],
+  "preBattle": [
+    { "type": "bgm", "trackId": "battle_normal", "fadeMs": 250 },
+    { "type": "camera_3d", "shot": "over_shoulder", "targetActorId": "usopp", "durationMs": 550, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "determined", "text": "우솝! 비탈길은 절대 넘겨주지 마!", "focusActorId": "luffy" },
+    { "type": "start_musou_battle", "battleId": "battle_ch03b_syrup", "bossUnitId": "buggy", "hordeCount": 80, "preDialogueDoneFlag": "ch03b_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch03b_tech", "trigger": "onBurstActivated", "speakerId": "usopp", "speakerName": "우솝", "emotion": "excited", "text": "특제 화약성 작렬! 테크닉 표식으로 적을 끌어모아라!" },
+    { "banterId": "ch03b_armor", "trigger": "onArmorBreak", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "좋아 우솝! 지금 일제 사격이다!" },
+    { "banterId": "ch03b_ko", "trigger": "onKoMilestone", "threshold": 50, "speakerId": "zoro", "speakerName": "조로", "emotion": "smirk", "text": "저격 실력은 제법이군, 긴 코!" },
+    { "banterId": "ch03b_hp", "trigger": "bossHpBelow", "threshold": 0.4, "speakerId": "usopp", "speakerName": "우솝", "emotion": "determined", "text": "후회하지 않게 전력을 다해 쏘겠어!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "victory_fanfare", "fadeMs": 300 },
+    { "type": "camera_3d", "shot": "orbit_hero", "targetActorId": "luffy", "durationMs": 650, "easing": "easeInOutQuad" },
+    { "type": "line", "speakerId": "usopp", "speakerName": "우솝", "side": "right", "emotion": "excited", "text": "나도 진짜 해적이 되겠어! 고잉 메리호, 출항이다!!", "focusActorId": "usopp" },
+    { "type": "narration", "text": "저격수 우솝이 합류하고 밀짚모자 해적단의 첫 해적선 [고잉 메리호]가 진수되었다!", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": ["usopp_base"],
+    "unlockForms": [],
+    "unlockSpecialSlots": [0, 1, 2],
+    "unlockSeaZones": [],
+    "upgradeShip": "going_merry",
+    "worldFlags": ["ch03b_syrup_cleared", "going_merry_named"],
+    "bountyIncrease": 5000000
+  }
+}

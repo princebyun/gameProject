@@ -1,0 +1,69 @@
+{
+  "chapterId": "ch01_foosha",
+  "chapterNo": "Ch.01",
+  "act": 1,
+  "title": "모험의 새벽 — 후샤 마을 출항",
+  "subtitle": "밀짚모자의 맹세와 이스트 블루 첫 출항",
+  "summary2Lines": [
+    "후샤 마을을 떠나 첫 해적 모험을 시작한 루피.",
+    "근해를 습격한 해적단을 고무고무 기술로 돌파한다!"
+  ],
+  "prerequisiteChapterIds": [],
+  "arenaId": "east_blue_harbor",
+  "bossUnitId": "buggy",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.01", "act": 1, "title": "후샤 마을 출항", "subtitle": "해적왕을 향한 항해의 시작" },
+    { "type": "bgm", "trackId": "sea_east_blue", "fadeMs": 400 },
+    {
+      "type": "stage_3d",
+      "arenaId": "east_blue_harbor",
+      "timeOfDay": "morning",
+      "weather": "clear",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.2, 0, 0.5], "rotationYDeg": 90, "animClip": "IDLE" },
+        { "actorId": "makino", "unitId": "nami", "position": [-4.2, 0, -0.6], "rotationYDeg": 80, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "camera_3d", "shot": "wide_establishing", "targetActorId": "luffy", "durationMs": 700, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "npc_makino", "speakerName": "마키노", "side": "left", "emotion": "excited", "text": "루피, 드디어 바다로 나가는구나! 샹크스에게 맡은 모자 소중히 간직해!", "focusActorId": "makino" },
+    { "type": "camera_3d", "shot": "orbit_hero", "targetActorId": "luffy", "durationMs": 650, "easing": "easeInOutQuad" },
+    { "type": "actor_action", "actorId": "luffy", "animClip": "VICTORY", "rimColorHex": "#ef4444", "rimIntensity": 1.1 },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "determined", "text": "다녀올게! 난 반드시 최고의 동료 10명을 모아서 해적왕이 될 거야!", "focusActorId": "luffy", "sfx": "ui_confirm" }
+  ],
+  "preBattle": [
+    { "type": "bgm", "trackId": "battle_normal", "fadeMs": 250 },
+    {
+      "type": "stage_3d",
+      "arenaId": "east_blue_harbor",
+      "timeOfDay": "day",
+      "weather": "clear",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.6, 0, 0], "rotationYDeg": 90, "animClip": "IDLE" },
+        { "actorId": "raider", "unitId": "buggy", "position": [2.8, 0, 0], "rotationYDeg": -90, "animClip": "COMBO_1", "drawWeapons": true }
+      ]
+    },
+    { "type": "camera_3d", "shot": "over_shoulder", "targetActorId": "luffy", "secondaryActorId": "raider", "durationMs": 600, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "battle_cry", "text": "앞을 막아서는 해적단부터 전부 날려버려 주지! 고무고무...!", "focusActorId": "luffy" },
+    { "type": "start_musou_battle", "battleId": "battle_ch01_foosha", "bossUnitId": "buggy", "hordeCount": 60, "preDialogueDoneFlag": "ch01_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch01_ko_30", "trigger": "onKoMilestone", "threshold": 30, "speakerId": "luffy", "speakerName": "루피", "emotion": "excited", "text": "시시식! 몸이 근질거렸는데 딱 좋다!" },
+    { "banterId": "ch01_armor_break", "trigger": "onArmorBreak", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "빈틈이다! 아머가 부서졌어!" },
+    { "banterId": "ch01_burst", "trigger": "onBurstActivated", "speakerId": "luffy", "speakerName": "루피", "emotion": "determined", "text": "전력으로 간다! 진심 버스트!" },
+    { "banterId": "ch01_hp_50", "trigger": "bossHpBelow", "threshold": 0.5, "speakerId": "buggy", "speakerName": "버기 해적단 선봉", "emotion": "shocked", "text": "뭐야 저 녀석, 몸이 고무처럼 늘어나잖아?!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "victory_fanfare", "fadeMs": 300 },
+    { "type": "camera_3d", "shot": "orbit_hero", "targetActorId": "luffy", "durationMs": 700, "easing": "easeInOutQuad" },
+    { "type": "actor_action", "actorId": "luffy", "animClip": "VICTORY" },
+    { "type": "narration", "text": "첫 바다 전투를 승리로 장식한 루피는 첫 동료가 기다리는 해군 기지 쉘즈타운으로 키를 돌렸다.", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": [],
+    "unlockForms": [],
+    "unlockSpecialSlots": [0, 1],
+    "unlockSeaZones": ["east_blue"],
+    "worldFlags": ["ch01_foosha_cleared"],
+    "bountyIncrease": 5000000
+  }
+}

@@ -552,9 +552,9 @@ export class PixiBattleVerticalSliceScene implements Disposable {
       0.16,
       1.15,
       this.bloomSpike +
-        bossFx.bloomBoost +
-        this.fxHelper.getCutinBloomBoost() +
-        (triggeredShockwaves > 0 || parryRes.shockwavePoints.length > 0 ? 0.4 : 0)
+      bossFx.bloomBoost +
+      this.fxHelper.getCutinBloomBoost() +
+      (triggeredShockwaves > 0 || parryRes.shockwavePoints.length > 0 ? 0.4 : 0)
     );
     this.godRays.update(dtSec, this.elapsedSec, viewport.viewWidth, viewport.viewHeight, polish);
     this.colorGrading.sync(polish);

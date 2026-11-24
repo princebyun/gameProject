@@ -2,6 +2,7 @@ import type { ArenaTerrainConfig, BattleWinCondition } from './battleSchemas';
 import type { Vec2 } from './commonSchemas';
 import type { SaveEndgameBlock } from './endgameSchemas';
 import type { HakiLevels } from './gameDataSchemas';
+import type { StoryProgressState } from '../story/types';
 
 export type SeaZoneId = 'east_blue' | 'grand_line' | 'new_world';
 export type TimeOfDayId = 'MORNING' | 'DAY' | 'EVENING' | 'NIGHT';
@@ -551,6 +552,7 @@ export interface RpgCampaignState {
 
   completedEpisodes: string[];
   episodeFlags: Record<string, boolean>;
+  storyProgress?: StoryProgressState;
   openedChestIds?: string[];
   unlockedShips: ('going_merry' | 'thousand_sunny')[];
 

@@ -1,0 +1,62 @@
+{
+  "chapterId": "ch10_water_seven",
+  "chapterNo": "Ch.10",
+  "act": 2,
+  "title": "워터 세븐 & 에니에스 로비 — \"살고 싶어!\"",
+  "subtitle": "CP9 로브 루치 결전 · 프랑키 합류 · 사우전드 써니호 진수",
+  "summary2Lines": [
+    "세계정부의 깃발을 불태우고 로빈의 \"살고 싶어!\" 외침에 응답한 밀짚모자 일당.",
+    "CP9 최강 로브 루치를 제트 개틀링으로 쓰러뜨리고 프랑키와 사우전드 써니호를 얻는다."
+  ],
+  "prerequisiteChapterIds": ["ch09_skypiea"],
+  "legacyEpisodeId": "ep_water_seven",
+  "arenaId": "water7_dock",
+  "bossUnitId": "lucci",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.10", "act": 2, "title": "사법의 섬 에니에스 로비", "subtitle": "세계정부에 선전포고" },
+    { "type": "bgm", "trackId": "battle_yonko_awakening", "fadeMs": 350 },
+    {
+      "type": "stage_3d",
+      "arenaId": "water7_dock",
+      "timeOfDay": "sunset",
+      "weather": "clear",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.8, 0, 0], "rotationYDeg": 90, "animClip": "IDLE" },
+        { "actorId": "usopp", "unitId": "usopp", "position": [-3.8, 0, -1.2], "rotationYDeg": 90, "animClip": "COMBO_1" },
+        { "actorId": "robin", "unitId": "robin", "position": [2.2, 0, -0.4], "rotationYDeg": -90, "animClip": "HIT" },
+        { "actorId": "lucci", "unitId": "lucci", "position": [3.2, 0, 0.4], "rotationYDeg": -90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "camera_3d", "shot": "wide_establishing", "targetActorId": "luffy", "durationMs": 700, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "determined", "text": "살고 싶다고 말 해!! 로빈!!", "focusActorId": "luffy" },
+    { "type": "camera_3d", "shot": "closeup_speaker", "targetActorId": "robin", "durationMs": 650, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "robin", "speakerName": "니코 로빈", "side": "right", "emotion": "sad", "text": "살고 싶어!! 나도 너희랑 함께 바다로 데려가 줘!!", "focusActorId": "robin" }
+  ],
+  "preBattle": [
+    { "type": "bgm", "trackId": "battle_boss", "fadeMs": 250 },
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "lucci", "durationMs": 650, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "lucci", "speakerName": "로브 루치", "side": "right", "emotion": "angry", "text": "고작 해적 따위가 정의를 논하지 마라. 네 동료부터 전원 처형해주지.", "focusActorId": "lucci" },
+    { "type": "start_musou_battle", "battleId": "battle_ch10_enies", "bossUnitId": "lucci", "hordeCount": 100, "preDialogueDoneFlag": "ch10_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch10_burst", "trigger": "onBurstActivated", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "기어 2! 내 동료를 지키기 전까진 절대로 쓰러지지 않아!!" },
+    { "banterId": "ch10_armor", "trigger": "onArmorBreak", "speakerId": "luffy", "speakerName": "루피", "emotion": "determined", "text": "무너지지 마! 여기서 고무고무 제트 개틀링을 다 박아넣는다!!" },
+    { "banterId": "ch10_parry", "trigger": "onJustParry", "speakerId": "franky", "speakerName": "프랑키", "emotion": "excited", "text": "수퍼~~!! 그 패링 감각 완전 강철 같은데?!" },
+    { "banterId": "ch10_hp", "trigger": "bossHpBelow", "threshold": 0.35, "speakerId": "lucci", "speakerName": "로브 루치", "emotion": "angry", "text": "육왕건 정통으로 버텨내다니... 괴물 같은 정신력이군." }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "victory_fanfare", "fadeMs": 400 },
+    { "type": "camera_3d", "shot": "orbit_hero", "targetActorId": "luffy", "durationMs": 750, "easing": "easeInOutQuad" },
+    { "type": "line", "speakerId": "franky", "speakerName": "프랑키", "side": "right", "emotion": "battle_cry", "text": "이 배 이름은 [사우전드 써니호]다! 보배 아담으로 만든 꿈의 배의 선공은 나, 프랑키가 맡는다!", "focusActorId": "luffy", "sfx": "coup_de_burst" },
+    { "type": "narration", "text": "조선공 프랑키가 합류하고 꿈의 배 [사우전드 써니호]가 진수되었다! 루피의 현상금은 3억 베리로 껑충 뛰었다!", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": ["franky_base"],
+    "unlockForms": [],
+    "unlockSpecialSlots": [0, 1, 2, 3],
+    "unlockSeaZones": [],
+    "upgradeShip": "thousand_sunny",
+    "worldFlags": ["ch10_water_seven_cleared"],
+    "bountyIncrease": 190000000
+  }
+}

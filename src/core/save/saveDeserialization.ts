@@ -7,6 +7,11 @@ import { createInitialNpcStates } from '../rpg/islandLivingVillage';
 import { isCircleBlockedOnIsland } from '../rpg/islandTileCollision';
 import type { GameDataRegistry } from '../types/dataSchemas';
 import type { RpgCampaignState, RpgDataRegistry } from '../types/rpgSchemas';
+import { STORY_CHAPTERS_LIST } from '../../data/story/storyChaptersRegistry';
+import {
+  cloneStoryProgress,
+  deriveStoryProgressFromLegacyEpisodes
+} from '../story/StoryStateMachine';
 import { evaluateAndStampAntiCheat } from './antiCheat';
 import type { GlobalSettingsPayload, SaveEnvelope } from './schema';
 
@@ -92,6 +97,12 @@ export function deserializeSaveEnvelopeToCampaign(
   campaign.shipboardCookingCooldownSec = world.shipboardCookingCooldownSec ?? 0;
   campaign.completedEpisodes = [...world.completedEpisodes];
   campaign.episodeFlags = { ...world.episodeStepFlags };
+  campaign.storyProgress = envelope.payload.storyProgress
+    ? cloneStoryProgress(envelope.payload.storyProgress)
+    : deriveStoryProgressFromLegacyEpisodes(
+        world.completedEpisodes,
+        STORY_CHAPTERS_LIST
+      );
   campaign.openedChestIds = Array.isArray(world.openedChestIds)
     ? [...world.openedChestIds]
     : [];

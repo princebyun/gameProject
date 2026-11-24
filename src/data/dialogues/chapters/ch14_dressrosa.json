@@ -1,0 +1,58 @@
+{
+  "chapterId": "ch14_dressrosa",
+  "chapterNo": "Ch.14",
+  "act": 3,
+  "title": "드레스로자 — 새장과 기어 4 바운드맨",
+  "subtitle": "트라팔가 로 해적동맹 · 도플라밍고 격파 · 기어 4 해금",
+  "summary2Lines": [
+    "트라팔가 로와의 동맹으로 드레스로자를 덮친 거대한 새장에 맞선 루피.",
+    "감마 나이프와 최초 공개 기어 4 바운드맨의 킹 콩 건으로 도플라밍고를 추락시킨다."
+  ],
+  "prerequisiteChapterIds": ["ch13_fishman_island"],
+  "legacyEpisodeId": "ep_dressrosa",
+  "arenaId": "dressrosa_colosseum",
+  "bossUnitId": "doflamingo",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.14", "act": 3, "title": "사랑과 정열의 드레스로자", "subtitle": "최악의 세대 동맹 vs 천야차" },
+    { "type": "bgm", "trackId": "battle_yonko_awakening", "fadeMs": 350 },
+    {
+      "type": "stage_3d",
+      "arenaId": "dressrosa_colosseum",
+      "timeOfDay": "sunset",
+      "weather": "clear",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.4, 0, 0.3], "rotationYDeg": 90, "animClip": "IDLE" },
+        { "actorId": "law", "unitId": "law", "position": [-3.0, 0, -1.1], "rotationYDeg": 85, "animClip": "COMBO_1", "drawWeapons": true },
+        { "actorId": "doflamingo", "unitId": "doflamingo", "position": [3.0, 0.4, 0], "rotationYDeg": -90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "camera_3d", "shot": "over_shoulder", "targetActorId": "law", "secondaryActorId": "doflamingo", "durationMs": 650, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "law", "speakerName": "트라팔가 로", "side": "left", "emotion": "determined", "text": "ROOM·샴블즈! 밀짚모자야, 내 감마 나이프로 녀석의 속은 이미 찢어놓았다!", "focusActorId": "law", "sfx": "slash_heavy" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "battle_cry", "text": "밍고! 사람들이 숨 막혀 하는 이 새장은... 내가 전부 날려버린다!! 기어 4!!", "focusActorId": "luffy" }
+  ],
+  "preBattle": [
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "doflamingo", "durationMs": 650, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "doflamingo", "speakerName": "도플라밍고", "side": "right", "emotion": "smirk", "text": "후후후후! 각성한 실을 앞세운 신세계를 얕보지 마라!!", "focusActorId": "doflamingo" },
+    { "type": "start_musou_battle", "battleId": "battle_ch14_dressrosa", "bossUnitId": "doflamingo", "hordeCount": 100, "preDialogueDoneFlag": "ch14_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch14_tech", "trigger": "onJustParry", "speakerId": "law", "speakerName": "트라팔가 로", "emotion": "smirk", "text": "테크닉 표식이 터졌다! 지금 보스 실드가 크게 약해졌어!" },
+    { "banterId": "ch14_burst", "trigger": "onBurstActivated", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "바운드맨! 고무와 패기의 장력이 끝없이 튕겨 오른다!!" },
+    { "banterId": "ch14_armor", "trigger": "onArmorBreak", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "고무고무... 대원왕총(킹 콩 건)!!!!" },
+    { "banterId": "ch14_hp", "trigger": "bossHpBelow", "threshold": 0.35, "speakerId": "doflamingo", "speakerName": "도플라밍고", "emotion": "shocked", "text": "말도 안 돼... 내 거미줄 실 방어막이 한 방에...?!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "victory_fanfare", "fadeMs": 350 },
+    { "type": "vfx_3d", "effect": "shockwave_ring", "targetActorId": "luffy" },
+    { "type": "actor_action", "actorId": "luffy", "animClip": "VICTORY" },
+    { "type": "narration", "text": "드레스로자의 새장이 소멸하고 [기어 4 바운드맨 · K-ROOM] 각성이 해금되었다! 루피의 현상금은 5억 베리 돌파!", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": [],
+    "unlockForms": ["luffy_gear4", "form_law_kroom"],
+    "unlockSpecialSlots": [0, 1, 2, 3],
+    "unlockSeaZones": [],
+    "worldFlags": ["ch14_dressrosa_cleared"],
+    "bountyIncrease": 100000000
+  }
+}

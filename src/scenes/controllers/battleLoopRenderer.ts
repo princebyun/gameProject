@@ -146,6 +146,9 @@ export class BattleLoopRenderer implements Disposable {
   }
 
   private stepOfflineBattleTick(): void {
+    if (this.host.threeMusouController?.isCutsceneActive()) {
+      return;
+    }
     let playerUnit = this.host.battleWorld.units.find(
       (u) =>
         u.team === 'ALPHA' &&
@@ -219,6 +222,7 @@ export class BattleLoopRenderer implements Disposable {
       this.host.prng,
       FIXED_DT
     );
+    this.host.threeMusouController?.stepMusouTickIfActive(this.host);
 
     const nextClashes =
       this.host.battleWorld.beamClashes.length +

@@ -1,0 +1,71 @@
+{
+  "chapterId": "ch05_arlong_park",
+  "chapterNo": "Ch.05",
+  "act": 1,
+  "title": "아론 파크 — 밀짚모자와 눈물의 맹세",
+  "subtitle": "\"도와줘...\" 나미의 해방과 첫 현상금 3,000만",
+  "summary2Lines": [
+    "나미가 눈물로 외친 \"도와줘...\"에 말없이 밀짚모자를 씌워준 루피.",
+    "아론 파크를 무너뜨리고 항해사 나미를 되찾아 이스트 블루 최악의 3,000만 베리 현상범이 된다."
+  ],
+  "prerequisiteChapterIds": ["ch04_baratie"],
+  "legacyEpisodeId": "ep_arlong_park",
+  "arenaId": "fishman_island_seabed",
+  "bossUnitId": "arlong",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.05", "act": 1, "title": "아론 파크 행진", "subtitle": "동료를 울리는 놈은 용서하지 않는다" },
+    { "type": "bgm", "trackId": "battle_yonko_awakening", "fadeMs": 400 },
+    {
+      "type": "stage_3d",
+      "arenaId": "fishman_island_seabed",
+      "timeOfDay": "day",
+      "weather": "clear",
+      "actors": [
+        { "actorId": "nami", "unitId": "nami", "position": [-2.5, 0, 0.5], "rotationYDeg": 80, "animClip": "HIT" },
+        { "actorId": "luffy", "unitId": "luffy", "position": [-3.4, 0, 0.4], "rotationYDeg": 90, "animClip": "IDLE" },
+        { "actorId": "zoro", "unitId": "zoro", "position": [-4.0, 0, -0.8], "rotationYDeg": 90, "animClip": "IDLE", "drawWeapons": true },
+        { "actorId": "sanji", "unitId": "sanji", "position": [-4.0, 0, 1.5], "rotationYDeg": 90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "camera_3d", "shot": "closeup_speaker", "targetActorId": "nami", "durationMs": 700, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "nami", "speakerName": "나미", "side": "left", "emotion": "sad", "text": "루피... 도와줘...", "focusActorId": "nami" },
+    { "type": "camera_3d", "shot": "orbit_hero", "targetActorId": "luffy", "durationMs": 650, "easing": "easeInOutQuad" },
+    { "type": "actor_action", "actorId": "luffy", "animClip": "BURST_AWAKENING", "rimColorHex": "#ef4444", "rimIntensity": 1.3 },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "battle_cry", "text": "당연하지!!!!! 야, 가자!!", "focusActorId": "luffy", "sfx": "haki_lightning" }
+  ],
+  "preBattle": [
+    { "type": "bgm", "trackId": "battle_boss", "fadeMs": 250 },
+    {
+      "type": "stage_3d",
+      "arenaId": "fishman_island_seabed",
+      "timeOfDay": "day",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.6, 0, 0], "rotationYDeg": 90, "animClip": "COMBO_1" },
+        { "actorId": "arlong", "unitId": "arlong", "position": [2.8, 0, 0], "rotationYDeg": -90, "animClip": "IDLE", "drawWeapons": false }
+      ]
+    },
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "arlong", "durationMs": 650, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "arlong", "speakerName": "아론", "side": "right", "emotion": "angry", "text": "하찮은 인간 주제에! 나미는 영원히 내 측량사다!", "focusActorId": "arlong" },
+    { "type": "start_musou_battle", "battleId": "battle_ch05_arlong", "bossUnitId": "arlong", "hordeCount": 100, "preDialogueDoneFlag": "ch05_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch05_ko", "trigger": "onKoMilestone", "threshold": 50, "speakerId": "nami", "speakerName": "나미", "emotion": "excited", "text": "부탁해 모두들! 아론 파크를 무너뜨려줘!" },
+    { "banterId": "ch05_armor", "trigger": "onArmorBreak", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "저 지도와 펜 따위... 아론 파크째로 부숴버리겠다!!" },
+    { "banterId": "ch05_burst", "trigger": "onBurstActivated", "speakerId": "zoro", "speakerName": "조로", "emotion": "determined", "text": "배가 고프고 상처가 깊어도... 동료가 울면 그걸로 끝이야!" },
+    { "banterId": "ch05_hp", "trigger": "bossHpBelow", "threshold": 0.35, "speakerId": "arlong", "speakerName": "아론", "emotion": "shocked", "text": "내 키리바치 대검을 손으로 부수다니...! 너 대체 뭐야?!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "victory_fanfare", "fadeMs": 300 },
+    { "type": "vfx_3d", "effect": "shockwave_ring", "targetActorId": "luffy" },
+    { "type": "line", "speakerId": "nami", "speakerName": "나미", "side": "right", "emotion": "excited", "text": "고마워 루피... 나도 너희와 함께 세계 지도를 그리러 갈게!", "focusActorId": "nami", "sfx": "wanted_poster_slam" },
+    { "type": "narration", "text": "항해사 나미가 정식 합류하고, 루피에게 첫 현상금 3,000만 베리 수배서가 걸렸다!", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": ["nami_base"],
+    "unlockForms": [],
+    "unlockSpecialSlots": [0, 1, 2, 3],
+    "unlockSeaZones": [],
+    "worldFlags": ["ch05_arlong_cleared"],
+    "bountyIncrease": 10000000
+  }
+}

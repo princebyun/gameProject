@@ -1,3 +1,4 @@
+import { StoryCodexOverlay } from '../../ui/StoryCodexOverlay';
 import { AssetPreviewScene } from '../dev/assetPreviewScene';
 import { VisualPolishDrawer } from '../dev/visualPolishDrawer';
 import { TitleSceneController } from '../titleScene';
@@ -68,11 +69,38 @@ export function initializeSceneDomAndSubScenes(
   const unsubPixiResize = host.pixiHost
     ? shell.renderer.viewport.onChange((m) => host.pixiHost?.resize(m))
     : null;
+  const unsubThreeResize = host.threeHost
+    ? shell.renderer.viewport.onChange((m) => host.threeHost?.resize(m))
+    : null;
   if (host.pixiHost) {
     host.visualPolishDrawer = new VisualPolishDrawer(host.rootEl, host.pixiHost, {
+      threeHost: host.threeHost,
+      threeInspector: host.threeMusouController,
+      threeWeaponTuner: host.threeMusouController,
+      threeMusouPreset: host.threeMusouController,
+      threeStoryJump: {
+        jumpToStoryCutscene: (chapterId) => {
+          host.launchStoryChapter?.(chapterId, 'intro');
+        },
+        jumpToStoryBattle: (chapterId) => {
+          host.launchStoryChapter?.(chapterId, 'battle');
+        },
+        openStoryCodex: () => {
+          host.openStoryCodex?.();
+        }
+      },
+      onThreeTuningChanged: (partial) => {
+        host.threeMusouController?.setTuning(partial);
+      },
       onConfigChanged: (cfg) => {
         const selQuality = host.settingsModalEl?.querySelector('#sel-graphics-quality') as HTMLSelectElement | null;
         if (selQuality) selQuality.value = cfg.quality;
+        host.threeMusouController?.applyVisualPolish({
+          quality: cfg.quality,
+          timeOfDay: cfg.timeOfDay,
+          bloom: cfg.selectiveBloom,
+          lighting: cfg.dynamicLighting
+        });
       }
     });
   }
@@ -109,6 +137,11 @@ export function initializeSceneDomAndSubScenes(
       host.audio.playSfxId('awakening_drums');
       host.startNewAdventureFlow();
     },
+    onStoryCodex: () => {
+      host.audio.unlock();
+      host.audio.playSfxId('ui_confirm');
+      host.openStoryCodex?.();
+    },
     onSandbox: () => {
       host.audio.unlock();
       host.audio.playSfxId('ui_confirm');
@@ -137,10 +170,22 @@ export function initializeSceneDomAndSubScenes(
     { onClose: () => host.syncSceneBgm() }
   );
 
+  host.storyCodexOverlay = new StoryCodexOverlay(host.rootEl, {
+    onReplayCutscene: (chapterId) => {
+      host.audio.unlock();
+      host.launchStoryChapter?.(chapterId, 'intro');
+    },
+    onStartMusouBattle: (chapterId) => {
+      host.audio.unlock();
+      host.launchStoryChapter?.(chapterId, 'battle');
+    }
+  });
+
   return {
     canvasWrapper: shell.canvasWrapper,
     cleanupViewport: () => {
       unsubPixiResize?.();
+      unsubThreeResize?.();
       shell.viewportListenerCleanup();
     }
   };

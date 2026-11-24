@@ -1,0 +1,60 @@
+{
+  "chapterId": "ch07_drum_kingdom",
+  "chapterNo": "Ch.07",
+  "act": 2,
+  "title": "드럼 왕국 — 히루루크의 벚꽃과 만능약",
+  "subtitle": "설산 성 결전 · 벚꽃 눈 전환 · 토니토니 쵸파 합류",
+  "summary2Lines": [
+    "눈보라 치는 드럼 성에서 닥터 히루루크의 해적기를 지킨 루피와 쵸파.",
+    "폭군 와포루를 날려버리고 밤하늘에 핀 벚꽃 눈 아래 선의 쵸파가 합류한다."
+  ],
+  "prerequisiteChapterIds": ["ch06_loguetown"],
+  "legacyEpisodeId": "ep_drum_kingdom",
+  "arenaId": "drum_snow_peak",
+  "bossUnitId": "wapol",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.07", "act": 2, "title": "겨울섬 드럼 왕국", "subtitle": "부러지지 않는 벚꽃 해적기" },
+    { "type": "bgm", "trackId": "island_peaceful", "fadeMs": 350 },
+    {
+      "type": "stage_3d",
+      "arenaId": "drum_snow_peak",
+      "timeOfDay": "day",
+      "weather": "snow",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.2, 0, 0.2], "rotationYDeg": 90, "animClip": "IDLE" },
+        { "actorId": "chopper", "unitId": "chopper", "position": [-0.8, 0, -0.8], "rotationYDeg": 60, "animClip": "IDLE" },
+        { "actorId": "wapol", "unitId": "wapol", "position": [3.0, 0, 0], "rotationYDeg": -90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "camera_3d", "shot": "wide_establishing", "targetActorId": "luffy", "durationMs": 700, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "npc_hiriluk", "speakerName": "Dr. 히루루크 (회상)", "side": "center", "emotion": "determined", "text": "사람은 언제 죽는다고 생각하나? ...사람들에게 잊혀졌을 때다!", "focusActorId": "chopper" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "battle_cry", "text": "돌팔이 의사들이 목숨 걸고 세운 해적기다! 함부로 부수지 마!!", "focusActorId": "luffy" }
+  ],
+  "preBattle": [
+    { "type": "bgm", "trackId": "battle_boss", "fadeMs": 250 },
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "wapol", "durationMs": 600, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "wapol", "speakerName": "와포루", "side": "right", "emotion": "angry", "text": "우걱우걱 팩토리로 네놈의 깃발부터 씹어 먹어주마!", "focusActorId": "wapol" },
+    { "type": "start_musou_battle", "battleId": "battle_ch07_drum", "bossUnitId": "wapol", "hordeCount": 90, "preDialogueDoneFlag": "ch07_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch07_armor", "trigger": "onArmorBreak", "speakerId": "chopper", "speakerName": "쵸파", "emotion": "excited", "text": "브레인 포인트 스코프! 와포루 갑옷 약점이 보였어!" },
+    { "banterId": "ch07_burst", "trigger": "onBurstActivated", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "네놈 같은 폭군은 저 멀리 날아가 버려라!" },
+    { "banterId": "ch07_ko", "trigger": "onKoMilestone", "threshold": 50, "speakerId": "sanji", "speakerName": "상디", "emotion": "smirk", "text": "순록 꼬마, 싸우는 기세가 대단한걸?" },
+    { "banterId": "ch07_hp", "trigger": "bossHpBelow", "threshold": 0.35, "speakerId": "wapol", "speakerName": "와포루", "emotion": "shocked", "text": "내 와포메탈 캐논이 먹히지 않아?!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "victory_fanfare", "fadeMs": 400 },
+    { "type": "vfx_3d", "effect": "sakura_gust", "targetActorId": "chopper" },
+    { "type": "actor_action", "actorId": "chopper", "animClip": "VICTORY", "rimColorHex": "#f472b6", "rimIntensity": 1.2 },
+    { "type": "line", "speakerId": "chopper", "speakerName": "쵸파", "side": "right", "emotion": "excited", "text": "저... 정말 바다에 데려가 주는 거야?! 고마워!!", "focusActorId": "chopper" },
+    { "type": "narration", "text": "드럼 로키 하늘을 수놓은 기적의 벚꽃 눈 속에서 선의 토니토니 쵸파가 합류했다!", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": ["chopper_base"],
+    "unlockForms": [],
+    "unlockSpecialSlots": [0, 1, 2, 3],
+    "unlockSeaZones": [],
+    "worldFlags": ["drum_cherry_blossom", "ch07_drum_cleared"],
+    "bountyIncrease": 5000000
+  }
+}

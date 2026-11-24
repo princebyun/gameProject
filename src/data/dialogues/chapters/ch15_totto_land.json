@@ -1,0 +1,57 @@
+{
+  "chapterId": "ch15_totto_land",
+  "chapterNo": "Ch.15",
+  "act": 3,
+  "title": "토트랜드 — 거울 세계와 스네이크맨",
+  "subtitle": "상디 구출 · 10억의 사나이 카타쿠리 결투 · 견문색 개안",
+  "summary2Lines": [
+    "홀케이크 아일랜드의 진실을 마주하고 눈물로 돌아온 상디를 구출한 루피.",
+    "미러 월드에서 샬롯 카타쿠리와 정면 대결해 스네이크맨과 미래 예지 견문색에 눈뜬다."
+  ],
+  "prerequisiteChapterIds": ["ch14_dressrosa"],
+  "legacyEpisodeId": "ep_totto_land",
+  "arenaId": "whole_cake_mirror",
+  "bossUnitId": "katakuri",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.15", "act": 3, "title": "미러 월드 결전", "subtitle": "10억 베리의 남자 vs 진심을 묻는 자" },
+    { "type": "bgm", "trackId": "battle_yonko_awakening", "fadeMs": 350 },
+    {
+      "type": "stage_3d",
+      "arenaId": "whole_cake_mirror",
+      "timeOfDay": "night",
+      "weather": "clear",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.4, 0, 0], "rotationYDeg": 90, "animClip": "IDLE" },
+        { "actorId": "katakuri", "unitId": "katakuri", "position": [2.8, 0, 0], "rotationYDeg": -90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "camera_3d", "shot": "over_shoulder", "targetActorId": "luffy", "secondaryActorId": "katakuri", "durationMs": 650, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "katakuri", "speakerName": "카타쿠리", "side": "right", "emotion": "determined", "text": "네놈의 미래는 이미 보인다. 쓰러질 시간이다, 밀짚모자!", "focusActorId": "katakuri" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "battle_cry", "text": "나도... 조금 앞 미래를 보고 싶어졌어!! 10억의 사나이, 내가 넘는다!!", "focusActorId": "luffy" }
+  ],
+  "preBattle": [
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "katakuri", "durationMs": 600, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "determined", "text": "기어 4... 스네이크맨!!", "focusActorId": "luffy", "sfx": "transform_burst" },
+    { "type": "start_musou_battle", "battleId": "battle_ch15_totto", "bossUnitId": "katakuri", "hordeCount": 90, "preDialogueDoneFlag": "ch15_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch15_parry", "trigger": "onJustParry", "speakerId": "luffy", "speakerName": "루피", "emotion": "excited", "text": "보였다!! 네 펀치가 어디로 올지 미래가 보였어!" },
+    { "banterId": "ch15_armor", "trigger": "onArmorBreak", "speakerId": "katakuri", "speakerName": "카타쿠리", "emotion": "determined", "text": "내 집중력을 흔들다니... 더 이상 아래로 보지 않겠다!" },
+    { "banterId": "ch15_burst", "trigger": "onBurstActivated", "speakerId": "sanji", "speakerName": "상디", "emotion": "determined", "text": "내가 배로 돌아갈 때까지 지고 있지 마, 선장!" },
+    { "banterId": "ch15_hp", "trigger": "bossHpBelow", "threshold": 0.3, "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "고무고무... 킹 코브라!!!!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "victory_fanfare", "fadeMs": 400 },
+    { "type": "camera_3d", "shot": "closeup_speaker", "targetActorId": "katakuri", "durationMs": 650, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "katakuri", "speakerName": "카타쿠리", "side": "right", "emotion": "smirk", "text": "너... 언젠가 빅 맘을 쓰러뜨리러 올 거냐? 아주 먼 미래가 보이는군.", "focusActorId": "katakuri" },
+    { "type": "narration", "text": "[스네이크맨 · 디아블 잠브]가 해금되고 루피는 15억 베리 [다섯 번째 황제]로 불리게 되었다!", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": [],
+    "unlockForms": ["luffy_snakeman", "form_sanji_diable_jambe"],
+    "unlockSpecialSlots": [0, 1, 2, 3],
+    "unlockSeaZones": [],
+    "worldFlags": ["ch15_totto_cleared"],
+    "bountyIncrease": 1000000000
+  }
+}

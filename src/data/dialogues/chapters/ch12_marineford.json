@@ -1,0 +1,57 @@
+{
+  "chapterId": "ch12_marineford",
+  "chapterNo": "Ch.12",
+  "act": 2,
+  "title": "마린포드 정상전쟁 — 3D2Y의 맹세",
+  "subtitle": "해군 대장 아카이누 혈전 · 2년 후 신세계 개방",
+  "summary2Lines": [
+    "해군 본부 오리스 광장에서 에이스를 구하기 위해 삼대장과 맞선 루피와 흰 수염 해적단.",
+    "상실의 아픔을 딛고 [3D2Y]를 약속한 일당은 패기를 갈고닦아 신세계로 진입한다."
+  ],
+  "prerequisiteChapterIds": ["ch11_thriller_bark"],
+  "legacyEpisodeId": "ep_marineford",
+  "arenaId": "marineford_ice_bay",
+  "bossUnitId": "akainu",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.12", "act": 2, "title": "정상전쟁 마린포드", "subtitle": "시대를 가르는 거대한 격돌" },
+    { "type": "bgm", "trackId": "battle_raid_giant", "fadeMs": 350 },
+    {
+      "type": "stage_3d",
+      "arenaId": "marineford_ice_bay",
+      "timeOfDay": "sunset",
+      "weather": "storm",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.6, 0, 0.3], "rotationYDeg": 90, "animClip": "RUN" },
+        { "actorId": "marco", "unitId": "marco", "position": [-1.8, 0.9, -1.2], "rotationYDeg": 80, "animClip": "AIR_LAUNCH" },
+        { "actorId": "akainu", "unitId": "akainu", "position": [3.0, 0, 0], "rotationYDeg": -90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "camera_3d", "shot": "dramatic_dutch", "targetActorId": "akainu", "durationMs": 700, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "npc_ace", "speakerName": "에이스", "side": "left", "emotion": "determined", "text": "루피! 넌 나보다 훨씬 더 강한 사나이가 되어 살아남아라!", "focusActorId": "luffy" }
+  ],
+  "preBattle": [
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "akainu", "durationMs": 650, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "akainu", "speakerName": "사카즈키 (아카이누)", "side": "right", "emotion": "angry", "text": "드래곤의 아들... 여기서 정의의 마그마로 불태워 없애겠다!", "focusActorId": "akainu", "sfx": "explosion_heavy" },
+    { "type": "start_musou_battle", "battleId": "battle_ch12_marineford", "bossUnitId": "akainu", "hordeCount": 100, "preDialogueDoneFlag": "ch12_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch12_burst", "trigger": "onBurstActivated", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "해적왕이 되려면... 여기서 한 발짝도 못 물러서!!" },
+    { "banterId": "ch12_armor", "trigger": "onArmorBreak", "speakerId": "marco", "speakerName": "마르코", "emotion": "determined", "text": "아카이누의 방어막이 뚫렸다이! 지금 밀어붙여라, 에이스의 동생!!" },
+    { "banterId": "ch12_parry", "trigger": "onJustParry", "speakerId": "jinbe", "speakerName": "징베", "emotion": "determined", "text": "내 어인 공수도로 자네와 에이스 군의 앞길을 열겠네!" },
+    { "banterId": "ch12_ko", "trigger": "onKoMilestone", "threshold": 90, "speakerId": "akainu", "speakerName": "아카이누", "emotion": "angry", "text": "해적 놈들, 끝까지 끈질기군... 철저한 정의로 섬멸하라!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "sea_new_world", "fadeMs": 450 },
+    { "type": "camera_3d", "shot": "orbit_hero", "targetActorId": "luffy", "durationMs": 800, "easing": "easeInOutQuad" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "determined", "text": "잃은 게 많아도... 아직 나에겐 동료들이 있어!! 2년 뒤 사바오디에서 만나자!!", "focusActorId": "luffy" },
+    { "type": "narration", "text": "2년간의 수련으로 삼대 패기를 깨우친 일당 앞에 최강의 바다 [신세계]가 열렸다!", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": [],
+    "unlockForms": [],
+    "unlockSpecialSlots": [0, 1, 2, 3],
+    "unlockSeaZones": ["new_world"],
+    "worldFlags": ["marineford_3d2y", "new_world_opened"],
+    "bountyIncrease": 100000000
+  }
+}

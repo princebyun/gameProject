@@ -1,0 +1,68 @@
+{
+  "chapterId": "ch02_shells_town",
+  "chapterNo": "Ch.02",
+  "act": 1,
+  "title": "쉘즈타운 — 해적사냥꾼 롤로노아 조로",
+  "subtitle": "폭군 모건 대령 타도와 첫 번째 동료",
+  "summary2Lines": [
+    "처형장에 묶인 검사 롤로노아 조로의 삼검을 되찾아준 루피.",
+    "도끼손 모건 대령을 쓰러뜨리고 위대한 항해를 함께할 첫 동료를 얻는다."
+  ],
+  "prerequisiteChapterIds": ["ch01_foosha"],
+  "legacyEpisodeId": "ep_east_blue_start",
+  "arenaId": "east_blue_harbor",
+  "bossUnitId": "morgan",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.02", "act": 1, "title": "쉘즈타운 해군기지", "subtitle": "해적사냥꾼과의 해후" },
+    { "type": "bgm", "trackId": "island_peaceful", "fadeMs": 300 },
+    {
+      "type": "stage_3d",
+      "arenaId": "east_blue_harbor",
+      "timeOfDay": "day",
+      "weather": "clear",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.0, 0, 0.4], "rotationYDeg": 85, "animClip": "IDLE" },
+        { "actorId": "zoro", "unitId": "zoro", "position": [1.2, 0, 0], "rotationYDeg": -95, "animClip": "IDLE", "drawWeapons": true }
+      ]
+    },
+    { "type": "camera_3d", "shot": "closeup_speaker", "targetActorId": "zoro", "durationMs": 600, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "zoro", "speakerName": "조로", "side": "right", "emotion": "smirk", "text": "네가 소문의 고무 인간인가... 내 세 자루 검을 가져오면 동료가 되어주지.", "focusActorId": "zoro", "sfx": "slash_light" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "excited", "text": "좋아! 해적왕의 동료로 딱 어울리는 대검호가 되어라, 조로!", "focusActorId": "luffy" }
+  ],
+  "preBattle": [
+    { "type": "bgm", "trackId": "battle_boss", "fadeMs": 250 },
+    {
+      "type": "stage_3d",
+      "arenaId": "east_blue_harbor",
+      "timeOfDay": "day",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.8, 0, -0.5], "rotationYDeg": 90, "animClip": "COMBO_1" },
+        { "actorId": "zoro", "unitId": "zoro", "position": [-2.2, 0, 1.1], "rotationYDeg": 85, "animClip": "COMBO_2", "drawWeapons": true },
+        { "actorId": "morgan", "unitId": "morgan", "position": [3.0, 0, 0], "rotationYDeg": -90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "morgan", "durationMs": 700, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "morgan", "speakerName": "도끼손 모건", "side": "right", "emotion": "angry", "text": "해군기지에 난입한 반역자 놈들! 이 거대한 도끼로 두 동강 내주겠다!", "focusActorId": "morgan", "sfx": "slash_heavy" },
+    { "type": "start_musou_battle", "battleId": "battle_ch02_shells", "bossUnitId": "morgan", "hordeCount": 80, "preDialogueDoneFlag": "ch02_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch02_armor", "trigger": "onArmorBreak", "speakerId": "zoro", "speakerName": "조로", "emotion": "smirk", "text": "갑옷이 부서졌다! 지금 바로 베어버려, 선장!" },
+    { "banterId": "ch02_parry", "trigger": "onJustParry", "speakerId": "zoro", "speakerName": "조로", "emotion": "determined", "text": "도끼 궤도가 뻔히 보인다. 좋은 패링이다!" },
+    { "banterId": "ch02_ko", "trigger": "onKoMilestone", "threshold": 50, "speakerId": "luffy", "speakerName": "루피", "emotion": "excited", "text": "오십 명 돌파! 해병들 비켜!" },
+    { "banterId": "ch02_hp", "trigger": "bossHpBelow", "threshold": 0.4, "speakerId": "morgan", "speakerName": "도끼손 모건", "emotion": "angry", "text": "위대한 나 모건이 애송이 해적들에게 밀릴 리 없다!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "victory_fanfare", "fadeMs": 300 },
+    { "type": "actor_action", "actorId": "zoro", "animClip": "VICTORY" },
+    { "type": "line", "speakerId": "zoro", "speakerName": "조로", "side": "right", "emotion": "determined", "text": "약속대로 해적이 된다. 하지만 내 야망을 가로막으면 가만 안 둬!", "focusActorId": "zoro" },
+    { "type": "narration", "text": "롤로노아 조로가 밀짚모자 일당 첫 번째 동료로 합류했다!", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": ["zoro_base"],
+    "unlockForms": [],
+    "unlockSpecialSlots": [0, 1, 2],
+    "unlockSeaZones": [],
+    "worldFlags": ["flag_zoro_freed", "flag_east_blue_boss_cleared"],
+    "bountyIncrease": 5000000
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "chapterId": "ch13_fishman_island",
+  "chapterNo": "Ch.13",
+  "act": 3,
+  "title": "어인섬 — 2년 만의 재집결 레드 호크",
+  "subtitle": "신 어인해적단 10만 대군 · 호디 존스 격파",
+  "summary2Lines": [
+    "해저 1만 미터 어인섬 기옹코르드 광장에 2년 만에 모인 밀짚모자 일당 9인.",
+    "무장색·패왕색으로 10만 적을 압도하고 호디 존스를 고무고무 레드 호크로 꺾는다."
+  ],
+  "prerequisiteChapterIds": ["ch12_marineford"],
+  "legacyEpisodeId": "ep_fishman_island",
+  "arenaId": "fishman_island_seabed",
+  "bossUnitId": "hody_jones",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.13", "act": 3, "title": "해저 용궁 어인섬", "subtitle": "2년 후 첫 무쌍 · 패왕색 일섬" },
+    { "type": "bgm", "trackId": "battle_normal", "fadeMs": 300 },
+    {
+      "type": "stage_3d",
+      "arenaId": "fishman_island_seabed",
+      "timeOfDay": "day",
+      "weather": "clear",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.2, 0, 0], "rotationYDeg": 90, "animClip": "BURST_AWAKENING", "rimColorHex": "#ef4444", "rimIntensity": 1.4 },
+        { "actorId": "zoro", "unitId": "zoro", "position": [-3.0, 0, -1.2], "rotationYDeg": 90, "animClip": "IDLE", "drawWeapons": true },
+        { "actorId": "hody_jones", "unitId": "hody_jones", "position": [3.0, 0, 0], "rotationYDeg": -90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "vfx_3d", "effect": "haki_clash", "targetActorId": "luffy" },
+    { "type": "camera_3d", "shot": "orbit_hero", "targetActorId": "luffy", "durationMs": 700, "easing": "easeInOutQuad" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "determined", "text": "어인섬은 이제 내 세력권으로 삼겠다!! 덤벼라, 호디!", "focusActorId": "luffy", "sfx": "haki_lightning" }
+  ],
+  "preBattle": [
+    { "type": "bgm", "trackId": "battle_boss", "fadeMs": 250 },
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "hody_jones", "durationMs": 600, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "hody_jones", "speakerName": "호디 존스", "side": "right", "emotion": "angry", "text": "E.S 흉약의 힘으로 지상의 인간 놈들을 전부 수장시켜주마!", "focusActorId": "hody_jones" },
+    { "type": "start_musou_battle", "battleId": "battle_ch13_fishman", "bossUnitId": "hody_jones", "hordeCount": 100, "preDialogueDoneFlag": "ch13_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch13_ko", "trigger": "onKoMilestone", "threshold": 80, "speakerId": "zoro", "speakerName": "조로", "emotion": "smirk", "text": "이 정도로도 부족하면 선장이 5만 명은 패왕색으로 재웠잖아." },
+    { "banterId": "ch13_armor", "trigger": "onArmorBreak", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "고무고무... 레드 호크!! 어인섬은 절대 못 건드려!" },
+    { "banterId": "ch13_burst", "trigger": "onBurstActivated", "speakerId": "sanji", "speakerName": "상디", "emotion": "excited", "text": "2년 간의 지옥에서 돌아온 실력, 똑똑히 봐라!" },
+    { "banterId": "ch13_hp", "trigger": "bossHpBelow", "threshold": 0.35, "speakerId": "hody_jones", "speakerName": "호디 존스", "emotion": "shocked", "text": "바닷속에서도 불꽃 펀치를 쏘는 거냐...?! 크아악!!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "victory_fanfare", "fadeMs": 350 },
+    { "type": "line", "speakerId": "jinbe", "speakerName": "징베", "side": "right", "emotion": "determined", "text": "고맙네 루피 군. 신세계에서 내 신변을 정리한 뒤 반드시 자네 배에 오르겠네!", "focusActorId": "luffy" },
+    { "type": "narration", "text": "징베와의 재회를 약속한 밀짚모자 일당은 신세계의 첫 섬으로 솟아올랐다!", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": [],
+    "unlockForms": [],
+    "unlockSpecialSlots": [0, 1, 2, 3],
+    "unlockSeaZones": [],
+    "worldFlags": ["red_hawk_return", "ch13_fishman_cleared"],
+    "bountyIncrease": 0
+  }
+}

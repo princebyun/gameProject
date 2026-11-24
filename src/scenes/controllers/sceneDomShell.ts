@@ -55,6 +55,7 @@ export function buildSceneDomShell(params: SceneDomShellParams): BuiltSceneDomSh
       <button id="tab-endgame" style="background:#713f12;border-color:#facc15;color:#fef08a;">🏆 도전 모드</button>
       <button id="tab-online" style="background:#581c87;border-color:#c084fc;">🌐 통신 대전</button>
       <button id="btn-save-menu">💾 저장 / 불러오기</button>
+      <button id="btn-story-codex" style="background:#0c4a6e;border-color:#38bdf8;color:#e0f2fe;">📖 스토리 도감</button>
       <button id="btn-toggle-journal">📜 항해 일지</button>
       <button id="btn-settings">⚙ 설정</button>
       <button id="btn-visual-polish" style="background:#312e81;border-color:#818cf8;color:#e0e7ff;">✨ 비주얼 튜닝</button>

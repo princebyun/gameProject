@@ -68,6 +68,7 @@ export interface TitleSavePreview {
 export interface TitleSceneCallbacks {
   onContinue: () => void;
   onNewAdventure: () => void;
+  onStoryCodex?: () => void;
   onSandbox: () => void;
   onOnlineOrRaid: () => void;
   onSettings: () => void;
@@ -197,6 +198,9 @@ export class TitleSceneController implements Disposable {
           <button id="btn-title-new-game" style="padding:10px 14px;background:${sp ? '#1e293b' : 'linear-gradient(90deg,#0284c7,#38bdf8)'};color:${sp ? '#f8fafc' : '#090d16'};border:1.5px solid #38bdf8;border-radius:7px;font-weight:800;font-size:13px;text-align:left;">
             ⚓ 새 모험 시작 (NEW ADVENTURE)
           </button>
+          <button id="btn-title-story-codex" style="padding:9px 14px;background:#0c4a6e;color:#e0f2fe;border:1.5px solid #38bdf8;border-radius:7px;font-weight:800;font-size:12px;text-align:left;">
+            📖 3D 스토리 도감 (Ch.01~18)
+          </button>
           <button id="btn-title-sandbox" style="padding:9px 14px;background:#1e293b;color:#e2e8f0;border:1px solid #475569;border-radius:7px;font-weight:700;font-size:12px;text-align:left;">
             ⚔ 연습 배틀 (SANDBOX)
           </button>
@@ -277,6 +281,10 @@ export class TitleSceneController implements Disposable {
         this.confirmOverwriteOpen = false;
         this.callbacks.onNewAdventure();
       }, { signal });
+
+    this.overlayEl
+      .querySelector('#btn-title-story-codex')
+      ?.addEventListener('click', () => this.callbacks.onStoryCodex?.(), { signal });
 
     this.overlayEl
       .querySelector('#btn-title-sandbox')

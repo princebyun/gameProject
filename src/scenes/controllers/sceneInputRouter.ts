@@ -49,6 +49,14 @@ export class SceneInputRouter implements Disposable {
       this.host.settingsModalEl.classList.remove('open');
       return { handledByScene: true };
     }
+    if (this.host.storyCodexOverlay?.isOpen()) {
+      this.host.storyCodexOverlay.close();
+      return { handledByScene: true };
+    }
+    if (this.host.threeMusouController?.isCutsceneActive()) {
+      this.host.threeMusouController.handleCutsceneKeyDown('Escape');
+      return { handledByScene: true };
+    }
     if (this.host.showWantedPosterOverlay) {
       this.host.showWantedPosterOverlay = false;
       return { handledByScene: true };
@@ -256,6 +264,22 @@ export class SceneInputRouter implements Disposable {
         }
 
         if (
+          (this.host.activeScene === 'STORY_BATTLE' ||
+            this.host.activeScene === 'SANDBOX') &&
+          this.host.threeMusouController?.isCutsceneActive()
+        ) {
+          if (
+            this.host.threeMusouController.handleCutsceneTap(
+              pt,
+              this.host.renderer.getMetrics()
+            )
+          ) {
+            this.host.audio.playSfxId('ui_move');
+            return;
+          }
+        }
+
+        if (
           this.host.activeScene === 'STORY_BATTLE' ||
           this.host.activeScene === 'SANDBOX'
         ) {
@@ -271,6 +295,20 @@ export class SceneInputRouter implements Disposable {
             return;
           }
           if (this.host.isBattlePaused) {
+            return;
+          }
+        }
+
+        if (
+          this.host.activeScene === 'STORY_BATTLE' ||
+          this.host.activeScene === 'SANDBOX'
+        ) {
+          if (
+            this.host.threeMusouController?.handleMusouHudTap(
+              pt,
+              this.host.renderer.getMetrics()
+            )
+          ) {
             return;
           }
         }
@@ -337,6 +375,12 @@ export class SceneInputRouter implements Disposable {
           this.host.visualPolishDrawer?.toggle();
           return;
         }
+        if (this.host.threeMusouController?.isCutsceneActive()) {
+          if (this.host.threeMusouController.handleCutsceneKeyDown(e.key)) {
+            e.preventDefault();
+            return;
+          }
+        }
         if (tag === 'SELECT') {
           targetEl?.blur();
         }
@@ -367,6 +411,11 @@ export class SceneInputRouter implements Disposable {
         if (e.code === 'Escape') {
           if (this.host.seaChartController?.state.isOpen) {
             this.host.seaChartController.close();
+            this.host.audio.playSfxId('ui_cancel');
+            return;
+          }
+          if (this.host.storyCodexOverlay?.isOpen()) {
+            this.host.storyCodexOverlay.close();
             this.host.audio.playSfxId('ui_cancel');
             return;
           }
@@ -410,6 +459,12 @@ export class SceneInputRouter implements Disposable {
             this.host.settingsModalEl?.classList.contains('open') ||
             this.host.endgameModalEl?.classList.contains('open');
           if (!hasDomModalOpen) {
+            if (e.code === 'Tab') {
+              e.preventDefault();
+              this.host.threeMusouController?.toggleBossLockOn(this.host);
+              this.host.audio.playSfxId('ui_move');
+              return;
+            }
             if (e.code === 'KeyP') {
               this.host.toggleBattlePause();
               this.host.audio.playSfxId('ui_confirm');
@@ -424,6 +479,44 @@ export class SceneInputRouter implements Disposable {
               this.host.setBattleSpeedScale(stepBattleSpeedScale(this.host.battleSpeedScale, 1));
               this.host.audio.playSfxId('ui_move');
               return;
+            }
+            if (this.host.threeMusouController?.getMusouCombatState()) {
+              if (e.code === 'Digit1') {
+                this.host.threeMusouController.queueMusouAction('SPECIAL_0');
+                return;
+              }
+              if (e.code === 'Digit2') {
+                this.host.threeMusouController.queueMusouAction('SPECIAL_1');
+                return;
+              }
+              if (e.code === 'Digit3') {
+                this.host.threeMusouController.queueMusouAction('SPECIAL_2');
+                return;
+              }
+              if (e.code === 'Digit4') {
+                this.host.threeMusouController.queueMusouAction('SPECIAL_3');
+                return;
+              }
+              if (e.code === 'ShiftLeft' || e.code === 'ShiftRight' || e.code === 'Space') {
+                this.host.threeMusouController.queueMusouAction('DASH');
+                return;
+              }
+              if (e.code === 'KeyB') {
+                this.host.threeMusouController.queueMusouAction('BURST');
+                return;
+              }
+              if (e.code === 'KeyJ') {
+                this.host.threeMusouController.queueMusouAction('ATTACK');
+                return;
+              }
+              if (e.code === 'KeyK') {
+                this.host.threeMusouController.queueMusouAction('CHARGE');
+                return;
+              }
+              if (e.code === 'KeyV') {
+                this.host.threeMusouController.queueMusouAction('JUMP');
+                return;
+              }
             }
           }
         }

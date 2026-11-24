@@ -101,9 +101,12 @@ export class SceneShowcaseToolbarController implements Disposable {
         });
       }
     } else if (this.host.activeScene === 'STORY_BATTLE') {
+      const isThreeOn = this.host.threeMusouController?.isEnabled() ?? true;
       bar.innerHTML = `
         <button id="btn-btl-win" class="btn-tab-active">⚡ 스토리 전투 즉시 승리 (보상 & 에피소드 완료)</button>
         <button id="btn-btl-form" class="btn-showcase">☁ 기어5 / 각성 발동 [Shift+F]</button>
+        <button id="btn-toggle-3d-musou" class="btn-showcase">${isThreeOn ? '🎮 3D 무쌍 / 2D 전환' : '🖼 2D 픽시 / 3D 무쌍'}</button>
+        <button id="btn-musou-burst-demo" class="btn-showcase">💥 무쌍 난무·파괴 데모</button>
         <button id="btn-btl-retreat" class="btn-showcase">⚓ 정박 항구로 후퇴</button>
       `;
       bar.querySelector('#btn-btl-win')?.addEventListener('click', () => {
@@ -117,17 +120,32 @@ export class SceneShowcaseToolbarController implements Disposable {
           activateFormShift(playerUnit, this.host.battleWorld, this.host.gameRegistry);
         }
       });
+      bar.querySelector('#btn-toggle-3d-musou')?.addEventListener('click', () => {
+        this.host.threeMusouController?.toggleEnabled(this.host);
+      });
+      bar.querySelector('#btn-musou-burst-demo')?.addEventListener('click', () => {
+        this.host.threeMusouController?.triggerMusouDemoBurst(this.host);
+      });
       bar.querySelector('#btn-btl-retreat')?.addEventListener('click', () => {
         this.host.finishStoryBattle(false);
       });
     } else {
+      const isThreeOn = this.host.threeMusouController?.isEnabled() ?? true;
       bar.innerHTML = `
+        <button id="btn-toggle-3d-musou" class="btn-showcase">${isThreeOn ? '🎮 3D 무쌍 / 2D 전환' : '🖼 2D 픽시 / 3D 무쌍'}</button>
+        <button id="btn-musou-burst-demo" class="btn-showcase">💥 무쌍 난무·파괴 데모</button>
         <button id="btn-demo-beam" class="btn-showcase">⚡ 보로 브레스 vs 레이저 빔 맞대결</button>
         <button id="btn-demo-melee" class="btn-showcase">👑 루피 vs 카이도 패왕색 하늘 가르기</button>
         <button id="btn-demo-form" class="btn-showcase">☁ 기어5(흰 구름띠) & 루치(검은 구름띠) 각성</button>
         <button id="btn-demo-zoan" class="btn-showcase">🔄 동물계 변신 순환 (인간↔인수↔청룡)</button>
         <button id="btn-demo-status" class="btn-showcase">✨ 자연계(키자루) 비패기 흘려보내기</button>
       `;
+      bar.querySelector('#btn-toggle-3d-musou')?.addEventListener('click', () => {
+        this.host.threeMusouController?.toggleEnabled(this.host);
+      });
+      bar.querySelector('#btn-musou-burst-demo')?.addEventListener('click', () => {
+        this.host.threeMusouController?.triggerMusouDemoBurst(this.host);
+      });
       bar.querySelector('#btn-demo-beam')?.addEventListener('click', () => {
         this.host.triggerSandboxShowcase('BEAM_CLASH');
       });

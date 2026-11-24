@@ -31,6 +31,7 @@ import type { PlatformBridge } from '../../platform/platformBridge';
 import type { SaveStorageAdapter } from '../../platform/storage/storageAdapter';
 import type { CanvasRenderer } from '../../render/canvasRenderer';
 import type { PixiStageHost } from '../../render/pixi/PixiStageHost';
+import type { ThreeStageHost } from '../../render/three/ThreeStageHost';
 import type { DialogueOverlayUiState } from '../../render/dialogueAndPosterRenderer';
 import type { MissionTrackerState } from '../../render/missionTrackerHud';
 import type { SpectatorCameraTarget } from '../../render/spectatorHudRenderer';
@@ -45,6 +46,8 @@ import type { TitleSceneController } from '../titleScene';
 import type { BattleSpeedScale } from './battleSpeedControl';
 import type { SandboxShowcaseKind } from './debugShowcaseController';
 import type { PixiVerticalSliceController } from './pixiVerticalSliceController';
+import type { ThreeMusouController } from './threeMusouController';
+import type { StoryCodexOverlay } from '../../ui/StoryCodexOverlay';
 
 export const EV_PRESETS: Record<string, { label: string; evs: StatBlock }> = {
   balanced: {
@@ -124,6 +127,8 @@ export interface SceneManagerHost {
   renderer: CanvasRenderer;
   readonly pixiHost?: PixiStageHost;
   readonly verticalSliceController?: PixiVerticalSliceController;
+  readonly threeHost?: ThreeStageHost;
+  readonly threeMusouController?: ThreeMusouController;
   visualPolishDrawer?: VisualPolishDrawer;
   readonly input: UnifiedInputManager;
   readonly assets: AssetLoader;
@@ -131,6 +136,7 @@ export interface SceneManagerHost {
   readonly seaChartController?: SeaChartController;
   prng: SeededPRNG;
   readonly storyDirector: StoryDirector;
+  storyCodexOverlay?: StoryCodexOverlay;
   assetPreviewScene: AssetPreviewScene;
 
   // DOM element refs
@@ -177,6 +183,8 @@ export interface SceneManagerHost {
   enterTitleScene(): void;
   startNewAdventureFlow(): void;
   beginFooshaVillagePrologue(): void;
+  openStoryCodex?(): void;
+  launchStoryChapter?(chapterId: string, mode: 'intro' | 'battle'): void;
   executeDebugStoryJump(actionKey: string): void;
   triggerSandboxShowcase(kind: SandboxShowcaseKind): void;
   createUnitBuildFromSpecies(

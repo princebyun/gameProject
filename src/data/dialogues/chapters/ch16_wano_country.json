@@ -1,0 +1,60 @@
+{
+  "chapterId": "ch16_wano_country",
+  "chapterNo": "Ch.16",
+  "act": 3,
+  "title": "와노쿠니 오니가시마 — 해방의 드럼과 기어 5",
+  "subtitle": "사황 카이도 3D 거대 보스 · 징베 합류(10인 집결) · 니카/염왕 각성",
+  "summary2Lines": [
+    "오니가시마 옥상에서 최강의 생물 카이도와 운명의 혈전을 벌인 밀짚모자 일당.",
+    "조타수 징베가 합류해 10인이 완성되고, 해방의 드럼과 함께 루피 기어 5 · 조로 지옥의 왕이 각성한다!"
+  ],
+  "prerequisiteChapterIds": ["ch15_totto_land"],
+  "legacyEpisodeId": "ep_wano",
+  "arenaId": "onigashima_rooftop",
+  "bossUnitId": "kaido",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.16", "act": 3, "title": "오니가시마 최상층 결전", "subtitle": "해방의 드럼이 울려 퍼지는 밤" },
+    { "type": "bgm", "trackId": "battle_yonko_awakening", "fadeMs": 400 },
+    {
+      "type": "stage_3d",
+      "arenaId": "onigashima_rooftop",
+      "timeOfDay": "night",
+      "weather": "storm",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.8, 0, 0], "rotationYDeg": 90, "animClip": "BURST_AWAKENING", "rimColorHex": "#f8fafc", "rimIntensity": 1.6 },
+        { "actorId": "zoro", "unitId": "zoro", "position": [-3.6, 0, -1.4], "rotationYDeg": 90, "animClip": "COMBO_3", "drawWeapons": true },
+        { "actorId": "jinbe", "unitId": "jinbe", "position": [-3.6, 0, 1.4], "rotationYDeg": 90, "animClip": "IDLE" },
+        { "actorId": "kaido", "unitId": "kaido", "position": [3.5, 0, 0], "rotationYDeg": -90, "animClip": "IDLE", "drawWeapons": true }
+      ]
+    },
+    { "type": "vfx_3d", "effect": "burst_aura", "targetActorId": "luffy" },
+    { "type": "camera_3d", "shot": "orbit_hero", "targetActorId": "luffy", "durationMs": 750, "easing": "easeInOutQuad" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피 (기어 5)", "side": "left", "emotion": "excited", "text": "아하하하하!! 심장이 너무 재밌게 뛰잖아!! 이게 내 최고 지점... 기어 5다!!", "focusActorId": "luffy", "sfx": "awakening_drums" }
+  ],
+  "preBattle": [
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "kaido", "durationMs": 700, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "kaido", "speakerName": "사황 카이도", "side": "right", "emotion": "battle_cry", "text": "우오오오!! 조이보이! 전력의 패왕색으로 내 팔재계와 부딪쳐 봐라!!", "focusActorId": "kaido", "sfx": "haki_lightning" },
+    { "type": "start_musou_battle", "battleId": "battle_ch16_wano", "bossUnitId": "kaido", "hordeCount": 100, "preDialogueDoneFlag": "ch16_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch16_jinbe", "trigger": "onKoMilestone", "threshold": 80, "speakerId": "jinbe", "speakerName": "징베", "emotion": "determined", "text": "밀짚모자 일당 조타수 징베, 지금부터 전력으로 보좌하겠네!" },
+    { "banterId": "ch16_burst", "trigger": "onBurstActivated", "speakerId": "zoro", "speakerName": "조로", "emotion": "battle_cry", "text": "염마여 전부 빨아들여라! 지옥의 왕 삼도룡!!" },
+    { "banterId": "ch16_armor", "trigger": "onArmorBreak", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "부서졌다!! 고무고무... 바즈랑 건(원신총)!!!!" },
+    { "banterId": "ch16_hp_35", "trigger": "bossHpBelow", "threshold": 0.35, "speakerId": "kaido", "speakerName": "카이도", "emotion": "determined", "text": "화룡대횃불!! 세상이 불타도 나를 넘을 수 있겠나!!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "victory_fanfare", "fadeMs": 450 },
+    { "type": "vfx_3d", "effect": "haki_clash", "targetActorId": "luffy" },
+    { "type": "actor_action", "actorId": "luffy", "animClip": "VICTORY", "rimColorHex": "#f8fafc", "rimIntensity": 1.4 },
+    { "type": "line", "speakerId": "jinbe", "speakerName": "징베", "side": "right", "emotion": "excited", "text": "와노쿠니 개국의 날! 10인의 동료 전원이 마침내 하나로 뭉쳤군!", "focusActorId": "jinbe" },
+    { "type": "narration", "text": "사황 카이도를 꺾고 조타수 징베가 합류해 밀짚모자 일당 10인이 완성되었다! 기어 5 & 지옥의 왕 정식 해금!", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": ["jinbe_base"],
+    "unlockForms": ["form_luffy_gear5", "form_zoro_king_of_hell"],
+    "unlockSpecialSlots": [0, 1, 2, 3],
+    "unlockSeaZones": [],
+    "worldFlags": ["straw_hat_10_complete", "ch16_wano_cleared"],
+    "bountyIncrease": 1500000000
+  }
+}

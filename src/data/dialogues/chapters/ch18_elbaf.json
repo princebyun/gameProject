@@ -1,0 +1,62 @@
+{
+  "chapterId": "ch18_elbaf",
+  "chapterNo": "Ch.18",
+  "act": 3,
+  "title": "거인족의 나라 엘바프 — 세계수 아담 명계",
+  "subtitle": "저주받은 왕자 로키 3D 거대 보스전 · 엔드게임 보스 러시 해금",
+  "summary2Lines": [
+    "우솝의 꿈이 기다리던 전사들의 나라 엘바프, 세계수 아담 하층 명계에 들어선 루피 일당.",
+    "철뇌 라그니르를 휘두르는 저주받은 거인 왕자 로키와의 대결을 돌파하고 최종장의 정점에 선다."
+  ],
+  "prerequisiteChapterIds": ["ch17_egghead"],
+  "legacyEpisodeId": "ep_elbaf",
+  "arenaId": "elbaf_underworld",
+  "bossUnitId": "loki",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.18", "act": 3, "title": "최종장 — 거인족의 나라 엘바프", "subtitle": "세계수 아담 명계와 저주받은 왕자" },
+    { "type": "bgm", "trackId": "battle_raid_giant", "fadeMs": 450 },
+    {
+      "type": "stage_3d",
+      "arenaId": "elbaf_underworld",
+      "timeOfDay": "night",
+      "weather": "aurora",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-3.0, 0, 0.2], "rotationYDeg": 90, "animClip": "BURST_AWAKENING", "rimColorHex": "#facc15", "rimIntensity": 1.5 },
+        { "actorId": "zoro", "unitId": "zoro", "position": [-3.8, 0, -1.2], "rotationYDeg": 90, "animClip": "IDLE", "drawWeapons": true },
+        { "actorId": "usopp", "unitId": "usopp", "position": [-4.2, 0, 1.3], "rotationYDeg": 85, "animClip": "IDLE" },
+        { "actorId": "loki", "unitId": "loki", "position": [3.8, 0, 0], "rotationYDeg": -90, "animClip": "IDLE", "drawWeapons": true }
+      ]
+    },
+    { "type": "vfx_3d", "effect": "lightning_strike", "targetActorId": "loki" },
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "loki", "durationMs": 800, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "loki", "speakerName": "저주받은 왕자 로키", "side": "right", "emotion": "smirk", "text": "크하하하!! 스스로를 태양의 신이라 부르는 꼬마가 정말 날 막을 수 있을까?!", "focusActorId": "loki", "sfx": "haki_lightning" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "excited", "text": "샹크스가 걸어놓은 사슬의 비밀도 궁금하지만... 우선 힘으로 승부하자, 로키!!", "focusActorId": "luffy" }
+  ],
+  "preBattle": [
+    { "type": "camera_3d", "shot": "dramatic_dutch", "targetActorId": "loki", "durationMs": 700, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "loki", "speakerName": "로키", "side": "right", "emotion": "battle_cry", "text": "명계에 울리는 철뇌 라그니르의 번개를 받아라!!", "focusActorId": "loki" },
+    { "type": "start_musou_battle", "battleId": "battle_ch18_elbaf", "bossUnitId": "loki", "hordeCount": 100, "preDialogueDoneFlag": "ch18_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch18_usopp", "trigger": "onKoMilestone", "threshold": 80, "speakerId": "usopp", "speakerName": "우솝", "emotion": "excited", "text": "여기가 바로 내가 꿈꾸던 용감한 전사들의 나라 엘바프다!!" },
+    { "banterId": "ch18_armor", "trigger": "onArmorBreak", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "거인 왕자의 철뇌 아머까지 전부 산산조각 냈다!!" },
+    { "banterId": "ch18_burst", "trigger": "onBurstActivated", "speakerId": "zoro", "speakerName": "조로", "emotion": "battle_cry", "text": "전 동료 총력전이다! 신의 기사단까지 다 베어 넘기자!" },
+    { "banterId": "ch18_hp", "trigger": "bossHpBelow", "threshold": 0.35, "speakerId": "loki", "speakerName": "로키", "emotion": "determined", "text": "재밌군, 몽키 D. 루피... 이 세계를 뒤집을 태양의 힘이 진짜였어!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "victory_fanfare", "fadeMs": 450 },
+    { "type": "vfx_3d", "effect": "burst_aura", "targetActorId": "luffy" },
+    { "type": "camera_3d", "shot": "orbit_hero", "targetActorId": "luffy", "durationMs": 800, "easing": "easeInOutQuad" },
+    { "type": "actor_action", "actorId": "luffy", "animClip": "VICTORY", "rimColorHex": "#facc15", "rimIntensity": 1.5 },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "excited", "text": "이제 마지막 한 걸음이다!! 모두가 웃는 라프텔을 향해 계속 항해하자!!", "focusActorId": "luffy" },
+    { "type": "narration", "text": "엘바프 명계 결전을 제패하고 밀짚모자 일당은 엔드게임 [보스 러시 · 협동 레이드]를 모두 해금했다!", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": [],
+    "unlockForms": ["form_loki_ragnir"],
+    "unlockSpecialSlots": [0, 1, 2, 3],
+    "unlockSeaZones": [],
+    "worldFlags": ["endgame_boss_rush", "final_saga_elbaf_cleared"],
+    "bountyIncrease": 200000000
+  }
+}

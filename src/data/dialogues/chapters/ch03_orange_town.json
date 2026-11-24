@@ -1,0 +1,58 @@
+{
+  "chapterId": "ch03_orange_town",
+  "chapterNo": "Ch.03",
+  "act": 1,
+  "title": "오렌지 마을 — 광대 버기",
+  "subtitle": "참격 분할 면역과 밀짚모자의 분노",
+  "summary2Lines": [
+    "오렌지 마을을 포격으로 쑥대밭으로 만든 광대 버기 해적단.",
+    "동강동강 열매의 참격 분리를 타격 기술과 협공으로 공략한다."
+  ],
+  "prerequisiteChapterIds": ["ch02_shells_town"],
+  "legacyEpisodeId": "ep_orange_town",
+  "arenaId": "east_blue_harbor",
+  "bossUnitId": "buggy",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.03", "act": 1, "title": "오렌지 마을", "subtitle": "화려한 광대 버기의 습격" },
+    { "type": "bgm", "trackId": "battle_normal", "fadeMs": 300 },
+    {
+      "type": "stage_3d",
+      "arenaId": "east_blue_harbor",
+      "timeOfDay": "sunset",
+      "weather": "clear",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.4, 0, 0], "rotationYDeg": 90, "animClip": "IDLE" },
+        { "actorId": "zoro", "unitId": "zoro", "position": [-3.4, 0, 1.4], "rotationYDeg": 85, "animClip": "IDLE", "drawWeapons": true },
+        { "actorId": "buggy", "unitId": "buggy", "position": [2.8, 0, 0], "rotationYDeg": -90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "camera_3d", "shot": "over_shoulder", "targetActorId": "luffy", "secondaryActorId": "buggy", "durationMs": 650, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "buggy", "speakerName": "버기", "side": "right", "emotion": "smirk", "text": "갸하하하! 내 동강동강 열매 앞에선 어떤 검사의 베기도 통하지 않아!", "focusActorId": "buggy" }
+  ],
+  "preBattle": [
+    { "type": "bgm", "trackId": "battle_boss", "fadeMs": 250 },
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "buggy", "durationMs": 600, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "angry", "text": "내 소중한 보물인 모자에 흠집을 내다니... 용서 못 해!", "focusActorId": "luffy" },
+    { "type": "start_musou_battle", "battleId": "battle_ch03_orange", "bossUnitId": "buggy", "hordeCount": 90, "preDialogueDoneFlag": "ch03_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch03_gimmick", "trigger": "onGimmickHit", "gimmickTag": "slash_split", "speakerId": "zoro", "speakerName": "조로", "emotion": "shocked", "text": "젠장, 참격은 몸을 분리해 흘려보낸다! 루피, 타격기로 날려버려!" },
+    { "banterId": "ch03_armor", "trigger": "onArmorBreak", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "발을 땅에 붙이고 있을 때 바주카로 날려버린다!" },
+    { "banterId": "ch03_hp", "trigger": "bossHpBelow", "threshold": 0.45, "speakerId": "buggy", "speakerName": "버기", "emotion": "shocked", "text": "이, 이 자식! 특제 버기 탄까지 부수다니?!" },
+    { "banterId": "ch03_ko", "trigger": "onKoMilestone", "threshold": 60, "speakerId": "zoro", "speakerName": "조로", "emotion": "smirk", "text": "잡졸 정리는 끝났다. 선장, 마무리해!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "victory_fanfare", "fadeMs": 300 },
+    { "type": "actor_action", "actorId": "luffy", "animClip": "VICTORY" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "excited", "text": "좋아! 다음은 커다란 해적선을 찾으러 시롭 마을로 가자!", "focusActorId": "luffy" },
+    { "type": "narration", "text": "버기 해적단을 물리치고 나미와 함께 위대한 항로 해도를 손에 넣었다.", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": [],
+    "unlockForms": [],
+    "unlockSpecialSlots": [0, 1, 2],
+    "unlockSeaZones": [],
+    "worldFlags": ["ch03_orange_cleared"],
+    "bountyIncrease": 5000000
+  }
+}

@@ -1,4 +1,6 @@
 import { defaultEndgameRegistry } from '../../data/endgame/endgameRegistry';
+import { STORY_CHAPTERS_LIST } from '../../data/story/storyChaptersRegistry';
+import { validateStoryProgressLegality } from '../story/StoryStateMachine';
 import type { EndgameDataRegistry } from '../endgame/types';
 import type { GameDataRegistry } from '../types/dataSchemas';
 import type {
@@ -273,6 +275,18 @@ export function validateSaveLegality(
     gameRegistry,
     endgameRegistry
   );
+
+  // 5. Stage 25 StoryStateMachine Dynamic Cross-Validation (0 false positives on valid clears)
+  if (payload.storyProgress) {
+    const storyCheck = validateStoryProgressLegality(
+      payload.storyProgress,
+      STORY_CHAPTERS_LIST
+    );
+    if (!storyCheck.valid) {
+      codeSet.add('ILLEGAL_UNIT_STATE');
+      messages.push(...storyCheck.errors);
+    }
+  }
 
   return {
     codes: Array.from(codeSet),

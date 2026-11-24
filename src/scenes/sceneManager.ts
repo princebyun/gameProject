@@ -23,6 +23,7 @@ import { createPlatformBridge, type PlatformBridge } from '../platform/platformB
 import type { SaveStorageAdapter } from '../platform/storage/storageAdapter';
 import type { CanvasRenderer } from '../render/canvasRenderer';
 import { PixiStageHost } from '../render/pixi/PixiStageHost';
+import { ThreeStageHost } from '../render/three/ThreeStageHost';
 import {
   resolveBattleBundleName,
   resolveIslandBundleName,
@@ -62,11 +63,23 @@ import { SceneTopBarController } from './controllers/sceneTopBarController';
 import type { AssetPreviewScene } from './dev/assetPreviewScene';
 import type { VisualPolishDrawer } from './dev/visualPolishDrawer';
 import { PixiVerticalSliceController } from './controllers/pixiVerticalSliceController';
+import { ThreeMusouController } from './controllers/threeMusouController';
 import { renderCrewCampModal } from './modals/crewCampModal';
 import { createOpeningNarrationState, type OpeningNarrationState } from './openingNarrationScene';
 import type { ActiveAppScene, Disposable } from './sceneTypes';
 import { SeaChartController } from './sea/seaChartController';
-import type { TitleSceneController } from './titleScene';
+import {
+  advanceChapterStatus,
+  completeChapterWithUnlocks,
+  createInitialStoryProgress,
+  normalizeStoryUnitId
+} from '../core/story/StoryStateMachine';
+import {
+  getStoryChapterById,
+  STORY_CHAPTERS_LIST
+} from '../data/story/storyChaptersRegistry';
+import type { StoryCodexOverlay } from '../ui/StoryCodexOverlay';
+import { TitleSceneController } from './titleScene';
 
 export type { ActiveAppScene, Disposable };
 
@@ -77,6 +90,7 @@ export class SceneManager implements Disposable, SceneManagerHost {
   public bootAssetsReady = false;
   public latestBootSaveEnvelope: SaveEnvelope | null = null;
   public titleScene!: TitleSceneController;
+  public storyCodexOverlay?: StoryCodexOverlay;
   public openingState: OpeningNarrationState = createOpeningNarrationState();
   public missionTrackerState: MissionTrackerState = createInitialMissionTrackerState();
   public dialogueUiState: DialogueOverlayUiState = createDialogueOverlayUiState();
@@ -110,6 +124,8 @@ export class SceneManager implements Disposable, SceneManagerHost {
   public renderer!: CanvasRenderer;
   public readonly pixiHost = new PixiStageHost();
   public readonly verticalSliceController = new PixiVerticalSliceController(this.pixiHost);
+  public readonly threeHost = new ThreeStageHost();
+  public readonly threeMusouController = new ThreeMusouController(this.threeHost);
   public visualPolishDrawer?: VisualPolishDrawer;
   public readonly input: UnifiedInputManager;
   public readonly assets: AssetLoader;
@@ -217,6 +233,7 @@ export class SceneManager implements Disposable, SceneManagerHost {
     this.rafId = requestAnimationFrame((t) => this.loop(t));
 
     await this.pixiHost.init(domInit.canvasWrapper, this.renderer.getMetrics());
+    this.threeHost.init(domInit.canvasWrapper, this.renderer.getMetrics());
     if (this.pixiHost.isWebGLActive) {
       await this.pixiHost.bundleManager.loadCoreBundle(this.campaign.activePartyUnitIds);
     }
@@ -245,8 +262,10 @@ export class SceneManager implements Disposable, SceneManagerHost {
     this.battleLoop.dispose();
     this.input.dispose();
     this.titleScene?.dispose();
+    this.storyCodexOverlay?.dispose();
     this.assetPreviewScene?.dispose();
     this.visualPolishDrawer?.dispose();
+    this.threeMusouController.dispose();
     this.verticalSliceController.dispose();
     this.activeTransport?.disconnect();
     this.activeTransport = null;
@@ -283,6 +302,7 @@ export class SceneManager implements Disposable, SceneManagerHost {
     this.gateBlockedPopup = null;
     this.forfeitConfirmArmed = false;
     this.verticalSliceController.releaseActiveSlice(this);
+    this.threeMusouController.releaseActiveScene();
     if (scene !== 'SEA_SAILING') this.seaChartController.close();
     this.clearTransientFocusAndInput();
     if (scene !== 'TITLE') this.titleScene?.hide();
@@ -403,8 +423,132 @@ export class SceneManager implements Disposable, SceneManagerHost {
   public enterTitleScene(): void { this.rpgController.enterTitleScene(); }
   public startNewAdventureFlow(): void { this.rpgController.startNewAdventureFlow(); }
   public beginFooshaVillagePrologue(): void { this.rpgController.beginFooshaVillagePrologue(); }
+
+  public openStoryCodex(): void {
+    if (!this.campaign.storyProgress) {
+      this.campaign.storyProgress = createInitialStoryProgress(STORY_CHAPTERS_LIST);
+    }
+    this.storyCodexOverlay?.open(this.campaign.storyProgress);
+  }
+
+  public launchStoryChapter(
+    chapterId: string,
+    mode: 'intro' | 'battle'
+  ): void {
+    const chapter = getStoryChapterById(chapterId);
+    if (!chapter) return;
+    if (!this.campaign.storyProgress) {
+      this.campaign.storyProgress = createInitialStoryProgress(STORY_CHAPTERS_LIST);
+    }
+
+    const bossSpecies = normalizeStoryUnitId(chapter.bossUnitId);
+    const storyConfig: BattleWorldConfig = {
+      seed: 20261124 + chapter.act * 100,
+      arenaSizeKey: 'medium',
+      mode: '1V1',
+      teamAlpha: [
+        this.createUnitBuildFromSpecies('alpha_1', 'luffy', true, 4, 'physicalBrawler'),
+        this.createUnitBuildFromSpecies('alpha_2', 'zoro', false, 4, 'physicalBrawler')
+      ],
+      teamOmega: [
+        this.createUnitBuildFromSpecies('omega_1', bossSpecies, false, 4, 'fortressTank')
+      ]
+    };
+    const storyWorld = createBattleWorld(storyConfig, this.gameRegistry);
+    const bossUnit = storyWorld.units.find((u) => u.team === 'OMEGA');
+    if (bossUnit) {
+      bossUnit.isBossUnit = true;
+    }
+
+    this.activeBattleContext = null;
+    this.switchToScene('STORY_BATTLE');
+    this.battleWorld = storyWorld;
+
+    this.threeMusouController.setStoryHooks({
+      onPhaseComplete: (ch, finishedPhase) => {
+        if (!this.campaign.storyProgress) {
+          this.campaign.storyProgress = createInitialStoryProgress(STORY_CHAPTERS_LIST);
+        }
+        if (finishedPhase === 'intro') {
+          advanceChapterStatus(
+            this.campaign.storyProgress,
+            ch.chapterId,
+            'INTRO_SEEN',
+            STORY_CHAPTERS_LIST
+          );
+          this.threeMusouController.startStoryChapterCutscene(ch, 'preBattle', this);
+          return;
+        }
+        if (finishedPhase === 'preBattle') {
+          advanceChapterStatus(
+            this.campaign.storyProgress,
+            ch.chapterId,
+            'BATTLE_READY',
+            STORY_CHAPTERS_LIST
+          );
+          this.threeMusouController.loadStoryChapterBanters(ch);
+          return;
+        }
+        if (finishedPhase === 'epilogue') {
+          if (this.campaign.storyProgress.chapters[ch.chapterId] !== 'LOCKED') {
+            completeChapterWithUnlocks(
+              this.campaign.storyProgress,
+              ch.chapterId,
+              STORY_CHAPTERS_LIST,
+              this.campaign,
+              this.gameRegistry
+            );
+            void this.triggerAutoSave(`스토리 완료: ${ch.chapterNo}`);
+          }
+          this.saveIndicatorText = `🏆 ${ch.chapterNo} 클리어!`;
+          this.saveIndicatorTimer = 2.6;
+        }
+      },
+      onStartBattleRequest: (ch, req) => {
+        if (this.campaign.storyProgress) {
+          advanceChapterStatus(
+            this.campaign.storyProgress,
+            ch.chapterId,
+            'BATTLE_READY',
+            STORY_CHAPTERS_LIST
+          );
+        }
+        const targetHorde: 30 | 60 | 100 =
+          req.hordeCount <= 45 ? 30 : req.hordeCount <= 80 ? 60 : 100;
+        this.threeMusouController.getActiveScene()?.horde.setTargetCount(targetHorde);
+        this.threeMusouController.loadStoryChapterBanters(ch);
+        this.saveIndicatorText = `⚔ ${ch.chapterNo} ${ch.title}`;
+        this.saveIndicatorTimer = 2.4;
+      }
+    });
+
+    if (mode === 'intro') {
+      this.threeMusouController.startStoryChapterCutscene(chapter, 'intro', this);
+      this.saveIndicatorText = `🎬 ${chapter.chapterNo} 3D 컷신`;
+    } else {
+      this.threeMusouController.loadStoryChapterBanters(chapter);
+      this.saveIndicatorText = `⚔ ${chapter.chapterNo} ${chapter.title}`;
+    }
+    this.saveIndicatorTimer = 2.2;
+    this.syncSceneBgm(this.battleWorld);
+    this.refreshSideDrawer();
+  }
   public startStoryBattle(ctx: BattleContext): void { this.rpgController.startStoryBattle(ctx); }
-  public finishStoryBattle(victory: boolean): void { this.rpgController.finishStoryBattle(victory); }
+  public finishStoryBattle(victory: boolean): void {
+    const activeChapter = this.threeMusouController.getActiveStoryChapter();
+    if (!this.activeBattleContext && activeChapter) {
+      if (victory) {
+        void this.audio.playBgm('victory_fanfare', { forceRestart: true, crossfadeSec: 0.2 });
+        this.threeMusouController.startStoryChapterCutscene(activeChapter, 'epilogue', this);
+      } else {
+        this.saveIndicatorText = `💀 ${activeChapter.chapterNo} 패배 — 도감에서 재도전하세요`;
+        this.saveIndicatorTimer = 2.5;
+        this.openStoryCodex();
+      }
+      return;
+    }
+    this.rpgController.finishStoryBattle(victory);
+  }
   public openEndgameHub(): void { this.endgameController.openEndgameHub(); }
   public openImpelDownModal(): void { this.endgameController.openImpelDownModal(); }
   public openColosseumModal(tab?: 'TOURNAMENT' | 'TUTOR'): void { this.endgameController.openColosseumModal(tab); }

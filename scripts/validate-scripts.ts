@@ -1,6 +1,17 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  ALL_STORY_ANIM_CLIPS,
+  ALL_STORY_PORTRAIT_EMOTIONS,
+  STORY_NPC_SPEAKER_PORTRAIT_MAP,
+  assertNeverDirective,
+  type StoryChapterScript
+} from '../src/data/story/types';
+import {
+  STRAW_HAT_CREW_ORDER,
+  normalizeStoryUnitId
+} from '../src/core/story/StoryStateMachine';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -157,6 +168,308 @@ function main(): void {
     }
   }
 
+  // 4. Validate 3D Story Chapters (src/data/dialogues/chapters/*.json)
+  const backgroundsJson = readJson<{ backdrops?: { id: string }[] }>('src/data/assets/backgrounds.json');
+  const backdropIds = new Set((backgroundsJson.backdrops ?? []).map((b) => b.id));
+  const audioJson = readJson<{
+    bgmTracks?: { id: string }[];
+    sfxEntries?: { id: string }[];
+  }>('src/data/assets/audio.json');
+  const bgmIds = new Set((audioJson.bgmTracks ?? []).map((b) => b.id));
+  const sfxIds = new Set((audioJson.sfxEntries ?? []).map((s) => s.id));
+  const musouTypesJson = readJson<{ formTypeMap?: Record<string, string> }>('src/data/musou_types.json');
+  const musouFormIds = new Set(Object.keys(musouTypesJson.formTypeMap ?? {}));
+  const shipsJson = readJson<Array<{ id?: string; shipId?: string }>>('src/data/ships.json');
+  const shipIds = new Set(
+    shipsJson.map((s) => s.id ?? s.shipId ?? '').filter((id) => id.length > 0)
+  );
+  const seaZonesJson = readJson<Array<{ id: string }>>('src/data/sea_zones.json');
+  const seaZoneIds = new Set(seaZonesJson.map((z) => z.id));
+
+  const animClipSet = new Set<string>(ALL_STORY_ANIM_CLIPS);
+  const emotionSet = new Set<string>(ALL_STORY_PORTRAIT_EMOTIONS);
+  const cameraShotSet = new Set<string>([
+    'wide_establishing',
+    'over_shoulder',
+    'boss_low_angle',
+    'orbit_hero',
+    'closeup_speaker',
+    'dramatic_dutch'
+  ]);
+  const weatherSet = new Set<string>([
+    'clear',
+    'rain',
+    'snow',
+    'cherry_blossom',
+    'sandstorm',
+    'fog',
+    'storm',
+    'aurora'
+  ]);
+  const vfxSet = new Set<string>([
+    'burst_aura',
+    'lightning_strike',
+    'haki_clash',
+    'sakura_gust',
+    'shockwave_ring'
+  ]);
+
+  const chaptersDir = path.join(ROOT, 'src/data/dialogues/chapters');
+  const chapterFiles = fs.existsSync(chaptersDir)
+    ? fs.readdirSync(chaptersDir).filter((f) => f.endsWith('.json')).sort()
+    : [];
+
+  if (chapterFiles.length < 19) {
+    errors.push(
+      `[src/data/dialogues/chapters] Expected at least 19 story chapter JSON files (Ch.01~Ch.18 + Ch.03.5 interlude), found ${chapterFiles.length}`
+    );
+  }
+
+  const chapterById = new Map<string, StoryChapterScript>();
+  const globalBattleIds = new Set<string>();
+  const unlockedStrawHats = new Set<string>(['luffy']);
+  let totalStoryDirectives = 0;
+  let totalStoryBanters = 0;
+
+  const isValidSpeakerId = (rawSpeakerId: string): boolean => {
+    const norm = normalizeStoryUnitId(rawSpeakerId);
+    if (unitIds.has(norm)) return true;
+    const mapped = STORY_NPC_SPEAKER_PORTRAIT_MAP[rawSpeakerId];
+    return typeof mapped === 'string' && unitIds.has(normalizeStoryUnitId(mapped));
+  };
+
+  for (const fileName of chapterFiles) {
+    if (fileName !== fileName.toLowerCase()) {
+      errors.push(`[story/chapters] Non-lowercase filename detected: "${fileName}"`);
+    }
+    const ch = readJson<StoryChapterScript>(`src/data/dialogues/chapters/${fileName}`);
+    if (!ch.chapterId || typeof ch.chapterId !== 'string') {
+      errors.push(`[story/${fileName}] Missing chapterId`);
+      continue;
+    }
+    if (chapterById.has(ch.chapterId)) {
+      errors.push(`[story/${fileName}] Duplicate chapterId "${ch.chapterId}"`);
+    }
+    chapterById.set(ch.chapterId, ch);
+
+    if (ch.act !== 1 && ch.act !== 2 && ch.act !== 3) {
+      errors.push(`[story/${fileName}] Invalid act: ${String(ch.act)}`);
+    }
+    if (!Array.isArray(ch.summary2Lines) || ch.summary2Lines.length !== 2) {
+      errors.push(`[story/${fileName}] summary2Lines must have exact length 2`);
+    }
+    if (!backdropIds.has(ch.arenaId)) {
+      errors.push(`[story/${fileName}] Unknown arenaId "${ch.arenaId}"`);
+    }
+    if (!unitIds.has(normalizeStoryUnitId(ch.bossUnitId))) {
+      errors.push(`[story/${fileName}] Unknown bossUnitId "${ch.bossUnitId}"`);
+    }
+    if (ch.legacyEpisodeId && !episodeIds.has(ch.legacyEpisodeId)) {
+      errors.push(`[story/${fileName}] Unknown legacyEpisodeId "${ch.legacyEpisodeId}"`);
+    }
+
+    const stagedActorIds = new Set<string>();
+    const validateDirectives = (phase: 'intro' | 'preBattle' | 'epilogue', directives: StoryChapterScript['intro']) => {
+      if (!Array.isArray(directives) || directives.length === 0) {
+        errors.push(`[story/${fileName}] Phase "${phase}" must contain at least 1 directive`);
+        return;
+      }
+      for (const d of directives) {
+        totalStoryDirectives += 1;
+        switch (d.type) {
+          case 'chapter_card':
+            if (!d.chapterNo || !d.title) {
+              errors.push(`[story/${fileName}] (${phase}) chapter_card missing title/chapterNo`);
+            }
+            break;
+          case 'stage_3d':
+            if (!backdropIds.has(d.arenaId)) {
+              errors.push(`[story/${fileName}] (${phase}) stage_3d unknown arenaId "${d.arenaId}"`);
+            }
+            if (d.weather && !weatherSet.has(d.weather)) {
+              errors.push(`[story/${fileName}] (${phase}) stage_3d unknown weather "${d.weather}"`);
+            }
+            for (const actor of d.actors) {
+              stagedActorIds.add(actor.actorId);
+              if (!unitIds.has(normalizeStoryUnitId(actor.unitId))) {
+                errors.push(`[story/${fileName}] (${phase}) stage_3d actor "${actor.actorId}" unknown unitId "${actor.unitId}"`);
+              }
+              if (!animClipSet.has(actor.animClip)) {
+                errors.push(`[story/${fileName}] (${phase}) stage_3d actor "${actor.actorId}" invalid animClip "${actor.animClip}"`);
+              }
+            }
+            break;
+          case 'camera_3d':
+            if (!cameraShotSet.has(d.shot)) {
+              errors.push(`[story/${fileName}] (${phase}) camera_3d invalid shot "${d.shot}"`);
+            }
+            if (!(d.durationMs > 0)) {
+              errors.push(`[story/${fileName}] (${phase}) camera_3d durationMs must be > 0`);
+            }
+            if (d.targetActorId && !stagedActorIds.has(d.targetActorId)) {
+              errors.push(`[story/${fileName}] (${phase}) camera_3d references unstaged targetActorId "${d.targetActorId}"`);
+            }
+            if (d.secondaryActorId && !stagedActorIds.has(d.secondaryActorId)) {
+              errors.push(`[story/${fileName}] (${phase}) camera_3d references unstaged secondaryActorId "${d.secondaryActorId}"`);
+            }
+            break;
+          case 'actor_action':
+            if (!stagedActorIds.has(d.actorId)) {
+              errors.push(`[story/${fileName}] (${phase}) actor_action references unstaged actorId "${d.actorId}"`);
+            }
+            if (!animClipSet.has(d.animClip)) {
+              errors.push(`[story/${fileName}] (${phase}) actor_action invalid animClip "${d.animClip}"`);
+            }
+            break;
+          case 'line':
+            if (!isValidSpeakerId(d.speakerId)) {
+              errors.push(`[story/${fileName}] (${phase}) line unknown speakerId "${d.speakerId}"`);
+            }
+            if (!emotionSet.has(d.emotion)) {
+              errors.push(`[story/${fileName}] (${phase}) line invalid emotion "${d.emotion}"`);
+            }
+            if (!d.text || d.text.trim().length === 0) {
+              errors.push(`[story/${fileName}] (${phase}) line text must be non-empty`);
+            }
+            if (d.focusActorId && !stagedActorIds.has(d.focusActorId)) {
+              errors.push(`[story/${fileName}] (${phase}) line focusActorId "${d.focusActorId}" is not staged`);
+            }
+            if (d.sfx && !sfxIds.has(d.sfx)) {
+              errors.push(`[story/${fileName}] (${phase}) line unknown sfx "${d.sfx}"`);
+            }
+            break;
+          case 'narration':
+            if (!d.text || d.text.trim().length === 0) {
+              errors.push(`[story/${fileName}] (${phase}) narration text must be non-empty`);
+            }
+            break;
+          case 'vfx_3d':
+            if (!vfxSet.has(d.effect)) {
+              errors.push(`[story/${fileName}] (${phase}) vfx_3d unknown effect "${d.effect}"`);
+            }
+            if (d.targetActorId && !stagedActorIds.has(d.targetActorId)) {
+              errors.push(`[story/${fileName}] (${phase}) vfx_3d targetActorId "${d.targetActorId}" is not staged`);
+            }
+            break;
+          case 'bgm':
+            if (!bgmIds.has(d.trackId)) {
+              errors.push(`[story/${fileName}] (${phase}) bgm unknown trackId "${d.trackId}"`);
+            }
+            break;
+          case 'start_musou_battle':
+            if (!d.battleId) {
+              errors.push(`[story/${fileName}] (${phase}) start_musou_battle missing battleId`);
+            } else if (globalBattleIds.has(d.battleId)) {
+              errors.push(`[story/${fileName}] (${phase}) Duplicate battleId "${d.battleId}"`);
+            } else {
+              globalBattleIds.add(d.battleId);
+            }
+            if (!unitIds.has(normalizeStoryUnitId(d.bossUnitId))) {
+              errors.push(`[story/${fileName}] (${phase}) start_musou_battle unknown bossUnitId "${d.bossUnitId}"`);
+            }
+            if (!(d.hordeCount > 0)) {
+              errors.push(`[story/${fileName}] (${phase}) start_musou_battle hordeCount must be > 0`);
+            }
+            break;
+          default:
+            assertNeverDirective(d);
+        }
+      }
+    };
+
+    validateDirectives('intro', ch.intro);
+    validateDirectives('preBattle', ch.preBattle);
+    validateDirectives('epilogue', ch.epilogue);
+
+    const hasStartBattle = ch.preBattle.some((d) => d.type === 'start_musou_battle');
+    if (!hasStartBattle) {
+      errors.push(`[story/${fileName}] preBattle must contain start_musou_battle directive`);
+    }
+
+    if (!Array.isArray(ch.battleBanters) || ch.battleBanters.length < 3) {
+      errors.push(`[story/${fileName}] battleBanters must contain at least 3 rules`);
+    } else {
+      for (const b of ch.battleBanters) {
+        totalStoryBanters += 1;
+        if (!isValidSpeakerId(b.speakerId)) {
+          errors.push(`[story/${fileName}] banter "${b.banterId}" unknown speakerId "${b.speakerId}"`);
+        }
+        if (!emotionSet.has(b.emotion)) {
+          errors.push(`[story/${fileName}] banter "${b.banterId}" invalid emotion "${b.emotion}"`);
+        }
+        if (!b.text || b.text.trim().length === 0) {
+          errors.push(`[story/${fileName}] banter "${b.banterId}" empty text`);
+        }
+      }
+    }
+
+    for (const rawUid of ch.unlocks.recruitUnits) {
+      const uid = normalizeStoryUnitId(rawUid);
+      if (!unitIds.has(uid)) {
+        errors.push(`[story/${fileName}] unlocks.recruitUnits unknown unitId "${rawUid}"`);
+      } else {
+        unlockedStrawHats.add(uid);
+      }
+    }
+    for (const formId of ch.unlocks.unlockForms) {
+      if (!formIds.has(formId) && !musouFormIds.has(formId)) {
+        errors.push(`[story/${fileName}] unlocks.unlockForms unknown formId "${formId}"`);
+      }
+    }
+    for (const zone of ch.unlocks.unlockSeaZones) {
+      if (!seaZoneIds.has(zone)) {
+        errors.push(`[story/${fileName}] unlocks.unlockSeaZones unknown seaZone "${zone}"`);
+      }
+    }
+    if (ch.unlocks.upgradeShip && !shipIds.has(ch.unlocks.upgradeShip)) {
+      errors.push(`[story/${fileName}] unlocks.upgradeShip unknown shipId "${ch.unlocks.upgradeShip}"`);
+    }
+  }
+
+  // Kahn topological sort DAG verification across all 19 chapters
+  const inDegree = new Map<string, number>();
+  const dependents = new Map<string, string[]>();
+  for (const ch of chapterById.values()) {
+    inDegree.set(ch.chapterId, ch.prerequisiteChapterIds.length);
+    dependents.set(ch.chapterId, []);
+  }
+  for (const ch of chapterById.values()) {
+    for (const prereq of ch.prerequisiteChapterIds) {
+      if (!chapterById.has(prereq)) {
+        errors.push(`[story DAG] Chapter "${ch.chapterId}" references missing prerequisite "${prereq}"`);
+      } else if (prereq === ch.chapterId) {
+        errors.push(`[story DAG] Chapter "${ch.chapterId}" references itself as prerequisite`);
+      } else {
+        dependents.get(prereq)?.push(ch.chapterId);
+      }
+    }
+  }
+  const queue: string[] = [];
+  for (const [id, deg] of inDegree.entries()) {
+    if (deg === 0) queue.push(id);
+  }
+  let visitedDagNodes = 0;
+  while (queue.length > 0) {
+    const cur = queue.shift()!;
+    visitedDagNodes += 1;
+    for (const dep of dependents.get(cur) ?? []) {
+      const nextDeg = (inDegree.get(dep) ?? 1) - 1;
+      inDegree.set(dep, nextDeg);
+      if (nextDeg === 0) queue.push(dep);
+    }
+  }
+  if (visitedDagNodes !== chapterById.size) {
+    errors.push(
+      `[story DAG] Cycle or unreachable chapter detected: visited ${visitedDagNodes}/${chapterById.size}`
+    );
+  }
+
+  for (const strawHat of STRAW_HAT_CREW_ORDER) {
+    if (!unlockedStrawHats.has(strawHat)) {
+      errors.push(`[story progression] Missing Straw Hat crew unlock across Ch.01~Ch.18: "${strawHat}"`);
+    }
+  }
+
   if (errors.length > 0) {
     console.error(`\n❌ Script & Dialogue cross-reference validation FAILED (${errors.length} error(s)):\n`);
     for (const err of errors) {
@@ -171,6 +484,9 @@ function main(): void {
   );
   console.log(
     `   • Episodes: ${episodes.length} | Islands: ${islandFiles.length} | NPCs: ${totalNpcs} (${totalDialogueLines} dialogue lines) | Encounters: ${totalEncounters}`
+  );
+  console.log(
+    `   • 3D Story Chapters: ${chapterById.size} | Directives: ${totalStoryDirectives} | Battle Banters: ${totalStoryBanters} | DAG Reachable: ${visitedDagNodes}/${chapterById.size} | Straw Hats: ${STRAW_HAT_CREW_ORDER.filter((u) => unlockedStrawHats.has(u)).length}/10`
   );
 }
 

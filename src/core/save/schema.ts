@@ -1,3 +1,4 @@
+import type { StoryProgressState } from '../../data/story/types';
 import type { SaveEndgameBlock } from '../endgame/types';
 import type { Vec2 } from '../math/vector2';
 import type { HakiLevels } from '../types/dataSchemas';
@@ -134,6 +135,7 @@ export interface SavePayloadV1 {
   };
   settings: GlobalSettingsPayload;
   endgame?: SaveEndgameBlock;
+  storyProgress?: StoryProgressState;
 }
 
 export interface SaveEnvelope {

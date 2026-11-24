@@ -1,15 +1,15 @@
 # HANDOFF.md — One Piece Grand Voyage 프로젝트 인수인계 및 현재 상태 문서
 
-> **최종 업데이트 기준:** Stage 22 Wave 5 완결 — ① 실시간 바다 물결 GLSL 셰이더([`OceanWaterShaderPipeline.ts`](src/render/pixi/shaders/OceanWaterShaderPipeline.ts)) · 해역별 날씨/해왕류 그림자([`SeaAtmospherePipeline.ts`](src/render/pixi/shaders/SeaAtmospherePipeline.ts)) · 해류/소용돌이 물리 어댑터([`SeaCurrentPhysics.ts`](src/scenes/sea/SeaCurrentPhysics.ts)) 구축, ② **20종 바다 랜드마크 + 4종 선박 무손실 WebP 승격([`wave5SeaAssetPromoter.mjs`](scripts/lib/wave5SeaAssetPromoter.mjs)) · 단일 활성 해역 번들 VRAM 락([`PixiAssetBundleManager.ts`](src/render/pixi/PixiAssetBundleManager.ts)) · `PixiSeaSailingScene` WebGL2 전면 통합 & 레거시 Canvas 2D 바다 렌더링 제거**, ③ **미니맵·확대 해도 보물상자 60개(`.tmj` 100% 일치)·빠른 항해 번들 전환·3대 해역 5회 왕복(15회 전환) 0누수 VRAM/Safe Area E2E 검증 완료** (`src/core/` 0줄 변경 · `pro_manifest.json` `383`엔트리 `VERIFIED 1 / IMPORTED 335 / PLACEHOLDER 47` · `dist-web/` `1,058`파일 `30,523,715 bytes` / `assets/pro/` `.webp` `287`개 · `.tmj` `17`개 · 중복 `.png` `0`개 · Vitest `46`스위트 `187`테스트 통과)  
-> **현재 프로젝트 상태:** **전 세계 17/17 섬 100% PixiJS v8 WebGL2 HD-2D + Tiled `.tmj` + 3대 해역 `SeaSailingScene` WebGL2 전면 통일(실시간 바다 물결 셰이더·20종 무손실 WebP 랜드마크·4종 선박·야간 뱃머리 동적 광원·Single-Sea VRAM 락) + 전 해역·거대 보스 레이드 WebGL2 전투(밀짚모자 10/10 + 전체 2:2 합동기 7종 + `GiantBossShaderPipeline` + 단일 활성 보스 VRAM 락) + `pro_manifest.json` v2.0.0 (`383`엔트리 `VERIFIED 1 / IMPORTED 335 / PLACEHOLDER 47`) (`check:arch` `268`파일 `0 issues` · Vitest `46`스위트 / `187`테스트 전원 통과 · `dist-web/` 프로덕션 웹 빌드 완비)**  
+> **최종 업데이트 기준:** Stage 25 **Three.js 3D 카툰 무쌍 18챕터 전체 스토리 모드 (Ch.01 후샤 마을 ~ Ch.18 엘바프 · Ch.03.5 시롭 마을 인터루드 포함) & 3D 컷신 디렉터 · 실시간 전투 대사 · 3D 스토리 도감 · `F9` 테스트 점프 완결** (`Three.js 0.187.0 + WebGL2`) — ① 순수 결정론 스토리 코어([`StoryDirective3D`](src/data/story/types.ts) 9종 판별 유니온 · [`StoryStateMachine.ts`](src/core/story/StoryStateMachine.ts) DAG/전이 클로저/무적 재현 · `Save v5` 무손실 통합 & `LegalityValidator` 동적 교차 검증 · [`src/data/dialogues/chapters/`](src/data/dialogues/chapters/ch01_foosha.json) 19개 챕터 `270` 디렉티브 / `76` 배틀 밴터 — `src/core/combat/*` · `src/core/battle/musou/*` · `BATTLE_CALC_VERSION = '0.6.0'` 0줄 변경), ② 3D 컷신 디렉터 & 실시간 페이즈 대사([`ThreeCutsceneDirector.ts`](src/render/three/story/ThreeCutsceneDirector.ts) 6종 카메라 프리셋 · `0.25s` 복귀 블렌드 · 날씨 `InstancedMesh` 풀 · `flashEffect === false` 섬광 차단 · 2줄 스킵 요약 · [`MusouPhaseBanterController.ts`](src/render/three/story/MusouPhaseBanterController.ts) 읽기 전용 `computeMusouStateHash` 불변 · S25 울트라 `915×412` Safe Area `0px` 겹침), ③ 풀스크린 3D 스토리 도감([`StoryCodexOverlay.ts`](src/ui/StoryCodexOverlay.ts)) · 타이틀/상단 메뉴 · `F9` `[🎬 스토리 테스트 점프]` 통합 (`check:arch` `305`파일 `0 issues` · `validate:scripts` 19/19 DAG · Vitest `56`스위트 `231`테스트 전원 통과 · `dist-web/` `5.74s` 빌드)
+> **현재 프로젝트 상태:** **전투(`SANDBOX`/`STORY_BATTLE`) Three.js WebGL2 3D 카툰 무쌍 엔진 + PW4 4대 전투 메커니즘 + 18챕터(19편) 3D 스토리 컷신/배틀 밴터/도감 풀 파이프라인 + 오프라인 `./draco/` + Mixamo/Blender 패커 + 전 세계 17/17 섬 PixiJS v8 WebGL2 HD-2D + Tiled `.tmj` + 3대 해역 `SeaSailingScene` WebGL2 + `pro_manifest.json` v2.0.0 (`check:arch` `305`파일 `0 issues` · Vitest `56`스위트 / `231`테스트 전원 통과 · `dist-web/` 프로덕션 웹 빌드 완비)**
 > **버전 현황:**  
 > - **앱 패키지 버전:** `0.1.0` (`package.json`) | **Android 버전:** `versionCode 1` / `versionName "1.0"` (`android/app/build.gradle`)  
-> - **전투 계산 버전 (`BATTLE_CALC_VERSION`):** `"0.6.0"` (`src/core/constants.ts` — `src/core/` 0줄 변경 및 결정론 `stateHash` 3종 100% 동일 유지)  
-> - **세이브 스키마 버전 (`CURRENT_SAVE_VERSION`):** `5` (`v0 → v1 → v2 → v3 → v4 → v5` 무손실 순차 마이그레이션 & `openedChestIds` / `episodeFlags['visited_island_*']` 하위 호환 · `HMAC-SHA256-DERIVED` 2단계 안티치트 호환)  
-> - **렌더링 엔진 / 프로 매니페스트 버전:** `pixi.js@^8.23.0` (WebGL2) | `pro_manifest.json` `v2.0.0` (`src/assets/pro_manifest.json` SSOT, `383`개 엔트리: `VERIFIED 1 / IMPORTED 335 / PLACEHOLDER 47`)  
-> - **TypeScript & 아키텍처 규격:** `strict: true` + `noUncheckedIndexedAccess: true` + `noUnusedLocals/Parameters: true` + `noImplicitReturns: true` (`check:arch` `268`개 파일 순환 참조 `0건`, 계층 위반 `0건`, `any`/`@ts-ignore` `0건`, `shadowBlur` `0건`)  
-> - **레거시 호환 에셋 매니페스트:** 스프라이트 `98/98종` · 초상화 `352/352종` · 바이옴 타일셋 `14종` · 월드 랜드마크 `20/20종` · 오디오 `BGM 10곡 / SFX 22종`  
-> **자동화 검증 현황:** `npm run validate:pro` 통과 (`383`엔트리 `0 errors`) | `npm run validate:maps` 통과 (`17/17` + Pro `.tmj ×17` GID 범위·BFS `0 errors`) | `npm run validate:assets` 통과 (`0 errors`) | `npm run validate:scripts` 통과 (`0 errors`) | `npm run check:arch` 통과 (`0 issues`, `268` files) | `npm run typecheck` 통과 (`0 errors`) | `npm run build:web` 통과 (`5.53s`, `39` 프리캐시 `2425.33 KiB`, `dist-web/` `1,058`개 파일, `30,523,715 bytes`, `assets/pro/` `.webp` `287`개 / `.tmj` `17`개 / 중복 `.png` `0`개) | Vitest **46개 스위트 / 187개 테스트 전원 통과**
+> - **전투 계산 버전 (`BATTLE_CALC_VERSION` / `MUSOU_CALC_VERSION`):** 기존 2D·온라인·세이브 코어 `"0.6.0"` ([`src/core/constants.ts`](src/core/constants.ts) — 0줄 변경 및 기준선 `stateHash` 3종 100% 동일 유지) | 무쌍 3D 전투 코어 `"0.7.0"` ([`src/core/battle/musou/MusouTypes.ts`](src/core/battle/musou/MusouTypes.ts))  
+> - **세이브 스키마 버전 (`CURRENT_SAVE_VERSION`):** `5` (`v0 → v1 → v2 → v3 → v4 → v5` 무손실 순차 마이그레이션 · `storyProgress` 선택 블록 · `HMAC-SHA256-DERIVED` 2단계 안티치트 호환)  
+> - **렌더링 엔진 / 프로 매니페스트 버전:** `three@0.187.0` + `pixi.js@^8.23.0` (WebGL2, 상호 배타적 캔버스 전환) | `pro_manifest.json` `v2.0.0` (`383`개 엔트리) | `weapons_3d.json` `v1.0.0` (`5`종 무기 · `4`종 로드아웃) | `musou_types.json` `v0.7.0` (`4`종 액션 타입)  
+> - **TypeScript & 아키텍처 규격:** `strict: true` + `noUncheckedIndexedAccess: true` + `noUnusedLocals/Parameters: true` + `noImplicitReturns: true` (`check:arch` `305`개 파일 순환 참조 `0건`, 계층 위반 `0건`, `any`/`@ts-ignore` `0건`, `shadowBlur` `0건`)  
+> - **레거시 호환 에셋 & 스토리 매니페스트:** 스프라이트 `98/98종` · 초상화 `352/352종` · 바이옴 타일셋 `14종` · 월드 랜드마크 `20/20종` · 오디오 `BGM 10곡 / SFX 22종` · 3D 스토리 챕터 `19편 (Ch.01~Ch.18 + Ch.03.5)` | **오프라인 3D Draco:** `public/draco/` (`draco_decoder.js`, `.wasm`, `draco_wasm_wrapper.js`)
+> **자동화 검증 현황:** `npm run validate:3d` 통과 (`0 errors`) | `npm run validate:assets` 통과 (`0 errors`) | `npm run validate:scripts` 통과 (`19 chapters, 270 directives, 76 banters, 19/19 DAG, 10/10 Straw Hats, 0 errors`) | `npm run check:arch` 통과 (`0 issues`, `305` files) | `npm run typecheck` 통과 (`0 errors`) | `npm run build:web` 통과 (`5.74s`, `1164` modules, `44` PWA 프리캐시 `4235.43 KiB`, `three-webgl` `676.15 kB` / `three-musou` `169.44 kB`, `dist-web/draco/` 동봉) | Vitest **56개 스위트 / 231개 테스트 전원 통과** (`7.45s`, `productionDistGalaxyS25E2E.test.ts` 빌드 후 `2/2` 재확인)
 
 ---
 
@@ -90,18 +90,49 @@
   - Vitest **25개 스위트 / 106개 테스트 100% 통과**, 리팩토링 전 기준선 `stateHash` 3종(`2V2`, `1V1`, `COOP_RAID`) 100% 동일 유지 확인.
   - 프로덕션 `dist-web/` 빌드(`1.47s`, `.md`/`.map` 오염 `0건`) 및 헤드리스 E2E 통과. (실시간 Chrome DevTools 프로파일링은 호스트 Chrome `chrome://inspect/#remote-debugging` 미활성화 상태로 대기 중)
 
+### 1.8 3D 카툰 무쌍 수직 슬라이스 (Stage 23 — Three.js + WebGL2)
+- **카툰 셰이더 · 포스트프로세싱 ([`AnimeToonMaterial.ts`](src/render/three/shaders/AnimeToonMaterial.ts), [`ThreeStageHost.ts`](src/render/three/ThreeStageHost.ts)):**
+  - `2/3/4`단계 `NearestFilter` 셀 램프 `DataTexture`, Shadow Color Shift, 카메라 거리 보정 `THREE.BackSide` 잉크 외곽선(`USE_SKINNING` + `USE_INSTANCING` 겸용), Fresnel 림·패기(`BUSO`/`HAO`/`GEAR5`) 오라, `EffectComposer` + `UnrealBloomPass` (`LOW` 품질 자동 우회), 광민감 안전 클램프(`flashEffect === false`)가 적용된 `SpeedlinesOverlay3D` 구현.
+- **스켈레탈 로더 · 단방향 3D 브릿지 · 카메라 · 3D VFX ([`Character3DLoader.ts`](src/render/three/assets/Character3DLoader.ts), [`BoneSocketBinder.ts`](src/render/three/assets/BoneSocketBinder.ts), [`Battle3DStateAdapter.ts`](src/render/three/Battle3DStateAdapter.ts), [`MusouCameraController.ts`](src/render/three/MusouCameraController.ts), [`MusouVfx3D.ts`](src/render/three/MusouVfx3D.ts)):**
+  - `GLTFLoader` + 오프라인 `DRACOLoader`(`./draco/`, [`sync-draco-decoder.mjs`](scripts/sync-draco-decoder.mjs)) + `SkeletonUtils`, Mixamo 본/클립 자동 바인딩, `stripRootMotionXZ`(X/Z 수평 이동 0 잠금 + Y 바운스 보존), `targetHeight`·`y = 0` 자동 접지 정규화, 무기 소켓(`RightHand`/`LeftHand`/`Head`/`Mouth`/`Spine2`/`RightFoot`/`Hips`) + 3D 검격 리본 연동, 미투입 `.glb`는 테스트용 중립 회색 관절 마네킹(`GreyboxRig`)으로 폴백.
+  - `Battle3DStateAdapter`가 `src/core/` 변경 없이 2D `(x, y)` → 3D `(x, z)` 투영 및 가상 공중 콤보 고도(`altitudeY`), 3D 콤보 시퀀스, `Tab` 거대 보스 록온 줌아웃, 3× 대시 잔상·윈드 콘·본 소켓 검기 리본·히트스톱을 처리.
+- **Blender 헤드리스 Mixamo 일괄 패커 · 3D 규격 검증 CLI · F9 3탭 인스펙터 ([`merge_mixamo_to_glb.py`](scripts/blender/merge_mixamo_to_glb.py), [`pack-3d-character.mjs`](scripts/pack-3d-character.mjs), [`validate-3d-assets.mjs`](scripts/validate-3d-assets.mjs), [`VisualPolishDrawer.ts`](src/scenes/dev/visualPolishDrawer.ts)):**
+  - `npm run pack:3d -- --unit=luffy_base` 실행 시 Blender 4.x로 `raw_assets/3d/mixamo/{unitId}/`의 `.fbx`들을 NLA 병합 + WebP + Draco(Level 6) `.glb`로 일괄 변환(Blender 미설치 환경에서는 설치 URL·수동 CLI 명령 자동 안내).
+  - `npm run validate:3d`가 바이너리 `.glb`를 직접 파싱해 Draco 압축, 폴리곤 상한(일반 30k / 보스 50k / **무기 8k**), 내장 텍스처 1024px 상한, 필수 클립(`IDLE`/`RUN`/`COMBO_1`), Mixamo 본 소켓, `weapons_3d.json` 스키마·`trailWindows`(`0 <= start < end <= 1`), `public/draco/` 대소문자 존재 여부를 감사.
+  - `F9` 패널에 `[🎨 셰이더]` / `[🧍 캐릭터]` / `[⚔ 무기·리본]` 3개 탭(`.anim.json` & `weapons_3d.json` 클립보드 복사 포함)을 통합.
+- **데이터 드리븐 3D 무기 · 제로 할당 검격 리본 · 만화풍 히트스파크 풀 ([`weapons_3d.json`](src/data/assets/weapons_3d.json), [`weapons3dRegistry.ts`](src/data/assets/weapons3dRegistry.ts), [`WeaponSocketMountSystem.ts`](src/render/three/assets/WeaponSocketMountSystem.ts), [`ToonSlashShader.ts`](src/render/three/shaders/ToonSlashShader.ts), [`ToonWeaponTrailMesh.ts`](src/render/three/vfx/ToonWeaponTrailMesh.ts), [`ComicHitSparkPool.ts`](src/render/three/vfx/ComicHitSparkPool.ts)):**
+  - 조로 3소켓(`RightHand` 염마·`LeftHand` 3대 귀철·`Head` 입 화도일문자 + `Hips` 허리 3검 수납 전환 및 `zoro_king_of_hell` 림/패기 업그레이드)·트라팔가 로 키코쿠·카이도 팔재계 자동 장착 및 툰/외곽선 래핑(외부 무기 `.glb` 미투입 시 중립 비율 프록시 표시).
+  - 32세그먼트 사전 할당 링 버퍼 + Catmull-Rom 서브샘플링 `ToonWeaponTrailMesh`가 `trailWindows` 구간과 동기화해 런타임 GC 할당 0건으로 3중 검격 및 패왕색 번개 리본을 렌더링하며, `ComicHitSparkPool`이 `BattleWorldState.vfxEvents`를 읽기 전용 구독해 별형 섬광·교차 참격·패왕색 번개·충격파 링을 순환 풀링(및 `flashEffect === false` 억제) 출력.
+- **100명 `InstancedMesh` 무쌍 군단 · 파괴 가능 후샤 항구 광장 · Safe Area HUD ([`MusouHordeRenderer.ts`](src/render/three/MusouHordeRenderer.ts), [`DestructiblePropSystem.ts`](src/render/three/DestructiblePropSystem.ts), [`FooshaPlaza3DMap.ts`](src/render/three/FooshaPlaza3DMap.ts), [`musouCounterHud.ts`](src/render/hud/musouCounterHud.ts), [`ThreeMusouBattleScene.ts`](src/render/three/ThreeMusouBattleScene.ts), [`threeMusouController.ts`](src/scenes/controllers/threeMusouController.ts)):**
+  - 잡졸 최대 120명(기본 100명)을 정확히 **2 드로우 콜**(`bodyMesh` + `outlineMesh`)로 렌더링하고 타격 시 포물선 넉백·바운스·KO/HIT 집계를 수행.
+  - 18개 파괴 가능 프롭(목조 건물·망루·상자·석주·울타리) 파괴 즉시 이동 충돌(`blocksMovement`) 해제 및 `InstancedMesh` 120파편/16연기 풀(`2.0s` 자동 회수) 가동.
+  - **`ThreeMusouController`가 PixiJS와 3D WebGL2 캔버스의 상호 배타 실행을 보장.**
+
+### 1.9 Stage 24 — 《원피스: 해적무쌍 4》 핵심 4대 전투 메커니즘 통합
+- **순수 결정론 무쌍 전투 코어 ([`src/data/musou_types.json`](src/data/musou_types.json), [`musouTypesRegistry.ts`](src/data/musouTypesRegistry.ts), [`src/core/battle/musou/`](src/core/battle/musou/MusouCombatEngine.ts), `MUSOU_CALC_VERSION = '0.7.0'`):**
+  - 기존 `BATTLE_CALC_VERSION = "0.6.0"`·`src/core/combat/*`·`SaveMigrator` 0줄 변경을 유지한 채 `combatMode: 'musou_3d'` 순수 정수(퍼밀/밀리미터/60Hz 틱) 전투 엔진을 격리 구축.
+  - **4가지 액션 타입 ([`ActionTypeProfile.ts`](src/core/battle/musou/ActionTypeProfile.ts)):** `POWER`(강공격/보스 아머 대미지 `1.35x`, 버스트 슈퍼아머·반경 `+20%`), `SPEED`(대시 스태미나 `-35%`, 공속 `1.15x`, 캔슬 후 24틱 내 첫 타격 치명타 `+30%`), `TECHNIQUE`(`MARKED` 표식 부여 및 강공격·특수기 기폭 시 흡인·아머 대미지 `1.5x`), `SKY`(공중 중력 `0.35x` 호버링, 공중 파워 대시 최대 `3회`, 공중 타격 아머 대미지 `1.25x`).
+  - **스태미나 & 파워 대시 캔슬 ([`PowerDashSystem.ts`](src/core/battle/musou/PowerDashSystem.ts)):** 정수 스태미나 `0..1000`(버스트 중 `3.0x` 회복) 소모로 공격 후딜레이를 `0틱` 즉시 캔슬해 지상·공중 콤보를 연속 연계.
+  - **진심 버스트 & 4슬롯 특수기 ([`BurstAndSpecialSystem.ts`](src/core/battle/musou/BurstAndSpecialSystem.ts)):** `0..1000` 게이지 완충 발동 시 무적 27틱 + 광역 충격파(보스 아머 즉시 `-20%`) + 각성 폼 자동 전환 + 10KO당 지속시간 연장(상한 180틱), 공격 중 슈퍼아머 캔슬 가능한 독립 쿨타임 4슬롯 특수기 지원.
+  - **거대 보스 아머 브레이크 & 그로기 ([`BossArmorBreakSystem.ts`](src/core/battle/musou/BossArmorBreakSystem.ts)):** `INTACT` → `CRACKED`(`<=35%`) → `BROKEN_GROGGY`(`300틱` 5.0초 동안 경직/공중 콤보 허용 & HP 피해 `1.6x`) → 종료 시 반격 충격파 + 아머 `80%` 회복.
+- **Three.js WebGL2 3D 전투 연출 풀링 ([`PowerDashVfxPool.ts`](src/render/three/musou/PowerDashVfxPool.ts), [`BurstCinematicController.ts`](src/render/three/musou/BurstCinematicController.ts), [`ArmorBreakVfxSystem.ts`](src/render/three/musou/ArmorBreakVfxSystem.ts), [`TechniqueMarkVfxPool.ts`](src/render/three/musou/TechniqueMarkVfxPool.ts)):**
+  - 파워 대시 테마색 3중 카툰 잔상·음속 바람 원뿔·스카이 월보 링, 진심 버스트 `0.45초` 반바퀴 시네마틱 줌인·프레넬 림/`UnrealBloomPass` 부스트·구형 에너지 돔·48-인스턴스 상승 오라 파편, 보스 균열 실드·`InstancedMesh` 48면체 실드 파편 폭발(`1.2s` 수축 회수)·6틱 히트스톱·3D 그로기 스턴 링·대미지 팝업 컬러 분기를 매 프레임 힙 할당 0건으로 구현 및 `.dispose()` 회수(광민감 설정 `flashEffect === false` 백색 섬광/스트로브 완전 차단).
+- **갤럭시 S25 울트라(`915×412`, `19.5:9`) Safe Area HUD & `F9` 프리셋 ([`MusouBattleHUD.ts`](src/ui/MusouBattleHUD.ts), [`VisualPolishDrawer.ts`](src/scenes/dev/visualPolishDrawer.ts)):**
+  - 좌상단 액션 타입 배지·버스트 버튼, 상단 중앙 보스 2단 아머/HP 바, 우상단 KO/HIT 카운터, 하단 중앙 스태미나 바, 우하단 엄지 아크 4버튼 + 4슬롯 특수기(`1~4`)를 Safe Area 내부 겹침 `0px`로 배치하고 `F9` `[⚡ 무쌍]` 원클릭 프리셋 탭 연동.
+
 ---
 
 ## 2. 남은 이슈 (Remaining Issues)
 
 - **치명적/기능적/아키텍처 버그:** **0건**
-  - 전투 코어 결정론(`BATTLE_CALC_VERSION = "0.6.0"`, 기준선 `stateHash` 3종 100% 일치), 세이브 호환성(`CURRENT_SAVE_VERSION = 5`, `world.openedChestIds` 동적 60종 하위 호환), `validate:maps`(17/17 7계층 섬·60개 상자·71개 구역·102명 NPC BFS 0 에러), 순환 참조 `0건`, 계층 침범 `0건`, `any`/`@ts-ignore` `0건`, `ctx.shadowBlur` `0건`, 오프스크린 캔버스 GPU 메모리(`width=0, height=0`) 및 `AbortController`·WebAudio 해제 모두 검증 완료.
-- **라이브 Chrome DevTools(CDP) 원격 디버깅 미연결 (자동화 E2E로 대체 검증 완료):**
-  - 프로덕션 번들(`dist-web/` `692`파일, `25,055,826 bytes`, `landmarks` `20/20 PNG`) 무결성, 갤럭시 S25 울트라(`19.5:9`, `915×412 → 1199×540`)·데스크톱(`1280×720`) Safe Area 비충돌, 해류·소용돌이 물리, `flashEffect === false` 번개 차단, 60개 보물상자 동적 집계, 빠른 항해, GPU 메모리 해제 회귀는 자동화 테스트(33 suites / 136 tests)로 검증 완료.
-  - 호스트 Chrome에서 `chrome://inspect/#remote-debugging`(`DevToolsActivePort`)이 비활성화되어 있어 라이브 CDP 브라우저 조작은 차단되었으며, 실브라우저 시각 확인이 필요할 때 `npm run preview`로 로컬에서 바로 확인할 수 있습니다.
-- **선택적 외부 커스텀 스프라이트 교체 대상 (`MISSING_SPRITES.md`):**
-  - 다층 바이옴 타일셋(`14종`), 패럴랙스 전투 배경(`42장`), VFX 아틀라스(`12종`), 실제 `.ogg` 오디오(`BGM 10곡 / SFX 22종`), NDS 스프라이트(`37종`)·머그샷 초상화(`352장+`)는 모두 외부 파일 확보 완료.
-  - 나머지 `57종` 캐릭터·변신 폼은 관절 도트 리그 PNG로 정상 동작 중이며, 추후 외부 NDS/JUS/MUGEN 시트를 확보하면 `raw_assets/packs/` 투입 후 `npm run import:pack` 또는 `AssetPreviewScene` 슬라이서 탭으로 무중단 교체 가능합니다.
+  - 기존 2D·온라인·세이브 코어(`src/core/combat/*`, `src/core/constants.ts`, `src/core/save/*` 0줄 변경, `BATTLE_CALC_VERSION = "0.6.0"`, 기준선 `stateHash` 3종 100% 일치), 신규 무쌍 3D 코어 600틱 리플레이 결정론 일치(`tests/core/musouCombatCore.test.ts`), `validate:3d`/`maps`/`pro`/`assets`/`scripts`, 순환 참조 `0건`(`check:arch` `299` files), `any`/`@ts-ignore` `0건`, `ctx.shadowBlur` `0건`, 5회 연속 3D 씬 마운트·해제 누수 `0건`, S25 울트라 HUD 겹침 `0px` & `< 16.6ms` 60FPS 예산 검증([`threeMusouCombatVfxAndHud.test.ts`](tests/render/threeMusouCombatVfxAndHud.test.ts)), Vitest **54개 스위트 / 222개 테스트** 전원 통과.
+- **호스트 도구 미설치 / CDP 비활성화 항목:**
+  - **Blender CLI 미설치 (`NOT_FOUND_ON_HOST`):** `scripts/blender/merge_mixamo_to_glb.py` Python 구문 검사(`py_compile`)와 `npm run pack:3d` 인자·미설치 안내 동작을 검증했으며, 실제 `.fbx → .glb` 변환 실행은 Blender 4.x 설치 환경에서 `npm run pack:3d -- --unit=luffy_base`로 바로 수행 가능.
+  - **실브라우저 CDP 원격 디버깅 미연결:** `http://127.0.0.1:4173/` 프리뷰 기준 점검 시 호스트 Chrome `DevToolsActivePort`(`chrome://inspect/#remote-debugging`) 비활성화로 CDP 연결이 차단됨. Chrome 원격 디버깅 활성화 후 `npm run preview` 접속으로 `F9` 인스펙터와 WebGL2 실화면을 바로 확인할 수 있음.
+- **외부 3D `.glb` 아트워크 투입 대기 ([`3D_ASSET_DROP_GUIDE.md`](3D_ASSET_DROP_GUIDE.md)):**
+  - 루피/거대 보스/후샤 광장 3D 맵의 외부 Draco `.glb` 투입 전까지는 `GreyboxRig`(중립 회색 마네킹) 및 프로시저럴 항구 광장 환경으로 정상 구동됨.
+- **기존 선택적 2D 외부 커스텀 스프라이트 (`MISSING_SPRITES.md`):**
+  - 나머지 `57종` 2D 캐릭터·변신 폼은 관절 도트 리그 PNG로 정상 동작 중.
 
 ---
 
@@ -365,37 +396,74 @@
 
 ---
 
+## 10.10. Stage 23 완료 요약 (Three.js WebGL2 3D 카툰 무쌍 엔진 · 오프라인 Draco · Mixamo/Blender 패커 · 3D 무기/검격 리본/히트스파크)
+
+1. **Three.js 3D 카툰 무쌍 수직 슬라이스 & 호드/파괴 연출 ([`ThreeStageHost.ts`](src/render/three/ThreeStageHost.ts), [`AnimeToonMaterial.ts`](src/render/three/shaders/AnimeToonMaterial.ts), [`FooshaPlaza3DMap.ts`](src/render/three/FooshaPlaza3DMap.ts), [`MusouHordeRenderer.ts`](src/render/three/MusouHordeRenderer.ts), [`DestructiblePropSystem.ts`](src/render/three/DestructiblePropSystem.ts), [`ThreeMusouBattleScene.ts`](src/render/three/ThreeMusouBattleScene.ts), [`threeMusouController.ts`](src/scenes/controllers/threeMusouController.ts))**
+   - `three@0.187.0` WebGL2 3D 렌더러를 전투(`SANDBOX`/`STORY_BATTLE`) 씬에 상호 배타적 캔버스로 마운트하고 2~4단 셀 셰이딩 + 반전 노멀 잉크 외곽선(`AnimeToonMaterial`), 선택적 블룸/스피드라인, 100명 잡졸 `InstancedMesh` 넉백/래그돌 및 파괴 가능 프롭, 동적 3인칭 락온 카메라를 구축했습니다.
+2. **오프라인 Draco · Blender 원클릭 Mixamo 패커 · `Character3DLoader` 고도화 ([`sync-draco-decoder.mjs`](scripts/sync-draco-decoder.mjs), [`merge_mixamo_to_glb.py`](scripts/blender/merge_mixamo_to_glb.py), [`pack-3d-character.mjs`](scripts/pack-3d-character.mjs), [`validate-3d-assets.mjs`](scripts/validate-3d-assets.mjs), [`Character3DLoader.ts`](src/render/three/assets/Character3DLoader.ts), [`BoneSocketBinder.ts`](src/render/three/assets/BoneSocketBinder.ts), [`3D_ASSET_DROP_GUIDE.md`](3D_ASSET_DROP_GUIDE.md))**
+   - Android APK 오프라인 환경 대응 로컬 디코더(`public/draco/`) 자동 동기화(`npm run sync:draco`), 다중 Mixamo `.fbx` NLA 병합 → WebP + Draco `.glb` 원클릭 변환(`npm run pack:3d`), 런타임 Mixamo 본 자동 리타게팅·루트 XZ 이동 잠금·정면/신장 정규화·`F9` 3D 캐릭터 인스펙터를 완비했습니다.
+3. **데이터 드리븐 3D 무기 소켓 · 툰 검격 리본 · 만화풍 히트스파크 ([`weapons_3d.json`](src/data/assets/weapons_3d.json), [`WeaponSocketMountSystem.ts`](src/render/three/assets/WeaponSocketMountSystem.ts), [`ToonWeaponTrailMesh.ts`](src/render/three/vfx/ToonWeaponTrailMesh.ts), [`ToonSlashShader.ts`](src/render/three/shaders/ToonSlashShader.ts), [`ComicHitSparkPool.ts`](src/render/three/vfx/ComicHitSparkPool.ts))**
+   - 조로 삼도류(오른손·왼손·입 소켓 + 허리 칼집 수납 전환), 로 키코쿠, 카이도 팔재계 3D 무기 자동 소켓 장착(미투입 시 깔끔한 Greybox Weapon Proxy 폴백), 60FPS 제로 할당 곡선 보간 3D 검격 리본, 별형 섬광·교차 참격·패왕색 번개 히트스파크 풀 및 `F9` 실시간 무기/리본 튜너를 구현했습니다.
+
+---
+
+## 10.11. Stage 24 완료 요약 (《원피스: 해적무쌍 4》 핵심 4대 전투 메커니즘 코어 · 3D WebGL2 연출 · S25 울트라 HUD)
+
+1. **순수 결정론 무쌍 전투 코어 ([`musou_types.json`](src/data/musou_types.json), [`MusouTypes.ts`](src/core/battle/musou/MusouTypes.ts), [`ActionTypeProfile.ts`](src/core/battle/musou/ActionTypeProfile.ts), [`PowerDashSystem.ts`](src/core/battle/musou/PowerDashSystem.ts), [`BurstAndSpecialSystem.ts`](src/core/battle/musou/BurstAndSpecialSystem.ts), [`BossArmorSystem.ts`](src/core/battle/musou/BossArmorSystem.ts), [`MusouCombatEngine.ts`](src/core/battle/musou/MusouCombatEngine.ts))**
+   - `MUSOU_CALC_VERSION = '0.7.0'` (기존 `src/core/combat/*` 및 `BATTLE_CALC_VERSION = '0.6.0'` 0줄 변경 격리) 기반 **4대 액션 타입(`POWER`/`SPEED`/`TECHNIQUE`/`SKY`)**, 적중 프레임 스태미나 소모 **파워 대시 캔슬**(지상·공중 무한 연계), **진심 버스트 & 4슬롯 특수기**, **거대 보스 아머 브레이크 & 5초 `BROKEN_GROGGY` 극딜 창**을 60Hz 고정 틱·정수 결정론 연산(`computeMusouStateHash`)으로 구현했습니다.
+2. **제로 할당 3D WebGL2 연출 풀 & S25 울트라 0px 겹침 HUD ([`PowerDashVfxPool.ts`](src/render/three/musou/PowerDashVfxPool.ts), [`BurstCinematicController.ts`](src/render/three/musou/BurstCinematicController.ts), [`ArmorBreakVfxSystem.ts`](src/render/three/musou/ArmorBreakVfxSystem.ts), [`TechniqueMarkVfxPool.ts`](src/render/three/musou/TechniqueMarkVfxPool.ts), [`MusouBattleHUD.ts`](src/ui/MusouBattleHUD.ts))**
+   - 3중 잔상·바람 원뿔·0.45s 버스트 선회 줌·48파편 보스 아머 폭발·3D 그로기 스턴 링(`flashEffect === false` 점멸 억제)과 갤럭시 S25 울트라(`915×412`) Safe Area `0px` 겹침 4슬롯 아크 HUD 및 `F9` `[⚡ 무쌍]` 프리셋 탭을 통합했습니다.
+
+---
+
+## 10.12. Stage 25 완료 요약 (18챕터 전체 원작 3D 스토리 모드 · 컷신 디렉터 · 실시간 전투 대사 · 스토리 도감)
+
+1. **순수 결정론 스토리 코어 · 19편 3D 대본 JSON · Save v5 / 안티치트 통합 ([`types.ts`](src/data/story/types.ts), [`StoryStateMachine.ts`](src/core/story/StoryStateMachine.ts), [`storyChaptersRegistry.ts`](src/data/story/storyChaptersRegistry.ts), [`validate-scripts.ts`](scripts/validate-scripts.ts))**
+   - `StoryDirective3D` 9종 판별 유니온(`chapter_card`, `stage_3d`, `camera_3d`, `actor_action`, `line`, `narration`, `vfx_3d`, `bgm`, `start_musou_battle`)과 **Ch.01 후샤 마을 ~ Ch.18 엘바프**(Ch.03.5 시롭 마을 인터루드 포함, 총 **19개 챕터 · 270개 디렉티브 · 76개 배틀 밴터**) 3D 스토리 대본 구축.
+   - `StoryStateMachine`: DAG 선행 챕터 잠금 해제(`LOCKED → AVAILABLE → INTRO_SEEN → BATTLE_READY → CLEARED`), 멱등 재도전 보상(중복 해금/현상금 방지), `deriveStoryProgressFromLegacyEpisodes` 전이 클로저 기반 `Save v0~v4 → v5` 무손실 마이그레이션, `LegalityValidator` 동적 교차 검증을 `src/core/combat/*`·`src/core/battle/musou/*` **0줄 변경**으로 구현.
+   - `npm run validate:scripts` 확장: 화자·초상화(`STORY_NPC_SPEAKER_PORTRAIT_MAP`)·BGM/SFX·아레나·해역·각성 폼·선박·고유 `battleId`·Kahn 위상정렬 DAG 도달률(`19/19`)·밀짚모자 10인 전원 합류(`10/10`) 자동 감사.
+2. **Three.js 3D 컷신 디렉터 · 실시간 페이즈 대사 컨트롤러 ([`MusouCameraController.ts`](src/render/three/MusouCameraController.ts), [`ThreeCutsceneDirector.ts`](src/render/three/story/ThreeCutsceneDirector.ts), [`MusouPhaseBanterController.ts`](src/render/three/story/MusouPhaseBanterController.ts), [`ThreeMusouBattleScene.ts`](src/render/three/ThreeMusouBattleScene.ts), [`threeMusouController.ts`](src/scenes/controllers/threeMusouController.ts))**
+   - `ThreeCutsceneDirector`: 6종 카메라 프리셋(`wide_establishing`, `over_shoulder`, `boss_low_angle`, `orbit_hero`, `closeup_speaker`, `dramatic_dutch`) + 전투 카메라 `0.25s` 부드러운 복귀 블렌드, `Character3DLoader` & `WeaponSocketMountSystem` 3D 배우·무기 스테이징, 단일 풀 `InstancedMesh` 8종 날씨, `AnimeToonMaterial` 림·블룸(`flashEffect === false` 섬광 차단), 2.39:1 레터박스/타자기 대화/Auto/Log/Skip 2줄 요약 모달 및 전 리소스 `.dispose()` 보장.
+   - `MusouPhaseBanterController`: `MusouCombatState`·`MusouTickEvent` 읽기 전용 구독(`computeMusouStateHash` 100% 불변), 6종 트리거(`bossHpBelow`, `onArmorBreak`, `onBurstActivated`, `onJustParry`, `onKoMilestone`, `onGimmickHit`) 우선순위 큐, S25 울트라(`915×412`) Safe Area `0px` 겹침 통신 배너 출력.
+3. **3D 스토리 도감 UI · 타이틀/상단 메뉴/`F9` 테스트 점프 · E2E 검증 결과 (`2026-11-24`, [`StoryCodexOverlay.ts`](src/ui/StoryCodexOverlay.ts), [`storyStateMachineAndSave.test.ts`](tests/core/storyStateMachineAndSave.test.ts), [`threeStoryCutsceneAndBanter.test.ts`](tests/render/threeStoryCutsceneAndBanter.test.ts))**
+   - [`StoryCodexOverlay.ts`](src/ui/StoryCodexOverlay.ts): 1·2·3부 탭, 밀짚모자 10인 체크리스트, 현상금·기함·진행도 표시, 미해금 실루엣, `[🎬 3D 컷신 다시보기]` / `[⚔ 무쌍 보스전 재도전]`을 타이틀([`titleScene.ts`](src/scenes/titleScene.ts)), 상단 바(`#btn-story-codex`), `F9` `[⚡ 무쌍]` 탭 `[🎬 스토리 테스트 점프 (Ch.01~Ch.18)]`([`visualPolishDrawer.ts`](src/scenes/dev/visualPolishDrawer.ts))에 완전 연결.
+   - **검증 수치:** `npm run validate:scripts` (`19 chapters, 270 directives, 76 banters, 19/19 DAG, 10/10 Straw Hats`), `npm run validate:3d` (`0 errors`), `npm run validate:assets` (`0 errors`), `npm run check:arch` (`305`파일 `0 issues`), `npm run typecheck` (`0 errors`), Vitest **56개 스위트 / 231개 테스트 ALL PASSED** (`7.45s`, 5회 컷신↔전투↔에필로그 리소스 누수 0건 · `< 16.6ms` · `computeMusouStateHash` 불변), `npm run build:web` (`5.74s`, `1164` 모듈, PWA `4235.43 KiB`), `productionDistGalaxyS25E2E.test.ts` (`2/2` 통과). *(프로덕션 `vite preview --outDir dist-web --port 4173` 브라우저 E2E 시도는 호스트 Chrome `DevToolsActivePort` 미활성으로 `BLOCKED` 확인 후 프리뷰 서버 정상 종료.)*
+
+---
+
 ## 11. 남은 이슈 (Known / Remaining Issues)
 
 1. **호스트 Chrome DevTools 원격 디버깅 미활성으로 인한 자동 실브라우저 WebGL2 육안 점검 보류**
    - `npx vite preview --outDir dist-web --port 4173` 기반 브라우저 에이전트 점검 시 호스트 Chrome `DevToolsActivePort` (`%LOCALAPPDATA%\Google\Chrome\User Data\DevToolsActivePort`) 부재로 `BLOCKED` 상태입니다.
-   - 실제 WebGL2 셰이더(3대 해역 `SeaSailingScene` 실시간 바다 물결·날씨·야간 뱃머리 광원·20종 랜드마크, 17/17 섬 수면 반사·바이옴 파티클·동적 광원, 8대 보스 셰이더·2:2 합동기 컷인) 및 `915×412` Safe Area 시각 확인은 로컬에서 `npm run preview` 실행(또는 Chrome `chrome://inspect/#remote-debugging` 활성화) 및 실기기 APK 설치로 확인해야 합니다.
-2. **외부 시트 미확보 `PLACEHOLDER` 보스·거대 변신 폼 (`morgan` + `lucci_awakened` + `katakuri`/`kaido`/`saturn`/`loki` 본체·거대 폼·`king`/`s_hawk`/`blueno`/`doppelman` + 밀짚모자 3인 거대 폼)**
+   - Three.js 3D 카툰 무쌍 전투·컷신(Ch.01/05/10/16/18)·스토리 도감·무기 리본·아머 브레이크 파편 및 PixiJS 3대 해역/17개 섬 WebGL2 셰이더의 `915×412` Safe Area 실화면 확인은 로컬에서 Chrome `chrome://inspect/#remote-debugging` 활성화 후 `npm run preview` 또는 실기기 APK 설치로 확인해야 합니다.
+2. **외부 3D 캐릭터·무기 `.glb` 모델 미투입 (Greybox 폴백 가동 중)**
+   - 현재 `public/assets/3d/characters/` (`0`종) 및 `public/assets/3d/weapons/` (`0`종)에는 실제 외부 `.glb` 파일이 아직 드롭되지 않아 런타임에서 `GreyboxRig` / `Greybox Weapon Proxy`로 깔끔하게 폴백 중입니다([`3D_ASSET_DROP_GUIDE.md`](3D_ASSET_DROP_GUIDE.md)).
+3. **2D Pro 외부 시트 미확보 `PLACEHOLDER` 보스·거대 변신 폼 (`47`종)**
    - 코드 도트 베이킹 금지 원칙에 따라 외부 도트 시트 미확보 항목은 `PLACEHOLDER` 상태로 투명하게 유지 중이며, `raw_assets/packs/` 투입 후 `npm run import:pro` 실행 시 `2048×2048`(거대 폼) / `1024×1024`(일반) 무손실 WebP로 즉시 승격됩니다([`PRO_ART_DROP_GUIDE.md`](PRO_ART_DROP_GUIDE.md)).
-3. **외부 `pixi-webgl` 벤더 청크 크기 경고 (`589.04 kB`, gzip `169.63 kB`)**
-   - 앱 코드 및 데이터 청크(`index` `438.61 kB`, `game-data` `288.97 kB`, `island-maps-data` `270.66 kB`, `pixi-scenes` `226.69 kB`)는 모두 `500 kB` 미만으로 최적화되었으며, `pixi.js` 단일 벤더 청크만 `589.04 kB`입니다(정상 동작).
-4. **Android Release 서명(Keystore / Signed AAB·APK) 미구성**
+4. **프로덕션 웹 빌드 일부 청크 500 kB 초과 경고 (`three-webgl` `676.15 kB`, `pixi-webgl` `589.04 kB`, `index` `500.38 kB`)**
+   - `three-webgl` 및 `pixi-webgl`은 외부 3D/2D WebGL2 벤더 청크이며, `index`(`500.38 kB`, gzip `150.04 kB`)는 19개 스토리 챕터 JSON 정적 번들 추가로 500 kB 경계를 소폭 초과했습니다(정상 동작, 추후 챕터 대본 동적 `import()` 분할 가능).
+5. **Android Release 서명(Keystore / Signed AAB·APK) 미구성**
    - 크로스플랫폼 `npm run package:android:apk` 래퍼(`--release` 플래그 포함)는 준비 완료되었으며, 실제 스토어 배포용 Release APK/AAB 추출 시 서명 키스토어 및 `android/app/build.gradle` `signingConfigs` 구성이 필요합니다.
 
 ---
 
 ## 12. 다음 할 일 (Next Steps)
 
-1. **미확보 거대 보스·모건 외부 시트 및 커스텀 바다 랜드마크/선박 드롭 승격 (`PRO_ART_DROP_GUIDE.md`)**
-   - `raw_assets/packs/`에 외부 시트(`morgan_base.png`, `kaido_base.png`, `saturn_base.png`, `loki_base.png`, `king_base.png`, `katakuri_base.png`, `s_hawk_base.png`) 또는 `raw_assets/packs/{landmarks,ships}/` 고해상도 랜드마크/선박 아트 확보 시 투입 후 `npm run import:pro` → `npm run validate:pro` → `npm run assets:verify -- --id=...`로 `VERIFIED` 승격하세요.
-2. **Android APK 패키징 & 실기기/로컬 브라우저 확인 (`최종 Android APK 패키징 준비 완료`)**
-   - `npm run package:android:apk`(디버그) 또는 키스토어 구성 후 `node scripts/build-android-apk.mjs --release`로 실기기 APK를 패키징하고, 로컬 `npm run preview` 또는 Chrome `chrome://inspect/#remote-debugging` 활성화 후 3대 해역 항해(`SeaSailingScene`·확대 해도)·17개 섬·거대 보스전 WebGL2 시각 연출을 최종 점검하세요.
-3. **실브라우저 육안 검수 완료 에셋 `VERIFIED` 일괄 승격**
-   - 전 세계 17/17 섬 `.tmj`, 20종 바다 랜드마크·4종 선박 무손실 WebP, 밀짚모자 10인 전원 및 2:2 합동기 7종, 8대 보스 셰이더 파이프라인이 완비되었으므로, 실브라우저 육안 검수 완료 에셋을 `npm run assets:verify -- --id=...`로 `VERIFIED` 승격하세요.
-4. **Android Release Keystore 서명 구성**
-   - 정식 배포 단계에서 `android/app/build.gradle` `signingConfigs`와 키스토어를 연결한 뒤 `node scripts/build-android-apk.mjs --release`로 서명된 Release APK를 추출하세요.
+1. **외부 3D 캐릭터·무기 `.glb` 투입 및 `F9` 실시간 리깅·소켓 미세 보정 (`3D_ASSET_DROP_GUIDE.md`)**
+   - Tripo3D/Meshy/Sketchfab + Adobe Mixamo `.fbx` 모션을 `npm run pack:3d -- --id=luffy_base --input=...`으로 Draco `.glb` 패킹해 `public/assets/3d/{characters,weapons}/`에 배치하고 `npm run validate:3d` 통과 후 `F9` `[🎬 3D 인스펙터]` · `[⚔ 무기 튜너]`에서 오프셋/검격 리본을 최종 보정하세요.
+2. **실브라우저 & Galaxy S25 Ultra(`915×412`) WebGL2 육안 최종 점검**
+   - Chrome `chrome://inspect/#remote-debugging` 활성화 또는 로컬 `npm run preview`로 타이틀 → 3D 스토리 도감 → `F9` 스토리 점프(Ch.01·05·10·16·18) 3D 컷신·배틀 밴터·파워 대시·진심 버스트·보스 아머 브레이크 연출을 직접 확인하세요.
+3. **스토리 챕터 JSON 동적 코드 스플리팅 & 미확보 2D `PLACEHOLDER` 아트워크 승격 (`PRO_ART_DROP_GUIDE.md`)**
+   - 필요 시 `storyChaptersRegistry.ts`의 19편 대본을 챕터별 동적 청크로 분리해 `index` 청크를 `500 kB` 미만으로 재압축하고, 확보된 2D 외부 시트 투입 후 `npm run import:pro` → `npm run assets:verify`로 `VERIFIED` 승격하세요.
+4. **Android APK 패키징 & Release Keystore 서명 구성**
+   - 실기기 테스트용 Debug APK(`npm run package:android:apk`) 추출 및 정식 배포 단계에서 `android/app/build.gradle` `signingConfigs` + 키스토어 연결 후 `node scripts/build-android-apk.mjs --release`를 실행하세요.
 
 ---
 
 ## 13. 빠른 검증 및 실행 방법
 
 ```powershell
-# 1. 아키텍처·순환참조·any·shadowBlur 자동 감사 (268 TS files)
+# 1. 아키텍처·순환참조·any·shadowBlur 자동 감사 (305 TS files)
 npm run check:arch
 
 # 2. 결정론적 Tiled .tmj 컴파일 · 프로 에셋 SSOT 상태 · 무손실 WebP · 맵 검증
@@ -405,14 +473,15 @@ npm run validate:pro
 npm run import:pro
 npm run validate:maps
 
-# 3. 스프라이트·초상화·타일셋·배경·VFX·월드 랜드마크(20종)·오디오 & 스크립트 검증
+# 3. 스프라이트·초상화·타일셋·배경·VFX·월드 랜드마크(20종)·오디오 & 3D 스토리/스크립트 & 3D 에셋 검증
 npm run validate:assets
 npm run validate:scripts
+npm run validate:3d
 
 # 4. 정적 타입 검사 (strict + noUncheckedIndexedAccess)
 npm run typecheck
 
-# 5. 프로덕션 웹 빌드 & 전체 Vitest 스위트 (46 suites / 187 tests)
+# 5. 프로덕션 웹 빌드 & 전체 Vitest 스위트 (56 suites / 231 tests)
 npm run build:web
 npm run test
 

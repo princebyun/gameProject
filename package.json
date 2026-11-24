@@ -11,7 +11,7 @@
     "dev:server": "node --import tsx server/index.ts",
     "dev:all": "npx concurrently \"npm run dev:server\" \"npm run dev\"",
     "build": "npm run build:web",
-    "build:web": "tsc --noEmit && cross-env VITE_PLATFORM=web vite build",
+    "build:web": "npm run sync:draco && tsc --noEmit && cross-env VITE_PLATFORM=web vite build",
     "build:electron": "tsc --noEmit && cross-env VITE_PLATFORM=electron vite build && tsc -p tsconfig.electron.json && node --input-type=module -e \"import fs from 'node:fs'; fs.writeFileSync('dist-electron-main/package.json', JSON.stringify({ type: 'commonjs' }));\"",
     "build:android": "tsc --noEmit && cross-env VITE_PLATFORM=android vite build",
     "package:win:dir": "npm run build:electron && electron-builder --win --x64 --dir",
@@ -33,6 +33,9 @@
     "import:pack": "node --import tsx scripts/import-sprite-pack.mjs",
     "import:pro": "node scripts/import-pro-assets.mjs",
     "compile:tmj": "node scripts/compile-tiled-tmj.mjs",
+    "sync:draco": "node scripts/sync-draco-decoder.mjs",
+    "pack:3d": "node scripts/pack-3d-character.mjs",
+    "validate:3d": "node scripts/validate-3d-assets.mjs",
     "bake:sprites": "node --import tsx scripts/legacy/bake-sprites.mjs",
     "bake:landmarks": "node scripts/legacy/bake-landmarks.mjs",
     "ai:handoff": "node --import tsx scripts/ai-handoff.mjs"
@@ -47,12 +50,14 @@
     "@capacitor/share": "^8.0.3",
     "@capacitor/status-bar": "^8.0.4",
     "pixi.js": "^8.23.0",
+    "three": "^0.187.0",
     "ws": "^8.18.0"
   },
   "devDependencies": {
     "@capacitor/android": "^8.6.2",
     "@capacitor/cli": "^8.6.2",
     "@types/node": "^22.0.0",
+    "@types/three": "^0.187.0",
     "@types/ws": "^8.5.13",
     "cross-env": "^10.1.0",
     "electron": "^45.4.1",

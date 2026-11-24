@@ -34,11 +34,23 @@ export default defineConfig(() => {
         output: {
           manualChunks(id) {
             if (
+              id.includes('node_modules/three') ||
+              id.includes('node_modules\\three')
+            ) {
+              return 'three-webgl';
+            }
+            if (
               id.includes('node_modules/pixi.js') ||
               id.includes('node_modules\\pixi.js') ||
               id.includes('node_modules/@pixi')
             ) {
               return 'pixi-webgl';
+            }
+            if (
+              id.includes('src/render/three') ||
+              id.includes('src\\render\\three')
+            ) {
+              return 'three-musou';
             }
             if (id.includes('node_modules')) {
               return 'vendor';
@@ -117,11 +129,41 @@ export default defineConfig(() => {
                 'assets/backgrounds/**',
                 'assets/vfx/**',
                 'assets/pro/**',
+                'assets/3d/**',
+                'draco/**',
                 'assets/audio/bgm/**',
                 'assets/audio/sfx/**',
                 '**/*.meta.json'
               ],
               runtimeCaching: [
+                {
+                  urlPattern: /\/draco\/.*\.(wasm|js)$/i,
+                  handler: 'CacheFirst',
+                  options: {
+                    cacheName: 'opgv-draco-decoder-cache',
+                    expiration: {
+                      maxEntries: 20,
+                      maxAgeSeconds: 60 * 60 * 24 * 30
+                    },
+                    cacheableResponse: {
+                      statuses: [0, 200]
+                    }
+                  }
+                },
+                {
+                  urlPattern: /\/assets\/3d\/.*\.(glb|gltf|bin|wasm|js|json|png|webp)$/i,
+                  handler: 'CacheFirst',
+                  options: {
+                    cacheName: 'opgv-3d-assets-cache',
+                    expiration: {
+                      maxEntries: 200,
+                      maxAgeSeconds: 60 * 60 * 24 * 30
+                    },
+                    cacheableResponse: {
+                      statuses: [0, 200]
+                    }
+                  }
+                },
                 {
                   urlPattern: /\/assets\/pro\/.*\.(webp|png|json|tmj|tsj|tsx)$/i,
                   handler: 'CacheFirst',

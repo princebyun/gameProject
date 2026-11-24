@@ -8,6 +8,7 @@ import type {
   SeaZoneId
 } from '../types/rpgSchemas';
 import { evaluateAndStampAntiCheat } from './antiCheat';
+import { cloneStoryProgress } from '../story/StoryStateMachine';
 import {
   CURRENT_SAVE_VERSION,
   type GlobalSettingsPayload,
@@ -247,7 +248,10 @@ export function serializeCampaignToSaveEnvelope(
         unlockedRelicIds: [...(state.endgame?.raids?.unlockedRelicIds ?? [])],
         equippedRelicMap: { ...(state.endgame?.raids?.equippedRelicMap ?? {}) }
       }
-    }
+    },
+    ...(state.storyProgress
+      ? { storyProgress: cloneStoryProgress(state.storyProgress) }
+      : {})
   };
 
   const captainId = state.recruitedUnitIds[0] ?? 'luffy';

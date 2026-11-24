@@ -6,7 +6,8 @@ export function renderTouchOverlay(
   ctx: CanvasRenderingContext2D,
   input: UnifiedInputManager,
   mode: TouchOverlayMode = 'BATTLE',
-  hasNearbyInteractable: boolean = false
+  hasNearbyInteractable: boolean = false,
+  leftJoystickOnly: boolean = false
 ): void {
   if (!input.isTouchViewport()) {
     return;
@@ -40,6 +41,11 @@ export function renderTouchOverlay(
   ctx.beginPath();
   ctx.arc(knob.x, knob.y, knobR, 0, Math.PI * 2);
   ctx.fill();
+
+  if (leftJoystickOnly) {
+    ctx.restore();
+    return;
+  }
 
   // 2. Bottom-Right Ergonomic Action Buttons (context-aware for BATTLE vs ISLAND/SEA)
   const buttons = input.getTouchButtons();

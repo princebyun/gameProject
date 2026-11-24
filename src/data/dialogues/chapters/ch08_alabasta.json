@@ -1,0 +1,58 @@
+{
+  "chapterId": "ch08_alabasta",
+  "chapterNo": "Ch.08",
+  "act": 2,
+  "title": "알라바스타 — 사막의 칠무해와 X자 증표",
+  "subtitle": "크로커다일 격파 · 비비와의 작별 · 니코 로빈 합류",
+  "summary2Lines": [
+    "물통으로 크로커다일의 모래 자연계를 공략해 알라바스타의 내란을 종식시킨 루피.",
+    "비비에게 말없이 왼팔의 X자 동료의 증표를 들어 올리고 고고학자 니코 로빈이 합류한다."
+  ],
+  "prerequisiteChapterIds": ["ch07_drum_kingdom"],
+  "legacyEpisodeId": "ep_alabasta",
+  "arenaId": "alabasta_desert",
+  "bossUnitId": "crocodile",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.08", "act": 2, "title": "사막 왕국 알라바스타", "subtitle": "칠무해 서 크로커다일과의 3차 결전" },
+    { "type": "bgm", "trackId": "battle_boss", "fadeMs": 300 },
+    {
+      "type": "stage_3d",
+      "arenaId": "alabasta_desert",
+      "timeOfDay": "sunset",
+      "weather": "sandstorm",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.4, 0, 0], "rotationYDeg": 90, "animClip": "IDLE" },
+        { "actorId": "crocodile", "unitId": "crocodile", "position": [2.8, 0, 0], "rotationYDeg": -90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "camera_3d", "shot": "over_shoulder", "targetActorId": "luffy", "secondaryActorId": "crocodile", "durationMs": 650, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "crocodile", "speakerName": "크로커다일", "side": "right", "emotion": "smirk", "text": "몇 번을 쓰러져도 마찬가지다. 해적 레벨이 다르단 말이다, 밀짚모자!", "focusActorId": "crocodile" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "determined", "text": "왕이고 칠무해고 상관없어! 비비의 눈물을 멈출 수 있다면 내가 너를 넘는다!!", "focusActorId": "luffy" }
+  ],
+  "preBattle": [
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "crocodile", "durationMs": 600, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "battle_cry", "text": "물 루피로 네 모래 몸을 전부 굳혀주마!!", "focusActorId": "luffy", "sfx": "water_splash" },
+    { "type": "start_musou_battle", "battleId": "battle_ch08_alabasta", "bossUnitId": "crocodile", "hordeCount": 100, "preDialogueDoneFlag": "ch08_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch08_gimmick", "trigger": "onGimmickHit", "gimmickTag": "water_soak", "speakerId": "luffy", "speakerName": "루피", "emotion": "excited", "text": "통했어! 모래가 물에 젖으면 내 주먹이 제대로 박힌다!" },
+    { "banterId": "ch08_armor", "trigger": "onArmorBreak", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "기반암째로 뚫어버려라!! 고무고무 스톰!!" },
+    { "banterId": "ch08_ko", "trigger": "onKoMilestone", "threshold": 80, "speakerId": "zoro", "speakerName": "조로", "emotion": "determined", "text": "바로크 워크스 놈들은 끝났다. 선장에게 맡기자!" },
+    { "banterId": "ch08_hp", "trigger": "bossHpBelow", "threshold": 0.35, "speakerId": "crocodile", "speakerName": "크로커다일", "emotion": "angry", "text": "네놈 따위가 칠무해를 무너뜨릴 순 없다!!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "island_peaceful", "fadeMs": 400 },
+    { "type": "camera_3d", "shot": "orbit_hero", "targetActorId": "luffy", "durationMs": 700, "easing": "easeInOutQuad" },
+    { "type": "line", "speakerId": "npc_vivi", "speakerName": "네펠타리 비비", "side": "right", "emotion": "sad", "text": "언젠가 다시 만날 수 있다면... 그때도 날 동료라고 불러줄래요?!", "focusActorId": "luffy" },
+    { "type": "line", "speakerId": "robin", "speakerName": "니코 로빈", "side": "right", "emotion": "smirk", "text": "선장님, 이제부터 내가 당신들 배의 고고학자예요. 잘 부탁해.", "focusActorId": "luffy" },
+    { "type": "narration", "text": "비비와 X자 맹세를 나눈 일당 앞에 니코 로빈이 합류했고, 루피의 현상금은 1억 베리로 치솟았다!", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": ["robin_base"],
+    "unlockForms": [],
+    "unlockSpecialSlots": [0, 1, 2, 3],
+    "unlockSeaZones": [],
+    "worldFlags": ["alabasta_x_mark", "ch08_alabasta_cleared"],
+    "bountyIncrease": 70000000
+  }
+}

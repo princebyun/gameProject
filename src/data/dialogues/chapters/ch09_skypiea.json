@@ -1,0 +1,60 @@
+{
+  "chapterId": "ch09_skypiea",
+  "chapterNo": "Ch.09",
+  "act": 2,
+  "title": "하늘섬 스카이피아 — 샨도라의 황금 종",
+  "subtitle": "번개의 신 에넬과 고무의 천적 상성 결전",
+  "summary2Lines": [
+    "노크 업 스트림을 타고 구름 위 하늘섬 어퍼 야드에 도달한 밀짚모자 일당.",
+    "2억 볼트 뇌신을 무효화하는 고무의 천적 상성으로 갓 에넬을 꺾고 황금 종을 울린다."
+  ],
+  "prerequisiteChapterIds": ["ch08_alabasta"],
+  "legacyEpisodeId": "ep_skypiea",
+  "arenaId": "skypiea_upper_yard",
+  "bossUnitId": "enel",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.09", "act": 2, "title": "스카이피아 어퍼 야드", "subtitle": "신이라 부르는 자 vs 번개가 통하지 않는 사나이" },
+    { "type": "bgm", "trackId": "sea_grand_line", "fadeMs": 300 },
+    {
+      "type": "stage_3d",
+      "arenaId": "skypiea_upper_yard",
+      "timeOfDay": "day",
+      "weather": "clear",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.4, 0, 0], "rotationYDeg": 90, "animClip": "IDLE" },
+        { "actorId": "enel", "unitId": "enel", "position": [2.8, 1.0, 0], "rotationYDeg": -90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "vfx_3d", "effect": "lightning_strike", "targetActorId": "luffy" },
+    { "type": "camera_3d", "shot": "closeup_speaker", "targetActorId": "enel", "durationMs": 600, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "enel", "speakerName": "갓 에넬", "side": "right", "emotion": "shocked", "text": "야하하?! 1억 볼트 바리를 정통으로 맞고 멀쩡하다고?! 네놈 대체 정체가 뭐냐!!", "focusActorId": "luffy", "sfx": "haki_lightning" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "smirk", "text": "난 고무니까 번개 따위 안 통해! 이 황금 종은 내가 반드시 울린다!", "focusActorId": "luffy" }
+  ],
+  "preBattle": [
+    { "type": "bgm", "trackId": "battle_boss", "fadeMs": 250 },
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "enel", "durationMs": 600, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "enel", "speakerName": "갓 에넬", "side": "right", "emotion": "angry", "text": "그렇다면 뜨거운 황금과 뇌영으로 청해를 멸망시켜주마!", "focusActorId": "enel" },
+    { "type": "start_musou_battle", "battleId": "battle_ch09_skypiea", "bossUnitId": "enel", "hordeCount": 90, "preDialogueDoneFlag": "ch09_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch09_gimmick", "trigger": "onGimmickHit", "gimmickTag": "lightning_immune", "speakerId": "enel", "speakerName": "갓 에넬", "emotion": "shocked", "text": "번개가 0대미지라고?! 이 푸른 바다의 원시인 녀석...!!" },
+    { "banterId": "ch09_armor", "trigger": "onArmorBreak", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "만트라고 뭐고 속도만 빠르면 못 피하지!! 황금 회전탄!!" },
+    { "banterId": "ch09_parry", "trigger": "onJustParry", "speakerId": "luffy", "speakerName": "루피", "emotion": "determined", "text": "어디로 순간이동할지 다 느껴진다고!" },
+    { "banterId": "ch09_ko", "trigger": "onKoMilestone", "threshold": 60, "speakerId": "robin", "speakerName": "니코 로빈", "emotion": "determined", "text": "역사의 불빛이 400년 만에 저 황금 종에서 되살아나려 해." }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "victory_fanfare", "fadeMs": 350 },
+    { "type": "vfx_3d", "effect": "shockwave_ring", "targetActorId": "luffy" },
+    { "type": "actor_action", "actorId": "luffy", "animClip": "VICTORY" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "excited", "text": "황금의 도시와 황금 종은 진짜 하늘에 있었어!! 아저씨, 들리지?!", "focusActorId": "luffy" },
+    { "type": "narration", "text": "400년을 기다린 샨도라의 황금 종소리가 하늘과 청해 자야에 울려 퍼졌다.", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": [],
+    "unlockForms": [],
+    "unlockSpecialSlots": [0, 1, 2, 3],
+    "unlockSeaZones": [],
+    "worldFlags": ["skypiea_golden_bell", "ch09_skypiea_cleared"],
+    "bountyIncrease": 10000000
+  }
+}

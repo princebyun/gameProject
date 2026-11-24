@@ -11,6 +11,12 @@ import type {
 import { createDefaultDataRegistry } from './dataRegistry';
 import { createDefaultEndgameRegistry } from './endgame/endgameRegistry';
 import { createDefaultRpgDataRegistry } from './rpgDataRegistry';
+import {
+  getStoryChapterById,
+  getStoryChaptersByAct,
+  STORY_CHAPTERS_LIST,
+  STORY_CHAPTERS_MAP
+} from './story/storyChaptersRegistry';
 import type {
   EndgameDataRegistry,
   RaidBossDefinition,
@@ -50,6 +56,12 @@ export class DataRegistry {
   public readonly rpg: RpgDataRegistry;
   public readonly endgame: EndgameDataRegistry;
   public readonly assets: AssetManifestRegistry;
+  public readonly story = {
+    chapters: STORY_CHAPTERS_LIST,
+    chaptersMap: STORY_CHAPTERS_MAP,
+    getChapter: getStoryChapterById,
+    getChaptersByAct: getStoryChaptersByAct
+  };
 
   constructor(
     combat: GameDataRegistry = createDefaultDataRegistry(),

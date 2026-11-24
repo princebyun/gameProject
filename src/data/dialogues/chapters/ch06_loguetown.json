@@ -1,0 +1,58 @@
+{
+  "chapterId": "ch06_loguetown",
+  "chapterNo": "Ch.06",
+  "act": 1,
+  "title": "로그타운 — 시작과 끝의 마을",
+  "subtitle": "처형대의 번개와 스모커 돌파 · 위대한 항로 출항",
+  "summary2Lines": [
+    "해적왕 골 D. 로저가 태어나고 처형된 도시 로그타운에서 처형대에 오른 루피.",
+    "하얀 사냥꾼 스모커의 추격을 폭풍과 함께 돌파하고 위대한 항로로 출항한다."
+  ],
+  "prerequisiteChapterIds": ["ch05_arlong_park"],
+  "legacyEpisodeId": "ep_loguetown",
+  "arenaId": "east_blue_harbor",
+  "bossUnitId": "smoker",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.06", "act": 1, "title": "로그타운", "subtitle": "리버스 마운틴을 앞둔 폭풍의 밤" },
+    { "type": "bgm", "trackId": "sea_grand_line", "fadeMs": 350 },
+    {
+      "type": "stage_3d",
+      "arenaId": "east_blue_harbor",
+      "timeOfDay": "night",
+      "weather": "storm",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [0, 1.5, 0], "rotationYDeg": 90, "animClip": "VICTORY" },
+        { "actorId": "smoker", "unitId": "smoker", "position": [3.2, 0, 0.2], "rotationYDeg": -90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "vfx_3d", "effect": "lightning_strike", "targetActorId": "luffy" },
+    { "type": "camera_3d", "shot": "dramatic_dutch", "targetActorId": "luffy", "durationMs": 700, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "smirk", "text": "미안, 죽었다! ...어? 번개가 쳐서 살았네! 시시식!", "focusActorId": "luffy", "sfx": "haki_lightning" }
+  ],
+  "preBattle": [
+    { "type": "bgm", "trackId": "battle_boss", "fadeMs": 250 },
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "smoker", "durationMs": 600, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "smoker", "speakerName": "스모커 대령", "side": "right", "emotion": "determined", "text": "이 마을에서 살아 빠져나간 해적은 없다. 몽키 D. 루피, 여기서 체포한다!", "focusActorId": "smoker" },
+    { "type": "start_musou_battle", "battleId": "battle_ch06_loguetown", "bossUnitId": "smoker", "hordeCount": 100, "preDialogueDoneFlag": "ch06_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch06_gimmick", "trigger": "onGimmickHit", "gimmickTag": "logia_smoke", "speakerId": "luffy", "speakerName": "루피", "emotion": "shocked", "text": "연기라서 주먹이 통과해버려! 빈틈을 노려야 해!" },
+    { "banterId": "ch06_armor", "trigger": "onArmorBreak", "speakerId": "sanji", "speakerName": "상디", "emotion": "battle_cry", "text": "돌풍에 틈이 생겼다! 지금 선장으로 돌파하자!" },
+    { "banterId": "ch06_ko", "trigger": "onKoMilestone", "threshold": 60, "speakerId": "nami", "speakerName": "나미", "emotion": "determined", "text": "배까지 조금 남았어! 동쪽 바람이 우리 편이야!" },
+    { "banterId": "ch06_hp", "trigger": "bossHpBelow", "threshold": 0.4, "speakerId": "smoker", "speakerName": "스모커 대령", "emotion": "angry", "text": "젠장... 이 돌풍의 정체는 대체 누구의 짓이냐?!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "sea_grand_line", "fadeMs": 400 },
+    { "type": "camera_3d", "shot": "orbit_hero", "targetActorId": "luffy", "durationMs": 700, "easing": "easeInOutQuad" },
+    { "type": "line", "speakerId": "luffy", "speakerName": "루피", "side": "left", "emotion": "excited", "text": "자, 모두 타! 꿈이 기다리는 [위대한 항로]로 출항이다!!", "focusActorId": "luffy" },
+    { "type": "narration", "text": "리버스 마운틴을 넘어 드디어 7개의 항로가 소용돌이치는 [위대한 항로]가 개방되었다!", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": [],
+    "unlockForms": [],
+    "unlockSpecialSlots": [0, 1, 2, 3],
+    "unlockSeaZones": ["grand_line"],
+    "worldFlags": ["ch06_loguetown_cleared", "grand_line_opened"],
+    "bountyIncrease": 20000000
+  }
+}

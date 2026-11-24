@@ -1,0 +1,60 @@
+{
+  "chapterId": "ch11_thriller_bark",
+  "chapterNo": "Ch.11",
+  "act": 2,
+  "title": "스릴러 바크 — 안개 바다와 \"아무 일도 없었다\"",
+  "subtitle": "겟코 모리아 격파 · 조로의 희생 · 음악가 브룩 합류",
+  "summary2Lines": [
+    "동료들의 그림자를 빼앗은 칠무해 겟코 모리아의 섀도우즈 아스가르드를 돌파한 일당.",
+    "동료를 지킨 조로의 \"아무 일도 없었다\" 이후 라분의 친구 음악가 브룩이 합류한다."
+  ],
+  "prerequisiteChapterIds": ["ch10_water_seven"],
+  "legacyEpisodeId": "ep_thriller_bark",
+  "arenaId": "thriller_bark_gothic",
+  "bossUnitId": "moria",
+  "intro": [
+    { "type": "chapter_card", "chapterNo": "Ch.11", "act": 2, "title": "마의 삼각지대 스릴러 바크", "subtitle": "저주받은 안개 성과 소울 솔리드" },
+    { "type": "bgm", "trackId": "battle_normal", "fadeMs": 300 },
+    {
+      "type": "stage_3d",
+      "arenaId": "thriller_bark_gothic",
+      "timeOfDay": "night",
+      "weather": "fog",
+      "actors": [
+        { "actorId": "luffy", "unitId": "luffy", "position": [-2.4, 0, 0], "rotationYDeg": 90, "animClip": "IDLE" },
+        { "actorId": "zoro", "unitId": "zoro", "position": [-1.8, 0, -1.2], "rotationYDeg": 90, "animClip": "IDLE", "drawWeapons": true },
+        { "actorId": "brook", "unitId": "brook", "position": [-2.8, 0, 1.3], "rotationYDeg": 85, "animClip": "IDLE", "drawWeapons": true },
+        { "actorId": "moria", "unitId": "moria", "position": [3.0, 0, 0], "rotationYDeg": -90, "animClip": "IDLE" }
+      ]
+    },
+    { "type": "camera_3d", "shot": "wide_establishing", "targetActorId": "moria", "durationMs": 650, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "brook", "speakerName": "브룩", "side": "left", "emotion": "smirk", "text": "요호호호! 제 그림자와 라분과의 약속, 반드시 되찾겠습니다!", "focusActorId": "brook", "sfx": "slash_light" }
+  ],
+  "preBattle": [
+    { "type": "bgm", "trackId": "battle_boss", "fadeMs": 250 },
+    { "type": "camera_3d", "shot": "boss_low_angle", "targetActorId": "moria", "durationMs": 650, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "moria", "speakerName": "겟코 모리아", "side": "right", "emotion": "smirk", "text": "키시시시! 그림자 1천 개를 삼킨 아스가르드 앞에서 아침 해를 맞이하라!", "focusActorId": "moria" },
+    { "type": "start_musou_battle", "battleId": "battle_ch11_thriller", "bossUnitId": "moria", "hordeCount": 100, "preDialogueDoneFlag": "ch11_pre_done" }
+  ],
+  "battleBanters": [
+    { "banterId": "ch11_ko", "trigger": "onKoMilestone", "threshold": 70, "speakerId": "brook", "speakerName": "브룩", "emotion": "excited", "text": "비츠 시프트! 내 검은 소금보다 날카롭습니다! 요호호호!" },
+    { "banterId": "ch11_armor", "trigger": "onArmorBreak", "speakerId": "luffy", "speakerName": "루피", "emotion": "battle_cry", "text": "전부 뱉어내!! 그림자는 우리 모두의 것이다!!" },
+    { "banterId": "ch11_burst", "trigger": "onBurstActivated", "speakerId": "zoro", "speakerName": "조로", "emotion": "determined", "text": "이 정도 상처로 물러서면... 야망이 울지." },
+    { "banterId": "ch11_hp", "trigger": "bossHpBelow", "threshold": 0.35, "speakerId": "moria", "speakerName": "겟코 모리아", "emotion": "shocked", "text": "신세계에서 살아남으려면 너희도 언젠가 전부 잃게 될 텐데...!!" }
+  ],
+  "epilogue": [
+    { "type": "bgm", "trackId": "island_peaceful", "fadeMs": 400 },
+    { "type": "camera_3d", "shot": "closeup_speaker", "targetActorId": "zoro", "durationMs": 700, "easing": "easeOutCubic" },
+    { "type": "line", "speakerId": "zoro", "speakerName": "조로", "side": "left", "emotion": "determined", "text": "...아무 일도... 없었다...", "focusActorId": "zoro" },
+    { "type": "line", "speakerId": "brook", "speakerName": "브룩", "side": "right", "emotion": "excited", "text": "제 목숨을 받아주세요! 음악가 브룩, 오늘부터 밀짚모자 일당의 동료입니다!", "focusActorId": "brook" },
+    { "type": "narration", "text": "음악가 콧노래 브룩이 합류하며 빈크스의 술 합창과 함께 신세계 앞 마린포드로 향한다.", "style": "parchment" }
+  ],
+  "unlocks": {
+    "recruitUnits": ["brook_base"],
+    "unlockForms": [],
+    "unlockSpecialSlots": [0, 1, 2, 3],
+    "unlockSeaZones": [],
+    "worldFlags": ["nothing_happened_zoro", "ch11_thriller_cleared"],
+    "bountyIncrease": 0
+  }
+}

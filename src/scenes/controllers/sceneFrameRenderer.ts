@@ -38,6 +38,9 @@ export function renderActiveSceneFrame(
   if (isLegacyOnlyScene && host.verticalSliceController?.getActiveKind() !== 'NONE') {
     host.verticalSliceController?.releaseActiveSlice(host);
   }
+  if (host.activeScene !== 'SANDBOX' && host.activeScene !== 'STORY_BATTLE') {
+    host.threeMusouController?.releaseActiveScene();
+  }
 
   if (host.activeScene === 'BOOT') {
     renderBootScene(ctx, host.bootState, host.tickCount, viewport);
@@ -216,13 +219,16 @@ export function renderActiveSceneFrame(
       viewport
     );
   } else {
-    const renderedByPixi =
-      host.verticalSliceController?.renderFrameIfVerticalSlice(
-        host,
-        viewport,
-        alpha
-      ) ?? false;
-    if (!renderedByPixi) {
+    const renderedByThree =
+      host.threeMusouController?.renderFrameIfActive(host, viewport, alpha) ?? false;
+    const renderedByPixi = renderedByThree
+      ? false
+      : (host.verticalSliceController?.renderFrameIfVerticalSlice(
+          host,
+          viewport,
+          alpha
+        ) ?? false);
+    if (!renderedByThree && !renderedByPixi) {
       renderBattleArena(
         ctx,
         host.battleWorld,
@@ -238,22 +244,24 @@ export function renderActiveSceneFrame(
         }
       );
     }
-    renderBattleHud(
-      ctx,
-      host.battleWorld,
-      host.gameRegistry,
-      host.input.getBindings(),
-      host.fps,
-      host.input.isTouchViewport(),
-      viewport
-    );
+    if (!renderedByThree) {
+      renderBattleHud(
+        ctx,
+        host.battleWorld,
+        host.gameRegistry,
+        host.input.getBindings(),
+        host.fps,
+        host.input.isTouchViewport(),
+        viewport
+      );
+    }
     renderBattleSpeedAndPauseHud(
       ctx,
       host.battleSpeedScale,
       host.isBattlePaused,
       viewport
     );
-    renderTouchOverlay(ctx, host.input);
+    renderTouchOverlay(ctx, host.input, 'BATTLE', false, renderedByThree);
   }
 
   renderSaveAndTamperOverlay(

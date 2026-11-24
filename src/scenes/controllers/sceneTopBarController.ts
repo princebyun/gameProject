@@ -23,6 +23,7 @@ export class SceneTopBarController implements Disposable {
     const { signal } = this.abort;
     const toggleBtn = this.host.rootEl.querySelector('#btn-toggle-hud-drawer') as HTMLButtonElement | null;
     const devToolsRow = topBar.querySelector('#dev-tools-bar-row') as HTMLElement | null;
+    const btnStoryCodex = topBar.querySelector('#btn-story-codex') as HTMLButtonElement | null;
     const btnToggleJournal = topBar.querySelector('#btn-toggle-journal') as HTMLButtonElement | null;
     const btnToggleDevTools = topBar.querySelector('#btn-toggle-devtools') as HTMLButtonElement | null;
 
@@ -51,6 +52,15 @@ export class SceneTopBarController implements Disposable {
         }
         toggleBtn.textContent = opening ? '✕ 닫기' : '☰ 메뉴';
         this.host.clearTransientFocusAndInput();
+      },
+      { signal }
+    );
+
+    btnStoryCodex?.addEventListener(
+      'click',
+      () => {
+        closeTopMenu();
+        this.host.openStoryCodex?.();
       },
       { signal }
     );
