@@ -26,7 +26,21 @@ import {
   ensureWave2Templates,
   promoteWave2MasterTilesets
 } from './lib/wave2TilesetAndMapBuilder.mjs';
-import { optimizeProAssetsPipeline } from './optimize-pro-assets.mjs';
+import {
+  promoteWave3ExternalPortraits,
+  promoteWave3RosterSprites,
+  promoteWorldArena4LayerBackdrops,
+  ROSTER_PPU_SPECS,
+  WAVE3_RESERVED_FORM_SPECS
+} from './lib/wave3RosterPromoter.mjs';
+import { buildWave4IslandTmjMaps } from './lib/wave4IslandTmjBuilder.mjs';
+import { promoteWave5SeaAssets } from './lib/wave5SeaAssetPromoter.mjs';
+import {
+  encodeLosslessWebpBuffer,
+  GIANT_OR_TILESET_MAX_DIM,
+  optimizeProAssetsPipeline,
+  REGULAR_ATLAS_MAX_DIM
+} from './optimize-pro-assets.mjs';
 import { syncProManifestFiles } from './pro-manifest-cli.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -51,7 +65,13 @@ function groupFramesIntoBands(boxes) {
   return bands;
 }
 
-function sliceExternalSheetToAsepriteHash(rawPngPath, outPngPath, outJsonPath, clipSpecFn) {
+async function sliceExternalSheetToAsepriteHash(
+  rawPngPath,
+  outWebpPath,
+  outJsonPath,
+  clipSpecFn,
+  maxAtlasDim = REGULAR_ATLAS_MAX_DIM
+) {
   const raw = decodePng(fs.readFileSync(rawPngPath));
   const clean = removeChromaKeyBackground(raw, 24);
   const rawBoxes = extractConnectedFrames(clean, { minArea: 48, maxFrames: 700 });
@@ -62,7 +82,7 @@ function sliceExternalSheetToAsepriteHash(rawPngPath, outPngPath, outJsonPath, c
   let cursorX = 2;
   let cursorY = 2;
   let rowMaxH = 0;
-  const maxAtlasW = 1024;
+  const maxAtlasW = maxAtlasDim;
   const pad = 2;
 
   const framesHash = {};
@@ -123,14 +143,16 @@ function sliceExternalSheetToAsepriteHash(rawPngPath, outPngPath, outJsonPath, c
     );
   }
 
-  fs.mkdirSync(path.dirname(outPngPath), { recursive: true });
-  fs.writeFileSync(outPngPath, encodeImageToPng(atlasImg));
+  fs.mkdirSync(path.dirname(outWebpPath), { recursive: true });
+  const pngBuf = encodeImageToPng(atlasImg);
+  const webpBuf = await encodeLosslessWebpBuffer(pngBuf);
+  fs.writeFileSync(outWebpPath, webpBuf);
   const aseJson = {
     frames: framesHash,
     meta: {
       app: 'opgv-pro-importer',
       version: '1.0',
-      image: path.basename(outPngPath),
+      image: path.basename(outWebpPath),
       format: 'RGBA8888',
       size: { w: atlasImg.width, h: atlasImg.height },
       anchor: { x: 0.5, y: 0.9 },
@@ -245,7 +267,7 @@ function unmultiplyBlackToAlpha(img) {
   return out;
 }
 
-function promoteTilesetsAndAnimatedWater() {
+async function promoteTilesetsAndAnimatedWater() {
   const spNinja = path.join(ROOT, 'raw_assets/web/tiles/sp_ninja.png');
   const spMed = path.join(ROOT, 'raw_assets/web/tiles/sp_med.png');
   const ogaWaterPath = path.join(ROOT, 'raw_assets/web/tiles/oga_water_grass_sand.png');
@@ -254,40 +276,54 @@ function promoteTilesetsAndAnimatedWater() {
   }
   const outDir = path.join(ROOT, 'public/assets/pro/tilesets');
   fs.mkdirSync(outDir, { recursive: true });
-  fs.copyFileSync(spNinja, path.join(outDir, 'ninja_adventure_village.png'));
-  fs.copyFileSync(spMed, path.join(outDir, 'medieval_windmill_extras.png'));
+  if (!fs.existsSync(path.join(outDir, 'ninja_adventure_village.webp'))) {
+    fs.writeFileSync(
+      path.join(outDir, 'ninja_adventure_village.webp'),
+      await encodeLosslessWebpBuffer(fs.readFileSync(spNinja))
+    );
+  }
+  if (!fs.existsSync(path.join(outDir, 'medieval_windmill_extras.webp'))) {
+    fs.writeFileSync(
+      path.join(outDir, 'medieval_windmill_extras.webp'),
+      await encodeLosslessWebpBuffer(fs.readFileSync(spMed))
+    );
+  }
 
-  // Build 4-frame 64x16 animated CC0 ocean strip directly from external oga_water_grass_sand.png wave tiles (0,0)-(1,1)
-  const ogaWater = decodePng(fs.readFileSync(ogaWaterPath));
-  const waterStrip = createImage(64, 16);
-  const frameCoords = [
-    [0, 0],
-    [16, 0],
-    [0, 16],
-    [16, 16]
-  ];
-  for (let f = 0; f < 4; f++) {
-    const [sx, sy] = frameCoords[f];
-    // Horizontal pixel wrap shift within external 16x16 water tile so crests gently roll
-    const shiftX = (f * 4) % 16;
-    for (let y = 0; y < 16; y++) {
-      for (let x = 0; x < 16; x++) {
-        const srcX = sx + ((x + shiftX) % 16);
-        const srcY = sy + y;
-        const si = (srcY * ogaWater.width + srcX) * 4;
-        const di = (y * 64 + f * 16 + x) * 4;
-        waterStrip.data[di] = ogaWater.data[si];
-        waterStrip.data[di + 1] = ogaWater.data[si + 1];
-        waterStrip.data[di + 2] = ogaWater.data[si + 2];
-        waterStrip.data[di + 3] = 255;
+  if (!fs.existsSync(path.join(outDir, 'ninja_animated_water.webp'))) {
+    // Build 4-frame 64x16 animated CC0 ocean strip directly from external oga_water_grass_sand.png wave tiles (0,0)-(1,1)
+    const ogaWater = decodePng(fs.readFileSync(ogaWaterPath));
+    const waterStrip = createImage(64, 16);
+    const frameCoords = [
+      [0, 0],
+      [16, 0],
+      [0, 16],
+      [16, 16]
+    ];
+    for (let f = 0; f < 4; f++) {
+      const [sx, sy] = frameCoords[f];
+      const shiftX = (f * 4) % 16;
+      for (let y = 0; y < 16; y++) {
+        for (let x = 0; x < 16; x++) {
+          const srcX = sx + ((x + shiftX) % 16);
+          const srcY = sy + y;
+          const si = (srcY * ogaWater.width + srcX) * 4;
+          const di = (y * 64 + f * 16 + x) * 4;
+          waterStrip.data[di] = ogaWater.data[si];
+          waterStrip.data[di + 1] = ogaWater.data[si + 1];
+          waterStrip.data[di + 2] = ogaWater.data[si + 2];
+          waterStrip.data[di + 3] = 255;
+        }
       }
     }
+    fs.writeFileSync(
+      path.join(outDir, 'ninja_animated_water.webp'),
+      await encodeLosslessWebpBuffer(encodeImageToPng(waterStrip))
+    );
   }
-  fs.writeFileSync(path.join(outDir, 'ninja_animated_water.png'), encodeImageToPng(waterStrip));
   return true;
 }
 
-function promotePortraitsAndCutins() {
+async function promotePortraitsAndCutins() {
   const outDir = path.join(ROOT, 'public/assets/pro/portraits');
   fs.mkdirSync(outDir, { recursive: true });
   const srcPortraits = path.join(ROOT, 'public/assets/portraits');
@@ -316,28 +352,35 @@ function promotePortraitsAndCutins() {
     const src = path.join(srcPortraits, fname);
     const webpOut = path.join(outDir, fname.replace(/\.png$/i, '.webp'));
     if (fs.existsSync(src) && !fs.existsSync(webpOut)) {
-      fs.copyFileSync(src, path.join(outDir, fname));
+      fs.writeFileSync(webpOut, await encodeLosslessWebpBuffer(fs.readFileSync(src)));
       copied += 1;
     }
   }
 
   // Extract genuine wide anime cut-in panels from NDS sheets when raw_assets/web is present
-  const extractCrop = (rawFile, box, outName) => {
+  const extractCrop = async (rawFile, box, outWebpName) => {
+    const dest = path.join(outDir, outWebpName);
+    if (fs.existsSync(dest)) return;
     const rawPath = path.join(ROOT, 'raw_assets/web/sprites', rawFile);
     if (!fs.existsSync(rawPath)) return;
     const img = decodePng(fs.readFileSync(rawPath));
     const crop = createImage(box.w, box.h);
     blit(crop, img, box.x, box.y, box.w, box.h, 0, 0, { alphaBlend: false });
-    fs.writeFileSync(path.join(outDir, outName), encodeImageToPng(crop));
+    fs.writeFileSync(dest, await encodeLosslessWebpBuffer(encodeImageToPng(crop)));
   };
-  extractCrop('luffy_base_raw.png', { x: 67, y: 3654, w: 192, h: 80 }, 'luffy_cutin.png');
-  extractCrop('zoro_base_raw.png', { x: 10, y: 3099, w: 253, h: 96 }, 'zoro_cutin.png');
+  await extractCrop('luffy_base_raw.png', { x: 67, y: 3654, w: 192, h: 80 }, 'luffy_cutin.webp');
+  await extractCrop('zoro_base_raw.png', { x: 10, y: 3099, w: 253, h: 96 }, 'zoro_cutin.webp');
   return copied;
 }
 
-function promote4LayerHarborBackdrop() {
+async function promote4LayerHarborBackdrop() {
   const outDir = path.join(ROOT, 'public/assets/pro/backgrounds');
   fs.mkdirSync(outDir, { recursive: true });
+  if (
+    [0, 1, 2, 3].every((i) => fs.existsSync(path.join(outDir, `east_blue_harbor_layer${i}.webp`)))
+  ) {
+    return true;
+  }
   const forestDir = path.join(ROOT, 'raw_assets/web/bg/forest_unpacked/parallax_background_forest');
   const spSkyPath = path.join(ROOT, 'raw_assets/web/bg/sp_bg_1.png');
   const millsPath = path.join(ROOT, 'raw_assets/web/bg/mills_back.png');
@@ -346,36 +389,42 @@ function promote4LayerHarborBackdrop() {
     return false;
   }
 
-  // Layer 0: Crisp sky gradient canvas (1280x540 nearest scale of sp_bg_1 + sky base)
   const spSky = decodePng(fs.readFileSync(spSkyPath));
   const layer0 = resizeNearest(spSky, 1280, 540);
-  fs.writeFileSync(path.join(outDir, 'east_blue_harbor_layer0.png'), encodeImageToPng(layer0));
+  fs.writeFileSync(
+    path.join(outDir, 'east_blue_harbor_layer0.webp'),
+    await encodeLosslessWebpBuffer(encodeImageToPng(layer0))
+  );
 
-  // Layer 1: Transparent drifting pixel clouds (1280x540 top sky band from forest_background_clouds.png)
   const clouds = decodePng(fs.readFileSync(path.join(forestDir, 'forest_background_clouds.png')));
   const layer1 = createImage(1280, 540);
   blit(layer1, clouds, 0, 0, 1280, 360, 0, 18, { alphaBlend: false });
-  fs.writeFileSync(path.join(outDir, 'east_blue_harbor_layer1.png'), encodeImageToPng(layer1));
+  fs.writeFileSync(
+    path.join(outDir, 'east_blue_harbor_layer1.webp'),
+    await encodeLosslessWebpBuffer(encodeImageToPng(layer1))
+  );
 
-  // Layer 2: Distant Foosha Windmill & coastal trees skyline (transparent upper sky, from mills_back.png + forest_background_mountains_2.png)
   const layer2 = createImage(1280, 540);
   const mtn = decodePng(fs.readFileSync(path.join(forestDir, 'forest_background_mountains_2.png')));
   const mtnScaled = resizeNearest(mtn, 1280, 260);
   blit(layer2, mtnScaled, 0, 0, 1280, 260, 0, 72, { alphaBlend: true });
   const mills = decodePng(fs.readFileSync(millsPath));
-  // Crop the windmills silhouette strip (y=115..355 in 6738x794 -> cleanly shows windmills above horizon without huge bottom brown block)
   const millCrop = createImage(1280, 220);
   blit(millCrop, mills, 120, 115, 1280, 220, 0, 0, { alphaBlend: false });
   blit(layer2, millCrop, 0, 0, 1280, 220, 0, 130, { alphaBlend: true });
-  fs.writeFileSync(path.join(outDir, 'east_blue_harbor_layer2.png'), encodeImageToPng(layer2));
+  fs.writeFileSync(
+    path.join(outDir, 'east_blue_harbor_layer2.webp'),
+    await encodeLosslessWebpBuffer(encodeImageToPng(layer2))
+  );
 
-  // Layer 3: Grounded East Blue harbor plaza floor (from external CC0 rbs_1.png lower half tiled/scaled onto bottom floor region, upper transparent!)
   const rbs1 = decodePng(fs.readFileSync(rbsPath));
   const rbsScaled = resizeNearest(rbs1, 1280, 540);
   const layer3 = createImage(1280, 540);
-  // Keep only foreground arena terrain below horizon y=215 so layers 0..2 shine behind
   blit(layer3, rbsScaled, 0, 215, 1280, 325, 0, 215, { alphaBlend: false });
-  fs.writeFileSync(path.join(outDir, 'east_blue_harbor_layer3.png'), encodeImageToPng(layer3));
+  fs.writeFileSync(
+    path.join(outDir, 'east_blue_harbor_layer3.webp'),
+    await encodeLosslessWebpBuffer(encodeImageToPng(layer3))
+  );
   return true;
 }
 
@@ -394,7 +443,7 @@ function wrapWideVfxStripToGrid(img, frameW, frameH, frameCount, maxWidth = 1024
   return out;
 }
 
-function promoteVfxAtlases() {
+async function promoteVfxAtlases() {
   const outDir = path.join(ROOT, 'public/assets/pro/vfx');
   fs.mkdirSync(outDir, { recursive: true });
   const srcVfx = path.join(ROOT, 'public/assets/vfx');
@@ -410,6 +459,8 @@ function promoteVfxAtlases() {
     'beam_core.png',
     'awakening_burst.png'
   ]) {
+    const outWebp = path.join(outDir, fname.replace(/\.png$/i, '.webp'));
+    if (fs.existsSync(outWebp)) continue;
     const src = path.join(srcVfx, fname);
     if (!fs.existsSync(src)) continue;
     const raw = decodePng(fs.readFileSync(src));
@@ -419,7 +470,7 @@ function promoteVfxAtlases() {
         : raw;
     const g = gridMeta[fname];
     const finalImg = g ? wrapWideVfxStripToGrid(unmult, g.fw, g.fh, g.count, 1024) : unmult;
-    fs.writeFileSync(path.join(outDir, fname), encodeImageToPng(finalImg));
+    fs.writeFileSync(outWebp, await encodeLosslessWebpBuffer(encodeImageToPng(finalImg)));
   }
 }
 
@@ -487,6 +538,25 @@ async function importRawPacksDrops() {
   const debugDir = path.join(ROOT, 'exported_thumbnails/import_debug');
   let promoted = 0;
 
+  const unitsJsonPath = path.join(ROOT, 'src/data/units.json');
+  const giantUnitIds = new Set(
+    fs.existsSync(unitsJsonPath)
+      ? JSON.parse(fs.readFileSync(unitsJsonPath, 'utf-8'))
+          .filter((u) => Number(u.entityScale ?? 1) >= 1.45)
+          .map((u) => u.id)
+      : []
+  );
+
+  const knownUnitIds = new Set(
+    fs.existsSync(unitsJsonPath)
+      ? JSON.parse(fs.readFileSync(unitsJsonPath, 'utf-8')).map((u) => u.id)
+      : []
+  );
+  const giantFormKeySet = new Set(
+    WAVE3_RESERVED_FORM_SPECS.filter((f) => f.isGiant).map((f) => f.key)
+  );
+  const reservedFormByKey = new Map(WAVE3_RESERVED_FORM_SPECS.map((f) => [f.key, f]));
+
   for (const file of fs.readdirSync(packsDir).sort()) {
     if (!file.toLowerCase().endsWith('.png')) continue;
     const base = path.basename(file, '.png').toLowerCase();
@@ -494,36 +564,50 @@ async function importRawPacksDrops() {
     const buf = fs.readFileSync(absFile);
     if (!isValidPngBuffer(buf)) continue;
 
-    // Portrait drops in raw_assets/packs/ (e.g. morgan_portrait_normal.png or morgan_normal.png)
+    // Portrait drops in raw_assets/packs/ (e.g. morgan_portrait_normal.png or kaido_angry.png)
     const pMatch = base.match(/^([a-z0-9_]+?)_(?:portrait_)?(normal|angry|determined|shocked|smirk|sad|excited|battle_cry|cutin)$/);
     if (pMatch) {
       fs.mkdirSync(portraitsDir, { recursive: true });
-      fs.writeFileSync(path.join(portraitsDir, `${pMatch[1]}_${pMatch[2]}.png`), buf);
+      const webpBuf = await encodeLosslessWebpBuffer(buf);
+      fs.writeFileSync(path.join(portraitsDir, `${pMatch[1]}_${pMatch[2]}.webp`), webpBuf);
       promoted += 1;
       continue;
     }
 
-    // Sprite sheet drops (e.g. morgan_base.png) -> Node-native irregular slicer + TorsoWeightedPivotSolver
+    // Sprite sheet drops (e.g. morgan_base.png, kaido_dragon.png, chopper_monster_point.png)
+    const matchedMultiUnit = Array.from(knownUnitIds)
+      .sort((a, b) => b.length - a.length)
+      .find((uid) => base === `${uid}_base` || base.startsWith(`${uid}_`));
     const parts = base.split('_');
-    const unitId = parts[0] || base;
-    const formId = parts.slice(1).join('_') || 'base';
+    const unitId = matchedMultiUnit ?? parts[0] ?? base;
+    const formId = matchedMultiUnit
+      ? base.slice(matchedMultiUnit.length + 1) || 'base'
+      : parts.slice(1).join('_') || 'base';
     const key = `${unitId}_${formId}`;
+    const isGiantDrop =
+      giantUnitIds.has(unitId) ||
+      giantFormKeySet.has(key) ||
+      /giant|dragon|beast|gyuki|ragnir|amuru|monster_point|demonio_fleur|general/i.test(key);
+    const maxDim = isGiantDrop ? GIANT_OR_TILESET_MAX_DIM : REGULAR_ATLAS_MAX_DIM;
     const raw = decodePng(buf);
     const clean = removeChromaKeyBackground(raw, 24);
     const boxes = extractConnectedFrames(clean, { minArea: 48, maxFrames: 320 });
     if (boxes.length === 0) continue;
 
     const bands = groupFramesIntoBands(boxes);
-    const ppu = WAVE1_PPU_SPECS[unitId]?.ppuScale ?? 1.0;
+    const reservedForm = reservedFormByKey.get(key);
+    const ppuSpec = reservedForm
+      ? { ppuScale: reservedForm.ppuScale, targetDisplayHeight: reservedForm.targetDisplayHeight }
+      : ROSTER_PPU_SPECS[unitId] ?? WAVE1_PPU_SPECS[unitId] ?? { ppuScale: 1.0, targetDisplayHeight: 108 };
     const idleMedianW = bands[0]?.items.length
       ? bands[0].items.map((b) => b.w).sort((a, b) => a - b)[Math.floor(bands[0].items.length / 2)]
       : 36;
     const idleMedianH = bands[0]?.items.length
       ? bands[0].items.map((b) => b.h).sort((a, b) => a - b)[Math.floor(bands[0].items.length / 2)]
       : 56;
-    const outRes = sliceExternalSheetToAsepriteHash(
+    const outRes = await sliceExternalSheetToAsepriteHash(
       absFile,
-      path.join(spritesDir, `${key}.png`),
+      path.join(spritesDir, `${key}.webp`),
       path.join(spritesDir, `${key}.json`),
       (bList) => {
         const states = ['IDLE', 'MOVE', 'WINDUP', 'ATTACK_MELEE', 'ATTACK_CAST', 'CLASH', 'DODGE', 'HIT', 'DOWNED', 'TRANSFORM', 'VICTORY'];
@@ -533,16 +617,19 @@ async function importRawPacksDrops() {
           loop: st === 'IDLE' || st === 'MOVE' || st === 'CLASH' || st === 'DOWNED' || st === 'VICTORY',
           boxes: (bList[idx % bList.length]?.items ?? bList[0]?.items ?? []).slice(0, 6)
         }));
-      }
+      },
+      maxDim
     );
-    if (outRes.width > 1024 || outRes.height > 1024) {
-      throw new Error(`ATLAS_MAX_RESOLUTION_EXCEEDED for pack ${key}: ${outRes.width}x${outRes.height}`);
+    if (outRes.width > maxDim || outRes.height > maxDim) {
+      throw new Error(`ATLAS_MAX_RESOLUTION_EXCEEDED for pack ${key}: ${outRes.width}x${outRes.height} (max ${maxDim})`);
     }
     void solveTorsoWeightedPivot;
     void idleMedianW;
     void idleMedianH;
-    void ppu;
-    await refreshExistingProSpritePivots(ROOT, key, unitId);
+    await refreshExistingProSpritePivots(ROOT, key, unitId, {
+      ppuSpec,
+      debugPrefix: 'pack'
+    });
     promoted += 1;
   }
   return promoted;
@@ -594,26 +681,31 @@ All files under \`public/assets/pro/\` are sourced from authentic external pixel
 }
 
 async function main() {
-  promoteTilesetsAndAnimatedWater();
-  const portraitsCopied = promotePortraitsAndCutins();
-  promote4LayerHarborBackdrop();
+  await promoteTilesetsAndAnimatedWater();
+  const portraitsCopied = await promotePortraitsAndCutins();
+  const wave3PortraitsCopied = await promoteWave3ExternalPortraits(ROOT);
+  await promote4LayerHarborBackdrop();
   const bossBackdropsBuilt = promoteWave1BossBackdrops(ROOT);
-  promoteVfxAtlases();
+  const worldArenaBackdropsBuilt = await promoteWorldArena4LayerBackdrops(ROOT);
+  await promoteVfxAtlases();
 
   const spritesDir = path.join(ROOT, 'public/assets/pro/sprites');
   const luffyRaw = path.join(ROOT, 'raw_assets/web/sprites/luffy_base_raw.png');
   const zoroRaw = path.join(ROOT, 'raw_assets/web/sprites/zoro_base_raw.png');
   const buggyRaw = path.join(ROOT, 'raw_assets/web/sprites/buggy_base_raw.png');
 
-  const luffyRes = fs.existsSync(luffyRaw)
-    ? sliceExternalSheetToAsepriteHash(luffyRaw, path.join(spritesDir, 'luffy_base.png'), path.join(spritesDir, 'luffy_base.json'), buildVerifiedLuffyClips)
-    : null;
-  const zoroRes = fs.existsSync(zoroRaw)
-    ? sliceExternalSheetToAsepriteHash(zoroRaw, path.join(spritesDir, 'zoro_base.png'), path.join(spritesDir, 'zoro_base.json'), buildVerifiedZoroClips)
-    : null;
-  const buggyRes = fs.existsSync(buggyRaw)
-    ? sliceExternalSheetToAsepriteHash(buggyRaw, path.join(spritesDir, 'buggy_base.png'), path.join(spritesDir, 'buggy_base.json'), buildVerifiedBuggyClips)
-    : null;
+  const luffyRes =
+    fs.existsSync(luffyRaw) && !fs.existsSync(path.join(spritesDir, 'luffy_base.webp'))
+      ? await sliceExternalSheetToAsepriteHash(luffyRaw, path.join(spritesDir, 'luffy_base.webp'), path.join(spritesDir, 'luffy_base.json'), buildVerifiedLuffyClips)
+      : null;
+  const zoroRes =
+    fs.existsSync(zoroRaw) && !fs.existsSync(path.join(spritesDir, 'zoro_base.webp'))
+      ? await sliceExternalSheetToAsepriteHash(zoroRaw, path.join(spritesDir, 'zoro_base.webp'), path.join(spritesDir, 'zoro_base.json'), buildVerifiedZoroClips)
+      : null;
+  const buggyRes =
+    fs.existsSync(buggyRaw) && !fs.existsSync(path.join(spritesDir, 'buggy_base.webp'))
+      ? await sliceExternalSheetToAsepriteHash(buggyRaw, path.join(spritesDir, 'buggy_base.webp'), path.join(spritesDir, 'buggy_base.json'), buildVerifiedBuggyClips)
+      : null;
 
   // Wave 1 External NDS promotion (`sanji`, `nami`, `arlong`; `morgan` stays PLACEHOLDER unless placed in packs)
   const wave1GridResults = [];
@@ -625,7 +717,7 @@ async function main() {
       const refreshed = await refreshExistingProSpritePivots(ROOT, key, unitId);
       if (refreshed) wave1GridResults.push(refreshed);
     } else {
-      const res = promoteExternalGridSheetToPro(ROOT, key, unitId);
+      const res = await promoteExternalGridSheetToPro(ROOT, key, unitId);
       if (res) wave1GridResults.push(res);
     }
   }
@@ -635,10 +727,15 @@ async function main() {
     await refreshExistingProSpritePivots(ROOT, `${unitId}_base`, unitId);
   }
 
+  // Wave 1 remaining (`usopp`, `don_krieg`, `smoker`) + Wave 3 external NDS roster & 8 awakened forms
+  const wave3RosterResults = await promoteWave3RosterSprites(ROOT);
+
   const templateCount = ensureWave2Templates(ROOT);
   const masterBiomesPromoted = promoteWave2MasterTilesets(ROOT);
   const tmjRes = buildFooshaVillageTmj(ROOT);
   const wave2MapResults = buildWave2HubTmjMaps(ROOT);
+  const wave4MapResults = buildWave4IslandTmjMaps(ROOT);
+  const wave5SeaRes = await promoteWave5SeaAssets(ROOT);
   const dropped = importUserDrops();
   const packDropped = await importRawPacksDrops();
   writeCreditsMarkdown();
@@ -653,12 +750,17 @@ async function main() {
   for (const w of wave1GridResults) {
     console.log(`   • ${w.key} (Wave 1 NDS + TorsoPivot): ${w.frameCount} frames (${w.width}x${w.height}, idleH=${w.idleMedianH}px)`);
   }
-  console.log(`   • Portraits promoted: ${portraitsCopied} | Boss 4-layer backdrops: ${bossBackdropsBuilt}`);
+  console.log(`   • Wave 1/3 External NDS Roster & Forms promoted: ${wave3RosterResults.length} sheets`);
+  console.log(
+    `   • Portraits promoted: wave0/1=${portraitsCopied}, wave1/3=${wave3PortraitsCopied} | 4-layer backdrops: wave1=${bossBackdropsBuilt}, world=${worldArenaBackdropsBuilt}`
+  );
   console.log(`   • Wave 2 Templates (.tx): ${templateCount} | Master Biomes: ${masterBiomesPromoted}`);
   console.log(`   • foosha_village.tmj: ${tmjRes.cols}x${tmjRes.rows} (${tmjRes.lightCount} dynamic lights, ${tmjRes.collisionCount} collision boxes)`);
   for (const wm of wave2MapResults) {
-    console.log(`   • ${wm.tmjName} (${wm.islandId}): ${wm.cols}x${wm.rows} (lights=${wm.lightCount}, chests=${wm.chestCount}, npcs=${wm.npcCount})`);
+    console.log(`   • [Wave 2] ${wm.tmjName} (${wm.islandId}): ${wm.cols}x${wm.rows} (lights=${wm.lightCount}, chests=${wm.chestCount}, npcs=${wm.npcCount})`);
   }
+  console.log(`   • [Wave 4] ${wave4MapResults.length} remaining island .tmj maps compiled (17/17 world complete)`);
+  console.log(`   • [Wave 5] Sea landmarks=${wave5SeaRes.landmarkCount}/20, Ships=${wave5SeaRes.shipCount}/4 promoted to lossless WebP`);
   console.log(`   • User drops promoted: pro_drop=${dropped}, packs=${packDropped}`);
   console.log(`   • Lossless WebP: converted=${optRes.convertedCount}, saved=${(optRes.savedBytes / 1024).toFixed(1)} KB (${optRes.savedPercent}%)`);
 }

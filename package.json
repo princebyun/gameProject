@@ -17,7 +17,7 @@
     "package:win:dir": "npm run build:electron && electron-builder --win --x64 --dir",
     "package:win": "npm run build:electron && electron-builder --win --x64",
     "package:android:sync": "npm run build:android && npx cap sync android",
-    "package:android:apk": "npm run package:android:sync && cd android && ./gradlew assembleDebug",
+    "package:android:apk": "node scripts/build-android-apk.mjs",
     "preview": "vite preview --outDir dist-web",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
@@ -32,6 +32,7 @@
     "fetch:assets": "node scripts/fetch-web-assets.mjs",
     "import:pack": "node --import tsx scripts/import-sprite-pack.mjs",
     "import:pro": "node scripts/import-pro-assets.mjs",
+    "compile:tmj": "node scripts/compile-tiled-tmj.mjs",
     "bake:sprites": "node --import tsx scripts/legacy/bake-sprites.mjs",
     "bake:landmarks": "node scripts/legacy/bake-landmarks.mjs",
     "ai:handoff": "node --import tsx scripts/ai-handoff.mjs"

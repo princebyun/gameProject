@@ -68,6 +68,7 @@ export class PixiProIslandScene implements Disposable {
   private readonly scratchReflections: ReflectedWorldEntry[] = [];
   private emissivePopulated = false;
   private elapsedSec = 0;
+  private lightningFlashActive = false;
   private disposed = false;
 
   constructor(
@@ -107,6 +108,29 @@ export class PixiProIslandScene implements Disposable {
 
   public isMapLoaded(): boolean {
     return this.mapRuntime !== null;
+  }
+
+  public get isLightningFlashActive(): boolean {
+    return this.lightningFlashActive;
+  }
+
+  public get lastGodRaysVisible(): boolean {
+    return this.godRays.isGodRaysVisible;
+  }
+
+  public get lastGroundFogVisible(): boolean {
+    return this.godRays.isGroundFogVisible;
+  }
+
+  public get activeReflectionWaveAmp(): number {
+    return this.waterReflection.currentWaveAmp;
+  }
+
+  public isPostClearAtmosphereActive(campaign: RpgCampaignState): boolean {
+    return Boolean(
+      this.preset.postClearEpisodeId &&
+        campaign.completedEpisodes.includes(this.preset.postClearEpisodeId)
+    );
   }
 
   public async preload(): Promise<void> {
@@ -237,13 +261,16 @@ export class PixiProIslandScene implements Disposable {
   private canReflectWorldPos(worldX: number, worldY: number): boolean {
     const wr = this.preset.waterReflection;
     if (!wr.enabled) return false;
-    if (worldY < wr.waterlineWorldY - wr.maxDistAboveWater) return false;
     if (wr.regionBounds) {
       const b = wr.regionBounds;
       if (worldX < b.minX || worldX > b.maxX || worldY < b.minY || worldY > b.maxY) {
         return false;
       }
     }
+    if (wr.fullAreaReflection) {
+      return true;
+    }
+    if (worldY < wr.waterlineWorldY - wr.maxDistAboveWater) return false;
     return true;
   }
 
@@ -322,6 +349,14 @@ export class PixiProIslandScene implements Disposable {
       polish.timeOfDay === 'DAY' && this.preset.defaultMoodBiasWhenDay
         ? { ...polish, timeOfDay: this.preset.defaultMoodBiasWhenDay }
         : polish;
+
+    // Support post-clear dynamic atmosphere transitions (e.g. Drum Kingdom winter snow -> pink cherry-blossom snow & bloom)
+    const postClearActive = this.isPostClearAtmosphereActive(campaign);
+    if (postClearActive && this.preset.postClearParticleTheme) {
+      this.godRays.setParticleTheme(this.preset.postClearParticleTheme);
+    } else {
+      this.godRays.setParticleTheme(this.preset.particleTheme);
+    }
 
     const cam = computeIslandCameraTransform(islandMap, runtime.playerPos, viewport);
     const worldTransX = Math.round(cam.offsetX - cam.camX);
@@ -408,8 +443,13 @@ export class PixiProIslandScene implements Disposable {
       const facing = npcRt?.facing ?? npc.facing;
       const fx = facing === 'left' ? -1 : 1;
       const isZoro = npc.npcId === 'npc_zoro_bound';
-      const npcKey = isZoro ? 'zoro_base' : `${npc.npcId}_base`;
-      const npcAtlas = isZoro ? this.host.loader.getLoadedSpriteAtlasSync('zoro_base') : null;
+      const inferredUnitId = isZoro
+        ? 'zoro'
+        : npc.npcId.replace(/^npc_/, '').replace(/_(bound|ally|captain|dock|guide)$/, '');
+      const proSpriteKey = `${inferredUnitId}_base`;
+      const loadedNpcAtlas = this.host.loader.getLoadedSpriteAtlasSync(proSpriteKey);
+      const npcKey = loadedNpcAtlas ? proSpriteKey : `${npc.npcId}_base`;
+      const npcAtlas = loadedNpcAtlas;
       const nVis = this.getOrCreateActorVisual(
         `npc_${npc.npcId}`,
         npcKey,
@@ -491,7 +531,7 @@ export class PixiProIslandScene implements Disposable {
       }
     }
 
-    // 6. Real-Time Water Reflection Pass (Canal / Oasis / Koi Pond / Glass Floor)
+    // 6. Real-Time Water Reflection Pass (Canal / Oasis / Full Ocean / Mirror Plaza)
     if (this.preset.waterReflection.enabled) {
       this.waterReflection.renderPass(
         viewport.viewWidth,
@@ -506,6 +546,12 @@ export class PixiProIslandScene implements Disposable {
           ...(this.preset.waterReflection.tintRgbOverride
             ? { tintRgbOverride: this.preset.waterReflection.tintRgbOverride }
             : {}),
+          ...(this.preset.waterReflection.waveAmpMult !== undefined
+            ? { waveAmpMult: this.preset.waterReflection.waveAmpMult }
+            : {}),
+          ...(this.preset.waterReflection.fullAreaReflection
+            ? { fullAreaReflection: true }
+            : {}),
           maxDistAboveWater: this.preset.waterReflection.maxDistAboveWater,
           alphaMult: this.preset.waterReflection.alphaMult,
           specularMult: this.preset.waterReflection.specularMult
@@ -513,7 +559,7 @@ export class PixiProIslandScene implements Disposable {
       );
     }
 
-    // 7. Dynamic 2D Lighting
+    // 7. Dynamic 2D Lighting & Loguetown Distant Storm Lightning
     this.scratchLights.length = 0;
     if (this.mapRuntime) {
       for (const l of this.mapRuntime.parsed.lights) {
@@ -542,9 +588,38 @@ export class PixiProIslandScene implements Disposable {
       flickerAmp: effectivePolish.flashEffectEnabled ? 0.04 : 0.01,
       phaseOffset: 0
     });
+
+    let lightningSpike = 0;
+    if (this.preset.distantLightning) {
+      const interval = Math.max(0.5, this.preset.distantLightning.intervalSec);
+      const strikeWindow = this.elapsedSec % interval < 0.22;
+      if (strikeWindow && effectivePolish.flashEffectEnabled) {
+        this.lightningFlashActive = true;
+        lightningSpike = 0.42;
+        this.scratchLights.push({
+          x: Math.round(viewport.viewWidth * 0.72),
+          y: Math.round(viewport.viewHeight * 0.18),
+          radiusPx: this.preset.distantLightning.radiusPx,
+          colorInt: this.preset.distantLightning.colorInt,
+          intensity: 1.4,
+          flickerSpeed: 18,
+          flickerAmp: 0.25,
+          phaseOffset: 0.3
+        });
+      } else {
+        this.lightningFlashActive = false;
+      }
+    } else {
+      this.lightningFlashActive = false;
+    }
+
+    const nightOverride =
+      postClearActive && this.preset.postClearAmbientNight !== undefined
+        ? this.preset.postClearAmbientNight
+        : this.preset.ambientTintOverrideNight;
     const ambientOverride =
       effectivePolish.timeOfDay === 'NIGHT'
-        ? this.preset.ambientTintOverrideNight
+        ? nightOverride
         : effectivePolish.timeOfDay === 'DAY'
           ? this.preset.ambientTintOverrideDay
           : undefined;
@@ -557,7 +632,7 @@ export class PixiProIslandScene implements Disposable {
       ambientOverride
     );
 
-    // 8. Selective Bloom (Emissive tiles + lanterns), God Rays / Biome Particles & Color Grading
+    // 8. Selective Bloom (Emissive tiles + lanterns), God Rays / Fog / Biome Particles & Color Grading
     const nightBoost =
       effectivePolish.timeOfDay === 'NIGHT'
         ? 0.25
@@ -587,13 +662,14 @@ export class PixiProIslandScene implements Disposable {
       );
     }
 
+    const postClearBloom = postClearActive ? (this.preset.postClearBloomBonus ?? 0) : 0;
     this.bloom.sync(
       effectivePolish,
       viewport.viewWidth,
       viewport.viewHeight,
       0.18,
-      0.95 + nightBoost + this.preset.bloomStrengthBonus,
-      0
+      0.95 + nightBoost + this.preset.bloomStrengthBonus + postClearBloom,
+      lightningSpike
     );
     this.godRays.update(
       dtSec,
@@ -601,9 +677,25 @@ export class PixiProIslandScene implements Disposable {
       viewport.viewWidth,
       viewport.viewHeight,
       effectivePolish,
-      this.preset.godRayAlphaMult
+      this.preset.godRayAlphaMult,
+      {
+        allowAtNight: this.preset.allowGodRaysAtNight,
+        ...(this.preset.customGodRayHex !== undefined
+          ? { customRayHex: this.preset.customGodRayHex }
+          : {}),
+        ...(this.preset.groundFogColor !== undefined
+          ? { groundFogColor: this.preset.groundFogColor }
+          : {}),
+        ...(this.preset.groundFogAlpha !== undefined
+          ? { groundFogAlpha: this.preset.groundFogAlpha }
+          : {})
+      }
     );
-    this.colorGrading.sync(effectivePolish, this.preset.gradeTintOverride);
+    const activeGradeTint =
+      postClearActive && this.preset.postClearGradeTint
+        ? this.preset.postClearGradeTint
+        : this.preset.gradeTintOverride;
+    this.colorGrading.sync(effectivePolish, activeGradeTint);
 
     this.host.setSceneTelemetryTag(
       this.preset.sceneTelemetryTag,

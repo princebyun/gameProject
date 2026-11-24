@@ -3,7 +3,11 @@ import rawCombosFile from './combos.json';
 export type ComboAssistPattern =
   | 'CANNON_SHOCKWAVE'
   | 'X_CROSS_DASH'
-  | 'THUNDER_STRIKE_SLAM';
+  | 'THUNDER_STRIKE_SLAM'
+  | 'SNIPER_RADICAL_BEAM'
+  | 'GIANT_PETAL_STAMP'
+  | 'FREEZING_OCEAN_RAY'
+  | 'SHAMBLES_RED_HAWK';
 
 export interface WaveComboDefinition {
   id: string;

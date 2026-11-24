@@ -30,8 +30,6 @@ import {
 } from '../render/pixi/pixiBundleHelpers';
 import { createDialogueOverlayUiState, type DialogueOverlayUiState } from '../render/dialogueAndPosterRenderer';
 import { createInitialMissionTrackerState, type MissionTrackerState } from '../render/missionTrackerHud';
-import { SeaWakeParticlePool } from '../render/sea/seaWakeParticlePool';
-import { SeaWeatherRenderer } from '../render/sea/seaWeatherRenderer';
 import type { SpectatorCameraTarget } from '../render/spectatorHudRenderer';
 import { StoryDirector } from '../story/storyDirector';
 import { createBootSceneState, type BootSceneState } from './bootScene';
@@ -116,8 +114,6 @@ export class SceneManager implements Disposable, SceneManagerHost {
   public readonly input: UnifiedInputManager;
   public readonly assets: AssetLoader;
   public readonly audio: AudioManager;
-  public readonly seaWakePool = new SeaWakeParticlePool();
-  public readonly seaWeatherRenderer = new SeaWeatherRenderer();
   public readonly seaChartController = new SeaChartController();
   public prng: SeededPRNG;
 
@@ -256,8 +252,6 @@ export class SceneManager implements Disposable, SceneManagerHost {
     this.activeTransport = null;
     this.renderer?.dispose();
     this.seaChartController.dispose();
-    this.seaWakePool.dispose();
-    this.seaWeatherRenderer.dispose();
     this.assets.dispose();
     this.audio.dispose();
     this.platformBridge.device.dispose?.();

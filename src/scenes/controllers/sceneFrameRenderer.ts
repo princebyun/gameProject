@@ -10,7 +10,7 @@ import { renderBattleSpeedAndPauseHud } from '../../render/hud/battleSpeedHud';
 import { renderIslandEpisodeCanvas } from '../../render/islandRenderer';
 import { renderIslandHeaderAndPromptHud } from '../../render/rpg/islandHudRenderer';
 import { renderMissionTrackerHud } from '../../render/missionTrackerHud';
-import { renderSeaSailingCanvas } from '../../render/sailingRenderer';
+import { renderSeaSailingHudOverlay } from '../../render/sailingRenderer';
 import { renderOnlineAndSpectatorHud } from '../../render/spectatorHudRenderer';
 import { renderTouchOverlay } from '../../render/touchOverlayRenderer';
 import {
@@ -33,7 +33,6 @@ export function renderActiveSceneFrame(
     host.activeScene === 'BOOT' ||
     host.activeScene === 'TITLE' ||
     host.activeScene === 'OPENING_NARRATION' ||
-    host.activeScene === 'SEA_SAILING' ||
     host.activeScene === 'ONLINE_BATTLE';
 
   if (isLegacyOnlyScene && host.verticalSliceController?.getActiveKind() !== 'NONE') {
@@ -53,22 +52,24 @@ export function renderActiveSceneFrame(
       host.rpgRegistry,
       storyNode
     );
-    renderSeaSailingCanvas(
+    const renderedByPixi =
+      host.verticalSliceController?.renderFrameIfVerticalSlice(
+        host,
+        viewport,
+        alpha
+      ) ?? false;
+    if (!renderedByPixi) {
+      ctx.fillStyle = '#0c4a6e';
+      ctx.fillRect(0, 0, viewport.viewWidth, viewport.viewHeight);
+    }
+    renderSeaSailingHudOverlay(
       ctx,
       host.campaign,
       host.rpgRegistry,
       host.lastSailingStep,
       host.tickCount,
-      host.fps,
-      host.assets,
       viewport,
-      seaMarkers,
-      host.storyDirector.isGoldMarkerHighlighted(),
-      {
-        flashEffectEnabled: host.renderer.settings.flashEffectEnabled,
-        wakePool: host.seaWakePool,
-        weatherRenderer: host.seaWeatherRenderer
-      }
+      seaMarkers
     );
     renderMissionTrackerHud(
       ctx,

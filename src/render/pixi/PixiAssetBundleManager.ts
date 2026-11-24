@@ -69,6 +69,9 @@ export class PixiAssetBundleManager implements Disposable {
   private disposed = false;
   private warnedOverBudget = false;
   private lastPrunedBundles: string[] = [];
+  private peakEstimatedVramBytes = 0;
+  private singleBattleLockReleases = 0;
+  private singleSeaLockReleases = 0;
 
   constructor(
     private readonly loader: ProAssetLoader,
@@ -148,6 +151,7 @@ export class PixiAssetBundleManager implements Disposable {
       await this.acquireBundleInternal('core_always');
       this.coreLoaded = true;
     }
+    this.updatePeakVram();
     await this.syncActivePartyAssets(initialPartyUnitIds);
   }
 
@@ -166,6 +170,7 @@ export class PixiAssetBundleManager implements Disposable {
     for (const uid of nextUnits) {
       if (this.activePartyUnitIds.has(uid)) continue;
       await this.acquireBundleInternal(`party_${uid}`);
+      this.updatePeakVram();
     }
 
     for (const prevUid of Array.from(this.activePartyUnitIds)) {
@@ -177,6 +182,7 @@ export class PixiAssetBundleManager implements Disposable {
     for (const uid of nextUnits) {
       this.activePartyUnitIds.add(uid);
     }
+    this.updatePeakVram();
     this.checkVramBudgetWarning();
   }
 
@@ -218,32 +224,132 @@ export class PixiAssetBundleManager implements Disposable {
       this.desiredNonCoreBundles.add(b);
     }
 
+    const targetSet = new Set(targetNonCore);
     const toAcquire = targetNonCore.filter((b) => !this.activeNonCoreBundles.has(b));
     const loadToken =
       toAcquire.length > 0 ? this.loadingOverlay?.beginLoad('에셋 로딩') : undefined;
 
+    const incomingBattleBundles = toAcquire.filter((b) => this.isBattleBundleName(b));
+    const outgoingBattleBundles =
+      incomingBattleBundles.length > 0
+        ? Array.from(this.activeNonCoreBundles).filter(
+            (b) => this.isBattleBundleName(b) && !targetSet.has(b)
+          )
+        : [];
+    const incomingSeaBundles = toAcquire.filter((b) => this.isSeaBundleName(b));
+    const outgoingSeaBundles =
+      incomingSeaBundles.length > 0
+        ? Array.from(this.activeNonCoreBundles).filter(
+            (b) => this.isSeaBundleName(b) && !targetSet.has(b)
+          )
+        : [];
+
+    const preUnloadedUrls: string[] = [];
+    const temporaryPinnedUrls = new Set<string>();
+
+    // Single Active Battle & Single Active Sea Zone Locks:
+    // Retain shared arena backdrops / shared ships while unloading outgoing zone/boss GPU textures FIRST.
+    if (outgoingBattleBundles.length > 0) {
+      for (const bName of incomingBattleBundles) {
+        const rec = this.bundleRecords.get(bName);
+        if (!rec) continue;
+        for (const ent of rec.entries) {
+          if (ent.category !== 'background') continue;
+          const relUrl = normalizeRelUrl(ent.assetPath);
+          if ((this.assetRefCount.get(relUrl) ?? 0) > 0 && !temporaryPinnedUrls.has(relUrl)) {
+            this.assetRefCount.set(relUrl, (this.assetRefCount.get(relUrl) ?? 0) + 1);
+            temporaryPinnedUrls.add(relUrl);
+          }
+        }
+      }
+
+      for (const oldBattle of outgoingBattleBundles) {
+        this.activeNonCoreBundles.delete(oldBattle);
+        this.singleBattleLockReleases += 1;
+        const freed = await this.releaseBundleInternal(oldBattle);
+        preUnloadedUrls.push(...freed);
+      }
+    }
+
+    if (outgoingSeaBundles.length > 0) {
+      for (const bName of incomingSeaBundles) {
+        const rec = this.bundleRecords.get(bName);
+        if (!rec) continue;
+        for (const ent of rec.entries) {
+          if (!ent.id.startsWith('sea:ship_')) continue;
+          const relUrl = normalizeRelUrl(ent.assetPath);
+          if ((this.assetRefCount.get(relUrl) ?? 0) > 0 && !temporaryPinnedUrls.has(relUrl)) {
+            this.assetRefCount.set(relUrl, (this.assetRefCount.get(relUrl) ?? 0) + 1);
+            temporaryPinnedUrls.add(relUrl);
+          }
+        }
+      }
+
+      for (const oldSea of outgoingSeaBundles) {
+        this.activeNonCoreBundles.delete(oldSea);
+        this.singleSeaLockReleases += 1;
+        const freed = await this.releaseBundleInternal(oldSea);
+        preUnloadedUrls.push(...freed);
+      }
+    }
+
     const acquiredInThisEpoch: string[] = [];
     const totalSteps = Math.max(1, toAcquire.length);
 
-    for (let i = 0; i < toAcquire.length; i++) {
-      const bName = toAcquire[i]!;
-      await this.acquireBundleInternal(bName, (p) => {
-        const overall = (i + p) / totalSteps;
-        this.loadingOverlay?.setProgress(overall);
-        onProgress?.(overall);
-      });
-      acquiredInThisEpoch.push(bName);
-
+    try {
       if (myEpoch !== this.transitionEpoch || this.disposed) {
-        const rolledBackUrls = await this.rollbackEpochBundles(acquiredInThisEpoch);
         this.loadingOverlay?.endLoad(loadToken);
         return {
           committed: false,
           abortedByEpoch: true,
           activeBundles: this.getActiveBundleNames(),
           loadedBundles: [],
-          unloadedUrls: rolledBackUrls
+          unloadedUrls: preUnloadedUrls
         };
+      }
+
+      for (let i = 0; i < toAcquire.length; i++) {
+        const bName = toAcquire[i]!;
+        await this.acquireBundleInternal(bName, (p) => {
+          const overall = (i + p) / totalSteps;
+          this.loadingOverlay?.setProgress(overall);
+          onProgress?.(overall);
+        });
+        acquiredInThisEpoch.push(bName);
+        this.updatePeakVram();
+
+        if (myEpoch !== this.transitionEpoch || this.disposed) {
+          const rolledBackUrls = await this.rollbackEpochBundles(acquiredInThisEpoch);
+          this.loadingOverlay?.endLoad(loadToken);
+          return {
+            committed: false,
+            abortedByEpoch: true,
+            activeBundles: this.getActiveBundleNames(),
+            loadedBundles: [],
+            unloadedUrls: [...preUnloadedUrls, ...rolledBackUrls]
+          };
+        }
+      }
+    } finally {
+      if (temporaryPinnedUrls.size > 0) {
+        const orphanPinUrls: string[] = [];
+        for (const url of temporaryPinnedUrls) {
+          const next = Math.max(0, (this.assetRefCount.get(url) ?? 0) - 1);
+          if (next === 0) {
+            if (this.pinnedCoreUrls.has(url)) {
+              this.assetRefCount.set(url, 1);
+            } else {
+              this.assetRefCount.delete(url);
+              orphanPinUrls.push(url);
+            }
+          } else {
+            this.assetRefCount.set(url, next);
+          }
+        }
+        if (orphanPinUrls.length > 0) {
+          await this.unloadUrlsFromGpu(orphanPinUrls);
+          preUnloadedUrls.push(...orphanPinUrls);
+        }
       }
     }
 
@@ -251,9 +357,8 @@ export class PixiAssetBundleManager implements Disposable {
       this.activeNonCoreBundles.add(b);
     }
 
-    const targetSet = new Set(targetNonCore);
     const toRelease = Array.from(this.activeNonCoreBundles).filter((b) => !targetSet.has(b));
-    const unloadedUrls: string[] = [];
+    const unloadedUrls: string[] = [...preUnloadedUrls];
 
     for (const oldBundle of toRelease) {
       this.activeNonCoreBundles.delete(oldBundle);
@@ -265,6 +370,7 @@ export class PixiAssetBundleManager implements Disposable {
       onProgress?.(1);
     }
     this.loadingOverlay?.endLoad(loadToken);
+    this.updatePeakVram();
     this.checkVramBudgetWarning();
 
     return {
@@ -274,6 +380,32 @@ export class PixiAssetBundleManager implements Disposable {
       loadedBundles: acquiredInThisEpoch,
       unloadedUrls
     };
+  }
+
+  private isBattleBundleName(bundleName: string): boolean {
+    if (bundleName.startsWith('battle_')) return true;
+    return this.bundleRecords.get(bundleName)?.tier === 'BATTLE';
+  }
+
+  private isSeaBundleName(bundleName: string): boolean {
+    if (bundleName.startsWith('sea_')) return true;
+    return this.bundleRecords.get(bundleName)?.tier === 'SEA';
+  }
+
+  private computeCurrentEstimatedVramBytes(): number {
+    let totalVram = 0;
+    for (const url of this.assetRefCount.keys()) {
+      totalVram += this.entryByRelUrl.get(url)?.estimatedVramBytes ?? 0;
+    }
+    return totalVram;
+  }
+
+  private updatePeakVram(): number {
+    const current = this.computeCurrentEstimatedVramBytes();
+    if (current > this.peakEstimatedVramBytes) {
+      this.peakEstimatedVramBytes = current;
+    }
+    return current;
   }
 
   public async pruneUnusedBundles(): Promise<{ prunedBundles: string[]; unloadedUrls: string[] }> {
@@ -316,12 +448,9 @@ export class PixiAssetBundleManager implements Disposable {
       });
     }
 
-    let totalVram = 0;
-    for (const url of this.assetRefCount.keys()) {
-      totalVram += this.entryByRelUrl.get(url)?.estimatedVramBytes ?? 0;
-    }
-
+    const totalVram = this.updatePeakVram();
     const totalMb = Number((totalVram / (1024 * 1024)).toFixed(2));
+    const peakMb = Number((this.peakEstimatedVramBytes / (1024 * 1024)).toFixed(2));
     const ms = getProManifestStatusSummary(this.manifest);
     const readyCount = ms.verified + ms.imported;
 
@@ -334,6 +463,10 @@ export class PixiAssetBundleManager implements Disposable {
       ),
       estimatedVramBytes: totalVram,
       estimatedVramMb: totalMb,
+      peakEstimatedVramBytes: this.peakEstimatedVramBytes,
+      peakEstimatedVramMb: peakMb,
+      singleBattleLockReleases: this.singleBattleLockReleases,
+      singleSeaLockReleases: this.singleSeaLockReleases,
       budgetMb: MOBILE_VRAM_BUDGET_MB,
       overBudget: totalMb > MOBILE_VRAM_BUDGET_MB,
       transitionEpoch: this.transitionEpoch,
@@ -390,6 +523,12 @@ export class PixiAssetBundleManager implements Disposable {
       if (ent.category === 'sprite' && ent.unitId) {
         const key = `${ent.unitId}_${ent.formId ?? 'base'}`;
         this.loader.registerExternalTexture(`sprite_base_${key}`, relUrl, tex);
+      } else if (ent.id.startsWith('sea:landmark_')) {
+        this.loader.registerExternalTexture(ent.id, relUrl, tex);
+      } else if (ent.id.startsWith('sea:ship_')) {
+        const shipKey = ent.id.replace(/^sea:/, '');
+        this.loader.registerExternalTexture(`sprite_base_${shipKey}`, relUrl, tex);
+        this.loader.registerExternalTexture(ent.id, relUrl, tex);
       } else if (ent.category === 'portrait') {
         const pKey = ent.id.replace(/^portrait:/, '');
         if (pKey.endsWith('_cutin')) {
@@ -418,6 +557,10 @@ export class PixiAssetBundleManager implements Disposable {
       if (ent.category === 'sprite' && ent.unitId) {
         const spriteManifest = this.manifest.sprites[`${ent.unitId}_${ent.formId ?? 'base'}`];
         if (spriteManifest) tasks.push(this.loader.loadSpriteAtlas(spriteManifest));
+      } else if (ent.id.startsWith('sea:ship_')) {
+        const shipKey = ent.id.replace(/^sea:/, '');
+        const shipSprite = this.manifest.sprites[shipKey];
+        if (shipSprite) tasks.push(this.loader.loadSpriteAtlas(shipSprite));
       } else if (ent.category === 'vfx') {
         const vfxManifest = this.manifest.vfx[ent.id.replace(/^vfx:/, '')];
         if (vfxManifest) tasks.push(this.loader.loadVfxAtlas(vfxManifest));
@@ -503,6 +646,9 @@ export class PixiAssetBundleManager implements Disposable {
     this.activePartyUnitIds.clear();
     this.assetRefCount.clear();
     this.loadedTexturesByRelUrl.clear();
+    this.peakEstimatedVramBytes = 0;
+    this.singleBattleLockReleases = 0;
+    this.singleSeaLockReleases = 0;
     this.coreLoaded = false;
     this.initialized = false;
   }

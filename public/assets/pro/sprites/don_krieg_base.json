@@ -1,0 +1,1038 @@
+{
+  "frames": {
+    "idle_0": {
+      "frame": {
+        "x": 2,
+        "y": 2,
+        "w": 45,
+        "h": 75
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 45,
+        "h": 75
+      },
+      "sourceSize": {
+        "w": 45,
+        "h": 75
+      },
+      "duration": 200,
+      "pivot": {
+        "x": 0.4889,
+        "y": 0.9867
+      }
+    },
+    "idle_1": {
+      "frame": {
+        "x": 49,
+        "y": 2,
+        "w": 44,
+        "h": 74
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 44,
+        "h": 74
+      },
+      "sourceSize": {
+        "w": 44,
+        "h": 74
+      },
+      "duration": 200,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.9865
+      }
+    },
+    "idle_2": {
+      "frame": {
+        "x": 95,
+        "y": 2,
+        "w": 41,
+        "h": 73
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 41,
+        "h": 73
+      },
+      "sourceSize": {
+        "w": 41,
+        "h": 73
+      },
+      "duration": 200,
+      "pivot": {
+        "x": 0.4878,
+        "y": 0.9863
+      }
+    },
+    "idle_3": {
+      "frame": {
+        "x": 138,
+        "y": 2,
+        "w": 41,
+        "h": 74
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 41,
+        "h": 74
+      },
+      "sourceSize": {
+        "w": 41,
+        "h": 74
+      },
+      "duration": 200,
+      "pivot": {
+        "x": 0.4634,
+        "y": 0.9865
+      }
+    },
+    "move_0": {
+      "frame": {
+        "x": 181,
+        "y": 2,
+        "w": 55,
+        "h": 69
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 55,
+        "h": 69
+      },
+      "sourceSize": {
+        "w": 55,
+        "h": 69
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.4545,
+        "y": 0.9855
+      }
+    },
+    "move_1": {
+      "frame": {
+        "x": 238,
+        "y": 2,
+        "w": 56,
+        "h": 67
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 56,
+        "h": 67
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 67
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.4286,
+        "y": 0.9851
+      }
+    },
+    "move_2": {
+      "frame": {
+        "x": 296,
+        "y": 2,
+        "w": 82,
+        "h": 66
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 82,
+        "h": 66
+      },
+      "sourceSize": {
+        "w": 82,
+        "h": 66
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.4878,
+        "y": 0.9848
+      }
+    },
+    "move_3": {
+      "frame": {
+        "x": 380,
+        "y": 2,
+        "w": 71,
+        "h": 66
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 71,
+        "h": 66
+      },
+      "sourceSize": {
+        "w": 71,
+        "h": 66
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.3239,
+        "y": 0.9848
+      }
+    },
+    "move_4": {
+      "frame": {
+        "x": 453,
+        "y": 2,
+        "w": 63,
+        "h": 66
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 63,
+        "h": 66
+      },
+      "sourceSize": {
+        "w": 63,
+        "h": 66
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.3333,
+        "y": 0.9848
+      }
+    },
+    "move_5": {
+      "frame": {
+        "x": 518,
+        "y": 2,
+        "w": 86,
+        "h": 75
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 86,
+        "h": 75
+      },
+      "sourceSize": {
+        "w": 86,
+        "h": 75
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.5814,
+        "y": 0.9867
+      }
+    },
+    "windup_0": {
+      "frame": {
+        "x": 606,
+        "y": 2,
+        "w": 78,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 78,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 78,
+        "h": 52
+      },
+      "duration": 100,
+      "pivot": {
+        "x": 0.3205,
+        "y": 0.9808
+      }
+    },
+    "windup_1": {
+      "frame": {
+        "x": 686,
+        "y": 2,
+        "w": 92,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 92,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 92,
+        "h": 54
+      },
+      "duration": 100,
+      "pivot": {
+        "x": 0.3261,
+        "y": 0.9815
+      }
+    },
+    "windup_2": {
+      "frame": {
+        "x": 780,
+        "y": 2,
+        "w": 92,
+        "h": 46
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 92,
+        "h": 46
+      },
+      "sourceSize": {
+        "w": 92,
+        "h": 46
+      },
+      "duration": 100,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.9783
+      }
+    },
+    "attack_melee_0": {
+      "frame": {
+        "x": 874,
+        "y": 2,
+        "w": 45,
+        "h": 75
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 45,
+        "h": 75
+      },
+      "sourceSize": {
+        "w": 45,
+        "h": 75
+      },
+      "duration": 71,
+      "pivot": {
+        "x": 0.4889,
+        "y": 0.9867
+      }
+    },
+    "attack_melee_1": {
+      "frame": {
+        "x": 921,
+        "y": 2,
+        "w": 44,
+        "h": 74
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 44,
+        "h": 74
+      },
+      "sourceSize": {
+        "w": 44,
+        "h": 74
+      },
+      "duration": 71,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.9865
+      }
+    },
+    "attack_melee_2": {
+      "frame": {
+        "x": 967,
+        "y": 2,
+        "w": 41,
+        "h": 73
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 41,
+        "h": 73
+      },
+      "sourceSize": {
+        "w": 41,
+        "h": 73
+      },
+      "duration": 71,
+      "pivot": {
+        "x": 0.4878,
+        "y": 0.9863
+      }
+    },
+    "attack_melee_3": {
+      "frame": {
+        "x": 2,
+        "y": 79,
+        "w": 41,
+        "h": 74
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 41,
+        "h": 74
+      },
+      "sourceSize": {
+        "w": 41,
+        "h": 74
+      },
+      "duration": 71,
+      "pivot": {
+        "x": 0.4634,
+        "y": 0.9865
+      }
+    },
+    "attack_cast_0": {
+      "frame": {
+        "x": 45,
+        "y": 79,
+        "w": 55,
+        "h": 69
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 55,
+        "h": 69
+      },
+      "sourceSize": {
+        "w": 55,
+        "h": 69
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.4545,
+        "y": 0.9855
+      }
+    },
+    "attack_cast_1": {
+      "frame": {
+        "x": 102,
+        "y": 79,
+        "w": 56,
+        "h": 67
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 56,
+        "h": 67
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 67
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.4286,
+        "y": 0.9851
+      }
+    },
+    "attack_cast_2": {
+      "frame": {
+        "x": 160,
+        "y": 79,
+        "w": 82,
+        "h": 66
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 82,
+        "h": 66
+      },
+      "sourceSize": {
+        "w": 82,
+        "h": 66
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.4878,
+        "y": 0.9848
+      }
+    },
+    "attack_cast_3": {
+      "frame": {
+        "x": 244,
+        "y": 79,
+        "w": 71,
+        "h": 66
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 71,
+        "h": 66
+      },
+      "sourceSize": {
+        "w": 71,
+        "h": 66
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.3239,
+        "y": 0.9848
+      }
+    },
+    "clash_0": {
+      "frame": {
+        "x": 317,
+        "y": 79,
+        "w": 78,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 78,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 78,
+        "h": 52
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.3205,
+        "y": 0.9808
+      }
+    },
+    "clash_1": {
+      "frame": {
+        "x": 397,
+        "y": 79,
+        "w": 92,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 92,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 92,
+        "h": 54
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.3261,
+        "y": 0.9815
+      }
+    },
+    "dodge_0": {
+      "frame": {
+        "x": 491,
+        "y": 79,
+        "w": 45,
+        "h": 75
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 45,
+        "h": 75
+      },
+      "sourceSize": {
+        "w": 45,
+        "h": 75
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.4889,
+        "y": 0.9867
+      }
+    },
+    "dodge_1": {
+      "frame": {
+        "x": 538,
+        "y": 79,
+        "w": 44,
+        "h": 74
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 44,
+        "h": 74
+      },
+      "sourceSize": {
+        "w": 44,
+        "h": 74
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.9865
+      }
+    },
+    "dodge_2": {
+      "frame": {
+        "x": 584,
+        "y": 79,
+        "w": 41,
+        "h": 73
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 41,
+        "h": 73
+      },
+      "sourceSize": {
+        "w": 41,
+        "h": 73
+      },
+      "duration": 83,
+      "pivot": {
+        "x": 0.4878,
+        "y": 0.9863
+      }
+    },
+    "hit_0": {
+      "frame": {
+        "x": 627,
+        "y": 79,
+        "w": 55,
+        "h": 69
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 55,
+        "h": 69
+      },
+      "sourceSize": {
+        "w": 55,
+        "h": 69
+      },
+      "duration": 100,
+      "pivot": {
+        "x": 0.4545,
+        "y": 0.9855
+      }
+    },
+    "hit_1": {
+      "frame": {
+        "x": 684,
+        "y": 79,
+        "w": 56,
+        "h": 67
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 56,
+        "h": 67
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 67
+      },
+      "duration": 100,
+      "pivot": {
+        "x": 0.4286,
+        "y": 0.9851
+      }
+    },
+    "downed_0": {
+      "frame": {
+        "x": 742,
+        "y": 79,
+        "w": 78,
+        "h": 52
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 78,
+        "h": 52
+      },
+      "sourceSize": {
+        "w": 78,
+        "h": 52
+      },
+      "duration": 250,
+      "pivot": {
+        "x": 0.3205,
+        "y": 0.9808
+      }
+    },
+    "downed_1": {
+      "frame": {
+        "x": 822,
+        "y": 79,
+        "w": 92,
+        "h": 54
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 92,
+        "h": 54
+      },
+      "sourceSize": {
+        "w": 92,
+        "h": 54
+      },
+      "duration": 250,
+      "pivot": {
+        "x": 0.3261,
+        "y": 0.9815
+      }
+    },
+    "transform_0": {
+      "frame": {
+        "x": 916,
+        "y": 79,
+        "w": 45,
+        "h": 75
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 45,
+        "h": 75
+      },
+      "sourceSize": {
+        "w": 45,
+        "h": 75
+      },
+      "duration": 100,
+      "pivot": {
+        "x": 0.4889,
+        "y": 0.9867
+      }
+    },
+    "transform_1": {
+      "frame": {
+        "x": 963,
+        "y": 79,
+        "w": 44,
+        "h": 74
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 44,
+        "h": 74
+      },
+      "sourceSize": {
+        "w": 44,
+        "h": 74
+      },
+      "duration": 100,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.9865
+      }
+    },
+    "transform_2": {
+      "frame": {
+        "x": 2,
+        "y": 156,
+        "w": 41,
+        "h": 73
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 41,
+        "h": 73
+      },
+      "sourceSize": {
+        "w": 41,
+        "h": 73
+      },
+      "duration": 100,
+      "pivot": {
+        "x": 0.4878,
+        "y": 0.9863
+      }
+    },
+    "transform_3": {
+      "frame": {
+        "x": 45,
+        "y": 156,
+        "w": 41,
+        "h": 74
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 41,
+        "h": 74
+      },
+      "sourceSize": {
+        "w": 41,
+        "h": 74
+      },
+      "duration": 100,
+      "pivot": {
+        "x": 0.4634,
+        "y": 0.9865
+      }
+    },
+    "victory_0": {
+      "frame": {
+        "x": 88,
+        "y": 156,
+        "w": 55,
+        "h": 69
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 55,
+        "h": 69
+      },
+      "sourceSize": {
+        "w": 55,
+        "h": 69
+      },
+      "duration": 167,
+      "pivot": {
+        "x": 0.4545,
+        "y": 0.9855
+      }
+    },
+    "victory_1": {
+      "frame": {
+        "x": 145,
+        "y": 156,
+        "w": 56,
+        "h": 67
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 56,
+        "h": 67
+      },
+      "sourceSize": {
+        "w": 56,
+        "h": 67
+      },
+      "duration": 167,
+      "pivot": {
+        "x": 0.4286,
+        "y": 0.9851
+      }
+    },
+    "victory_2": {
+      "frame": {
+        "x": 203,
+        "y": 156,
+        "w": 82,
+        "h": 66
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 82,
+        "h": 66
+      },
+      "sourceSize": {
+        "w": 82,
+        "h": 66
+      },
+      "duration": 167,
+      "pivot": {
+        "x": 0.4878,
+        "y": 0.9848
+      }
+    }
+  },
+  "meta": {
+    "app": "opgv-pro-importer",
+    "version": "1.1",
+    "image": "don_krieg_base.webp",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1024,
+      "h": 232
+    },
+    "anchor": {
+      "x": 0.5,
+      "y": 0.9
+    },
+    "referenceIdleHeight": 74,
+    "ppuScale": 1.25,
+    "frameTags": [
+      {
+        "name": "IDLE",
+        "from": 0,
+        "to": 3,
+        "direction": "forward",
+        "fps": 5,
+        "loop": true
+      },
+      {
+        "name": "MOVE",
+        "from": 4,
+        "to": 9,
+        "direction": "forward",
+        "fps": 12,
+        "loop": true
+      },
+      {
+        "name": "WINDUP",
+        "from": 10,
+        "to": 12,
+        "direction": "forward",
+        "fps": 10,
+        "loop": false
+      },
+      {
+        "name": "ATTACK_MELEE",
+        "from": 13,
+        "to": 16,
+        "direction": "forward",
+        "fps": 14,
+        "loop": false,
+        "hitFrame": 2
+      },
+      {
+        "name": "ATTACK_CAST",
+        "from": 17,
+        "to": 20,
+        "direction": "forward",
+        "fps": 12,
+        "loop": false,
+        "hitFrame": 2
+      },
+      {
+        "name": "CLASH",
+        "from": 21,
+        "to": 22,
+        "direction": "forward",
+        "fps": 12,
+        "loop": true
+      },
+      {
+        "name": "DODGE",
+        "from": 23,
+        "to": 25,
+        "direction": "forward",
+        "fps": 12,
+        "loop": false
+      },
+      {
+        "name": "HIT",
+        "from": 26,
+        "to": 27,
+        "direction": "forward",
+        "fps": 10,
+        "loop": false
+      },
+      {
+        "name": "DOWNED",
+        "from": 28,
+        "to": 29,
+        "direction": "forward",
+        "fps": 4,
+        "loop": true
+      },
+      {
+        "name": "TRANSFORM",
+        "from": 30,
+        "to": 33,
+        "direction": "forward",
+        "fps": 10,
+        "loop": false,
+        "hitFrame": 2
+      },
+      {
+        "name": "VICTORY",
+        "from": 34,
+        "to": 36,
+        "direction": "forward",
+        "fps": 6,
+        "loop": true
+      }
+    ]
+  }
+}

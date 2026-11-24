@@ -1,6 +1,6 @@
 # AI_BUNDLE.md — One Piece Grand Voyage Handoff Context Bundle
 
-Generated at: 2026-11-23T15:30:31.981Z
+Generated at: 2026-11-24T02:26:41.450Z
 
 ## File: `AGENTS.md`
 ```md
@@ -57,16 +57,16 @@ npm run build:web
 ```md
 # HANDOFF.md — One Piece Grand Voyage 프로젝트 인수인계 및 현재 상태 문서
 
-> **최종 업데이트 기준:** Stage 18 Wave 2 5대 마스터 외부 `.tsx` 타일셋 · 8종 `.tx` 오브젝트 템플릿 · 4대 거점 섬(`워터 세븐`, `알라바스타`, `와노쿠니`, `에그헤드`) PixiJS v8 WebGL2 + Tiled `.tmj` 프로 맵 승격 완료 (`src/core/` 0줄 변경 · Wave 2 `8/8 = 100.0%` `IMPORTED` · `dist-web/` `794`파일 `27,204,019 bytes` / `assets/pro/` `.webp` `73`개 · `.tmj` `5`개 · `.tsx` `7`개 · `.tx` `8`개 · Vitest `41`스위트 `169`테스트 통과)  
-> **현재 프로젝트 상태:** **전 세계 17/17 섬 7계층 맵 + 3대 해역 월드맵 + PixiJS v8 WebGL2 HD-2D 거점(`후샤 마을` + Wave 2 `4대 거점`) + 4계층 번들 지연 로딩/언로드(`core_always` / `party_*` / `sea_*` / `island_*` / `battle_*`) + 무손실 WebP 아틀라스 파이프라인 + `pro_manifest.json` v2.0.0 (`222`엔트리 `VERIFIED 1 / IMPORTED 129 / PLACEHOLDER 92`) + Wave 1 2:2 합동기 3종 & 보스 3종 패링·기믹 구축 완료 (`check:arch` `261`파일 `0 issues` · Vitest `41`스위트 / `169`테스트 전원 통과)**  
+> **최종 업데이트 기준:** Stage 22 Wave 5 완결 — ① 실시간 바다 물결 GLSL 셰이더([`OceanWaterShaderPipeline.ts`](src/render/pixi/shaders/OceanWaterShaderPipeline.ts)) · 해역별 날씨/해왕류 그림자([`SeaAtmospherePipeline.ts`](src/render/pixi/shaders/SeaAtmospherePipeline.ts)) · 해류/소용돌이 물리 어댑터([`SeaCurrentPhysics.ts`](src/scenes/sea/SeaCurrentPhysics.ts)) 구축, ② **20종 바다 랜드마크 + 4종 선박 무손실 WebP 승격([`wave5SeaAssetPromoter.mjs`](scripts/lib/wave5SeaAssetPromoter.mjs)) · 단일 활성 해역 번들 VRAM 락([`PixiAssetBundleManager.ts`](src/render/pixi/PixiAssetBundleManager.ts)) · `PixiSeaSailingScene` WebGL2 전면 통합 & 레거시 Canvas 2D 바다 렌더링 제거**, ③ **미니맵·확대 해도 보물상자 60개(`.tmj` 100% 일치)·빠른 항해 번들 전환·3대 해역 5회 왕복(15회 전환) 0누수 VRAM/Safe Area E2E 검증 완료** (`src/core/` 0줄 변경 · `pro_manifest.json` `383`엔트리 `VERIFIED 1 / IMPORTED 335 / PLACEHOLDER 47` · `dist-web/` `1,058`파일 `30,523,715 bytes` / `assets/pro/` `.webp` `287`개 · `.tmj` `17`개 · 중복 `.png` `0`개 · Vitest `46`스위트 `187`테스트 통과)  
+> **현재 프로젝트 상태:** **전 세계 17/17 섬 100% PixiJS v8 WebGL2 HD-2D + Tiled `.tmj` + 3대 해역 `SeaSailingScene` WebGL2 전면 통일(실시간 바다 물결 셰이더·20종 무손실 WebP 랜드마크·4종 선박·야간 뱃머리 동적 광원·Single-Sea VRAM 락) + 전 해역·거대 보스 레이드 WebGL2 전투(밀짚모자 10/10 + 전체 2:2 합동기 7종 + `GiantBossShaderPipeline` + 단일 활성 보스 VRAM 락) + `pro_manifest.json` v2.0.0 (`383`엔트리 `VERIFIED 1 / IMPORTED 335 / PLACEHOLDER 47`) (`check:arch` `268`파일 `0 issues` · Vitest `46`스위트 / `187`테스트 전원 통과 · `dist-web/` 프로덕션 웹 빌드 완비)**  
 > **버전 현황:**  
 > - **앱 패키지 버전:** `0.1.0` (`package.json`) | **Android 버전:** `versionCode 1` / `versionName "1.0"` (`android/app/build.gradle`)  
 > - **전투 계산 버전 (`BATTLE_CALC_VERSION`):** `"0.6.0"` (`src/core/constants.ts` — `src/core/` 0줄 변경 및 결정론 `stateHash` 3종 100% 동일 유지)  
 > - **세이브 스키마 버전 (`CURRENT_SAVE_VERSION`):** `5` (`v0 → v1 → v2 → v3 → v4 → v5` 무손실 순차 마이그레이션 & `openedChestIds` / `episodeFlags['visited_island_*']` 하위 호환 · `HMAC-SHA256-DERIVED` 2단계 안티치트 호환)  
-> - **렌더링 엔진 / 프로 매니페스트 버전:** `pixi.js@^8.23.0` (WebGL2) | `pro_manifest.json` `v2.0.0` (`src/assets/pro_manifest.json` SSOT, `222`개 엔트리: `VERIFIED 1 / IMPORTED 129 / PLACEHOLDER 92`)  
-> - **TypeScript & 아키텍처 규격:** `strict: true` + `noUncheckedIndexedAccess: true` + `noUnusedLocals/Parameters: true` + `noImplicitReturns: true` (`check:arch` `261`개 파일 순환 참조 `0건`, 계층 위반 `0건`, `any`/`@ts-ignore` `0건`, `shadowBlur` `0건`)  
+> - **렌더링 엔진 / 프로 매니페스트 버전:** `pixi.js@^8.23.0` (WebGL2) | `pro_manifest.json` `v2.0.0` (`src/assets/pro_manifest.json` SSOT, `383`개 엔트리: `VERIFIED 1 / IMPORTED 335 / PLACEHOLDER 47`)  
+> - **TypeScript & 아키텍처 규격:** `strict: true` + `noUncheckedIndexedAccess: true` + `noUnusedLocals/Parameters: true` + `noImplicitReturns: true` (`check:arch` `268`개 파일 순환 참조 `0건`, 계층 위반 `0건`, `any`/`@ts-ignore` `0건`, `shadowBlur` `0건`)  
 > - **레거시 호환 에셋 매니페스트:** 스프라이트 `98/98종` · 초상화 `352/352종` · 바이옴 타일셋 `14종` · 월드 랜드마크 `20/20종` · 오디오 `BGM 10곡 / SFX 22종`  
-> **자동화 검증 현황:** `npm run validate:pro` 통과 (`222`엔트리 `0 errors`) | `npm run validate:maps` 통과 (`17/17` + Pro `.tmj ×5` BFS `0 errors`) | `npm run validate:assets` 통과 (`0 errors`) | `npm run validate:scripts` 통과 (`0 errors`) | `npm run check:arch` 통과 (`0 issues`, `261` files) | `npm run typecheck` 통과 (`0 errors`) | `npm run build:web` 통과 (`dist-web/` `794`개 파일, `27,204,019 bytes`, `assets/pro/` `.webp` `73`개 / 중복 `.png` `0`개) | Vitest **41개 스위트 / 169개 테스트 전원 통과**
+> **자동화 검증 현황:** `npm run validate:pro` 통과 (`383`엔트리 `0 errors`) | `npm run validate:maps` 통과 (`17/17` + Pro `.tmj ×17` GID 범위·BFS `0 errors`) | `npm run validate:assets` 통과 (`0 errors`) | `npm run validate:scripts` 통과 (`0 errors`) | `npm run check:arch` 통과 (`0 issues`, `268` files) | `npm run typecheck` 통과 (`0 errors`) | `npm run build:web` 통과 (`5.53s`, `39` 프리캐시 `2425.33 KiB`, `dist-web/` `1,058`개 파일, `30,523,715 bytes`, `assets/pro/` `.webp` `287`개 / `.tmj` `17`개 / 중복 `.png` `0`개) | Vitest **46개 스위트 / 187개 테스트 전원 통과**
 
 ---
 
@@ -350,42 +350,113 @@ npm run build:web
 
 ---
 
+## 10.6. Stage 19 완료 요약 (Wave 3 외부 NDS 로스터·각성 폼·13대 아레나 · Wave 4 전 세계 17/17 섬 WebGL2 `.tmj` · 크로스플랫폼 빌드 최적화)
+
+1. **Wave 1 잔여(`usopp`, `don_krieg`, `smoker`) & Wave 3 외부 NDS 주력 로스터·각성 폼·4계층 월드 아레나 승격 ([`wave3RosterPromoter.mjs`](scripts/lib/wave3RosterPromoter.mjs), [`import-pro-assets.mjs`](scripts/import-pro-assets.mjs), [`pro-manifest-cli.mjs`](scripts/pro-manifest-cli.mjs))**
+   - **코드 도트 베이킹 금지 원칙 100% 준수:** `source === 'EXTERNAL_WEB_SHEET'` 외부 NDS 시트와 `OPGB2_Mugs.png` 표정 초상화만 승격하여 **밀짚모자 일당 10/10 전원**(`luffy` + 9인 동적 `party_*` 풀), **외부 NDS 보스·동맹 19명**, **변신/각성 폼 8종**(`luffy_gear5`, `zoro_king_of_hell`, `sanji_diable_jambe`, `enel_amuru`, `lucci_hybrid`, `marco_phoenix`, `law_kroom`, `doflamingo_awakening`)을 `TorsoWeightedPivotSolver` 피벗 + PPU 정규화 + 인메모리 직출력 무손실 `.webp`로 구축 (`core_always` VRAM `2.60 MB` 유지).
+   - 외부 시트 미확보 유닛(`morgan`, `kaido`, `king`, `katakuri`, `saturn`, `loki`, `s_hawk`, `blueno`, `doppelman`, `unit_*`)은 투명하게 `PLACEHOLDER`로 유지하며, `raw_assets/packs/` 거대 보스 드롭 시 `2048×2048` 상한 자동 허용을 추가([`PRO_ART_DROP_GUIDE.md`](PRO_ART_DROP_GUIDE.md) 갱신).
+   - **19개 4계층 패럴랙스 전투 아레나(`east_blue_harbor` + Wave 1 보스 5종 + 13대 월드 아레나):** `sharedAssetIds` 참조 카운팅으로 동일 아레나 공유 보스(예: `battle_lucci ↔ battle_kaku`의 `water7_dock`, `marineford_ice_bay` 5인) 전환 시 텍스처 중복 로드/디스크 중복 0건 달성 및 [`resolveBattleBackdropId`](src/render/pixi/pixiBundleHelpers.ts) · [`PixiBattleVerticalSliceScene`](src/render/pixi/scenes/PixiBattleVerticalSliceScene.ts) · [`PixiVerticalSliceController`](src/scenes/controllers/pixiVerticalSliceController.ts) 전 해역 WebGL2 전투 라우팅 통합.
+2. **Wave 4 나머지 12개 섬 마스터 타일셋 리믹스 `.tmj` 승격 — 전 세계 17/17 섬 100% WebGL2 통일 ([`wave4IslandTmjBuilder.mjs`](scripts/lib/wave4IslandTmjBuilder.mjs), [`islandAtmospherePresets.ts`](src/render/pixi/scenes/islandAtmospherePresets.ts), [`GodRaysAndParticlesLayer.ts`](src/render/pixi/shaders/GodRaysAndParticlesLayer.ts), [`PixiProIslandScene.ts`](src/render/pixi/scenes/PixiProIslandScene.ts))**
+   - Wave 2의 5대 마스터 외부 `.tsx`와 8종 `.tx` 템플릿만 재사용해 신규 타일셋 VRAM 증가 `0 MB`로 12개 섬(`orange_town`, `baratie`, `arlong_park`, `loguetown`, `drum_kingdom`, `skypiea`, `thriller_bark`, `marineford`, `fishman_island`, `dressrosa`, `totto_land`, `elbaf`)을 `.tmj`로 컴파일(임베드 타일셋 0건, 섬당 8개 이상 동적 광원, 60개 고유 보물상자 100% `LegalityValidator` 일치).
+   - 10종 신규 바이옴 WebGL2 GPU 파티클(`RAIN_STORM`, `SNOW_PEAK`, `SAKURA_SNOW`, `SKY_CLOUD`, `SPOOKY_MIST`, `MARINE_ICE`, `UNDERWATER_BUBBLE`, `DRESSROSA_PETAL`, `SUGAR_SPARKLE`, `ELBAF_GOLDEN`)과 드럼 왕국 `ep_drum_kingdom` 클리어 후 눈송이→벚꽃 눈 실시간 전환, 전 동료 NPC 프로 아틀라스 재사용 구현.
+3. **크로스플랫폼 Android APK 빌드 래퍼 · Vite 청크 분할 · Windows 무손실 WebP 안정화 ([`build-android-apk.mjs`](scripts/build-android-apk.mjs), [`vite.config.ts`](vite.config.ts), [`optimize-pro-assets.mjs`](scripts/optimize-pro-assets.mjs))**
+   - `package.json`의 `package:android:apk`를 Windows(`gradlew.bat`) / macOS·Linux(`./gradlew`) 공용 Node 래퍼로 전환(`--release`, `--skip-sync` 지원).
+   - `vite.config.ts`에서 `island-maps-data`(`270.66 kB`), `pro-manifest-data`(`147.15 kB`), `pixi-scenes`(`162.74 kB`)로 분할해 앱 코드·데이터 전 청크를 `500 kB` 미만(`game-data` `287.03 kB`, `index` `454.30 kB`)으로 감축하고 Workbox `opgv-pro-art-cache` 상한을 `500`엔트리로 확장.
+   - `import-pro-assets.mjs`의 인메모리 직출력 `.webp` 인코딩 및 `sharp.cache(false)` + 대소문자 무관 CLI 가드 적용으로 Windows 환경의 임시 PNG 쓰기-삭제 경합을 원천 제거.
+4. **전수 검증 결과 (`2026-11-24`, [`wave3AndWave4FullWorld.test.ts`](tests/render/wave3AndWave4FullWorld.test.ts)):**
+   - `git diff --stat src/core/` **0줄 변경**, `npm run assets:status` (**Wave 0 `100%` / Wave 1 `95.9%` / Wave 2 `100%` / Wave 3 `85.5%` / Wave 4 `100%`**, 총 `364`엔트리 `VERIFIED 1 / IMPORTED 331 / PLACEHOLDER 32 = 91.2%`), `npm run validate:pro` (`0 errors`), `npm run validate:maps` (`17/17` + Pro `.tmj ×17` BFS `0 errors`), `npm run validate:assets` (`0 errors`), `npm run validate:scripts` (`0 errors`), `npm run check:arch` (`261`파일 `0 issues`), `npm run typecheck` (`0 errors`), `npm run build:web` (`5.21s`, `dist-web/` `1,030`파일 `30,401,635 bytes`, `assets/pro/` `.webp` `263`개 / `.tmj` `17`개 / `.tsx` `7`개 / `.tx` `8`개 / 중복 `.png` `0`개), Vitest **42개 스위트 / 173개 테스트 ALL PASSED** (17/17 `.tmj` 60상자 `LegalityValidator` 0위반, 5회 연속 10인 파티·공유 아레나·전 해역 섬 왕복 VRAM/RenderTexture 누수 `0`).
+
+---
+
+## 10.7. Stage 20 완료 요약 (Wave 3 10인 로스터·거대 변신·전체 7종 합동기 · 8대 보스 WebGL2 셰이더 · 단일 보스 VRAM 락)
+
+1. **나머지 밀짚모자 6인 PPU 정규화 · 거대 변신 보조 슬롯 격리 · 전체 2:2 합동기 7종 완성 ([`wave3RosterPromoter.mjs`](scripts/lib/wave3RosterPromoter.mjs), [`proAssetManifest.ts`](src/data/assets/proAssetManifest.ts), [`combos.json`](src/data/combos.json), [`PixelCutinOverlay.ts`](src/render/pixi/scenes/PixelCutinOverlay.ts))**
+   - 6인 PPU 정규화 완료: `usopp_base`(`0.98x`, `106px`), `chopper_base`(`0.68x`, `73px`), `robin_base`(`1.06x`, `114px`), `franky_base`(`1.26x`, `136px`), `brook_base`(`1.22x`, `132px`), `jinbe_base`(`1.30x`, `140px`).
+   - 거대 변신/각성 슬롯 3종(`chopper_monster_point`, `robin_demonio_fleur`, `franky_general`)을 `isGiant: true`(`2048×2048` 상한) 및 각 동료의 `party_*` 보조 번들(상시 `core_always` 제외)로 등록하고 `PRO_FORM_KEY_ALIASES`로 코어 `forms.json` ID(`form_chopper_monster`, `form_robin_demonio`, `form_franky_shogun`, `form_kaido_flame_dragon` 등)와 `src/core/` 수정 없이 매핑. 미수집 외부 시트는 코드 베이킹 없이 `PLACEHOLDER` 유지([`PRO_ART_DROP_GUIDE.md`](PRO_ART_DROP_GUIDE.md)에 드롭 규격 반영).
+   - 나머지 2:2 합동기 4종 추가(`sniper_radical_barrage` 우솝+프랑키, `giant_petal_crush` 쵸파+로빈, `freezing_ocean_current` 브룩+징베, `shambles_red_hawk` 루피+로 — 총 **7종**, `cutinFreezeTicks: 39`) 및 동료 난입·광원·선택적 블룸·광과민 억제(`flashEffectEnabled === false`) 검증.
+2. **8대 핵심·거대 보스 규격 정비 & `GiantBossShaderPipeline` WebGL2 셰이더 구축 ([`giantBossAuraProfiles.ts`](src/render/pixi/shaders/giantBossAuraProfiles.ts), [`GiantBossShaderPipeline.ts`](src/render/pixi/shaders/GiantBossShaderPipeline.ts), [`PixiBattleVerticalSliceScene.ts`](src/render/pixi/scenes/PixiBattleVerticalSliceScene.ts), [`PixiBattleEffectsHelper.ts`](src/render/pixi/scenes/PixiBattleEffectsHelper.ts))**
+   - `pro-manifest-cli.mjs`의 `entityScale >= 1.5` 기준 정비로 `kaido_base`(`1.45`, `1024px`) vs `kaido_dragon`/`saturn_base`/`saturn_yokai`/`loki_base`/`loki_giant`(`>= 1.5`, `2048px`) 상한과 `4`대 미수집 보스(`katakuri`, `kaido`, `saturn`, `loki`) 핵심 표정 3종(`normal`/`angry`/`battle_cry`) 초상화 슬롯 및 `BOSS_ARENA_BACKDROP_MAP` 4계층 아레나 연결 완비.
+   - `GiantBossShaderPipeline`: `GiantCameraFramer`(`entityScale >= 1.5` 시 `0.78x ~ 0.85x` 자동 줌아웃 + 상단 `headroomOffsetY` 확보), 8인 보스 고유 림/오라/번개/독운/광선/방패 셰이더, `DOME_SHIELD`(`K·ROOM`) 굴절 돔, 카타쿠리 견문색 미래 예지 GLSL `ChromaticForesightFilter`(저사양/광과민 설정 시 자동 해제), 새턴 성 안광 충격파, 로키 거대 망치 지면 균열 데칼 풀(`4.5s` 수명), 레이드 4종 예고선(`SAFE_ZONE`/`CIRCLE`/`CONE`/`CROSS_BEAM`) + 임펠 다운 함정/새장 차지 그라데이션, 2페이즈 `19.5:9` 풀와이드 픽셀 컷인(`BOSS_PHASE`, `bossIntroTimer` 단일 배너 덮어쓰기 방지 가드 포함) 구현.
+3. **단일 활성 보스 VRAM 락 & 전수 검증 결과 (`2026-11-24`, [`wave3GiantBossAndVramLock.test.ts`](tests/render/wave3GiantBossAndVramLock.test.ts))**
+   - [`PixiAssetBundleManager`](src/render/pixi/PixiAssetBundleManager.ts) · [`pixiBundleTypes.ts`](src/render/pixi/pixiBundleTypes.ts): 신규 `battle_*` 번들 로드 전에 이전 `battle_*` GPU 텍스처를 먼저 해제(`singleBattleLockReleases`, 공유 아레나 `background` URL은 임시 refCount 핀으로 중복 다운로드 차단) 및 `peakEstimatedVramMb` 추적 추가.
+   - 5회 연속(`battle_kaido → battle_saturn → battle_loki → battle_kizaru → battle_katakuri`, 총 25회 전환) 스트레스 테스트에서 `singleBattleLockReleases = 24`, 동시 `2048×2048` 텍스처 최대 `1`장(`loadBundle` 개시 시 `0`장), `peakEstimatedVramMb < 128 MB`, 해제 후 기준선 VRAM 100% 복구 검증.
+   - **검증 수치:** `git diff --stat src/core/` **0줄 변경**, `npm run assets:status` (**379엔트리**: `VERIFIED 1 / IMPORTED 331 / PLACEHOLDER 47`, 총 `87.6%`, 디스크 `22.95 MB`, 전량 이론 VRAM `242.87 MB`, `core_always` `2.60 MB`, Wave 3 `165/208 = 79.3%`), `npm run validate:pro` (`0 errors`), `npm run validate:maps` (`0 errors`), `npm run validate:assets` (`0 errors`), `npm run validate:scripts` (`0 errors`), `npm run check:arch` (`263`파일 `0 issues`), `npm run typecheck` (`0 errors`), `npm run build:web` (`5.04s`, `39` 프리캐시 `2395.11 KiB`, `dist-web/` `1,030`파일 `30,436,868 bytes`, `assets/pro/` `.webp` `263`개 / `.tmj` `17`개 / `.tsx` `7`개 / `.tx` `8`개 / 중복 `.png` `0`개), Vitest **43개 스위트 / 178개 테스트 ALL PASSED**.
+   - *(프로덕션 `vite preview --outDir dist-web --port 4173` 브라우저 E2E 시도는 호스트 Chrome `DevToolsActivePort` 미활성으로 `BLOCKED` 상태 기록 후 프리뷰 프로세스 정상 종료.)*
+
+---
+
+## 10.8. Stage 21 완료 요약 (Wave 4 결정론적 `.tmj` 컴파일러 · 전 세계 17/17 섬 100% `.tmj` 통일 · 12개 섬 WebGL2 셰이더 완성)
+
+1. **결정론적 Tiled 1.10+ `.tmj` 컴파일러 & GID 범위 검증기 구축 ([`compile-tiled-tmj.mjs`](scripts/compile-tiled-tmj.mjs), [`wave4IslandTmjBuilder.mjs`](scripts/lib/wave4IslandTmjBuilder.mjs), [`validate-maps.mjs`](scripts/validate-maps.mjs), [`package.json`](package.json))**
+   - `scripts/compile-tiled-tmj.mjs`(`npm run compile:tmj`)가 참조된 외부 `.tsx` XML의 `<tileset tilecount="N">`을 직접 파싱해 `firstgid`를 동적 계산(임베드 타일셋 0건)하고, 5대 마스터 외부 `.tsx` 간 모든 2-타일셋 조합에 대해 비충돌·비수면 `ground_detail` 악센트를 결정론 배치하며, `episodeId`·`chestId`(+보상)·`npcId`(+`patrolWaypoints` polyline, `setsQuestFlagOnTalk`)·`markerId`·`dock_departure`·`puzzleSwitches`를 100% 보존합니다.
+   - `shells_town`은 정식 17섬 체계(`foosha_shells` Zone 5 `쉘즈타운 해군 제153지부`)에 통합 완료 상태를 유지하면서 나머지 **12개 Wave 4 섬**의 듀얼 `.tsx` 조합을 최종 사양에 맞게 재컴파일했습니다:
+     - **이스트 블루 (`master_stone_canal + master_port_village`):** `orange_town`, `baratie`, `arlong_park`, `loguetown`
+     - **위대한 항로:** `drum_kingdom`·`thriller_bark`(`master_eastern_pagoda + master_port_village`), `skypiea`(`master_desert_palace + master_scifi_neon`), `marineford`(`master_stone_canal + master_eastern_pagoda`)
+     - **신세계:** `fishman_island`·`totto_land`(`master_scifi_neon + master_desert_palace`), `dressrosa`(`master_stone_canal + master_port_village`), `elbaf`(`master_eastern_pagoda + master_port_village`)
+   - `validate-maps.mjs`가 17/17 `.tmj` 전 타일 레이어(`water`, `ground`, `ground_detail`, `walls_props`, `overhead`)의 모든 비영 GID가 선언된 `.tsx` 유효 범위 안인지 및 2-Pass BFS 도달성·60개 상자 일치를 검증합니다.
+2. **12개 섬 고유 WebGL2 조명 · 수면/거울 반사 · 안개 · 해저 갓레이 · 번개 셰이더 승격 ([`islandAtmospherePresets.ts`](src/render/pixi/scenes/islandAtmospherePresets.ts), [`WaterReflectionPipeline.ts`](src/render/pixi/shaders/WaterReflectionPipeline.ts), [`GodRaysAndParticlesLayer.ts`](src/render/pixi/shaders/GodRaysAndParticlesLayer.ts), [`PixiProIslandScene.ts`](src/render/pixi/scenes/PixiProIslandScene.ts))**
+   - **이스트 블루:** `orange_town`(`SUNSET` 노을 + `ORANGE_SMOKE` 상승 연기·불티), `baratie`(`fullAreaReflection: true` 외해 전방향 실시간 수면 반사), `arlong_park`(중앙 수영장 `regionBounds` 국부 반사), `loguetown`(저파동 `0.35x` 젖은 석재 반사 + `RAIN_STORM` 빗줄기 + 주기적 원거리 번개 광원 `flashEffectEnabled === false` 시 섬광 차단).
+   - **위대한 항로:** `drum_kingdom`(`ep_drum_kingdom` 클리어 시 `SAKURA_SNOW` + 분홍 밤하늘/블룸/색보정 전환), `skypiea`(구름 데크 + `1.45x` 햇살 갓레이 + 황금 블룸), `thriller_bark`(`NIGHT` + `groundFogColor`/`groundFogAlpha` 바닥 안개 + 날갯짓 박쥐 파티클), `marineford`(저파동 `0.45x` 빙결 반사 + `MARINE_ICE` 포연·얼음 결정·불티).
+   - **신세계:** `fishman_island`(`NIGHT` 모드에서도 `allowGodRaysAtNight: true` + 청록 `0x5eead4` 이브의 나무 해저 갓레이 활성 버그 수정), `dressrosa`(`DRESSROSA_PETAL` + 지중해 광원·분수 반사), `totto_land`(`SUNSET` 몽환 분홍 광원 + 거울 광장 저파동 `waveAmpMult: 0.22` 거울 반사), `elbaf`(오로라 갓레이 리본 `0x34d399` + `ELBAF_GOLDEN` 황금 낙엽·신화 뇌격 스파크 `flashEffectEnabled === false` 억제).
+3. **대표 6개 섬 왕복 VRAM 테스트 & 전수 검증 결과 (`2026-11-24`, [`wave4WorldTmjAndAtmosphere.test.ts`](tests/render/wave4WorldTmjAndAtmosphere.test.ts))**
+   - **대표 6개 섬(`baratie`, `loguetown`, `thriller_bark`, `fishman_island`, `totto_land`, `elbaf`) × 3회 연속 왕복(18회 전환, `915×412`):** 매 전환마다 직전 `island_*` 번들 즉시 언로드, 5대 마스터 `.tsx` 참조 카운트 누수 0건, 1회차·3회차 추정 VRAM 바이트 100% 일치(`peak < 128 MB`), `trackedRenderTextureCount === 0`, 평균 프레임 렌더 비용 `< 16.6ms` 검증.
+   - **검증 수치:** `git diff --stat src/core/` **0줄 변경**, `npm run validate:maps` **17/17 JSON & 17/17 `.tmj` 0 errors** (`139`개 동적 광원, `60`개 고유 보물상자 `LegalityValidator` 100% 통과, `102`명 NPC, `71`개 구역), `npm run assets:status` (**Wave 4 `12/12 = 100.0%`** / `17/17` 맵 `100.0%` `2.43 MB` / 총 `379`엔트리 `87.6%`, 디스크 `22.96 MB`), `npm run validate:pro` (`0 errors`), `npm run check:arch` (`263`파일 `0 issues`, `shadowBlur` 0건), `npm run typecheck` (`0 errors`), `npm run build:web` (`4.85s`, `39` 프리캐시 `2399.50 KiB`, `dist-web/` `1,030`파일 `30,456,660 bytes`, `assets/pro/` `.webp` `263` / `.tmj` `17` / `.tsx` `7` / `.tx` `8` / `.png` `0`), Vitest **44개 스위트 / 181개 테스트 ALL PASSED**.
+   - *(프로덕션 `vite preview --outDir dist-web --port 4173` 브라우저 E2E 시도는 호스트 Chrome `DevToolsActivePort` 미활성으로 `BLOCKED` 상태 기록 후 프리뷰 서버 정상 종료. **현재 상태: 최종 Android APK 패키징 준비 완료.**)*
+
+---
+
+## 10.9. Stage 22 완료 요약 (Wave 5 `SeaSailingScene` PixiJS v8 WebGL2 전면 통일)
+
+1. **WebGL2 실시간 바다 물결 셰이더 · 해역별 날씨 · 해류/소용돌이 어댑터 ([`OceanWaterShaderPipeline.ts`](src/render/pixi/shaders/OceanWaterShaderPipeline.ts), [`SeaAtmospherePipeline.ts`](src/render/pixi/shaders/SeaAtmospherePipeline.ts), [`seaTypes.ts`](src/render/pixi/shaders/seaTypes.ts), [`SeaCurrentPhysics.ts`](src/scenes/sea/SeaCurrentPhysics.ts))**
+   - `OceanWaterShaderPipeline`: 픽셀 격자 스냅 기반 2방향 교차 카우스틱스 노이즈, `TIME_OF_DAY_PROFILES`(`MORNING`/`DAY`/`SUNSET`/`NIGHT`) 스페큘러 반사 하이라이트, 3대 해역(`east_blue` 청록 · `grand_line` 코발트 · `new_world` 심해 폭풍보라/노을) 부드러운 RGB 팔레트 보간, 가시 섬/관문 최대 8곳 해안선 백파 링·수면 반사 틴트를 1-Pass GLSL ES 300 셰이더로 구현.
+   - `SeaAtmospherePipeline`: 수중 거대 해왕류 S자 6분절 그림자(`grand_line` 1마리 / `new_world` 3마리), 마린포드 표류 부빙 8종, 이스트 블루 갈매기, 드럼 왕국 클리어 시 설산→벚꽃 자동 전환, 알라바스타 모래바람, 스릴러 바크 보라 안개, 엘바프 북유럽 오로라, `flashEffectEnabled === false` 시 번개 섬광 `0` 차단 가드 적용.
+   - `SeaCurrentPhysics.ts`: immutable `src/core/rpg/seaCurrentPhysics.ts` 래핑(0줄 변경), 순풍 `+35%`/역풍 `-20%` 및 소용돌이 회전·흡입·Anti-Trap 이탈 텔레메트리(`sailBillowFactor`, `wakeEmitMultiplier`) 제공.
+2. **20종 랜드마크 · 4종 선박 무손실 WebP 승격 · 단일 해역 VRAM 락 · `PixiSeaSailingScene` 전면 교체 ([`wave5SeaAssetPromoter.mjs`](scripts/lib/wave5SeaAssetPromoter.mjs), [`PixiAssetBundleManager.ts`](src/render/pixi/PixiAssetBundleManager.ts), [`PixiSeaSailingScene.ts`](src/render/pixi/scenes/PixiSeaSailingScene.ts), [`pixiVerticalSliceController.ts`](src/scenes/controllers/pixiVerticalSliceController.ts), [`sceneFrameRenderer.ts`](src/scenes/controllers/sceneFrameRenderer.ts), [`sailingRenderer.ts`](src/render/sailingRenderer.ts))**
+   - `npm run import:pro`에 `promoteWave5SeaAssets` 통합: 20종 바다 랜드마크(`public/assets/pro/landmarks/*.webp`) 및 4종 선박/해상 엔티티(`ship_going_merry`, `ship_thousand_sunny`, `ship_marine_warship`, `ship_sea_king` `isGiant: true`, `public/assets/pro/sprites/ship_*.{webp,json}`) 무손실 WebP 승격 + `PRO_ART_DROP_GUIDE.md` 드롭 규격 반영.
+   - `PixiAssetBundleManager`: 4종 선박을 3대 `sea_*` 번들 공유(`sharedAssetIds`)로 격리해 `core_always` VRAM을 `2.60 MB`로 유지하고, 해역 이동 시 이전 `sea_*` 번들 랜드마크를 선제 해제(`singleSeaLockReleases`)하는 **단일 활성 해역 번들 락** 구축.
+   - `PixiVerticalSliceController`에 `'SEA'` 슬라이스 연결 및 `sceneFrameRenderer.ts`에서 레거시 `SEA_SAILING` Canvas 2D 바다/도형 렌더링 제거(2D 캔버스는 Safe Area HUD 오버레이 전용), `PixiSeaSailingScene`에 `going_merry` ↔ `thousand_sunny` 자동 전환·8방향 기울기·96슬롯 Zero-GC 포말 풀·야간/노을 뱃머리 동적 광원 및 섬 근접 9-Slice 입항 배너 탑재.
+3. **미니맵 · 확대 해도 연동 & 3대 해역 5회 왕복 E2E 검증 결과 (`2026-11-24`, [`seaWebglPipelines.test.ts`](tests/render/seaWebglPipelines.test.ts), [`pixiSeaSailingScene.test.ts`](tests/render/pixiSeaSailingScene.test.ts))**
+   - [`seaMinimapHud.ts`](src/render/sea/seaMinimapHud.ts) · [`seaChartOverlay.ts`](src/render/sea/seaChartOverlay.ts) · [`seaChartDetailCard.ts`](src/render/sea/seaChartDetailCard.ts) · [`seaChartController.ts`](src/scenes/sea/seaChartController.ts): 해역별 탭 보물상자 달성률(`15`/`21`/`24`, 총 `60`개 `.tmj` 100% 일치), 도트 무손실 랜드마크 썸네일 프리뷰, `[빠른 항해]` 즉시 해역 번들 전환, 갤럭시 S25 울트라(`915×412` / `1170×540`)·데스크톱(`1280×720`) Safe Area 중첩 `0px` 검증.
+   - 3대 해역 5회 연속 왕복(`sea_east_blue → sea_grand_line → sea_new_world`, 총 15회 전환) 시 매 전환마다 직전 해역 랜드마크 `refCount === 0`, 1회차·5회차 VRAM 동일, `trackedRenderTextureCount === 0` 달성.
+   - **검증 수치:** `git diff --stat src/core/` **0줄 변경**, `npm run typecheck` (`0 errors`), `npm run check:arch` (`268`파일 `0 issues`), `npm run validate:pro` (`383`엔트리 `VERIFIED=1, IMPORTED=335, PLACEHOLDER=47`, `0 errors`), `npm run validate:maps` (`17/17` `0 errors`), `npm run validate:assets` (`0 errors`), `npm run validate:scripts` (`0 errors`), Vitest **46개 스위트 / 187개 테스트 ALL PASSED**, `npm run build:web` (`5.53s`, `dist-web/` `1,058`파일 `30,523,715 bytes`, `assets/pro/` `.webp` `287`개). *(프로덕션 `vite preview --outDir dist-web --port 4173` 브라우저 E2E 시도는 호스트 Chrome `DevToolsActivePort` 미활성으로 `BLOCKED` 확인 후 프리뷰 서버 정상 종료.)*
+
+---
+
 ## 11. 남은 이슈 (Known / Remaining Issues)
 
 1. **호스트 Chrome DevTools 원격 디버깅 미활성으로 인한 자동 실브라우저 WebGL2 육안 점검 보류**
    - `npx vite preview --outDir dist-web --port 4173` 기반 브라우저 에이전트 점검 시 호스트 Chrome `DevToolsActivePort` (`%LOCALAPPDATA%\Google\Chrome\User Data\DevToolsActivePort`) 부재로 `BLOCKED` 상태입니다.
-   - 실제 WebGL2 셰이더(수면/운하/오아시스/연못 반사·동적 광원·선택적 블룸·패링 충격파·2:2 합동기 컷인) 및 `915×412` Safe Area 시각 확인은 로컬에서 `npm run preview` 실행(또는 Chrome `chrome://inspect/#remote-debugging` 활성화) 및 실기기 APK 설치로 확인해야 합니다.
-2. **Windows `cmd.exe` 환경에서 `npm run package:android:apk`의 `./gradlew` 경로 호환성**
-   - [`package.json`](package.json)의 `"package:android:apk"` 스크립트가 `./gradlew assembleDebug`를 사용해 Windows 기본 `cmd.exe`에서는 실패할 수 있습니다(현재는 PowerShell에서 `npm run package:android:sync` 후 `Push-Location android; .\gradlew.bat assembleDebug; Pop-Location`으로 정상 빌드 확인).
-3. **Wave 1 누락 1종(`morgan_base`), Wave 3 로스터/거대 보스(68종) 및 Wave 4 나머지 12개 섬 프로 승격 대기**
-   - 현재 PixiJS v8 WebGL2 HD-2D 렌더러는 **5대 거점(`후샤 마을`, `워터 세븐`, `알라바스타`, `와노쿠니`, `에그헤드`) + Wave 1 전투 코어(루피/조로/상디/나미 + 버기/아론 + 이스트 블루/후샤/샌드박스 전투)**에 적용되어 있으며, Wave 4 나머지 12개 섬은 기존 7계층 2D 캔버스 렌더러로, 프로 시트가 없는 캐릭터(`morgan_base`, 우솝, Wave 3 동료/보스)는 중립 실루엣 폴백(`createMissingProArtPlaceholder`)으로 동작합니다.
-4. **프로덕션 번들 청크 크기 경고 (`> 500 kB`)**
-   - `vite build` 시 `pixi-webgl` (`589.04 kB`, gzip `169.63 kB`), `index` (`608.18 kB`, gzip `185.80 kB`), `game-data` (`633.41 kB`, gzip `132.53 kB`) 청크가 500 kB 경고를 출력합니다(정상 동작하나 추후 `dynamic import()` 분할 여지 존재).
-5. **Android Release 서명(Keystore / Signed AAB·APK) 미구성**
-   - 현재 빌드된 산출물은 테스트·실기기 설치용 `app-debug.apk`이며, 배포용 Release APK/AAB 추출 시 서명 키스토어 및 `signingConfigs` 구성이 필요합니다.
+   - 실제 WebGL2 셰이더(3대 해역 `SeaSailingScene` 실시간 바다 물결·날씨·야간 뱃머리 광원·20종 랜드마크, 17/17 섬 수면 반사·바이옴 파티클·동적 광원, 8대 보스 셰이더·2:2 합동기 컷인) 및 `915×412` Safe Area 시각 확인은 로컬에서 `npm run preview` 실행(또는 Chrome `chrome://inspect/#remote-debugging` 활성화) 및 실기기 APK 설치로 확인해야 합니다.
+2. **외부 시트 미확보 `PLACEHOLDER` 보스·거대 변신 폼 (`morgan` + `lucci_awakened` + `katakuri`/`kaido`/`saturn`/`loki` 본체·거대 폼·`king`/`s_hawk`/`blueno`/`doppelman` + 밀짚모자 3인 거대 폼)**
+   - 코드 도트 베이킹 금지 원칙에 따라 외부 도트 시트 미확보 항목은 `PLACEHOLDER` 상태로 투명하게 유지 중이며, `raw_assets/packs/` 투입 후 `npm run import:pro` 실행 시 `2048×2048`(거대 폼) / `1024×1024`(일반) 무손실 WebP로 즉시 승격됩니다([`PRO_ART_DROP_GUIDE.md`](PRO_ART_DROP_GUIDE.md)).
+3. **외부 `pixi-webgl` 벤더 청크 크기 경고 (`589.04 kB`, gzip `169.63 kB`)**
+   - 앱 코드 및 데이터 청크(`index` `438.61 kB`, `game-data` `288.97 kB`, `island-maps-data` `270.66 kB`, `pixi-scenes` `226.69 kB`)는 모두 `500 kB` 미만으로 최적화되었으며, `pixi.js` 단일 벤더 청크만 `589.04 kB`입니다(정상 동작).
+4. **Android Release 서명(Keystore / Signed AAB·APK) 미구성**
+   - 크로스플랫폼 `npm run package:android:apk` 래퍼(`--release` 플래그 포함)는 준비 완료되었으며, 실제 스토어 배포용 Release APK/AAB 추출 시 서명 키스토어 및 `android/app/build.gradle` `signingConfigs` 구성이 필요합니다.
 
 ---
 
 ## 12. 다음 할 일 (Next Steps)
 
-1. **Wave 3 주력 로스터·거대 보스 프로 아트워크 승격 (`PRO_ART_DROP_GUIDE.md`)**
-   - `raw_assets/packs/`에 누락된 Wave 1 `morgan_base` 및 Wave 3 동료(`usopp`, `chopper`, `robin`, `franky`, `brook`, `jinbe`)·거대 보스(`kaido`, `saturn`, `loki`, `2048×2048` 상한) 외부 시트를 투입해 `npm run import:pro` → `npm run validate:pro` → `npm run assets:verify` 순으로 승격하세요.
-2. **Wave 4 나머지 12개 섬 마스터 타일셋 리믹스 `.tmj` 승격**
-   - Wave 2에서 구축한 5대 마스터 외부 `.tsx`와 8종 `.tx` 템플릿을 재사용하여 나머지 12개 섬(`orange_town`, `baratie`, `arlong_park`, `loguetown`, `drum_kingdom`, `skypiea`, `thriller_bark`, `marineford`, `fishman_island`, `dressrosa`, `totto_land`, `elbaf`)을 `.tmj`로 승격하고 `npm run validate:maps` 100% BFS 통과를 검증하세요.
-3. **갤럭시 S25 울트라 실기기 APK / `npm run preview` WebGL2 육안 확인 및 실사 타일셋 핫스왑**
-   - 로컬 `npm run preview` 또는 실기기에서 5대 거점 WebGL2 셰이더(운하/오아시스/연못 반사·사막 모래바람·와노쿠니 노을/벚꽃·에그헤드 네온 블룸), `F9` VisualPolishDrawer 실시간 번들/VRAM 모니터, 2:2 합동기 컷인 & 보스 패링 충격파를 점검하고, 고품질 상용/커스텀 타일셋 확보 시 `raw_assets/tilesets/master_*.png`로 무중단 교체하세요.
-4. **크로스플랫폼 빌드·번들 최적화 및 Release 서명 구성**
-   - `package.json`의 `package:android:apk`를 Windows/macOS/Linux 공용 Node 래퍼로 개선하고, `game-data` / 비핵심 씬에 `dynamic import()` 분할을 적용한 뒤 배포 시 Android Release Keystore 서명을 구성하세요.
+1. **미확보 거대 보스·모건 외부 시트 및 커스텀 바다 랜드마크/선박 드롭 승격 (`PRO_ART_DROP_GUIDE.md`)**
+   - `raw_assets/packs/`에 외부 시트(`morgan_base.png`, `kaido_base.png`, `saturn_base.png`, `loki_base.png`, `king_base.png`, `katakuri_base.png`, `s_hawk_base.png`) 또는 `raw_assets/packs/{landmarks,ships}/` 고해상도 랜드마크/선박 아트 확보 시 투입 후 `npm run import:pro` → `npm run validate:pro` → `npm run assets:verify -- --id=...`로 `VERIFIED` 승격하세요.
+2. **Android APK 패키징 & 실기기/로컬 브라우저 확인 (`최종 Android APK 패키징 준비 완료`)**
+   - `npm run package:android:apk`(디버그) 또는 키스토어 구성 후 `node scripts/build-android-apk.mjs --release`로 실기기 APK를 패키징하고, 로컬 `npm run preview` 또는 Chrome `chrome://inspect/#remote-debugging` 활성화 후 3대 해역 항해(`SeaSailingScene`·확대 해도)·17개 섬·거대 보스전 WebGL2 시각 연출을 최종 점검하세요.
+3. **실브라우저 육안 검수 완료 에셋 `VERIFIED` 일괄 승격**
+   - 전 세계 17/17 섬 `.tmj`, 20종 바다 랜드마크·4종 선박 무손실 WebP, 밀짚모자 10인 전원 및 2:2 합동기 7종, 8대 보스 셰이더 파이프라인이 완비되었으므로, 실브라우저 육안 검수 완료 에셋을 `npm run assets:verify -- --id=...`로 `VERIFIED` 승격하세요.
+4. **Android Release Keystore 서명 구성**
+   - 정식 배포 단계에서 `android/app/build.gradle` `signingConfigs`와 키스토어를 연결한 뒤 `node scripts/build-android-apk.mjs --release`로 서명된 Release APK를 추출하세요.
 
 ---
 
 ## 13. 빠른 검증 및 실행 방법
 
 ```powershell
-# 1. 아키텍처·순환참조·any·shadowBlur 자동 감사 (261 TS files)
+# 1. 아키텍처·순환참조·any·shadowBlur 자동 감사 (268 TS files)
 npm run check:arch
 
-# 2. 프로 에셋 SSOT 상태·무손실 WebP·Tiled 맵(.tmj/.tsx/.tx) 검증
+# 2. 결정론적 Tiled .tmj 컴파일 · 프로 에셋 SSOT 상태 · 무손실 WebP · 맵 검증
+npm run compile:tmj
 npm run assets:status
 npm run validate:pro
 npm run import:pro
@@ -398,13 +469,12 @@ npm run validate:scripts
 # 4. 정적 타입 검사 (strict + noUncheckedIndexedAccess)
 npm run typecheck
 
-# 5. 프로덕션 웹 빌드 & 전체 Vitest 스위트 (41 suites / 169 tests)
+# 5. 프로덕션 웹 빌드 & 전체 Vitest 스위트 (46 suites / 187 tests)
 npm run build:web
 npm run test
 
-# 6. Android Debug APK 빌드 (Windows PowerShell)
-npm run package:android:sync
-Push-Location android; .\gradlew.bat assembleDebug; Pop-Location
+# 6. Android Debug APK 빌드 (Windows/macOS/Linux 크로스플랫폼 공용)
+npm run package:android:apk
 
 # 7. AI 핸드오프 번들 갱신
 npm run ai:handoff
@@ -619,7 +689,7 @@ $env:VITE_MULTIPLAYER_URL="wss://relay.your-domain.com"; npm run package:android
     "package:win:dir": "npm run build:electron && electron-builder --win --x64 --dir",
     "package:win": "npm run build:electron && electron-builder --win --x64",
     "package:android:sync": "npm run build:android && npx cap sync android",
-    "package:android:apk": "npm run package:android:sync && cd android && ./gradlew assembleDebug",
+    "package:android:apk": "node scripts/build-android-apk.mjs",
     "preview": "vite preview --outDir dist-web",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
@@ -634,6 +704,7 @@ $env:VITE_MULTIPLAYER_URL="wss://relay.your-domain.com"; npm run package:android
     "fetch:assets": "node scripts/fetch-web-assets.mjs",
     "import:pack": "node --import tsx scripts/import-sprite-pack.mjs",
     "import:pro": "node scripts/import-pro-assets.mjs",
+    "compile:tmj": "node scripts/compile-tiled-tmj.mjs",
     "bake:sprites": "node --import tsx scripts/legacy/bake-sprites.mjs",
     "bake:landmarks": "node scripts/legacy/bake-landmarks.mjs",
     "ai:handoff": "node --import tsx scripts/ai-handoff.mjs"

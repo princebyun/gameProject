@@ -6,7 +6,21 @@ import {
   normalizeAssetRel,
   validateAtlasResolution
 } from './optimize-pro-assets.mjs';
-import { WAVE1_PPU_SPECS } from './lib/wave1ProPromoter.mjs';
+import {
+  BOSS_ARENA_BACKDROP_MAP,
+  ROSTER_PPU_SPECS,
+  WAVE3_BOSS_CORE_PORTRAIT_PLACEHOLDERS,
+  WAVE3_EXTERNAL_BOSS_IDS,
+  WAVE3_EXTERNAL_FORM_SPECS,
+  WAVE3_RESERVED_FORM_SPECS,
+  WORLD_ARENA_BACKDROP_IDS
+} from './lib/wave3RosterPromoter.mjs';
+import { WAVE4_ISLAND_MAP_SPECS } from './lib/wave4IslandTmjBuilder.mjs';
+import {
+  WAVE5_SEA_SHIP_MANIFEST_IDS,
+  WAVE5_SEA_ZONE_ANCHOR_LANDMARKS,
+  WAVE5_SHIP_KEYS
+} from './lib/wave5SeaAssetPromoter.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -262,7 +276,19 @@ export async function buildProManifestCatalog(rootDir = ROOT, existingManifest =
     });
   }
 
-  // --- Wave 1: Sea Worldmap Landmarks (Active 3-Sea Lazy Bundles) & East Blue Combat Core ---
+  // --- Wave 1/5: Sea Worldmap Landmarks (Active 3-Sea Lazy Bundles, Lossless WebP) & 4 Shared Ships ---
+  for (const shipKey of WAVE5_SHIP_KEYS) {
+    pushSpec({
+      id: `sea:${shipKey}`,
+      category: 'sprite',
+      wave: 1,
+      tier: 'env',
+      bundle: 'sea_east_blue',
+      assetPath: `assets/pro/sprites/${shipKey}.webp`,
+      metaPath: `assets/pro/sprites/${shipKey}.json`,
+      ...(shipKey === 'ship_sea_king' ? { isGiant: true } : {})
+    });
+  }
   for (const lm of landmarksFile.landmarks ?? []) {
     pushSpec({
       id: `sea:landmark_${lm.id}`,
@@ -270,8 +296,11 @@ export async function buildProManifestCatalog(rootDir = ROOT, existingManifest =
       wave: 1,
       tier: 'env',
       bundle: `sea_${lm.seaZoneId}`,
-      assetPath: lm.path,
-      seaZoneId: lm.seaZoneId
+      assetPath: `assets/pro/landmarks/${lm.id}.webp`,
+      seaZoneId: lm.seaZoneId,
+      ...(WAVE5_SEA_ZONE_ANCHOR_LANDMARKS.has(lm.id)
+        ? { sharedAssetIds: WAVE5_SEA_SHIP_MANIFEST_IDS }
+        : {})
     });
   }
 
@@ -324,17 +353,19 @@ export async function buildProManifestCatalog(rootDir = ROOT, existingManifest =
     unitId: 'usopp',
     formId: 'base'
   });
-  pushSpec({
-    id: 'portrait:usopp_normal',
-    category: 'portrait',
-    wave: 1,
-    tier: 'tier1_crew',
-    bundle: 'party_usopp',
-    assetPath: 'assets/pro/portraits/usopp_normal.webp',
-    unitId: 'usopp'
-  });
+  for (const emo of crewEmotions) {
+    pushSpec({
+      id: `portrait:usopp_${emo}`,
+      category: 'portrait',
+      wave: 1,
+      tier: 'tier1_crew',
+      bundle: 'party_usopp',
+      assetPath: `assets/pro/portraits/usopp_${emo}.webp`,
+      unitId: 'usopp'
+    });
+  }
 
-  const wave1BossIds = ['morgan', 'buggy', 'arlong'];
+  const wave1BossIds = ['morgan', 'buggy', 'arlong', 'don_krieg', 'smoker'];
   const bossCoreEmotions = ['normal', 'angry', 'battle_cry'];
   for (const bid of wave1BossIds) {
     pushSpec({
@@ -369,37 +400,6 @@ export async function buildProManifestCatalog(rootDir = ROOT, existingManifest =
         assetPath: `assets/pro/backgrounds/battle_${bid}_layer${li}.webp`
       });
     }
-  }
-
-  for (const bid of ['don_krieg', 'smoker']) {
-    pushSpec({
-      id: `sprite:${bid}_base`,
-      category: 'sprite',
-      wave: 1,
-      tier: 'tier2_boss',
-      bundle: `battle_${bid}`,
-      assetPath: `assets/pro/sprites/${bid}_base.webp`,
-      metaPath: `assets/pro/sprites/${bid}_base.json`,
-      unitId: bid,
-      formId: 'base'
-    });
-    pushSpec({
-      id: `portrait:${bid}_normal`,
-      category: 'portrait',
-      wave: 1,
-      tier: 'tier2_boss',
-      bundle: `battle_${bid}`,
-      assetPath: `assets/pro/portraits/${bid}_normal.webp`,
-      unitId: bid
-    });
-    pushSpec({
-      id: `bg:battle_${bid}_layer0`,
-      category: 'background',
-      wave: 1,
-      tier: 'env',
-      bundle: `battle_${bid}`,
-      assetPath: `assets/pro/backgrounds/battle_${bid}_layer0.webp`
-    });
   }
 
   // --- Wave 2: Remaining 4 Master Biome Tilesets & 4 Core Hub Maps ---
@@ -470,64 +470,127 @@ export async function buildProManifestCatalog(rootDir = ROOT, existingManifest =
     });
   }
 
-  // --- Wave 3: Remaining Straw Hat Roster & Major/Giant Bosses ---
+  // --- Wave 3: Remaining Straw Hat Roster (party_*), Major/Giant Bosses, Forms & 13 World Arena Backdrops ---
+  for (const arenaId of WORLD_ARENA_BACKDROP_IDS) {
+    for (let li = 0; li < 4; li++) {
+      pushSpec({
+        id: `bg:${arenaId}_layer${li}`,
+        category: 'background',
+        wave: 3,
+        tier: 'env',
+        bundle: `arena_${arenaId}`,
+        assetPath: `assets/pro/backgrounds/${arenaId}_layer${li}.webp`
+      });
+    }
+  }
+
   const strawHatWave3 = new Set(['chopper', 'robin', 'franky', 'brook', 'jinbe']);
+  const wave3ExternalBossSet = new Set(WAVE3_EXTERNAL_BOSS_IDS);
+  const wave3CorePortraitBossSet = new Set(WAVE3_BOSS_CORE_PORTRAIT_PLACEHOLDERS);
   for (const u of units) {
     const spriteId = `sprite:${u.id}_base`;
     if (seenIds.has(spriteId)) continue;
     const isStrawHat = strawHatWave3.has(u.id);
     const isNpcPlaceholder = u.id.startsWith('unit_');
     const tier = isStrawHat ? 'tier1_crew' : isNpcPlaceholder ? 'tier3_npc' : 'tier2_boss';
-    const isGiant = Number(u.entityScale ?? 1) >= 1.45;
+    const isGiant = Number(u.entityScale ?? 1) >= 1.5;
+    const bundleName = isStrawHat ? `party_${u.id}` : `battle_${u.id}`;
+    const arenaBackdrop = BOSS_ARENA_BACKDROP_MAP[u.id];
+    const sharedArenaLayers = arenaBackdrop
+      ? [0, 1, 2, 3].map((li) => `bg:${arenaBackdrop}_layer${li}`)
+      : undefined;
+
     pushSpec({
       id: spriteId,
       category: 'sprite',
       wave: 3,
       tier,
-      bundle: isStrawHat ? 'core_always' : `battle_${u.id}`,
+      bundle: bundleName,
       assetPath: `assets/pro/sprites/${u.id}_base.webp`,
       metaPath: `assets/pro/sprites/${u.id}_base.json`,
       unitId: u.id,
       formId: 'base',
-      isGiant
+      isGiant,
+      ...(sharedArenaLayers ? { sharedAssetIds: sharedArenaLayers } : {})
     });
+
+    if (isStrawHat) {
+      for (const emo of crewEmotions) {
+        pushSpec({
+          id: `portrait:${u.id}_${emo}`,
+          category: 'portrait',
+          wave: 3,
+          tier,
+          bundle: bundleName,
+          assetPath: `assets/pro/portraits/${u.id}_${emo}.webp`,
+          unitId: u.id
+        });
+      }
+    } else if (wave3ExternalBossSet.has(u.id) || wave3CorePortraitBossSet.has(u.id)) {
+      for (const emo of bossCoreEmotions) {
+        pushSpec({
+          id: `portrait:${u.id}_${emo}`,
+          category: 'portrait',
+          wave: 3,
+          tier,
+          bundle: bundleName,
+          assetPath: `assets/pro/portraits/${u.id}_${emo}.webp`,
+          unitId: u.id
+        });
+      }
+    } else {
+      pushSpec({
+        id: `portrait:${u.id}_normal`,
+        category: 'portrait',
+        wave: 3,
+        tier,
+        bundle: bundleName,
+        assetPath: `assets/pro/portraits/${u.id}_normal.webp`,
+        unitId: u.id
+      });
+    }
+  }
+
+  for (const formSpec of [...WAVE3_EXTERNAL_FORM_SPECS, ...WAVE3_RESERVED_FORM_SPECS]) {
     pushSpec({
-      id: `portrait:${u.id}_normal`,
-      category: 'portrait',
-      wave: 3,
-      tier,
-      bundle: isStrawHat ? 'core_always' : `battle_${u.id}`,
-      assetPath: `assets/pro/portraits/${u.id}_normal.webp`,
-      unitId: u.id
+      id: `sprite:${formSpec.key}`,
+      category: 'sprite',
+      wave: formSpec.wave,
+      tier: formSpec.tier,
+      bundle: formSpec.bundle,
+      assetPath: `assets/pro/sprites/${formSpec.key}.webp`,
+      metaPath: `assets/pro/sprites/${formSpec.key}.json`,
+      unitId: formSpec.unitId,
+      formId: formSpec.formId,
+      isGiant: formSpec.isGiant
     });
   }
 
-  // --- Wave 4: Remaining 12 Island Remix Maps ---
-  const wave4Islands = [
-    { id: 'orange_town', tileset: 'tileset:master_port_village' },
-    { id: 'baratie', tileset: 'tileset:master_port_village' },
-    { id: 'arlong_park', tileset: 'tileset:master_port_village' },
-    { id: 'loguetown', tileset: 'tileset:master_port_village' },
-    { id: 'drum_kingdom', tileset: 'tileset:master_port_village' },
-    { id: 'skypiea', tileset: 'tileset:master_port_village' },
-    { id: 'thriller_bark', tileset: 'tileset:master_eastern_pagoda' },
-    { id: 'marineford', tileset: 'tileset:master_stone_canal' },
-    { id: 'fishman_island', tileset: 'tileset:master_stone_canal' },
-    { id: 'dressrosa', tileset: 'tileset:master_desert_palace' },
-    { id: 'totto_land', tileset: 'tileset:master_stone_canal' },
-    { id: 'elbaf', tileset: 'tileset:master_eastern_pagoda' }
-  ];
-  for (const isl of wave4Islands) {
+  // --- Wave 4: Remaining 12 Island Master-Tileset Remix Maps (17/17 World Complete) ---
+  for (const isl of WAVE4_ISLAND_MAP_SPECS) {
+    const islandJsonPath = path.join(rootDir, `src/data/islands/${isl.islandId}.json`);
+    let dimensions = { width: 1536, height: 1088 };
+    if (fs.existsSync(islandJsonPath)) {
+      const islandDef = readJson(islandJsonPath);
+      if (typeof islandDef.width === 'number' && typeof islandDef.height === 'number') {
+        dimensions = { width: islandDef.width, height: islandDef.height };
+      }
+    }
+    const sharedTilesetIds = [`tileset:${isl.primaryTileset}`];
+    if (isl.secondaryTileset) {
+      sharedTilesetIds.push(`tileset:${isl.secondaryTileset}`);
+    }
     pushSpec({
-      id: `map:${isl.id}`,
+      id: `map:${isl.islandId}`,
       category: 'map',
       wave: 4,
       tier: 'env',
-      bundle: `island_${isl.id}`,
-      assetPath: `assets/pro/maps/${isl.id}.tmj`,
-      metaPath: `assets/pro/maps/${isl.id}.tmj`,
-      islandId: isl.id,
-      sharedTilesetIds: [isl.tileset]
+      bundle: `island_${isl.islandId}`,
+      assetPath: `assets/pro/maps/${isl.tmjName}`,
+      metaPath: `assets/pro/maps/${isl.tmjName}`,
+      dimensions,
+      islandId: isl.islandId,
+      sharedTilesetIds
     });
   }
 
@@ -539,6 +602,9 @@ export async function buildProManifestCatalog(rootDir = ROOT, existingManifest =
   // Build backward-compatible ProAssetManifestFile sections for existing loaders/tests
   const byId = new Map(entries.map((e) => [e.id, e]));
   const sprites = {};
+  const formSpecByKey = new Map(
+    [...WAVE3_EXTERNAL_FORM_SPECS, ...WAVE3_RESERVED_FORM_SPECS].map((f) => [f.key, f])
+  );
   for (const ent of entries) {
     if (ent.category !== 'sprite' || !ent.unitId || ent.status === 'PLACEHOLDER') continue;
     const key = `${ent.unitId}_${ent.formId ?? 'base'}`;
@@ -555,7 +621,10 @@ export async function buildProManifestCatalog(rootDir = ROOT, existingManifest =
         // fallback 61
       }
     }
-    const ppuSpec = WAVE1_PPU_SPECS[ent.unitId];
+    const formSpec = formSpecByKey.get(key);
+    const ppuSpec = formSpec
+      ? { ppuScale: formSpec.ppuScale, targetDisplayHeight: formSpec.targetDisplayHeight }
+      : ROSTER_PPU_SPECS[ent.unitId];
     sprites[key] = {
       key,
       unitId: ent.unitId,
@@ -566,6 +635,21 @@ export async function buildProManifestCatalog(rootDir = ROOT, existingManifest =
       targetDisplayHeight: ppuSpec?.targetDisplayHeight ?? 112,
       ...(ppuSpec ? { ppuScale: ppuSpec.ppuScale, referenceIdleHeight } : {}),
       formatHint: 'ASEPRITE_HASH'
+    };
+  }
+  for (const shipKey of WAVE5_SHIP_KEYS) {
+    const shipEnt = byId.get(`sea:${shipKey}`);
+    if (!shipEnt || shipEnt.status === 'PLACEHOLDER') continue;
+    const atlasPath = shipEnt.metaPath ?? `assets/pro/sprites/${shipKey}.json`;
+    sprites[shipKey] = {
+      key: shipKey,
+      unitId: shipKey,
+      formId: 'base',
+      image: shipEnt.assetPath,
+      atlasJson: atlasPath,
+      anchor: { x: 0.5, y: 0.55 },
+      targetDisplayHeight: 48,
+      formatHint: 'LEGACY_META'
     };
   }
 
@@ -600,7 +684,16 @@ export async function buildProManifestCatalog(rootDir = ROOT, existingManifest =
   }
 
   const backgrounds = {};
-  for (const bgId of ['east_blue_harbor', 'battle_morgan', 'battle_buggy', 'battle_arlong']) {
+  const allBgIds = [
+    'east_blue_harbor',
+    'battle_morgan',
+    'battle_buggy',
+    'battle_arlong',
+    'battle_don_krieg',
+    'battle_smoker',
+    ...WORLD_ARENA_BACKDROP_IDS
+  ];
+  for (const bgId of allBgIds) {
     const layers = [0, 1, 2, 3].map((i) => byId.get(`bg:${bgId}_layer${i}`));
     if (layers.every((l) => l && l.status !== 'PLACEHOLDER')) {
       backgrounds[bgId] = {
@@ -1044,7 +1137,10 @@ async function runCli() {
   process.exit(1);
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(__filename)) {
+if (
+  process.argv[1] &&
+  path.resolve(process.argv[1]).toLowerCase() === path.resolve(__filename).toLowerCase()
+) {
   runCli().catch((err) => {
     console.error('❌ pro-manifest-cli failed:', err instanceof Error ? err.message : err);
     process.exit(1);

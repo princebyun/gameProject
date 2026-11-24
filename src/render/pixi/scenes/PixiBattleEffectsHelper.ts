@@ -143,7 +143,12 @@ export class PixiBattleEffectsHelper implements Disposable {
           this.triggerCutin(unitA.speciesId, '2:2 밀짚모자 합동기 발동!');
         }
       }
-    } else if (world.bossIntroTimer > 1.25 && world.bossIntroName) {
+    } else if (
+      world.bossIntroTimer > 1.25 &&
+      world.bossIntroName &&
+      !this.pixelCutin.isBossPhaseCutinActive &&
+      !this.pixelCutin.isDualSplitActive
+    ) {
       const bossKey = `boss_${world.bossIntroName}`;
       if (this.lastCutinTriggerKey !== bossKey) {
         this.lastCutinTriggerKey = bossKey;

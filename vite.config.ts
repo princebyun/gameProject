@@ -43,8 +43,17 @@ export default defineConfig(() => {
             if (id.includes('node_modules')) {
               return 'vendor';
             }
+            if (id.includes('/src/data/islands/') || id.includes('\\src\\data\\islands\\')) {
+              return 'island-maps-data';
+            }
+            if (id.includes('pro_manifest.json')) {
+              return 'pro-manifest-data';
+            }
             if (id.includes('/src/data/') || id.includes('\\src\\data\\')) {
               return 'game-data';
+            }
+            if (id.includes('/src/render/pixi/') || id.includes('\\src\\render\\pixi\\')) {
+              return 'pixi-scenes';
             }
             if (
               id.includes('/src/render/sprite/rig/') ||
@@ -119,7 +128,7 @@ export default defineConfig(() => {
                   options: {
                     cacheName: 'opgv-pro-art-cache',
                     expiration: {
-                      maxEntries: 250,
+                      maxEntries: 500,
                       maxAgeSeconds: 60 * 60 * 24 * 30
                     },
                     cacheableResponse: {

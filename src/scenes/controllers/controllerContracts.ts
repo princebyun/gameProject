@@ -33,8 +33,6 @@ import type { CanvasRenderer } from '../../render/canvasRenderer';
 import type { PixiStageHost } from '../../render/pixi/PixiStageHost';
 import type { DialogueOverlayUiState } from '../../render/dialogueAndPosterRenderer';
 import type { MissionTrackerState } from '../../render/missionTrackerHud';
-import type { SeaWakeParticlePool } from '../../render/sea/seaWakeParticlePool';
-import type { SeaWeatherRenderer } from '../../render/sea/seaWeatherRenderer';
 import type { SpectatorCameraTarget } from '../../render/spectatorHudRenderer';
 import type { StoryDirector } from '../../story/storyDirector';
 import type { BootSceneState } from '../bootScene';
@@ -130,8 +128,6 @@ export interface SceneManagerHost {
   readonly input: UnifiedInputManager;
   readonly assets: AssetLoader;
   readonly audio: AudioManager;
-  readonly seaWakePool?: SeaWakeParticlePool;
-  readonly seaWeatherRenderer?: SeaWeatherRenderer;
   readonly seaChartController?: SeaChartController;
   prng: SeededPRNG;
   readonly storyDirector: StoryDirector;

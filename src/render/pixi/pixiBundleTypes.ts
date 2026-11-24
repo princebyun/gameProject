@@ -43,6 +43,10 @@ export interface VramTelemetrySnapshot {
   totalLoadedTextures: number;
   estimatedVramBytes: number;
   estimatedVramMb: number;
+  peakEstimatedVramBytes: number;
+  peakEstimatedVramMb: number;
+  singleBattleLockReleases: number;
+  singleSeaLockReleases: number;
   budgetMb: number;
   overBudget: boolean;
   transitionEpoch: number;

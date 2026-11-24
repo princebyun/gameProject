@@ -134,6 +134,21 @@ export function assertValidProAssetManifest(data: unknown): ProAssetManifestFile
 export const defaultProAssetManifest: ProAssetManifestFile =
   assertValidProAssetManifest(rawProManifest);
 
+/**
+ * Read-only alias table bridging canonical engine form IDs (`src/data/forms.json`)
+ * to Wave 3 pro external sprite asset keys (`raw_assets/packs/` drop naming).
+ */
+export const PRO_FORM_KEY_ALIASES: Readonly<Record<string, string>> = {
+  chopper_form_chopper_monster: 'chopper_monster_point',
+  robin_form_robin_demonio: 'robin_demonio_fleur',
+  franky_form_franky_shogun: 'franky_general',
+  lucci_form_lucci_awakened: 'lucci_awakened',
+  kaido_form_kaido_beast: 'kaido_dragon',
+  kaido_form_kaido_flame_dragon: 'kaido_dragon',
+  saturn_form_saturn_gyuki: 'saturn_yokai',
+  loki_form_loki_ragnir: 'loki_giant'
+};
+
 export function resolveProSpriteManifestEntry(
   unitId: string,
   formId: string | null = null,
@@ -143,6 +158,10 @@ export function resolveProSpriteManifestEntry(
     const formKey = `${unitId}_${formId}`;
     const foundForm = manifest.sprites[formKey];
     if (foundForm) return foundForm;
+    const aliasKey = PRO_FORM_KEY_ALIASES[formKey];
+    if (aliasKey && manifest.sprites[aliasKey]) {
+      return manifest.sprites[aliasKey];
+    }
   }
   return manifest.sprites[`${unitId}_base`] ?? null;
 }
@@ -192,8 +211,13 @@ export function findProSpriteManifestStatus(
   manifest: ProAssetManifestFile = defaultProAssetManifest
 ): ProManifestEntry | null {
   const form = formId && formId.length > 0 ? formId : 'base';
+  const rawKey = `${unitId}_${form}`;
+  const aliasKey = PRO_FORM_KEY_ALIASES[rawKey];
   const exact = manifest.entries.find(
-    (e) => e.id === `sprite:${unitId}_${form}` || (e.category === 'sprite' && e.unitId === unitId && e.formId === form)
+    (e) =>
+      e.id === `sprite:${rawKey}` ||
+      (aliasKey ? e.id === `sprite:${aliasKey}` : false) ||
+      (e.category === 'sprite' && e.unitId === unitId && e.formId === form)
   );
   if (exact) return exact;
   return (

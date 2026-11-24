@@ -104,7 +104,7 @@ export function renderSeaChartOverlay(
   ctx.fillText('✕', cb.x + cb.w * 0.5, cb.y + 16);
 
   const tabY = my + 44;
-  const tabW = 136;
+  const tabW = Math.min(168, Math.max(128, Math.floor((modalW - 210) / 3)));
   const zoneProg = computeZoneChestProgress(
     state,
     overlayState.activeZoneId,
@@ -114,6 +114,7 @@ export function renderSeaChartOverlay(
     const tx = mx + 12 + idx * (tabW + 8);
     const unlocked = isSeaZoneUnlocked(state, tab.id, rpgRegistry);
     const active = overlayState.activeZoneId === tab.id;
+    const tabProg = computeZoneChestProgress(state, tab.id, rpgRegistry);
     const rect = { x: tx, y: tabY, w: tabW, h: 26 };
     regions.zoneTabRects.push({ zoneId: tab.id, rect });
 
@@ -126,10 +127,12 @@ export function renderSeaChartOverlay(
     ctx.font = 'bold 10px monospace';
     ctx.textAlign = 'center';
     ctx.fillStyle = active ? '#fde047' : unlocked ? '#fef3c7' : '#cbd5e1';
+    const countTag = `${tabProg.opened}/${tabProg.total}`;
     ctx.fillText(
-      unlocked ? tab.label : `🔒 ${tab.label}`,
+      unlocked ? `${tab.label} ${countTag}` : `🔒 ${tab.label} ${countTag}`,
       tx + tabW * 0.5,
-      tabY + 17
+      tabY + 17,
+      tabW - 8
     );
   });
 

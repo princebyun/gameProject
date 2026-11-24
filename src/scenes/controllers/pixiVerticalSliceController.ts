@@ -1,8 +1,14 @@
 import type { IslandExplorationRuntime, IslandStepOutput } from '../../core/rpg/episodeEngine';
+import type { SailingStepOutput } from '../../core/rpg/sailingPhysics';
 import type { BattleWorldState } from '../../core/types/battleState';
 import type { GameDataRegistry } from '../../core/types/dataSchemas';
 import type { Disposable } from '../../core/types/disposable';
-import type { BattleContext, RpgCampaignState, RpgDataRegistry } from '../../core/types/rpgSchemas';
+import type {
+  BattleContext,
+  RpgCampaignState,
+  RpgDataRegistry,
+  SeaZoneId
+} from '../../core/types/rpgSchemas';
 import type { AssetLoader } from '../../assets/assetLoader';
 import type { CanvasRenderer } from '../../render/canvasRenderer';
 import type { ViewportMetrics } from '../../render/viewport/responsiveViewportManager';
@@ -11,14 +17,20 @@ import { resolveBattleBundleName } from '../../render/pixi/pixiBundleHelpers';
 import { PixiBattleVerticalSliceScene } from '../../render/pixi/scenes/PixiBattleVerticalSliceScene';
 import { PixiFooshaIslandScene } from '../../render/pixi/scenes/PixiFooshaIslandScene';
 import { PixiProIslandScene } from '../../render/pixi/scenes/PixiProIslandScene';
+import { PixiSeaSailingScene } from '../../render/pixi/scenes/PixiSeaSailingScene';
 import type { StoryDirector } from '../../story/storyDirector';
-import { collectIslandWorldMarkers } from '../../story/worldMarkerSystem';
+import {
+  collectIslandWorldMarkers,
+  collectSeaWorldMarkers
+} from '../../story/worldMarkerSystem';
 import type { ActiveAppScene } from '../sceneTypes';
+import { evaluateSeaNavigationTelemetry } from '../sea/SeaCurrentPhysics';
 
 export interface VerticalSliceSceneHost {
   activeScene: ActiveAppScene;
   islandRuntime: IslandExplorationRuntime | null;
   activeBattleContext: BattleContext | null;
+  lastSailingStep?: SailingStepOutput;
   lastIslandStep: IslandStepOutput;
   battleWorld: BattleWorldState;
   campaign: RpgCampaignState;
@@ -31,13 +43,15 @@ export interface VerticalSliceSceneHost {
   fps: number;
 }
 
-export type VerticalSliceKind = 'NONE' | 'FOOSHA' | 'PRO_ISLAND' | 'BATTLE';
+export type VerticalSliceKind = 'NONE' | 'FOOSHA' | 'PRO_ISLAND' | 'SEA' | 'BATTLE';
 
 export class PixiVerticalSliceController implements Disposable {
   private islandScene: PixiProIslandScene | null = null;
+  private seaScene: PixiSeaSailingScene | null = null;
   private battleScene: PixiBattleVerticalSliceScene | null = null;
   private activeKind: VerticalSliceKind = 'NONE';
   private activeIslandId: string | null = null;
+  private activeSeaZoneId: SeaZoneId | null = null;
   private activeBattleBundle: string | null = null;
   private disposed = false;
 
@@ -51,8 +65,15 @@ export class PixiVerticalSliceController implements Disposable {
     return this.activeIslandId;
   }
 
+  public getActiveSeaZoneId(): SeaZoneId | null {
+    return this.activeSeaZoneId;
+  }
+
   public resolveTargetSlice(host: VerticalSliceSceneHost): VerticalSliceKind {
     if (!this.pixiHost.isWebGLActive) return 'NONE';
+    if (host.activeScene === 'SEA_SAILING') {
+      return 'SEA';
+    }
     if (host.activeScene === 'ISLAND_EPISODE' && host.islandRuntime) {
       const id = host.islandRuntime.islandId;
       if (id === 'foosha_shells') return 'FOOSHA';
@@ -62,15 +83,7 @@ export class PixiVerticalSliceController implements Disposable {
       return 'BATTLE';
     }
     if (host.activeScene === 'STORY_BATTLE') {
-      const ctx = host.activeBattleContext;
-      if (
-        !ctx ||
-        ctx.zoneId === 'east_blue' ||
-        ctx.islandId === 'foosha_shells' ||
-        ctx.encounterId === 'enc_ch1_alvida_tutorial'
-      ) {
-        return 'BATTLE';
-      }
+      return 'BATTLE';
     }
     return 'NONE';
   }
@@ -81,6 +94,11 @@ export class PixiVerticalSliceController implements Disposable {
       this.islandScene.dispose();
       this.islandScene = null;
     }
+    if (this.seaScene) {
+      this.seaScene.root.removeFromParent();
+      this.seaScene.dispose();
+      this.seaScene = null;
+    }
     if (this.battleScene) {
       this.battleScene.root.removeFromParent();
       this.battleScene.dispose();
@@ -88,6 +106,7 @@ export class PixiVerticalSliceController implements Disposable {
     }
     this.activeKind = 'NONE';
     this.activeIslandId = null;
+    this.activeSeaZoneId = null;
     this.activeBattleBundle = null;
     this.pixiHost.releaseActiveScene();
     this.pixiHost.setVisible(false);
@@ -109,6 +128,58 @@ export class PixiVerticalSliceController implements Disposable {
     }
 
     this.pixiHost.updateFpsSample(host.fps);
+
+    if (target === 'SEA') {
+      const desiredZone = host.campaign.currentZoneId;
+      if (this.activeKind !== 'SEA') {
+        this.releaseActiveSlice(host);
+        this.seaScene = new PixiSeaSailingScene(this.pixiHost);
+        this.pixiHost.worldRoot.addChild(this.seaScene.root);
+        void this.seaScene.preload(desiredZone);
+        this.activeKind = 'SEA';
+        this.activeSeaZoneId = desiredZone;
+      } else if (this.seaScene && this.activeSeaZoneId !== desiredZone) {
+        this.activeSeaZoneId = desiredZone;
+        void this.seaScene.switchZone(desiredZone);
+      }
+      if (this.seaScene) {
+        const storyNode = host.storyDirector.getCurrentNode(host.campaign);
+        const markers = collectSeaWorldMarkers(
+          host.campaign,
+          host.rpgRegistry,
+          storyNode
+        );
+        const zone = host.rpgRegistry.seaZones[desiredZone];
+        const telemetry = zone
+          ? evaluateSeaNavigationTelemetry(host.campaign, zone, undefined, host.rpgRegistry)
+          : undefined;
+        const stepInfo = host.lastSailingStep ?? {
+          nearbyIsland: null,
+          nearbySeaGate: null,
+          collectedNotice: null,
+          triggeredBattle: null,
+          activeShipId: host.campaign.ship.shipId,
+          currentTailwindRatio: telemetry?.currentSample.tailwindRatio ?? 0
+        };
+        this.pixiHost.setVisible(true);
+        host.renderer.setBackgroundTransparent(true);
+        this.seaScene.render(
+          host.campaign,
+          host.rpgRegistry,
+          stepInfo,
+          host.tickCount,
+          viewport,
+          this.pixiHost.getPolishConfig(),
+          1 / Math.max(24, host.fps),
+          markers,
+          host.storyDirector.isGoldMarkerHighlighted(),
+          telemetry
+        );
+        this.pixiHost.renderNow();
+        host.renderer.ctx.clearRect(0, 0, viewport.viewWidth, viewport.viewHeight);
+        return true;
+      }
+    }
 
     if ((target === 'FOOSHA' || target === 'PRO_ISLAND') && host.islandRuntime) {
       const desiredIslandId = host.islandRuntime.islandId;

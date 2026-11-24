@@ -84,6 +84,8 @@ export function renderSeaChartDetailCard(
 
   if (lm?.entry && lm.sheet) {
     const fr = Math.floor((tick / 60) * lm.entry.fps) % Math.max(1, lm.entry.frameCount);
+    ctx.save();
+    ctx.imageSmoothingEnabled = false;
     ctx.drawImage(
       lm.sheet,
       fr * lm.entry.frameWidth,
@@ -95,6 +97,7 @@ export function renderSeaChartDetailCard(
       previewSize - 4,
       previewSize - 4
     );
+    ctx.restore();
   } else {
     ctx.fillStyle = selectedIsland.color;
     ctx.fillRect(prevX + 18, prevY + 18, 48, 48);

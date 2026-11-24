@@ -81,6 +81,25 @@ export function resolveBattleBundleName(
   return `battle_${primaryBoss}`;
 }
 
+export function resolveBattleBackdropId(
+  battleBundleName: string,
+  manifest: ProAssetManifestFile
+): string {
+  if (manifest.backgrounds[battleBundleName]) {
+    return battleBundleName;
+  }
+  for (const ent of manifest.entries) {
+    if (ent.bundle !== battleBundleName || !ent.sharedAssetIds) continue;
+    for (const sharedId of ent.sharedAssetIds) {
+      const m = sharedId.match(/^bg:(.+)_layer0$/);
+      if (m && m[1] && manifest.backgrounds[m[1]]) {
+        return m[1];
+      }
+    }
+  }
+  return 'east_blue_harbor';
+}
+
 export function buildRegisteredBundlesAndManifest(manifest: ProAssetManifestFile): {
   bundleRecords: Map<string, RegisteredBundleRecord>;
   entryById: Map<string, ProManifestEntry>;

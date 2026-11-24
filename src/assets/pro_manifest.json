@@ -888,21 +888,96 @@
       "updatedAt": "2026-11-23T13:49:26.921Z"
     },
     {
+      "id": "sea:ship_going_merry",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_east_blue",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/ship_going_merry.webp",
+      "metaPath": "assets/pro/sprites/ship_going_merry.json",
+      "dimensions": {
+        "width": 288,
+        "height": 528
+      },
+      "fileSizeBytes": 1218,
+      "estimatedVramBytes": 608256,
+      "updatedAt": "2026-11-24T02:16:34.927Z"
+    },
+    {
+      "id": "sea:ship_thousand_sunny",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_east_blue",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/ship_thousand_sunny.webp",
+      "metaPath": "assets/pro/sprites/ship_thousand_sunny.json",
+      "dimensions": {
+        "width": 288,
+        "height": 528
+      },
+      "fileSizeBytes": 1220,
+      "estimatedVramBytes": 608256,
+      "updatedAt": "2026-11-24T02:16:34.927Z"
+    },
+    {
+      "id": "sea:ship_marine_warship",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_east_blue",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/ship_marine_warship.webp",
+      "metaPath": "assets/pro/sprites/ship_marine_warship.json",
+      "dimensions": {
+        "width": 288,
+        "height": 528
+      },
+      "fileSizeBytes": 1200,
+      "estimatedVramBytes": 608256,
+      "updatedAt": "2026-11-24T02:16:34.927Z"
+    },
+    {
+      "id": "sea:ship_sea_king",
+      "category": "sprite",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "sea_east_blue",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/ship_sea_king.webp",
+      "metaPath": "assets/pro/sprites/ship_sea_king.json",
+      "dimensions": {
+        "width": 576,
+        "height": 1056
+      },
+      "fileSizeBytes": 902,
+      "estimatedVramBytes": 2433024,
+      "updatedAt": "2026-11-24T02:16:34.927Z",
+      "isGiant": true
+    },
+    {
       "id": "sea:landmark_foosha_shells",
       "category": "sprite",
       "wave": 1,
       "tier": "env",
       "bundle": "sea_east_blue",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/foosha_shells.png",
+      "assetPath": "assets/pro/landmarks/foosha_shells.webp",
       "dimensions": {
         "width": 448,
         "height": 112
       },
-      "fileSizeBytes": 2339,
+      "fileSizeBytes": 1380,
       "estimatedVramBytes": 200704,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
-      "seaZoneId": "east_blue"
+      "updatedAt": "2026-11-24T02:16:34.927Z",
+      "seaZoneId": "east_blue",
+      "sharedAssetIds": [
+        "sea:ship_going_merry",
+        "sea:ship_thousand_sunny",
+        "sea:ship_marine_warship",
+        "sea:ship_sea_king"
+      ]
     },
     {
       "id": "sea:landmark_orange_town",
@@ -911,14 +986,14 @@
       "tier": "env",
       "bundle": "sea_east_blue",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/orange_town.png",
+      "assetPath": "assets/pro/landmarks/orange_town.webp",
       "dimensions": {
         "width": 384,
         "height": 96
       },
-      "fileSizeBytes": 1928,
+      "fileSizeBytes": 1200,
       "estimatedVramBytes": 147456,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "east_blue"
     },
     {
@@ -928,14 +1003,14 @@
       "tier": "env",
       "bundle": "sea_east_blue",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/baratie.png",
+      "assetPath": "assets/pro/landmarks/baratie.webp",
       "dimensions": {
         "width": 448,
         "height": 96
       },
-      "fileSizeBytes": 1726,
+      "fileSizeBytes": 1130,
       "estimatedVramBytes": 172032,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "east_blue"
     },
     {
@@ -945,14 +1020,14 @@
       "tier": "env",
       "bundle": "sea_east_blue",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/arlong_park.png",
+      "assetPath": "assets/pro/landmarks/arlong_park.webp",
       "dimensions": {
         "width": 448,
         "height": 112
       },
-      "fileSizeBytes": 2146,
+      "fileSizeBytes": 1278,
       "estimatedVramBytes": 200704,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "east_blue"
     },
     {
@@ -962,14 +1037,14 @@
       "tier": "env",
       "bundle": "sea_east_blue",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/loguetown.png",
+      "assetPath": "assets/pro/landmarks/loguetown.webp",
       "dimensions": {
         "width": 448,
         "height": 112
       },
-      "fileSizeBytes": 2124,
+      "fileSizeBytes": 1274,
       "estimatedVramBytes": 200704,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "east_blue"
     },
     {
@@ -979,14 +1054,14 @@
       "tier": "env",
       "bundle": "sea_east_blue",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/gate_reverse_mountain.png",
+      "assetPath": "assets/pro/landmarks/gate_reverse_mountain.webp",
       "dimensions": {
         "width": 512,
         "height": 128
       },
-      "fileSizeBytes": 2433,
+      "fileSizeBytes": 1372,
       "estimatedVramBytes": 262144,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "east_blue"
     },
     {
@@ -996,15 +1071,21 @@
       "tier": "env",
       "bundle": "sea_grand_line",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/drum_kingdom.png",
+      "assetPath": "assets/pro/landmarks/drum_kingdom.webp",
       "dimensions": {
         "width": 448,
         "height": 112
       },
-      "fileSizeBytes": 1961,
+      "fileSizeBytes": 1120,
       "estimatedVramBytes": 200704,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
-      "seaZoneId": "grand_line"
+      "updatedAt": "2026-11-24T02:16:34.927Z",
+      "seaZoneId": "grand_line",
+      "sharedAssetIds": [
+        "sea:ship_going_merry",
+        "sea:ship_thousand_sunny",
+        "sea:ship_marine_warship",
+        "sea:ship_sea_king"
+      ]
     },
     {
       "id": "sea:landmark_alabasta",
@@ -1013,14 +1094,14 @@
       "tier": "env",
       "bundle": "sea_grand_line",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/alabasta.png",
+      "assetPath": "assets/pro/landmarks/alabasta.webp",
       "dimensions": {
         "width": 448,
         "height": 112
       },
-      "fileSizeBytes": 2040,
+      "fileSizeBytes": 1200,
       "estimatedVramBytes": 200704,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "grand_line"
     },
     {
@@ -1030,14 +1111,14 @@
       "tier": "env",
       "bundle": "sea_grand_line",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/skypiea.png",
+      "assetPath": "assets/pro/landmarks/skypiea.webp",
       "dimensions": {
         "width": 512,
         "height": 128
       },
-      "fileSizeBytes": 2093,
+      "fileSizeBytes": 1184,
       "estimatedVramBytes": 262144,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "grand_line"
     },
     {
@@ -1047,14 +1128,14 @@
       "tier": "env",
       "bundle": "sea_grand_line",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/water_seven.png",
+      "assetPath": "assets/pro/landmarks/water_seven.webp",
       "dimensions": {
         "width": 512,
         "height": 112
       },
-      "fileSizeBytes": 2243,
+      "fileSizeBytes": 1196,
       "estimatedVramBytes": 229376,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "grand_line"
     },
     {
@@ -1064,14 +1145,14 @@
       "tier": "env",
       "bundle": "sea_grand_line",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/thriller_bark.png",
+      "assetPath": "assets/pro/landmarks/thriller_bark.webp",
       "dimensions": {
         "width": 512,
         "height": 112
       },
-      "fileSizeBytes": 2086,
+      "fileSizeBytes": 1186,
       "estimatedVramBytes": 229376,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "grand_line"
     },
     {
@@ -1081,14 +1162,14 @@
       "tier": "env",
       "bundle": "sea_grand_line",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/marineford.png",
+      "assetPath": "assets/pro/landmarks/marineford.webp",
       "dimensions": {
         "width": 576,
         "height": 128
       },
-      "fileSizeBytes": 2026,
+      "fileSizeBytes": 966,
       "estimatedVramBytes": 294912,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "grand_line"
     },
     {
@@ -1098,14 +1179,14 @@
       "tier": "env",
       "bundle": "sea_grand_line",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/impel_down.png",
+      "assetPath": "assets/pro/landmarks/impel_down.webp",
       "dimensions": {
         "width": 448,
         "height": 112
       },
-      "fileSizeBytes": 1972,
+      "fileSizeBytes": 1064,
       "estimatedVramBytes": 200704,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "grand_line"
     },
     {
@@ -1115,14 +1196,14 @@
       "tier": "env",
       "bundle": "sea_grand_line",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/gate_red_line.png",
+      "assetPath": "assets/pro/landmarks/gate_red_line.webp",
       "dimensions": {
         "width": 576,
         "height": 128
       },
-      "fileSizeBytes": 2102,
+      "fileSizeBytes": 1014,
       "estimatedVramBytes": 294912,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "grand_line"
     },
     {
@@ -1132,15 +1213,21 @@
       "tier": "env",
       "bundle": "sea_new_world",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/fishman_island.png",
+      "assetPath": "assets/pro/landmarks/fishman_island.webp",
       "dimensions": {
         "width": 512,
         "height": 128
       },
-      "fileSizeBytes": 2511,
+      "fileSizeBytes": 1424,
       "estimatedVramBytes": 262144,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
-      "seaZoneId": "new_world"
+      "updatedAt": "2026-11-24T02:16:34.927Z",
+      "seaZoneId": "new_world",
+      "sharedAssetIds": [
+        "sea:ship_going_merry",
+        "sea:ship_thousand_sunny",
+        "sea:ship_marine_warship",
+        "sea:ship_sea_king"
+      ]
     },
     {
       "id": "sea:landmark_dressrosa",
@@ -1149,14 +1236,14 @@
       "tier": "env",
       "bundle": "sea_new_world",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/dressrosa.png",
+      "assetPath": "assets/pro/landmarks/dressrosa.webp",
       "dimensions": {
         "width": 512,
         "height": 112
       },
-      "fileSizeBytes": 2175,
+      "fileSizeBytes": 1170,
       "estimatedVramBytes": 229376,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "new_world"
     },
     {
@@ -1166,14 +1253,14 @@
       "tier": "env",
       "bundle": "sea_new_world",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/totto_land.png",
+      "assetPath": "assets/pro/landmarks/totto_land.webp",
       "dimensions": {
         "width": 512,
         "height": 128
       },
-      "fileSizeBytes": 2246,
+      "fileSizeBytes": 1136,
       "estimatedVramBytes": 262144,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "new_world"
     },
     {
@@ -1183,14 +1270,14 @@
       "tier": "env",
       "bundle": "sea_new_world",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/wano_onigashima.png",
+      "assetPath": "assets/pro/landmarks/wano_onigashima.webp",
       "dimensions": {
         "width": 576,
         "height": 128
       },
-      "fileSizeBytes": 2818,
+      "fileSizeBytes": 1664,
       "estimatedVramBytes": 294912,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "new_world"
     },
     {
@@ -1200,14 +1287,14 @@
       "tier": "env",
       "bundle": "sea_new_world",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/egghead.png",
+      "assetPath": "assets/pro/landmarks/egghead.webp",
       "dimensions": {
         "width": 576,
         "height": 128
       },
-      "fileSizeBytes": 2588,
+      "fileSizeBytes": 1508,
       "estimatedVramBytes": 294912,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "new_world"
     },
     {
@@ -1217,14 +1304,14 @@
       "tier": "env",
       "bundle": "sea_new_world",
       "status": "IMPORTED",
-      "assetPath": "assets/world/landmarks/elbaf.png",
+      "assetPath": "assets/pro/landmarks/elbaf.webp",
       "dimensions": {
         "width": 576,
         "height": 144
       },
-      "fileSizeBytes": 2782,
+      "fileSizeBytes": 1488,
       "estimatedVramBytes": 331776,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T02:16:34.927Z",
       "seaZoneId": "new_world"
     },
     {
@@ -1715,16 +1802,16 @@
       "wave": 1,
       "tier": "tier1_crew",
       "bundle": "party_usopp",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/usopp_base.webp",
       "metaPath": "assets/pro/sprites/usopp_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 244
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 14968,
+      "estimatedVramBytes": 999424,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "usopp",
       "formId": "base"
     },
@@ -1734,15 +1821,134 @@
       "wave": 1,
       "tier": "tier1_crew",
       "bundle": "party_usopp",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/usopp_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 614,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "usopp"
+    },
+    {
+      "id": "portrait:usopp_angry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_usopp",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/usopp_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 780,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "usopp"
+    },
+    {
+      "id": "portrait:usopp_determined",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_usopp",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/usopp_determined.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 780,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "usopp"
+    },
+    {
+      "id": "portrait:usopp_shocked",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_usopp",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/usopp_shocked.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 676,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "usopp"
+    },
+    {
+      "id": "portrait:usopp_smirk",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_usopp",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/usopp_smirk.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 614,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "usopp"
+    },
+    {
+      "id": "portrait:usopp_sad",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_usopp",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/usopp_sad.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 672,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "usopp"
+    },
+    {
+      "id": "portrait:usopp_excited",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_usopp",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/usopp_excited.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 780,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "usopp"
+    },
+    {
+      "id": "portrait:usopp_battle_cry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier1_crew",
+      "bundle": "party_usopp",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/usopp_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 676,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "usopp"
     },
     {
@@ -2153,16 +2359,16 @@
       "wave": 1,
       "tier": "tier2_boss",
       "bundle": "battle_don_krieg",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/don_krieg_base.webp",
       "metaPath": "assets/pro/sprites/don_krieg_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 232
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 11180,
+      "estimatedVramBytes": 950272,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "don_krieg",
       "formId": "base"
     },
@@ -2172,15 +2378,49 @@
       "wave": 1,
       "tier": "tier2_boss",
       "bundle": "battle_don_krieg",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/don_krieg_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 798,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "don_krieg"
+    },
+    {
+      "id": "portrait:don_krieg_angry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_don_krieg",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/don_krieg_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 798,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "don_krieg"
+    },
+    {
+      "id": "portrait:don_krieg_battle_cry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_don_krieg",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/don_krieg_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 798,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "don_krieg"
     },
     {
@@ -2189,15 +2429,63 @@
       "wave": 1,
       "tier": "env",
       "bundle": "battle_don_krieg",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/backgrounds/battle_don_krieg_layer0.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1280,
+        "height": 540
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z"
+      "fileSizeBytes": 3154,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:battle_don_krieg_layer1",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_don_krieg",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_don_krieg_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:battle_don_krieg_layer2",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_don_krieg",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_don_krieg_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 780,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:battle_don_krieg_layer3",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_don_krieg",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_don_krieg_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 4910,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
     },
     {
       "id": "sprite:smoker_base",
@@ -2205,16 +2493,16 @@
       "wave": 1,
       "tier": "tier2_boss",
       "bundle": "battle_smoker",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/smoker_base.webp",
       "metaPath": "assets/pro/sprites/smoker_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 146
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 7346,
+      "estimatedVramBytes": 598016,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "smoker",
       "formId": "base"
     },
@@ -2224,15 +2512,49 @@
       "wave": 1,
       "tier": "tier2_boss",
       "bundle": "battle_smoker",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/smoker_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 832,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "smoker"
+    },
+    {
+      "id": "portrait:smoker_angry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_smoker",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/smoker_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 862,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "smoker"
+    },
+    {
+      "id": "portrait:smoker_battle_cry",
+      "category": "portrait",
+      "wave": 1,
+      "tier": "tier2_boss",
+      "bundle": "battle_smoker",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/smoker_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 862,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "smoker"
     },
     {
@@ -2241,15 +2563,63 @@
       "wave": 1,
       "tier": "env",
       "bundle": "battle_smoker",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/backgrounds/battle_smoker_layer0.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1280,
+        "height": 540
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z"
+      "fileSizeBytes": 270,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:battle_smoker_layer1",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_smoker",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_smoker_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:battle_smoker_layer2",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_smoker",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_smoker_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 6244,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:battle_smoker_layer3",
+      "category": "background",
+      "wave": 1,
+      "tier": "env",
+      "bundle": "battle_smoker",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/battle_smoker_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 6118,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
     },
     {
       "id": "tileset:master_stone_canal",
@@ -2405,23 +2775,861 @@
       ]
     },
     {
+      "id": "bg:drum_snow_peak_layer0",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_drum_snow_peak",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/drum_snow_peak_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 2120,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:drum_snow_peak_layer1",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_drum_snow_peak",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/drum_snow_peak_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:drum_snow_peak_layer2",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_drum_snow_peak",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/drum_snow_peak_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 808,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:drum_snow_peak_layer3",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_drum_snow_peak",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/drum_snow_peak_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 4746,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:alabasta_desert_layer0",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_alabasta_desert",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/alabasta_desert_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 1314,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:alabasta_desert_layer1",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_alabasta_desert",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/alabasta_desert_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:alabasta_desert_layer2",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_alabasta_desert",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/alabasta_desert_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 452,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:alabasta_desert_layer3",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_alabasta_desert",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/alabasta_desert_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 2652,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:skypiea_upper_yard_layer0",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_skypiea_upper_yard",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/skypiea_upper_yard_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 488,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:skypiea_upper_yard_layer1",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_skypiea_upper_yard",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/skypiea_upper_yard_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:skypiea_upper_yard_layer2",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_skypiea_upper_yard",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/skypiea_upper_yard_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 896,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:skypiea_upper_yard_layer3",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_skypiea_upper_yard",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/skypiea_upper_yard_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3236,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:water7_dock_layer0",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_water7_dock",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/water7_dock_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 1668,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:water7_dock_layer1",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_water7_dock",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/water7_dock_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:water7_dock_layer2",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_water7_dock",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/water7_dock_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 780,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:water7_dock_layer3",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_water7_dock",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/water7_dock_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 6118,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:thriller_bark_gothic_layer0",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_thriller_bark_gothic",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/thriller_bark_gothic_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 270,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:thriller_bark_gothic_layer1",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_thriller_bark_gothic",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/thriller_bark_gothic_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:thriller_bark_gothic_layer2",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_thriller_bark_gothic",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/thriller_bark_gothic_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 648,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:thriller_bark_gothic_layer3",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_thriller_bark_gothic",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/thriller_bark_gothic_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 6092,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:marineford_ice_bay_layer0",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_marineford_ice_bay",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/marineford_ice_bay_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 1074,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:marineford_ice_bay_layer1",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_marineford_ice_bay",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/marineford_ice_bay_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:marineford_ice_bay_layer2",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_marineford_ice_bay",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/marineford_ice_bay_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 1842,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:marineford_ice_bay_layer3",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_marineford_ice_bay",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/marineford_ice_bay_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 4954,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:fishman_island_seabed_layer0",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_fishman_island_seabed",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/fishman_island_seabed_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 1458,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:fishman_island_seabed_layer1",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_fishman_island_seabed",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/fishman_island_seabed_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:fishman_island_seabed_layer2",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_fishman_island_seabed",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/fishman_island_seabed_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 296,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:fishman_island_seabed_layer3",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_fishman_island_seabed",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/fishman_island_seabed_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 4518,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:dressrosa_colosseum_layer0",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_dressrosa_colosseum",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/dressrosa_colosseum_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3304,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:dressrosa_colosseum_layer1",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_dressrosa_colosseum",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/dressrosa_colosseum_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:dressrosa_colosseum_layer2",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_dressrosa_colosseum",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/dressrosa_colosseum_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 478,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:dressrosa_colosseum_layer3",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_dressrosa_colosseum",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/dressrosa_colosseum_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3592,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:whole_cake_mirror_layer0",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_whole_cake_mirror",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/whole_cake_mirror_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 2774,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:whole_cake_mirror_layer1",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_whole_cake_mirror",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/whole_cake_mirror_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:whole_cake_mirror_layer2",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_whole_cake_mirror",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/whole_cake_mirror_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 728,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:whole_cake_mirror_layer3",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_whole_cake_mirror",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/whole_cake_mirror_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 1560,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:onigashima_rooftop_layer0",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_onigashima_rooftop",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/onigashima_rooftop_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 4440,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:onigashima_rooftop_layer1",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_onigashima_rooftop",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/onigashima_rooftop_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:onigashima_rooftop_layer2",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_onigashima_rooftop",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/onigashima_rooftop_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 1124,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:onigashima_rooftop_layer3",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_onigashima_rooftop",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/onigashima_rooftop_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 2622,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:egghead_lab_layer0",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_egghead_lab",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/egghead_lab_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 1578,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:egghead_lab_layer1",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_egghead_lab",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/egghead_lab_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:egghead_lab_layer2",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_egghead_lab",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/egghead_lab_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 1518,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:egghead_lab_layer3",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_egghead_lab",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/egghead_lab_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 1784,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:elbaf_underworld_layer0",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_elbaf_underworld",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/elbaf_underworld_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 2810,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:elbaf_underworld_layer1",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_elbaf_underworld",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/elbaf_underworld_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:elbaf_underworld_layer2",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_elbaf_underworld",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/elbaf_underworld_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 1404,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:elbaf_underworld_layer3",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_elbaf_underworld",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/elbaf_underworld_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 6534,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:impel_down_hell_layer0",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_impel_down_hell",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/impel_down_hell_layer0.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 2486,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:impel_down_hell_layer1",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_impel_down_hell",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/impel_down_hell_layer1.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3018,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:impel_down_hell_layer2",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_impel_down_hell",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/impel_down_hell_layer2.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 894,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
+      "id": "bg:impel_down_hell_layer3",
+      "category": "background",
+      "wave": 3,
+      "tier": "env",
+      "bundle": "arena_impel_down_hell",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/backgrounds/impel_down_hell_layer3.webp",
+      "dimensions": {
+        "width": 1280,
+        "height": 540
+      },
+      "fileSizeBytes": 3496,
+      "estimatedVramBytes": 2764800,
+      "updatedAt": "2026-11-23T23:24:32.577Z"
+    },
+    {
       "id": "sprite:lucci_base",
       "category": "sprite",
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_lucci",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/lucci_base.webp",
       "metaPath": "assets/pro/sprites/lucci_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 221
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 7370,
+      "estimatedVramBytes": 905216,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "lucci",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:water7_dock_layer0",
+        "bg:water7_dock_layer1",
+        "bg:water7_dock_layer2",
+        "bg:water7_dock_layer3"
+      ]
     },
     {
       "id": "portrait:lucci_normal",
@@ -2429,15 +3637,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_lucci",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/lucci_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 554,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "lucci"
+    },
+    {
+      "id": "portrait:lucci_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_lucci",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/lucci_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 606,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "lucci"
+    },
+    {
+      "id": "portrait:lucci_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_lucci",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/lucci_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 606,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "lucci"
     },
     {
@@ -2458,7 +3700,12 @@
       "updatedAt": "2026-11-23T13:49:26.921Z",
       "unitId": "kaido",
       "formId": "base",
-      "isGiant": true
+      "sharedAssetIds": [
+        "bg:onigashima_rooftop_layer0",
+        "bg:onigashima_rooftop_layer1",
+        "bg:onigashima_rooftop_layer2",
+        "bg:onigashima_rooftop_layer3"
+      ]
     },
     {
       "id": "portrait:kaido_normal",
@@ -2478,23 +3725,63 @@
       "unitId": "kaido"
     },
     {
-      "id": "sprite:kizaru_base",
-      "category": "sprite",
+      "id": "portrait:kaido_angry",
+      "category": "portrait",
       "wave": 3,
       "tier": "tier2_boss",
-      "bundle": "battle_kizaru",
+      "bundle": "battle_kaido",
       "status": "PLACEHOLDER",
-      "assetPath": "assets/pro/sprites/kizaru_base.webp",
-      "metaPath": "assets/pro/sprites/kizaru_base.json",
+      "assetPath": "assets/pro/portraits/kaido_angry.webp",
       "dimensions": {
         "width": 0,
         "height": 0
       },
       "fileSizeBytes": 0,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "kaido"
+    },
+    {
+      "id": "portrait:kaido_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_kaido",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/kaido_battle_cry.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "kaido"
+    },
+    {
+      "id": "sprite:kizaru_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_kizaru",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/kizaru_base.webp",
+      "metaPath": "assets/pro/sprites/kizaru_base.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 183
+      },
+      "fileSizeBytes": 16766,
+      "estimatedVramBytes": 749568,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "kizaru",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:marineford_ice_bay_layer0",
+        "bg:marineford_ice_bay_layer1",
+        "bg:marineford_ice_bay_layer2",
+        "bg:marineford_ice_bay_layer3"
+      ]
     },
     {
       "id": "portrait:kizaru_normal",
@@ -2502,15 +3789,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_kizaru",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/kizaru_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 860,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "kizaru"
+    },
+    {
+      "id": "portrait:kizaru_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_kizaru",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/kizaru_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 852,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "kizaru"
+    },
+    {
+      "id": "portrait:kizaru_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_kizaru",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/kizaru_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 852,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "kizaru"
     },
     {
@@ -2519,18 +3840,24 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_law",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/law_base.webp",
       "metaPath": "assets/pro/sprites/law_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 340
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 13392,
+      "estimatedVramBytes": 1392640,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "law",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:dressrosa_colosseum_layer0",
+        "bg:dressrosa_colosseum_layer1",
+        "bg:dressrosa_colosseum_layer2",
+        "bg:dressrosa_colosseum_layer3"
+      ]
     },
     {
       "id": "portrait:law_normal",
@@ -2538,15 +3865,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_law",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/law_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 814,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "law"
+    },
+    {
+      "id": "portrait:law_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_law",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/law_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 804,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "law"
+    },
+    {
+      "id": "portrait:law_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_law",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/law_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 804,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "law"
     },
     {
@@ -2566,7 +3927,13 @@
       "estimatedVramBytes": 0,
       "updatedAt": "2026-11-23T13:49:26.921Z",
       "unitId": "blueno",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:water7_dock_layer0",
+        "bg:water7_dock_layer1",
+        "bg:water7_dock_layer2",
+        "bg:water7_dock_layer3"
+      ]
     },
     {
       "id": "portrait:blueno_normal",
@@ -2591,18 +3958,24 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_kaku",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/kaku_base.webp",
       "metaPath": "assets/pro/sprites/kaku_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 250
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 8486,
+      "estimatedVramBytes": 1024000,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "kaku",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:water7_dock_layer0",
+        "bg:water7_dock_layer1",
+        "bg:water7_dock_layer2",
+        "bg:water7_dock_layer3"
+      ]
     },
     {
       "id": "portrait:kaku_normal",
@@ -2610,15 +3983,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_kaku",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/kaku_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 628,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "kaku"
+    },
+    {
+      "id": "portrait:kaku_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_kaku",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/kaku_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 628,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "kaku"
+    },
+    {
+      "id": "portrait:kaku_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_kaku",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/kaku_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 628,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "kaku"
     },
     {
@@ -2626,17 +4033,17 @@
       "category": "sprite",
       "wave": 3,
       "tier": "tier1_crew",
-      "bundle": "core_always",
-      "status": "PLACEHOLDER",
+      "bundle": "party_franky",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/franky_base.webp",
       "metaPath": "assets/pro/sprites/franky_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 174
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 11766,
+      "estimatedVramBytes": 712704,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "franky",
       "formId": "base"
     },
@@ -2645,16 +4052,135 @@
       "category": "portrait",
       "wave": 3,
       "tier": "tier1_crew",
-      "bundle": "core_always",
-      "status": "PLACEHOLDER",
+      "bundle": "party_franky",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/franky_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 730,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "franky"
+    },
+    {
+      "id": "portrait:franky_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_franky",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/franky_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 772,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "franky"
+    },
+    {
+      "id": "portrait:franky_determined",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_franky",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/franky_determined.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 730,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "franky"
+    },
+    {
+      "id": "portrait:franky_shocked",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_franky",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/franky_shocked.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 902,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "franky"
+    },
+    {
+      "id": "portrait:franky_smirk",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_franky",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/franky_smirk.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 730,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "franky"
+    },
+    {
+      "id": "portrait:franky_sad",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_franky",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/franky_sad.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 902,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "franky"
+    },
+    {
+      "id": "portrait:franky_excited",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_franky",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/franky_excited.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 772,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "franky"
+    },
+    {
+      "id": "portrait:franky_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_franky",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/franky_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 772,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "franky"
     },
     {
@@ -2674,7 +4200,13 @@
       "estimatedVramBytes": 0,
       "updatedAt": "2026-11-23T13:49:26.921Z",
       "unitId": "king",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:onigashima_rooftop_layer0",
+        "bg:onigashima_rooftop_layer1",
+        "bg:onigashima_rooftop_layer2",
+        "bg:onigashima_rooftop_layer3"
+      ]
     },
     {
       "id": "portrait:king_normal",
@@ -2710,7 +4242,13 @@
       "estimatedVramBytes": 0,
       "updatedAt": "2026-11-23T13:49:26.921Z",
       "unitId": "s_hawk",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:egghead_lab_layer0",
+        "bg:egghead_lab_layer1",
+        "bg:egghead_lab_layer2",
+        "bg:egghead_lab_layer3"
+      ]
     },
     {
       "id": "portrait:s_hawk_normal",
@@ -2747,7 +4285,13 @@
       "updatedAt": "2026-11-23T13:49:26.921Z",
       "unitId": "saturn",
       "formId": "base",
-      "isGiant": true
+      "isGiant": true,
+      "sharedAssetIds": [
+        "bg:egghead_lab_layer0",
+        "bg:egghead_lab_layer1",
+        "bg:egghead_lab_layer2",
+        "bg:egghead_lab_layer3"
+      ]
     },
     {
       "id": "portrait:saturn_normal",
@@ -2764,6 +4308,40 @@
       "fileSizeBytes": 0,
       "estimatedVramBytes": 0,
       "updatedAt": "2026-11-23T13:49:26.921Z",
+      "unitId": "saturn"
+    },
+    {
+      "id": "portrait:saturn_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_saturn",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/saturn_angry.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "saturn"
+    },
+    {
+      "id": "portrait:saturn_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_saturn",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/saturn_battle_cry.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-24T00:43:55.213Z",
       "unitId": "saturn"
     },
     {
@@ -2784,7 +4362,13 @@
       "updatedAt": "2026-11-23T13:49:26.921Z",
       "unitId": "loki",
       "formId": "base",
-      "isGiant": true
+      "isGiant": true,
+      "sharedAssetIds": [
+        "bg:elbaf_underworld_layer0",
+        "bg:elbaf_underworld_layer1",
+        "bg:elbaf_underworld_layer2",
+        "bg:elbaf_underworld_layer3"
+      ]
     },
     {
       "id": "portrait:loki_normal",
@@ -2804,23 +4388,63 @@
       "unitId": "loki"
     },
     {
-      "id": "sprite:wapol_base",
-      "category": "sprite",
+      "id": "portrait:loki_angry",
+      "category": "portrait",
       "wave": 3,
       "tier": "tier2_boss",
-      "bundle": "battle_wapol",
+      "bundle": "battle_loki",
       "status": "PLACEHOLDER",
-      "assetPath": "assets/pro/sprites/wapol_base.webp",
-      "metaPath": "assets/pro/sprites/wapol_base.json",
+      "assetPath": "assets/pro/portraits/loki_angry.webp",
       "dimensions": {
         "width": 0,
         "height": 0
       },
       "fileSizeBytes": 0,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "loki"
+    },
+    {
+      "id": "portrait:loki_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_loki",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/loki_battle_cry.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "loki"
+    },
+    {
+      "id": "sprite:wapol_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_wapol",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/wapol_base.webp",
+      "metaPath": "assets/pro/sprites/wapol_base.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 248
+      },
+      "fileSizeBytes": 15744,
+      "estimatedVramBytes": 1015808,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "wapol",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:drum_snow_peak_layer0",
+        "bg:drum_snow_peak_layer1",
+        "bg:drum_snow_peak_layer2",
+        "bg:drum_snow_peak_layer3"
+      ]
     },
     {
       "id": "portrait:wapol_normal",
@@ -2828,15 +4452,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_wapol",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/wapol_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 834,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "wapol"
+    },
+    {
+      "id": "portrait:wapol_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_wapol",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/wapol_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 834,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "wapol"
+    },
+    {
+      "id": "portrait:wapol_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_wapol",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/wapol_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 834,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "wapol"
     },
     {
@@ -2845,18 +4503,24 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_crocodile",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/crocodile_base.webp",
       "metaPath": "assets/pro/sprites/crocodile_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 251
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 20950,
+      "estimatedVramBytes": 1028096,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "crocodile",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:alabasta_desert_layer0",
+        "bg:alabasta_desert_layer1",
+        "bg:alabasta_desert_layer2",
+        "bg:alabasta_desert_layer3"
+      ]
     },
     {
       "id": "portrait:crocodile_normal",
@@ -2864,15 +4528,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_crocodile",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/crocodile_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 818,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "crocodile"
+    },
+    {
+      "id": "portrait:crocodile_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_crocodile",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/crocodile_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 958,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "crocodile"
+    },
+    {
+      "id": "portrait:crocodile_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_crocodile",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/crocodile_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 828,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "crocodile"
     },
     {
@@ -2881,18 +4579,24 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_enel",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/enel_base.webp",
       "metaPath": "assets/pro/sprites/enel_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 260
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 14642,
+      "estimatedVramBytes": 1064960,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "enel",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:skypiea_upper_yard_layer0",
+        "bg:skypiea_upper_yard_layer1",
+        "bg:skypiea_upper_yard_layer2",
+        "bg:skypiea_upper_yard_layer3"
+      ]
     },
     {
       "id": "portrait:enel_normal",
@@ -2900,15 +4604,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_enel",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/enel_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 872,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "enel"
+    },
+    {
+      "id": "portrait:enel_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_enel",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/enel_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 760,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "enel"
+    },
+    {
+      "id": "portrait:enel_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_enel",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/enel_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 760,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "enel"
     },
     {
@@ -2917,18 +4655,24 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_moria",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/moria_base.webp",
       "metaPath": "assets/pro/sprites/moria_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 337
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 9774,
+      "estimatedVramBytes": 1380352,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "moria",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:thriller_bark_gothic_layer0",
+        "bg:thriller_bark_gothic_layer1",
+        "bg:thriller_bark_gothic_layer2",
+        "bg:thriller_bark_gothic_layer3"
+      ]
     },
     {
       "id": "portrait:moria_normal",
@@ -2936,15 +4680,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_moria",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/moria_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 512,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "moria"
+    },
+    {
+      "id": "portrait:moria_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_moria",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/moria_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 794,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "moria"
+    },
+    {
+      "id": "portrait:moria_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_moria",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/moria_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 794,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "moria"
     },
     {
@@ -2964,7 +4742,13 @@
       "estimatedVramBytes": 0,
       "updatedAt": "2026-11-23T13:49:26.921Z",
       "unitId": "doppelman",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:thriller_bark_gothic_layer0",
+        "bg:thriller_bark_gothic_layer1",
+        "bg:thriller_bark_gothic_layer2",
+        "bg:thriller_bark_gothic_layer3"
+      ]
     },
     {
       "id": "portrait:doppelman_normal",
@@ -2989,18 +4773,24 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_akainu",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/akainu_base.webp",
       "metaPath": "assets/pro/sprites/akainu_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 265
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 23176,
+      "estimatedVramBytes": 1085440,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "akainu",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:marineford_ice_bay_layer0",
+        "bg:marineford_ice_bay_layer1",
+        "bg:marineford_ice_bay_layer2",
+        "bg:marineford_ice_bay_layer3"
+      ]
     },
     {
       "id": "portrait:akainu_normal",
@@ -3008,15 +4798,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_akainu",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/akainu_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 814,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "akainu"
+    },
+    {
+      "id": "portrait:akainu_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_akainu",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/akainu_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 852,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "akainu"
+    },
+    {
+      "id": "portrait:akainu_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_akainu",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/akainu_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 814,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "akainu"
     },
     {
@@ -3025,18 +4849,24 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_aokiji",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/aokiji_base.webp",
       "metaPath": "assets/pro/sprites/aokiji_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 231
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 19982,
+      "estimatedVramBytes": 946176,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "aokiji",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:marineford_ice_bay_layer0",
+        "bg:marineford_ice_bay_layer1",
+        "bg:marineford_ice_bay_layer2",
+        "bg:marineford_ice_bay_layer3"
+      ]
     },
     {
       "id": "portrait:aokiji_normal",
@@ -3044,15 +4874,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_aokiji",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/aokiji_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 624,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "aokiji"
+    },
+    {
+      "id": "portrait:aokiji_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_aokiji",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/aokiji_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 648,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "aokiji"
+    },
+    {
+      "id": "portrait:aokiji_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_aokiji",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/aokiji_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 648,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "aokiji"
     },
     {
@@ -3061,18 +4925,24 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_blackbeard",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/blackbeard_base.webp",
       "metaPath": "assets/pro/sprites/blackbeard_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 276
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 26928,
+      "estimatedVramBytes": 1130496,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "blackbeard",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:marineford_ice_bay_layer0",
+        "bg:marineford_ice_bay_layer1",
+        "bg:marineford_ice_bay_layer2",
+        "bg:marineford_ice_bay_layer3"
+      ]
     },
     {
       "id": "portrait:blackbeard_normal",
@@ -3080,15 +4950,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_blackbeard",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/blackbeard_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 748,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "blackbeard"
+    },
+    {
+      "id": "portrait:blackbeard_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_blackbeard",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/blackbeard_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 848,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "blackbeard"
+    },
+    {
+      "id": "portrait:blackbeard_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_blackbeard",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/blackbeard_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 848,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "blackbeard"
     },
     {
@@ -3096,17 +5000,17 @@
       "category": "sprite",
       "wave": 3,
       "tier": "tier1_crew",
-      "bundle": "core_always",
-      "status": "PLACEHOLDER",
+      "bundle": "party_chopper",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/chopper_base.webp",
       "metaPath": "assets/pro/sprites/chopper_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 162
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 15108,
+      "estimatedVramBytes": 663552,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "chopper",
       "formId": "base"
     },
@@ -3115,16 +5019,135 @@
       "category": "portrait",
       "wave": 3,
       "tier": "tier1_crew",
-      "bundle": "core_always",
-      "status": "PLACEHOLDER",
+      "bundle": "party_chopper",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/chopper_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 704,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "chopper"
+    },
+    {
+      "id": "portrait:chopper_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_chopper",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/chopper_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 758,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "chopper"
+    },
+    {
+      "id": "portrait:chopper_determined",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_chopper",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/chopper_determined.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 680,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "chopper"
+    },
+    {
+      "id": "portrait:chopper_shocked",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_chopper",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/chopper_shocked.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 756,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "chopper"
+    },
+    {
+      "id": "portrait:chopper_smirk",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_chopper",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/chopper_smirk.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 704,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "chopper"
+    },
+    {
+      "id": "portrait:chopper_sad",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_chopper",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/chopper_sad.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 756,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "chopper"
+    },
+    {
+      "id": "portrait:chopper_excited",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_chopper",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/chopper_excited.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 680,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "chopper"
+    },
+    {
+      "id": "portrait:chopper_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_chopper",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/chopper_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 758,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "chopper"
     },
     {
@@ -3132,17 +5155,17 @@
       "category": "sprite",
       "wave": 3,
       "tier": "tier1_crew",
-      "bundle": "core_always",
-      "status": "PLACEHOLDER",
+      "bundle": "party_robin",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/robin_base.webp",
       "metaPath": "assets/pro/sprites/robin_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 174
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 9668,
+      "estimatedVramBytes": 712704,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "robin",
       "formId": "base"
     },
@@ -3151,16 +5174,135 @@
       "category": "portrait",
       "wave": 3,
       "tier": "tier1_crew",
-      "bundle": "core_always",
-      "status": "PLACEHOLDER",
+      "bundle": "party_robin",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/robin_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 756,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "robin"
+    },
+    {
+      "id": "portrait:robin_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_robin",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/robin_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 724,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "robin"
+    },
+    {
+      "id": "portrait:robin_determined",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_robin",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/robin_determined.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 756,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "robin"
+    },
+    {
+      "id": "portrait:robin_shocked",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_robin",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/robin_shocked.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 724,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "robin"
+    },
+    {
+      "id": "portrait:robin_smirk",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_robin",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/robin_smirk.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 756,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "robin"
+    },
+    {
+      "id": "portrait:robin_sad",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_robin",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/robin_sad.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 724,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "robin"
+    },
+    {
+      "id": "portrait:robin_excited",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_robin",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/robin_excited.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 756,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "robin"
+    },
+    {
+      "id": "portrait:robin_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_robin",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/robin_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 724,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "robin"
     },
     {
@@ -3168,17 +5310,17 @@
       "category": "sprite",
       "wave": 3,
       "tier": "tier1_crew",
-      "bundle": "core_always",
-      "status": "PLACEHOLDER",
+      "bundle": "party_brook",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/brook_base.webp",
       "metaPath": "assets/pro/sprites/brook_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 259
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 11218,
+      "estimatedVramBytes": 1060864,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "brook",
       "formId": "base"
     },
@@ -3187,16 +5329,135 @@
       "category": "portrait",
       "wave": 3,
       "tier": "tier1_crew",
-      "bundle": "core_always",
-      "status": "PLACEHOLDER",
+      "bundle": "party_brook",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/brook_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 608,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "brook"
+    },
+    {
+      "id": "portrait:brook_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_brook",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/brook_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 644,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "brook"
+    },
+    {
+      "id": "portrait:brook_determined",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_brook",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/brook_determined.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 608,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "brook"
+    },
+    {
+      "id": "portrait:brook_shocked",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_brook",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/brook_shocked.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 530,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "brook"
+    },
+    {
+      "id": "portrait:brook_smirk",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_brook",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/brook_smirk.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 644,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "brook"
+    },
+    {
+      "id": "portrait:brook_sad",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_brook",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/brook_sad.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 530,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "brook"
+    },
+    {
+      "id": "portrait:brook_excited",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_brook",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/brook_excited.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 644,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "brook"
+    },
+    {
+      "id": "portrait:brook_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_brook",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/brook_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 608,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "brook"
     },
     {
@@ -3205,18 +5466,24 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_marco",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/marco_base.webp",
       "metaPath": "assets/pro/sprites/marco_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 224
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 13654,
+      "estimatedVramBytes": 917504,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "marco",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:marineford_ice_bay_layer0",
+        "bg:marineford_ice_bay_layer1",
+        "bg:marineford_ice_bay_layer2",
+        "bg:marineford_ice_bay_layer3"
+      ]
     },
     {
       "id": "portrait:marco_normal",
@@ -3224,15 +5491,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_marco",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/marco_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 658,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "marco"
+    },
+    {
+      "id": "portrait:marco_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_marco",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/marco_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 848,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "marco"
+    },
+    {
+      "id": "portrait:marco_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_marco",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/marco_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 848,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "marco"
     },
     {
@@ -3241,18 +5542,24 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_hody_jones",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/hody_jones_base.webp",
       "metaPath": "assets/pro/sprites/hody_jones_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 363
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 29390,
+      "estimatedVramBytes": 1486848,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "hody_jones",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:fishman_island_seabed_layer0",
+        "bg:fishman_island_seabed_layer1",
+        "bg:fishman_island_seabed_layer2",
+        "bg:fishman_island_seabed_layer3"
+      ]
     },
     {
       "id": "portrait:hody_jones_normal",
@@ -3260,15 +5567,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_hody_jones",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/hody_jones_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 774,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "hody_jones"
+    },
+    {
+      "id": "portrait:hody_jones_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_hody_jones",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/hody_jones_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 826,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "hody_jones"
+    },
+    {
+      "id": "portrait:hody_jones_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_hody_jones",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/hody_jones_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 726,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "hody_jones"
     },
     {
@@ -3277,18 +5618,24 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_doflamingo",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/doflamingo_base.webp",
       "metaPath": "assets/pro/sprites/doflamingo_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 217
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 11942,
+      "estimatedVramBytes": 888832,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "doflamingo",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:dressrosa_colosseum_layer0",
+        "bg:dressrosa_colosseum_layer1",
+        "bg:dressrosa_colosseum_layer2",
+        "bg:dressrosa_colosseum_layer3"
+      ]
     },
     {
       "id": "portrait:doflamingo_normal",
@@ -3296,15 +5643,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_doflamingo",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/doflamingo_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 770,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "doflamingo"
+    },
+    {
+      "id": "portrait:doflamingo_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_doflamingo",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/doflamingo_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 774,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "doflamingo"
+    },
+    {
+      "id": "portrait:doflamingo_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_doflamingo",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/doflamingo_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 774,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "doflamingo"
     },
     {
@@ -3324,7 +5705,13 @@
       "estimatedVramBytes": 0,
       "updatedAt": "2026-11-23T13:49:26.921Z",
       "unitId": "katakuri",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:whole_cake_mirror_layer0",
+        "bg:whole_cake_mirror_layer1",
+        "bg:whole_cake_mirror_layer2",
+        "bg:whole_cake_mirror_layer3"
+      ]
     },
     {
       "id": "portrait:katakuri_normal",
@@ -3344,21 +5731,55 @@
       "unitId": "katakuri"
     },
     {
-      "id": "sprite:jinbe_base",
-      "category": "sprite",
+      "id": "portrait:katakuri_angry",
+      "category": "portrait",
       "wave": 3,
-      "tier": "tier1_crew",
-      "bundle": "core_always",
+      "tier": "tier2_boss",
+      "bundle": "battle_katakuri",
       "status": "PLACEHOLDER",
-      "assetPath": "assets/pro/sprites/jinbe_base.webp",
-      "metaPath": "assets/pro/sprites/jinbe_base.json",
+      "assetPath": "assets/pro/portraits/katakuri_angry.webp",
       "dimensions": {
         "width": 0,
         "height": 0
       },
       "fileSizeBytes": 0,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "katakuri"
+    },
+    {
+      "id": "portrait:katakuri_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_katakuri",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/portraits/katakuri_battle_cry.webp",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "katakuri"
+    },
+    {
+      "id": "sprite:jinbe_base",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_jinbe",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/jinbe_base.webp",
+      "metaPath": "assets/pro/sprites/jinbe_base.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 266
+      },
+      "fileSizeBytes": 29750,
+      "estimatedVramBytes": 1089536,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "jinbe",
       "formId": "base"
     },
@@ -3367,16 +5788,135 @@
       "category": "portrait",
       "wave": 3,
       "tier": "tier1_crew",
-      "bundle": "core_always",
-      "status": "PLACEHOLDER",
+      "bundle": "party_jinbe",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/jinbe_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 816,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "jinbe"
+    },
+    {
+      "id": "portrait:jinbe_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_jinbe",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/jinbe_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 870,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "jinbe"
+    },
+    {
+      "id": "portrait:jinbe_determined",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_jinbe",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/jinbe_determined.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 816,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "jinbe"
+    },
+    {
+      "id": "portrait:jinbe_shocked",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_jinbe",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/jinbe_shocked.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 870,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "jinbe"
+    },
+    {
+      "id": "portrait:jinbe_smirk",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_jinbe",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/jinbe_smirk.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 816,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "jinbe"
+    },
+    {
+      "id": "portrait:jinbe_sad",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_jinbe",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/jinbe_sad.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 816,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "jinbe"
+    },
+    {
+      "id": "portrait:jinbe_excited",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_jinbe",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/jinbe_excited.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 870,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "jinbe"
+    },
+    {
+      "id": "portrait:jinbe_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_jinbe",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/jinbe_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 870,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "jinbe"
     },
     {
@@ -3385,18 +5925,24 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_magellan",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/sprites/magellan_base.webp",
       "metaPath": "assets/pro/sprites/magellan_base.json",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1024,
+        "height": 279
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 22408,
+      "estimatedVramBytes": 1142784,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "magellan",
-      "formId": "base"
+      "formId": "base",
+      "sharedAssetIds": [
+        "bg:impel_down_hell_layer0",
+        "bg:impel_down_hell_layer1",
+        "bg:impel_down_hell_layer2",
+        "bg:impel_down_hell_layer3"
+      ]
     },
     {
       "id": "portrait:magellan_normal",
@@ -3404,15 +5950,49 @@
       "wave": 3,
       "tier": "tier2_boss",
       "bundle": "battle_magellan",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/portraits/magellan_normal.webp",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 64,
+        "height": 64
       },
-      "fileSizeBytes": 0,
-      "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "fileSizeBytes": 780,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "magellan"
+    },
+    {
+      "id": "portrait:magellan_angry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_magellan",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/magellan_angry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 802,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "magellan"
+    },
+    {
+      "id": "portrait:magellan_battle_cry",
+      "category": "portrait",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_magellan",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/portraits/magellan_battle_cry.webp",
+      "dimensions": {
+        "width": 64,
+        "height": 64
+      },
+      "fileSizeBytes": 802,
+      "estimatedVramBytes": 16384,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
       "unitId": "magellan"
     },
     {
@@ -3632,23 +6212,316 @@
       "unitId": "unit_void_conduit"
     },
     {
-      "id": "map:orange_town",
-      "category": "map",
-      "wave": 4,
-      "tier": "env",
-      "bundle": "island_orange_town",
+      "id": "sprite:luffy_form_luffy_gear5",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "core_always",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/luffy_form_luffy_gear5.webp",
+      "metaPath": "assets/pro/sprites/luffy_form_luffy_gear5.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 156
+      },
+      "fileSizeBytes": 15340,
+      "estimatedVramBytes": 638976,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "luffy",
+      "formId": "form_luffy_gear5"
+    },
+    {
+      "id": "sprite:zoro_form_zoro_king_of_hell",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_zoro",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/zoro_form_zoro_king_of_hell.webp",
+      "metaPath": "assets/pro/sprites/zoro_form_zoro_king_of_hell.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 209
+      },
+      "fileSizeBytes": 18222,
+      "estimatedVramBytes": 856064,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "zoro",
+      "formId": "form_zoro_king_of_hell"
+    },
+    {
+      "id": "sprite:sanji_form_sanji_diable_jambe",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_sanji",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/sanji_form_sanji_diable_jambe.webp",
+      "metaPath": "assets/pro/sprites/sanji_form_sanji_diable_jambe.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 159
+      },
+      "fileSizeBytes": 9750,
+      "estimatedVramBytes": 651264,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "sanji",
+      "formId": "form_sanji_diable_jambe"
+    },
+    {
+      "id": "sprite:enel_form_enel_amuru",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_enel",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/enel_form_enel_amuru.webp",
+      "metaPath": "assets/pro/sprites/enel_form_enel_amuru.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 293
+      },
+      "fileSizeBytes": 27638,
+      "estimatedVramBytes": 1200128,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "enel",
+      "formId": "form_enel_amuru",
+      "isGiant": true
+    },
+    {
+      "id": "sprite:lucci_form_lucci_hybrid",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_lucci",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/lucci_form_lucci_hybrid.webp",
+      "metaPath": "assets/pro/sprites/lucci_form_lucci_hybrid.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 228
+      },
+      "fileSizeBytes": 16802,
+      "estimatedVramBytes": 933888,
+      "updatedAt": "2026-11-23T23:31:07.131Z",
+      "unitId": "lucci",
+      "formId": "form_lucci_hybrid"
+    },
+    {
+      "id": "sprite:marco_form_marco_phoenix",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_marco",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/marco_form_marco_phoenix.webp",
+      "metaPath": "assets/pro/sprites/marco_form_marco_phoenix.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 140
+      },
+      "fileSizeBytes": 10246,
+      "estimatedVramBytes": 573440,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "marco",
+      "formId": "form_marco_phoenix"
+    },
+    {
+      "id": "sprite:law_form_law_kroom",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_law",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/law_form_law_kroom.webp",
+      "metaPath": "assets/pro/sprites/law_form_law_kroom.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 166
+      },
+      "fileSizeBytes": 13602,
+      "estimatedVramBytes": 679936,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "law",
+      "formId": "form_law_kroom"
+    },
+    {
+      "id": "sprite:doflamingo_form_doflamingo_awakening",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_doflamingo",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/sprites/doflamingo_form_doflamingo_awakening.webp",
+      "metaPath": "assets/pro/sprites/doflamingo_form_doflamingo_awakening.json",
+      "dimensions": {
+        "width": 1024,
+        "height": 247
+      },
+      "fileSizeBytes": 27772,
+      "estimatedVramBytes": 1011712,
+      "updatedAt": "2026-11-23T23:24:32.577Z",
+      "unitId": "doflamingo",
+      "formId": "form_doflamingo_awakening"
+    },
+    {
+      "id": "sprite:chopper_monster_point",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_chopper",
       "status": "PLACEHOLDER",
-      "assetPath": "assets/pro/maps/orange_town.tmj",
-      "metaPath": "assets/pro/maps/orange_town.tmj",
+      "assetPath": "assets/pro/sprites/chopper_monster_point.webp",
+      "metaPath": "assets/pro/sprites/chopper_monster_point.json",
       "dimensions": {
         "width": 0,
         "height": 0
       },
       "fileSizeBytes": 0,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "chopper",
+      "formId": "monster_point",
+      "isGiant": true
+    },
+    {
+      "id": "sprite:robin_demonio_fleur",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_robin",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/robin_demonio_fleur.webp",
+      "metaPath": "assets/pro/sprites/robin_demonio_fleur.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "robin",
+      "formId": "demonio_fleur",
+      "isGiant": true
+    },
+    {
+      "id": "sprite:franky_general",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier1_crew",
+      "bundle": "party_franky",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/franky_general.webp",
+      "metaPath": "assets/pro/sprites/franky_general.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "franky",
+      "formId": "general",
+      "isGiant": true
+    },
+    {
+      "id": "sprite:lucci_awakened",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_lucci",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/lucci_awakened.webp",
+      "metaPath": "assets/pro/sprites/lucci_awakened.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "lucci",
+      "formId": "awakened"
+    },
+    {
+      "id": "sprite:kaido_dragon",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_kaido",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/kaido_dragon.webp",
+      "metaPath": "assets/pro/sprites/kaido_dragon.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "kaido",
+      "formId": "dragon",
+      "isGiant": true
+    },
+    {
+      "id": "sprite:saturn_yokai",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_saturn",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/saturn_yokai.webp",
+      "metaPath": "assets/pro/sprites/saturn_yokai.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "saturn",
+      "formId": "yokai",
+      "isGiant": true
+    },
+    {
+      "id": "sprite:loki_giant",
+      "category": "sprite",
+      "wave": 3,
+      "tier": "tier2_boss",
+      "bundle": "battle_loki",
+      "status": "PLACEHOLDER",
+      "assetPath": "assets/pro/sprites/loki_giant.webp",
+      "metaPath": "assets/pro/sprites/loki_giant.json",
+      "dimensions": {
+        "width": 0,
+        "height": 0
+      },
+      "fileSizeBytes": 0,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-24T00:43:55.213Z",
+      "unitId": "loki",
+      "formId": "giant",
+      "isGiant": true
+    },
+    {
+      "id": "map:orange_town",
+      "category": "map",
+      "wave": 4,
+      "tier": "env",
+      "bundle": "island_orange_town",
+      "status": "IMPORTED",
+      "assetPath": "assets/pro/maps/orange_town.tmj",
+      "metaPath": "assets/pro/maps/orange_town.tmj",
+      "dimensions": {
+        "width": 1408,
+        "height": 960
+      },
+      "fileSizeBytes": 119294,
+      "estimatedVramBytes": 0,
+      "updatedAt": "2026-11-24T01:28:03.758Z",
       "islandId": "orange_town",
       "sharedTilesetIds": [
+        "tileset:master_stone_canal",
         "tileset:master_port_village"
       ]
     },
@@ -3658,18 +6531,19 @@
       "wave": 4,
       "tier": "env",
       "bundle": "island_baratie",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/maps/baratie.tmj",
       "metaPath": "assets/pro/maps/baratie.tmj",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1472,
+        "height": 1024
       },
-      "fileSizeBytes": 0,
+      "fileSizeBytes": 127999,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T01:28:03.758Z",
       "islandId": "baratie",
       "sharedTilesetIds": [
+        "tileset:master_stone_canal",
         "tileset:master_port_village"
       ]
     },
@@ -3679,18 +6553,19 @@
       "wave": 4,
       "tier": "env",
       "bundle": "island_arlong_park",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/maps/arlong_park.tmj",
       "metaPath": "assets/pro/maps/arlong_park.tmj",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1472,
+        "height": 1088
       },
-      "fileSizeBytes": 0,
+      "fileSizeBytes": 140647,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T01:28:03.758Z",
       "islandId": "arlong_park",
       "sharedTilesetIds": [
+        "tileset:master_stone_canal",
         "tileset:master_port_village"
       ]
     },
@@ -3700,18 +6575,19 @@
       "wave": 4,
       "tier": "env",
       "bundle": "island_loguetown",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/maps/loguetown.tmj",
       "metaPath": "assets/pro/maps/loguetown.tmj",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1536,
+        "height": 1088
       },
-      "fileSizeBytes": 0,
+      "fileSizeBytes": 139623,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T01:28:03.758Z",
       "islandId": "loguetown",
       "sharedTilesetIds": [
+        "tileset:master_stone_canal",
         "tileset:master_port_village"
       ]
     },
@@ -3721,18 +6597,19 @@
       "wave": 4,
       "tier": "env",
       "bundle": "island_drum_kingdom",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/maps/drum_kingdom.tmj",
       "metaPath": "assets/pro/maps/drum_kingdom.tmj",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1472,
+        "height": 1152
       },
-      "fileSizeBytes": 0,
+      "fileSizeBytes": 141299,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T01:28:03.758Z",
       "islandId": "drum_kingdom",
       "sharedTilesetIds": [
+        "tileset:master_eastern_pagoda",
         "tileset:master_port_village"
       ]
     },
@@ -3742,19 +6619,20 @@
       "wave": 4,
       "tier": "env",
       "bundle": "island_skypiea",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/maps/skypiea.tmj",
       "metaPath": "assets/pro/maps/skypiea.tmj",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1600,
+        "height": 1152
       },
-      "fileSizeBytes": 0,
+      "fileSizeBytes": 151269,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T01:28:03.758Z",
       "islandId": "skypiea",
       "sharedTilesetIds": [
-        "tileset:master_port_village"
+        "tileset:master_desert_palace",
+        "tileset:master_scifi_neon"
       ]
     },
     {
@@ -3763,19 +6641,20 @@
       "wave": 4,
       "tier": "env",
       "bundle": "island_thriller_bark",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/maps/thriller_bark.tmj",
       "metaPath": "assets/pro/maps/thriller_bark.tmj",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1536,
+        "height": 1152
       },
-      "fileSizeBytes": 0,
+      "fileSizeBytes": 144007,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T01:28:03.758Z",
       "islandId": "thriller_bark",
       "sharedTilesetIds": [
-        "tileset:master_eastern_pagoda"
+        "tileset:master_eastern_pagoda",
+        "tileset:master_port_village"
       ]
     },
     {
@@ -3784,19 +6663,20 @@
       "wave": 4,
       "tier": "env",
       "bundle": "island_marineford",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/maps/marineford.tmj",
       "metaPath": "assets/pro/maps/marineford.tmj",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1664,
+        "height": 1152
       },
-      "fileSizeBytes": 0,
+      "fileSizeBytes": 153159,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T01:28:03.758Z",
       "islandId": "marineford",
       "sharedTilesetIds": [
-        "tileset:master_stone_canal"
+        "tileset:master_stone_canal",
+        "tileset:master_eastern_pagoda"
       ]
     },
     {
@@ -3805,19 +6685,20 @@
       "wave": 4,
       "tier": "env",
       "bundle": "island_fishman_island",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/maps/fishman_island.tmj",
       "metaPath": "assets/pro/maps/fishman_island.tmj",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1600,
+        "height": 1152
       },
-      "fileSizeBytes": 0,
+      "fileSizeBytes": 149346,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T01:28:03.758Z",
       "islandId": "fishman_island",
       "sharedTilesetIds": [
-        "tileset:master_stone_canal"
+        "tileset:master_scifi_neon",
+        "tileset:master_desert_palace"
       ]
     },
     {
@@ -3826,19 +6707,20 @@
       "wave": 4,
       "tier": "env",
       "bundle": "island_dressrosa",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/maps/dressrosa.tmj",
       "metaPath": "assets/pro/maps/dressrosa.tmj",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1664,
+        "height": 1152
       },
-      "fileSizeBytes": 0,
+      "fileSizeBytes": 154275,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T01:28:03.758Z",
       "islandId": "dressrosa",
       "sharedTilesetIds": [
-        "tileset:master_desert_palace"
+        "tileset:master_stone_canal",
+        "tileset:master_port_village"
       ]
     },
     {
@@ -3847,19 +6729,20 @@
       "wave": 4,
       "tier": "env",
       "bundle": "island_totto_land",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/maps/totto_land.tmj",
       "metaPath": "assets/pro/maps/totto_land.tmj",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1600,
+        "height": 1152
       },
-      "fileSizeBytes": 0,
+      "fileSizeBytes": 151613,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T01:28:03.758Z",
       "islandId": "totto_land",
       "sharedTilesetIds": [
-        "tileset:master_stone_canal"
+        "tileset:master_scifi_neon",
+        "tileset:master_desert_palace"
       ]
     },
     {
@@ -3868,19 +6751,20 @@
       "wave": 4,
       "tier": "env",
       "bundle": "island_elbaf",
-      "status": "PLACEHOLDER",
+      "status": "IMPORTED",
       "assetPath": "assets/pro/maps/elbaf.tmj",
       "metaPath": "assets/pro/maps/elbaf.tmj",
       "dimensions": {
-        "width": 0,
-        "height": 0
+        "width": 1728,
+        "height": 1216
       },
-      "fileSizeBytes": 0,
+      "fileSizeBytes": 166633,
       "estimatedVramBytes": 0,
-      "updatedAt": "2026-11-23T13:49:26.921Z",
+      "updatedAt": "2026-11-24T01:28:03.758Z",
       "islandId": "elbaf",
       "sharedTilesetIds": [
-        "tileset:master_eastern_pagoda"
+        "tileset:master_eastern_pagoda",
+        "tileset:master_port_village"
       ]
     }
   ],
@@ -3945,6 +6829,21 @@
       "referenceIdleHeight": 61,
       "formatHint": "ASEPRITE_HASH"
     },
+    "usopp_base": {
+      "key": "usopp_base",
+      "unitId": "usopp",
+      "formId": "base",
+      "image": "assets/pro/sprites/usopp_base.webp",
+      "atlasJson": "assets/pro/sprites/usopp_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 106,
+      "ppuScale": 0.98,
+      "referenceIdleHeight": 66,
+      "formatHint": "ASEPRITE_HASH"
+    },
     "buggy_base": {
       "key": "buggy_base",
       "unitId": "buggy",
@@ -3974,6 +6873,508 @@
       "ppuScale": 1.28,
       "referenceIdleHeight": 75,
       "formatHint": "ASEPRITE_HASH"
+    },
+    "don_krieg_base": {
+      "key": "don_krieg_base",
+      "unitId": "don_krieg",
+      "formId": "base",
+      "image": "assets/pro/sprites/don_krieg_base.webp",
+      "atlasJson": "assets/pro/sprites/don_krieg_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 135,
+      "ppuScale": 1.25,
+      "referenceIdleHeight": 74,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "smoker_base": {
+      "key": "smoker_base",
+      "unitId": "smoker",
+      "formId": "base",
+      "image": "assets/pro/sprites/smoker_base.webp",
+      "atlasJson": "assets/pro/sprites/smoker_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 124,
+      "ppuScale": 1.15,
+      "referenceIdleHeight": 69,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "lucci_base": {
+      "key": "lucci_base",
+      "unitId": "lucci",
+      "formId": "base",
+      "image": "assets/pro/sprites/lucci_base.webp",
+      "atlasJson": "assets/pro/sprites/lucci_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 119,
+      "ppuScale": 1.1,
+      "referenceIdleHeight": 71,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "kizaru_base": {
+      "key": "kizaru_base",
+      "unitId": "kizaru",
+      "formId": "base",
+      "image": "assets/pro/sprites/kizaru_base.webp",
+      "atlasJson": "assets/pro/sprites/kizaru_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 130,
+      "ppuScale": 1.2,
+      "referenceIdleHeight": 78,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "law_base": {
+      "key": "law_base",
+      "unitId": "law",
+      "formId": "base",
+      "image": "assets/pro/sprites/law_base.webp",
+      "atlasJson": "assets/pro/sprites/law_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 114,
+      "ppuScale": 1.06,
+      "referenceIdleHeight": 66,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "kaku_base": {
+      "key": "kaku_base",
+      "unitId": "kaku",
+      "formId": "base",
+      "image": "assets/pro/sprites/kaku_base.webp",
+      "atlasJson": "assets/pro/sprites/kaku_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 117,
+      "ppuScale": 1.08,
+      "referenceIdleHeight": 66,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "franky_base": {
+      "key": "franky_base",
+      "unitId": "franky",
+      "formId": "base",
+      "image": "assets/pro/sprites/franky_base.webp",
+      "atlasJson": "assets/pro/sprites/franky_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 136,
+      "ppuScale": 1.26,
+      "referenceIdleHeight": 75,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "wapol_base": {
+      "key": "wapol_base",
+      "unitId": "wapol",
+      "formId": "base",
+      "image": "assets/pro/sprites/wapol_base.webp",
+      "atlasJson": "assets/pro/sprites/wapol_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 124,
+      "ppuScale": 1.15,
+      "referenceIdleHeight": 59,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "crocodile_base": {
+      "key": "crocodile_base",
+      "unitId": "crocodile",
+      "formId": "base",
+      "image": "assets/pro/sprites/crocodile_base.webp",
+      "atlasJson": "assets/pro/sprites/crocodile_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 125,
+      "ppuScale": 1.16,
+      "referenceIdleHeight": 71,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "enel_base": {
+      "key": "enel_base",
+      "unitId": "enel",
+      "formId": "base",
+      "image": "assets/pro/sprites/enel_base.webp",
+      "atlasJson": "assets/pro/sprites/enel_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 123,
+      "ppuScale": 1.14,
+      "referenceIdleHeight": 84,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "moria_base": {
+      "key": "moria_base",
+      "unitId": "moria",
+      "formId": "base",
+      "image": "assets/pro/sprites/moria_base.webp",
+      "atlasJson": "assets/pro/sprites/moria_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 146,
+      "ppuScale": 1.35,
+      "referenceIdleHeight": 81,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "akainu_base": {
+      "key": "akainu_base",
+      "unitId": "akainu",
+      "formId": "base",
+      "image": "assets/pro/sprites/akainu_base.webp",
+      "atlasJson": "assets/pro/sprites/akainu_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 130,
+      "ppuScale": 1.2,
+      "referenceIdleHeight": 78,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "aokiji_base": {
+      "key": "aokiji_base",
+      "unitId": "aokiji",
+      "formId": "base",
+      "image": "assets/pro/sprites/aokiji_base.webp",
+      "atlasJson": "assets/pro/sprites/aokiji_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 127,
+      "ppuScale": 1.18,
+      "referenceIdleHeight": 78,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "blackbeard_base": {
+      "key": "blackbeard_base",
+      "unitId": "blackbeard",
+      "formId": "base",
+      "image": "assets/pro/sprites/blackbeard_base.webp",
+      "atlasJson": "assets/pro/sprites/blackbeard_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 140,
+      "ppuScale": 1.3,
+      "referenceIdleHeight": 71,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "chopper_base": {
+      "key": "chopper_base",
+      "unitId": "chopper",
+      "formId": "base",
+      "image": "assets/pro/sprites/chopper_base.webp",
+      "atlasJson": "assets/pro/sprites/chopper_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 73,
+      "ppuScale": 0.68,
+      "referenceIdleHeight": 36,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "robin_base": {
+      "key": "robin_base",
+      "unitId": "robin",
+      "formId": "base",
+      "image": "assets/pro/sprites/robin_base.webp",
+      "atlasJson": "assets/pro/sprites/robin_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 114,
+      "ppuScale": 1.06,
+      "referenceIdleHeight": 68,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "brook_base": {
+      "key": "brook_base",
+      "unitId": "brook",
+      "formId": "base",
+      "image": "assets/pro/sprites/brook_base.webp",
+      "atlasJson": "assets/pro/sprites/brook_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 132,
+      "ppuScale": 1.22,
+      "referenceIdleHeight": 83,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "marco_base": {
+      "key": "marco_base",
+      "unitId": "marco",
+      "formId": "base",
+      "image": "assets/pro/sprites/marco_base.webp",
+      "atlasJson": "assets/pro/sprites/marco_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 117,
+      "ppuScale": 1.08,
+      "referenceIdleHeight": 51,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "hody_jones_base": {
+      "key": "hody_jones_base",
+      "unitId": "hody_jones",
+      "formId": "base",
+      "image": "assets/pro/sprites/hody_jones_base.webp",
+      "atlasJson": "assets/pro/sprites/hody_jones_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 134,
+      "ppuScale": 1.24,
+      "referenceIdleHeight": 87,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "doflamingo_base": {
+      "key": "doflamingo_base",
+      "unitId": "doflamingo",
+      "formId": "base",
+      "image": "assets/pro/sprites/doflamingo_base.webp",
+      "atlasJson": "assets/pro/sprites/doflamingo_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 127,
+      "ppuScale": 1.18,
+      "referenceIdleHeight": 59,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "jinbe_base": {
+      "key": "jinbe_base",
+      "unitId": "jinbe",
+      "formId": "base",
+      "image": "assets/pro/sprites/jinbe_base.webp",
+      "atlasJson": "assets/pro/sprites/jinbe_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 140,
+      "ppuScale": 1.3,
+      "referenceIdleHeight": 77,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "magellan_base": {
+      "key": "magellan_base",
+      "unitId": "magellan",
+      "formId": "base",
+      "image": "assets/pro/sprites/magellan_base.webp",
+      "atlasJson": "assets/pro/sprites/magellan_base.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 143,
+      "ppuScale": 1.32,
+      "referenceIdleHeight": 91,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "luffy_form_luffy_gear5": {
+      "key": "luffy_form_luffy_gear5",
+      "unitId": "luffy",
+      "formId": "form_luffy_gear5",
+      "image": "assets/pro/sprites/luffy_form_luffy_gear5.webp",
+      "atlasJson": "assets/pro/sprites/luffy_form_luffy_gear5.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 118,
+      "ppuScale": 1.1,
+      "referenceIdleHeight": 65,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "zoro_form_zoro_king_of_hell": {
+      "key": "zoro_form_zoro_king_of_hell",
+      "unitId": "zoro",
+      "formId": "form_zoro_king_of_hell",
+      "image": "assets/pro/sprites/zoro_form_zoro_king_of_hell.webp",
+      "atlasJson": "assets/pro/sprites/zoro_form_zoro_king_of_hell.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 120,
+      "ppuScale": 1.12,
+      "referenceIdleHeight": 65,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "sanji_form_sanji_diable_jambe": {
+      "key": "sanji_form_sanji_diable_jambe",
+      "unitId": "sanji",
+      "formId": "form_sanji_diable_jambe",
+      "image": "assets/pro/sprites/sanji_form_sanji_diable_jambe.webp",
+      "atlasJson": "assets/pro/sprites/sanji_form_sanji_diable_jambe.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 116,
+      "ppuScale": 1.08,
+      "referenceIdleHeight": 66,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "enel_form_enel_amuru": {
+      "key": "enel_form_enel_amuru",
+      "unitId": "enel",
+      "formId": "form_enel_amuru",
+      "image": "assets/pro/sprites/enel_form_enel_amuru.webp",
+      "atlasJson": "assets/pro/sprites/enel_form_enel_amuru.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 158,
+      "ppuScale": 1.46,
+      "referenceIdleHeight": 85,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "lucci_form_lucci_hybrid": {
+      "key": "lucci_form_lucci_hybrid",
+      "unitId": "lucci",
+      "formId": "form_lucci_hybrid",
+      "image": "assets/pro/sprites/lucci_form_lucci_hybrid.webp",
+      "atlasJson": "assets/pro/sprites/lucci_form_lucci_hybrid.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 128,
+      "ppuScale": 1.18,
+      "referenceIdleHeight": 72,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "marco_form_marco_phoenix": {
+      "key": "marco_form_marco_phoenix",
+      "unitId": "marco",
+      "formId": "form_marco_phoenix",
+      "image": "assets/pro/sprites/marco_form_marco_phoenix.webp",
+      "atlasJson": "assets/pro/sprites/marco_form_marco_phoenix.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 136,
+      "ppuScale": 1.26,
+      "referenceIdleHeight": 54,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "law_form_law_kroom": {
+      "key": "law_form_law_kroom",
+      "unitId": "law",
+      "formId": "form_law_kroom",
+      "image": "assets/pro/sprites/law_form_law_kroom.webp",
+      "atlasJson": "assets/pro/sprites/law_form_law_kroom.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 120,
+      "ppuScale": 1.11,
+      "referenceIdleHeight": 71,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "doflamingo_form_doflamingo_awakening": {
+      "key": "doflamingo_form_doflamingo_awakening",
+      "unitId": "doflamingo",
+      "formId": "form_doflamingo_awakening",
+      "image": "assets/pro/sprites/doflamingo_form_doflamingo_awakening.webp",
+      "atlasJson": "assets/pro/sprites/doflamingo_form_doflamingo_awakening.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.9
+      },
+      "targetDisplayHeight": 132,
+      "ppuScale": 1.22,
+      "referenceIdleHeight": 75,
+      "formatHint": "ASEPRITE_HASH"
+    },
+    "ship_going_merry": {
+      "key": "ship_going_merry",
+      "unitId": "ship_going_merry",
+      "formId": "base",
+      "image": "assets/pro/sprites/ship_going_merry.webp",
+      "atlasJson": "assets/pro/sprites/ship_going_merry.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "targetDisplayHeight": 48,
+      "formatHint": "LEGACY_META"
+    },
+    "ship_thousand_sunny": {
+      "key": "ship_thousand_sunny",
+      "unitId": "ship_thousand_sunny",
+      "formId": "base",
+      "image": "assets/pro/sprites/ship_thousand_sunny.webp",
+      "atlasJson": "assets/pro/sprites/ship_thousand_sunny.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "targetDisplayHeight": 48,
+      "formatHint": "LEGACY_META"
+    },
+    "ship_marine_warship": {
+      "key": "ship_marine_warship",
+      "unitId": "ship_marine_warship",
+      "formId": "base",
+      "image": "assets/pro/sprites/ship_marine_warship.webp",
+      "atlasJson": "assets/pro/sprites/ship_marine_warship.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "targetDisplayHeight": 48,
+      "formatHint": "LEGACY_META"
+    },
+    "ship_sea_king": {
+      "key": "ship_sea_king",
+      "unitId": "ship_sea_king",
+      "formId": "base",
+      "image": "assets/pro/sprites/ship_sea_king.webp",
+      "atlasJson": "assets/pro/sprites/ship_sea_king.json",
+      "anchor": {
+        "x": 0.5,
+        "y": 0.55
+      },
+      "targetDisplayHeight": 48,
+      "formatHint": "LEGACY_META"
     }
   },
   "portraits": {
@@ -4122,6 +7523,46 @@
       "width": 64,
       "height": 64
     },
+    "usopp_normal": {
+      "image": "assets/pro/portraits/usopp_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "usopp_angry": {
+      "image": "assets/pro/portraits/usopp_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "usopp_determined": {
+      "image": "assets/pro/portraits/usopp_determined.webp",
+      "width": 64,
+      "height": 64
+    },
+    "usopp_shocked": {
+      "image": "assets/pro/portraits/usopp_shocked.webp",
+      "width": 64,
+      "height": 64
+    },
+    "usopp_smirk": {
+      "image": "assets/pro/portraits/usopp_smirk.webp",
+      "width": 64,
+      "height": 64
+    },
+    "usopp_sad": {
+      "image": "assets/pro/portraits/usopp_sad.webp",
+      "width": 64,
+      "height": 64
+    },
+    "usopp_excited": {
+      "image": "assets/pro/portraits/usopp_excited.webp",
+      "width": 64,
+      "height": 64
+    },
+    "usopp_battle_cry": {
+      "image": "assets/pro/portraits/usopp_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
     "buggy_normal": {
       "image": "assets/pro/portraits/buggy_normal.webp",
       "width": 64,
@@ -4149,6 +7590,461 @@
     },
     "arlong_battle_cry": {
       "image": "assets/pro/portraits/arlong_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "don_krieg_normal": {
+      "image": "assets/pro/portraits/don_krieg_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "don_krieg_angry": {
+      "image": "assets/pro/portraits/don_krieg_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "don_krieg_battle_cry": {
+      "image": "assets/pro/portraits/don_krieg_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "smoker_normal": {
+      "image": "assets/pro/portraits/smoker_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "smoker_angry": {
+      "image": "assets/pro/portraits/smoker_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "smoker_battle_cry": {
+      "image": "assets/pro/portraits/smoker_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "lucci_normal": {
+      "image": "assets/pro/portraits/lucci_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "lucci_angry": {
+      "image": "assets/pro/portraits/lucci_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "lucci_battle_cry": {
+      "image": "assets/pro/portraits/lucci_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "kizaru_normal": {
+      "image": "assets/pro/portraits/kizaru_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "kizaru_angry": {
+      "image": "assets/pro/portraits/kizaru_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "kizaru_battle_cry": {
+      "image": "assets/pro/portraits/kizaru_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "law_normal": {
+      "image": "assets/pro/portraits/law_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "law_angry": {
+      "image": "assets/pro/portraits/law_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "law_battle_cry": {
+      "image": "assets/pro/portraits/law_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "kaku_normal": {
+      "image": "assets/pro/portraits/kaku_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "kaku_angry": {
+      "image": "assets/pro/portraits/kaku_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "kaku_battle_cry": {
+      "image": "assets/pro/portraits/kaku_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "franky_normal": {
+      "image": "assets/pro/portraits/franky_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "franky_angry": {
+      "image": "assets/pro/portraits/franky_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "franky_determined": {
+      "image": "assets/pro/portraits/franky_determined.webp",
+      "width": 64,
+      "height": 64
+    },
+    "franky_shocked": {
+      "image": "assets/pro/portraits/franky_shocked.webp",
+      "width": 64,
+      "height": 64
+    },
+    "franky_smirk": {
+      "image": "assets/pro/portraits/franky_smirk.webp",
+      "width": 64,
+      "height": 64
+    },
+    "franky_sad": {
+      "image": "assets/pro/portraits/franky_sad.webp",
+      "width": 64,
+      "height": 64
+    },
+    "franky_excited": {
+      "image": "assets/pro/portraits/franky_excited.webp",
+      "width": 64,
+      "height": 64
+    },
+    "franky_battle_cry": {
+      "image": "assets/pro/portraits/franky_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "wapol_normal": {
+      "image": "assets/pro/portraits/wapol_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "wapol_angry": {
+      "image": "assets/pro/portraits/wapol_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "wapol_battle_cry": {
+      "image": "assets/pro/portraits/wapol_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "crocodile_normal": {
+      "image": "assets/pro/portraits/crocodile_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "crocodile_angry": {
+      "image": "assets/pro/portraits/crocodile_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "crocodile_battle_cry": {
+      "image": "assets/pro/portraits/crocodile_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "enel_normal": {
+      "image": "assets/pro/portraits/enel_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "enel_angry": {
+      "image": "assets/pro/portraits/enel_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "enel_battle_cry": {
+      "image": "assets/pro/portraits/enel_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "moria_normal": {
+      "image": "assets/pro/portraits/moria_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "moria_angry": {
+      "image": "assets/pro/portraits/moria_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "moria_battle_cry": {
+      "image": "assets/pro/portraits/moria_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "akainu_normal": {
+      "image": "assets/pro/portraits/akainu_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "akainu_angry": {
+      "image": "assets/pro/portraits/akainu_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "akainu_battle_cry": {
+      "image": "assets/pro/portraits/akainu_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "aokiji_normal": {
+      "image": "assets/pro/portraits/aokiji_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "aokiji_angry": {
+      "image": "assets/pro/portraits/aokiji_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "aokiji_battle_cry": {
+      "image": "assets/pro/portraits/aokiji_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "blackbeard_normal": {
+      "image": "assets/pro/portraits/blackbeard_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "blackbeard_angry": {
+      "image": "assets/pro/portraits/blackbeard_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "blackbeard_battle_cry": {
+      "image": "assets/pro/portraits/blackbeard_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "chopper_normal": {
+      "image": "assets/pro/portraits/chopper_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "chopper_angry": {
+      "image": "assets/pro/portraits/chopper_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "chopper_determined": {
+      "image": "assets/pro/portraits/chopper_determined.webp",
+      "width": 64,
+      "height": 64
+    },
+    "chopper_shocked": {
+      "image": "assets/pro/portraits/chopper_shocked.webp",
+      "width": 64,
+      "height": 64
+    },
+    "chopper_smirk": {
+      "image": "assets/pro/portraits/chopper_smirk.webp",
+      "width": 64,
+      "height": 64
+    },
+    "chopper_sad": {
+      "image": "assets/pro/portraits/chopper_sad.webp",
+      "width": 64,
+      "height": 64
+    },
+    "chopper_excited": {
+      "image": "assets/pro/portraits/chopper_excited.webp",
+      "width": 64,
+      "height": 64
+    },
+    "chopper_battle_cry": {
+      "image": "assets/pro/portraits/chopper_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "robin_normal": {
+      "image": "assets/pro/portraits/robin_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "robin_angry": {
+      "image": "assets/pro/portraits/robin_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "robin_determined": {
+      "image": "assets/pro/portraits/robin_determined.webp",
+      "width": 64,
+      "height": 64
+    },
+    "robin_shocked": {
+      "image": "assets/pro/portraits/robin_shocked.webp",
+      "width": 64,
+      "height": 64
+    },
+    "robin_smirk": {
+      "image": "assets/pro/portraits/robin_smirk.webp",
+      "width": 64,
+      "height": 64
+    },
+    "robin_sad": {
+      "image": "assets/pro/portraits/robin_sad.webp",
+      "width": 64,
+      "height": 64
+    },
+    "robin_excited": {
+      "image": "assets/pro/portraits/robin_excited.webp",
+      "width": 64,
+      "height": 64
+    },
+    "robin_battle_cry": {
+      "image": "assets/pro/portraits/robin_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "brook_normal": {
+      "image": "assets/pro/portraits/brook_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "brook_angry": {
+      "image": "assets/pro/portraits/brook_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "brook_determined": {
+      "image": "assets/pro/portraits/brook_determined.webp",
+      "width": 64,
+      "height": 64
+    },
+    "brook_shocked": {
+      "image": "assets/pro/portraits/brook_shocked.webp",
+      "width": 64,
+      "height": 64
+    },
+    "brook_smirk": {
+      "image": "assets/pro/portraits/brook_smirk.webp",
+      "width": 64,
+      "height": 64
+    },
+    "brook_sad": {
+      "image": "assets/pro/portraits/brook_sad.webp",
+      "width": 64,
+      "height": 64
+    },
+    "brook_excited": {
+      "image": "assets/pro/portraits/brook_excited.webp",
+      "width": 64,
+      "height": 64
+    },
+    "brook_battle_cry": {
+      "image": "assets/pro/portraits/brook_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "marco_normal": {
+      "image": "assets/pro/portraits/marco_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "marco_angry": {
+      "image": "assets/pro/portraits/marco_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "marco_battle_cry": {
+      "image": "assets/pro/portraits/marco_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "hody_jones_normal": {
+      "image": "assets/pro/portraits/hody_jones_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "hody_jones_angry": {
+      "image": "assets/pro/portraits/hody_jones_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "hody_jones_battle_cry": {
+      "image": "assets/pro/portraits/hody_jones_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "doflamingo_normal": {
+      "image": "assets/pro/portraits/doflamingo_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "doflamingo_angry": {
+      "image": "assets/pro/portraits/doflamingo_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "doflamingo_battle_cry": {
+      "image": "assets/pro/portraits/doflamingo_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "jinbe_normal": {
+      "image": "assets/pro/portraits/jinbe_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "jinbe_angry": {
+      "image": "assets/pro/portraits/jinbe_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "jinbe_determined": {
+      "image": "assets/pro/portraits/jinbe_determined.webp",
+      "width": 64,
+      "height": 64
+    },
+    "jinbe_shocked": {
+      "image": "assets/pro/portraits/jinbe_shocked.webp",
+      "width": 64,
+      "height": 64
+    },
+    "jinbe_smirk": {
+      "image": "assets/pro/portraits/jinbe_smirk.webp",
+      "width": 64,
+      "height": 64
+    },
+    "jinbe_sad": {
+      "image": "assets/pro/portraits/jinbe_sad.webp",
+      "width": 64,
+      "height": 64
+    },
+    "jinbe_excited": {
+      "image": "assets/pro/portraits/jinbe_excited.webp",
+      "width": 64,
+      "height": 64
+    },
+    "jinbe_battle_cry": {
+      "image": "assets/pro/portraits/jinbe_battle_cry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "magellan_normal": {
+      "image": "assets/pro/portraits/magellan_normal.webp",
+      "width": 64,
+      "height": 64
+    },
+    "magellan_angry": {
+      "image": "assets/pro/portraits/magellan_angry.webp",
+      "width": 64,
+      "height": 64
+    },
+    "magellan_battle_cry": {
+      "image": "assets/pro/portraits/magellan_battle_cry.webp",
       "width": 64,
       "height": 64
     }
@@ -4203,6 +8099,114 @@
       "pixelScale": 2,
       "tilesets": [
         "assets/pro/tilesets/master_scifi_neon.webp"
+      ]
+    },
+    "orange_town": {
+      "mapId": "orange_town",
+      "tmj": "assets/pro/maps/orange_town.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_stone_canal.webp",
+        "assets/pro/tilesets/ninja_adventure_village.webp"
+      ]
+    },
+    "baratie": {
+      "mapId": "baratie",
+      "tmj": "assets/pro/maps/baratie.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_stone_canal.webp",
+        "assets/pro/tilesets/ninja_adventure_village.webp"
+      ]
+    },
+    "arlong_park": {
+      "mapId": "arlong_park",
+      "tmj": "assets/pro/maps/arlong_park.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_stone_canal.webp",
+        "assets/pro/tilesets/ninja_adventure_village.webp"
+      ]
+    },
+    "loguetown": {
+      "mapId": "loguetown",
+      "tmj": "assets/pro/maps/loguetown.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_stone_canal.webp",
+        "assets/pro/tilesets/ninja_adventure_village.webp"
+      ]
+    },
+    "drum_kingdom": {
+      "mapId": "drum_kingdom",
+      "tmj": "assets/pro/maps/drum_kingdom.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_eastern_pagoda.webp",
+        "assets/pro/tilesets/ninja_adventure_village.webp"
+      ]
+    },
+    "skypiea": {
+      "mapId": "skypiea",
+      "tmj": "assets/pro/maps/skypiea.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_desert_palace.webp",
+        "assets/pro/tilesets/master_scifi_neon.webp"
+      ]
+    },
+    "thriller_bark": {
+      "mapId": "thriller_bark",
+      "tmj": "assets/pro/maps/thriller_bark.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_eastern_pagoda.webp",
+        "assets/pro/tilesets/ninja_adventure_village.webp"
+      ]
+    },
+    "marineford": {
+      "mapId": "marineford",
+      "tmj": "assets/pro/maps/marineford.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_stone_canal.webp",
+        "assets/pro/tilesets/master_eastern_pagoda.webp"
+      ]
+    },
+    "fishman_island": {
+      "mapId": "fishman_island",
+      "tmj": "assets/pro/maps/fishman_island.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_scifi_neon.webp",
+        "assets/pro/tilesets/master_desert_palace.webp"
+      ]
+    },
+    "dressrosa": {
+      "mapId": "dressrosa",
+      "tmj": "assets/pro/maps/dressrosa.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_stone_canal.webp",
+        "assets/pro/tilesets/ninja_adventure_village.webp"
+      ]
+    },
+    "totto_land": {
+      "mapId": "totto_land",
+      "tmj": "assets/pro/maps/totto_land.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_scifi_neon.webp",
+        "assets/pro/tilesets/master_desert_palace.webp"
+      ]
+    },
+    "elbaf": {
+      "mapId": "elbaf",
+      "tmj": "assets/pro/maps/elbaf.tmj",
+      "pixelScale": 2,
+      "tilesets": [
+        "assets/pro/tilesets/master_eastern_pagoda.webp",
+        "assets/pro/tilesets/ninja_adventure_village.webp"
       ]
     }
   },
@@ -4259,6 +8263,231 @@
         "assets/pro/backgrounds/battle_arlong_layer1.webp",
         "assets/pro/backgrounds/battle_arlong_layer2.webp",
         "assets/pro/backgrounds/battle_arlong_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "battle_don_krieg": {
+      "bgId": "battle_don_krieg",
+      "layers": [
+        "assets/pro/backgrounds/battle_don_krieg_layer0.webp",
+        "assets/pro/backgrounds/battle_don_krieg_layer1.webp",
+        "assets/pro/backgrounds/battle_don_krieg_layer2.webp",
+        "assets/pro/backgrounds/battle_don_krieg_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "battle_smoker": {
+      "bgId": "battle_smoker",
+      "layers": [
+        "assets/pro/backgrounds/battle_smoker_layer0.webp",
+        "assets/pro/backgrounds/battle_smoker_layer1.webp",
+        "assets/pro/backgrounds/battle_smoker_layer2.webp",
+        "assets/pro/backgrounds/battle_smoker_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "drum_snow_peak": {
+      "bgId": "drum_snow_peak",
+      "layers": [
+        "assets/pro/backgrounds/drum_snow_peak_layer0.webp",
+        "assets/pro/backgrounds/drum_snow_peak_layer1.webp",
+        "assets/pro/backgrounds/drum_snow_peak_layer2.webp",
+        "assets/pro/backgrounds/drum_snow_peak_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "alabasta_desert": {
+      "bgId": "alabasta_desert",
+      "layers": [
+        "assets/pro/backgrounds/alabasta_desert_layer0.webp",
+        "assets/pro/backgrounds/alabasta_desert_layer1.webp",
+        "assets/pro/backgrounds/alabasta_desert_layer2.webp",
+        "assets/pro/backgrounds/alabasta_desert_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "skypiea_upper_yard": {
+      "bgId": "skypiea_upper_yard",
+      "layers": [
+        "assets/pro/backgrounds/skypiea_upper_yard_layer0.webp",
+        "assets/pro/backgrounds/skypiea_upper_yard_layer1.webp",
+        "assets/pro/backgrounds/skypiea_upper_yard_layer2.webp",
+        "assets/pro/backgrounds/skypiea_upper_yard_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "water7_dock": {
+      "bgId": "water7_dock",
+      "layers": [
+        "assets/pro/backgrounds/water7_dock_layer0.webp",
+        "assets/pro/backgrounds/water7_dock_layer1.webp",
+        "assets/pro/backgrounds/water7_dock_layer2.webp",
+        "assets/pro/backgrounds/water7_dock_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "thriller_bark_gothic": {
+      "bgId": "thriller_bark_gothic",
+      "layers": [
+        "assets/pro/backgrounds/thriller_bark_gothic_layer0.webp",
+        "assets/pro/backgrounds/thriller_bark_gothic_layer1.webp",
+        "assets/pro/backgrounds/thriller_bark_gothic_layer2.webp",
+        "assets/pro/backgrounds/thriller_bark_gothic_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "marineford_ice_bay": {
+      "bgId": "marineford_ice_bay",
+      "layers": [
+        "assets/pro/backgrounds/marineford_ice_bay_layer0.webp",
+        "assets/pro/backgrounds/marineford_ice_bay_layer1.webp",
+        "assets/pro/backgrounds/marineford_ice_bay_layer2.webp",
+        "assets/pro/backgrounds/marineford_ice_bay_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "fishman_island_seabed": {
+      "bgId": "fishman_island_seabed",
+      "layers": [
+        "assets/pro/backgrounds/fishman_island_seabed_layer0.webp",
+        "assets/pro/backgrounds/fishman_island_seabed_layer1.webp",
+        "assets/pro/backgrounds/fishman_island_seabed_layer2.webp",
+        "assets/pro/backgrounds/fishman_island_seabed_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "dressrosa_colosseum": {
+      "bgId": "dressrosa_colosseum",
+      "layers": [
+        "assets/pro/backgrounds/dressrosa_colosseum_layer0.webp",
+        "assets/pro/backgrounds/dressrosa_colosseum_layer1.webp",
+        "assets/pro/backgrounds/dressrosa_colosseum_layer2.webp",
+        "assets/pro/backgrounds/dressrosa_colosseum_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "whole_cake_mirror": {
+      "bgId": "whole_cake_mirror",
+      "layers": [
+        "assets/pro/backgrounds/whole_cake_mirror_layer0.webp",
+        "assets/pro/backgrounds/whole_cake_mirror_layer1.webp",
+        "assets/pro/backgrounds/whole_cake_mirror_layer2.webp",
+        "assets/pro/backgrounds/whole_cake_mirror_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "onigashima_rooftop": {
+      "bgId": "onigashima_rooftop",
+      "layers": [
+        "assets/pro/backgrounds/onigashima_rooftop_layer0.webp",
+        "assets/pro/backgrounds/onigashima_rooftop_layer1.webp",
+        "assets/pro/backgrounds/onigashima_rooftop_layer2.webp",
+        "assets/pro/backgrounds/onigashima_rooftop_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "egghead_lab": {
+      "bgId": "egghead_lab",
+      "layers": [
+        "assets/pro/backgrounds/egghead_lab_layer0.webp",
+        "assets/pro/backgrounds/egghead_lab_layer1.webp",
+        "assets/pro/backgrounds/egghead_lab_layer2.webp",
+        "assets/pro/backgrounds/egghead_lab_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "elbaf_underworld": {
+      "bgId": "elbaf_underworld",
+      "layers": [
+        "assets/pro/backgrounds/elbaf_underworld_layer0.webp",
+        "assets/pro/backgrounds/elbaf_underworld_layer1.webp",
+        "assets/pro/backgrounds/elbaf_underworld_layer2.webp",
+        "assets/pro/backgrounds/elbaf_underworld_layer3.webp"
+      ],
+      "parallaxFactors": [
+        0.06,
+        0.18,
+        0.48,
+        1
+      ]
+    },
+    "impel_down_hell": {
+      "bgId": "impel_down_hell",
+      "layers": [
+        "assets/pro/backgrounds/impel_down_hell_layer0.webp",
+        "assets/pro/backgrounds/impel_down_hell_layer1.webp",
+        "assets/pro/backgrounds/impel_down_hell_layer2.webp",
+        "assets/pro/backgrounds/impel_down_hell_layer3.webp"
       ],
       "parallaxFactors": [
         0.06,

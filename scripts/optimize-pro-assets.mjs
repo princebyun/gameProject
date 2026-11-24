@@ -3,6 +3,38 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
+// Prevent libvips file-handle retention on Windows during rapid PNG -> WebP replacement
+sharp.cache(false);
+
+async function withWindowsFsRetry(op) {
+  for (let attempt = 0; attempt < 8; attempt++) {
+    try {
+      return op();
+    } catch (err) {
+      if ((err?.code === 'EPERM' || err?.code === 'EBUSY' || err?.code === 'EACCES') && attempt < 7) {
+        await new Promise((r) => setTimeout(r, 50 * (attempt + 1)));
+        continue;
+      }
+      throw err;
+    }
+  }
+  return op();
+}
+
+async function safeUnlink(filePath) {
+  await withWindowsFsRetry(() => {
+    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+  });
+}
+
+async function safeReadBuffer(filePath) {
+  return withWindowsFsRetry(() => fs.readFileSync(filePath));
+}
+
+async function safeWriteBuffer(filePath, buf) {
+  await withWindowsFsRetry(() => fs.writeFileSync(filePath, buf));
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
@@ -44,7 +76,8 @@ export async function decodeImageToRgba(imageBuffer) {
 }
 
 export async function getImageMetadata(input) {
-  const meta = await sharp(input).metadata();
+  const buf = typeof input === 'string' ? fs.readFileSync(input) : input;
+  const meta = await sharp(buf).metadata();
   return {
     width: meta.width ?? 0,
     height: meta.height ?? 0,
@@ -97,7 +130,11 @@ export function inferAssetPolicyFromPath(relPublicPath, manifestEntriesByPath) {
   if (normalized.includes('/portraits/')) {
     return { id: normalized, category: 'portrait', isGiant: false };
   }
-  return { id: normalized, category: 'sprite', isGiant: false };
+  const isGiantHint =
+    /(?:kaido|saturn|loki|amuru|flame_dragon|gyuki|ragnir|giant|monster_point|demonio_fleur|franky_general|yokai|dragon|sea_king)/i.test(
+      normalized
+    );
+  return { id: normalized, category: 'sprite', isGiant: isGiantHint };
 }
 
 function walkFiles(dir, out = []) {
@@ -298,7 +335,7 @@ export async function optimizeProAssetsPipeline(options = {}) {
   for (const absPng of pngFiles) {
     const relFromPublic = toPosixRel(publicDir, absPng);
     const relUnderPro = toPosixRel(proDir, absPng);
-    const pngBuf = fs.readFileSync(absPng);
+    const pngBuf = await safeReadBuffer(absPng);
     const dims = await getImageMetadata(pngBuf);
     const policy = inferAssetPolicyFromPath(relFromPublic, manifestByPath);
     validateAtlasResolution(policy, dims);
@@ -310,7 +347,7 @@ export async function optimizeProAssetsPipeline(options = {}) {
       const backupPath = path.join(originalsRoot, relUnderPro);
       fs.mkdirSync(path.dirname(backupPath), { recursive: true });
       if (!fs.existsSync(backupPath)) {
-        fs.writeFileSync(backupPath, pngBuf);
+        await safeWriteBuffer(backupPath, pngBuf);
       }
     }
 
@@ -322,15 +359,15 @@ export async function optimizeProAssetsPipeline(options = {}) {
       keptMicroPngCount += 1;
       pathMap.set(relFromPublic, relFromPublic);
       if (!dryRun && fs.existsSync(absWebp)) {
-        fs.unlinkSync(absWebp);
+        await safeUnlink(absWebp);
       }
     } else {
       totalOutBytes += webpBuf.byteLength;
       convertedCount += 1;
       pathMap.set(relFromPublic, relWebp);
       if (!dryRun) {
-        fs.writeFileSync(absWebp, webpBuf);
-        fs.unlinkSync(absPng);
+        await safeWriteBuffer(absWebp, webpBuf);
+        await safeUnlink(absPng);
         deletedDuplicatePngCount += 1;
       }
     }
@@ -339,7 +376,8 @@ export async function optimizeProAssetsPipeline(options = {}) {
   // Validate pre-existing WebP files as well and clean any duplicate PNG siblings
   for (const absWebp of webpFiles) {
     const relFromPublic = toPosixRel(publicDir, absWebp);
-    const dims = await getImageMetadata(absWebp);
+    const webpBuf = await safeReadBuffer(absWebp);
+    const dims = await getImageMetadata(webpBuf);
     const policy = inferAssetPolicyFromPath(relFromPublic, manifestByPath);
     validateAtlasResolution(policy, dims);
     const relPng = relFromPublic.replace(/\.webp$/i, '.png');
@@ -391,7 +429,10 @@ async function runCli() {
   console.log(`   • Metadata synced: ${res.updatedMetaFiles.length} linked file(s)`);
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(__filename)) {
+if (
+  process.argv[1] &&
+  path.resolve(process.argv[1]).toLowerCase() === path.resolve(__filename).toLowerCase()
+) {
   runCli().catch((err) => {
     console.error('❌ Lossless WebP optimization failed:', err);
     process.exit(1);

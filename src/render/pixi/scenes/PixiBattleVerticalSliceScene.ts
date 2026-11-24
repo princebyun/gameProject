@@ -12,6 +12,7 @@ import { SpriteAnimationController } from '../../sprite/spriteAnimationControlle
 import type { RenderAccessibilitySettings } from '../../canvasRenderer';
 import type { VisualPolishConfig } from '../../backend/renderBackend';
 import type { ViewportMetrics } from '../../viewport/responsiveViewportManager';
+import { resolveBattleBackdropId } from '../pixiBundleHelpers';
 import type { PixiStageHost } from '../PixiStageHost';
 import {
   createMissingProArtPlaceholder,
@@ -26,6 +27,7 @@ import {
 import { GodRaysAndParticlesLayer } from '../shaders/GodRaysAndParticlesLayer';
 import { SelectiveBloomEffect } from '../shaders/SelectiveBloomFilter';
 import { ShockwaveDistortionEffect } from '../shaders/ShockwaveDistortionFilter';
+import { GiantBossShaderPipeline } from '../shaders/GiantBossShaderPipeline';
 import {
   WaterReflectionPipeline,
   type ReflectedWorldEntry
@@ -61,6 +63,7 @@ export class PixiBattleVerticalSliceScene implements Disposable {
   private readonly colorGrading: AtmosphereColorGradingEffect;
   private readonly godRays: GodRaysAndParticlesLayer;
   private readonly shockwave: ShockwaveDistortionEffect;
+  private readonly giantBossPipeline: GiantBossShaderPipeline;
   private readonly fxHelper: PixiBattleEffectsHelper;
   private readonly parryFeedback: PixiParryAndGimmickFeedback;
   private readonly banterOverlay: BattleBanterOverlay;
@@ -95,16 +98,20 @@ export class PixiBattleVerticalSliceScene implements Disposable {
     this.colorGrading = new AtmosphereColorGradingEffect();
     this.godRays = new GodRaysAndParticlesLayer();
     this.shockwave = new ShockwaveDistortionEffect();
+    this.giantBossPipeline = new GiantBossShaderPipeline();
     this.fxHelper = new PixiBattleEffectsHelper(host);
     this.parryFeedback = new PixiParryAndGimmickFeedback();
     this.banterOverlay = new BattleBanterOverlay(host);
 
     this.emissiveLayer.filters = [this.bloom.filter];
     this.emissiveLayer.addChild(this.emissiveGfx);
+    this.emissiveLayer.addChild(this.giantBossPipeline.auraEmissiveLayer);
     this.emissiveLayer.addChild(this.fxHelper.worldAssistRoot);
 
     this.arenaWorldContainer.addChild(this.shadowLayer);
     this.arenaWorldContainer.addChild(this.floorHazardsGfx);
+    this.arenaWorldContainer.addChild(this.giantBossPipeline.floorTelegraphLayer);
+    this.arenaWorldContainer.addChild(this.giantBossPipeline.groundCrackLayer);
     this.arenaWorldContainer.addChild(this.ysortLayer);
     this.arenaWorldContainer.addChild(this.emissiveLayer);
     this.arenaWorldContainer.addChild(this.parryFeedback.worldOverlayRoot);
@@ -116,11 +123,23 @@ export class PixiBattleVerticalSliceScene implements Disposable {
     this.root.addChild(this.banterOverlay.root);
     this.root.addChild(this.fxHelper.cutinOverlay);
 
-    this.root.filters = [this.shockwave.filter, this.colorGrading.filter];
+    this.root.filters = [
+      this.shockwave.filter,
+      this.giantBossPipeline.chromaticFilter,
+      this.colorGrading.filter
+    ];
   }
 
   public get isVisualHitstopActive(): boolean {
     return this.visualHitstopFrames > 0;
+  }
+
+  public get currentCameraZoom(): number {
+    return this.giantBossPipeline.currentCameraZoom;
+  }
+
+  public get bossPipeline(): GiantBossShaderPipeline {
+    return this.giantBossPipeline;
   }
 
   public get effectsHelper(): PixiBattleEffectsHelper {
@@ -147,8 +166,9 @@ export class PixiBattleVerticalSliceScene implements Disposable {
 
     await this.host.bundleManager.loadSceneBundles([battleBundleName]);
 
+    const resolvedBgId = resolveBattleBackdropId(battleBundleName, this.host.loader.manifest);
     const bgEntry =
-      this.host.loader.manifest.backgrounds[battleBundleName] ??
+      this.host.loader.manifest.backgrounds[resolvedBgId] ??
       this.host.loader.manifest.backgrounds['east_blue_harbor'];
     if (bgEntry && !this.disposed) {
       const textures = await this.host.loader.loadBackgroundLayers(bgEntry);
@@ -242,8 +262,8 @@ export class PixiBattleVerticalSliceScene implements Disposable {
     }
 
     const cam = computeArenaCameraOffset(world, alpha, settings, cameraTargetIndex, viewport);
-    const hasGiant = world.units.some((u) => u.isOnField && u.isAlive && u.entityScale >= 1.6);
-    const zoom = hasGiant ? 0.88 : 1.0;
+    const framing = this.giantBossPipeline.computeCameraFraming(world, viewport, dtSec);
+    const zoom = framing.zoom;
 
     // 1. 4-Layer Parallax Backdrop adapted cleanly to 960~1260 x 540 viewport
     for (let i = 0; i < this.backdropLayerSprites.length; i++) {
@@ -277,14 +297,14 @@ export class PixiBattleVerticalSliceScene implements Disposable {
       this.banterOverlay.showBanter('buggy', parryRes.buggyBanterTriggerText, 2.8);
     }
 
-    // 2.5 Arena transform (with optional 3-tick presentation parry hitstop freeze)
+    // 2.5 Arena transform (with giant boss dynamic zoom-out & 3-tick parry hitstop freeze)
     if (this.visualHitstopFrames > 0) {
       this.visualHitstopFrames -= 1;
     } else {
       this.arenaWorldContainer.scale.set(zoom);
       this.arenaWorldContainer.position.set(
         Math.round(cam.x + viewport.viewWidth * 0.5 * (1 - zoom)),
-        Math.round(cam.y + viewport.viewHeight * 0.5 * (1 - zoom))
+        Math.round(cam.y + viewport.viewHeight * 0.5 * (1 - zoom) + framing.headroomOffsetY)
       );
     }
 
@@ -446,7 +466,23 @@ export class PixiBattleVerticalSliceScene implements Disposable {
       }
     }
 
-    // 5. VFX Events, Armament Parry Shockwave + 3-Tick Hitstop, Awakening Cut-in
+    // 5. Giant Boss Shader Pipeline (Telegraphs, Boss Aura, Crack Decals, Phase-2 Cut-in)
+    const bossFx = this.giantBossPipeline.step(world, cam, viewport, polish, dtSec);
+    for (const pt of bossFx.shockwavePoints) {
+      const sx = (pt.x * zoom + cam.x + viewport.viewWidth * 0.5 * (1 - zoom)) / Math.max(1, viewport.viewWidth);
+      const sy =
+        (pt.y * zoom + cam.y + viewport.viewHeight * 0.5 * (1 - zoom) + framing.headroomOffsetY) /
+        Math.max(1, viewport.viewHeight);
+      this.shockwave.trigger(sx, sy, 0.42);
+      if (settings.flashEffectEnabled && polish.flashEffectEnabled) {
+        this.bloomSpike = 0.72;
+      }
+    }
+    for (const bLight of bossFx.lights) {
+      this.scratchLights.push(bLight);
+    }
+
+    // 5.5 VFX Events, Armament Parry Shockwave + 3-Tick Hitstop, Awakening Cut-in
     const triggeredShockwaves = this.fxHelper.syncVfxEvents(
       world,
       this.emissiveLayer,
@@ -461,6 +497,14 @@ export class PixiBattleVerticalSliceScene implements Disposable {
         this.visualHitstopFrames = Math.max(this.visualHitstopFrames, 3);
       }
     );
+
+    if (bossFx.phaseCutin) {
+      this.fxHelper.pixelCutin.triggerBossPhaseCutin(
+        bossFx.phaseCutin.unitId,
+        bossFx.phaseCutin.headline,
+        bossFx.phaseCutin.subline
+      );
+    }
 
     if (this.bloomSpike > 0) {
       this.bloomSpike = Math.max(0, this.bloomSpike - dtSec * 3.0);
@@ -508,6 +552,7 @@ export class PixiBattleVerticalSliceScene implements Disposable {
       0.16,
       1.15,
       this.bloomSpike +
+        bossFx.bloomBoost +
         this.fxHelper.getCutinBloomBoost() +
         (triggeredShockwaves > 0 || parryRes.shockwavePoints.length > 0 ? 0.4 : 0)
     );
@@ -537,6 +582,7 @@ export class PixiBattleVerticalSliceScene implements Disposable {
     this.colorGrading.dispose();
     this.godRays.dispose();
     this.shockwave.dispose();
+    this.giantBossPipeline.dispose();
     this.parryFeedback.dispose();
     this.banterOverlay.dispose();
     this.fxHelper.dispose();

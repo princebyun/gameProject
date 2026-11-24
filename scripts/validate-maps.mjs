@@ -378,6 +378,7 @@ function validateTiledTmjMap(tmjPath, islandJsonById, errors) {
   const tmjDir = path.dirname(tmjPath);
   const solidGids = new Set();
   const waterGids = new Set();
+  const validGidRanges = [];
 
   for (const ts of tmj.tilesets ?? []) {
     if (typeof ts.image === 'string' && ts.image) {
@@ -394,6 +395,13 @@ function validateTiledTmjMap(tmjPath, islandJsonById, errors) {
     }
     if (absTsx.toLowerCase().endsWith('.tsx')) {
       const xml = fs.readFileSync(absTsx, 'utf8');
+      const countMatch = xml.match(/<tileset\b[^>]*\btilecount\s*=\s*"(\d+)"/i);
+      const tileCount = countMatch && countMatch[1] ? Number(countMatch[1]) : 256;
+      validGidRanges.push({
+        source: ts.source,
+        firstgid: ts.firstgid,
+        maxgid: ts.firstgid + tileCount - 1
+      });
       const m = xml.match(/<image\b[^>]*\bsource\s*=\s*"([^"]+)"/i);
       if (!m) {
         errors.push(`[${tmjName}] External .tsx '${ts.source}' missing <image source="...">`);
@@ -460,6 +468,23 @@ function validateTiledTmjMap(tmjPath, islandJsonById, errors) {
   const groundData = layersByRole.get('ground')?.data ?? [];
   const wallsData = layersByRole.get('walls_props')?.data ?? [];
   const GID_MASK = 0x1fffffff;
+
+  if (validGidRanges.length > 0) {
+    for (const layerRole of ['water', 'ground', 'ground_detail', 'walls_props', 'overhead']) {
+      const data = layersByRole.get(layerRole)?.data ?? [];
+      for (let i = 0; i < data.length; i++) {
+        const gid = (data[i] ?? 0) & GID_MASK;
+        if (gid === 0) continue;
+        const ok = validGidRanges.some((r) => gid >= r.firstgid && gid <= r.maxgid);
+        if (!ok) {
+          errors.push(
+            `[${tmjName}] Layer '${layerRole}' contains out-of-bounds tile GID=${gid} at index ${i}`
+          );
+          break;
+        }
+      }
+    }
+  }
 
   const isBlockedPass = (tx, ty, includeBarriers) => {
     if (tx < 0 || tx >= cols || ty < 0 || ty >= rows) return true;

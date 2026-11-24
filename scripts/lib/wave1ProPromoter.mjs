@@ -6,7 +6,12 @@ import {
   decodePng,
   encodeImageToPng
 } from './pngCodec.mjs';
-import { decodeImageToRgba, REGULAR_ATLAS_MAX_DIM } from '../optimize-pro-assets.mjs';
+import {
+  decodeImageToRgba,
+  encodeLosslessWebpBuffer,
+  GIANT_OR_TILESET_MAX_DIM,
+  REGULAR_ATLAS_MAX_DIM
+} from '../optimize-pro-assets.mjs';
 
 const STANDARD_STATES = [
   'IDLE',
@@ -222,7 +227,7 @@ function findCellTightBounds(sheetImg, cellX, cellY, cellW, cellH) {
  * Tight-packs an external 96x96 NDS grid sheet (`source === EXTERNAL_WEB_SHEET`)
  * into an Aseprite JSON Hash atlas <= 1024x1024 with TorsoWeightedPivotSolver pivots.
  */
-export function promoteExternalGridSheetToPro(rootDir, key, unitId) {
+export async function promoteExternalGridSheetToPro(rootDir, key, unitId, options = {}) {
   const stdPngPath = path.join(rootDir, 'public/assets/sprites', `${key}.png`);
   const stdMetaPath = path.join(rootDir, 'public/assets/sprites', `${key}.meta.json`);
   if (!fs.existsSync(stdPngPath) || !fs.existsSync(stdMetaPath)) return null;
@@ -231,6 +236,9 @@ export function promoteExternalGridSheetToPro(rootDir, key, unitId) {
   if (stdMeta.source !== 'EXTERNAL_WEB_SHEET') {
     return null;
   }
+
+  const maxAtlasDim = options.isGiant ? GIANT_OR_TILESET_MAX_DIM : REGULAR_ATLAS_MAX_DIM;
+  const debugPrefix = options.debugPrefix ?? 'wave1';
 
   const sheetImg = decodePng(fs.readFileSync(stdPngPath));
   const fw = stdMeta.frameWidth ?? 96;
@@ -261,64 +269,68 @@ export function promoteExternalGridSheetToPro(rootDir, key, unitId) {
   const idleMedianW = medianNum(idleBoxes.map((b) => b.w), 36);
   const idleMedianH = medianNum(idleBoxes.map((b) => b.h), 60);
 
-  const maxAtlasW = REGULAR_ATLAS_MAX_DIM;
-  const pad = 2;
-  let cursorX = pad;
-  let cursorY = pad;
-  let rowMaxH = 0;
+  const packWithWidth = (targetW) => {
+    const pad = 2;
+    let cursorX = pad;
+    let cursorY = pad;
+    let rowMaxH = 0;
+    const placements = [];
+    const framesHash = {};
+    const frameTags = [];
+    let globalIdx = 0;
 
-  const placements = [];
-  const framesHash = {};
-  const frameTags = [];
-  let globalIdx = 0;
-
-  for (const clip of rawClips) {
-    const fromIdx = globalIdx;
-    for (let f = 0; f < clip.boxes.length; f++) {
-      const box = clip.boxes[f];
-      if (!box) continue;
-      if (cursorX + box.w + pad > maxAtlasW) {
-        cursorX = pad;
-        cursorY += rowMaxH + pad;
-        rowMaxH = 0;
-      }
-
-      const pivotPx = solveTorsoWeightedPivot(sheetImg.data, sheetImg.width, box, idleMedianW);
-      const frameName = `${clip.state.toLowerCase()}_${f}`;
-      placements.push({ box, dx: cursorX, dy: cursorY });
-      framesHash[frameName] = {
-        frame: { x: cursorX, y: cursorY, w: box.w, h: box.h },
-        rotated: false,
-        trimmed: false,
-        spriteSourceSize: { x: 0, y: 0, w: box.w, h: box.h },
-        sourceSize: { w: box.w, h: box.h },
-        duration: Math.max(40, Math.round(1000 / clip.fps)),
-        pivot: {
-          x: Number((pivotPx.pivotX / Math.max(1, box.w)).toFixed(4)),
-          y: Number((pivotPx.pivotY / Math.max(1, box.h)).toFixed(4))
+    for (const clip of rawClips) {
+      const fromIdx = globalIdx;
+      for (let f = 0; f < clip.boxes.length; f++) {
+        const box = clip.boxes[f];
+        if (!box) continue;
+        if (cursorX + box.w + pad > targetW) {
+          cursorX = pad;
+          cursorY += rowMaxH + pad;
+          rowMaxH = 0;
         }
-      };
+        const pivotPx = solveTorsoWeightedPivot(sheetImg.data, sheetImg.width, box, idleMedianW);
+        const frameName = `${clip.state.toLowerCase()}_${f}`;
+        placements.push({ box, dx: cursorX, dy: cursorY });
+        framesHash[frameName] = {
+          frame: { x: cursorX, y: cursorY, w: box.w, h: box.h },
+          rotated: false,
+          trimmed: false,
+          spriteSourceSize: { x: 0, y: 0, w: box.w, h: box.h },
+          sourceSize: { w: box.w, h: box.h },
+          duration: Math.max(40, Math.round(1000 / clip.fps)),
+          pivot: {
+            x: Number((pivotPx.pivotX / Math.max(1, box.w)).toFixed(4)),
+            y: Number((pivotPx.pivotY / Math.max(1, box.h)).toFixed(4))
+          }
+        };
+        cursorX += box.w + pad;
+        if (box.h > rowMaxH) rowMaxH = box.h;
+        globalIdx += 1;
+      }
+      if (globalIdx > fromIdx) {
+        frameTags.push({
+          name: clip.state,
+          from: fromIdx,
+          to: globalIdx - 1,
+          direction: 'forward',
+          fps: clip.fps,
+          loop: clip.loop,
+          ...(clip.hitFrame !== undefined ? { hitFrame: clip.hitFrame } : {})
+        });
+      }
+    }
+    const totalH = Math.max(64, cursorY + rowMaxH + pad);
+    return { targetW, totalH, placements, framesHash, frameTags, globalIdx };
+  };
 
-      cursorX += box.w + pad;
-      if (box.h > rowMaxH) rowMaxH = box.h;
-      globalIdx += 1;
-    }
-    if (globalIdx > fromIdx) {
-      frameTags.push({
-        name: clip.state,
-        from: fromIdx,
-        to: globalIdx - 1,
-        direction: 'forward',
-        fps: clip.fps,
-        loop: clip.loop,
-        ...(clip.hitFrame !== undefined ? { hitFrame: clip.hitFrame } : {})
-      });
-    }
+  let packed = packWithWidth(REGULAR_ATLAS_MAX_DIM);
+  if (packed.totalH > REGULAR_ATLAS_MAX_DIM && maxAtlasDim > REGULAR_ATLAS_MAX_DIM) {
+    packed = packWithWidth(maxAtlasDim);
   }
-
-  const totalH = Math.max(64, cursorY + rowMaxH + pad);
-  if (totalH > REGULAR_ATLAS_MAX_DIM) {
-    throw new Error(`ATLAS_MAX_RESOLUTION_EXCEEDED for ${key}: ${maxAtlasW}x${totalH}`);
+  const { targetW: maxAtlasW, totalH, placements, framesHash, frameTags, globalIdx } = packed;
+  if (totalH > maxAtlasDim) {
+    throw new Error(`ATLAS_MAX_RESOLUTION_EXCEEDED for ${key}: ${maxAtlasW}x${totalH} (cap ${maxAtlasDim})`);
   }
 
   const atlasImg = createImage(maxAtlasW, totalH);
@@ -336,23 +348,24 @@ export function promoteExternalGridSheetToPro(rootDir, key, unitId) {
     );
   }
 
-  const outPngPath = path.join(rootDir, 'public/assets/pro/sprites', `${key}.png`);
   const outWebpPath = path.join(rootDir, 'public/assets/pro/sprites', `${key}.webp`);
   const outJsonPath = path.join(rootDir, 'public/assets/pro/sprites', `${key}.json`);
-  if (fs.existsSync(outWebpPath)) {
-    // Allow fresh PNG -> lossless WebP re-encoding cleanly without duplicate conflict
-    fs.unlinkSync(outWebpPath);
-  }
-  fs.mkdirSync(path.dirname(outPngPath), { recursive: true });
-  fs.writeFileSync(outPngPath, encodeImageToPng(atlasImg));
+  const origPngPath = path.join(rootDir, 'raw_assets/pro_originals/sprites', `${key}.png`);
+  const pngBuf = encodeImageToPng(atlasImg);
+  const webpBuf = await encodeLosslessWebpBuffer(pngBuf);
 
-  const ppuSpec = WAVE1_PPU_SPECS[unitId] ?? { ppuScale: 1.0, targetDisplayHeight: 108 };
+  fs.mkdirSync(path.dirname(outWebpPath), { recursive: true });
+  fs.mkdirSync(path.dirname(origPngPath), { recursive: true });
+  fs.writeFileSync(origPngPath, pngBuf);
+  fs.writeFileSync(outWebpPath, webpBuf);
+
+  const ppuSpec = options.ppuSpec ?? WAVE1_PPU_SPECS[unitId] ?? { ppuScale: 1.0, targetDisplayHeight: 108 };
   const aseJson = {
     frames: framesHash,
     meta: {
       app: 'opgv-pro-importer',
       version: '1.1',
-      image: `${key}.png`,
+      image: `${key}.webp`,
       format: 'RGBA8888',
       size: { w: atlasImg.width, h: atlasImg.height },
       anchor: { x: 0.5, y: 0.9 },
@@ -368,7 +381,7 @@ export function promoteExternalGridSheetToPro(rootDir, key, unitId) {
     atlasImg.width,
     atlasImg.height,
     framesHash,
-    path.join(rootDir, 'exported_thumbnails/import_debug', `wave1_${key}_debug.png`)
+    path.join(rootDir, 'exported_thumbnails/import_debug', `${debugPrefix}_${key}_debug.png`)
   );
 
   return { key, unitId, frameCount: globalIdx, width: atlasImg.width, height: atlasImg.height, idleMedianH };
@@ -376,9 +389,9 @@ export function promoteExternalGridSheetToPro(rootDir, key, unitId) {
 
 /**
  * Re-computes TorsoWeightedPivotSolver pivots & locked PPU reference heights
- * on already-promoted pro Aseprite Hash atlases (`luffy_base`, `zoro_base`, `buggy_base`).
+ * on already-promoted pro Aseprite Hash atlases (`luffy_base`, `zoro_base`, `buggy_base`, etc.).
  */
-export async function refreshExistingProSpritePivots(rootDir, key, unitId) {
+export async function refreshExistingProSpritePivots(rootDir, key, unitId, options = {}) {
   const spritesDir = path.join(rootDir, 'public/assets/pro/sprites');
   const jsonPath = path.join(spritesDir, `${key}.json`);
   const webpPath = path.join(spritesDir, `${key}.webp`);
@@ -408,18 +421,19 @@ export async function refreshExistingProSpritePivots(rootDir, key, unitId) {
     count += 1;
   }
 
-  const ppuSpec = WAVE1_PPU_SPECS[unitId] ?? { ppuScale: 1.0, targetDisplayHeight: 108 };
+  const ppuSpec = options.ppuSpec ?? WAVE1_PPU_SPECS[unitId] ?? { ppuScale: 1.0, targetDisplayHeight: 108 };
   aseJson.meta = aseJson.meta ?? {};
   aseJson.meta.referenceIdleHeight = idleMedianH;
   aseJson.meta.ppuScale = ppuSpec.ppuScale;
   fs.writeFileSync(jsonPath, `${JSON.stringify(aseJson, null, 2)}\n`, 'utf-8');
 
+  const debugPrefix = options.debugPrefix ?? 'wave1';
   writeDebugOverlayFromAtlas(
     decoded.data,
     decoded.width,
     decoded.height,
     framesObj,
-    path.join(rootDir, 'exported_thumbnails/import_debug', `wave1_${key}_debug.png`)
+    path.join(rootDir, 'exported_thumbnails/import_debug', `${debugPrefix}_${key}_debug.png`)
   );
 
   return { key, unitId, frameCount: count, width: decoded.width, height: decoded.height, idleMedianH };

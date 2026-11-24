@@ -201,9 +201,9 @@ describe('Step 1: Lossless WebP Pipeline & pro_manifest.json SSOT', () => {
     expect(errors).toEqual([]);
 
     const summary = getProManifestStatusSummary(defaultProAssetManifest);
-    expect(summary.total).toBeGreaterThanOrEqual(150);
-    expect(summary.imported + summary.verified).toBeGreaterThanOrEqual(60);
-    expect(summary.placeholder).toBeGreaterThanOrEqual(80);
+    expect(summary.total).toBeGreaterThanOrEqual(300);
+    expect(summary.imported + summary.verified).toBeGreaterThanOrEqual(300);
+    expect(summary.placeholder).toBeGreaterThanOrEqual(20);
 
     const bundles = getManifestEntriesByBundle(defaultProAssetManifest);
     expect(bundles.has('core_always')).toBe(true);

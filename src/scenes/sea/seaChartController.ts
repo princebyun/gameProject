@@ -24,6 +24,7 @@ export interface SeaChartHost {
   saveIndicatorTimer: number;
   clearTransientFocusAndInput(): void;
   syncSceneBgm(): void;
+  syncSceneBundles?: () => void;
   refreshSideDrawer(): void;
   triggerAutoSave(reason: string): Promise<void>;
 }
@@ -165,6 +166,7 @@ export class SeaChartController implements Disposable {
           host.saveIndicatorText = res.notice.slice(0, 28);
           host.saveIndicatorTimer = 2.5;
           host.syncSceneBgm();
+          host.syncSceneBundles?.();
           host.refreshSideDrawer();
           void host.triggerAutoSave('빠른 항해');
         } else {

@@ -66,6 +66,7 @@ export class WaterReflectionPipeline {
   private reflectionRt: ReturnType<PixiStageHost['createTrackedRenderTexture']> | null = null;
   private width = 960;
   private height = 540;
+  private lastWaveAmp = 0.0048;
   private disposed = false;
 
   constructor(private readonly host: PixiStageHost) {
@@ -106,6 +107,10 @@ export class WaterReflectionPipeline {
     this.reflectionSprite.visible = false;
   }
 
+  public get currentWaveAmp(): number {
+    return this.lastWaveAmp;
+  }
+
   public ensureSize(viewW: number, viewH: number): void {
     const safeW = Math.max(1, Math.round(viewW));
     const safeH = Math.max(1, Math.round(viewH));
@@ -144,6 +149,8 @@ export class WaterReflectionPipeline {
       maxDistAboveWater?: number;
       alphaMult?: number;
       specularMult?: number;
+      waveAmpMult?: number;
+      fullAreaReflection?: boolean;
     }
   ): void {
     if (this.disposed) return;
@@ -159,8 +166,11 @@ export class WaterReflectionPipeline {
     this.filter.enabled = true;
     const profile = TIME_OF_DAY_PROFILES[polish.timeOfDay];
     const specMult = options?.specularMult ?? 1.0;
+    const baseWave = polish.quality === 'HIGH' ? 0.0048 : 0.0032;
+    const waveAmp = Number((baseWave * (options?.waveAmpMult ?? 1.0)).toFixed(6));
+    this.lastWaveAmp = waveAmp;
     this.uniforms.uniforms.uTime = timeSec;
-    this.uniforms.uniforms.uWaveAmp = polish.quality === 'HIGH' ? 0.0048 : 0.0032;
+    this.uniforms.uniforms.uWaveAmp = waveAmp;
     this.uniforms.uniforms.uPixelRows = Math.max(64, Math.round(viewH * 0.25));
     this.uniforms.uniforms.uSpecularStrength =
       (polish.flashEffectEnabled
@@ -177,26 +187,27 @@ export class WaterReflectionPipeline {
     let used = 0;
     const maxDist = options?.maxDistAboveWater ?? 240;
     const alphaMult = options?.alphaMult ?? 1.0;
+    const fullArea = Boolean(options?.fullAreaReflection);
     const count = Math.min(MAX_REFLECTED_SPRITES, entries.length);
     for (let i = 0; i < count; i++) {
       const e = entries[i];
       const sp = this.spritePool[used];
       if (!e || !sp) continue;
 
-      const clampedPivotY = Math.min(e.worldY, waterlineWorldY);
-      const distAboveWater = Math.max(0, waterlineWorldY - clampedPivotY);
-      // Skip items too far inland from casting long reflections into the bay
-      if (distAboveWater > maxDist) continue;
-
-      const reflectedY = waterlineWorldY + distAboveWater * 0.55 + 6;
+      let reflectedY = e.worldY + 8;
+      let distFactor = 0.78;
+      if (!fullArea) {
+        const clampedPivotY = Math.min(e.worldY, waterlineWorldY);
+        const distAboveWater = Math.max(0, waterlineWorldY - clampedPivotY);
+        if (distAboveWater > maxDist) continue;
+        reflectedY = waterlineWorldY + distAboveWater * 0.55 + 6;
+        distFactor = Math.max(0.25, 1 - distAboveWater / Math.max(100, maxDist + 20));
+      }
       sp.texture = e.texture;
       sp.position.set(Math.round(e.worldX), Math.round(reflectedY));
       sp.scale.set(e.scaleX, -Math.abs(e.scaleY) * 0.82);
       sp.tint = e.tint ?? 0xe0f2fe;
-      sp.alpha =
-        (e.alpha ?? 0.85) *
-        alphaMult *
-        Math.max(0.25, 1 - distAboveWater / Math.max(100, maxDist + 20));
+      sp.alpha = (e.alpha ?? 0.85) * alphaMult * distFactor;
       sp.visible = true;
       used += 1;
     }

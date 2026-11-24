@@ -346,7 +346,7 @@ export function promoteWave2MasterTilesets(rootDir) {
 
 const WALL_CHARS = new Set(['b', 'B', 'w', 'D']);
 
-function compileSingleHubTmj(rootDir, spec) {
+export function compileSingleHubTmj(rootDir, spec) {
   const islandJsonPath = path.join(rootDir, `src/data/islands/${spec.islandId}.json`);
   const island = JSON.parse(fs.readFileSync(islandJsonPath, 'utf-8'));
   const tm = island.tileMap;
@@ -405,19 +405,39 @@ function compileSingleHubTmj(rootDir, spec) {
     }
   }
 
-  // Genuine shared `.tsx` usage for Water Seven (`master_port_village.tsx` firstgid=257)
+  // Genuine shared `.tsx` usage when secondaryTileset is `master_port_village` (firstgid=257)
   if (spec.secondaryTileset === 'master_port_village') {
     const firstPort = 257;
     const pTile = (col, row) => firstPort + row * 28 + col;
-    const accentCoords = [
-      [19, 29, pTile(4, 5)],
-      [30, 29, pTile(6, 4)],
-      [14, 15, pTile(16, 15)],
-      [37, 15, pTile(17, 15)],
-      [25, 29, pTile(12, 5)]
-    ];
+    const accentCoords =
+      spec.secondaryAccents ??
+      (spec.islandId === 'water_seven'
+        ? [
+            [19, 29, pTile(4, 5)],
+            [30, 29, pTile(6, 4)],
+            [14, 15, pTile(16, 15)],
+            [37, 15, pTile(17, 15)],
+            [25, 29, pTile(12, 5)]
+          ]
+        : (() => {
+            // Pick up to 4 safe walkable non-water open tiles near spawn & port for crisp port accents
+            const spC = Math.floor(island.spawnPoint.x / 32);
+            const spR = Math.floor(island.spawnPoint.y / 32);
+            const candidates = [
+              [spC - 3, spR, pTile(4, 5)],
+              [spC + 3, spR, pTile(6, 4)],
+              [spC - 2, spR - 4, pTile(16, 15)],
+              [spC + 2, spR - 4, pTile(17, 15)],
+              [spC, spR + 1, pTile(12, 5)]
+            ];
+            return candidates.filter(([ac, ar]) => {
+              if (ac < 1 || ac >= cols - 1 || ar < 1 || ar >= rows - 1) return false;
+              const gCh = tm.groundRows[ar]?.[ac] ?? 'W';
+              return (tm.solidRows[ar]?.[ac] ?? '#') === '.' && gCh !== 'W' && gCh !== '~';
+            });
+          })());
     for (const [ac, ar, gid] of accentCoords) {
-      if ((tm.solidRows[ar]?.[ac] ?? '#') === '.') {
+      if (ac >= 0 && ac < cols && ar >= 0 && ar < rows && (tm.solidRows[ar]?.[ac] ?? '#') === '.') {
         setTile(detailData, ac, ar, gid);
       }
     }

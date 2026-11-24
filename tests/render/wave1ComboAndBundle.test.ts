@@ -254,7 +254,7 @@ describe('Wave 1 Pro Art Promotion, Party/Boss Bundles & 2:2 Combo / Parry WebGL
     }
 
     const helper = new PixiBattleEffectsHelper(host);
-    expect(defaultWaveCombos.length).toBe(3);
+    expect(defaultWaveCombos.length).toBe(7);
     expect(findWaveComboForPair('zoro', 'luffy')?.id).toBe('rubber_three_sword_cannon');
     expect(findWaveComboForPair('zoro', 'sanji')?.id).toBe('demon_flame_cross');
     expect(findWaveComboForPair('luffy', 'nami')?.id).toBe('thunder_gear_storm');

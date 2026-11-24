@@ -29,11 +29,14 @@ export class PixelCutinOverlay implements Disposable {
   private readonly partnerSprite = new Sprite(Texture.EMPTY);
   private readonly ghostSprites: Sprite[] = [];
 
-  private mode: 'NONE' | 'SINGLE' | 'DUAL' = 'NONE';
+  private mode: 'NONE' | 'SINGLE' | 'DUAL' | 'BOSS_PHASE' = 'NONE';
   private timerSec = 0;
   private durationSec = 0.65;
   private singleUnitId = 'luffy';
   private singleCaption = '';
+  private bossUnitId: string | null = null;
+  private bossHeadline = '';
+  private bossSubline = '';
   private activeCombo: WaveComboDefinition | null = null;
   private assistTimerSec = 0;
   private assistDurationSec = 0.72;
@@ -92,8 +95,16 @@ export class PixelCutinOverlay implements Disposable {
     return this.timerSec > 0 && this.mode === 'DUAL';
   }
 
+  public get isBossPhaseCutinActive(): boolean {
+    return this.timerSec > 0 && this.mode === 'BOSS_PHASE';
+  }
+
   public get activeComboId(): string | null {
     return this.activeCombo?.id ?? null;
+  }
+
+  public get lastBossCutinUnitId(): string | null {
+    return this.bossUnitId;
   }
 
   public get wasWhiteFlashSuppressed(): boolean {
@@ -106,6 +117,22 @@ export class PixelCutinOverlay implements Disposable {
     this.singleUnitId = unitId;
     this.singleCaption = caption;
     this.durationSec = Math.max(0.4, durationSec);
+    this.timerSec = this.durationSec;
+    this.assistTimerSec = 0;
+  }
+
+  public triggerBossPhaseCutin(
+    unitId: string,
+    headline: string,
+    subline = '',
+    durationSec = 0.85
+  ): void {
+    this.mode = 'BOSS_PHASE';
+    this.activeCombo = null;
+    this.bossUnitId = unitId;
+    this.bossHeadline = headline;
+    this.bossSubline = subline;
+    this.durationSec = Math.max(0.45, durationSec);
     this.timerSec = this.durationSec;
     this.assistTimerSec = 0;
   }
@@ -167,6 +194,9 @@ export class PixelCutinOverlay implements Disposable {
       if (this.mode === 'DUAL' && this.activeCombo) {
         this.renderDualSplitOverlay(viewport, polish, ease, progress);
         bloomBoost = polish.flashEffectEnabled ? 0.55 * ease : 0.2 * ease;
+      } else if (this.mode === 'BOSS_PHASE') {
+        this.renderBossPhaseOverlay(viewport, polish, ease, progress);
+        bloomBoost = polish.flashEffectEnabled ? 0.65 * ease : 0.22 * ease;
       } else {
         this.renderSingleOverlay(viewport, polish, ease, progress);
       }
@@ -347,6 +377,83 @@ export class PixelCutinOverlay implements Disposable {
     this.titleText.alpha = ease;
   }
 
+  private renderBossPhaseOverlay(
+    viewport: ViewportMetrics,
+    polish: VisualPolishConfig,
+    ease: number,
+    progress: number
+  ): void {
+    const vw = viewport.viewWidth;
+    const vh = viewport.viewHeight;
+    const bandH = CUTIN_BAND_HEIGHT + 16;
+    const bandY = Math.round(vh * 0.5 - bandH * 0.5);
+    const bandBot = bandY + bandH;
+    const splitX = vw * 0.38;
+    const skew = 56;
+
+    this.scrimGfx.clear();
+    this.scrimGfx.rect(0, 0, vw, vh);
+    this.scrimGfx.fill({
+      color: 0x04050b,
+      alpha: (polish.flashEffectEnabled ? 0.72 : 0.48) * ease
+    });
+
+    // Edge-to-edge 19.5:9 crimson & obsidian boss phase diagonal split banner
+    this.bandGfx.clear();
+    this.bandGfx.poly([0, bandY, splitX + skew, bandY, splitX - skew, bandBot, 0, bandBot]);
+    this.bandGfx.fill({ color: 0x991b1b, alpha: 0.94 * ease });
+    this.bandGfx.poly([splitX + skew, bandY, vw, bandY, vw, bandBot, splitX - skew, bandBot]);
+    this.bandGfx.fill({ color: 0x090d16, alpha: 0.95 * ease });
+
+    this.bandGfx.rect(0, bandY, vw, 3);
+    this.bandGfx.fill({ color: 0xf43f5e, alpha: 0.96 * ease });
+    this.bandGfx.rect(0, bandBot - 3, vw, 3);
+    this.bandGfx.fill({ color: 0xfacc15, alpha: 0.96 * ease });
+    this.bandGfx.moveTo(splitX + skew, bandY);
+    this.bandGfx.lineTo(splitX - skew, bandBot);
+    this.bandGfx.stroke({ color: 0xfef08a, width: 4, alpha: ease });
+
+    this.speedlinesGfx.clear();
+    if (polish.flashEffectEnabled) {
+      for (let i = 0; i < 8; i++) {
+        const ly = bandY + 10 + i * 14;
+        const lx = ((progress * 1250 + i * 130) % (vw + 200)) - 200;
+        this.speedlinesGfx.rect(lx, ly, 180, 2);
+        this.speedlinesGfx.fill({ color: i % 2 === 0 ? 0xf43f5e : 0xfacc15, alpha: 0.62 * ease });
+      }
+    }
+
+    this.flashOverlayGfx.clear();
+    this.rightPortrait.visible = false;
+    const bossId = this.bossUnitId ?? 'kaido';
+    const tex =
+      this.resolvePortraitTex(bossId, 'angry') ??
+      this.resolvePortraitTex(bossId, 'battle_cry');
+    const slide = (1 - ease) * 90;
+    if (tex) {
+      this.leftPortrait.visible = true;
+      this.leftPortrait.texture = tex;
+      const sc = (bandH - 12) / Math.max(32, tex.height);
+      this.leftPortrait.scale.set(sc, sc);
+      const lx = Math.round(viewport.safeRect.left + tex.width * sc * 0.5 + 18 - slide);
+      this.leftPortrait.position.set(lx, Math.round(vh * 0.5));
+      this.leftPortrait.alpha = ease;
+      const textX = Math.round((Math.max(lx + tex.width * sc * 0.5 + 24, splitX) + viewport.safeRect.right) * 0.5);
+      this.titleText.anchor.set(0.5, 0.5);
+      this.titleText.position.set(textX, Math.round(vh * 0.5));
+    } else {
+      this.leftPortrait.visible = false;
+      const centerX = Math.round((viewport.safeRect.left + viewport.safeRect.right) * 0.5);
+      this.titleText.anchor.set(0.5, 0.5);
+      this.titleText.position.set(centerX, Math.round(vh * 0.5));
+    }
+
+    this.titleText.text = this.bossSubline
+      ? `${this.bossHeadline}\n${this.bossSubline}`
+      : this.bossHeadline;
+    this.titleText.alpha = ease;
+  }
+
   private renderAssistChoreography(
     combo: WaveComboDefinition,
     progress: number,
@@ -415,6 +522,54 @@ export class PixelCutinOverlay implements Disposable {
         width: polish.flashEffectEnabled ? 6 : 4,
         alpha: pulseAlpha
       });
+    } else if (combo.assistPattern === 'SNIPER_RADICAL_BEAM') {
+      // Pop-Green binding vines ring + high-luminance cyan/gold Radical Beam
+      this.assistGfx.circle(this.targetWorld.x, this.targetWorld.y, 26 + Math.sin(progress * Math.PI) * 14);
+      this.assistGfx.stroke({ color: 0x22c55e, width: 4, alpha: pulseAlpha });
+      this.assistGfx.moveTo(this.anchorWorld.x, this.anchorWorld.y - 14);
+      this.assistGfx.lineTo(this.targetWorld.x, this.targetWorld.y - 10);
+      this.assistGfx.stroke({
+        color: 0x38bdf8,
+        width: polish.flashEffectEnabled ? 14 : 9,
+        alpha: pulseAlpha
+      });
+      this.assistGfx.moveTo(this.anchorWorld.x, this.anchorWorld.y - 14);
+      this.assistGfx.lineTo(this.targetWorld.x, this.targetWorld.y - 10);
+      this.assistGfx.stroke({ color: 0xfef08a, width: 5, alpha: pulseAlpha });
+    } else if (combo.assistPattern === 'GIANT_PETAL_STAMP') {
+      // Giant petal clutch arcs + shockwave ring + green healing motes
+      const ringR = 24 + progress * 68;
+      this.assistGfx.circle(this.targetWorld.x, this.targetWorld.y, ringR);
+      this.assistGfx.stroke({ color: 0xf472b6, width: 5, alpha: pulseAlpha });
+      for (let i = 0; i < 6; i++) {
+        const ang = (Math.PI * 2 * i) / 6 + progress * 1.4;
+        const px = this.targetWorld.x + Math.cos(ang) * (32 * (1 - progress * 0.4));
+        const py = this.targetWorld.y + Math.sin(ang) * (24 * (1 - progress * 0.4)) - progress * 28;
+        this.assistGfx.circle(px, py, 5);
+        this.assistGfx.fill({ color: i % 2 === 0 ? 0x4ade80 : 0xf9a8d4, alpha: pulseAlpha });
+      }
+    } else if (combo.assistPattern === 'FREEZING_OCEAN_RAY') {
+      // Ocean current stream + crystalline frost shards
+      this.assistGfx.moveTo(this.anchorWorld.x, this.anchorWorld.y - 12);
+      this.assistGfx.lineTo(this.targetWorld.x, this.targetWorld.y - 8);
+      this.assistGfx.stroke({ color: 0x0ea5e9, width: 12, alpha: pulseAlpha });
+      for (let i = -2; i <= 2; i++) {
+        const sx = this.targetWorld.x + i * 22 * progress;
+        const sy = this.targetWorld.y + 8 - Math.abs(i) * 4;
+        this.assistGfx.poly([sx, sy - 22 * progress, sx + 6, sy, sx - 6, sy]);
+        this.assistGfx.fill({
+          color: polish.flashEffectEnabled ? 0xe0f2fe : 0x7dd3fc,
+          alpha: pulseAlpha
+        });
+      }
+    } else if (combo.assistPattern === 'SHAMBLES_RED_HAWK') {
+      // Translucent cyan ROOM sphere + Red Hawk flame burst
+      const roomR = 74 * (0.45 + progress * 0.65);
+      this.assistGfx.circle(this.targetWorld.x, this.targetWorld.y, roomR);
+      this.assistGfx.fill({ color: 0x38bdf8, alpha: 0.14 * pulseAlpha });
+      this.assistGfx.stroke({ color: 0x38bdf8, width: 3, alpha: pulseAlpha });
+      this.assistGfx.circle(this.targetWorld.x, this.targetWorld.y, 14 + progress * 48);
+      this.assistGfx.stroke({ color: 0xf97316, width: 6, alpha: pulseAlpha });
     } else {
       this.assistGfx.circle(this.targetWorld.x, this.targetWorld.y, 18 + progress * 58);
       this.assistGfx.stroke({ color: bloomCol, width: 4, alpha: pulseAlpha });
